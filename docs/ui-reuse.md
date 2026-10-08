@@ -1,0 +1,114 @@
+# pmcrwf UI reuse
+
+Source: the sister site [pmcrwf](https://catmoonrising.github.io/pmcrwf/).
+Copied at the repository owner's request to make the two projects sister sites.
+
+## Copied assets
+
+- `css/base.css`, `css/layout.css`: original stylesheets.
+- `css/print.css`: Saga stat-block printout adapted to the wiki reference.
+- `css/themes/`: shared theme catalog and manifest, with selections using each theme's accent.
+- `src/layout.js`: original layout editor, including dragging, resizing,
+  snapping, multi-selection, stacking, folding and layout import/export.
+- `src/theme.js`: original theme loader and shared preference.
+- `src/roll-mirror.js`: original corner roll panel, folding, hiding and resizing.
+- `src/math-fields.js`: original arithmetic and relative adjustment routines.
+- `src/dice.js`: original dice evaluator with a strict expression entry point.
+- `src/roll-anim.js`: pmcrwf's synchronized dice animation.
+- `src/offline.js` and `sw.js`: hosted offline registration and complete-build
+  cache/update pattern.
+
+Character tabs use pmcrwf's active underline and muted ×, hidden for the only
+character. Separate native buttons keep selection and deletion keyboard accessible.
+Deleting an inactive tab retains the active character and removes only the deleted
+character's roll log. The roll panel uses the unchanged shared corner grip styles.
+Toolbar controls align to the right; sheet module links and bookmarked hash routes
+provide editor access without a second navigation row.
+
+## Adaptations
+
+The sheet uses the same toolbar, character tabs, modular layout, compact tables,
+stat blocks, HP bar and fixed-size, scrollable creator dialog. `style.css` supplies
+Saga-specific controls and responsive/print adjustments. Condition Track follows pmcrwf's Exhaustion row selection: clicking a row sets
+that step; clicking the current step moves back one. Passed steps are tinted,
+and the current row is bold. Keyboard buttons provide the same interaction.
+Saga applies the selected penalty, half speed at step four and incapacitation
+at step five. Normal State resets the track directly; its selected row remains
+normal when clicked again. Terminal text uses species `isDroid` metadata to show
+Unconscious or Disabled. The module keeps its original storage/layout ID (`condition`).
+
+Saga creation retains
+its existing ordered level ledger and prerequisite checks. Advancement uses the
+same dialog frame as creation.
+
+Layout initializes after rules and characters load, and refreshes after sheet
+changes. Keys and layout download names are namespaced for Wkolon. Narrow screens
+use normal flow while preserving the saved desktop arrangement. Printing renders a separate static Saga stat block, independent of
+collapsed/stacked modules and theme.
+
+Themes deliberately share pmcrwf's `charsheet-theme` browser preference. The
+original Wkolon light/dark preference migrates only if a shared theme is absent.
+Wkolon character data stays under `wkolon-roster-v1`. Optional roster `logs` map
+character IDs to validated, bounded `{kind, text}` arrays; characters from the
+original site and exports without logs remain valid. Rendering escapes all log
+text. New rolls also have generated dice markup held only in memory; saved and
+imported history remains plain text. Tumble animates matching faces and running
+totals in the Event Log and Rolls together, then settles on the saved result.
+It starts on and remembers the user's setting under `wkolon-rollanim`.
+Mirror preferences use `wkolon-rollmirror`; module layouts use
+`wkolon-layout`.
+
+Dice commands support dice, integers, arithmetic, parentheses and keep-highest/
+lowest (`4d6kh3`). A complete-input validator rejects malformed or excessive
+expressions before invoking the copied evaluator. Saga d20 buttons use the
+existing Saga roll logic; D&D advantage and rule effects are not imported.
+
+The hosted cache includes the reviewed Saga pack and ES module dependencies,
+all themes and layout presets. CI stamps the worker with the commit ID. Requests
+and cache deletion are restricted to Wkolon's scope/namespace so pmcrwf's cache
+is unaffected. Browser checks exercise a `/wkolon/` deployment and offline reload.
+
+No pmcrwf character data, D&D rules, data-folder workflow or game calculations
+are copied. The user-supplied square cat tab icon is retained.
+
+
+Ability generation ports pmcrwf's method buttons, score pool, unique-index
+assignment, point-cost selectors and manual input event handling. Saga's 25-point
+budget, 8–18 costs and species adjustments come from the reviewed pack. Number
+inputs update derived readouts during typing and never rebuild on blur. Existing
+characters retain their scores; rolled pools and assignments survive reload/export.
+
+Feat menus show each primary name once, with a second selector for skill, weapon
+group or proficiency subtype. Eligibility is still evaluated before each grant.
+Incomplete secondary choices grant no benefits. Concrete saved IDs are preserved.
+Rules disclosures read bundled fields, prerequisites and existing reminders;
+main-sheet and builder controls no longer open the wiki. The Rules view keeps
+revision and contributor attribution. Local references are cached for offline use.
+
+Builder skills run vertically. Knowledge is one primary entry with secondary
+field selectors; multiple fields retain their existing individual skill IDs in
+saves and exports. The same controls handle training gained on advancement.
+
+First offline installation claims the page without reloading or interrupting
+creation. Taking an available update still reloads once to use the new build.
+
+
+Creation uses the wiki's Character Creation headings, revision 26288 (2025-03-12),
+with the user's changes: combine generation and assignment, omit Combat Statistics,
+and number the remaining eight tabs. Manual and point-buy pools use the same
+unique-index assignment as standard and rolled scores. The gear tab uses its own
+form IDs, preserving the main sheet's catalog.
+
+Talent browsers show the class's talent trees and all their options, including
+choices with unmet prerequisites. Class bonus-feat browsers similarly restrict
+their catalog to that class. External prerequisites remain small, read-only nodes.
+Features begins with species, followed by the progression's acquisition order;
+feats use `(F)` and talents use `(T)`.
+
+Offensive Routines reuse pmcrwf's named fieldsets, attack-count controls,
+per-step modifiers, Run button, damage-by-defense table and folded roll details.
+Saga uses Reflex Defense, natural-1 misses and natural-20 full-damage criticals;
+D&D saving throws and advantage are not imported. Stable inventory IDs keep
+routine references attached to the same physical weapon after reordering.
+SR and fixed DR occupy graphical rows above HP. XP, Force Points and Dark Side
+Score use the theme accent and reuse the compact editable bar controls.
