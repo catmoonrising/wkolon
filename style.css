@@ -68,7 +68,7 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .skip-link { position: absolute; top: -5rem; }
 .skip-link:focus { top: .2rem; z-index: 4000; background: var(--bg); }
 .sr-only { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; }
-.hp-bar-text input[data-field=currentHP] { width: 4ch; }
+.hp-bar-text input[data-field=currentHP] { min-width: 0; }
 @media (max-width: 700px) {
   body { margin: .6rem; }
   .module, .module.small, .module[data-module=notes] { min-width: 0; width: 100%; max-width: 100%; }
@@ -211,11 +211,11 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 }
 
 .feature-tree-node.owned .wiki-article a { color: var(--select-fg); }
-.resource-bar { position: relative; border: 1px solid var(--border); min-height: 1.8rem; display: flex; justify-content: center; align-items: center; margin: .2rem 0; background: var(--panel-bg); }
+.module[data-module=force] > .lay-body, .module[data-module=dark-side] > .lay-body { width: auto; }
+.resource-bar { position: relative; border: 1px solid var(--border); min-height: 1.8rem; display: flex; justify-content: center; align-items: center; margin: .2rem 0; background: #2e3436; color: #fff; text-shadow: 0 1px 2px #000; }
 .resource-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--select); transition: width .15s ease; }
-.resource-label { position: relative; display: inline-flex; gap: .3rem; align-items: baseline; padding: 0 .2rem; background: var(--panel-bg); color: var(--fg); font-weight: bold; max-width: 100%; }
-.resource-label input { font: inherit; width: 5ch; min-width: 3ch; padding: 0; border: 0; color: inherit; background: transparent; text-align: center; }
-.xp-bar .resource-label input { width: 9ch; }
+.resource-label { position: relative; display: inline-flex; gap: .3rem; align-items: baseline; padding: 0 .2rem; background: transparent; color: inherit; font-weight: bold; max-width: 100%; }
+.resource-label input { font: inherit; min-width: 0; padding: 0; border: 0; color: inherit; background: transparent; text-align: center; }
 .dr-bar .resource-fill { background: var(--accent-soft-bg); }
 .routine-step { padding: .3rem 0; border-bottom: 1px solid var(--border-hair); }
 .routine-step input[data-routine-field=count] { width: 3rem; }

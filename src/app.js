@@ -309,6 +309,9 @@ function sheet() {
     + moduleHTML('notes','Notes',`<label><span class="sr-only">Character notes</span><textarea data-field="notes" rows="5">${escape(c.notes)}</textarea></label>`)
     + moduleHTML('dice','Event Log',`<div id="dicelog" role="log"></div><input id="cmd-input" placeholder="1d20+5" aria-label="Dice expression"><button data-action="clear-log">Clear</button>`);
 }
+function fitBarInput(el) {
+  el.style.width=`calc(${Math.max(1,el.value.length)}ch + 3px)`;
+}
 function numericFields(root) {
   root.querySelectorAll('input[type=number]:not([data-generation-manual])').forEach(el=>{
     el.dataset.number='true'; el.dataset.math=''; el.dataset.prev=el.value;
@@ -316,6 +319,7 @@ function numericFields(root) {
     if(el.hasAttribute('max')) el.dataset.max=el.max;
     el.type='text';el.inputMode='numeric';
   });
+  root.querySelectorAll('.hp-bar input, .resource-label input').forEach(fitBarInput);
 }
 function renderCreatorIssues() {
   const blocker=$('cr-blocker'), open=Boolean(blocker.querySelector('details[open]'));
@@ -435,6 +439,7 @@ function events() {
   $('rule-detail-close').addEventListener('click',()=> $('rule-detail-modal').close());
   document.addEventListener('input',event=>{
     const el=event.target;
+    if(el.matches('.hp-bar input, .resource-label input'))fitBarInput(el);
     if(combatControls.input(event))return;
     if(featureTrees.input(event))return;
     if(el.id==='species-search'){speciesBrowser.search(el.value);$('species-results').innerHTML=speciesBrowser.results(current().species);return;}
