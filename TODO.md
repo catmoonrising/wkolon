@@ -10,7 +10,7 @@
   - [x] All eleven Core armor entries, Heavy proficiency, armor speed/run limits and Powersuit Strength.
   - [x] Ten additional Core combat feats, reviewed prerequisites and class bonus lists; conditional actions retain full rules text.
   - [x] All Core Scout/Soldier class talents and tree access; automate Armor Mastery, Juggernaut, Second Skin, Long Stride and Melee Smash.
-  - [ ] Sprint running calculation: clarify its interaction with heavy armor.
+  - [x] Sprint running calculation and per-character Ambiguities tab for its heavy-armor interaction.
   - [ ] Species special attacks, rerolls, sensory traits and carrying limits.
 
 - [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.

@@ -122,3 +122,9 @@ Applications expands the rest, including labeled supplemental books. Class and
 skill browsers search complete articles and support individual and global folding.
 Folding survives edits and tab changes within the session. The skill count stays
 beside the sticky search controls. Reading an article never selects its option.
+
+House Rules includes Ambiguities alongside Settings and Jedi Counseling. Its
+selectors save per-character interpretations and immediately update calculations.
+The relevant original passages sit behind Text; neither reading them nor changing
+an unrelated character grants a talent. Sprint's heavy-armor interpretation is
+the first entry. The user-requested droid speed exception is not listed there.

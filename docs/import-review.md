@@ -111,12 +111,20 @@ melee attacks without changing ranged damage or being doubled for two hands.
 Rerolls, temporary points, explosives, allies, terrain, reactions and target-side
 DR/threshold adjustments retain full rules text and remain manual.
 
-**Open interaction: Sprint and heavy armor.** Run normally permits 4× Speed, or
+**Configurable interaction: Sprint and heavy armor.** Run normally permits 4× Speed, or
 3× in Heavy Armor/a Heavy Load. Sprint says 5× instead of 4× without explicitly
-addressing the 3× restriction. The user was notified; no interpretation was silently
-applied. Sprint selection is supported, but its running calculation remains manual
-pending clarification. Juggernaut explicitly removes armor's running restriction;
+addressing the 3× restriction. The user requested an Ambiguities tab. It presents
+the verbatim passages and saves a per-character choice: retain the armor limit
+(initially 3×), or allow Sprint's 5×. Normal Sprint running now calculates at 5×.
+Juggernaut explicitly removes armor's running restriction;
 it does not remove Heavy Load restrictions. Carrying limits remain future work.
+
+The user specified that droids with native speeds other than 4 or 6 do not suffer
+Heavy Armor's speed reduction, and requested no House Rules entry for it. This
+exception is applied directly to each native movement speed; the 3× running limit
+remains distinct. Other creatures and Medium Armor keep the existing reductions.
+This is a user-directed exception to the wiki's general three-quarters wording;
+the original imported text is retained. Droid construction remains future work.
 
 ### Combat feat batch
 

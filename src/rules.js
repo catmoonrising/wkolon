@@ -1,6 +1,6 @@
 import {emptyTraits, emptyStory, activeBackground, validateFinishing} from './heroic-traits.js';
 import {emptyProtection,validateCombatState} from './combat.js';
-import {counselingEnabled,validateHouseRules} from './house-rules.js';
+import {counselingEnabled,ambiguityValue,validateHouseRules} from './house-rules.js';
 import {resolveEquipment,validateInventoryOptions} from './equipment.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 export const GROUPS = ['advanced-melee-weapons', 'heavy-weapons', 'lightsabers', 'pistols', 'rifles', 'simple-weapons'];
@@ -284,11 +284,15 @@ export function derive(c, pack) {
   if (c.abilityMethod === 'point-buy' && pointCost > c.pointBudget) issues.push('Point-buy budget exceeded or a base score is outside 8–18');
   const movement = pack.rules.armorMovement;
   const unrestrictedArmor = total('armorMovement') > 0;
-  const speedMultiplier = armor && !unrestrictedArmor ? movement.speedMultipliers[armor.category] : 1;
+  const armorSpeedMultiplier = n => armor && !unrestrictedArmor && !(ctx.isDroid&&armor.category==='heavy'&&!movement.droidHeavySlowedSpeeds.includes(n)) ? movement.speedMultipliers[armor.category] : 1;
+  const speedMultiplier = armorSpeedMultiplier(species.speed);
   const stride = total('speed');
-  const move = n => Math.floor(Math.floor((n + stride) * speedMultiplier) / (c.condition >= 4 ? 2 : 1));
+  const move = n => Math.floor(Math.floor((n + stride) * armorSpeedMultiplier(n)) / (c.condition >= 4 ? 2 : 1));
   const speed = move(species.speed);
-  const runMultiplier = armor && !unrestrictedArmor ? movement.runMultipliers[armor.category] : movement.runMultipliers.light;
+  const armorRunMultiplier = armor && !unrestrictedArmor ? movement.runMultipliers[armor.category] : movement.runMultipliers.light;
+  const sprintAllowed = !armor || armor.category!=='heavy' || unrestrictedArmor || ambiguityValue(c,pack,'ambiguity:sprint-heavy-armor')==='sprint-limit';
+  const talentRunMultiplier = Math.max(0,...effects.filter(e=>e.target==='runMultiplier'&&applies(e)).map(e=>e.amount));
+  const runMultiplier = sprintAllowed ? Math.max(armorRunMultiplier,talentRunMultiplier) : armorRunMultiplier;
   const speedBreakdown = `(${species.speed} species + ${stride} talents) × ${speedMultiplier} armor (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
   return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, ctx, rows, issues,
     conditionalDefenses: (species.conditionalDefenses||[]).map(e=>({...e,total:defenses[e.defense]+e.amount})),

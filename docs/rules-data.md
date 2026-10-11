@@ -121,6 +121,16 @@ ally bonuses and condition changes remain manual, with verbatim rules retained.
 Class `talentAccessSourceId` pins the reviewed Core tree list independently of
 the class article and individual talent sections.
 
+`rules.ambiguities` contains stable IDs, names, pinned source/rule IDs, enumerated
+options and a default option. Character `houseRules.ambiguities` stores only those
+option IDs. Unknown settings are rejected; omitted settings use the data default.
+Sprint uses a `runMultiplier` effect (5), combined by maximum rather than addition.
+Normal running uses it automatically; heavy armor follows the chosen ambiguity
+option unless Juggernaut removes the restriction. The initial option retains 3×
+for heavy armor. `armorMovement.droidHeavySlowedSpeeds` lists native speeds 4 and
+6, per the user's instruction; other droid speeds skip the Heavy Armor reduction.
+This is not a House Rules option.
+
 Prerequisites use a closed JSON vocabulary: `all`, `any`, `ability` with `min`,
 `feat`, `talent`, `trained`, `bab` with `min`, `classSkill`, `untrained`,
 `proficientChoice`, `focusChoice`, `nonDroid`. A `$choice` target binds to the record's choice.

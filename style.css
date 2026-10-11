@@ -272,4 +272,6 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .counseling-topic{padding:.5rem 0;border-bottom:1px solid var(--border)}
 .counseling-topic>small{display:block;opacity:.75;margin-left:1.6rem}
 .counseling-topic details{margin-left:1.6rem}
+.ambiguity-topic{padding:.5rem 0}
+.ambiguity-topic details{margin-top:.4rem}
 .purchase-form{gap:.6rem;align-items:center}

@@ -2357,6 +2357,16 @@
       "sha256": "b4087b568e8e921a3a9a8b12f37a80acce6864401b872ca3ec46e330584eeb71",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18511",
       "history": "https://swse.miraheze.org/w/index.php?title=Soldier%20Talent%20Trees&action=history"
+    },
+    {
+      "id": "source:wiki-run",
+      "title": "Run",
+      "section": null,
+      "revision": 18461,
+      "timestamp": "2024-08-25T20:10:05Z",
+      "sha256": "03a04840acba8116c2af9703fb4f99a2ab788c234afa151f4bd5cd652daeed9e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18461",
+      "history": "https://swse.miraheze.org/w/index.php?title=Run&action=history"
     }
   ],
   "species": [
@@ -4529,7 +4539,13 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "runMultiplier",
+          "amount": 5,
+          "type": "untyped"
+        }
+      ],
       "reminder": "When you use the Run Action, you can move up to five times your Speed (instead of up to four times)."
     },
     {
@@ -5383,8 +5399,43 @@
         "light": 4,
         "medium": 4,
         "heavy": 3
+      },
+      "droidHeavySlowedSpeeds": [
+        4,
+        6
+      ]
+    },
+    "ambiguities": [
+      {
+        "id": "ambiguity:sprint-heavy-armor",
+        "name": "Sprint and Heavy Armor",
+        "sourceIds": [
+          "source:wiki-run",
+          "source:wiki-survivor-talent-tree-sprint"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:sprint",
+            "paragraphCount": 2
+          },
+          {
+            "ruleId": "rule:run",
+            "paragraphCount": 2
+          }
+        ],
+        "default": "armor-limit",
+        "options": [
+          {
+            "value": "armor-limit",
+            "name": "Armor limit (3×)"
+          },
+          {
+            "value": "sprint-limit",
+            "name": "Sprint (5×)"
+          }
+        ]
       }
-    }
+    ]
   },
   "heroicTraits": {
     "sourceIds": [

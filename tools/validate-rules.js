@@ -100,11 +100,12 @@ export function validatePack(p) {
       const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};
       for(const e of r.effects) {
         assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when'].includes(k)),'Unsupported effect field');
-        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
+        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
         assert(Number.isFinite(e.amount));assert(['untyped','competence'].includes(e.type));
         if(e.perLevel!==undefined)assert.equal(typeof e.perLevel,'boolean');
         if(e.target in passiveConditions){assert.equal(e.when,passiveConditions[e.target],'Missing passive condition');assert(e.type==='untyped'&&Number.isInteger(e.amount)&&e.amount>0&&!e.perLevel,'Unsupported passive effect');if(e.target==='armorMovement')assert.equal(e.amount,1);}
         else assert(e.when===undefined,'Unsupported effect condition');
+        if(e.target==='runMultiplier')assert(Number.isInteger(e.amount)&&e.amount>=4&&e.amount<=10&&e.type==='untyped'&&!e.perLevel,'Invalid running multiplier');
       }
     }
     if(key==='backgrounds') {
@@ -144,7 +145,21 @@ export function validatePack(p) {
     for(const r of Object.values(l.ratings)){assert.deepEqual(Object.keys(r).sort(),['blackMarket','days','dc','percent']);assert(Object.values(r).every(n=>Number.isInteger(n)&&n>0));}
   }
   const movement=p.rules.armorMovement;
-  assert(movement&&Object.keys(movement).every(k=>['sourceIds','speedMultipliers','runMultipliers'].includes(k)),'Missing armor movement rules');
+  if(p.rules.ambiguities!==undefined){
+    assert(Array.isArray(p.rules.ambiguities),'Invalid ambiguities');const ambiguityIds=new Set();
+    for(const r of p.rules.ambiguities){
+      assert(Object.keys(r).every(k=>['id','name','sourceIds','passages','default','options'].includes(k)),'Unsupported ambiguity field');
+      assert(/^ambiguity:[a-z0-9-]+$/.test(r.id)&&!ambiguityIds.has(r.id),'Invalid ambiguity ID');ambiguityIds.add(r.id);assert(typeof r.name==='string');
+      assert(Array.isArray(r.sourceIds)&&r.sourceIds.length&&r.sourceIds.every(id=>sources.has(id)),'Missing ambiguity source');
+      assert(Array.isArray(r.options)&&r.options.length>=2&&new Set(r.options.map(o=>o.value)).size===r.options.length,'Invalid ambiguity options');
+      for(const o of r.options)assert(Object.keys(o).every(k=>['value','name'].includes(k))&&/^[a-z0-9-]+$/.test(o.value)&&typeof o.name==='string','Invalid ambiguity option');
+      assert(r.options.some(o=>o.value===r.default),'Invalid ambiguity default');
+      assert(Array.isArray(r.passages)&&r.passages.length>=2,'Missing ambiguity passages');
+      for(const passage of r.passages){const page=p.rulePages.find(p=>p.id===passage.ruleId);assert(Object.keys(passage).every(k=>['ruleId','paragraphCount'].includes(k))&&page&&r.sourceIds.includes(page.sourceId)&&Number.isInteger(passage.paragraphCount)&&passage.paragraphCount>0&&passage.paragraphCount<=page.article.blocks.filter(n=>n?.tag==='p').length,'Invalid ambiguity passage');}
+    }
+  }
+  assert(movement&&Object.keys(movement).every(k=>['sourceIds','speedMultipliers','runMultipliers','droidHeavySlowedSpeeds'].includes(k)),'Missing armor movement rules');
+  assert(Array.isArray(movement.droidHeavySlowedSpeeds)&&new Set(movement.droidHeavySlowedSpeeds).size===movement.droidHeavySlowedSpeeds.length&&movement.droidHeavySlowedSpeeds.every(n=>Number.isInteger(n)&&n>0),'Invalid droid armor speeds');
   assert(movement.sourceIds.length&&movement.sourceIds.every(id=>sources.has(id)),'Missing armor movement source');
   assert.deepEqual(Object.keys(movement.speedMultipliers).sort(),['heavy','light','medium']);
   assert.deepEqual(Object.keys(movement.runMultipliers).sort(),['heavy','light','medium']);

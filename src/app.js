@@ -328,7 +328,7 @@ function sheet() {
     + moduleHTML('abilities','Ability Scores',abilities) + moduleHTML('defenses','Defenses',defenses)
     + moduleHTML('hp','HP',hp) + moduleHTML('threshold','Damage Threshold',`<div class="stat-big">${derived.threshold}</div>`,'small')
     + moduleHTML('bab','Base Attack',`<div class="stat-big">${signed(derived.bab)}</div>`,'small')
-    + moduleHTML('speed','Speed',`<div class="stat-big">${derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${derived.runMultiplier===3?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armor&&derived.armor.category!=='light'?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}`,'small')
+    + moduleHTML('speed','Speed',`<div class="stat-big">${derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armor&&derived.armor.category!=='light'?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}`,'small')
     + moduleHTML('force','Force Points',statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${species.forceImmune?'disabled':''}`))
     + moduleHTML('dark-side','Dark Side Score',statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'))
     + moduleHTML('condition','Condition Track',conditionTrack()) + moduleHTML('skills','Skills',skillTable())
