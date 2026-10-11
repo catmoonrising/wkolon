@@ -37,13 +37,17 @@ running until the user repairs the step; no attack is silently skipped.
 ## Resolution
 
 Routines reuse the sheet's dice engine. Natural 1 always misses; natural 20
-always hits and doubles the entire damage result, including modifiers. Weapon
+always hits; ordinary weapon attacks double the entire damage result, including
+modifiers, or triple it for the selected Triple Crit weapon. Area attacks do not
+critically multiply damage. Area rolls below 10 miss everyone; other area misses
+deal half damage, rounded down. Separate columns show Evasion, cover and splash. Weapon
 hits deal at least 1 damage before protection. The summary shows total damage
 against each Reflex Defense interval before target DR/SR. Individual rolls stay
 in a disclosure. A routine configures a sequence; it does not grant extra attacks
 or waive action costs, range, cover or multiattack penalties. Step modifiers let
-the user enter those circumstances. Area attacks and Force-power routines need
-additional typed rules before automation.
+the user enter those circumstances. Force-power routines, target ion/stun effects and other special resolutions remain
+manual. Net has no damaging routine resolution. Unresolved grenade ammunition
+and unavailable range block the complete routine before any roll.
 
 The UI reuses pmcrwf's named routine fieldsets, attack counts, one-click Run,
 damage-by-defense summary and folded individual rolls. SR and DR are graphical
@@ -56,7 +60,9 @@ for [The Force, revision 24972](https://swse.miraheze.org/w/index.php?oldid=2497
 and the pack's pinned Level Benefits table. Character `xp` and `darkSideScore`
 are optional nonnegative integers, defaulting to zero. XP progress runs from the
 current level's threshold to the next; it does not automatically advance levels.
-Force Point capacity is 5 + half heroic level, rounded down, and resets on advancement.
+Force Point capacity is 5 + half heroic level, rounded down, plus 3 with Force
+Boon, and resets on advancement. The Roll button spends a point for the highest
+result of 1/2/3 dice at levels 1/8/15; Strong in the Force uses d8s.
 Dark Side Score's bar maximum is the current Wisdom score. The tracker does not
 change GM control or infer narrative transgressions. Using an imported Dark Side
 power records its explicit DSS increase.
@@ -67,7 +73,7 @@ Print and browser Print both generate a static character stat block. The order
 and headings follow [Darth Vader, revision 25962](https://swse.miraheze.org/w/index.php?oldid=25962).
 It includes current HP, SR, DR, condition penalties, equipped attacks and configured
 routines, learned Force power copies, trained skills and earned feats/talents.
-Unsupported fields such as flat-footed defense and Grapple are omitted rather
-than invented.
+The selected Flat-footed state affects Reflex and dodge; a separate default
+flat-footed stat and Grapple are not invented.
 The catalog currently contains only heroic classes, so CL is total heroic level.
 Print formatting is black on white and independent of saved module layout/theme.

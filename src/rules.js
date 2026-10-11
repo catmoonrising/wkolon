@@ -2,8 +2,11 @@ import {emptyTraits, emptyStory, activeBackground, validateFinishing} from './he
 import {emptyProtection,validateCombatState} from './combat.js';
 import {counselingEnabled,ambiguityValue,validateHouseRules} from './house-rules.js';
 import {resolveEquipment,validateInventoryOptions} from './equipment.js';
+import {featureChoices,WEAPON_GROUPS,UNARMED_ID} from './feature-choices.js';
+import {unarmedWeapon,weaponRange} from './weapon-rules.js';
+import {carryingLimits} from './species-rules.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
-export const GROUPS = ['advanced-melee-weapons', 'heavy-weapons', 'lightsabers', 'pistols', 'rifles', 'simple-weapons'];
+export const GROUPS = WEAPON_GROUPS;
 export const modifier = score => Math.floor((score - 10) / 2);
 export const signed = n => n >= 0 ? `+${n}` : String(n);
 export const selectionKey = s => `${s.id}:${s.choice || ''}`;
@@ -68,6 +71,9 @@ export function validateCharacter(c, pack) {
     for(const p of l.forcePowers){if(!obj(p)||Object.keys(p).some(k=>!['id','powerId','spent'].includes(k))||typeof p.id!=='string'||!/^[a-f0-9-]{36}$/.test(p.id)||powerIds.has(p.id)||!ix.forcePowers.has(p.powerId)||typeof p.spent!=='boolean')bad('Force power copy');powerIds.add(p.id);}
   }
   if(c.forcePowerRecoveryPending!==undefined&&typeof c.forcePowerRecoveryPending!=='boolean')bad('Force power recovery');
+  if(c.flatFooted!==undefined&&typeof c.flatFooted!=='boolean')bad('flat-footed state');
+  if(c.skillModifiers!==undefined&&(!obj(c.skillModifiers)||Object.entries(c.skillModifiers).some(([id,n])=>!ix.skills.has(id)||!num(n,-1000,1000))))bad('skill modifiers');
+  if(c.unarmedModifiers!==undefined&&(!obj(c.unarmedModifiers)||Object.keys(c.unarmedModifiers).some(k=>!['attackMod','damageMod'].includes(k))||!['attackMod','damageMod'].every(k=>num(c.unarmedModifiers[k],-100,100))))bad('unarmed modifiers');
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
   if(c.mechanicalSkills!==undefined&&!skillList(c.mechanicalSkills))bad('mechanical tool checks');
@@ -94,6 +100,9 @@ export function prerequisite(p, ctx, ix, choice) {
     case 'any': return p.requirements.some(r => prerequisite(r, ctx, ix, choice));
     case 'ability': return ctx.scores[value] >= p.min;
     case 'feat': return ctx.feats.some(f => f.id === value);
+    case 'featChoice': return ctx.feats.some(f=>f.id===value&&f.choice===choice);
+    case 'trait': return ctx.traits?.includes(value)||false;
+    case 'size': return !!ctx.sizeOrder&&ctx.sizeOrder.indexOf(ctx.size)>=ctx.sizeOrder.indexOf(value);
     case 'talent': return !ctx.inactiveTalents?.has(value)&&ctx.talents.some(t => t.id === value);
     case 'power': return ctx.forcePowers?.some(p=>p.powerId===value)||false;
     case 'darkSideScore': return (ctx.darkSideScore||0)>=p.min;
@@ -102,7 +111,7 @@ export function prerequisite(p, ctx, ix, choice) {
     case 'classSkill': return classSkills(ctx, ix).has(value);
     case 'bab': return ctx.bab >= p.min;
     case 'nonDroid': return !ctx.isDroid;
-    case 'proficientChoice': return ctx.feats.some(f => ix.feats.get(f.id)?.weaponGroup === value) || counselingEnabled(ctx,'jc:112-weapon-focus-proficiency') && [...ix.equipment.values()].some(w=>w.kind==='weapon'&&weaponEffectGroup(w,ctx)===value&&weaponProficient(w,ctx,ix));
+    case 'proficientChoice': return value===UNARMED_ID?weaponProficient({id:value,group:'simple-weapons',unarmed:true},ctx,ix):ix.equipment.has(value)?weaponProficient(ix.equipment.get(value),ctx,ix):ctx.feats.some(f=>ix.feats.get(f.id)?.weaponGroup===value)||counselingEnabled(ctx,'jc:112-weapon-focus-proficiency')&&[...ix.equipment.values()].some(w=>w.kind==='weapon'&&weaponEffectGroup(w,ctx)===value&&weaponProficient(w,ctx,ix));
     case 'focusChoice': return ctx.feats.some(f => f.id === F('weapon-focus') && f.choice === value);
     default: throw new Error(`Unsupported prerequisite: ${p.kind}`);
   }
@@ -113,7 +122,8 @@ export function eligible(record, selection, ctx, ix, type) {
   if(ctx.forceImmune&&record.id===F('force-sensitivity'))return false;
   if(record.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing')&&!ctx.feats.some(f=>f.id===F('force-sensitivity')))return false;
   if (record.choiceType === 'skill' && !ix.skills.has(selection.choice)) return false;
-  if (record.choiceType === 'weaponGroup' && !GROUPS.includes(selection.choice)) return false;
+  if (record.choiceType && !featureChoices(record,{skills:[...ix.skills.values()],equipment:[...ix.equipment.values()]}).includes(selection.choice)) return false;
+  if(record.choiceType==='weaponGroup'&&ix.equipment.has(selection.choice)&&weaponEffectGroup(ix.equipment.get(selection.choice),ctx)!==selection.choice)return false;
   const existing = ctx[type];
   if(record.maxSelections&&existing.filter(s=>s.id===record.id).length>=record.maxSelections)return false;
   if (record.repeat === 'never' && existing.some(s => s.id === record.id)) return false;
@@ -125,6 +135,8 @@ export function eligible(record, selection, ctx, ix, type) {
 }
 
 export function weaponProficient(w,ctx,ix){
+ if(w.unarmed&&counselingEnabled(ctx,'jc:112-unarmed-weapon-group'))return true;
+ if(ctx.feats.some(f=>f.id===F('exotic-weapon-proficiency')&&f.choice===w.id))return true;
  const group=ctx.weaponFamiliarity?.[w.id]||w.group;
  return ctx.feats.some(f=>ix.feats.get(f.id)?.weaponGroup===group);
 }
@@ -133,7 +145,7 @@ export function talentTrees(cls,ctx,pack){
  return [...cls.talentTrees,...(!ctx.forceImmune&&ctx.feats.some(f=>f.id===F('force-sensitivity'))?pack.rules.forceTalentAccess?.trees||[]:[])];
 }
 
-const weaponEffectGroup=(w,ctx)=>counselingEnabled(ctx,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity?.[w.id]||w.group:w.group;
+const weaponEffectGroup=(w,ctx)=>counselingEnabled(ctx,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity?.[w.id]||(w.group.startsWith('exotic-')?w.id:w.group):w.group.startsWith('exotic-')?w.id:w.group;
 
 export function levelSlots(levelNumber, classLevel, species, cls, pack) {
   const slots = [];
@@ -148,7 +160,7 @@ export function progression(c, pack, through = c.levels.length) {
   const ix = indexPack(pack), species = ix.species.get(c.species);
   const background=activeBackground(c,pack);
   const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, c.abilities[a] + (species.abilityAdjustments[a] || 0)])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
-  Object.assign(ctx,{forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules});
+  Object.assign(ctx,{forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
   Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0});
   const issues = [], rows = [];
   function recordFeature(selection,type,level) {
@@ -248,7 +260,7 @@ export function derive(c, pack) {
     }
   }
   const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.filter(s=>!ctx.inactiveTalents.has(s.id)).map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
-  const armorEntries = c.inventory.filter(e => e.equipped && ix.equipment.get(e.id).kind === 'armor');
+  const armorEntries = c.inventory.filter(e => e.carried!==false && e.equipped && ix.equipment.get(e.id).kind === 'armor');
   if (armorEntries.length > 1) issues.push('Only one suit of armor can be equipped');
   const armor = armorEntries.length ? resolveEquipment(armorEntries[0],pack,c) : null;
   const has = id => ctx.talents.some(t => t.id === `talent:${id}`);
@@ -258,13 +270,17 @@ export function derive(c, pack) {
   const equipmentAbilities = proficientArmor ? armor.abilityBonuses || {} : {};
   const scores = Object.fromEntries(ABILITIES.map(a => [a, ctx.scores[a] + (equipmentAbilities[a] || 0)]));
   const mods = Object.fromEntries(ABILITIES.map(a => [a, modifier(scores[a])]));
+  const carried=c.inventory.filter(e=>e.carried!==false);
+  const weight=carried.reduce((n,e)=>n+(resolveEquipment(e,pack,c).weight||0)*e.quantity,0);
+  const load=carryingLimits(scores.str,species.size,weight,pack.rules.encumbrance);
   const armorPenalty = armor && !proficientArmor ? pack.rules.armorPenalties[armor.category] : 0;
   const armorBonus = armor ? armor.armorBonus + total('armorBonus') : 0;
   const armorMaxDex = armor ? armor.maxDex + total('armorMaxDex') : null;
   let reflexBase = armor ? armorBonus : level;
   if (armor && proficientArmor && has('improved-armored-defense')) reflexBase = Math.max(armorBonus, level + Math.floor(armorBonus / 2));
   else if (armor && proficientArmor && has('armored-defense')) reflexBase = Math.max(level, armorBonus);
-  const dex = armor ? Math.min(mods.dex, armorMaxDex) : mods.dex;
+  const dexDenied=c.flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
+  const dex = dexDenied?Math.min(0,mods.dex):armor ? Math.min(mods.dex, armorMaxDex) : mods.dex;
   const condition = pack.rules.conditionPenalties[c.condition];
   const defenses = {}, breakdowns = {};
   for (const key of ['reflex', 'fortitude', 'will']) {
@@ -275,8 +291,9 @@ export function derive(c, pack) {
     const equipment = key === 'fortitude' && proficientArmor ? armor.fortitudeBonus + total('armorFortitude') : 0;
     const size = key === 'reflex' ? pack.rules.sizeReflex[species.size] : 0;
     const naturalArmor = key === 'reflex' ? species.naturalArmor || 0 : 0;
-    defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + total('defenses') + condition + c.modifiers[key];
-    breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${total('defenses')} feats + ${condition} condition + ${c.modifiers[key]} misc`;
+    const dodge=key==='reflex'&&!dexDenied?total('reflexDodge'):0;
+    defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + total('defenses') + dodge + condition + c.modifiers[key];
+    breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${total('defenses')} feats + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc`;
   }
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
   const threshold = defenses.fortitude + pack.rules.sizeThreshold[species.size] + total('threshold') + c.modifiers.threshold;
@@ -289,9 +306,11 @@ export function derive(c, pack) {
     const penalty = s.armorCheck ? armorPenalty : 0;
     const size = s.id === 'skill:stealth' ? pack.rules.sizeStealth[species.size] : 0;
     const tools=species.technophobic&&c.mechanicalSkills?.includes(s.id)?-5:0;
+    const misc=c.skillModifiers?.[s.id]||0;
+    const encumbrance=load.heavy&&pack.rules.encumbrance.skills.includes(s.id)?pack.rules.encumbrance.skillPenalty:0;
     return {...s, trained, focus, available: !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || ctx.feats.some(f => f.id === F('force-sensitivity'))),
-      total: half + mods[s.ability] + (trained ? pack.rules.trainingBonus : 0) + Math.max(focus,backgroundBonus) + equipment + penalty + size + condition + tools,
-      breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${focus} focus + ${backgroundBonus} background + ${equipment} equipment + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools`};
+      total: half + mods[s.ability] + (trained ? pack.rules.trainingBonus : 0) + Math.max(focus,backgroundBonus) + equipment + penalty + size + condition + tools + misc + encumbrance,
+      breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${focus} focus + ${backgroundBonus} background + ${equipment} equipment + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools + ${misc} misc + ${encumbrance} load`};
   });
   const nativeById=new Map(nativeSkills.map(s=>[s.id,s]));
   const skills=nativeSkills.map(s=>{
@@ -304,22 +323,33 @@ export function derive(c, pack) {
     const scope=source.when==='computerNetwork'?'computer network':source.when==='perceptionApplications'?'Avoid Surprise, Notice Targets, Sense Deception, Sense Influence':'';
     return {...s,total:source.total,checkSource:source.id,checkSources:sources,breakdown:source.id===s.id?s.breakdown:`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}`};
   });
-  const attacks = c.inventory.filter(e => e.equipped && ix.equipment.get(e.id).kind === 'weapon').map(e => {
-    const w = resolveEquipment(e,pack,c);
+  const unarmed=unarmedWeapon(pack,species.size,total('unarmedDieSteps'));
+  const gloves=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).unarmed);
+  const weaponEntries=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).kind==='weapon'&&!ix.equipment.get(e.id).unarmed);
+  if(unarmed)weaponEntries.push({id:UNARMED_ID,uid:c.id,twoHanded:false,attackMod:c.unarmedModifiers?.attackMod||0,damageMod:(c.unarmedModifiers?.damageMod||0)+Math.max(0,...gloves.map(e=>ix.equipment.get(e.id).damageBonus||0))});
+  const featHas=id=>ctx.feats.some(f=>f.id===F(id));
+  const attacks = weaponEntries.map(e => {
+    const w = e.id===UNARMED_ID?unarmed:resolveEquipment(e,pack,c);
     const proficient = weaponProficient(w,ctx,ix);
     const group=weaponEffectGroup(w,ctx);
     const allowFocus=!counselingEnabled(c,'jc:112-weapon-focus-proficiency')||proficient;
     const mechanical=species.technophobic&&(e.mechanical??w.mechanical)&&!w.biotech?-5:0;
     const focus = allowFocus?effects.filter(f => f.target === 'weaponFocus' && f.selection.choice === group).reduce((n, f) => n + f.amount, 0):0;
     const specialization = effects.filter(f => f.target === 'weaponSpecialization' && (f.weaponGroup||f.selection.choice) === group && applies(f,w)).reduce((n, f) => n + f.amount, 0);
-    const ability = w.mode === 'melee' ? mods.str : mods.dex;
     const light = pack.rules.weaponSizeOrder.indexOf(w.size) < pack.rules.weaponSizeOrder.indexOf(species.size);
-    const strength = w.mode === 'melee' ? (e.twoHanded && !light && mods.str > 0 ? 2 * mods.str : mods.str) : 0;
+    const finesse=total('weaponFinesse')>0&&w.mode==='melee'&&(light||w.group==='lightsabers'||w.unarmed&&counselingEnabled(c,'jc:112-unarmed-attacks-and-weapon-finesse'));
+    const ability=w.mode==='melee'?(finesse?Math.max(mods.str,mods.dex):mods.str):mods.dex;
+    const strength = w.mode === 'melee' ? (e.twoHanded && !light && !w.unarmed && mods.str > 0 ? 2 * mods.str : mods.str) : w.addsStrength||w.rangeType==='thrown'?mods.str:0;
+    const range=weaponRange(w,e,pack,featHas,c),pointBlank=w.mode==='ranged'&&range.band===0&&featHas('point-blank-shot')?1:0;
+    const autofire=w.autofireOnly||e.fireMode==='autofire';
+    const firePenalty=autofire?-5:0;
+    const criticalMultiplier=Math.max(pack.rules.combat.criticalMultiplier,...effects.filter(f=>f.target==='criticalMultiplier'&&f.selection.choice===w.id).map(f=>f.amount));
     const meleeBonus = total('meleeDamage',w);
-    const damageBonus = half + strength + specialization + meleeBonus + c.modifiers.damage + e.damageMod;
-    return {...w, uid:e.uid,proficient, attack: ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + c.modifiers.attack + e.attackMod,
-      damageBonus, damageDisplay: w.damage + (damageBonus ? signed(damageBonus) : ''),
-      breakdown: `${ctx.bab} BAB + ${ability} ability + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${c.modifiers.attack + e.attackMod} misc`};
+    const damageBonus = half + strength + specialization + meleeBonus + pointBlank + c.modifiers.damage + e.damageMod;
+    return {...w,uid:e.uid,proficient,range,criticalMultiplier,areaType:autofire?'burst':w.areaType,available:range.available,
+      attack: ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + c.modifiers.attack + e.attackMod,
+      damageBonus, damageDisplay: w.damage?w.damage+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition',
+      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} autofire + ${c.modifiers.attack + e.attackMod} misc; ${autofire||w.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}`};
   });
   const missingAssignments=c.abilityGeneration && Object.values(c.abilityGeneration.assign).some(i=>i===null);
   if (missingAssignments) issues.push('Assign all six ability scores');
@@ -331,21 +361,23 @@ export function derive(c, pack) {
   const armorSpeedMultiplier = n => armor && !unrestrictedArmor && !(ctx.isDroid&&armor.category==='heavy'&&!movement.droidHeavySlowedSpeeds.includes(n)) ? movement.speedMultipliers[armor.category] : 1;
   const speedMultiplier = armorSpeedMultiplier(species.speed);
   const stride = total('speed');
-  const move = n => Math.floor(Math.floor((n + stride) * armorSpeedMultiplier(n)) / (c.condition >= 4 ? 2 : 1));
+  const loadMultiplier=load.heavy?pack.rules.encumbrance.speedMultiplier:1;
+  const move = n => load.tooHeavy?0:load.overloaded?1:Math.floor(Math.floor((n + stride) * Math.min(armorSpeedMultiplier(n),loadMultiplier)) / (c.condition >= 4 ? 2 : 1));
   const speed = move(species.speed);
   const armorRunMultiplier = armor && !unrestrictedArmor ? movement.runMultipliers[armor.category] : movement.runMultipliers.light;
   const sprintAllowed = !armor || armor.category!=='heavy' || unrestrictedArmor || ambiguityValue(c,pack,'ambiguity:sprint-heavy-armor')==='sprint-limit';
   const talentRunMultiplier = Math.max(0,...effects.filter(e=>e.target==='runMultiplier'&&applies(e)).map(e=>e.amount));
-  const runMultiplier = sprintAllowed ? Math.max(armorRunMultiplier,talentRunMultiplier) : armorRunMultiplier;
-  const speedBreakdown = `(${species.speed} species + ${stride} talents) × ${speedMultiplier} armor (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
+  const runWithArmor = sprintAllowed ? Math.max(armorRunMultiplier,talentRunMultiplier) : armorRunMultiplier;
+  const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
+  const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
+  const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
   return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, ctx, rows, issues,
     forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,spent:p.spent,level:p.level})),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses: (species.conditionalDefenses||[]).map(e=>({...e,total:defenses[e.defense]+e.amount})),
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n)])),
-    incapacitated: c.condition === 5, forceMaximum: species.forceImmune?0:pack.rules.resources.forcePointBase + half, forceCurrent:species.forceImmune?0:c.forcePoints, pointCost,
-    weightUnknown:c.inventory.some(e=>resolveEquipment(e,pack,c).weight===null),
-    weight: c.inventory.reduce((n,e) => n + (resolveEquipment(e,pack,c).weight||0) * e.quantity, 0),
+    incapacitated: c.condition === 5, forceMaximum: species.forceImmune?0:pack.rules.resources.forcePointBase + half + total('forcePoints'), forceCurrent:species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
+    weightUnknown:carried.some(e=>resolveEquipment(e,pack,c).weight===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};
 }

@@ -9,7 +9,7 @@ export function validatePack(p) {
   for(const [group,keys] of Object.entries(numericRules)){
     const rules=p.rules?.[group];assert(rules,group);
     assert(Array.isArray(rules.sourceIds)&&rules.sourceIds.length>0&&rules.sourceIds.every(id=>p.sources?.some(s=>s.id===id)),group+' sources');
-    assert(Object.keys(rules).every(key=>key==='sourceIds'||keys.includes(key)),group+' fields');
+    assert(Object.keys(rules).every(key=>key==='sourceIds'||group==='combat'&&key==='areaSourceIds'||keys.includes(key)),group+' fields');
     for(const key of keys)assert(Number.isInteger(rules[key])&&rules[key]>=(key==='forcePointBase'?0:1),`${group}.${key}`);
   }
   for (const k of ['id','version','name']) assert.equal(typeof p[k], 'string', k);
@@ -26,7 +26,10 @@ export function validatePack(p) {
   function requireRef(collection, id) { assert(ix[collection].has(id), `Unknown ${collection} reference: ${id}`); }
   function prerequisite(r) {
     if (['all','any'].includes(r.kind)) { assert(Array.isArray(r.requirements)); r.requirements.forEach(prerequisite); return; }
-    assert(['ability','feat','talent','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    assert(['ability','feat','featChoice','talent','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid','trait','size'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    if(r.kind==='featChoice')requireRef('feats',r.value);
+    if(r.kind==='trait')assert.equal(r.value,'rage');
+    if(r.kind==='size')assert(p.rules.weaponSizeOrder.includes(r.value));
     if(r.kind==='power')requireRef('forcePowers',r.value);
     if(r.kind==='darkSideScore')assert.equal(r.min,1);
     if (r.kind === 'ability') { assert(ABILITIES.includes(r.value)); assert(Number.isInteger(r.min)); }
@@ -64,6 +67,12 @@ export function validatePack(p) {
       }
     }
     if (key === 'species') {
+      if(r.skillRerolls){assert(Array.isArray(r.skillRerolls));for(const e of r.skillRerolls){requireRef('skills',e.skill);assert(Object.keys(e).every(k=>['skill','keep','when'].includes(k))&&['replace','best'].includes(e.keep)&&(!e.when||['intimidate','searchYourFeelingsOrSenseForce'].includes(e.when)),'Unsupported species reroll');}}
+      if(r.take10Skills){assert(Array.isArray(r.take10Skills)&&new Set(r.take10Skills).size===r.take10Skills.length);r.take10Skills.forEach(id=>requireRef('skills',id));}
+      if(r.vision)assert(['low-light','darkvision'].includes(r.vision));
+      for(const k of ['breatheUnderwater','proneImmune'])if(r[k]!==undefined)assert.equal(typeof r[k],'boolean');
+      for(const k of ['scentRange','holdBreathMultiplier','naturalHealingMultiplier'])if(r[k]!==undefined)assert(Number.isInteger(r[k])&&r[k]>0);
+      if(r.traits!==undefined)assert(Array.isArray(r.traits)&&new Set(r.traits).size===r.traits.length&&r.traits.every(t=>t==='rage'),'Unsupported species trait');
       if (r.isDroid !== undefined) assert.equal(typeof r.isDroid,'boolean',`Invalid droid classification: ${r.id}`);
       assert(p.rules.sizeReflex[r.size] !== undefined && Number.isInteger(r.speed));
       for(const [k,v] of Object.entries(r.abilityAdjustments)) assert(ABILITIES.includes(k) && Number.isInteger(v));
@@ -103,7 +112,8 @@ export function validatePack(p) {
       if(r.maxSelections!==undefined)assert(r.repeat==='stack'&&Number.isInteger(r.maxSelections)&&r.maxSelections>=1&&r.maxSelections<=20,'Invalid repeat limit');
       if(r.repeatGroup!==undefined){requireRef(key,r.repeatGroup);assert.equal(r.repeat,'choice');}
       if(r.weaponGroup!==undefined)assert(GROUPS.includes(r.weaponGroup),'Unknown weapon group');
-      if(r.choiceType) assert(['skill','weaponGroup'].includes(r.choiceType));
+      if(r.choiceType) assert(['skill','weaponGroup','weapon'].includes(r.choiceType));
+      if(r.choiceScope)assert(r.choiceType==='weapon'&&r.choiceScope==='exotic');
       assert(Array.isArray(r.effects) && typeof r.reminder==='string');
       const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};
       for(const e of r.effects) {
@@ -116,10 +126,13 @@ export function validatePack(p) {
           continue;
         }
         assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when','weaponGroup','ability','minimum'].includes(k)),'Unsupported effect field');
-        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
+        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots','forcePoints','rageUses','secondWinds','weaponFinesse','criticalMultiplier','forcePointDie','rageBonus','reflexDodge','unarmedDieSteps',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
         if(e.target==='forcePowerSlots')assert(e.amount===1&&e.ability==='wis'&&e.minimum===1&&e.type==='untyped'&&!e.perLevel,'Unsupported Force power capacity');
         else assert(e.ability===undefined&&e.minimum===undefined,'Unsupported effect ability');
-        assert(Number.isFinite(e.amount));assert(['untyped','competence'].includes(e.type));
+        assert(Number.isFinite(e.amount));assert(['untyped','competence','dodge'].includes(e.type));
+        const fixedEffects={forcePoints:3,rageUses:1,secondWinds:1,weaponFinesse:1,criticalMultiplier:3,forcePointDie:8,rageBonus:3,reflexDodge:1,unarmedDieSteps:1};
+        if(e.target in fixedEffects)assert(e.amount===fixedEffects[e.target]&&e.type===(e.target==='reflexDodge'?'dodge':'untyped')&&!e.perLevel,'Unsupported Core feat effect');
+        if(e.type==='dodge')assert(e.target==='reflexDodge'&&e.amount===1&&!e.perLevel);
         if(e.perLevel!==undefined)assert.equal(typeof e.perLevel,'boolean');
         if(e.target in passiveConditions){assert.equal(e.when,passiveConditions[e.target],'Missing passive condition');assert(e.type==='untyped'&&Number.isInteger(e.amount)&&e.amount>0&&!e.perLevel,'Unsupported passive effect');if(e.target==='armorMovement')assert.equal(e.amount,1);}
         else if(e.target==='weaponSpecialization'&&e.weaponGroup)assert.equal(e.when,'meleeAttack');
@@ -142,7 +155,18 @@ export function validatePack(p) {
     }
     if (key === 'equipment') {
       assert(['weapon','armor','gear'].includes(r.kind)); assert((r.cost===null || Number.isFinite(r.cost) && r.cost>=0) && Number.isFinite(r.weight) && r.weight>=0);
-      if(r.kind==='weapon') assert(p.rules.weaponSizeOrder.includes(r.size) && [...GROUPS,'exotic-melee','exotic-ranged'].includes(r.group) && /^\d+d\d+$/.test(r.damage) && ['melee','ranged'].includes(r.mode));
+      if(r.kind==='weapon') {
+        assert(p.rules.weaponSizeOrder.includes(r.size) && [...GROUPS,'exotic-melee','exotic-ranged'].includes(r.group) && ['melee','ranged'].includes(r.mode));
+        assert(/^\d+d\d+$/.test(r.damage)||r.damage===null&&(r.damageAction==='Grab / Grapple'||r.ammunition==='grenade'||r.unarmed),'Unsupported weapon damage');
+        for(const k of ['accurate','inaccurate','autofire','autofireOnly','areaAttack','thrown','double','addsStrength','unarmed'])if(r[k]!==undefined)assert.equal(typeof r[k],'boolean');
+        if(r.rangeType)assert(r.rangeType in p.rules.weaponRanges.limits);
+        if(r.ranges)assert(r.ranges.length===4&&r.ranges.every((n,i)=>Number.isInteger(n)&&n>=0&&(!i||n>=r.ranges[i-1])));
+        if(r.mode==='ranged')assert(r.rangeType||r.ranges,'Missing ranged weapon ranges');
+        if(r.areaType)assert(['burst','splash'].includes(r.areaType));
+        if(r.stunDamage)assert(/^\d+d\d+$/.test(r.stunDamage));
+        if(r.modes){assert(new Set(r.modes.map(m=>m.id)).size===r.modes.length);for(const m of r.modes)assert(typeof m.id==='string'&&typeof m.name==='string'&&/^\d+d\d+$/.test(m.damage)&&typeof m.double==='boolean'&&typeof m.thrown==='boolean'&&Number.isInteger(m.reach)&&m.reach>=1);}
+        if(r.launchers)for(const l of r.launchers)assert(typeof l.id==='string'&&typeof l.name==='string'&&l.rangeType in p.rules.weaponRanges.limits&&typeof l.accurate==='boolean');
+      }
       assert(Array.isArray(r.availability||[])&&(r.availability||[]).every(id=>['licensed','restricted','military','illegal','rare'].includes(id)));
       for(const key of ['biotech','mechanical'])if(r[key]!==undefined)assert.equal(typeof r[key],'boolean');
       if(r.family!==undefined)assert(typeof r.family==='string'&&typeof r.variant==='string');
@@ -152,6 +176,15 @@ export function validatePack(p) {
     }
   }
   const access=p.rules.forceTalentAccess,recovery=p.rules.forcePowerRecovery;
+  for(const key of ['weaponRanges','unarmed','secondWind','encumbrance'])assert(p.rules[key]?.sourceIds?.length&&p.rules[key].sourceIds.every(id=>sources.has(id)),`Missing ${key} sources`);
+  const load=p.rules.encumbrance;assert(load.heavyFraction===.25&&load.liftFraction===.5&&load.strainFraction===1&&load.speedMultiplier===.75&&load.runMultiplier===3&&load.skillPenalty===-10,'Unsupported encumbrance rule');
+  assert.deepEqual(load.skills,['acrobatics','climb','endurance','initiative','jump','stealth','swim'].map(id=>'skill:'+id));assert.deepEqual(load.sizeMultipliers,{fine:.01,diminutive:.25,tiny:.5,small:.75,medium:1,large:2,huge:5,gargantuan:10,colossal:20});
+  assert(p.rules.combat.areaSourceIds?.length&&p.rules.combat.areaSourceIds.every(id=>sources.has(id)),'Missing area attack source');
+  assert.deepEqual(p.rules.weaponRanges.penalties,[0,-2,-5,-10],'Unsupported range penalties');
+  assert.deepEqual(Object.keys(p.rules.weaponRanges.limits).sort(),['heavy-weapons','pistols','rifles','simple-weapons','thrown']);
+  for(const limits of Object.values(p.rules.weaponRanges.limits))assert(limits.length===4&&limits.every((n,i)=>Number.isInteger(n)&&n>=0&&(!i||n>limits[i-1])),'Invalid weapon ranges');
+  assert.deepEqual(p.rules.unarmed.damage,{small:'1d3',medium:'1d4',large:'1d6'});assert.deepEqual(p.rules.unarmed.dieSteps,[3,4,6,8,10,12]);
+  assert(p.rules.secondWind.hitPointFraction===.25&&p.rules.secondWind.maximumHitPointFraction===.5&&p.rules.secondWind.dailyUses===1,'Unsupported Second Wind rule');
   if(access){assert(Object.keys(access).every(k=>['trees','sourceIds'].includes(k)));assert(Array.isArray(access.trees)&&access.trees.length===4&&new Set(access.trees).size===4&&access.trees.every(t=>p.talents.some(r=>r.tree===t)));assert(access.sourceIds.length&&access.sourceIds.every(id=>sources.has(id)));}
   if(recovery){assert(Object.keys(recovery).every(k=>['sourceIds','restMinutes','forcePointCost','naturalRoll'].includes(k)));assert(recovery.sourceIds.length&&recovery.sourceIds.every(id=>sources.has(id)));assert(recovery.restMinutes===1&&recovery.forcePointCost===1&&recovery.naturalRoll===20);}
   if(p.heroicTraits) {
@@ -161,7 +194,7 @@ export function validatePack(p) {
   if(p.jediCounseling){
     assert(Array.isArray(p.jediCounseling));const topics=new Set();
     for(const r of p.jediCounseling){assert(Object.keys(r).every(k=>['id','name','issue','ruleId','sourceId'].includes(k)));assert(/^jc:\d+-[a-z0-9-]+$/.test(r.id)&&!topics.has(r.id));topics.add(r.id);assert(typeof r.name==='string'&&Number.isInteger(r.issue)&&r.issue>=105&&r.issue<=115);assert(sources.has(r.sourceId)&&p.rulePages.some(page=>page.id===r.ruleId&&page.sourceId===r.sourceId));}
-    for(const [id,mode] of Object.entries(p.rules.counselingApplications||{}))assert(topics.has(id)&&['talent-activation','weapon-familiarity','partial-proficiency','raw-equivalent'].includes(mode));
+    for(const [id,mode] of Object.entries(p.rules.counselingApplications||{}))assert(topics.has(id)&&['talent-activation','weapon-familiarity','partial-proficiency','raw-equivalent','range-penalties','unarmed-proficiency','unarmed-finesse'].includes(mode));
   }
   if(p.rules.licensing){
     const l=p.rules.licensing;assert(Object.keys(l).every(k=>['sourceIds','ratings'].includes(k))&&l.sourceIds.length&&l.sourceIds.every(id=>sources.has(id)));

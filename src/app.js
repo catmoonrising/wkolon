@@ -18,6 +18,8 @@ import {CREATOR_STEPS} from './creation-steps.js';
 import {referenceEntries} from './rules-reference.js';
 import {TRAIT_FIELDS, TRAIT_TEXT, emptyStory, backgroundLanguage} from './heroic-traits.js';
 import {generationState, setGenerationMethod, assignScore, setPoolScore, setRolledPool} from './ability-generation.js';
+import {featureChoices,choiceName,UNARMED_ID} from './feature-choices.js';
+import {createSpeciesChecks} from './species-rules.js';
 
 const $ = id => document.getElementById(id);
 const escape = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -25,7 +27,7 @@ const clone = value => structuredClone(value);
 const title = value => value.replaceAll('-', ' ').replace(/\b\w/g, c => c.toUpperCase());
 const SECTIONS = ['overview','creation','skills','features','equipment','advancement','rules'];
 let section = SECTIONS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
-let pack, ix, store, derived, speciesBrowser, featureTrees, combatControls, rulesCatalog;
+let pack, ix, store, derived, speciesBrowser, featureTrees, combatControls, rulesCatalog,speciesChecks;
 let treeTarget=null, houseRules, creationOptions,forcePowersUI,powerManageLevel=0;
 const equipmentDrafts=new Map();
 const weightText=(weight)=>weight===null?'? kg':`${Number(weight.toFixed(2))} kg`;
@@ -51,11 +53,11 @@ function ruleReference(r, label=r.name, selection=null, scope='ref') {
 }
 const panel = (heading, body, className='') => `<section class="panel ${className}">${heading ? `<div class="panel-heading"><h2>${heading}</h2></div>` : ''}${body}</section>`;
 const metric = (label, value, detail='') => `<div class="metric"><span>${label}</span><strong>${value}</strong>${detail ? `<small>${detail}</small>` : ''}</div>`;
-const entryLabel = s => { const r = ix.feats.get(s.id) || ix.talents.get(s.id); return r.name + (s.choice ? ` (${ix.skills.get(s.choice)?.name || title(s.choice)})` : ''); };
+const entryLabel = s => { const r = ix.feats.get(s.id) || ix.talents.get(s.id); return r.name + (s.choice ? ` (${choiceName(s.choice,pack)})` : ''); };
 function selectionValue(s) { return s ? `${s.id}|${s.choice || ''}` : ''; }
 function parseSelection(value) { if (!value) return null; const [id,choice] = value.split('|'); return choice ? {id,choice} : {id}; }
 function variants(r) {
-  const values = r.choiceType === 'skill' ? pack.skills.map(s => s.id) : r.choiceType === 'weaponGroup' ? GROUPS : [null];
+  const values = featureChoices(r,pack);
   return values.map(choice => ({id:r.id,...(choice ? {choice} : {})}));
 }
 
@@ -95,10 +97,10 @@ function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=f
   const attrs=`data-choice="${kind}" data-level="${levelIndex}" data-slot="${slotIndex}"`;
   let secondaryHTML='';
   if (secondary) {
-    const options=group.records.flatMap(r=>available(r).map(s=>({value:selectionValue(s),name:group.value.startsWith('family:')?r.name.match(/\((.*)\)$/)[1]:(ix.skills.get(s.choice)?.name||title(s.choice))})));
+    const options=group.records.flatMap(r=>available(r).map(s=>({value:selectionValue(s),name:group.value.startsWith('family:')?r.name.match(/\((.*)\)$/)[1]:choiceName(s.choice,pack)})));
     const value=!selected?.pending && (selected?.choice || group.value.startsWith('family:')) ? selectionValue(selected) : '';
     if(value && !options.some(o=>o.value===value)) options.unshift({value,name:`${entryLabel(selected)} (ineligible)`});
-    const secondaryLabel=group.value.startsWith('family:')?'Type':record.choiceType==='skill'?'Skill':'Weapon group';
+    const secondaryLabel=group.value.startsWith('family:')?'Type':record.choiceType==='skill'?'Skill':record.choiceType==='weapon'?'Weapon':'Weapon group';
     secondaryHTML=`<label>${secondaryLabel}<select ${attrs} data-secondary>${option('','Choose…',value)}${options.sort((a,b)=>a.name.localeCompare(b.name)).map(o=>option(o.value,o.name,value)).join('')}</select></label>`;
   }
   return `<div class="choice-field">${hidePrimary?'':`<label>${escape(label)}<button type="button" ${attrs} data-primary data-open-tree="${kind}:${levelIndex}:${slotIndex}" ${editorMode==='creation'&&kind==='feat'?`aria-pressed="${(activeFeatSlots.get(current().id)||0)===slotIndex}"`: ''}>${escape(record?(family(record)||entryLabel(selected)):'Choose…')}</button></label>`}${secondaryHTML}</div>`;
@@ -192,12 +194,26 @@ function calculations(id, entries) {
   return `<details id="${id}" class="calculation-details"><summary>Calculations</summary><dl>${entries.map(([name,value])=>`<dt>${escape(name)}</dt><dd>${escape(value)}</dd>`).join('')}</dl></details>`;
 }
 function skillTable() {
-  const technophobic=ix.species.get(current().species).technophobic;
+  const species=ix.species.get(current().species),technophobic=species.technophobic;
   const ability=s=>s.checkSources.length>1?`<select data-skill-source="${s.id}" aria-label="${escape(s.name)} check modifier" ${s.checkSources.some(r=>r.when==='perceptionApplications')?'title="Use the Force: Avoid Surprise, Notice Targets, Sense Deception, Sense Influence"':''}>${s.checkSources.map(r=>option(r.id,`${r.id===s.id?r.ability.toUpperCase():r.name}${r.when==='computerNetwork'?' (network)':r.when==='perceptionApplications'?' (specific uses)':''} ${signed(r.total)}`,s.checkSource)).join('')}</select>`:s.ability.toUpperCase();
-  return `<div class="table-scroll"><table><thead><tr><th>Skill</th><th>Ability</th><th>Trained</th>${technophobic?'<th>Mechanical tools</th>':''}<th>Check</th></tr></thead><tbody>${derived.skills.map(s=>`<tr><td>${ruleReference(ix.skills.get(s.id))}</td><td>${ability(s)}</td><td>${s.trained ? '✓' : '—'}</td>${technophobic?`<td><input type="checkbox" data-mechanical-skill="${s.id}" ${(current().mechanicalSkills||[]).includes(s.id)?'checked':''} aria-label="${escape(s.name)} uses mechanical tools"></td>`:''}<td><button class="roll" data-roll="${s.total}" data-roll-label="${escape(s.name)}" ${!s.available || derived.incapacitated ? 'disabled' : ''}>${s.available ? signed(s.total) : '—'}</button></td></tr>`).join('')}</tbody></table></div>${calculations('skill-calculations',derived.skills.map(s=>[s.name,s.breakdown]))}`;
+  return `<div class="table-scroll"><table><thead><tr><th>Skill</th><th>Ability</th><th>Trained</th>${technophobic?'<th>Mechanical tools</th>':''}<th>Check</th></tr></thead><tbody>${derived.skills.map(s=>`<tr><td>${ruleReference(ix.skills.get(s.id))}</td><td>${ability(s)}</td><td>${s.trained ? '✓' : '—'}</td>${technophobic?`<td><input type="checkbox" data-mechanical-skill="${s.id}" ${(current().mechanicalSkills||[]).includes(s.id)?'checked':''} aria-label="${escape(s.name)} uses mechanical tools"></td>`:''}<td><button class="roll" data-roll="${s.total}" data-skill-roll="${s.id}" data-roll-label="${escape(s.name)}" ${!s.available || derived.incapacitated ? 'disabled' : ''}>${s.available ? signed(s.total) : '—'}</button>${speciesChecks.controls(s,species,derived.incapacitated)}</td></tr>`).join('')}</tbody></table></div>${calculations('skill-calculations',derived.skills.map(s=>[s.name,s.breakdown]))}<details id="skill-modifiers"><summary>Modifiers</summary><div class="form-grid">${pack.skills.map(s=>`<label>${escape(s.name)}<input type="number" min="-1000" max="1000" data-skill-modifier="${s.id}" value="${current().skillModifiers?.[s.id]||0}"></label>`).join('')}</div></details>`;
 }
 function attackTable(scope='') {
-  return derived.attacks.length ? `<div class="table-scroll"><table><thead><tr><th>Weapon</th><th>Attack</th><th>Damage</th></tr></thead><tbody>${derived.attacks.map((a,i)=>`<tr><td>${ruleReference(ix.equipment.get(a.id),a.name,null,`${scope}attack-${i}`)}<small>${escape(a.damageType)}${a.proficient?'':' | Not proficient'}</small></td><td><button class="roll" data-roll="${a.attack}" data-roll-label="${escape(a.name)} attack" ${derived.incapacitated?'disabled':''}>${signed(a.attack)}</button></td><td><button class="roll" data-damage="${escape(a.damageDisplay)}" data-roll-label="${escape(a.name)} damage">${a.damageDisplay}</button></td></tr>`).join('')}</tbody></table></div>${calculations(scope+'attack-calculations',derived.attacks.map(a=>[a.name,a.breakdown]))}` : '';
+  const rangeNames=['Point-Blank','Short','Medium','Long'];
+  return `<div class="table-scroll"><table><thead><tr><th>Weapon</th><th>Attack</th><th>Damage</th></tr></thead><tbody>${derived.attacks.map((a,i)=>{
+    const index=current().inventory.findIndex(e=>e.uid===a.uid),e=current().inventory[index];
+    const range=a.range.limits?`<details id="${scope}attack-range-${i}"><summary>Range${a.range.band===null?'':a.available?' · '+rangeNames[a.range.band]:' · Out of range'}</summary><label>Squares<input type="number" min="0" max="100000" data-inventory="distance" data-index="${index}" value="${e.distance??''}" aria-label="${escape(a.name)} distance in squares" placeholder="—"></label><dl>${a.range.limits.map((limit,j)=>j&&limit===a.range.limits[j-1]?'':`<dt>${rangeNames[j]}</dt><dd>${j?a.range.limits[j-1]+1:0}–${limit}</dd>`).join('')}</dl></details>`:'';
+    const modifiers=a.id===UNARMED_ID?`<details id="${scope}unarmed-modifiers"><summary>Modifiers</summary>${['attackMod','damageMod'].map(k=>`<label>${k==='attackMod'?'Attack':'Damage'}<input type="number" min="-100" max="100" data-unarmed-modifier="${k}" value="${current().unarmedModifiers?.[k]||0}"></label>`).join('')}</details>`:'';
+    return `<tr><td>${ruleReference(ix.equipment.get(a.id)||a,a.name,null,`${scope}attack-${i}`)}<small>${escape(a.damageType)}${a.proficient?'':' | Not proficient'}${a.areaType?' | Area':a.criticalMultiplier>2?' | ×'+a.criticalMultiplier+' critical':''}</small>${range}${modifiers}</td><td><button class="roll" data-roll="${a.attack}" data-roll-label="${escape(a.name)} attack" ${derived.incapacitated||!a.available?'disabled':''}>${signed(a.attack)}</button></td><td>${a.damage?`<button class="roll" data-damage="${escape(a.damageDisplay)}" data-roll-label="${escape(a.name)} damage" ${derived.incapacitated||!a.available?'disabled':''}>${escape(a.damageDisplay)}</button>`:escape(a.damageDisplay)}</td></tr>`;
+  }).join('')}</tbody></table></div>${calculations(scope+'attack-calculations',derived.attacks.map(a=>[a.name,a.breakdown]))}`;
+}
+function weaponOptions(r,e,i){
+ const select=(key,label,records,value,empty=false)=>`<label>${label}<select data-inventory="${key}" data-index="${i}">${empty?option('','Choose…',value):''}${records.map(o=>option(o.id,o.name,value,o.disabled)).join('')}</select></label>`;
+ return (ix.equipment.get(e.id).thrown||ix.equipment.get(e.id).modes?.some(m=>m.thrown)?select('attackStyle','Attack',[{id:'melee',name:'Melee'},{id:'thrown',name:'Thrown',disabled:!r.thrown}],e.attackStyle||'melee'):'')+
+  (r.modes?select('weaponMode','Form',r.modes,e.weaponMode||r.modes[0].id):'')+
+  (r.launchers?select('launcher','Launch',r.launchers,e.launcher||r.launchers[0].id):'')+
+  (r.ammunition==='grenade'?select('ammunitionId','Grenade',pack.equipment.filter(w=>['equipment:frag-grenade','equipment:ion-grenade','equipment:stun-grenade'].includes(w.id)),e.ammunitionId||'',true):'')+
+  (r.autofire&&!r.autofireOnly?select('fireMode','Fire',[{id:'single',name:'Single-shot'},{id:'autofire',name:'Autofire'}],e.fireMode||'single'):'');
 }
 function conditionTrack() {
   const step=current().condition, species=ix.species.get(current().species);
@@ -237,6 +253,10 @@ function finishing() {
     return `<label>${label}<input data-trait="${key}" value="${escape(traits[key])}" maxlength="200"></label>`;
   };
   return `<div class="form-grid">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${TRAIT_FIELDS.filter(([key])=>!TRAIT_TEXT.includes(key)).map(traitField).join('')}</div>${storyEditor()}<div class="trait-texts">${TRAIT_FIELDS.filter(([key])=>TRAIT_TEXT.includes(key)).map(traitField).join('')}</div>`;
+}
+function carryingDisplay(){
+ const load=derived.load;
+ return `${load.heavy?`<span class="badge">${load.tooHeavy?'Too heavy':load.overloaded?'Overloaded':'Heavy Load'}</span>`:''}<details id="carrying-limits"><summary>Load</summary><dl><dt>Heavy Load</dt><dd>≥ ${Number(load.heavyAt.toFixed(2))} kg</dd><dt>Lift</dt><dd>${Number(load.lift.toFixed(2))} kg</dd><dt>Strain</dt><dd>${Number(load.strain.toFixed(2))} kg</dd></dl>${ruleReference(pack.rulePages.find(r=>r.name==='Encumbrance'),'Mechanics',null,'load')}</details>`;
 }
 function traitsSummary() {
   const c=current(), values=TRAIT_FIELDS.filter(([key])=>c.heroicTraits?.[key]);
@@ -298,7 +318,7 @@ function equipment(scope='') {
  return `${panel('Equipment catalog',`${shopForm(scope)}<div id="${prefix}equipment-reference">${ruleReference(ix.equipment.get(shopDraft(scope).id),'ⓘ',null,prefix+'catalog')}</div><div class="actions">${scope?'':field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<div class="weight"><strong>${totalWeight()}</strong></div></div>`)}
  ${panel('Inventory',c.inventory.length?`<div class="inventory-list">${c.inventory.map((e,i)=>{
   const r=resolveEquipment(e,pack,c),rating=(r.availability||[]).some(id=>pack.rules.licensing.ratings[id]);
-  return `<article><div class="inventory-title"><div>${ruleReference(ix.equipment.get(e.id),r.name,null,`${prefix}inventory-${i}`)} <span class="badge">×${e.quantity}</span> <small>${weightText(r.weight===null?null:r.weight*e.quantity)}${r.cost===null?'':` | ${r.cost.toLocaleString()} cr each`}</small></div></div><div class="inventory-controls">${r.kind!=='gear'?`<label class="checkbox"><input type="checkbox" data-inventory="equipped" data-index="${i}" ${e.equipped?'checked':''}>Equipped</label>`:''}${r.kind==='weapon'?`<label class="checkbox"><input type="checkbox" data-inventory="twoHanded" data-index="${i}" ${e.twoHanded?'checked':''} ${r.mode!=='melee'||pack.rules.weaponSizeOrder.indexOf(r.size)<pack.rules.weaponSizeOrder.indexOf(species.size)?'disabled':''}>Two hands</label><label>Attack misc<input type="number" min="-100" max="100" value="${e.attackMod}" data-inventory="attackMod" data-index="${i}"></label><label>Damage misc<input type="number" min="-100" max="100" value="${e.damageMod}" data-inventory="damageMod" data-index="${i}"></label>${species.technophobic?`<label class="checkbox"><input type="checkbox" data-inventory="mechanical" data-index="${i}" ${e.mechanical??r.mechanical?'checked':''}>Mechanical</label>`:''}`:''}${rating?`<label>License<select data-inventory="licenseStatus" data-index="${i}">${[['none','None'],['pending','Application pending'],['approved','Approved'],['denied','Denied']].map(([id,name])=>option(id,name,e.licenseStatus||'none')).join('')}</select></label>`:''}${e.options?.includes('miniaturized')?`<label>Weight (kg)<input type="number" min="0" max="1000000" step="0.01" data-inventory="weightOverride" data-index="${i}" value="${e.weightOverride??''}" aria-label="${escape(r.name)} weight"></label>`:''}<button data-remove-item="${i}">Remove</button></div>${r.kind==='armor'?`<p class="rule-summary">Reflex +${r.armorBonus} | Fortitude +${r.fortitudeBonus} with proficiency | Max DEX +${r.maxDex}</p>`:''}</article>`;
+  return `<article><div class="inventory-title"><div>${ruleReference(ix.equipment.get(e.id),r.name,null,`${prefix}inventory-${i}`)} <span class="badge">×${e.quantity}</span> <small>${weightText(r.weight===null?null:r.weight*e.quantity)}${r.cost===null?'':` | ${r.cost.toLocaleString()} cr each`}</small></div></div><div class="inventory-controls"><label class="checkbox"><input type="checkbox" data-inventory="carried" data-index="${i}" ${e.carried!==false?'checked':''}>Carried</label>${r.kind!=='gear'?`<label class="checkbox"><input type="checkbox" data-inventory="equipped" data-index="${i}" ${e.equipped?'checked':''}>Equipped</label>`:''}${r.kind==='weapon'?`${weaponOptions(r,e,i)}<label class="checkbox"><input type="checkbox" data-inventory="twoHanded" data-index="${i}" ${e.twoHanded?'checked':''} ${r.mode!=='melee'||pack.rules.weaponSizeOrder.indexOf(r.size)<pack.rules.weaponSizeOrder.indexOf(species.size)?'disabled':''}>Two hands</label><label>Attack misc<input type="number" min="-100" max="100" value="${e.attackMod}" data-inventory="attackMod" data-index="${i}"></label><label>Damage misc<input type="number" min="-100" max="100" value="${e.damageMod}" data-inventory="damageMod" data-index="${i}"></label>${species.technophobic?`<label class="checkbox"><input type="checkbox" data-inventory="mechanical" data-index="${i}" ${e.mechanical??r.mechanical?'checked':''}>Mechanical</label>`:''}`:''}${rating?`<label>License<select data-inventory="licenseStatus" data-index="${i}">${[['none','None'],['pending','Application pending'],['approved','Approved'],['denied','Denied']].map(([id,name])=>option(id,name,e.licenseStatus||'none')).join('')}</select></label>`:''}${e.options?.includes('miniaturized')?`<label>Weight (kg)<input type="number" min="0" max="1000000" step="0.01" data-inventory="weightOverride" data-index="${i}" value="${e.weightOverride??''}" aria-label="${escape(r.name)} weight"></label>`:''}<button data-remove-item="${i}">Remove</button></div>${r.kind==='armor'?`<p class="rule-summary">Reflex +${r.armorBonus} | Fortitude +${r.fortitudeBonus} with proficiency | Max DEX +${r.maxDex}</p>`:''}</article>`;
  }).join('')}</div>`:'')}${panel('Attacks',attackTable(prefix))}`;
 }
 function advancement() {
@@ -326,7 +346,7 @@ function sheet() {
   const character = `<div class="character-fields">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${ruleReference(species,species.name,null,'header-species')}<span>Level ${derived.level}</span><a href="#creation">Edit</a></div><div class="hint">${escape(species.languages.join(', '))}${backgroundLanguage(c,pack)?', '+escape(backgroundLanguage(c,pack)):''}</div><div class="actions">${field('Languages','languages',c.languages,'text',`maxlength="100000" aria-label="Additional languages (${languageCount()})"`)}</div>${traitsSummary()}`;
   const classes = `<table id="class-table"><thead><tr><th>Class</th><th>Level</th><th>Hit die</th><th>Base attack</th></tr></thead><tbody>${[...derived.ctx.classLevels].map(([id,n])=>{const cls=ix.classes.get(id);return `<tr><td>${ruleReference(cls)}</td><td class="derived">${n}</td><td>d${cls.hitDie}</td><td>${signed(cls.bab[n-1])}</td></tr>`;}).join('')}</tbody></table><div class="class-summary"><a href="#advancement" class="button">Level Up</a></div>`;
   const abilities = `<table><thead><tr><th>Ability</th><th>Mod</th><th>Score</th><th>Base</th><th>Species</th></tr></thead><tbody>${ABILITIES.map(a=>`<tr><td>${a.toUpperCase()}</td><td><button class="roll" data-roll="${derived.mods[a]+pack.rules.conditionPenalties[c.condition]}" data-roll-label="${a.toUpperCase()}" aria-label="${a.toUpperCase()} check ${signed(derived.mods[a]+pack.rules.conditionPenalties[c.condition])}" ${derived.incapacitated?'disabled':''}>${signed(derived.mods[a])}</button></td><td class="derived" title="${derived.ctx.scores[a]}${derived.equipmentAbilities[a]?` + ${derived.equipmentAbilities[a]} ${escape(derived.armor.name)}`:''}">${derived.scores[a]}</td><td><input type="number" min="3" max="30" aria-label="Base ${a.toUpperCase()}" data-ability="${a}" value="${c.abilities[a]}"></td><td>${signed(species.abilityAdjustments[a]||0)}</td></tr>`).join('')}</tbody></table>${Object.keys(derived.equipmentAbilities).length?`<details><summary class="hint">Calculations</summary>${Object.entries(derived.equipmentAbilities).map(([a,n])=>`<div class="hint">${a.toUpperCase()}: ${derived.ctx.scores[a]} + ${n} ${escape(derived.armor.name)}</div>`).join('')}</details>`:''}`;
-  const defenses = `<table><thead><tr><th>Defense</th><th>Total</th></tr></thead><tbody>${['reflex','fortitude','will'].map(k=>`<tr title="${escape(derived.breakdowns[k])}"><td>${title(k)}</td><td class="derived defense-total" data-defense="${k}">${derived.defenses[k]}</td></tr>`).join('')}${derived.conditionalDefenses.map(e=>`<tr><td>${title(e.defense)} vs. Use the Force</td><td class="derived defense-total" data-defense="${e.defense}-${e.against}">${e.total}</td></tr>`).join('')}</tbody></table><details><summary class="hint">Calculations</summary>${['reflex','fortitude','will'].map(k=>`<div class="hint">${title(k)}: ${escape(derived.breakdowns[k])}</div>`).join('')}</details>`;
+  const defenses = `<label class="checkbox"><input type="checkbox" data-flat-footed ${c.flatFooted?'checked':''}>Flat-footed</label><table><thead><tr><th>Defense</th><th>Total</th></tr></thead><tbody>${['reflex','fortitude','will'].map(k=>`<tr title="${escape(derived.breakdowns[k])}"><td>${title(k)}</td><td class="derived defense-total" data-defense="${k}">${derived.defenses[k]}</td></tr>`).join('')}${derived.conditionalDefenses.map(e=>`<tr><td>${title(e.defense)} vs. Use the Force</td><td class="derived defense-total" data-defense="${e.defense}-${e.against}">${e.total}</td></tr>`).join('')}</tbody></table><details><summary class="hint">Calculations</summary>${['reflex','fortitude','will'].map(k=>`<div class="hint">${title(k)}: ${escape(derived.breakdowns[k])}</div>`).join('')}</details>`;
   const hp = healthBars(c,derived);
 
   return moduleHTML('header','Character',character,'wide') + moduleHTML('classes','Classes',classes+xpBar(c,derived,pack.rules.resources),'wide')
@@ -334,13 +354,13 @@ function sheet() {
     + moduleHTML('hp','HP',hp) + moduleHTML('threshold','Damage Threshold',`<div class="stat-big">${derived.threshold}</div>`,'small')
     + moduleHTML('bab','Base Attack',`<div class="stat-big">${signed(derived.bab)}</div>`,'small')
     + moduleHTML('speed','Speed',`<div class="stat-big">${derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armor&&derived.armor.category!=='light'?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}`,'small')
-    + moduleHTML('force','Force Points',statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${species.forceImmune?'disabled':''}`))
+    + moduleHTML('force','Force Points',statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${species.forceImmune?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`)
     + moduleHTML('dark-side','Dark Side Score',statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'))
     + moduleHTML('condition','Condition Track',conditionTrack()) + moduleHTML('skills','Skills',skillTable())
     + moduleHTML('attacks','Attacks',attackTable())
     + (derived.powerSlots||derived.forcePowers.length?moduleHTML('force-powers','Force Powers',forcePowersUI.sheet(),'wide'):'')
     + moduleHTML('routines','Offensive Routines',combatControls.renderRoutines(),'wide')
-    + moduleHTML('inventory','Inventory',`${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<span class="hint">${totalWeight()}</span><details class="shop" id="equipment-catalog"><summary>Catalog</summary>${panelBody(inventoryPanels[0]).replace(/<div class="actions">[\s\S]*?<\/div>$/, '')}</details>${panelBody(inventoryPanels[1])}`)
+    + moduleHTML('inventory','Inventory',`${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<span class="hint">${totalWeight()}</span>${carryingDisplay()}<details class="shop" id="equipment-catalog"><summary>Catalog</summary>${panelBody(inventoryPanels[0]).replace(/<div class="actions">[\s\S]*?<\/div>$/, '')}</details>${panelBody(inventoryPanels[1])}`)
     + moduleHTML('features','Features',`${panelBody(panelParts(featureList())[0])}<a href="#advancement" class="screen-only">Edit</a>`)
     + moduleHTML('modifiers','Modifiers',`<div class="form-grid">${Object.entries(c.modifiers).map(([key,val])=>field(title(key),`modifiers.${key}`,val,'number','min="-1000" max="1000"')).join('')}</div>`)
     + moduleHTML('notes','Notes',`<label><span class="sr-only">Character notes</span><textarea data-field="notes" rows="5">${escape(c.notes)}</textarea></label>`)
@@ -452,7 +472,7 @@ function render() {
   numericFields($('main'));window.__layout.refresh();paintLogs();renderEditor();
   window.scrollTo({top:scroll});
 }
-function changed() { store.schedule(); queueMicrotask(render); }
+function changed() { const next=derive(current(),pack);if(derived&&next.forceMaximum!==derived.forceMaximum){const bonus=3*(Number(next.ctx.feats.some(f=>f.id==='feat:force-boon'))-Number(derived.ctx.feats.some(f=>f.id==='feat:force-boon')));if(bonus>0)current().forcePoints+=bonus;else current().forcePoints=Math.min(current().forcePoints,next.forceMaximum);}store.schedule(); queueMicrotask(render); }
 function d(sides) { const a=new Uint32Array(1); const ceiling=Math.floor(2**32/sides)*sides; do { crypto.getRandomValues(a); } while(a[0]>=ceiling); return a[0]%sides+1; }
 function addInventory(id,quantity=1,options={}) {
   if (ix.equipment.get(id).kind==='armor') current().inventory.filter(e=>ix.equipment.get(e.id).kind==='armor').forEach(e=>e.equipped=false);
@@ -537,6 +557,9 @@ function events() {
       changed();return;
     }
 
+    if(el.dataset.unarmedModifier){const n=Number(el.value);if(!Number.isInteger(n)||n<-100||n>100){notify('Enter a valid modifier.');render();return;}c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers[el.dataset.unarmedModifier]=n;changed();return;}
+    if(el.dataset.skillModifier){const n=Number(el.value);if(!Number.isInteger(n)||n<-1000||n>1000){notify('Enter a valid modifier.');render();return;}c.skillModifiers??={};c.skillModifiers[el.dataset.skillModifier]=n;changed();return;}
+    if(el.hasAttribute('data-flat-footed')){c.flatFooted=el.checked;changed();return;}
     if(houseRules.change(el,c)){changed();return;}
     if(el.hasAttribute('data-catalog-item')||el.hasAttribute('data-catalog-variant')||el.hasAttribute('data-shop-field')||el.hasAttribute('data-shop-upgrade')||el.hasAttribute('data-catalog-quantity')){
       if(el.hasAttribute('data-math'))commitMath(el);
@@ -611,10 +634,17 @@ function events() {
     } else if(el.dataset.inventory) {
       const e=c.inventory[Number(el.dataset.index)];
       if(['attackMod','damageMod'].includes(el.dataset.inventory)&&el.dataset.number==='true'&&(!Number.isInteger(Number(el.value))||Number(el.value)<-100||Number(el.value)>100)) {notify('Attack and damage modifiers must be whole numbers from −100 to 100.');render();return;}
+      if(['attackMod','damageMod'].includes(el.dataset.inventory)&&(!Number.isInteger(Number(el.value))||Number(el.value)<-100||Number(el.value)>100)){notify('Enter a valid modifier.');render();return;}
+      if(el.dataset.inventory==='equipped'&&el.checked)e.carried=true;
+      if(el.dataset.inventory==='carried'&&!el.checked)e.equipped=false;
       if(el.dataset.inventory==='equipped'&&el.checked&&ix.equipment.get(e.id).kind==='armor') c.inventory.filter(other=>ix.equipment.get(other.id).kind==='armor').forEach(other=>other.equipped=false);
-      const val=el.type==='checkbox'?el.checked:el.dataset.inventory==='licenseStatus'?el.value:Number(el.value);
+      const val=el.type==='checkbox'?el.checked:['licenseStatus','weaponMode','launcher','ammunitionId','fireMode','attackStyle'].includes(el.dataset.inventory)?el.value:Number(el.value);
+      if(el.dataset.inventory==='distance'&&el.value===''){delete e.distance;changed();return;}
+      if(el.dataset.inventory==='ammunitionId'&&!el.value){delete e.ammunitionId;changed();return;}
+      if(el.dataset.inventory==='distance'&&(!Number.isInteger(val)||val<0||val>100000)){notify('Enter a valid distance.');render();return;}
       if(el.dataset.inventory==='weightOverride'&&(!Number.isFinite(val)||val<0||val>1000000)){notify('Enter a valid weight.');render();return;}
       e[el.dataset.inventory]=val;
+      if(el.dataset.inventory==='weaponMode'&&!ix.equipment.get(e.id).modes.find(m=>m.id===val).thrown)delete e.attackStyle;
     } else return;
     changed();
   });
@@ -667,6 +697,7 @@ function events() {
     }
     if(el.dataset.addKnowledge){const key=knowledgeKey(el.dataset.addKnowledge);knowledgeDrafts.set(key,(knowledgeDrafts.get(key)||0)+1);changed();return;}
     if(el.dataset.crmethod){setGenerationMethod(c,el.dataset.crmethod,pack);changed();return;}
+    if(speciesChecks.click(el,ix.species.get(c.species)))return;
     if(el.dataset.damage){const rolled=evalExpr(el.dataset.damage);logEvent('roll',`${el.dataset.rollLabel}: ${el.dataset.damage} = ${rolled.value}`,`${escape(el.dataset.rollLabel)}: ${rolled.display} = ${totalHtml(rolled)}`);return;}
     if(el.hasAttribute('data-roll') && !el.classList.contains('die')){const die=d(20),bonus=Number(el.dataset.roll),total=die+bonus;logEvent('roll',`${el.dataset.rollLabel}: ${die} ${signed(bonus)} = ${total}`,`${escape(el.dataset.rollLabel)}: ${dieHTML(die,20)} ${signed(bonus)} = ${totalHtml({value:total,coeffs:[1]})}`);return;}
     if(el.hasAttribute('data-remove-item')){c.inventory.splice(Number(el.dataset.removeItem),1);changed();return;}
@@ -677,7 +708,8 @@ function events() {
       case 'starting-credits': {const r=ix.classes.get(c.levels[0].classId).credits;const rolls=Array.from({length:r.dice},()=>d(r.sides));c.credits=rolls.reduce((a,b)=>a+b)*r.multiplier;logEvent('roll',`${rolls.join(' + ')} × ${r.multiplier} = ${c.credits} credits`,`${rolls.map(value=>dieHTML(value,r.sides)).join(' + ')} × ${r.multiplier} = ${totalHtml({value:c.credits,coeffs:[r.multiplier]})} credits`);break;}
       case 'jedi-lightsaber': if(!c.inventory.some(e=>e.id==='equipment:lightsaber')) addInventory('equipment:lightsaber'); else notify('A lightsaber is already in your inventory.');break;
       case 'add-gear': purchase(false,el.closest('form'));return;
-      case 'add-level': {const cls=ix.classes.get($('next-class').value); c.levels.push({classId:cls.id,hpRoll:Math.floor(cls.hitDie/2)+1,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});c.forcePoints=ix.species.get(c.species).forceImmune?0:pack.rules.resources.forcePointBase+Math.floor(c.levels.length/2);if(c.story?.kind==='destiny')c.story.points=Math.min(c.levels.length,c.story.points+1);break;}
+      case 'force-point-roll': {if(derived.forceCurrent<=0||derived.incapacitated)return;const expr=`${derived.forcePointDice}d${derived.forcePointDie}kh1`,r=evalExpr(expr);c.forcePoints--;logEvent('roll',`Force Point: ${expr} = ${r.value}`,`Force Point: ${r.display} = ${totalHtml(r)}`);break;}
+      case 'add-level': {const cls=ix.classes.get($('next-class').value); c.levels.push({classId:cls.id,hpRoll:Math.floor(cls.hitDie/2)+1,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});c.forcePoints=ix.species.get(c.species).forceImmune?0:derive(c,pack).forceMaximum;if(c.story?.kind==='destiny')c.story.points=Math.min(c.levels.length,c.story.points+1);break;}
       case 'undo-level': confirmDelete('Remove last level?',`Remove level ${c.levels.length} and its choices.`,()=>{c.levels.pop();if(c.story?.kind==='destiny')c.story.points=Math.min(c.story.points,c.levels.length);changed();});return;
       default:return;
     }
@@ -709,7 +741,7 @@ function events() {
 async function boot(){
   try{
     const response=await fetch(new URL('../data/core.json',import.meta.url));if(!response.ok)throw new Error(`Rules could not load (${response.status})`);
-    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});events();render();route();
+    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);speciesChecks=createSpeciesChecks({current,derived:()=>derived,log:(...args)=>{render();logEvent(...args);}});combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});events();render();route();
     if(!saveState[1])status('Saved',false);
   }catch(error){$('main').innerHTML=`<h1>Unable to open the sheet</h1><p>${escape(error.message)}</p><p><a href="./">Reload</a></p>`;status('Sheet unavailable',true);}
 }

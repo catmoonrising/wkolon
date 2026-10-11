@@ -5,6 +5,7 @@ module.exports=async function(browser,base,root){
  page.on('pageerror',e=>errors.push(e.message));
  try{
   await page.goto(base+'#creation');const editor=page.locator('#creator-modal'),body=page.locator('#cr-body');
+  await body.locator('[data-generation-assign="str"]').selectOption('0');
   const step=async n=>editor.locator(`[data-step="${n}"]`).click();
   await step(2);await body.locator('[data-select-class="class:soldier"]').click();
   await step(4);await choose(page,'feat','family:Armor Proficiency');await body.locator('[data-secondary][data-slot="0"]').selectOption('feat:armor-proficiency-heavy|');

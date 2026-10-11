@@ -14,7 +14,11 @@
   - [x] All Core Jedi/Noble/Scoundrel class talents, pinned tree access, repeat caps, skill substitutions, lightsaber specialization and Connections pricing.
   - [x] Core Force talent trees and access through Force Sensitivity.
   - [x] Force Training and all 16 Core Force powers, duplicate copies, chronological Wisdom gains, spent tracking and suite recovery.
-  - [ ] Species special attacks, rerolls, sensory traits and carrying limits.
+  - [x] All Core feat and weapon pages, specific weapon choices, prerequisites and class bonus lists.
+  - [x] Unarmed attacks, Martial Arts, Finesse, Triple Crit, Force Boon, Strong in the Force, weapon ranges and area routines.
+  - [x] Species native-check rerolls, threatened Take 10, senses and carrying/lifting limits.
+  - [ ] Species special attacks, Rage, healing/regeneration and starting special equipment.
+  - [ ] Second Wind/recovery actions; conditional feat actions, stocks/scopes, ammunition consumption and ion/stun target effects.
 
 - [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.
   - [x] Species: searchable and sortable table, expandable wiki articles, complete species feat dialogs.
@@ -32,5 +36,5 @@
 
 - [x] CSV armor gap: speed penalties and heavy-armor running limits.
 - [x] CSV gap: Force power selection and tracking.
-- [ ] CSV gaps: per-skill modifiers, weapon ranges and critical details.
+- [x] CSV gaps: per-skill modifiers, weapon ranges and critical details.
 - [ ] Optional Athletics homebrew (keep RAW Climb, Jump and Swim as the default).

@@ -25,8 +25,11 @@ character to move it between browsers or retain a backup. GitHub Pages requires
 no application server, account, runtime scraping or external database.
 
 The reviewed builder includes 23 species, the five heroic classes, 25 skills,
-32 feats, 111 talents, 24 equipment records and 16 Core Force powers. All Core
-heroic class trees and the four Core Force trees are selectable. Force Training
+69 feats, 111 talents, 66 equipment records and 16 Core Force powers. All Core
+feat and weapon pages, heroic class trees and four Force trees are selectable.
+Unarmed attacks, Martial Arts, Finesse, ranges, critical multipliers and area
+routines are calculated. Species checks have scoped rerolls and Take 10; load
+limits use carried equipment and account for armor and size. Force Training
 adds power copies during creation and advancement; the sheet tracks spent copies,
 Force Point recovery, rest and natural-20 recovery at the end of the turn.
 The searchable Rules library has

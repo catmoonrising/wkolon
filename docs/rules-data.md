@@ -320,3 +320,70 @@ published table. Inventory license states are `none`, `pending`, `approved`,
 `denied`. Application payment sets `pending`; ownership never implies approval.
 Credits allow fractional values so fitted armor/license costs do not introduce
 an unprinted rounding rule. Existing inventory without `armorSize` stays Medium.
+
+### Core weapons, feat choices and species check controls
+
+All Core feat and weapon catalog pages now map to reviewed builder records.
+`choiceType: weaponGroup` includes each of the six ordinary groups and individual
+exotic weapon IDs. `choiceType: weapon` selects a specific weapon; an `exotic`
+`choiceScope` restricts Exotic Weapon Proficiency. Triple Crit can also select
+`attack:unarmed`. Shared `featureChoices` supplies the builder, graph and engine;
+display names never determine eligibility. `featChoice` requires a particular
+feat for the same secondary choice, `trait` identifies the Rage species trait,
+and `size` is a minimum size. Class bonus lists use the Core portion of each
+pinned class table.
+
+Weapons retain nullable damage for Net, Combat Gloves and grenade launchers.
+`damageAction` is a non-damaging attack; `ammunition` supplies a reviewed grenade's
+dice rather than inventing them. `double` describes a double weapon, not a doubled
+damage roll. `modes` describe Amphistaff forms, and `launchers` describe Energy
+Ball delivery. `accurate`, `inaccurate`, `rangeType`, `ranges`, `autofire`,
+`autofireOnly` and `areaType` are explicit reviewed fields. Bowcaster uses rifle
+ranges. Missing market cost prevents purchase, including Amphistaff.
+
+Inventory optionally stores `weaponMode`, `launcher`, `ammunitionId`,
+`attackStyle`, `fireMode`, `distance` and `carried`. Absent distance means no
+chosen range circumstance; Point-Blank Shot is applied only when an explicit
+distance is within actual Point-Blank range. Far Shot changes range penalties;
+the Accurate interaction follows its Counseling switch. Targeting scopes are
+not yet modeled, so the corresponding Counseling implementation covers only
+the Far Shot/Accurate combinations. Inaccurate weapons cannot attack at Long
+range, even when another modifier would improve the penalty. Thrown melee
+weapons use Dexterity to attack and Strength for damage. Ammunition selection
+specifies its type; it does not consume owned ammunition. Thermal Detonators
+cannot be selected for grenade launchers.
+
+Permanent unarmed attacks use the character ID as their routine reference;
+imports and copies remap it. Optional `unarmedModifiers: {attackMod, damageMod}`
+and `skillModifiers: {skillId: integer}` store independent manual modifiers.
+Martial Arts increases unarmed dice and stacking Reflex dodge. `flatFooted`
+removes positive Dexterity and dodge, except where Uncanny Dodge I applies.
+Weapon Finesse changes the eligible attack ability, leaving Strength damage
+unchanged. Counseling switches control unarmed universal proficiency and its
+light-weapon treatment. Combat Gloves add their bonus once, not once per pair.
+
+Force Boon increases the level's Force Point capacity by three; selecting it
+adds those points, and advancement refills the derived pool. Strong in the Force
+changes the roll to d8s; heroic levels 8 and 15 add dice, taking the highest.
+Action/once-per-round timing remains player-managed.
+
+Species `skillRerolls: [{skill, keep, when?}]` distinguishes replacement from
+keeping the better check and retains Intimidate and Search Your Feelings/Sense
+Force restrictions. `take10Skills` permits Take 10 even when threatened.
+Reroll controls refer to a pending native skill check in this session, cannot
+reroll Take 10, and become unavailable when its check modifier changes. They do
+not automatically apply to substituted skill checks. `vision`, `scentRange`,
+`breatheUnderwater`, `holdBreathMultiplier`, `proneImmune` and
+`naturalHealingMultiplier` record sensory and survival traits. Vision and Scent
+appear in stat blocks; environmental effects, healing and breath timers remain
+manual. The Neimoidian Deceptive copy error remains manual.
+
+`rules.encumbrance` stores pinned capacity fractions, size multipliers, affected
+skills and movement limits. Only carried items contribute to the load and can
+supply equipped benefits. Heavy Load begins at the inclusive boundary, applies
+its seven skill penalties, and uses the worse of armor and load movement limits.
+Lifting beyond normal capacity removes positive Dexterity/dodge and permits one
+square per full-round action; exceeding maximum lifting capacity prevents
+movement. Unknown weights remain visible and are not invented. The known subtotal
+can establish a Heavy Load, but an unknown remainder may require a manual weight.
+Sprint's interaction with Heavy Load has its own saved Ambiguities choice.

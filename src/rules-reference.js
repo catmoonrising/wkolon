@@ -14,6 +14,9 @@ export function referenceEntries(r, pack, selection) {
       case 'bab': return `Base attack +${p.min}`;
       case 'nonDroid': return 'Cannot be a Droid';
       case 'feat': case 'talent': case 'power': return target(p.value);
+      case 'featChoice': return `${target(p.value)} (same weapon)`;
+      case 'trait': return `${target(p.value)} species trait`;
+      case 'size': return `${target(p.value)} or larger`;
       case 'darkSideScore': return `Dark Side Score ${p.min}+`;
       case 'trained': return `Trained in ${target(p.value)}`;
       case 'untrained': return `Untrained in ${target(p.value)}`;

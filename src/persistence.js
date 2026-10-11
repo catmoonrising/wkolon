@@ -50,7 +50,7 @@ export function createStore(pack, onStatus, storage = localStorage) {
     get roster() { return roster; }, get recovery() { return recovery; }, current, schedule, flush,
     switch(id) { pending(); roster.activeId = id; flush(); },
     add() { pending(); const c = newDraft(pack); roster.characters.push(c); roster.activeId = c.id; flush(); return c; },
-    duplicate() { const c = structuredClone(current()); c.id = crypto.randomUUID(); c.name = `${c.name || 'Unnamed'} copy`; roster.characters.push(c); roster.activeId = c.id; flush(); },
+    duplicate() { const c = structuredClone(current()); replaceCharacterId(c); c.name = `${c.name || 'Unnamed'} copy`; roster.characters.push(c); roster.activeId = c.id; flush(); },
     remove(id=roster.activeId) {
       const index=roster.characters.findIndex(c=>c.id===id);if(index<0||roster.characters.length<2)return;
       if(roster.logs)delete roster.logs[id];roster.characters.splice(index,1);
@@ -60,13 +60,19 @@ export function createStore(pack, onStatus, storage = localStorage) {
     import(text) {
       // Validate completely before any mutation. Import gets a new local ID.
       const c = prepareCombatState(structuredClone(validateCharacter(JSON.parse(text), pack)));
-      c.id = crypto.randomUUID();
+      replaceCharacterId(c);
       roster.characters.push(c); roster.activeId = c.id;
       // Recovery must be explicitly exported first; importing doesn't bypass protection.
       flush(); return c;
     },
     unlockAfterRecovery() { protectedSave = false; recovery = null; flush(); },
   };
+}
+
+function replaceCharacterId(c){
+ const previous=c.id;c.id=crypto.randomUUID();
+ // The permanent unarmed attack uses the character's ID; physical item IDs stay intact.
+ for(const r of c.routines||[])for(const s of r.steps)if(s.attackId===previous)s.attackId=c.id;
 }
 
 export function downloadJSON(value, filename) {

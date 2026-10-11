@@ -22,7 +22,7 @@ published book and official errata before changing their wording or interpretati
 
 | Rule | Consequence for implementation |
 | --- | --- |
-| [Weapon Focus](https://swse.miraheze.org/wiki/Weapon_Focus), Jedi Counseling | Proficiency with one weapon in a group can qualify; its bonus only applies to weapons with which the character is proficient. An explicit Weapon Proficiency feat prerequisite requires that actual feat. The optional Counseling switch supports partial proficiency for reviewed weapons, including Gungan Electropole familiarity. Individual exotic proficiency feats remain future work. |
+| [Weapon Focus](https://swse.miraheze.org/wiki/Weapon_Focus), Jedi Counseling | Proficiency with one weapon in a group can qualify; its bonus only applies to weapons with which the character is proficient. An explicit Weapon Proficiency feat prerequisite requires that actual feat. The optional Counseling switch supports partial proficiency for reviewed weapons, including Gungan Electropole familiarity. Individual exotic proficiency is now supported. |
 | [Jedi](https://swse.miraheze.org/wiki/Jedi), Jedi Counseling | Multiclass Jedi does not inherently require Force Sensitivity. Talents requiring Use the Force or spending Force Points have additional restrictions; class membership alone must not grant them. |
 | [Net](https://swse.miraheze.org/wiki/Net) | Uses grab/grapple rules, not damage dice. Missing damage must not become an invented damage value. |
 | [Vonduun Crabshell](https://swse.miraheze.org/wiki/Vonduun_Crabshell) | No price is listed. Missing price is not zero credits; Add owned is available; Buy is disabled. Its armor statistics are calculated. |
@@ -266,3 +266,49 @@ No rule conflict has been silently resolved by combining book versions or by
 generating a summary. Descriptions, prerequisites and effects in the library are
 the pinned wiki text. Each entry links to its source revision and contributor
 history through Source revisions.
+
+### Remaining Core feats, weapons and species controls
+
+Reviewed and enabled the remaining 37 Core feat pages and all 48 Core weapon
+pages against their pinned revisions. Specific-weapon secondary options cover
+Exotic Weapon Proficiency and Triple Crit; Double/Triple Attack can choose exotic
+weapons individually. Triple Attack requires Double Attack for that same choice.
+Rage prerequisites belong to Wookiees and Powerful Charge requires Medium or
+larger size. All five heroic class Core bonus tables are reviewed separately
+from their Additional sections.
+
+Unarmed attacks, Martial Arts, Finesse, Triple Crit, Force Boon and Strong in the
+Force now have calculation support. Conditional action feats—including Power
+Attack, Double/Triple Attack, Dual Weapon Mastery, Cleave and Burst Fire—retain
+complete wording and remain player-configured through routine modifiers. Extra
+Rage, Dreadful Rage and Extra Second Wind are selectable; their activation and
+recovery tracking remains manual. Importing their numeric benefits does not
+claim automated action handling.
+
+The weapon review preserved these exceptions:
+
+- Net initiates Grab/Grapple and has no damage dice.
+- Grenade Launcher needs a grenade type; Thermal Detonators are prohibited.
+- Amphistaff has no market price and three separately resolved forms.
+- Bowcaster uses rifle ranges. Energy Balls use thrown, Atlatl or Cesta ranges.
+- Double weapons roll one end's damage per configured attack.
+- Combat Gloves add one unarmed damage bonus, with Small and Medium variants.
+- Autofire carries its -5 attack penalty and area rules; ammunition and action
+  costs, bracing, stock functionality, ion/stun target effects and weapon-specific
+  readiness requirements remain manual.
+
+Area routines no longer multiply natural-20 damage. Misses halve rolled damage;
+Evasion, cover and splash have separate result columns. These are rolled damage
+values before target damage-type effects and protection.
+
+Species native-check rerolls and threatened Take 10 are implemented with their
+original scopes and keep rules. Vision and Scent appear in stat blocks; carrying
+and lifting limits, skill penalties and movement are calculated. Neimoidian's
+misnamed Deceptive sentence remains visible and manual. Bellow, Rage, natural
+healing, regeneration and starting special equipment still need action/state
+support.
+
+Sprint's printed ×5 also conflicts with Encumbrance's Heavy Load ×3. The
+Ambiguities tab retains both pinned passages and defaults to the explicit load
+limit. Juggernaut removes armor restrictions, not weight restrictions. No new
+heavy-armor rule was added for droid speeds other than 4 or 6.

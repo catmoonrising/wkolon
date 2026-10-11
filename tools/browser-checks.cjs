@@ -101,12 +101,12 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('#condition-effect .condition-on').count(),4);
   await page.locator('#condition-effect button[data-condition-step="5"]').click();
   assert.equal(await page.locator('#condition-effect .condition-on').count(),5);
-  assert.equal(await page.locator('#module-attacks [data-roll]').isDisabled(),true);
+  assert.equal(await page.locator('#module-attacks [data-roll]').first().isDisabled(),true);
   assert.equal(await page.locator('#module-abilities [data-roll]').first().isDisabled(),true);
   assert.equal(await page.locator('#module-skills [data-roll]').first().isDisabled(),true);
   await page.locator('#condition-effect button[data-condition-step="5"]').press('Enter');
   assert.equal(await page.locator('#condition-level').inputValue(),'4');
-  assert.equal(await page.locator('#module-attacks [data-roll]').isDisabled(),false);
+  assert.equal(await page.locator('#module-attacks [data-roll]').first().isDisabled(),false);
   await page.locator('#condition-effect button[data-condition-step="4"]').click();
   assert.equal(await page.locator('#condition-level').inputValue(),'3');
   assert.equal(Number(await page.locator('[data-defense="reflex"]').textContent()),initialReflex-5);
@@ -140,7 +140,7 @@ const server=http.createServer((req,res)=>{
   await hp.fill('20+5');await hp.press('Tab');assert.equal(await hp.inputValue(),'25');
   // Rolls share one persistent per-character event log and mirrored corner panel.
   await page.locator('#roll-mirror-close').click();
-  await page.locator('#module-attacks [data-roll]').click();
+  await page.locator('#module-attacks [data-roll]').first().click();
   await page.locator('#roll-mirror').waitFor({state:'visible'});
   assert.equal(await page.locator('#roll-mirror-body .ev').count(),1);
   await page.locator('#roll-mirror-cmd').fill('4d6kh3+2');await page.locator('#roll-mirror-cmd').press('Enter');
@@ -312,5 +312,7 @@ const server=http.createServer((req,res)=>{
   await require('./ambiguities-checks.cjs')(browser,base,root);
   await require('./remaining-heroic-talents-checks.cjs')(browser,base,root);
   await require('./core-force-checks.cjs')(browser,base,root);
+  await require('./core-weapons-checks.cjs')(browser,base,root);
+  await require('./species-controls-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});

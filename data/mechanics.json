@@ -3207,6 +3207,862 @@
       "sha256": "73bf7f0e6bbe81ea11fc3b63d2ae1e00a6de5d32e0213f9d5447ef9686fe6cd0",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18202",
       "history": "https://swse.miraheze.org/w/index.php?title=Force_Powers&action=history"
+    },
+    {
+      "id": "source:wiki-bantha-rush",
+      "title": "Bantha Rush",
+      "section": null,
+      "revision": 16133,
+      "timestamp": "2024-08-18T00:56:21Z",
+      "sha256": "ed873d4fb466e8eb2a64339c9a2205201d4fff01b4d5e21ac4feffc71331d01b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16133",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bantha%20Rush&action=history"
+    },
+    {
+      "id": "source:wiki-burst-fire",
+      "title": "Burst Fire",
+      "section": null,
+      "revision": 16415,
+      "timestamp": "2024-08-18T00:56:50Z",
+      "sha256": "c382d653ae0f33d338c13c033077e37deb8f5bce6243c3aac8009139042357f5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16415",
+      "history": "https://swse.miraheze.org/w/index.php?title=Burst%20Fire&action=history"
+    },
+    {
+      "id": "source:wiki-cleave",
+      "title": "Cleave",
+      "section": null,
+      "revision": 18032,
+      "timestamp": "2024-08-25T19:28:31Z",
+      "sha256": "7ef6bf65857937a721e4c977e0e72538a6dafa2d555539f7a036d4f5245ebde7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18032",
+      "history": "https://swse.miraheze.org/w/index.php?title=Cleave&action=history"
+    },
+    {
+      "id": "source:wiki-crush",
+      "title": "Crush",
+      "section": null,
+      "revision": 18074,
+      "timestamp": "2024-08-25T19:32:54Z",
+      "sha256": "41e111ffd648c3bc5fdcd24c88d65ff2530f6b7586ef5be44fe840b85a250ecc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18074",
+      "history": "https://swse.miraheze.org/w/index.php?title=Crush&action=history"
+    },
+    {
+      "id": "source:wiki-cybernetic-surgery",
+      "title": "Cybernetic Surgery",
+      "section": null,
+      "revision": 18076,
+      "timestamp": "2024-08-25T19:33:06Z",
+      "sha256": "08571bf0b4f4cb44c091deb7b4f438689acce5fed2a8ad19f32a6e33db2db3e9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18076",
+      "history": "https://swse.miraheze.org/w/index.php?title=Cybernetic%20Surgery&action=history"
+    },
+    {
+      "id": "source:wiki-deadeye",
+      "title": "Deadeye",
+      "section": null,
+      "revision": 18095,
+      "timestamp": "2024-08-25T19:34:53Z",
+      "sha256": "62c3c88fb15d294ea2c580c8e24aaa9549bda7715ab0dc45f3046f158293c5cb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18095",
+      "history": "https://swse.miraheze.org/w/index.php?title=Deadeye&action=history"
+    },
+    {
+      "id": "source:wiki-double-attack",
+      "title": "Double Attack",
+      "section": null,
+      "revision": 24946,
+      "timestamp": "2024-11-10T15:55:38Z",
+      "sha256": "f90da8d427c2fb2a1d9931e7ad3cce57eda645ea41e3fb19a78785fa9b5ba0c8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24946",
+      "history": "https://swse.miraheze.org/w/index.php?title=Double%20Attack&action=history"
+    },
+    {
+      "id": "source:wiki-dreadful-rage",
+      "title": "Dreadful Rage",
+      "section": null,
+      "revision": 18114,
+      "timestamp": "2024-08-25T19:36:38Z",
+      "sha256": "aa1ac1c412e71c7340cff07f708056a20f3559fc96cbdfa73087154cea5edc0c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18114",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dreadful%20Rage&action=history"
+    },
+    {
+      "id": "source:wiki-dual-weapon-mastery-i",
+      "title": "Dual Weapon Mastery I",
+      "section": null,
+      "revision": 24945,
+      "timestamp": "2024-11-10T15:53:58Z",
+      "sha256": "5f2689a8ae03843529d51bf7a7140e14040888fe2dda86ea75a455824ccfc9ee",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24945",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dual%20Weapon%20Mastery%20I&action=history"
+    },
+    {
+      "id": "source:wiki-dual-weapon-mastery-ii",
+      "title": "Dual Weapon Mastery II",
+      "section": null,
+      "revision": 18125,
+      "timestamp": "2024-08-25T19:37:50Z",
+      "sha256": "d291b777a0d868a135151466265336d6a9f8f81e74040baaec88cf810cad87e5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18125",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dual%20Weapon%20Mastery%20II&action=history"
+    },
+    {
+      "id": "source:wiki-dual-weapon-mastery-iii",
+      "title": "Dual Weapon Mastery III",
+      "section": null,
+      "revision": 18127,
+      "timestamp": "2024-08-25T19:37:57Z",
+      "sha256": "07fccb976a15322d96b501a946b0f792042cc7a11f023a2bf2adb8896aa0ee73",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18127",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dual%20Weapon%20Mastery%20III&action=history"
+    },
+    {
+      "id": "source:wiki-exotic-weapon-proficiency",
+      "title": "Exotic Weapon Proficiency",
+      "section": null,
+      "revision": 18157,
+      "timestamp": "2024-08-25T19:40:58Z",
+      "sha256": "77f7a4c2b630ceab907dbc44725986feafb8e6719b7d6be65df57a6e56f0aa4f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18157",
+      "history": "https://swse.miraheze.org/w/index.php?title=Exotic%20Weapon%20Proficiency&action=history"
+    },
+    {
+      "id": "source:wiki-extra-rage",
+      "title": "Extra Rage",
+      "section": null,
+      "revision": 18163,
+      "timestamp": "2024-08-25T19:41:35Z",
+      "sha256": "04cac0cbff64eb7d7294e0701e9917073b99ef7a819ff8dbdfb9b32916beed6d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18163",
+      "history": "https://swse.miraheze.org/w/index.php?title=Extra%20Rage&action=history"
+    },
+    {
+      "id": "source:wiki-extra-second-wind",
+      "title": "Extra Second Wind",
+      "section": null,
+      "revision": 18164,
+      "timestamp": "2024-08-25T19:41:41Z",
+      "sha256": "db5fa19f860dfd15beac7db8664b965472ffd5349025330e62259c1708fe26d7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18164",
+      "history": "https://swse.miraheze.org/w/index.php?title=Extra%20Second%20Wind&action=history"
+    },
+    {
+      "id": "source:wiki-far-shot",
+      "title": "Far Shot",
+      "section": null,
+      "revision": 24959,
+      "timestamp": "2024-11-10T16:10:23Z",
+      "sha256": "e9b0855bdb2ead397dd743da13fc1611b51b08da328c26398737507416608b67",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24959",
+      "history": "https://swse.miraheze.org/w/index.php?title=Far%20Shot&action=history"
+    },
+    {
+      "id": "source:wiki-force-boon",
+      "title": "Force Boon",
+      "section": null,
+      "revision": 18182,
+      "timestamp": "2024-08-25T19:43:43Z",
+      "sha256": "fc803f84eb055b7dcd032a32aa68ee5dc688237ce47e1053fb6570cbb3b95e13",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18182",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Boon&action=history"
+    },
+    {
+      "id": "source:wiki-great-cleave",
+      "title": "Great Cleave",
+      "section": null,
+      "revision": 18223,
+      "timestamp": "2024-08-25T19:48:38Z",
+      "sha256": "6a0da53b2873c0e603bed57f5cafa56e2aa38f029805fac64b76e7520ad26b5f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18223",
+      "history": "https://swse.miraheze.org/w/index.php?title=Great%20Cleave&action=history"
+    },
+    {
+      "id": "source:wiki-improved-charge",
+      "title": "Improved Charge",
+      "section": null,
+      "revision": 18267,
+      "timestamp": "2024-08-25T19:52:29Z",
+      "sha256": "8db45eed3388a111bdae4757f243c594867a1e7fb80cb58b5ddba98044402d5f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18267",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Charge&action=history"
+    },
+    {
+      "id": "source:wiki-improved-disarm",
+      "title": "Improved Disarm",
+      "section": null,
+      "revision": 18270,
+      "timestamp": "2024-08-25T19:52:48Z",
+      "sha256": "85a483efc17a4c384d25a821a0961e017b77cb4d0d51ee87a8038c1b2871079f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18270",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Disarm&action=history"
+    },
+    {
+      "id": "source:wiki-martial-arts-i",
+      "title": "Martial Arts I",
+      "section": null,
+      "revision": 27080,
+      "timestamp": "2025-08-07T11:19:11Z",
+      "sha256": "5e1333743c9045455b1d4d4547894b99986a28efa66ed0142301fa61658c2a31",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27080",
+      "history": "https://swse.miraheze.org/w/index.php?title=Martial%20Arts%20I&action=history"
+    },
+    {
+      "id": "source:wiki-martial-arts-ii",
+      "title": "Martial Arts II",
+      "section": null,
+      "revision": 27081,
+      "timestamp": "2025-08-07T11:19:43Z",
+      "sha256": "4e3f1e3b251049f961717198a07ca2ad554512e8e65c51806ef7f10dafc6ae43",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27081",
+      "history": "https://swse.miraheze.org/w/index.php?title=Martial%20Arts%20II&action=history"
+    },
+    {
+      "id": "source:wiki-martial-arts-iii",
+      "title": "Martial Arts III",
+      "section": null,
+      "revision": 27082,
+      "timestamp": "2025-08-07T11:20:04Z",
+      "sha256": "43df30a542174353e02962addca4cb51e51d05b46d2bbc7d89048a63c5d71687",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27082",
+      "history": "https://swse.miraheze.org/w/index.php?title=Martial%20Arts%20III&action=history"
+    },
+    {
+      "id": "source:wiki-melee-defense",
+      "title": "Melee Defense",
+      "section": null,
+      "revision": 18361,
+      "timestamp": "2024-08-25T20:01:05Z",
+      "sha256": "51e1fb28e0a19236e477d4ee232e85027e38e1c3ace4a76472385c3edf68c5af",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18361",
+      "history": "https://swse.miraheze.org/w/index.php?title=Melee%20Defense&action=history"
+    },
+    {
+      "id": "source:wiki-mighty-swing",
+      "title": "Mighty Swing",
+      "section": null,
+      "revision": 18364,
+      "timestamp": "2024-08-25T20:01:20Z",
+      "sha256": "284a070a61da7131181ee1bd12ae4fb0e3d4113d1f4ff387c66a4a86a70baf2c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18364",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mighty%20Swing&action=history"
+    },
+    {
+      "id": "source:wiki-mobility",
+      "title": "Mobility",
+      "section": null,
+      "revision": 18370,
+      "timestamp": "2024-08-25T20:01:50Z",
+      "sha256": "e016f4451331560b7c73774400e226ac5e25163fb7148669a0f12c0391ed832c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18370",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mobility&action=history"
+    },
+    {
+      "id": "source:wiki-pin",
+      "title": "Pin",
+      "section": null,
+      "revision": 18406,
+      "timestamp": "2024-08-25T20:05:00Z",
+      "sha256": "52e4e9ec979523d3d2739b09349bd39cb8ff418969556a685adef5f2bf54094b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18406",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pin&action=history"
+    },
+    {
+      "id": "source:wiki-power-attack",
+      "title": "Power Attack",
+      "section": null,
+      "revision": 18412,
+      "timestamp": "2024-08-25T20:05:28Z",
+      "sha256": "5d6fd310768e16fa74d096f0ed890ae90da5c303638a4c2c9d5ee72ab5039a27",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18412",
+      "history": "https://swse.miraheze.org/w/index.php?title=Power%20Attack&action=history"
+    },
+    {
+      "id": "source:wiki-powerful-charge",
+      "title": "Powerful Charge",
+      "section": null,
+      "revision": 18417,
+      "timestamp": "2024-08-25T20:05:58Z",
+      "sha256": "8d4e01e77a2953cc61803af50feeb12a32ddd8bd8ac8c163bd38f53ae862b35a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18417",
+      "history": "https://swse.miraheze.org/w/index.php?title=Powerful%20Charge&action=history"
+    },
+    {
+      "id": "source:wiki-sniper",
+      "title": "Sniper",
+      "section": null,
+      "revision": 18508,
+      "timestamp": "2024-08-25T20:13:55Z",
+      "sha256": "f5adde1d7ef7508056760737a4a13139d6f4213e8fc64c59f48ec8a492d53d96",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18508",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sniper&action=history"
+    },
+    {
+      "id": "source:wiki-strong-in-the-force",
+      "title": "Strong in the Force",
+      "section": null,
+      "revision": 18532,
+      "timestamp": "2024-08-25T20:16:25Z",
+      "sha256": "871eab473aa373f2a2271409768646f75a75c3261a5fadcaefb2f5d9c94e399b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18532",
+      "history": "https://swse.miraheze.org/w/index.php?title=Strong%20in%20the%20Force&action=history"
+    },
+    {
+      "id": "source:wiki-surgical-expertise",
+      "title": "Surgical Expertise",
+      "section": null,
+      "revision": 18541,
+      "timestamp": "2024-08-25T20:17:16Z",
+      "sha256": "e1884f5b89d15bd1cd59cc5e6f910f336f3d2cf656869e9d34be626870df4e65",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18541",
+      "history": "https://swse.miraheze.org/w/index.php?title=Surgical%20Expertise&action=history"
+    },
+    {
+      "id": "source:wiki-throw",
+      "title": "Throw",
+      "section": null,
+      "revision": 18558,
+      "timestamp": "2024-08-25T20:19:14Z",
+      "sha256": "22e9781795f0e0af5d29317805d3502d59717ff806f73352cc2ab84399cf5e1f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18558",
+      "history": "https://swse.miraheze.org/w/index.php?title=Throw&action=history"
+    },
+    {
+      "id": "source:wiki-trip",
+      "title": "Trip",
+      "section": null,
+      "revision": 18577,
+      "timestamp": "2024-08-25T20:21:01Z",
+      "sha256": "8d22949f6a2965ae9b34a3834307a778fb4770eca97d45d768a6bb747c89fa09",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18577",
+      "history": "https://swse.miraheze.org/w/index.php?title=Trip&action=history"
+    },
+    {
+      "id": "source:wiki-triple-attack",
+      "title": "Triple Attack",
+      "section": null,
+      "revision": 24947,
+      "timestamp": "2024-11-10T15:56:57Z",
+      "sha256": "5ce20ed4a039d0b72ecf4c0dec05c763b7ad72c43afacc850b86458a4fd878dc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24947",
+      "history": "https://swse.miraheze.org/w/index.php?title=Triple%20Attack&action=history"
+    },
+    {
+      "id": "source:wiki-triple-crit",
+      "title": "Triple Crit",
+      "section": null,
+      "revision": 18579,
+      "timestamp": "2024-08-25T20:21:18Z",
+      "sha256": "8616f10f708a435f5be616417811f5df99b9d9843fcba6997fe6cb86c5ac4efc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18579",
+      "history": "https://swse.miraheze.org/w/index.php?title=Triple%20Crit&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-finesse",
+      "title": "Weapon Finesse",
+      "section": null,
+      "revision": 24431,
+      "timestamp": "2024-11-01T20:07:55Z",
+      "sha256": "4e74b3d5b1623b34eeb9795354ef7af9ad3353f1406f8e2dacd95f8741999d30",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24431",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Finesse&action=history"
+    },
+    {
+      "id": "source:wiki-whirlwind-attack",
+      "title": "Whirlwind Attack",
+      "section": null,
+      "revision": 18613,
+      "timestamp": "2024-08-25T20:25:10Z",
+      "sha256": "0a5f3db832f534309632d32d1e88a44d18dcb7a0189275e89fac043da74f68a8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18613",
+      "history": "https://swse.miraheze.org/w/index.php?title=Whirlwind%20Attack&action=history"
+    },
+    {
+      "id": "source:wiki-amphistaff",
+      "title": "Amphistaff",
+      "section": null,
+      "revision": 15818,
+      "timestamp": "2024-08-18T00:53:14Z",
+      "sha256": "7cce625875b6ea6d563970aed76a5428e472dd048102df72b6ca78f1a5cc67f3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15818",
+      "history": "https://swse.miraheze.org/w/index.php?title=Amphistaff&action=history"
+    },
+    {
+      "id": "source:wiki-bayonet",
+      "title": "Bayonet",
+      "section": null,
+      "revision": 16175,
+      "timestamp": "2024-08-18T00:56:26Z",
+      "sha256": "ff2d614ca006470ab462c6d12dbee223a956dfb2e281cd72567c7680c9e375ce",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16175",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bayonet&action=history"
+    },
+    {
+      "id": "source:wiki-blaster-cannon",
+      "title": "Blaster Cannon",
+      "section": null,
+      "revision": 16264,
+      "timestamp": "2024-08-18T00:56:35Z",
+      "sha256": "7f116596baa27424c298a24d8488b35e0d44a7d5fdece4948050e8b3d44312ea",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16264",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blaster%20Cannon&action=history"
+    },
+    {
+      "id": "source:wiki-blaster-carbine",
+      "title": "Blaster Carbine",
+      "section": null,
+      "revision": 16266,
+      "timestamp": "2024-08-18T00:56:35Z",
+      "sha256": "120b7a3c7d9536993ee82b69cd75d68a44bf17b184839e07ca61363c9c03e2b7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16266",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blaster%20Carbine&action=history"
+    },
+    {
+      "id": "source:wiki-blaster-pistol",
+      "title": "Blaster Pistol",
+      "section": null,
+      "revision": 16268,
+      "timestamp": "2024-08-18T00:56:35Z",
+      "sha256": "fef296c1b3c14bb1b1437629a6cb52630d183a4deaf4e23b1559cef111b2e629",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16268",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blaster%20Pistol&action=history"
+    },
+    {
+      "id": "source:wiki-blaster-rifle",
+      "title": "Blaster Rifle",
+      "section": null,
+      "revision": 16271,
+      "timestamp": "2024-08-18T00:56:35Z",
+      "sha256": "eeb9261e52089c368ac3ddf55e527f777ab99778000103c1e08b3e3b0cf61525",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16271",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blaster%20Rifle&action=history"
+    },
+    {
+      "id": "source:wiki-bow",
+      "title": "Bow",
+      "section": null,
+      "revision": 16363,
+      "timestamp": "2024-08-18T00:56:46Z",
+      "sha256": "e7063ee84676e7fabb5688f9d19f256dcf3c8df8b6ed33bd7e363ab2e4ce9653",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16363",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bow&action=history"
+    },
+    {
+      "id": "source:wiki-club",
+      "title": "Club",
+      "section": null,
+      "revision": 18041,
+      "timestamp": "2024-08-25T19:29:36Z",
+      "sha256": "5ed9a6a59d4c7f0f8ed55426476cf009f04d52b09ed447b2bdfbd7b21ff06d07",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18041",
+      "history": "https://swse.miraheze.org/w/index.php?title=Club&action=history"
+    },
+    {
+      "id": "source:wiki-combat-gloves",
+      "title": "Combat Gloves",
+      "section": null,
+      "revision": 24979,
+      "timestamp": "2024-11-10T16:37:32Z",
+      "sha256": "a59cf0e43ed563c6b39f383d561b9dd41a367ec7a75b977e92166e09c6255cb9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24979",
+      "history": "https://swse.miraheze.org/w/index.php?title=Combat%20Gloves&action=history"
+    },
+    {
+      "id": "source:wiki-double-bladed-lightsaber",
+      "title": "Double-Bladed Lightsaber",
+      "section": null,
+      "revision": 18112,
+      "timestamp": "2024-08-25T19:36:28Z",
+      "sha256": "d26f9b5b6eac6467d47dfda3fa9e8c125fa396bdf03eeccfcc402bf64069be6d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18112",
+      "history": "https://swse.miraheze.org/w/index.php?title=Double-Bladed%20Lightsaber&action=history"
+    },
+    {
+      "id": "source:wiki-e-web-repeating-blaster",
+      "title": "E-Web Repeating Blaster",
+      "section": null,
+      "revision": 24988,
+      "timestamp": "2024-11-10T16:48:06Z",
+      "sha256": "b609fc8899d6c77e29c83838f3ddf19ed9fe390a5c66fd0bf087263138c78b48",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24988",
+      "history": "https://swse.miraheze.org/w/index.php?title=E-Web%20Repeating%20Blaster&action=history"
+    },
+    {
+      "id": "source:wiki-electrostaff",
+      "title": "Electrostaff",
+      "section": null,
+      "revision": 18137,
+      "timestamp": "2024-08-25T19:39:00Z",
+      "sha256": "cbd24dfbfa1c92f9acd190c11df45884dcaa1bdde47d54be7ac2cde581d65bf6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18137",
+      "history": "https://swse.miraheze.org/w/index.php?title=Electrostaff&action=history"
+    },
+    {
+      "id": "source:wiki-energy-ball",
+      "title": "Energy Ball",
+      "section": null,
+      "revision": 18147,
+      "timestamp": "2024-08-25T19:39:51Z",
+      "sha256": "27b56388c8fd0a1921c4ee02cabdfd77d253dbdfde547631260e3a7b20432754",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18147",
+      "history": "https://swse.miraheze.org/w/index.php?title=Energy%20Ball&action=history"
+    },
+    {
+      "id": "source:wiki-flamethrower",
+      "title": "Flamethrower",
+      "section": null,
+      "revision": 18221,
+      "timestamp": "2024-08-25T19:48:27Z",
+      "sha256": "81d570270bff9f68aaf3d47931f80f15d9d11862f2b720a012eda4022b5f90a1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18221",
+      "history": "https://swse.miraheze.org/w/index.php?title=Flamethrower&action=history"
+    },
+    {
+      "id": "source:wiki-force-pike",
+      "title": "Force Pike",
+      "section": null,
+      "revision": 18189,
+      "timestamp": "2024-08-25T19:44:21Z",
+      "sha256": "55e80751014c44cfaea621f22628e546547f301db2feb8556d276e240159491b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18189",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Pike&action=history"
+    },
+    {
+      "id": "source:wiki-frag-grenade",
+      "title": "Frag Grenade",
+      "section": null,
+      "revision": 18200,
+      "timestamp": "2024-08-25T19:45:23Z",
+      "sha256": "59c9414d377240af65cb0734f2f46fb900fbe5aac06fa9627581992df62c6841",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18200",
+      "history": "https://swse.miraheze.org/w/index.php?title=Frag%20Grenade&action=history"
+    },
+    {
+      "id": "source:wiki-grenade-launcher",
+      "title": "Grenade Launcher",
+      "section": null,
+      "revision": 18224,
+      "timestamp": "2024-08-25T19:48:44Z",
+      "sha256": "4d8a02abff8f7a87aa9bb1ae1ced5453fc1945193d21f2b4eb3152a151018437",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18224",
+      "history": "https://swse.miraheze.org/w/index.php?title=Grenade%20Launcher&action=history"
+    },
+    {
+      "id": "source:wiki-heavy-blaster-pistol",
+      "title": "Heavy Blaster Pistol",
+      "section": null,
+      "revision": 18240,
+      "timestamp": "2024-08-25T19:50:05Z",
+      "sha256": "a0771a7b8099c89554483dbd080c8b9158b4276383f91bb8c1b309c19005abdb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18240",
+      "history": "https://swse.miraheze.org/w/index.php?title=Heavy%20Blaster%20Pistol&action=history"
+    },
+    {
+      "id": "source:wiki-heavy-blaster-rifle",
+      "title": "Heavy Blaster Rifle",
+      "section": null,
+      "revision": 18241,
+      "timestamp": "2024-08-25T19:50:10Z",
+      "sha256": "867fd18d20f2b74a7ae0c4c5c9448fa6c14c2d9189154fa989121e3882baeaf9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18241",
+      "history": "https://swse.miraheze.org/w/index.php?title=Heavy%20Blaster%20Rifle&action=history"
+    },
+    {
+      "id": "source:wiki-heavy-repeating-blaster",
+      "title": "Heavy Repeating Blaster",
+      "section": null,
+      "revision": 18242,
+      "timestamp": "2024-08-25T19:50:15Z",
+      "sha256": "42ce5fd2b91832be5d39c1b5aae7c13981d2f4bfb7f35d6b93a5cddafe8065c5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18242",
+      "history": "https://swse.miraheze.org/w/index.php?title=Heavy%20Repeating%20Blaster&action=history"
+    },
+    {
+      "id": "source:wiki-hold-out-blaster-pistol",
+      "title": "Hold-Out Blaster Pistol",
+      "section": null,
+      "revision": 18253,
+      "timestamp": "2024-08-25T19:51:16Z",
+      "sha256": "a175726e17f0aadc8ce2e3b64d26dedcf69be1270a631408d9b2cfb5340ec844",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18253",
+      "history": "https://swse.miraheze.org/w/index.php?title=Hold-Out%20Blaster%20Pistol&action=history"
+    },
+    {
+      "id": "source:wiki-ion-grenade",
+      "title": "Ion Grenade",
+      "section": null,
+      "revision": 18289,
+      "timestamp": "2024-08-25T19:54:33Z",
+      "sha256": "0cb06bd9ca1d6ff532285239df4f4b55d919136b48a0493a3aedf987361eb612",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18289",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ion%20Grenade&action=history"
+    },
+    {
+      "id": "source:wiki-ion-pistol",
+      "title": "Ion Pistol",
+      "section": null,
+      "revision": 18290,
+      "timestamp": "2024-08-25T19:54:38Z",
+      "sha256": "fccf7d3622ea41fc7ac8de9d0162a047d5e20c8c8def904bc3a7c55fb9acbfc8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18290",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ion%20Pistol&action=history"
+    },
+    {
+      "id": "source:wiki-ion-rifle",
+      "title": "Ion Rifle",
+      "section": null,
+      "revision": 18291,
+      "timestamp": "2024-08-25T19:54:44Z",
+      "sha256": "a493ad8e3767adbac4c756b214f165bec6a98229a7555107482bd20aea5d8a72",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18291",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ion%20Rifle&action=history"
+    },
+    {
+      "id": "source:wiki-knife",
+      "title": "Knife",
+      "section": null,
+      "revision": 18316,
+      "timestamp": "2024-08-25T19:56:57Z",
+      "sha256": "2f9edcb597d20757532d053b6e99df36c4235403bc4d75ba9b7f4aabb7dc68b7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18316",
+      "history": "https://swse.miraheze.org/w/index.php?title=Knife&action=history"
+    },
+    {
+      "id": "source:wiki-light-repeating-blaster",
+      "title": "Light Repeating Blaster",
+      "section": null,
+      "revision": 18329,
+      "timestamp": "2024-08-25T19:58:08Z",
+      "sha256": "048571cb489c48a8bfd86cb2921049401eb4808c1c7d25fe0db83a336d949d44",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18329",
+      "history": "https://swse.miraheze.org/w/index.php?title=Light%20Repeating%20Blaster&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber",
+      "title": "Lightsaber",
+      "section": null,
+      "revision": 18330,
+      "timestamp": "2024-08-25T19:58:14Z",
+      "sha256": "9e9b6462c605743325349aa8f46445502fe53bca2cffc5681140f6b32eece598",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18330",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber&action=history"
+    },
+    {
+      "id": "source:wiki-mace",
+      "title": "Mace",
+      "section": null,
+      "revision": 18342,
+      "timestamp": "2024-08-25T19:59:24Z",
+      "sha256": "75cffa7cbdc903b1e8aaa3e6d4de369db98d03f7d9fbcbbac3b0bae770c3956c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18342",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mace&action=history"
+    },
+    {
+      "id": "source:wiki-missile-launcher",
+      "title": "Missile Launcher",
+      "section": null,
+      "revision": 18369,
+      "timestamp": "2024-08-25T20:01:45Z",
+      "sha256": "ab10f8c5f217a722bbed360a90aeec55a194936ce13c700ebcb661e537e13288",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18369",
+      "history": "https://swse.miraheze.org/w/index.php?title=Missile%20Launcher&action=history"
+    },
+    {
+      "id": "source:wiki-net",
+      "title": "Net",
+      "section": null,
+      "revision": 18383,
+      "timestamp": "2024-08-25T20:02:49Z",
+      "sha256": "f1eeb714e1aed76670874fb49f04b999f4378e79fad1b4b1c6a6c9dd33cda9ee",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18383",
+      "history": "https://swse.miraheze.org/w/index.php?title=Net&action=history"
+    },
+    {
+      "id": "source:wiki-quarterstaff",
+      "title": "Quarterstaff",
+      "section": null,
+      "revision": 18423,
+      "timestamp": "2024-08-25T20:06:30Z",
+      "sha256": "0a7304300173fb46ecb3646d79d5c1f680c3d3063726a08ad58a24de9815ed3f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18423",
+      "history": "https://swse.miraheze.org/w/index.php?title=Quarterstaff&action=history"
+    },
+    {
+      "id": "source:wiki-short-lightsaber",
+      "title": "Short Lightsaber",
+      "section": null,
+      "revision": 18490,
+      "timestamp": "2024-08-25T20:12:20Z",
+      "sha256": "0012b94ac50f5a4c7f9ddcfefb3b24a08eed8d8c3f52d78e7469b9ad54f54a25",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18490",
+      "history": "https://swse.miraheze.org/w/index.php?title=Short%20Lightsaber&action=history"
+    },
+    {
+      "id": "source:wiki-sling",
+      "title": "Sling",
+      "section": null,
+      "revision": 18504,
+      "timestamp": "2024-08-25T20:13:32Z",
+      "sha256": "a7cad4aa61acd1d491bd9654b8889f7582e10a32e0b50adb0a9d3321a2b1ba70",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18504",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sling&action=history"
+    },
+    {
+      "id": "source:wiki-slugthrower-pistol",
+      "title": "Slugthrower Pistol",
+      "section": null,
+      "revision": 18505,
+      "timestamp": "2024-08-25T20:13:38Z",
+      "sha256": "42a6e157a106167c68e2647e3f51727468501162cf151e0e110b6c16a00df7d9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18505",
+      "history": "https://swse.miraheze.org/w/index.php?title=Slugthrower%20Pistol&action=history"
+    },
+    {
+      "id": "source:wiki-slugthrower-rifle",
+      "title": "Slugthrower Rifle",
+      "section": null,
+      "revision": 18506,
+      "timestamp": "2024-08-25T20:13:44Z",
+      "sha256": "1b387425465670166b42df156f4f53d46be5ffe58ddf8051cf5792d8c6d6567a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18506",
+      "history": "https://swse.miraheze.org/w/index.php?title=Slugthrower%20Rifle&action=history"
+    },
+    {
+      "id": "source:wiki-spear",
+      "title": "Spear",
+      "section": null,
+      "revision": 18517,
+      "timestamp": "2024-08-25T20:14:53Z",
+      "sha256": "cb72acdcb840075409f2531967a3ce58f758318da3284a6a6dbf993b209ea7d9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18517",
+      "history": "https://swse.miraheze.org/w/index.php?title=Spear&action=history"
+    },
+    {
+      "id": "source:wiki-sporting-blaster-pistol",
+      "title": "Sporting Blaster Pistol",
+      "section": null,
+      "revision": 18521,
+      "timestamp": "2024-08-25T20:15:22Z",
+      "sha256": "47aea9cbf63c06f3940a1b0051c723ad59a7ddd5a163e7c0925e77ac75992b32",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18521",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sporting%20Blaster%20Pistol&action=history"
+    },
+    {
+      "id": "source:wiki-sporting-blaster-rifle",
+      "title": "Sporting Blaster Rifle",
+      "section": null,
+      "revision": 18522,
+      "timestamp": "2024-08-25T20:15:27Z",
+      "sha256": "b3d1d982f76e70567e4419b5bcd669b5e81481854b0d2f80c4bbc6fff2c75424",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18522",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sporting%20Blaster%20Rifle&action=history"
+    },
+    {
+      "id": "source:wiki-stun-baton",
+      "title": "Stun Baton",
+      "section": null,
+      "revision": 18533,
+      "timestamp": "2024-08-25T20:16:30Z",
+      "sha256": "801d4790f8d0cc745400c9a54043917a892a655d02251e360b76267e8b42b415",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18533",
+      "history": "https://swse.miraheze.org/w/index.php?title=Stun%20Baton&action=history"
+    },
+    {
+      "id": "source:wiki-stun-grenade",
+      "title": "Stun Grenade",
+      "section": null,
+      "revision": 18535,
+      "timestamp": "2024-08-25T20:16:43Z",
+      "sha256": "de8da28b04dc6c4123b0a008d91a5859c2fbc0f51e450233baf4ded89644e535",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18535",
+      "history": "https://swse.miraheze.org/w/index.php?title=Stun%20Grenade&action=history"
+    },
+    {
+      "id": "source:wiki-thermal-detonator",
+      "title": "Thermal Detonator",
+      "section": null,
+      "revision": 18557,
+      "timestamp": "2024-08-25T20:19:00Z",
+      "sha256": "d19bdcce4c6ebf2e1c6eb0675542a1dc8c02d45a49cf7a61656f6ffdbb581a26",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18557",
+      "history": "https://swse.miraheze.org/w/index.php?title=Thermal%20Detonator&action=history"
+    },
+    {
+      "id": "source:wiki-vibro-axe",
+      "title": "Vibro-Axe",
+      "section": null,
+      "revision": 18590,
+      "timestamp": "2024-08-25T20:22:36Z",
+      "sha256": "53207e6a81958ef0852d9247fcf337a672fbf952a021c0ce228d1db3613a4110",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18590",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vibro-Axe&action=history"
+    },
+    {
+      "id": "source:wiki-vibrobayonet",
+      "title": "Vibrobayonet",
+      "section": null,
+      "revision": 18591,
+      "timestamp": "2024-08-25T20:22:48Z",
+      "sha256": "8c10d894e5aad1ff76bcd0f8d92884c57cebeb6904c9bf74cbd5630d0d6cafb1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18591",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vibrobayonet&action=history"
+    },
+    {
+      "id": "source:wiki-vibroblade",
+      "title": "Vibroblade",
+      "section": null,
+      "revision": 18592,
+      "timestamp": "2024-08-25T20:22:54Z",
+      "sha256": "5ea7272d403db4f33d4c2bfea425227b6cf0432f526bc9f0a9267db61d65f777",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18592",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vibroblade&action=history"
+    },
+    {
+      "id": "source:wiki-vibrodagger",
+      "title": "Vibrodagger",
+      "section": null,
+      "revision": 18593,
+      "timestamp": "2024-08-25T20:23:00Z",
+      "sha256": "3f1fa0d4c91b3b347fcae7177e7dc2d609a279af349f70911ebd5066c4972bb5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18593",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vibrodagger&action=history"
+    },
+    {
+      "id": "source:wiki-ranged-attacks",
+      "title": "Ranged Attacks",
+      "section": null,
+      "revision": 18433,
+      "timestamp": "2024-08-25T20:07:26Z",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18433",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ranged_Attacks&action=history"
+    },
+    {
+      "id": "source:wiki-unarmed-attacks",
+      "title": "Unarmed Attacks",
+      "section": null,
+      "revision": 24978,
+      "timestamp": "2024-11-10T16:36:53Z",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24978",
+      "history": "https://swse.miraheze.org/w/index.php?title=Unarmed_Attacks&action=history"
+    },
+    {
+      "id": "source:wiki-catch-a-second-wind",
+      "title": "Catch a Second Wind",
+      "section": null,
+      "revision": 18474,
+      "timestamp": "2024-08-25T20:11:09Z",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18474",
+      "history": "https://swse.miraheze.org/w/index.php?title=Catch_a_Second_Wind&action=history"
+    },
+    {
+      "id": "source:wiki-encumbrance",
+      "title": "Encumbrance",
+      "section": null,
+      "revision": 18325,
+      "timestamp": "2024-08-25T19:57:48Z",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18325",
+      "history": "https://swse.miraheze.org/w/index.php?title=Encumbrance&action=history"
     }
   ],
   "species": [
@@ -3232,7 +4088,17 @@
       "reminders": [],
       "startingFeats": [
         "feat:toughness"
-      ]
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:swim",
+          "keep": "replace"
+        }
+      ],
+      "take10Skills": [
+        "skill:swim"
+      ],
+      "breatheUnderwater": true
     },
     {
       "id": "species:bothan",
@@ -3275,7 +4141,13 @@
       "bonusFeats": 0,
       "bonusSkills": 0,
       "conditionalFocus": "skill:initiative",
-      "reminders": []
+      "reminders": [],
+      "skillRerolls": [
+        {
+          "skill": "skill:initiative",
+          "keep": "replace"
+        }
+      ]
     },
     {
       "id": "species:duros",
@@ -3298,6 +4170,12 @@
       "conditionalFocus": null,
       "reminders": [
         "Pilot rerolls must use the new result."
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:pilot",
+          "keep": "replace"
+        }
       ]
     },
     {
@@ -3322,7 +4200,14 @@
         "feat:weapon-proficiency-heavy-weapons",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles"
-      ]
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:stealth",
+          "keep": "replace"
+        }
+      ],
+      "scentRange": 10
     },
     {
       "id": "species:gamorrean",
@@ -3383,7 +4268,18 @@
         "equipment:atlatl": "simple-weapons",
         "equipment:cesta": "simple-weapons",
         "equipment:electropole": "simple-weapons"
-      }
+      },
+      "skillRerolls": [
+        {
+          "skill": "skill:swim",
+          "keep": "replace"
+        }
+      ],
+      "take10Skills": [
+        "skill:swim"
+      ],
+      "vision": "low-light",
+      "holdBreathMultiplier": 25
     },
     {
       "id": "species:human",
@@ -3429,7 +4325,14 @@
           "amount": 5,
           "type": "untyped"
         }
-      ]
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:persuasion",
+          "keep": "best"
+        }
+      ],
+      "proneImmune": true
     },
     {
       "id": "species:ithorian",
@@ -3452,7 +4355,13 @@
       "bonusFeats": 0,
       "bonusSkills": 0,
       "conditionalFocus": "skill:knowledge-life-sciences",
-      "reminders": []
+      "reminders": [],
+      "skillRerolls": [
+        {
+          "skill": "skill:survival",
+          "keep": "replace"
+        }
+      ]
     },
     {
       "id": "species:kel-dor",
@@ -3476,7 +4385,15 @@
       "reminders": [
         "Low-light vision. Protective goggles and antiox breath mask are supplied at creation.",
         "Keep the better reroll for Search Your Feelings or Sense Force."
-      ]
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:use-the-force",
+          "keep": "best",
+          "when": "searchYourFeelingsOrSenseForce"
+        }
+      ],
+      "vision": "low-light"
     },
     {
       "id": "species:mon-calamari",
@@ -3500,7 +4417,18 @@
       "reminders": [],
       "speeds": {
         "swim": 4
-      }
+      },
+      "skillRerolls": [
+        {
+          "skill": "skill:swim",
+          "keep": "replace"
+        }
+      ],
+      "take10Skills": [
+        "skill:swim"
+      ],
+      "vision": "low-light",
+      "breatheUnderwater": true
     },
     {
       "id": "species:neimoidian-core-rulebook",
@@ -3573,7 +4501,18 @@
       "reminders": [],
       "speeds": {
         "swim": 4
-      }
+      },
+      "skillRerolls": [
+        {
+          "skill": "skill:swim",
+          "keep": "replace"
+        }
+      ],
+      "take10Skills": [
+        "skill:swim"
+      ],
+      "vision": "low-light",
+      "breatheUnderwater": true
     },
     {
       "id": "species:rodian",
@@ -3596,7 +4535,14 @@
       "conditionalFocus": "skill:survival",
       "reminders": [
         "Low-light vision. Perception rerolls must use the new result."
-      ]
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:perception",
+          "keep": "replace"
+        }
+      ],
+      "vision": "low-light"
     },
     {
       "id": "species:sullustan",
@@ -3616,7 +4562,17 @@
       "bonusFeats": 0,
       "bonusSkills": 0,
       "conditionalFocus": null,
-      "reminders": []
+      "reminders": [],
+      "skillRerolls": [
+        {
+          "skill": "skill:perception",
+          "keep": "replace"
+        }
+      ],
+      "take10Skills": [
+        "skill:climb"
+      ],
+      "vision": "darkvision"
     },
     {
       "id": "species:trandoshan",
@@ -3640,7 +4596,8 @@
       "naturalArmor": 1,
       "startingFeats": [
         "feat:toughness"
-      ]
+      ],
+      "vision": "darkvision"
     },
     {
       "id": "species:twi-lek",
@@ -3664,7 +4621,14 @@
       "conditionalFocus": null,
       "reminders": [
         "Low-light vision. Deception rerolls must use the new result."
-      ]
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:deception",
+          "keep": "replace"
+        }
+      ],
+      "vision": "low-light"
     },
     {
       "id": "species:wookiee",
@@ -3695,7 +4659,21 @@
       ],
       "weaponFamiliarity": {
         "equipment:bowcaster": "rifles"
-      }
+      },
+      "traits": [
+        "rage"
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:persuasion",
+          "keep": "replace",
+          "when": "intimidate"
+        }
+      ],
+      "take10Skills": [
+        "skill:climb"
+      ],
+      "naturalHealingMultiplier": 2
     },
     {
       "id": "species:yuuzhan-vong-core-rulebook",
@@ -3774,6 +4752,12 @@
       "conditionalFocus": null,
       "reminders": [
         "Perception rerolls must use the new result."
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:perception",
+          "keep": "replace"
+        }
       ]
     }
   ],
@@ -3834,18 +4818,37 @@
         "feat:weapon-proficiency-simple-weapons"
       ],
       "bonusFeats": [
-        "feat:force-sensitivity",
-        "feat:dodge",
-        "feat:skill-focus",
-        "feat:skill-training",
-        "feat:weapon-focus",
-        "feat:weapon-proficiency-simple-weapons",
-        "feat:weapon-proficiency-lightsabers",
         "feat:acrobatic-strike",
+        "feat:cleave",
         "feat:combat-reflexes",
+        "feat:dodge",
+        "feat:double-attack",
+        "feat:dual-weapon-mastery-i",
+        "feat:dual-weapon-mastery-ii",
+        "feat:dual-weapon-mastery-iii",
+        "feat:force-sensitivity",
+        "feat:great-cleave",
+        "feat:improved-charge",
+        "feat:improved-disarm",
+        "feat:martial-arts-i",
+        "feat:martial-arts-ii",
+        "feat:martial-arts-iii",
+        "feat:melee-defense",
+        "feat:mobility",
+        "feat:power-attack",
+        "feat:powerful-charge",
         "feat:quick-draw",
         "feat:rapid-strike",
-        "feat:running-attack"
+        "feat:running-attack",
+        "feat:skill-focus",
+        "feat:skill-training",
+        "feat:strong-in-the-force",
+        "feat:triple-attack",
+        "feat:triple-crit",
+        "feat:weapon-finesse",
+        "feat:weapon-focus",
+        "feat:weapon-proficiency-lightsabers",
+        "feat:weapon-proficiency-simple-weapons"
       ],
       "talentTrees": [
         "tree:jedi-consular",
@@ -3923,14 +4926,19 @@
         "feat:weapon-proficiency-simple-weapons"
       ],
       "bonusFeats": [
+        "feat:armor-proficiency-light",
+        "feat:cybernetic-surgery",
+        "feat:exotic-weapon-proficiency",
         "feat:linguist",
+        "feat:melee-defense",
         "feat:skill-focus",
         "feat:skill-training",
-        "feat:armor-proficiency-light",
+        "feat:surgical-expertise",
+        "feat:weapon-finesse",
+        "feat:weapon-proficiency-advanced-melee-weapons",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
-        "feat:weapon-proficiency-simple-weapons",
-        "feat:weapon-proficiency-advanced-melee-weapons"
+        "feat:weapon-proficiency-simple-weapons"
       ],
       "talentTrees": [
         "tree:influence",
@@ -4005,18 +5013,21 @@
         "feat:weapon-proficiency-simple-weapons"
       ],
       "bonusFeats": [
+        "feat:deadeye",
+        "feat:dodge",
+        "feat:melee-defense",
+        "feat:mobility",
         "feat:point-blank-shot",
         "feat:precise-shot",
-        "feat:dodge",
-        "feat:skill-focus",
-        "feat:skill-training",
-        "feat:weapon-proficiency-pistols",
-        "feat:weapon-proficiency-simple-weapons",
-        "feat:weapon-proficiency-advanced-melee-weapons",
         "feat:quick-draw",
         "feat:rapid-shot",
         "feat:running-attack",
-        "feat:vehicular-combat"
+        "feat:skill-focus",
+        "feat:skill-training",
+        "feat:vehicular-combat",
+        "feat:weapon-proficiency-advanced-melee-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-simple-weapons"
       ],
       "talentTrees": [
         "tree:fortune",
@@ -4093,24 +5104,28 @@
         "feat:weapon-proficiency-simple-weapons"
       ],
       "bonusFeats": [
-        "feat:linguist",
-        "feat:shake-it-off",
-        "feat:point-blank-shot",
-        "feat:precise-shot",
-        "feat:dodge",
-        "feat:skill-focus",
-        "feat:skill-training",
         "feat:armor-proficiency-light",
         "feat:armor-proficiency-medium",
         "feat:armor-proficiency-heavy",
-        "feat:weapon-proficiency-pistols",
-        "feat:weapon-proficiency-rifles",
-        "feat:weapon-proficiency-simple-weapons",
-        "feat:weapon-proficiency-advanced-melee-weapons",
         "feat:careful-shot",
+        "feat:deadeye",
+        "feat:dodge",
+        "feat:far-shot",
+        "feat:linguist",
+        "feat:mobility",
+        "feat:point-blank-shot",
+        "feat:precise-shot",
         "feat:rapid-shot",
         "feat:running-attack",
-        "feat:vehicular-combat"
+        "feat:shake-it-off",
+        "feat:skill-focus",
+        "feat:skill-training",
+        "feat:sniper",
+        "feat:vehicular-combat",
+        "feat:weapon-proficiency-advanced-melee-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles",
+        "feat:weapon-proficiency-simple-weapons"
       ],
       "talentTrees": [
         "tree:awareness",
@@ -4181,30 +5196,55 @@
         "feat:weapon-proficiency-simple-weapons"
       ],
       "bonusFeats": [
-        "feat:toughness",
-        "feat:shake-it-off",
-        "feat:point-blank-shot",
-        "feat:precise-shot",
-        "feat:skill-focus",
-        "feat:skill-training",
-        "feat:weapon-focus",
         "feat:armor-proficiency-light",
         "feat:armor-proficiency-medium",
         "feat:armor-proficiency-heavy",
-        "feat:weapon-proficiency-pistols",
-        "feat:weapon-proficiency-rifles",
-        "feat:weapon-proficiency-simple-weapons",
-        "feat:weapon-proficiency-advanced-melee-weapons",
-        "feat:weapon-proficiency-heavy-weapons",
+        "feat:bantha-rush",
         "feat:careful-shot",
         "feat:charging-fire",
+        "feat:cleave",
         "feat:combat-reflexes",
         "feat:coordinated-attack",
+        "feat:crush",
+        "feat:deadeye",
+        "feat:double-attack",
+        "feat:dual-weapon-mastery-i",
+        "feat:dual-weapon-mastery-ii",
+        "feat:dual-weapon-mastery-iii",
+        "feat:exotic-weapon-proficiency",
+        "feat:far-shot",
+        "feat:great-cleave",
+        "feat:improved-charge",
+        "feat:improved-disarm",
+        "feat:martial-arts-i",
+        "feat:martial-arts-ii",
+        "feat:martial-arts-iii",
+        "feat:melee-defense",
+        "feat:mighty-swing",
+        "feat:pin",
+        "feat:point-blank-shot",
+        "feat:power-attack",
+        "feat:precise-shot",
         "feat:quick-draw",
         "feat:rapid-shot",
         "feat:rapid-strike",
         "feat:running-attack",
-        "feat:vehicular-combat"
+        "feat:shake-it-off",
+        "feat:skill-focus",
+        "feat:skill-training",
+        "feat:sniper",
+        "feat:throw",
+        "feat:toughness",
+        "feat:trip",
+        "feat:triple-attack",
+        "feat:triple-crit",
+        "feat:vehicular-combat",
+        "feat:weapon-focus",
+        "feat:weapon-proficiency-advanced-melee-weapons",
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles",
+        "feat:weapon-proficiency-simple-weapons"
       ],
       "talentTrees": [
         "tree:armor-specialist",
@@ -4961,6 +6001,834 @@
           "type": "untyped"
         }
       ]
+    },
+    {
+      "id": "feat:bantha-rush",
+      "name": "Bantha Rush",
+      "sourceId": "source:wiki-bantha-rush",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "str",
+            "min": 13
+          },
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:burst-fire",
+      "name": "Burst Fire",
+      "sourceId": "source:wiki-burst-fire",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "proficientChoice",
+            "value": "heavy-weapons"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:cleave",
+      "name": "Cleave",
+      "sourceId": "source:wiki-cleave",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "str",
+            "min": 13
+          },
+          {
+            "kind": "feat",
+            "value": "feat:power-attack"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:crush",
+      "name": "Crush",
+      "sourceId": "source:wiki-crush",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 1
+          },
+          {
+            "kind": "feat",
+            "value": "feat:pin"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:cybernetic-surgery",
+      "name": "Cybernetic Surgery",
+      "sourceId": "source:wiki-cybernetic-surgery",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:treat-injury"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:deadeye",
+      "name": "Deadeye",
+      "sourceId": "source:wiki-deadeye",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 4
+          },
+          {
+            "kind": "feat",
+            "value": "feat:point-blank-shot"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:precise-shot"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:double-attack",
+      "name": "Double Attack",
+      "sourceId": "source:wiki-double-attack",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 6
+          },
+          {
+            "kind": "proficientChoice",
+            "value": "$choice"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "reminder": "",
+      "effects": [],
+      "choiceType": "weaponGroup"
+    },
+    {
+      "id": "feat:dreadful-rage",
+      "name": "Dreadful Rage",
+      "sourceId": "source:wiki-dreadful-rage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trait",
+            "value": "rage"
+          },
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "rageBonus",
+          "amount": 3,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "feat:dual-weapon-mastery-i",
+      "name": "Dual Weapon Mastery I",
+      "sourceId": "source:wiki-dual-weapon-mastery-i",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "dex",
+            "min": 13
+          },
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:dual-weapon-mastery-ii",
+      "name": "Dual Weapon Mastery II",
+      "sourceId": "source:wiki-dual-weapon-mastery-ii",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "dex",
+            "min": 15
+          },
+          {
+            "kind": "bab",
+            "min": 6
+          },
+          {
+            "kind": "feat",
+            "value": "feat:dual-weapon-mastery-i"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:dual-weapon-mastery-iii",
+      "name": "Dual Weapon Mastery III",
+      "sourceId": "source:wiki-dual-weapon-mastery-iii",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "dex",
+            "min": 17
+          },
+          {
+            "kind": "bab",
+            "min": 11
+          },
+          {
+            "kind": "feat",
+            "value": "feat:dual-weapon-mastery-ii"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:exotic-weapon-proficiency",
+      "name": "Exotic Weapon Proficiency",
+      "sourceId": "source:wiki-exotic-weapon-proficiency",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "choice",
+      "reminder": "",
+      "effects": [],
+      "choiceType": "weapon",
+      "choiceScope": "exotic"
+    },
+    {
+      "id": "feat:extra-rage",
+      "name": "Extra Rage",
+      "sourceId": "source:wiki-extra-rage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trait",
+            "value": "rage"
+          }
+        ]
+      },
+      "repeat": "stack",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "rageUses",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "feat:extra-second-wind",
+      "name": "Extra Second Wind",
+      "sourceId": "source:wiki-extra-second-wind",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:endurance"
+          }
+        ]
+      },
+      "repeat": "stack",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "secondWinds",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "feat:far-shot",
+      "name": "Far Shot",
+      "sourceId": "source:wiki-far-shot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:point-blank-shot"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:force-boon",
+      "name": "Force Boon",
+      "sourceId": "source:wiki-force-boon",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "forcePoints",
+          "amount": 3,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "feat:great-cleave",
+      "name": "Great Cleave",
+      "sourceId": "source:wiki-great-cleave",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "str",
+            "min": 13
+          },
+          {
+            "kind": "bab",
+            "min": 4
+          },
+          {
+            "kind": "feat",
+            "value": "feat:power-attack"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:cleave"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:improved-charge",
+      "name": "Improved Charge",
+      "sourceId": "source:wiki-improved-charge",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "dex",
+            "min": 13
+          },
+          {
+            "kind": "feat",
+            "value": "feat:dodge"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:mobility"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:improved-disarm",
+      "name": "Improved Disarm",
+      "sourceId": "source:wiki-improved-disarm",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "int",
+            "min": 13
+          },
+          {
+            "kind": "feat",
+            "value": "feat:melee-defense"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:martial-arts-i",
+      "name": "Martial Arts I",
+      "sourceId": "source:wiki-martial-arts-i",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "reflexDodge",
+          "amount": 1,
+          "type": "dodge"
+        },
+        {
+          "target": "unarmedDieSteps",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "feat:martial-arts-ii",
+      "name": "Martial Arts II",
+      "sourceId": "source:wiki-martial-arts-ii",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:martial-arts-i"
+          },
+          {
+            "kind": "bab",
+            "min": 3
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "reflexDodge",
+          "amount": 1,
+          "type": "dodge"
+        },
+        {
+          "target": "unarmedDieSteps",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "feat:martial-arts-iii",
+      "name": "Martial Arts III",
+      "sourceId": "source:wiki-martial-arts-iii",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 6
+          },
+          {
+            "kind": "feat",
+            "value": "feat:martial-arts-ii"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "reflexDodge",
+          "amount": 1,
+          "type": "dodge"
+        },
+        {
+          "target": "unarmedDieSteps",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "feat:melee-defense",
+      "name": "Melee Defense",
+      "sourceId": "source:wiki-melee-defense",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "int",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:mighty-swing",
+      "name": "Mighty Swing",
+      "sourceId": "source:wiki-mighty-swing",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "str",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:mobility",
+      "name": "Mobility",
+      "sourceId": "source:wiki-mobility",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "dex",
+            "min": 13
+          },
+          {
+            "kind": "feat",
+            "value": "feat:dodge"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:pin",
+      "name": "Pin",
+      "sourceId": "source:wiki-pin",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:power-attack",
+      "name": "Power Attack",
+      "sourceId": "source:wiki-power-attack",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "str",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:powerful-charge",
+      "name": "Powerful Charge",
+      "sourceId": "source:wiki-powerful-charge",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "size",
+            "value": "medium"
+          },
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:sniper",
+      "name": "Sniper",
+      "sourceId": "source:wiki-sniper",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 4
+          },
+          {
+            "kind": "feat",
+            "value": "feat:point-blank-shot"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:precise-shot"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:strong-in-the-force",
+      "name": "Strong in the Force",
+      "sourceId": "source:wiki-strong-in-the-force",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "forcePointDie",
+          "amount": 8,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "feat:surgical-expertise",
+      "name": "Surgical Expertise",
+      "sourceId": "source:wiki-surgical-expertise",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:treat-injury"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:throw",
+      "name": "Throw",
+      "sourceId": "source:wiki-throw",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 1
+          },
+          {
+            "kind": "feat",
+            "value": "feat:trip"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:trip",
+      "name": "Trip",
+      "sourceId": "source:wiki-trip",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "feat:triple-attack",
+      "name": "Triple Attack",
+      "sourceId": "source:wiki-triple-attack",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 11
+          },
+          {
+            "kind": "featChoice",
+            "value": "feat:double-attack"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "reminder": "",
+      "effects": [],
+      "choiceType": "weaponGroup"
+    },
+    {
+      "id": "feat:triple-crit",
+      "name": "Triple Crit",
+      "sourceId": "source:wiki-triple-crit",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 8
+          },
+          {
+            "kind": "proficientChoice",
+            "value": "$choice"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "criticalMultiplier",
+          "amount": 3,
+          "type": "untyped"
+        }
+      ],
+      "choiceType": "weapon"
+    },
+    {
+      "id": "feat:weapon-finesse",
+      "name": "Weapon Finesse",
+      "sourceId": "source:wiki-weapon-finesse",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "weaponFinesse",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "feat:whirlwind-attack",
+      "name": "Whirlwind Attack",
+      "sourceId": "source:wiki-whirlwind-attack",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "dex",
+            "min": 13
+          },
+          {
+            "kind": "bab",
+            "min": 4
+          },
+          {
+            "kind": "feat",
+            "value": "feat:melee-defense"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
     }
   ],
   "talents": [
@@ -6881,12 +8749,19 @@
       "size": "small",
       "damage": "3d6",
       "damageType": "Energy",
-      "cost": 500,
-      "weight": 1,
+      "cost": 500.0,
+      "weight": 1.0,
       "availability": [
         "restricted"
       ],
-      "mechanical": true
+      "mechanical": true,
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "pistols",
+      "stunDamage": "3d6"
     },
     {
       "id": "equipment:blaster-rifle",
@@ -6898,12 +8773,19 @@
       "size": "medium",
       "damage": "3d8",
       "damageType": "Energy",
-      "cost": 1000,
+      "cost": 1000.0,
       "weight": 4.5,
       "availability": [
         "restricted"
       ],
-      "mechanical": true
+      "mechanical": true,
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": true,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "rifles",
+      "stunDamage": "3d8"
     },
     {
       "id": "equipment:combat-jumpsuit",
@@ -6958,10 +8840,16 @@
       "mode": "melee",
       "size": "tiny",
       "damage": "1d4",
-      "damageType": "Slashing or piercing",
-      "cost": 25,
-      "weight": 1,
-      "availability": []
+      "damageType": "Slashing or Piercing",
+      "cost": 25.0,
+      "weight": 1.0,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "thrown": true
     },
     {
       "id": "equipment:lightsaber",
@@ -6972,13 +8860,19 @@
       "mode": "melee",
       "size": "medium",
       "damage": "2d8",
-      "damageType": "Energy and slashing",
-      "cost": 3000,
-      "weight": 1,
+      "damageType": "Energy and Slashing",
+      "cost": 3000.0,
+      "weight": 1.0,
       "availability": [
         "rare"
       ],
-      "mechanical": true
+      "mechanical": true,
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "thrown": true
     },
     {
       "id": "equipment:medpac",
@@ -7090,14 +8984,20 @@
       "size": "large",
       "damage": "3d10",
       "mode": "ranged",
-      "cost": 1500,
-      "weight": 8,
-      "damageType": "Energy and piercing",
+      "cost": 1500.0,
+      "weight": 8.0,
+      "damageType": "Energy and Piercing",
       "availability": [
         "licensed",
         "rare"
       ],
-      "mechanical": true
+      "mechanical": true,
+      "accurate": true,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "rifles"
     },
     {
       "id": "equipment:atlatl",
@@ -7108,12 +9008,17 @@
       "size": "medium",
       "damage": "2d4",
       "mode": "melee",
-      "cost": 50,
+      "cost": 50.0,
       "weight": 1.5,
       "damageType": "Bludgeoning",
       "availability": [
         "rare"
-      ]
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false
     },
     {
       "id": "equipment:cesta",
@@ -7124,12 +9029,18 @@
       "size": "large",
       "damage": "2d4",
       "mode": "melee",
-      "cost": 100,
+      "cost": 100.0,
       "weight": 1.8,
       "damageType": "Bludgeoning",
       "availability": [
         "rare"
-      ]
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "reach": 2
     },
     {
       "id": "equipment:electropole",
@@ -7260,6 +9171,1007 @@
       "maxDex": 4,
       "skillBonuses": {},
       "availability": []
+    },
+    {
+      "id": "equipment:amphistaff",
+      "name": "Amphistaff",
+      "sourceId": "source:wiki-amphistaff",
+      "kind": "weapon",
+      "group": "exotic-melee",
+      "mode": "melee",
+      "size": "large",
+      "damage": "1d6",
+      "damageType": "Bludgeoning",
+      "cost": null,
+      "weight": 2.0,
+      "availability": [
+        "rare"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "thrown": true,
+      "double": true,
+      "biotech": true,
+      "modes": [
+        {
+          "id": "quarterstaff",
+          "name": "Quarterstaff",
+          "damage": "1d6",
+          "damageType": "Bludgeoning",
+          "double": true,
+          "thrown": false,
+          "reach": 1
+        },
+        {
+          "id": "spear",
+          "name": "Spear",
+          "damage": "1d8",
+          "damageType": "Piercing",
+          "double": false,
+          "thrown": true,
+          "reach": 1
+        },
+        {
+          "id": "whip",
+          "name": "Whip",
+          "damage": "1d4",
+          "damageType": "Piercing",
+          "double": false,
+          "thrown": false,
+          "reach": 2
+        }
+      ],
+      "reach": 1
+    },
+    {
+      "id": "equipment:bayonet",
+      "name": "Bayonet",
+      "sourceId": "source:wiki-bayonet",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "melee",
+      "size": "medium",
+      "damage": "1d8",
+      "damageType": "Piercing",
+      "cost": 50.0,
+      "weight": 1.0,
+      "availability": [
+        "licensed"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false
+    },
+    {
+      "id": "equipment:blaster-cannon",
+      "name": "Blaster Cannon",
+      "sourceId": "source:wiki-blaster-cannon",
+      "kind": "weapon",
+      "group": "heavy-weapons",
+      "mode": "ranged",
+      "size": "large",
+      "damage": "3d12",
+      "damageType": "Energy",
+      "cost": 3000.0,
+      "weight": 18.0,
+      "availability": [
+        "military"
+      ],
+      "accurate": false,
+      "inaccurate": true,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": true,
+      "rangeType": "heavy-weapons",
+      "areaType": "splash",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:blaster-carbine",
+      "name": "Blaster Carbine",
+      "sourceId": "source:wiki-blaster-carbine",
+      "kind": "weapon",
+      "group": "rifles",
+      "mode": "ranged",
+      "size": "medium",
+      "damage": "3d8",
+      "damageType": "Energy",
+      "cost": 900.0,
+      "weight": 2.2,
+      "availability": [
+        "restricted"
+      ],
+      "accurate": false,
+      "inaccurate": true,
+      "autofire": true,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "rifles",
+      "stunDamage": "3d8",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:bow",
+      "name": "Bow",
+      "sourceId": "source:wiki-bow",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "ranged",
+      "size": "medium",
+      "damage": "1d6",
+      "damageType": "Piercing",
+      "cost": 300.0,
+      "weight": 1.4,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "simple-weapons",
+      "addsStrength": true
+    },
+    {
+      "id": "equipment:club",
+      "name": "Club",
+      "sourceId": "source:wiki-club",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "melee",
+      "size": "small",
+      "damage": "1d6",
+      "damageType": "Bludgeoning",
+      "cost": 15.0,
+      "weight": 0.5,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false
+    },
+    {
+      "id": "equipment:combat-gloves-small",
+      "name": "Combat Gloves",
+      "sourceId": "source:wiki-combat-gloves",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "melee",
+      "size": "diminutive",
+      "damage": null,
+      "damageType": "Bludgeoning",
+      "cost": 150,
+      "weight": 0.4,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "family": "Combat Gloves",
+      "variant": "Small",
+      "unarmed": true,
+      "damageBonus": 1
+    },
+    {
+      "id": "equipment:combat-gloves",
+      "name": "Combat Gloves",
+      "sourceId": "source:wiki-combat-gloves",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "melee",
+      "size": "tiny",
+      "damage": null,
+      "damageType": "Bludgeoning",
+      "cost": 250,
+      "weight": 0.5,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "family": "Combat Gloves",
+      "variant": "Medium",
+      "unarmed": true,
+      "damageBonus": 1
+    },
+    {
+      "id": "equipment:double-bladed-lightsaber",
+      "name": "Double-Bladed Lightsaber",
+      "sourceId": "source:wiki-double-bladed-lightsaber",
+      "kind": "weapon",
+      "group": "lightsabers",
+      "mode": "melee",
+      "size": "large",
+      "damage": "2d8",
+      "damageType": "Energy and Slashing",
+      "cost": 7000.0,
+      "weight": 2.0,
+      "availability": [
+        "rare"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "thrown": true,
+      "double": true,
+      "mechanical": true
+    },
+    {
+      "id": "equipment:e-web-repeating-blaster",
+      "name": "E-Web Repeating Blaster",
+      "sourceId": "source:wiki-e-web-repeating-blaster",
+      "kind": "weapon",
+      "group": "heavy-weapons",
+      "mode": "ranged",
+      "size": "huge",
+      "damage": "3d12",
+      "damageType": "Energy",
+      "cost": 8000.0,
+      "weight": 38.0,
+      "availability": [
+        "military"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": true,
+      "autofireOnly": true,
+      "areaAttack": false,
+      "rangeType": "heavy-weapons",
+      "areaType": "burst",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:electrostaff",
+      "name": "Electrostaff",
+      "sourceId": "source:wiki-electrostaff",
+      "kind": "weapon",
+      "group": "advanced-melee-weapons",
+      "mode": "melee",
+      "size": "large",
+      "damage": "2d6",
+      "damageType": "Bludgeoning and Energy",
+      "cost": 3000.0,
+      "weight": 2.0,
+      "availability": [
+        "restricted"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "double": true,
+      "stunDamage": "2d6"
+    },
+    {
+      "id": "equipment:energy-ball",
+      "name": "Energy Ball",
+      "sourceId": "source:wiki-energy-ball",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "ranged",
+      "size": "tiny",
+      "damage": "2d8",
+      "damageType": "Energy",
+      "cost": 20.0,
+      "weight": 0.25,
+      "availability": [
+        "licensed",
+        "rare"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "thrown",
+      "addsStrength": true,
+      "launchers": [
+        {
+          "id": "hand",
+          "name": "Thrown",
+          "rangeType": "thrown",
+          "accurate": false
+        },
+        {
+          "id": "atlatl",
+          "name": "Atlatl",
+          "rangeType": "simple-weapons",
+          "accurate": false
+        },
+        {
+          "id": "cesta",
+          "name": "Cesta",
+          "rangeType": "simple-weapons",
+          "accurate": true
+        }
+      ]
+    },
+    {
+      "id": "equipment:flamethrower",
+      "name": "Flamethrower",
+      "sourceId": "source:wiki-flamethrower",
+      "kind": "weapon",
+      "group": "exotic-ranged",
+      "mode": "ranged",
+      "size": "medium",
+      "damage": "3d6",
+      "damageType": "Fire",
+      "cost": 1000.0,
+      "weight": 7.0,
+      "availability": [
+        "military"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": true,
+      "ranges": [
+        6,
+        6,
+        6,
+        6
+      ],
+      "areaType": "burst"
+    },
+    {
+      "id": "equipment:force-pike",
+      "name": "Force Pike",
+      "sourceId": "source:wiki-force-pike",
+      "kind": "weapon",
+      "group": "advanced-melee-weapons",
+      "mode": "melee",
+      "size": "medium",
+      "damage": "2d8",
+      "damageType": "Piercing and Energy",
+      "cost": 500.0,
+      "weight": 2.0,
+      "availability": [
+        "restricted"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "stunDamage": "2d8"
+    },
+    {
+      "id": "equipment:frag-grenade",
+      "name": "Frag Grenade",
+      "sourceId": "source:wiki-frag-grenade",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "ranged",
+      "size": "tiny",
+      "damage": "4d6",
+      "damageType": "Slashing",
+      "cost": 200.0,
+      "weight": 0.5,
+      "availability": [
+        "military"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": true,
+      "rangeType": "thrown",
+      "areaType": "burst"
+    },
+    {
+      "id": "equipment:grenade-launcher",
+      "name": "Grenade Launcher",
+      "sourceId": "source:wiki-grenade-launcher",
+      "kind": "weapon",
+      "group": "heavy-weapons",
+      "mode": "ranged",
+      "size": "medium",
+      "damage": null,
+      "damageType": "Varies by Grenade",
+      "cost": 500.0,
+      "weight": 5.0,
+      "availability": [
+        "military"
+      ],
+      "accurate": false,
+      "inaccurate": true,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": true,
+      "rangeType": "heavy-weapons",
+      "ammunition": "grenade",
+      "areaType": "burst"
+    },
+    {
+      "id": "equipment:heavy-blaster-pistol",
+      "name": "Heavy Blaster Pistol",
+      "sourceId": "source:wiki-heavy-blaster-pistol",
+      "kind": "weapon",
+      "group": "pistols",
+      "mode": "ranged",
+      "size": "medium",
+      "damage": "3d8",
+      "damageType": "Energy",
+      "cost": 750.0,
+      "weight": 1.3,
+      "availability": [
+        "military"
+      ],
+      "accurate": false,
+      "inaccurate": true,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "pistols",
+      "stunDamage": "3d8",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:heavy-blaster-rifle",
+      "name": "Heavy Blaster Rifle",
+      "sourceId": "source:wiki-heavy-blaster-rifle",
+      "kind": "weapon",
+      "group": "rifles",
+      "mode": "ranged",
+      "size": "large",
+      "damage": "3d10",
+      "damageType": "Energy",
+      "cost": 2000.0,
+      "weight": 6.0,
+      "availability": [
+        "military"
+      ],
+      "accurate": false,
+      "inaccurate": true,
+      "autofire": true,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "rifles",
+      "stunDamage": "3d10",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:heavy-repeating-blaster",
+      "name": "Heavy Repeating Blaster",
+      "sourceId": "source:wiki-heavy-repeating-blaster",
+      "kind": "weapon",
+      "group": "heavy-weapons",
+      "mode": "ranged",
+      "size": "large",
+      "damage": "3d10",
+      "damageType": "Energy",
+      "cost": 4000.0,
+      "weight": 12.0,
+      "availability": [
+        "military"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": true,
+      "autofireOnly": true,
+      "areaAttack": false,
+      "rangeType": "heavy-weapons",
+      "areaType": "burst",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:hold-out-blaster-pistol",
+      "name": "Hold-Out Blaster Pistol",
+      "sourceId": "source:wiki-hold-out-blaster-pistol",
+      "kind": "weapon",
+      "group": "pistols",
+      "mode": "ranged",
+      "size": "tiny",
+      "damage": "3d4",
+      "damageType": "Energy",
+      "cost": 300.0,
+      "weight": 0.5,
+      "availability": [
+        "illegal"
+      ],
+      "accurate": false,
+      "inaccurate": true,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "pistols"
+    },
+    {
+      "id": "equipment:ion-grenade",
+      "name": "Ion Grenade",
+      "sourceId": "source:wiki-ion-grenade",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "ranged",
+      "size": "tiny",
+      "damage": "4d6",
+      "damageType": "Ion",
+      "cost": 250.0,
+      "weight": 0.5,
+      "availability": [
+        "restricted"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": true,
+      "rangeType": "thrown",
+      "areaType": "burst",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:ion-pistol",
+      "name": "Ion Pistol",
+      "sourceId": "source:wiki-ion-pistol",
+      "kind": "weapon",
+      "group": "pistols",
+      "mode": "ranged",
+      "size": "small",
+      "damage": "3d6",
+      "damageType": "Ion",
+      "cost": 250.0,
+      "weight": 1.0,
+      "availability": [
+        "licensed"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "pistols",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:ion-rifle",
+      "name": "Ion Rifle",
+      "sourceId": "source:wiki-ion-rifle",
+      "kind": "weapon",
+      "group": "rifles",
+      "mode": "ranged",
+      "size": "medium",
+      "damage": "3d8",
+      "damageType": "Ion",
+      "cost": 800.0,
+      "weight": 3.1,
+      "availability": [
+        "restricted"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "rifles",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:light-repeating-blaster",
+      "name": "Light Repeating Blaster",
+      "sourceId": "source:wiki-light-repeating-blaster",
+      "kind": "weapon",
+      "group": "rifles",
+      "mode": "ranged",
+      "size": "large",
+      "damage": "3d8",
+      "damageType": "Energy",
+      "cost": 1200.0,
+      "weight": 6.0,
+      "availability": [
+        "military"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": true,
+      "autofireOnly": true,
+      "areaAttack": false,
+      "rangeType": "rifles",
+      "areaType": "burst",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:mace",
+      "name": "Mace",
+      "sourceId": "source:wiki-mace",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "melee",
+      "size": "medium",
+      "damage": "1d8",
+      "damageType": "Bludgeoning",
+      "cost": 50.0,
+      "weight": 2.5,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false
+    },
+    {
+      "id": "equipment:missile-launcher",
+      "name": "Missile Launcher",
+      "sourceId": "source:wiki-missile-launcher",
+      "kind": "weapon",
+      "group": "heavy-weapons",
+      "mode": "ranged",
+      "size": "large",
+      "damage": "6d6",
+      "damageType": "Slashing",
+      "cost": 1500.0,
+      "weight": 10.0,
+      "availability": [
+        "military"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": true,
+      "rangeType": "heavy-weapons",
+      "areaType": "burst"
+    },
+    {
+      "id": "equipment:net",
+      "name": "Net",
+      "sourceId": "source:wiki-net",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "ranged",
+      "size": "large",
+      "damage": null,
+      "damageType": "",
+      "cost": 25.0,
+      "weight": 4.5,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": true,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "simple-weapons",
+      "damageAction": "Grab / Grapple"
+    },
+    {
+      "id": "equipment:quarterstaff",
+      "name": "Quarterstaff",
+      "sourceId": "source:wiki-quarterstaff",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "melee",
+      "size": "large",
+      "damage": "1d6",
+      "damageType": "Bludgeoning",
+      "cost": 65.0,
+      "weight": 1.8,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "double": true
+    },
+    {
+      "id": "equipment:short-lightsaber",
+      "name": "Short Lightsaber",
+      "sourceId": "source:wiki-short-lightsaber",
+      "kind": "weapon",
+      "group": "lightsabers",
+      "mode": "melee",
+      "size": "small",
+      "damage": "2d6",
+      "damageType": "Energy and Slashing",
+      "cost": 2500.0,
+      "weight": 0.5,
+      "availability": [
+        "rare"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "thrown": true,
+      "mechanical": true
+    },
+    {
+      "id": "equipment:sling",
+      "name": "Sling",
+      "sourceId": "source:wiki-sling",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "ranged",
+      "size": "small",
+      "damage": "1d4",
+      "damageType": "Bludgeoning",
+      "cost": 35.0,
+      "weight": 0.3,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "simple-weapons",
+      "addsStrength": true
+    },
+    {
+      "id": "equipment:slugthrower-pistol",
+      "name": "Slugthrower Pistol",
+      "sourceId": "source:wiki-slugthrower-pistol",
+      "kind": "weapon",
+      "group": "pistols",
+      "mode": "ranged",
+      "size": "small",
+      "damage": "2d6",
+      "damageType": "Piercing",
+      "cost": 250.0,
+      "weight": 1.4,
+      "availability": [
+        "licensed"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "pistols"
+    },
+    {
+      "id": "equipment:slugthrower-rifle",
+      "name": "Slugthrower Rifle",
+      "sourceId": "source:wiki-slugthrower-rifle",
+      "kind": "weapon",
+      "group": "rifles",
+      "mode": "ranged",
+      "size": "medium",
+      "damage": "2d8",
+      "damageType": "Piercing",
+      "cost": 300.0,
+      "weight": 4.0,
+      "availability": [
+        "restricted"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": true,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "rifles"
+    },
+    {
+      "id": "equipment:spear",
+      "name": "Spear",
+      "sourceId": "source:wiki-spear",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "melee",
+      "size": "medium",
+      "damage": "1d8",
+      "damageType": "Piercing",
+      "cost": 60.0,
+      "weight": 1.5,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "thrown": true
+    },
+    {
+      "id": "equipment:sporting-blaster-pistol",
+      "name": "Sporting Blaster Pistol",
+      "sourceId": "source:wiki-sporting-blaster-pistol",
+      "kind": "weapon",
+      "group": "pistols",
+      "mode": "ranged",
+      "size": "small",
+      "damage": "3d4",
+      "damageType": "Energy",
+      "cost": 300.0,
+      "weight": 1.0,
+      "availability": [
+        "licensed"
+      ],
+      "accurate": true,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "pistols",
+      "stunDamage": "3d4"
+    },
+    {
+      "id": "equipment:sporting-blaster-rifle",
+      "name": "Sporting Blaster Rifle",
+      "sourceId": "source:wiki-sporting-blaster-rifle",
+      "kind": "weapon",
+      "group": "rifles",
+      "mode": "ranged",
+      "size": "medium",
+      "damage": "3d6",
+      "damageType": "Energy",
+      "cost": 800.0,
+      "weight": 4.0,
+      "availability": [
+        "licensed"
+      ],
+      "accurate": true,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "rangeType": "rifles",
+      "stunDamage": "3d6"
+    },
+    {
+      "id": "equipment:stun-baton",
+      "name": "Stun Baton",
+      "sourceId": "source:wiki-stun-baton",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "melee",
+      "size": "small",
+      "damage": "1d6",
+      "damageType": "Bludgeoning or Energy (Stun)",
+      "cost": 15.0,
+      "weight": 0.5,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "stunDamage": "2d6",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:stun-grenade",
+      "name": "Stun Grenade",
+      "sourceId": "source:wiki-stun-grenade",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "ranged",
+      "size": "tiny",
+      "damage": "4d6",
+      "damageType": "Energy",
+      "cost": 250.0,
+      "weight": 0.5,
+      "availability": [
+        "restricted"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": true,
+      "rangeType": "thrown",
+      "areaType": "burst",
+      "mechanical": true
+    },
+    {
+      "id": "equipment:thermal-detonator",
+      "name": "Thermal Detonator",
+      "sourceId": "source:wiki-thermal-detonator",
+      "kind": "weapon",
+      "group": "simple-weapons",
+      "mode": "ranged",
+      "size": "tiny",
+      "damage": "8d6",
+      "damageType": "Energy",
+      "cost": 2000.0,
+      "weight": 1.0,
+      "availability": [
+        "illegal"
+      ],
+      "accurate": false,
+      "inaccurate": true,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": true,
+      "rangeType": "thrown",
+      "areaType": "burst"
+    },
+    {
+      "id": "equipment:vibro-axe",
+      "name": "Vibro-Axe",
+      "sourceId": "source:wiki-vibro-axe",
+      "kind": "weapon",
+      "group": "advanced-melee-weapons",
+      "mode": "melee",
+      "size": "large",
+      "damage": "2d10",
+      "damageType": "Slashing",
+      "cost": 500.0,
+      "weight": 6.0,
+      "availability": [
+        "restricted"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "mechanical": true
+    },
+    {
+      "id": "equipment:vibrobayonet",
+      "name": "Vibrobayonet",
+      "sourceId": "source:wiki-vibrobayonet",
+      "kind": "weapon",
+      "group": "advanced-melee-weapons",
+      "mode": "melee",
+      "size": "medium",
+      "damage": "2d6",
+      "damageType": "Piercing",
+      "cost": 350.0,
+      "weight": 1.0,
+      "availability": [
+        "licensed"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "mechanical": true
+    },
+    {
+      "id": "equipment:vibroblade",
+      "name": "Vibroblade",
+      "sourceId": "source:wiki-vibroblade",
+      "kind": "weapon",
+      "group": "advanced-melee-weapons",
+      "mode": "melee",
+      "size": "small",
+      "damage": "2d6",
+      "damageType": "Slashing or Piercing",
+      "cost": 250.0,
+      "weight": 1.8,
+      "availability": [
+        "licensed"
+      ],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "mechanical": true
+    },
+    {
+      "id": "equipment:vibrodagger",
+      "name": "Vibrodagger",
+      "sourceId": "source:wiki-vibrodagger",
+      "kind": "weapon",
+      "group": "advanced-melee-weapons",
+      "mode": "melee",
+      "size": "tiny",
+      "damage": "2d4",
+      "damageType": "Slashing or Piercing",
+      "cost": 200.0,
+      "weight": 1.0,
+      "availability": [],
+      "accurate": false,
+      "inaccurate": false,
+      "autofire": false,
+      "autofireOnly": false,
+      "areaAttack": false,
+      "thrown": true,
+      "mechanical": true
     }
   ],
   "rules": {
@@ -7283,7 +10195,10 @@
       "naturalHit": 20,
       "naturalMiss": 1,
       "criticalMultiplier": 2,
-      "minimumDamage": 1
+      "minimumDamage": 1,
+      "areaSourceIds": [
+        "source:attacks"
+      ]
     },
     "pointBuyBudget": 25,
     "pointBuyCosts": {
@@ -7412,7 +10327,10 @@
       "jc:106-jedi-multiclassing": "talent-activation",
       "jc:112-weapon-familiarity-with-feats-and-talents": "weapon-familiarity",
       "jc:112-weapon-focus-proficiency": "partial-proficiency",
-      "jc:114-conditions-and-damage-threshold": "raw-equivalent"
+      "jc:114-conditions-and-damage-threshold": "raw-equivalent",
+      "jc:107-far-shot-accurate-weapon-and-targeting-scope": "range-penalties",
+      "jc:112-unarmed-weapon-group": "unarmed-proficiency",
+      "jc:112-unarmed-attacks-and-weapon-finesse": "unarmed-finesse"
     },
     "armorMovement": {
       "sourceIds": [
@@ -7462,6 +10380,35 @@
             "name": "Sprint (5×)"
           }
         ]
+      },
+      {
+        "id": "ambiguity:sprint-heavy-load",
+        "name": "Sprint + Heavy Load",
+        "sourceIds": [
+          "source:wiki-survivor-talent-tree-sprint",
+          "source:wiki-encumbrance"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:sprint",
+            "paragraphCount": 2
+          },
+          {
+            "ruleId": "rule:encumbrance",
+            "paragraphCount": 6
+          }
+        ],
+        "default": "load-limit",
+        "options": [
+          {
+            "value": "load-limit",
+            "name": "Heavy Load (×3)"
+          },
+          {
+            "value": "sprint-limit",
+            "name": "Sprint (×5)"
+          }
+        ]
       }
     ],
     "forceTalentAccess": {
@@ -7483,6 +10430,106 @@
       "restMinutes": 1,
       "forcePointCost": 1,
       "naturalRoll": 20
+    },
+    "weaponRanges": {
+      "sourceIds": [
+        "source:wiki-ranged-attacks"
+      ],
+      "penalties": [
+        0,
+        -2,
+        -5,
+        -10
+      ],
+      "limits": {
+        "heavy-weapons": [
+          50,
+          100,
+          250,
+          500
+        ],
+        "pistols": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "rifles": [
+          30,
+          60,
+          150,
+          300
+        ],
+        "simple-weapons": [
+          20,
+          40,
+          60,
+          80
+        ],
+        "thrown": [
+          6,
+          8,
+          10,
+          12
+        ]
+      }
+    },
+    "unarmed": {
+      "sourceIds": [
+        "source:wiki-unarmed-attacks"
+      ],
+      "damage": {
+        "small": "1d3",
+        "medium": "1d4",
+        "large": "1d6"
+      },
+      "dieSteps": [
+        3,
+        4,
+        6,
+        8,
+        10,
+        12
+      ]
+    },
+    "secondWind": {
+      "sourceIds": [
+        "source:wiki-catch-a-second-wind"
+      ],
+      "hitPointFraction": 0.25,
+      "maximumHitPointFraction": 0.5,
+      "dailyUses": 1
+    },
+    "encumbrance": {
+      "sourceIds": [
+        "source:wiki-encumbrance"
+      ],
+      "heavyFraction": 0.25,
+      "liftFraction": 0.5,
+      "strainFraction": 1,
+      "speedMultiplier": 0.75,
+      "runMultiplier": 3,
+      "skillPenalty": -10,
+      "skills": [
+        "skill:acrobatics",
+        "skill:climb",
+        "skill:endurance",
+        "skill:initiative",
+        "skill:jump",
+        "skill:stealth",
+        "skill:swim"
+      ],
+      "sizeMultipliers": {
+        "fine": 0.01,
+        "diminutive": 0.25,
+        "tiny": 0.5,
+        "small": 0.75,
+        "medium": 1,
+        "large": 2,
+        "huge": 5,
+        "gargantuan": 10,
+        "colossal": 20
+      }
     }
   },
   "heroicTraits": {

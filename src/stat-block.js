@@ -2,6 +2,7 @@ import {ABILITIES, indexPack, signed} from './rules.js';
 import {TRAIT_FIELDS, backgroundLanguage} from './heroic-traits.js';
 import {escapeHTML as escape} from './wiki-content.js';
 import {resolveEquipment} from './equipment.js';
+import {choiceName} from './feature-choices.js';
 
 // Formatting reference: Darth Vader, wiki revision 25962. All values come from
 // the saved character and Saga derivation, never from the reference NPC.
@@ -11,7 +12,7 @@ export function renderStatBlock(c,d,pack){
  const textLine=(label,value)=>line(label,escape(value));
  const featureName=(type,s)=>{
   const record=ix[type].get(s.id);
-  return escape(record.name+(d.ctx.inactiveTalents?.has(s.id)?' (Inactive)':'')+(s.choice?` (${ix.skills.get(s.choice)?.name||s.choice.replaceAll('-',' ')})`:''));
+  return escape(record.name+(d.ctx.inactiveTalents?.has(s.id)?' (Inactive)':'')+(s.choice?` (${choiceName(s.choice,pack)})`:''));
  };
  const classes=[...d.ctx.classLevels].map(([id,n])=>`${escape(ix.classes.get(id).name)} ${n}`).join('/');
  const skill=id=>d.skills.find(s=>s.id==='skill:'+id);
@@ -19,7 +20,7 @@ export function renderStatBlock(c,d,pack){
  const points=[c.story?.kind==='destiny'?`<b>Destiny Points:</b> ${c.story.points}`:'',`<b>Force Points:</b> ${d.forceCurrent??c.forcePoints}`,`<b>Dark Side Score:</b> ${c.darkSideScore||0}`].filter(Boolean).join('; ');
  const protection=c.protection||{dr:0,sr:0,srMax:0,drBypass:''};
  const condition=c.condition===5?`Helpless (${species.isDroid?'Disabled':'Unconscious'})`:c.condition?`${signed(pack.rules.conditionPenalties[c.condition])} Penalty${c.condition===4?'; Move at Half Speed':''}`:'';
- const attackText=(a,attackMod=0,damageMod=0)=>`${escape(a.name)} ${signed(a.attack+attackMod)} (${escape(a.damageDisplay)}${damageMod?signed(damageMod):''})`;
+ const attackText=(a,attackMod=0,damageMod=0)=>`${escape(a.name)} ${signed(a.attack+attackMod)} (${escape(a.damageDisplay)}${damageMod?signed(damageMod):''}${a.criticalMultiplier>2&&!a.areaType?`; ×${a.criticalMultiplier} critical`:''})`;
  const attacks=d.attacks.map(a=>line(a.mode==='melee'?'Melee':'Ranged',attackText(a))).join('');
  const routines=(c.routines||[]).filter(r=>r.steps.length).map(r=>line(escape(r.name||'Routine'),r.steps.map(s=>{
   const a=d.attacks.find(a=>a.uid===s.attackId);
@@ -29,7 +30,7 @@ export function renderStatBlock(c,d,pack){
  const traits=TRAIT_FIELDS.filter(([key])=>c.heroicTraits?.[key]).map(([key,label])=>textLine(label,c.heroicTraits[key])).join('');
  return `<article class="stat-block"><h1>${escape(c.name||'Unnamed hero')} <span>(CL ${d.level})</span></h1>
  <p>${escape(species.size.replace(/^./,ch=>ch.toUpperCase()))} ${escape(species.name)} ${classes}</p>
- <p>${points}</p>${line('Initiative',signed(skill('initiative').total)+'; <b>Senses:</b> Perception '+signed(skill('perception').total))}${line('Languages',languages)}
+ <p>${points}</p>${line('Initiative',signed(skill('initiative').total)+'; <b>Senses:</b> Perception '+signed(skill('perception').total)+[species.vision==='darkvision'?'Darkvision':species.vision==='low-light'?'Low-Light Vision':'',species.scentRange?'Scent '+species.scentRange+' Squares':''].filter(Boolean).map(s=>', '+s).join(''))}${line('Languages',languages)}
  <h2>Defenses</h2><p><b>Reflex Defense:</b> ${d.defenses.reflex}, <b>Fortitude Defense:</b> ${d.defenses.fortitude}, <b>Will Defense:</b> ${d.defenses.will}${(d.conditionalDefenses||[]).filter(e=>e.defense==='will').map(e=>` (${e.total} vs. Use the Force)`).join('')}</p>
  <p><b>Hit Points:</b> ${c.currentHP??d.hp}/${d.hp}; <b>Damage Threshold:</b> ${d.threshold}${protection.dr?`; <b>DR:</b> ${protection.dr}${protection.drBypass?' ('+escape(protection.drBypass)+')':''}`:''}${protection.srMax?`; <b>SR:</b> ${protection.sr}/${protection.srMax}`:''}</p>
  ${textLine('Condition Track',condition)}

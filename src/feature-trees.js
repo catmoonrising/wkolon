@@ -2,10 +2,11 @@ import {GROUPS,indexPack,eligible,prerequisite} from './rules.js';
 import {counselingEnabled} from './house-rules.js';
 import {articleText,renderArticle,escapeHTML as escape} from './wiki-content.js';
 import {layoutFeatureGraph,featureEdgePath,featureCrossings} from './feature-layout.js';
+import {featureChoices} from './feature-choices.js';
 const title=value=>value.replace(/^tree:/,'').replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase());
 export const featureFamily=r=>/^(Weapon Proficiency|Armor Proficiency) \(/.test(r.name)?r.name.replace(/ \(.*\)$/,''):null;
 export const featureValue=r=>featureFamily(r)?'family:'+featureFamily(r):r.id+'|';
-export function featureVariants(r,pack) {return (r.choiceType==='skill'?pack.skills.map(s=>s.id):r.choiceType==='weaponGroup'?GROUPS:[null]).map(choice=>({id:r.id,...(choice?{choice}:{})}));}
+export function featureVariants(r,pack) {return featureChoices(r,pack).map(choice=>({id:r.id,...(choice?{choice}:{})}));}
 
 // Rendered text never drives eligibility or graph dependencies.
 export function featureGraph(pack,options) {
@@ -24,7 +25,7 @@ export function featureGraph(pack,options) {
  function condition(p) {
   const key='condition:'+JSON.stringify(p);if(nodes.has(key))return key;
   const choice=p.value==='$choice';let name,record;
-  if(['feat','talent'].includes(p.kind)){record=ix[p.kind==='feat'?'feats':'talents'].get(p.value);name=record.name;}
+  if(['feat','featChoice','talent'].includes(p.kind)){record=ix[p.kind==='talent'?'talents':'feats'].get(p.value);name=record.name+(p.kind==='featChoice'?' (same weapon)':'');}
   else if(p.kind==='trained')name='Trained in '+(choice?'a skill':ix.skills.get(p.value).name);
   else if(p.kind==='power'){record=ix.forcePowers.get(p.value);name=record.name;}
   else if(p.kind==='darkSideScore')name='DSS '+p.min;
@@ -33,15 +34,17 @@ export function featureGraph(pack,options) {
   else if(p.kind==='ability')name=p.value.toUpperCase()+' '+p.min;
   else if(p.kind==='bab')name='Base attack +'+p.min;
   else if(p.kind==='nonDroid')name='Not a droid';
+  else if(p.kind==='trait')name=title(p.value);
+  else if(p.kind==='size')name=title(p.value)+' or larger';
   else if(p.kind==='proficientChoice')name='Weapon Proficiency';
   else if(p.kind==='focusChoice')name='Weapon Focus'+(choice?'':` (${title(p.value)})`);
-  const choices=choice?(p.kind==='proficientChoice'||p.kind==='focusChoice'?GROUPS:pack.skills.map(s=>s.id)):[null];
+  const choices=p.kind==='featChoice'?featureChoices(record,pack):choice?(p.kind==='proficientChoice'||p.kind==='focusChoice'?[...GROUPS,...pack.equipment.filter(w=>w.kind==='weapon').map(w=>w.id),'attack:unarmed']:pack.skills.map(s=>s.id)):[null];
   const owned=choices.some(value=>prerequisite(p,ctx,ix,value));
   nodes.set(key,{key,name,group:null,records:record?[record]:[],parents:[],main:false,owned,available:owned,selected:false});return key;
  }
  function parents(p,out,alternative=false) {
   if(p.kind==='all'||p.kind==='any'){p.requirements.forEach(r=>parents(r,out,alternative||p.kind==='any'));return;}
-  const key=['feat','talent'].includes(p.kind)&&byId.has(p.value)?byId.get(p.value):condition(p);
+  const key=['feat','featChoice','talent'].includes(p.kind)&&byId.has(p.value)?byId.get(p.value):condition(p);
   if(!out.some(edge=>edge.key===key))out.push({key,alternative});
  }
  for(const node of [...nodes.values()])if(node.main) {
