@@ -284,10 +284,10 @@ mapped options. It does not mean every variant or all situational
 effects are automated. Imported reference text grants no effects or eligibility.
 Rules searches names and complete article text, with type and builder filters.
 
-The imported library has 485 entries: 23 species, five heroic classes, twelve
+The imported library has 486 entries: 23 species, five heroic classes, twelve
 prestige classes, nineteen skill pages (Knowledge contains seven fields), 64 feat
 pages (including Weapon Proficiency), 200 Core talents, forty talent trees,
-48 weapons, eleven armor entries, 46 general equipment pages, and seventeen Force
+48 weapons, eleven armor entries, 46 general equipment pages plus Kel Dor special equipment, and seventeen Force
 power references. Sixteen powers are Core; Corruption is a separate Force Unleashed
 tab on a page whose Destiny is Core. The reviewed builder covers all 23 species and eleven armor entries,
 plus a smaller feat, talent and remaining equipment subset. Read [import-review.md](import-review.md) for actual source
@@ -400,3 +400,11 @@ Characters may store `recovery` with `secondWindsSpent`, `secondWindEncounter`, 
 Optional saved recovery fields are `naturalHealingUsed`, `unconsciousRetry`, `dead`, and `limbs` (unique IDs, names, remaining whole days and per-limb persistent flags). Old recovery objects without those fields remain valid. Persistent causes additionally include `injury`, `limb-loss` and `other`; unresolved causes prevent natural healing and ordinary track recovery. A completed eight-hour rest removes the explicitly rest-curable causes before checking healing eligibility. New day represents 24 hours of game time: it resets daily spending/healing availability and advances species limb regeneration; it does not itself heal, rest or revive anyone. No real-time timer is used.
 
 Received healing/repair at unconsciousness/disablement moves the track up one step. The user requested literal HP replacement as the default, with an additive alternative in Ambiguities. Automatic consciousness checks use the Constitution modifier, without the preceding track step's numeric penalty: the Helpless entry gives no numeric ability-check penalty. A fatal result records death, blocking recovery/actions until manually cleared for an applicable revival effect. Surgery, long-term care, external healing rolls and the source of a lost limb remain adjudicated; entered healing amounts are already resolved by the healer.
+
+## Starting equipment
+
+Optional species/class `startingEquipment: {sourceId, items: [{equipmentId, quantity}]}` explicitly grants named items for a first-level character. Its pinned source establishes the grant independently of each item’s purchase price. Kel Dor grant an antiox mask, protective goggles and one year of filters; Jedi grant a lightsaber only when Jedi is the first class. Ordinary Breath Mask mechanics are not substituted for the Kel Dor mask.
+
+Characters optionally save `startingEquipmentClaims: [speciesOrClassId]`; newly added inventory entries carry `startingGrant` with that ID. Claims survive removal, species/class changes and reloads. Existing quantities satisfy a grant without duplication, and existing equipment selections remain intact. Free granted items do not block starting credits; ordinary possessions still do. `startingCreditsRolled` records a completed roll even if credits are later spent or edited to zero. Older saves need neither field.
+
+Equipment `weight: null` means unspecified, not zero. Totals retain the unknown-weight indicator until per-item weights are supplied. Kel Dor’s printed mask/filter prices are replacements away from Dorin; local Dorin prices remain in the embedded rule text for manual purchasing. No price is inferred for protective goggles.

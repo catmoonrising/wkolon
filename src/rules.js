@@ -1,7 +1,7 @@
 import {emptyTraits, emptyStory, activeBackground, validateFinishing} from './heroic-traits.js';
 import {emptyProtection,validateCombatState} from './combat.js';
 import {counselingEnabled,ambiguityValue,validateHouseRules} from './house-rules.js';
-import {resolveEquipment,validateInventoryOptions} from './equipment.js';
+import {resolveEquipment,validateInventoryOptions,validateStartingEquipment} from './equipment.js';
 import {featureChoices,WEAPON_GROUPS,UNARMED_ID} from './feature-choices.js';
 import {unarmedWeapon,weaponRange} from './weapon-rules.js';
 import {carryingLimits} from './species-rules.js';
@@ -77,6 +77,7 @@ export function validateCharacter(c, pack) {
   if(c.unarmedModifiers!==undefined&&(!obj(c.unarmedModifiers)||Object.keys(c.unarmedModifiers).some(k=>!['attackMod','damageMod'].includes(k))||!['attackMod','damageMod'].every(k=>num(c.unarmedModifiers[k],-100,100))))bad('unarmed modifiers');
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
+  validateStartingEquipment(c,pack,bad);
   if(c.mechanicalSkills!==undefined&&!skillList(c.mechanicalSkills))bad('mechanical tool checks');
   if(c.skillCheckSources!==undefined&&(!obj(c.skillCheckSources)||Object.entries(c.skillCheckSources).some(([id,source])=>!ix.skills.has(id)||!ix.skills.has(source))))bad('skill check sources');
   validateHouseRules(c,pack,bad);

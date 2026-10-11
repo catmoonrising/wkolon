@@ -304,7 +304,7 @@ Species native-check rerolls and threatened Take 10 are implemented with their
 original scopes and keep rules. Vision and Scent appear in stat blocks; carrying
 and lifting limits, skill penalties and movement are calculated. Neimoidian's
 misnamed Deceptive sentence remains visible and manual. Bellow and Rage now have action/state support. Natural healing
-and regeneration have recovery controls; starting special equipment remains to be implemented.
+and regeneration have recovery controls; starting special equipment has explicit creation grants.
 
 Sprint's printed ×5 also conflicts with Encumbrance's Heavy Load ×3. The
 Ambiguities tab retains both pinned passages and defaults to the explicit load
@@ -374,3 +374,9 @@ moving the track or healing HP. Multiple limbs finish independently. Each limb h
 does not itself establish a universal persistent Condition Track penalty. The injury
 control records the loss; its initial track movement and other effects remain
 adjudicated. No supplements or wiki homebrew were enabled in this batch.
+
+## Starting species/class equipment
+
+Checked current Kel Dor revision 26685 and Jedi 27381; both still match the reviewed pins. Kel Dor Special Equipment is preserved verbatim as a separately pinned section. Its mask, goggles and year of filters are free at creation; mask/filter replacement prices are 2,000/200 credits away from Dorin. The source states no weights and no goggles price, so these remain unspecified rather than borrowing ordinary Breath Mask statistics. Optional per-item weights can supply a GM’s adjudication. The embedded passage retains Dorin’s 500/50 credit prices; planetary replacement-price selection is manual.
+
+Explicit creation grants are claimed once, preserve existing items and selections, and never debit credits. Jedi’s lightsaber uses the same declarative grant mechanism and is not awarded by multiclass advancement. Starting credit rolls remain available after free grants, and cannot repeat after spending the credits. Inventory origin and claimed-grant references are validated; old saved characters remain compatible. Neither Yuuzhan Vong version grants free weapons or armor in its reviewed species traits. No homebrew equipment or physiological timers were added.

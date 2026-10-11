@@ -1,7 +1,7 @@
 import {createCreationOptions} from './creation-options.js';
 import {createForcePowers} from './force-powers-ui.js';
 import {createHouseRules} from './house-rules.js';
-import {equipmentFamilies,resolveEquipment,purchaseQuote} from './equipment.js';
+import {equipmentFamilies,resolveEquipment,purchaseQuote,startingEquipmentGrants,claimStartingEquipment,canRollStartingCredits} from './equipment.js';
 import {createFeatureTrees} from './feature-trees.js';
 import {createSpeciesBrowser} from './species-browser.js';
 import {createRulesCatalog} from './rules-catalog.js';
@@ -280,7 +280,7 @@ function creation() {
     skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`),
     choiceScreen('feat')+forcePowersUI.library(0),
     choiceScreen('talent'),
-    `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${c.credits||c.inventory.length?'disabled':''}>Roll credits</button>${cls.id==='class:jedi'?'<button data-action="jedi-lightsaber">Add lightsaber</button>':''}</div>${gear.map(p=>p.outerHTML).join('')}`,
+    `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${gear.map(p=>p.outerHTML).join('')}`,
     finishing()
   ];
   return bodies.map((body,i)=>panel(`${i+1}. ${CREATOR_STEPS[i]}`,body)).join('');
@@ -319,7 +319,7 @@ function equipment(scope='') {
  return `${panel('Equipment catalog',`${shopForm(scope)}<div id="${prefix}equipment-reference">${ruleReference(ix.equipment.get(shopDraft(scope).id),'ⓘ',null,prefix+'catalog')}</div><div class="actions">${scope?'':field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<div class="weight"><strong>${totalWeight()}</strong></div></div>`)}
  ${panel('Inventory',c.inventory.length?`<div class="inventory-list">${c.inventory.map((e,i)=>{
   const r=resolveEquipment(e,pack,c),rating=(r.availability||[]).some(id=>pack.rules.licensing.ratings[id]);
-  return `<article><div class="inventory-title"><div>${ruleReference(ix.equipment.get(e.id),r.name,null,`${prefix}inventory-${i}`)} <span class="badge">×${e.quantity}</span> <small>${weightText(r.weight===null?null:r.weight*e.quantity)}${r.cost===null?'':` | ${r.cost.toLocaleString()} cr each`}</small></div></div><div class="inventory-controls"><label class="checkbox"><input type="checkbox" data-inventory="carried" data-index="${i}" ${e.carried!==false?'checked':''}>Carried</label>${r.kind!=='gear'?`<label class="checkbox"><input type="checkbox" data-inventory="equipped" data-index="${i}" ${e.equipped?'checked':''}>Equipped</label>`:''}${r.kind==='weapon'?`${weaponOptions(r,e,i)}<label class="checkbox"><input type="checkbox" data-inventory="twoHanded" data-index="${i}" ${e.twoHanded?'checked':''} ${r.mode!=='melee'||pack.rules.weaponSizeOrder.indexOf(r.size)<pack.rules.weaponSizeOrder.indexOf(species.size)?'disabled':''}>Two hands</label><label>Attack misc<input type="number" min="-100" max="100" value="${e.attackMod}" data-inventory="attackMod" data-index="${i}"></label><label>Damage misc<input type="number" min="-100" max="100" value="${e.damageMod}" data-inventory="damageMod" data-index="${i}"></label>${species.technophobic?`<label class="checkbox"><input type="checkbox" data-inventory="mechanical" data-index="${i}" ${e.mechanical??r.mechanical?'checked':''}>Mechanical</label>`:''}`:''}${rating?`<label>License<select data-inventory="licenseStatus" data-index="${i}">${[['none','None'],['pending','Application pending'],['approved','Approved'],['denied','Denied']].map(([id,name])=>option(id,name,e.licenseStatus||'none')).join('')}</select></label>`:''}${e.options?.includes('miniaturized')?`<label>Weight (kg)<input type="number" min="0" max="1000000" step="0.01" data-inventory="weightOverride" data-index="${i}" value="${e.weightOverride??''}" aria-label="${escape(r.name)} weight"></label>`:''}<button data-remove-item="${i}">Remove</button></div>${r.kind==='armor'?`<p class="rule-summary">Reflex +${r.armorBonus} | Fortitude +${r.fortitudeBonus} with proficiency | Max DEX +${r.maxDex}</p>`:''}</article>`;
+  return `<article><div class="inventory-title"><div>${ruleReference(ix.equipment.get(e.id),r.name,null,`${prefix}inventory-${i}`)} <span class="badge">×${e.quantity}</span> <small>${weightText(r.weight===null?null:r.weight*e.quantity)}${r.cost===null?'':` | ${r.cost.toLocaleString()} cr each`}</small></div></div><div class="inventory-controls"><label class="checkbox"><input type="checkbox" data-inventory="carried" data-index="${i}" ${e.carried!==false?'checked':''}>Carried</label>${r.kind!=='gear'?`<label class="checkbox"><input type="checkbox" data-inventory="equipped" data-index="${i}" ${e.equipped?'checked':''}>Equipped</label>`:''}${r.kind==='weapon'?`${weaponOptions(r,e,i)}<label class="checkbox"><input type="checkbox" data-inventory="twoHanded" data-index="${i}" ${e.twoHanded?'checked':''} ${r.mode!=='melee'||pack.rules.weaponSizeOrder.indexOf(r.size)<pack.rules.weaponSizeOrder.indexOf(species.size)?'disabled':''}>Two hands</label><label>Attack misc<input type="number" min="-100" max="100" value="${e.attackMod}" data-inventory="attackMod" data-index="${i}"></label><label>Damage misc<input type="number" min="-100" max="100" value="${e.damageMod}" data-inventory="damageMod" data-index="${i}"></label>${species.technophobic?`<label class="checkbox"><input type="checkbox" data-inventory="mechanical" data-index="${i}" ${e.mechanical??r.mechanical?'checked':''}>Mechanical</label>`:''}`:''}${rating?`<label>License<select data-inventory="licenseStatus" data-index="${i}">${[['none','None'],['pending','Application pending'],['approved','Approved'],['denied','Denied']].map(([id,name])=>option(id,name,e.licenseStatus||'none')).join('')}</select></label>`:''}${ix.equipment.get(e.id).weight===null||e.options?.includes('miniaturized')?`<label>Weight (kg)<input type="number" min="0" max="1000000" step="0.01" data-inventory="weightOverride" data-index="${i}" value="${e.weightOverride??''}" aria-label="${escape(r.name)} weight"></label>`:''}<button data-remove-item="${i}">Remove</button></div>${r.kind==='armor'?`<p class="rule-summary">Reflex +${r.armorBonus} | Fortitude +${r.fortitudeBonus} with proficiency | Max DEX +${r.maxDex}</p>`:''}</article>`;
  }).join('')}</div>`:'')}${panel('Attacks',attackTable(prefix))}`;
 }
 function advancement() {
@@ -439,7 +439,7 @@ function refreshPointBudget() {
 function refreshCredits(el) {
   document.querySelectorAll('[data-field="credits"]').forEach(input=>{if(input!==el)input.value=current().credits;});
   const roll=$('cr-body').querySelector('[data-action="starting-credits"]');
-  if(roll)roll.disabled=Boolean(current().credits||current().inventory.length);
+  if(roll)roll.disabled=!canRollStartingCredits(current());
 }
 function validCreatorInput() {const invalid=$('cr-body').querySelector('[data-generation-manual]:invalid');if(invalid){invalid.reportValidity();return false;}return true;}
 function closeEditor() { if(validCreatorInput()){$('creator-modal').close();editorMode=null;location.hash='overview';render();} }
@@ -642,6 +642,7 @@ function events() {
       if(el.dataset.inventory==='equipped'&&el.checked&&ix.equipment.get(e.id).kind==='armor') c.inventory.filter(other=>ix.equipment.get(other.id).kind==='armor').forEach(other=>other.equipped=false);
       const val=el.type==='checkbox'?el.checked:['licenseStatus','weaponMode','launcher','ammunitionId','fireMode','attackStyle'].includes(el.dataset.inventory)?el.value:Number(el.value);
       if(el.dataset.inventory==='distance'&&el.value===''){delete e.distance;changed();return;}
+      if(el.dataset.inventory==='weightOverride'&&el.value===''){delete e.weightOverride;changed();return;}
       if(el.dataset.inventory==='ammunitionId'&&!el.value){delete e.ammunitionId;changed();return;}
       if(el.dataset.inventory==='distance'&&(!Number.isInteger(val)||val<0||val>100000)){notify('Enter a valid distance.');render();return;}
       if(el.dataset.inventory==='weightOverride'&&(!Number.isFinite(val)||val<0||val>1000000)){notify('Enter a valid weight.');render();return;}
@@ -687,6 +688,7 @@ function events() {
     if(recoveryControls.click(el))return;
     if(forcePowersUI.click(el))return;
     const c=current();
+    if(el.dataset.startingEquipment){try{claimStartingEquipment(c,pack,el.dataset.startingEquipment);changed();}catch(error){notify(error.message);}return;}
     if(el.dataset.openTree){
       const [kind,rawLevel,rawSlot]=el.dataset.openTree.split(':'),level=Number(rawLevel),slotIndex=Number(rawSlot);
       if(editorMode==='creation'&&creatorStep===4&&kind==='feat'){activeFeatSlots.set(c.id,slotIndex);renderEditor();return;}
@@ -708,8 +710,7 @@ function events() {
       case 'manage-powers':openEditor('powers');return;
       case 'clear-log': if(store.roster.logs) delete store.roster.logs[c.id];store.schedule();paintLogs();return;
       case 'roll-abilities': {const sets=ABILITIES.map(()=>{const dice=[d(6),d(6),d(6),d(6)].sort((a,b)=>b-a);return {dice,value:dice.slice(0,3).reduce((a,b)=>a+b)};});setRolledPool(c,sets.map(s=>s.value));logEvent('roll',`Ability scores: 4d6 drop lowest ×6: ${sets.map(s=>`${s.value} (${s.dice.join(',')})`).join(' | ')}`,`Ability scores: 4d6 drop lowest ×6: ${sets.map((s,i)=>`${totalHtml({value:s.value,coeffs:[1],rollId:i+1})} (${s.dice.map((value,j)=>dieHTML(value,6,`data-roll="${i+1}" data-ops="kh3"`,j===3)).join(', ')})`).join(' | ')}`);break;}
-      case 'starting-credits': {const r=ix.classes.get(c.levels[0].classId).credits;const rolls=Array.from({length:r.dice},()=>d(r.sides));c.credits=rolls.reduce((a,b)=>a+b)*r.multiplier;logEvent('roll',`${rolls.join(' + ')} × ${r.multiplier} = ${c.credits} credits`,`${rolls.map(value=>dieHTML(value,r.sides)).join(' + ')} × ${r.multiplier} = ${totalHtml({value:c.credits,coeffs:[r.multiplier]})} credits`);break;}
-      case 'jedi-lightsaber': if(!c.inventory.some(e=>e.id==='equipment:lightsaber')) addInventory('equipment:lightsaber'); else notify('A lightsaber is already in your inventory.');break;
+      case 'starting-credits': {if(!canRollStartingCredits(c))return;const r=ix.classes.get(c.levels[0].classId).credits;const rolls=Array.from({length:r.dice},()=>d(r.sides));c.credits=rolls.reduce((a,b)=>a+b)*r.multiplier;c.startingCreditsRolled=true;logEvent('roll',`${rolls.join(' + ')} × ${r.multiplier} = ${c.credits} credits`,`${rolls.map(value=>dieHTML(value,r.sides)).join(' + ')} × ${r.multiplier} = ${totalHtml({value:c.credits,coeffs:[r.multiplier]})} credits`);break;}
       case 'add-gear': purchase(false,el.closest('form'));return;
       case 'force-point-roll': {if(derived.forceCurrent<=0||derived.incapacitated)return;const expr=`${derived.forcePointDice}d${derived.forcePointDie}kh1`,r=evalExpr(expr);c.forcePoints--;logEvent('roll',`Force Point: ${expr} = ${r.value}`,`Force Point: ${r.display} = ${totalHtml(r)}`);break;}
       case 'add-level': {const cls=ix.classes.get($('next-class').value); c.levels.push({classId:cls.id,hpRoll:Math.floor(cls.hitDie/2)+1,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});c.forcePoints=ix.species.get(c.species).forceImmune?0:derive(c,pack).forceMaximum;if(c.story?.kind==='destiny')c.story.points=Math.min(c.levels.length,c.story.points+1);break;}

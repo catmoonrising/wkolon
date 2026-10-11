@@ -21,7 +21,7 @@
   - [x] Wookiee Rage, Extra Rage, Dreadful Rage, persistent fatigue and Recover controls.
   - [x] Ithorian Bellow, extra dice, Fortitude results and optional Helpless cap in Ambiguities.
   - [x] Natural healing, unconscious healing/checks, persistent injuries and Trandoshan limb regeneration.
-  - [ ] Starting special equipment.
+  - [x] Kel Dor starting mask, goggles and filters; once-only species/class equipment grants and Jedi lightsabers.
   - [ ] Remaining conditional feat actions, stocks/scopes, ammunition consumption and ion/stun target effects.
 
 - [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.

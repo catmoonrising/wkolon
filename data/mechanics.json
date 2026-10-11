@@ -4143,6 +4143,16 @@
       "sha256": "db0c712638ec41729768f8414befec8ebdc877ecf5caedd6f39119d7aa24818c",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18573#Limb_Regeneration",
       "history": "https://swse.miraheze.org/w/index.php?title=Trandoshan&action=history"
+    },
+    {
+      "id": "source:wiki-kel-dor-special-equipment",
+      "title": "Kel Dor",
+      "section": "Special Equipment",
+      "revision": 26685,
+      "timestamp": "2025-05-30T04:19:36Z",
+      "sha256": "75075081701ea367c28974423949cd87e46c1808d4854d2e3cb2dd81f9a9c4a7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26685#Kel_Dor_Species_Traits",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kel_Dor&action=history"
     }
   ],
   "species": [
@@ -4481,7 +4491,24 @@
           "when": "searchYourFeelingsOrSenseForce"
         }
       ],
-      "vision": "low-light"
+      "vision": "low-light",
+      "startingEquipment": {
+        "sourceId": "source:wiki-kel-dor-special-equipment",
+        "items": [
+          {
+            "equipmentId": "equipment:antiox-breath-mask",
+            "quantity": 1
+          },
+          {
+            "equipmentId": "equipment:protective-goggles",
+            "quantity": 1
+          },
+          {
+            "equipmentId": "equipment:antiox-filters",
+            "quantity": 1
+          }
+        ]
+      }
     },
     {
       "id": "species:mon-calamari",
@@ -4970,7 +4997,16 @@
         ]
       },
       "bonusSourceId": "source:jedi-bonus-feats",
-      "talentAccessSourceId": "source:wiki-jedi-talent-trees"
+      "talentAccessSourceId": "source:wiki-jedi-talent-trees",
+      "startingEquipment": {
+        "sourceId": "source:jedi",
+        "items": [
+          {
+            "equipmentId": "equipment:lightsaber",
+            "quantity": 1
+          }
+        ]
+      }
     },
     {
       "id": "class:noble",
@@ -10281,6 +10317,33 @@
       "areaAttack": false,
       "thrown": true,
       "mechanical": true
+    },
+    {
+      "id": "equipment:antiox-breath-mask",
+      "name": "Antiox Breath Mask",
+      "sourceId": "source:wiki-kel-dor-special-equipment",
+      "kind": "gear",
+      "cost": 2000,
+      "weight": null,
+      "availability": []
+    },
+    {
+      "id": "equipment:protective-goggles",
+      "name": "Protective Goggles",
+      "sourceId": "source:wiki-kel-dor-special-equipment",
+      "kind": "gear",
+      "cost": null,
+      "weight": null,
+      "availability": []
+    },
+    {
+      "id": "equipment:antiox-filters",
+      "name": "Antiox Filters (1 year)",
+      "sourceId": "source:wiki-kel-dor-special-equipment",
+      "kind": "gear",
+      "cost": 200,
+      "weight": null,
+      "availability": []
     }
   ],
   "rules": {

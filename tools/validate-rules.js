@@ -98,6 +98,12 @@ export function validatePack(p) {
       for(const key of ['startingFeats','excludedStartingFeats'])if(r[key]){assert(Array.isArray(r[key]));r[key].forEach(id=>requireRef('feats',id));}
       if(r.speeds){assert(Object.keys(r.speeds).every(key=>/^[a-z-]+$/.test(key)));assert(Object.values(r.speeds).every(n=>Number.isInteger(n)&&n>=0));}
     }
+    if(r.startingEquipment!==undefined){
+      assert(['species','classes'].includes(key),'Unsupported equipment grant');
+      const g=r.startingEquipment;assert(g&&typeof g==='object'&&!Array.isArray(g),'Invalid starting equipment grant');assert.deepEqual(Object.keys(g).sort(),['items','sourceId']);assert(sources.has(g.sourceId),'Missing starting equipment source');
+      assert(Array.isArray(g.items)&&g.items.length>0&&new Set(g.items.map(e=>e.equipmentId)).size===g.items.length,'Invalid starting equipment items');
+      for(const e of g.items){assert.deepEqual(Object.keys(e).sort(),['equipmentId','quantity']);requireRef('equipment',e.equipmentId);assert(Number.isInteger(e.quantity)&&e.quantity>=1&&e.quantity<=999,'Invalid starting equipment quantity');}
+    }
     if (key === 'classes') {
       assert.equal(r.bab.length,20); assert(r.bab.every(Number.isInteger)); assert([6,8,10].includes(r.hitDie));
       assert.equal(r.startingHP,r.hitDie*3); assert(Number.isInteger(r.trainedSkills));
@@ -157,7 +163,7 @@ export function validatePack(p) {
       if(r.conditionalFocus)requireRef('skills',r.conditionalFocus);
     }
     if (key === 'equipment') {
-      assert(['weapon','armor','gear'].includes(r.kind)); assert((r.cost===null || Number.isFinite(r.cost) && r.cost>=0) && Number.isFinite(r.weight) && r.weight>=0);
+      assert(['weapon','armor','gear'].includes(r.kind)); assert((r.cost===null || Number.isFinite(r.cost) && r.cost>=0) && (r.weight===null || Number.isFinite(r.weight) && r.weight>=0));
       if(r.kind==='weapon') {
         assert(p.rules.weaponSizeOrder.includes(r.size) && [...GROUPS,'exotic-melee','exotic-ranged'].includes(r.group) && ['melee','ranged'].includes(r.mode));
         assert(/^\d+d\d+$/.test(r.damage)||r.damage===null&&(r.damageAction==='Grab / Grapple'||r.ammunition==='grenade'||r.unarmed),'Unsupported weapon damage');

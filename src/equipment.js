@@ -25,7 +25,7 @@ export function resolveEquipment(e,pack,c={}){
   else cost+=functional.reduce((n,u)=>n+base*u.costMultiplier,0);
  }
  const unknownWeight=options.some(u=>u.changesWeight);
- const weight=e.weightOverride??(unknownWeight?null:r.weight*scale);
+ const weight=e.weightOverride??(unknownWeight||r.weight===null?null:r.weight*scale);
  const tags=[r.variant,...options.map(u=>u.name),...(r.kind==='armor'&&e.armorSize&&e.armorSize!=='medium'?[e.armorSize.replace(/^./,s=>s.toUpperCase())]:[])].filter(Boolean);
  const mode=r.modes?.find(m=>m.id===(e.weaponMode||r.modes[0].id));
  const launcher=r.launchers?.find(l=>l.id===(e.launcher||r.launchers[0].id));
@@ -61,4 +61,40 @@ export function validateInventoryOptions(e,pack,bad){
  if(e.launcher!==undefined&&!r.launchers?.some(l=>l.id===e.launcher))bad('weapon launcher');
  if(e.fireMode!==undefined&&(!r.autofire||r.autofireOnly||!['single','autofire'].includes(e.fireMode)))bad('fire mode');
  if(e.ammunitionId!==undefined&&(r.ammunition!=='grenade'||!pack.equipment.some(w=>w.id===e.ammunitionId&&['equipment:frag-grenade','equipment:ion-grenade','equipment:stun-grenade'].includes(w.id))))bad('grenade ammunition');
+}
+
+// Grants are explicit, once per character, and only belong to level-one
+// species/class creation. Inventory edits never replenish a claimed grant.
+export function startingEquipmentGrants(c,pack){
+ if(c.levels.length!==1)return [];
+ return [pack.species.find(r=>r.id===c.species),pack.classes.find(r=>r.id===c.levels[0].classId)]
+  .filter(r=>r?.startingEquipment)
+  .map(r=>({...r.startingEquipment,id:r.id,claimed:(c.startingEquipmentClaims||[]).includes(r.id)}));
+}
+export function claimStartingEquipment(c,pack,id){
+ const grant=startingEquipmentGrants(c,pack).find(g=>g.id===id);
+ if(!grant||grant.claimed)throw new Error('Starting equipment is unavailable.');
+ const additions=grant.items.flatMap(item=>{
+  const owned=c.inventory.filter(e=>e.id===item.equipmentId).reduce((n,e)=>n+e.quantity,0);
+  return owned>=item.quantity?[]:[{id:item.equipmentId,uid:crypto.randomUUID(),quantity:item.quantity-owned,startingGrant:id,carried:true,equipped:pack.equipment.find(r=>r.id===item.equipmentId).kind==='weapon',twoHanded:false,attackMod:0,damageMod:0}];
+ });
+ if(c.inventory.length+additions.length>1000)throw new Error('Inventory is full.');
+ c.inventory.push(...additions);
+ c.startingEquipmentClaims=[...(c.startingEquipmentClaims||[]),id];
+ return additions;
+}
+export function canRollStartingCredits(c){
+ return c.levels.length===1&&!c.startingCreditsRolled&&!c.credits&&!c.inventory.some(e=>!e.startingGrant);
+}
+export function validateStartingEquipment(c,pack,bad){
+ const grants=new Map([...pack.species,...pack.classes].filter(r=>r.startingEquipment).map(r=>[r.id,r.startingEquipment]));
+ const claims=c.startingEquipmentClaims||[];
+ if(c.startingEquipmentClaims!==undefined&&(!Array.isArray(claims)||new Set(claims).size!==claims.length||claims.some(id=>!grants.has(id))))bad('starting equipment claims');
+ if(c.startingCreditsRolled!==undefined&&typeof c.startingCreditsRolled!=='boolean')bad('starting credits');
+ for(const e of c.inventory){
+  if(e.startingGrant!==undefined&&(!claims.includes(e.startingGrant)||!grants.get(e.startingGrant)?.items.some(item=>item.equipmentId===e.id)))bad('starting equipment origin');
+ }
+ for(const id of claims)for(const item of grants.get(id).items){
+  if(c.inventory.filter(e=>e.startingGrant===id&&e.id===item.equipmentId).reduce((n,e)=>n+e.quantity,0)>item.quantity)bad('starting equipment quantity');
+ }
 }
