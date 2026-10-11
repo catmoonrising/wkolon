@@ -41,6 +41,13 @@ text. Awareness adds Expert Tracker, Keen Shot, Reset Initiative, Uncanny Dodge 
 Uncanny Dodge II and Weak Point with explicitly reviewed typed prerequisites and no
 automated situational effects. Existing IDs and saved files remain compatible.
 
+The Core Scout/Soldier trees are now complete, including Camouflage, Fringer,
+Brawler and Commando. Proficiency and Weapon Focus conditions connect to the
+secondary choices for Devastating Attack and Penetrating Attack. Repeatable talents
+remain selectable at later earned slots. Class tree access uses separately pinned
+Core class-tree lists; other classes cannot choose these talents merely because
+they meet a prerequisite.
+
 Force Sensitivity adds the closed `nonDroid` prerequisite, evaluated against the
 species' `isDroid` flag. It prevents the feat (and its class-skill access) from being
 granted to a droid; it does not implement droid construction.

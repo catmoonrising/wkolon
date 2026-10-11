@@ -97,6 +97,9 @@ class WikiImportTests(unittest.TestCase):
         reviewed = json.loads((ROOT / 'tools/reviewed-revisions.json').read_text())
         hutt = next(r for r in catalog['records'] if r['name'] == 'Hutt')
         hutt['mechanicsIds'] = []
+        # Isolate an unreviewed neighbouring section regardless of live coverage.
+        mechanics['talents'] = [r for r in mechanics['talents'] if r['name'] != 'Armor Mastery']
+        next(r for r in catalog['records'] if r['name'] == 'Armor Mastery')['mechanicsIds'] = []
         catalog['rulePages'] = [p for p in catalog['rulePages'] if p['name'] != 'Weapon Proficiency (Heavy Weapons)']
         pack = compiler.compile_pack(mechanics, catalog, reviewed)
         self.assertEqual(next(r for r in pack['catalog']['records'] if r['name'] == 'Hutt')['mechanicsIds'], ['species:hutt'])

@@ -2067,6 +2067,296 @@
       "sha256": "43d05652180439705b392123058f702e74eadefb07565a34deeaf8c8c898658f",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18589",
       "history": "https://swse.miraheze.org/w/index.php?title=Vehicular%20Combat&action=history"
+    },
+    {
+      "id": "source:wiki-camouflage-talent-tree-hidden-movement",
+      "title": "Camouflage Talent Tree",
+      "section": "Hidden Movement",
+      "revision": 18015,
+      "timestamp": "2024-08-25T19:26:44Z",
+      "sha256": "ae380c20d0b7afe6c7ee8b33f3c604ef4a47cf67c726903490dbb443efba9071",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18015#Hidden_Movement",
+      "history": "https://swse.miraheze.org/w/index.php?title=Camouflage%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-camouflage-talent-tree-improved-stealth",
+      "title": "Camouflage Talent Tree",
+      "section": "Improved Stealth",
+      "revision": 18015,
+      "timestamp": "2024-08-25T19:26:44Z",
+      "sha256": "ae380c20d0b7afe6c7ee8b33f3c604ef4a47cf67c726903490dbb443efba9071",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18015#Improved_Stealth",
+      "history": "https://swse.miraheze.org/w/index.php?title=Camouflage%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-camouflage-talent-tree-improved-concealment",
+      "title": "Camouflage Talent Tree",
+      "section": "Improved Concealment",
+      "revision": 18015,
+      "timestamp": "2024-08-25T19:26:44Z",
+      "sha256": "ae380c20d0b7afe6c7ee8b33f3c604ef4a47cf67c726903490dbb443efba9071",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18015#Improved_Concealment",
+      "history": "https://swse.miraheze.org/w/index.php?title=Camouflage%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-fringer-talent-tree-barter",
+      "title": "Fringer Talent Tree",
+      "section": "Barter",
+      "revision": 18201,
+      "timestamp": "2024-08-25T19:46:31Z",
+      "sha256": "a524194dafcb9933e0ad100d397c2c3647e15a2498abb3e3fda5b5f24f741e5b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18201#Barter",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fringer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-fringer-talent-tree-fringe-savant",
+      "title": "Fringer Talent Tree",
+      "section": "Fringe Savant",
+      "revision": 18201,
+      "timestamp": "2024-08-25T19:46:31Z",
+      "sha256": "a524194dafcb9933e0ad100d397c2c3647e15a2498abb3e3fda5b5f24f741e5b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18201#Fringe_Savant",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fringer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-fringer-talent-tree-long-stride",
+      "title": "Fringer Talent Tree",
+      "section": "Long Stride",
+      "revision": 18201,
+      "timestamp": "2024-08-25T19:46:31Z",
+      "sha256": "a524194dafcb9933e0ad100d397c2c3647e15a2498abb3e3fda5b5f24f741e5b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18201#Long_Stride",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fringer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-fringer-talent-tree-jury-rigger",
+      "title": "Fringer Talent Tree",
+      "section": "Jury-Rigger",
+      "revision": 18201,
+      "timestamp": "2024-08-25T19:46:31Z",
+      "sha256": "a524194dafcb9933e0ad100d397c2c3647e15a2498abb3e3fda5b5f24f741e5b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18201#Jury-Rigger",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fringer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-survivor-talent-tree-extreme-effort",
+      "title": "Survivor Talent Tree",
+      "section": "Extreme Effort",
+      "revision": 26659,
+      "timestamp": "2025-04-24T20:19:37Z",
+      "sha256": "a88e33446397a450cef95a0d547e9bb5f418be5745593b240f4887100c3155d7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26659#Extreme_Effort",
+      "history": "https://swse.miraheze.org/w/index.php?title=Survivor%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-survivor-talent-tree-sprint",
+      "title": "Survivor Talent Tree",
+      "section": "Sprint",
+      "revision": 26659,
+      "timestamp": "2025-04-24T20:19:37Z",
+      "sha256": "a88e33446397a450cef95a0d547e9bb5f418be5745593b240f4887100c3155d7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26659#Sprint",
+      "history": "https://swse.miraheze.org/w/index.php?title=Survivor%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-survivor-talent-tree-surefooted",
+      "title": "Survivor Talent Tree",
+      "section": "Surefooted",
+      "revision": 26659,
+      "timestamp": "2025-04-24T20:19:37Z",
+      "sha256": "a88e33446397a450cef95a0d547e9bb5f418be5745593b240f4887100c3155d7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26659#Surefooted",
+      "history": "https://swse.miraheze.org/w/index.php?title=Survivor%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-armor-specialist-talent-tree-armor-mastery",
+      "title": "Armor Specialist Talent Tree",
+      "section": "Armor Mastery",
+      "revision": 15908,
+      "timestamp": "2024-08-18T00:53:23Z",
+      "sha256": "56c85ff1f4172b7d8a4c0e6eff657a81262bd90c90c2a4fab0995ded37b77c6c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15908#Armor_Mastery",
+      "history": "https://swse.miraheze.org/w/index.php?title=Armor%20Specialist%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-armor-specialist-talent-tree-juggernaut",
+      "title": "Armor Specialist Talent Tree",
+      "section": "Juggernaut",
+      "revision": 15908,
+      "timestamp": "2024-08-18T00:53:23Z",
+      "sha256": "56c85ff1f4172b7d8a4c0e6eff657a81262bd90c90c2a4fab0995ded37b77c6c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15908#Juggernaut",
+      "history": "https://swse.miraheze.org/w/index.php?title=Armor%20Specialist%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-armor-specialist-talent-tree-second-skin",
+      "title": "Armor Specialist Talent Tree",
+      "section": "Second Skin",
+      "revision": 15908,
+      "timestamp": "2024-08-18T00:53:23Z",
+      "sha256": "56c85ff1f4172b7d8a4c0e6eff657a81262bd90c90c2a4fab0995ded37b77c6c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15908#Second_Skin",
+      "history": "https://swse.miraheze.org/w/index.php?title=Armor%20Specialist%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-brawler-talent-tree-expert-grappler",
+      "title": "Brawler Talent Tree",
+      "section": "Expert Grappler",
+      "revision": 16372,
+      "timestamp": "2024-08-18T00:56:47Z",
+      "sha256": "5be59ce441d7ffed83f71d8ecdb04f57514894dcd0573823cc1f83f25a4048b6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16372#Expert_Grappler",
+      "history": "https://swse.miraheze.org/w/index.php?title=Brawler%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-brawler-talent-tree-gun-club",
+      "title": "Brawler Talent Tree",
+      "section": "Gun Club",
+      "revision": 16372,
+      "timestamp": "2024-08-18T00:56:47Z",
+      "sha256": "5be59ce441d7ffed83f71d8ecdb04f57514894dcd0573823cc1f83f25a4048b6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16372#Gun_Club",
+      "history": "https://swse.miraheze.org/w/index.php?title=Brawler%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-brawler-talent-tree-melee-smash",
+      "title": "Brawler Talent Tree",
+      "section": "Melee Smash",
+      "revision": 16372,
+      "timestamp": "2024-08-18T00:56:47Z",
+      "sha256": "5be59ce441d7ffed83f71d8ecdb04f57514894dcd0573823cc1f83f25a4048b6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16372#Melee_Smash",
+      "history": "https://swse.miraheze.org/w/index.php?title=Brawler%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-brawler-talent-tree-stunning-strike",
+      "title": "Brawler Talent Tree",
+      "section": "Stunning Strike",
+      "revision": 16372,
+      "timestamp": "2024-08-18T00:56:47Z",
+      "sha256": "5be59ce441d7ffed83f71d8ecdb04f57514894dcd0573823cc1f83f25a4048b6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16372#Stunning_Strike",
+      "history": "https://swse.miraheze.org/w/index.php?title=Brawler%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-brawler-talent-tree-unbalance-opponent",
+      "title": "Brawler Talent Tree",
+      "section": "Unbalance Opponent",
+      "revision": 16372,
+      "timestamp": "2024-08-18T00:56:47Z",
+      "sha256": "5be59ce441d7ffed83f71d8ecdb04f57514894dcd0573823cc1f83f25a4048b6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16372#Unbalance_Opponent",
+      "history": "https://swse.miraheze.org/w/index.php?title=Brawler%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-commando-talent-tree-battle-analysis",
+      "title": "Commando Talent Tree",
+      "section": "Battle Analysis",
+      "revision": 18050,
+      "timestamp": "2024-08-25T19:30:21Z",
+      "sha256": "df76cf89f27b6e4babf2ee1c96687643ddb13a18d51978f14225be61cb59e3a3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18050#Battle_Analysis",
+      "history": "https://swse.miraheze.org/w/index.php?title=Commando%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-commando-talent-tree-cover-fire",
+      "title": "Commando Talent Tree",
+      "section": "Cover Fire",
+      "revision": 18050,
+      "timestamp": "2024-08-25T19:30:21Z",
+      "sha256": "df76cf89f27b6e4babf2ee1c96687643ddb13a18d51978f14225be61cb59e3a3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18050#Cover_Fire",
+      "history": "https://swse.miraheze.org/w/index.php?title=Commando%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-commando-talent-tree-demolitionist",
+      "title": "Commando Talent Tree",
+      "section": "Demolitionist",
+      "revision": 18050,
+      "timestamp": "2024-08-25T19:30:21Z",
+      "sha256": "df76cf89f27b6e4babf2ee1c96687643ddb13a18d51978f14225be61cb59e3a3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18050#Demolitionist",
+      "history": "https://swse.miraheze.org/w/index.php?title=Commando%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-commando-talent-tree-draw-fire",
+      "title": "Commando Talent Tree",
+      "section": "Draw Fire",
+      "revision": 18050,
+      "timestamp": "2024-08-25T19:30:21Z",
+      "sha256": "df76cf89f27b6e4babf2ee1c96687643ddb13a18d51978f14225be61cb59e3a3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18050#Draw_Fire",
+      "history": "https://swse.miraheze.org/w/index.php?title=Commando%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-commando-talent-tree-harm-s-way",
+      "title": "Commando Talent Tree",
+      "section": "Harm's Way",
+      "revision": 18050,
+      "timestamp": "2024-08-25T19:30:21Z",
+      "sha256": "df76cf89f27b6e4babf2ee1c96687643ddb13a18d51978f14225be61cb59e3a3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18050#Harm%27s_Way",
+      "history": "https://swse.miraheze.org/w/index.php?title=Commando%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-commando-talent-tree-indomitable",
+      "title": "Commando Talent Tree",
+      "section": "Indomitable",
+      "revision": 18050,
+      "timestamp": "2024-08-25T19:30:21Z",
+      "sha256": "df76cf89f27b6e4babf2ee1c96687643ddb13a18d51978f14225be61cb59e3a3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18050#Indomitable",
+      "history": "https://swse.miraheze.org/w/index.php?title=Commando%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-commando-talent-tree-tough-as-nails",
+      "title": "Commando Talent Tree",
+      "section": "Tough as Nails",
+      "revision": 18050,
+      "timestamp": "2024-08-25T19:30:21Z",
+      "sha256": "df76cf89f27b6e4babf2ee1c96687643ddb13a18d51978f14225be61cb59e3a3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18050#Tough_as_Nails",
+      "history": "https://swse.miraheze.org/w/index.php?title=Commando%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-specialist-talent-tree-devastating-attack",
+      "title": "Weapon Specialist Talent Tree",
+      "section": "Devastating Attack",
+      "revision": 25635,
+      "timestamp": "2024-12-04T21:59:53Z",
+      "sha256": "2880d6dccfcacc3d8b2c29429ac3895191134bbac85258d84dd8dc7bd54408f5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25635#Devastating_Attack",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Specialist%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-specialist-talent-tree-penetrating-attack",
+      "title": "Weapon Specialist Talent Tree",
+      "section": "Penetrating Attack",
+      "revision": 25635,
+      "timestamp": "2024-12-04T21:59:53Z",
+      "sha256": "2880d6dccfcacc3d8b2c29429ac3895191134bbac85258d84dd8dc7bd54408f5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25635#Penetrating_Attack",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Specialist%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-scout-talent-trees",
+      "title": "Scout Talent Trees",
+      "section": null,
+      "revision": 18472,
+      "timestamp": "2024-08-25T20:11:00Z",
+      "sha256": "09527195bebf18bf27d13ef6e68c003cf316ed673181ec44d572ff53d2d4793e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18472",
+      "history": "https://swse.miraheze.org/w/index.php?title=Scout%20Talent%20Trees&action=history"
+    },
+    {
+      "id": "source:wiki-soldier-talent-trees",
+      "title": "Soldier Talent Trees",
+      "section": null,
+      "revision": 18511,
+      "timestamp": "2024-08-25T20:14:13Z",
+      "sha256": "b4087b568e8e921a3a9a8b12f37a80acce6864401b872ca3ec46e330584eeb71",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18511",
+      "history": "https://swse.miraheze.org/w/index.php?title=Soldier%20Talent%20Trees&action=history"
     }
   ],
   "species": [
@@ -2966,6 +3256,8 @@
       ],
       "talentTrees": [
         "tree:awareness",
+        "tree:camouflage",
+        "tree:fringer",
         "tree:survivor"
       ],
       "credits": {
@@ -2974,7 +3266,8 @@
         "multiplier": 250
       },
       "bonusRestrictions": {},
-      "bonusSourceId": "source:scout-bonus-feats"
+      "bonusSourceId": "source:scout-bonus-feats",
+      "talentAccessSourceId": "source:wiki-scout-talent-trees"
     },
     {
       "id": "class:soldier",
@@ -3057,6 +3350,8 @@
       ],
       "talentTrees": [
         "tree:armor-specialist",
+        "tree:brawler",
+        "tree:commando",
         "tree:weapon-specialist"
       ],
       "credits": {
@@ -3065,7 +3360,8 @@
         "multiplier": 250
       },
       "bonusRestrictions": {},
-      "bonusSourceId": "source:soldier-bonus-feats"
+      "bonusSourceId": "source:soldier-bonus-feats",
+      "talentAccessSourceId": "source:wiki-soldier-talent-trees"
     }
   ],
   "skills": [
@@ -4110,6 +4406,409 @@
           "type": "untyped"
         }
       ],
+      "choiceType": "weaponGroup"
+    },
+    {
+      "id": "talent:hidden-movement",
+      "name": "Hidden Movement",
+      "sourceId": "source:wiki-camouflage-talent-tree-hidden-movement",
+      "tree": "tree:camouflage",
+      "prerequisite": {
+        "kind": "talent",
+        "value": "talent:improved-stealth"
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "You're very good at hiding when mobile. You take no penalty on your Stealth check when moving your normal Speed. This Talent applies to Stealth checks made while Piloting a Starship (see Starship Stealth)."
+    },
+    {
+      "id": "talent:improved-stealth",
+      "name": "Improved Stealth",
+      "sourceId": "source:wiki-camouflage-talent-tree-improved-stealth",
+      "tree": "tree:camouflage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "You may choose to reroll any Stealth check, but the result of the reroll must be accepted, even if it is worse. This Talent applies to Stealth checks made while Piloting a Starship (see Starship Stealth)."
+    },
+    {
+      "id": "talent:improved-concealment",
+      "name": "Improved Concealment",
+      "sourceId": "source:wiki-camouflage-talent-tree-improved-concealment",
+      "tree": "tree:camouflage",
+      "prerequisite": {
+        "kind": "talent",
+        "value": "talent:hidden-movement"
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Any situation that would give you Concealment grants you Total Concealment instead."
+    },
+    {
+      "id": "talent:barter",
+      "name": "Barter",
+      "sourceId": "source:wiki-fringer-talent-tree-barter",
+      "tree": "tree:fringer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "You may reroll any Persuasion check made to Haggle, but the result of the reroll must be accepted, even if it is worse."
+    },
+    {
+      "id": "talent:fringe-savant",
+      "name": "Fringe Savant",
+      "sourceId": "source:wiki-fringer-talent-tree-fringe-savant",
+      "tree": "tree:fringer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Whenever you roll a Natural 20 on a Skill Check during an encounter, you gain one temporary Force Point. If the Force Point is not used before the end of the encounter, it is lost."
+    },
+    {
+      "id": "talent:long-stride",
+      "name": "Long Stride",
+      "sourceId": "source:wiki-fringer-talent-tree-long-stride",
+      "tree": "tree:fringer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "speed",
+          "amount": 2,
+          "type": "untyped",
+          "when": "lightOrNoArmor"
+        }
+      ],
+      "reminder": "Your Speed increases by 2 squares if you are wearing Light Armor or no armor. If you have a natural Fly, Climb, or Swim speed, it increases by 2 squares as well. You cannot use this Talent if you are wearing Medium Armor or Heavy Armor."
+    },
+    {
+      "id": "talent:jury-rigger",
+      "name": "Jury-Rigger",
+      "sourceId": "source:wiki-fringer-talent-tree-jury-rigger",
+      "tree": "tree:fringer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "You may reroll any Mechanics check made to Jury-Rig, but the result of the reroll must be accepted, even if it is worse."
+    },
+    {
+      "id": "talent:extreme-effort",
+      "name": "Extreme Effort",
+      "sourceId": "source:wiki-survivor-talent-tree-extreme-effort",
+      "tree": "tree:survivor",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "You can spend two Swift Actions to gain a +5 bonus on a single Strength check or Strength-based Skill Check made during the same round."
+    },
+    {
+      "id": "talent:sprint",
+      "name": "Sprint",
+      "sourceId": "source:wiki-survivor-talent-tree-sprint",
+      "tree": "tree:survivor",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "When you use the Run Action, you can move up to five times your Speed (instead of up to four times)."
+    },
+    {
+      "id": "talent:surefooted",
+      "name": "Surefooted",
+      "sourceId": "source:wiki-survivor-talent-tree-surefooted",
+      "tree": "tree:survivor",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Your Speed is not reduced by Difficult Terrain."
+    },
+    {
+      "id": "talent:armor-mastery",
+      "name": "Armor Mastery",
+      "sourceId": "source:wiki-armor-specialist-talent-tree-armor-mastery",
+      "tree": "tree:armor-specialist",
+      "prerequisite": {
+        "kind": "talent",
+        "value": "talent:armored-defense"
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "armorMaxDex",
+          "amount": 1,
+          "type": "untyped",
+          "when": "proficientArmor"
+        }
+      ],
+      "reminder": "The maximum Dexterity bonus of your armor improves by +1. You must be proficient with the armor you are wearing to gain this benefit."
+    },
+    {
+      "id": "talent:juggernaut",
+      "name": "Juggernaut",
+      "sourceId": "source:wiki-armor-specialist-talent-tree-juggernaut",
+      "tree": "tree:armor-specialist",
+      "prerequisite": {
+        "kind": "talent",
+        "value": "talent:armored-defense"
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "armorMovement",
+          "amount": 1,
+          "type": "untyped",
+          "when": "proficientArmor"
+        }
+      ],
+      "reminder": "Your armor does not reduce your Speed or the distance you can move while Running. You must be proficient with the armor you are wearing to gain this benefit."
+    },
+    {
+      "id": "talent:second-skin",
+      "name": "Second Skin",
+      "sourceId": "source:wiki-armor-specialist-talent-tree-second-skin",
+      "tree": "tree:armor-specialist",
+      "prerequisite": {
+        "kind": "talent",
+        "value": "talent:armored-defense"
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "armorBonus",
+          "amount": 1,
+          "type": "untyped",
+          "when": "proficientArmor"
+        },
+        {
+          "target": "armorFortitude",
+          "amount": 1,
+          "type": "untyped",
+          "when": "proficientArmor"
+        }
+      ],
+      "reminder": "When wearing armor with which you are proficient, your Armor bonus to your Reflex Defense and Equipment bonus to your Fortitude Defense each increases by +1."
+    },
+    {
+      "id": "talent:expert-grappler",
+      "name": "Expert Grappler",
+      "sourceId": "source:wiki-brawler-talent-tree-expert-grappler",
+      "tree": "tree:brawler",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "You gain a +2 competence bonus on Grapple attacks."
+    },
+    {
+      "id": "talent:gun-club",
+      "name": "Gun Club",
+      "sourceId": "source:wiki-brawler-talent-tree-gun-club",
+      "tree": "tree:brawler",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "You can use a ranged weapon as a melee weapon without taking a penalty on your attack roll. The weapon is otherwise treated as a Club in all respects. If you are using a Rifle with a mounted Bayonet or Vibrobayonet, you may wield that weapon as a Double Weapon. The Bayonet or Vibrobayonet end is treated normally, and the other end is treated as a Club."
+    },
+    {
+      "id": "talent:melee-smash",
+      "name": "Melee Smash",
+      "sourceId": "source:wiki-brawler-talent-tree-melee-smash",
+      "tree": "tree:brawler",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "meleeDamage",
+          "amount": 1,
+          "type": "untyped",
+          "when": "meleeAttack"
+        }
+      ],
+      "reminder": "You deal +1 point of damage with Melee Attacks."
+    },
+    {
+      "id": "talent:stunning-strike",
+      "name": "Stunning Strike",
+      "sourceId": "source:wiki-brawler-talent-tree-stunning-strike",
+      "tree": "tree:brawler",
+      "prerequisite": {
+        "kind": "talent",
+        "value": "talent:melee-smash"
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "When you damage an opponent with a Melee Attack, your opponent moves an additional -1 step along the Condition Track if your damage roll result equals or exceeds the target's Damage Threshold."
+    },
+    {
+      "id": "talent:unbalance-opponent",
+      "name": "Unbalance Opponent",
+      "sourceId": "source:wiki-brawler-talent-tree-unbalance-opponent",
+      "tree": "tree:brawler",
+      "prerequisite": {
+        "kind": "talent",
+        "value": "talent:expert-grappler"
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "You are skilled at keeping your opponents off balance in melee combat. At the beginning of your turn, you can choose to designate an opponent no more than one size category larger or smaller than you. That opponent doesn't get to add their Strength bonus on attack rolls when targeting you (if the opponent has a Strength penalty, they still suffer from that penalty). The opponent's Strength modifier applies to damage, as usual. You can select a new opponent on your next turn."
+    },
+    {
+      "id": "talent:battle-analysis",
+      "name": "Battle Analysis",
+      "sourceId": "source:wiki-commando-talent-tree-battle-analysis",
+      "tree": "tree:commando",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "As a Swift Action, you can make a DC 15 Knowledge (Tactics) check. If the check succeeds, you know which allies and opponents in your line of sight are reduced to at least half of their maximum total Hit Points. If you succeed at both a DC 15 Knowledge (Tactics) check and a DC 15 Use Computer check, you may use this Talent to determine what Vehicles are reduced to at least half their maximum Hit Points."
+    },
+    {
+      "id": "talent:cover-fire",
+      "name": "Cover Fire",
+      "sourceId": "source:wiki-commando-talent-tree-cover-fire",
+      "tree": "tree:commando",
+      "prerequisite": {
+        "kind": "talent",
+        "value": "talent:battle-analysis"
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "When you make a Ranged Attack with a Pistol or Rifle, all allies within 6 squares of you when you made the attack gain a +1 bonus to Reflex Defense until the start of your next turn. Allies within range don't need to be within your line of sight to gain the bonus."
+    },
+    {
+      "id": "talent:demolitionist",
+      "name": "Demolitionist",
+      "sourceId": "source:wiki-commando-talent-tree-demolitionist",
+      "tree": "tree:commando",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "stack",
+      "effects": [],
+      "reminder": "When you use the Mechanics skill to Handle Explosives, the explosion deals +2 dice of damage. You may take this Talent multiple times; its effects stack."
+    },
+    {
+      "id": "talent:draw-fire",
+      "name": "Draw Fire",
+      "sourceId": "source:wiki-commando-talent-tree-draw-fire",
+      "tree": "tree:commando",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "You can distract opponents and convince them that you are the most tempting (or most dangerous) target in the area. As a Swift Action, make a Persuasion check and compare the result to the Will Defense of all opponents within line of sight. If the check result exceeds an opponent's Will Defense, that opponent cannot attack any character within 6 squares of you until the start of your next turn as long as you do not have Cover against that opponent. (The affected opponent may still attack you, however.)\n\nIf you are a Vehicle Pilot, you may use this Talent to protect allied Vehicles. You may use it to protect Vehicles no more than one size category larger than your own."
+    },
+    {
+      "id": "talent:harm-s-way",
+      "name": "Harm's Way",
+      "sourceId": "source:wiki-commando-talent-tree-harm-s-way",
+      "tree": "tree:commando",
+      "prerequisite": {
+        "kind": "trained",
+        "value": "skill:initiative"
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Once per round, you may spend a Swift Action to shield a single adjacent ally from attacks, taking the damage and suffering the ill effects in your ally's stead. Until the start of your next turn, any attack made against the protected ally targets you instead. You may elect not to shield your protected ally against a given attack, provided the decision is made before the attack roll is made.\n\nIf you are a Vehicle Pilot, you may use this Talent to protect allied Vehicles. You may use it to protect Vehicles no more than one size category larger than your own."
+    },
+    {
+      "id": "talent:indomitable",
+      "name": "Indomitable",
+      "sourceId": "source:wiki-commando-talent-tree-indomitable",
+      "tree": "tree:commando",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "stack",
+      "effects": [],
+      "reminder": "Once per day as a Swift Action, you can move +5 steps on the Condition Track. This does not remove any Persistent Conditions that may be affecting you. This Talent does not affect the Condition Track of a Vehicle. You can select this talent multiple times. Each time you select this Talent, you can use it one additional time per day."
+    },
+    {
+      "id": "talent:tough-as-nails",
+      "name": "Tough as Nails",
+      "sourceId": "source:wiki-commando-talent-tree-tough-as-nails",
+      "tree": "tree:commando",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "You can catch a Second Wind one extra time per day. If you have this Talent and the Extra Second Wind feat, you can catch your Second Wind a total of three times per day."
+    },
+    {
+      "id": "talent:devastating-attack",
+      "name": "Devastating Attack",
+      "sourceId": "source:wiki-weapon-specialist-talent-tree-devastating-attack",
+      "tree": "tree:weapon-specialist",
+      "prerequisite": {
+        "kind": "proficientChoice",
+        "value": "$choice"
+      },
+      "repeat": "choice",
+      "effects": [],
+      "reminder": "Choose a single Exotic Weapon or Weapon Group with which you are proficient. Whenever you make a successful attack against a target using such a weapon, you treat your target's Damage Threshold as if it were 5 points lower when determining the result of your attack. If you select Heavy Weapons as the Weapon Group this Talent applies to, you may also use the Talent with Vehicle Weapon attacks. You may select this Talent multiple times. Each time you select this Talent, it applies to a different Exotic Weapon or Weapon Group.",
+      "choiceType": "weaponGroup"
+    },
+    {
+      "id": "talent:penetrating-attack",
+      "name": "Penetrating Attack",
+      "sourceId": "source:wiki-weapon-specialist-talent-tree-penetrating-attack",
+      "tree": "tree:weapon-specialist",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "proficientChoice",
+            "value": "$choice"
+          },
+          {
+            "kind": "focusChoice",
+            "value": "$choice"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "effects": [],
+      "reminder": "Choose a single Exotic Weapon or Weapon Group with which you are proficient. Whenever you make a successful attack against a target with such a weapon, you treat your target's Damage Reduction as if it were 5 points lower when determining the result of your attack. If you select Heavy Weapons as the Weapon Group this Talent applies to, you may also use the Talent with Vehicle Weapon attacks. You may select this Talent multiple times. Each time you select this Talent, it applies to a different Exotic Weapon or Weapon Group.",
       "choiceType": "weaponGroup"
     }
   ],

@@ -109,6 +109,18 @@ put Applications behind a disclosure, preserving supplementary section labels.
 
 ## Prerequisites and effects
 
+Scout/Soldier passive talents use the closed effect targets `armorMaxDex`,
+`armorBonus`, `armorFortitude`, `armorMovement`, `speed` and `meleeDamage`.
+Each carries an explicit `when`: `proficientArmor`, `lightOrNoArmor` or
+`meleeAttack`. Armor adjustments occur before Armored Defense comparisons;
+movement adjustments occur before armor reduction and Condition Track halving.
+Juggernaut's `armorMovement: 1` removes armor's speed and running restrictions,
+with proficiency required. Long Stride changes natural movement speeds only.
+No equipment record or base score is rewritten. Other attack procedures, rerolls,
+ally bonuses and condition changes remain manual, with verbatim rules retained.
+Class `talentAccessSourceId` pins the reviewed Core tree list independently of
+the class article and individual talent sections.
+
 Prerequisites use a closed JSON vocabulary: `all`, `any`, `ability` with `min`,
 `feat`, `talent`, `trained`, `bab` with `min`, `classSkill`, `untrained`,
 `proficientChoice`, `focusChoice`, `nonDroid`. A `$choice` target binds to the record's choice.

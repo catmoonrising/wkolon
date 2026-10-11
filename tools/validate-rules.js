@@ -89,6 +89,7 @@ export function validatePack(p) {
       r.skills.forEach(id=>requireRef('skills',id));
       [...r.startingFeats,...r.bonusFeats].forEach(id=>requireRef('feats',id));
       assert(r.talentTrees.length > 0);
+      if(r.talentAccessSourceId!==undefined)assert(sources.has(r.talentAccessSourceId),'Missing talent access source');
     }
     if (key === 'skills') assert(ABILITIES.includes(r.ability) && typeof r.trainedOnly==='boolean' && typeof r.armorCheck==='boolean');
     if (['feats','talents'].includes(key)) {
@@ -96,7 +97,15 @@ export function validatePack(p) {
       prerequisite(r.prerequisite); assert(['never','choice','stack'].includes(r.repeat));
       if(r.choiceType) assert(['skill','weaponGroup'].includes(r.choiceType));
       assert(Array.isArray(r.effects) && typeof r.reminder==='string');
-      for(const e of r.effects) { assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization'].includes(e.target)); assert(Number.isFinite(e.amount)); assert(['untyped','competence'].includes(e.type)); }
+      const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};
+      for(const e of r.effects) {
+        assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when'].includes(k)),'Unsupported effect field');
+        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
+        assert(Number.isFinite(e.amount));assert(['untyped','competence'].includes(e.type));
+        if(e.perLevel!==undefined)assert.equal(typeof e.perLevel,'boolean');
+        if(e.target in passiveConditions){assert.equal(e.when,passiveConditions[e.target],'Missing passive condition');assert(e.type==='untyped'&&Number.isInteger(e.amount)&&e.amount>0&&!e.perLevel,'Unsupported passive effect');if(e.target==='armorMovement')assert.equal(e.amount,1);}
+        else assert(e.when===undefined,'Unsupported effect condition');
+      }
     }
     if(key==='backgrounds') {
       assert(['event','occupation','planet'].includes(r.category));

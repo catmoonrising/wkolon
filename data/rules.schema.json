@@ -291,13 +291,13 @@
     "feats": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/record"
+        "$ref": "#/$defs/feature"
       }
     },
     "talents": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/record"
+        "$ref": "#/$defs/feature"
       }
     },
     "equipment": {
@@ -495,6 +495,9 @@
         },
         "article": {
           "$ref": "#/$defs/article"
+        },
+        "talentAccessSourceId": {
+          "type": "string"
         }
       }
     },
@@ -831,6 +834,68 @@
           "additionalProperties": {
             "type": "string"
           }
+        }
+      }
+    },
+    "feature": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/record"
+        }
+      ],
+      "properties": {
+        "effects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/effect"
+          }
+        }
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target",
+        "amount",
+        "type"
+      ],
+      "properties": {
+        "target": {
+          "enum": [
+            "defenses",
+            "hp",
+            "threshold",
+            "skillFocus",
+            "skillTraining",
+            "weaponFocus",
+            "weaponSpecialization",
+            "armorMaxDex",
+            "armorBonus",
+            "armorFortitude",
+            "armorMovement",
+            "speed",
+            "meleeDamage"
+          ]
+        },
+        "amount": {
+          "type": "number"
+        },
+        "type": {
+          "enum": [
+            "untyped",
+            "competence"
+          ]
+        },
+        "perLevel": {
+          "type": "boolean"
+        },
+        "when": {
+          "enum": [
+            "proficientArmor",
+            "lightOrNoArmor",
+            "meleeAttack"
+          ]
         }
       }
     }

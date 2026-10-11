@@ -308,5 +308,6 @@ const server=http.createServer((req,res)=>{
   await require('./options-browser-checks.cjs')(browser,base,root);
   await require('./armor-browser-checks.cjs')(browser,base,root);
   await require('./creation-options-checks.cjs')(browser,base,root);
+  await require('./scout-soldier-talents-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});

@@ -90,6 +90,34 @@ Force targeting is implemented.
 
 ## Remaining mechanical review
 
+### Scout and Soldier talent batch
+
+All Core Scout and Soldier class talents are selectable, adding 27 reviewed
+talents. Scout now has Awareness, Camouflage, Fringer and Survivor; Soldier has
+Armor Specialist, Brawler, Commando and Weapon Specialist. Their class-access
+lists and each talent's exact parent-tree section have separately pinned sources.
+Previously enabled Awareness supplements remain available; other supplemental
+sections were not enabled. Indomitable and Demolitionist can be taken repeatedly.
+Devastating Attack and Penetrating Attack require a secondary weapon-group choice,
+with proficiency/focus checked for that group. Individual Exotic Weapons remain
+outside the supported weapon-choice catalog.
+
+Armor Mastery, Juggernaut and Second Skin require proficiency in the equipped
+armor for their effects. Second Skin changes the armor bonus before Armored Defense
+comparisons; Armor Mastery increases its Dexterity cap. Juggernaut removes armor's
+speed and running restrictions. Long Stride adds 2 to natural movement speeds only
+in Light/no armor, before Condition Track halving. Melee Smash adds 1 damage to
+melee attacks without changing ranged damage or being doubled for two hands.
+Rerolls, temporary points, explosives, allies, terrain, reactions and target-side
+DR/threshold adjustments retain full rules text and remain manual.
+
+**Open interaction: Sprint and heavy armor.** Run normally permits 4× Speed, or
+3× in Heavy Armor/a Heavy Load. Sprint says 5× instead of 4× without explicitly
+addressing the 3× restriction. The user was notified; no interpretation was silently
+applied. Sprint selection is supported, but its running calculation remains manual
+pending clarification. Juggernaut explicitly removes armor's running restriction;
+it does not remove Heavy Load restrictions. Carrying limits remain future work.
+
 ### Combat feat batch
 
 Acrobatic Strike, Careful Shot, Charging Fire, Combat Reflexes, Coordinated Attack,

@@ -215,20 +215,23 @@ export function derive(c, pack) {
     }
   }
   const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
-  const total = target => effects.filter(e => e.target === target).reduce((n, e) => n + e.amount * (e.perLevel ? level : 1), 0);
   const armorEntries = c.inventory.filter(e => e.equipped && ix.equipment.get(e.id).kind === 'armor');
   if (armorEntries.length > 1) issues.push('Only one suit of armor can be equipped');
   const armor = armorEntries.length ? resolveEquipment(armorEntries[0],pack,c) : null;
   const has = id => ctx.talents.some(t => t.id === `talent:${id}`);
   const proficientArmor = armor && ctx.feats.some(f => f.id === F(`armor-proficiency-${armor.category}`));
+  const applies = (e,attack) => !e.when || e.when==='proficientArmor'&&proficientArmor || e.when==='lightOrNoArmor'&&(!armor||armor.category==='light') || e.when==='meleeAttack'&&attack?.mode==='melee';
+  const total = (target,attack) => effects.filter(e => e.target === target && applies(e,attack)).reduce((n, e) => n + e.amount * (e.perLevel ? level : 1), 0);
   const equipmentAbilities = proficientArmor ? armor.abilityBonuses || {} : {};
   const scores = Object.fromEntries(ABILITIES.map(a => [a, ctx.scores[a] + (equipmentAbilities[a] || 0)]));
   const mods = Object.fromEntries(ABILITIES.map(a => [a, modifier(scores[a])]));
   const armorPenalty = armor && !proficientArmor ? pack.rules.armorPenalties[armor.category] : 0;
-  let reflexBase = armor?.armorBonus ?? level;
-  if (armor && proficientArmor && has('improved-armored-defense')) reflexBase = Math.max(armor.armorBonus, level + Math.floor(armor.armorBonus / 2));
-  else if (armor && proficientArmor && has('armored-defense')) reflexBase = Math.max(level, armor.armorBonus);
-  const dex = armor ? Math.min(mods.dex, armor.maxDex) : mods.dex;
+  const armorBonus = armor ? armor.armorBonus + total('armorBonus') : 0;
+  const armorMaxDex = armor ? armor.maxDex + total('armorMaxDex') : null;
+  let reflexBase = armor ? armorBonus : level;
+  if (armor && proficientArmor && has('improved-armored-defense')) reflexBase = Math.max(armorBonus, level + Math.floor(armorBonus / 2));
+  else if (armor && proficientArmor && has('armored-defense')) reflexBase = Math.max(level, armorBonus);
+  const dex = armor ? Math.min(mods.dex, armorMaxDex) : mods.dex;
   const condition = pack.rules.conditionPenalties[c.condition];
   const defenses = {}, breakdowns = {};
   for (const key of ['reflex', 'fortitude', 'will']) {
@@ -236,7 +239,7 @@ export function derive(c, pack) {
     const base = key === 'reflex' ? reflexBase : level;
     const ability = key === 'reflex' ? dex : key === 'fortitude' ? mods.con : mods.wis;
     const sp = species.defenses[key] || 0;
-    const equipment = key === 'fortitude' && proficientArmor ? armor.fortitudeBonus : 0;
+    const equipment = key === 'fortitude' && proficientArmor ? armor.fortitudeBonus + total('armorFortitude') : 0;
     const size = key === 'reflex' ? pack.rules.sizeReflex[species.size] : 0;
     const naturalArmor = key === 'reflex' ? species.naturalArmor || 0 : 0;
     defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + total('defenses') + condition + c.modifiers[key];
@@ -268,7 +271,8 @@ export function derive(c, pack) {
     const ability = w.mode === 'melee' ? mods.str : mods.dex;
     const light = pack.rules.weaponSizeOrder.indexOf(w.size) < pack.rules.weaponSizeOrder.indexOf(species.size);
     const strength = w.mode === 'melee' ? (e.twoHanded && !light && mods.str > 0 ? 2 * mods.str : mods.str) : 0;
-    const damageBonus = half + strength + specialization + c.modifiers.damage + e.damageMod;
+    const meleeBonus = total('meleeDamage',w);
+    const damageBonus = half + strength + specialization + meleeBonus + c.modifiers.damage + e.damageMod;
     return {...w, uid:e.uid,proficient, attack: ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + c.modifiers.attack + e.attackMod,
       damageBonus, damageDisplay: w.damage + (damageBonus ? signed(damageBonus) : ''),
       breakdown: `${ctx.bab} BAB + ${ability} ability + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${c.modifiers.attack + e.attackMod} misc`};
@@ -279,11 +283,13 @@ export function derive(c, pack) {
   const pointCost = (c.abilityMethod==='point-buy' && c.abilityGeneration ? c.abilityGeneration.pool : Object.values(c.abilities)).reduce((n, v) => n + (pack.rules.pointBuyCosts[v] ?? Infinity), 0);
   if (c.abilityMethod === 'point-buy' && pointCost > c.pointBudget) issues.push('Point-buy budget exceeded or a base score is outside 8–18');
   const movement = pack.rules.armorMovement;
-  const speedMultiplier = armor ? movement.speedMultipliers[armor.category] : 1;
-  const move = n => Math.floor(Math.floor(n * speedMultiplier) / (c.condition >= 4 ? 2 : 1));
+  const unrestrictedArmor = total('armorMovement') > 0;
+  const speedMultiplier = armor && !unrestrictedArmor ? movement.speedMultipliers[armor.category] : 1;
+  const stride = total('speed');
+  const move = n => Math.floor(Math.floor((n + stride) * speedMultiplier) / (c.condition >= 4 ? 2 : 1));
   const speed = move(species.speed);
-  const runMultiplier = armor ? movement.runMultipliers[armor.category] : movement.runMultipliers.light;
-  const speedBreakdown = `${species.speed} species × ${speedMultiplier} armor (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
+  const runMultiplier = armor && !unrestrictedArmor ? movement.runMultipliers[armor.category] : movement.runMultipliers.light;
+  const speedBreakdown = `(${species.speed} species + ${stride} talents) × ${speedMultiplier} armor (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
   return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, ctx, rows, issues,
     conditionalDefenses: (species.conditionalDefenses||[]).map(e=>({...e,total:defenses[e.defense]+e.amount})),
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
