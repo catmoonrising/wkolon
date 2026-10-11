@@ -23,6 +23,7 @@ import {featureChoices,choiceName,UNARMED_ID} from './feature-choices.js';
 import {createSpeciesChecks} from './species-rules.js';
 import {canAim} from './weapon-rules.js';
 import {ammunitionProfile} from './ammunition.js';
+import {recordKnockout} from './recovery.js';
 
 const $ = id => document.getElementById(id);
 const escape = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -218,6 +219,7 @@ function ammunitionControls(r,e,i,scope){
 function weaponOptions(r,e,i,scope=''){
  const select=(key,label,records,value,empty=false)=>`<label>${label}<select data-inventory="${key}" data-index="${i}">${empty?option('',typeof empty==='string'?empty:'Choose…',value):''}${records.map(o=>option(o.id,o.name,value,o.disabled)).join('')}</select></label>`;
  return (ix.equipment.get(e.id).thrown||ix.equipment.get(e.id).modes?.some(m=>m.thrown)?select('attackStyle','Attack',[{id:'melee',name:'Melee'},{id:'thrown',name:'Thrown',disabled:!r.thrown}],e.attackStyle||'melee'):'')+
+  (r.stunDamage?select('damageSetting','Setting',[{id:'normal',name:'Normal'},{id:'stun',name:'Stun'}],e.damageSetting||'normal'):'')+
   (r.modes?select('weaponMode','Form',r.modes,e.weaponMode||r.modes[0].id):'')+
   (r.launchers?select('launcher','Launch',r.launchers,e.launcher||r.launchers[0].id):'')+
   (r.ammunition==='grenade'?select('ammunitionId','Grenade',pack.equipment.filter(w=>['equipment:frag-grenade','equipment:ion-grenade','equipment:stun-grenade'].includes(w.id)),e.ammunitionId||'',true):'')+
@@ -609,6 +611,8 @@ function events() {
       if(key==='pointBudget' && el.closest('#cr-body')){obj[key]=value;store.schedule();refreshPointBudget();return;}
       const previousValue=obj[key];
       if(key==='hpRoll') c.levels[Number(el.dataset.level)].hpRoll=value; else obj[key]=value;
+      if(el.dataset.field==='condition'&&value!==previousValue){if(value===5)recordKnockout(c);else if(c.currentHP!==0&&c.recovery)c.recovery.stunUnconscious=false;}
+      if(el.dataset.field==='currentHP'&&value===0&&previousValue!==0)recordKnockout(c);
       if(el.dataset.field==='protection.srMax'){
         c.protection.sr=previousValue===0?value:Math.min(c.protection.sr,value);
       }
@@ -655,12 +659,13 @@ function events() {
       if(el.dataset.inventory==='equipped'&&el.checked)e.carried=true;
       if(el.dataset.inventory==='carried'&&!el.checked)e.equipped=false;
       if(el.dataset.inventory==='equipped'&&el.checked&&ix.equipment.get(e.id).kind==='armor') c.inventory.filter(other=>ix.equipment.get(other.id).kind==='armor').forEach(other=>other.equipped=false);
-      const val=el.type==='checkbox'?el.checked:['licenseStatus','weaponMode','launcher','ammunitionId','fireMode','attackStyle','scopeUid','stockPosition','ammoProfile'].includes(el.dataset.inventory)?el.value:Number(el.value);
+      const val=el.type==='checkbox'?el.checked:['licenseStatus','weaponMode','launcher','ammunitionId','fireMode','attackStyle','scopeUid','stockPosition','ammoProfile','damageSetting'].includes(el.dataset.inventory)?el.value:Number(el.value);
       if(el.dataset.inventory==='distance'&&el.value===''){delete e.distance;changed();return;}
       if(el.dataset.inventory==='weightOverride'&&el.value===''){delete e.weightOverride;changed();return;}
       if(el.dataset.inventory==='shotsRemaining'&&el.value===''){delete e.shotsRemaining;changed();return;}
       if(el.dataset.inventory==='shotsRemaining'&&(!Number.isInteger(val)||val<0||val>ammunitionProfile(e,pack).capacity)){notify('Enter a valid shot count.');render();return;}
       if(el.dataset.inventory==='ammoProfile'){delete e.shotsRemaining;e.aimed=false;}
+      if(el.dataset.inventory==='damageSetting')c.inventory.filter(item=>ix.equipment.get(item.id).kind==='weapon').forEach(item=>item.aimed=false);
       if(el.dataset.inventory==='scopeUid'&&!el.value){delete e.scopeUid;e.aimed=false;changed();return;}
       if(el.dataset.inventory==='ammunitionId'&&!el.value){delete e.ammunitionId;changed();return;}
       if(el.dataset.inventory==='distance'&&(!Number.isInteger(val)||val<0||val>100000)){notify('Enter a valid distance.');render();return;}

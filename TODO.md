@@ -26,7 +26,9 @@
   - [x] Aim, Careful Shot and Deadeye; one-use routine benefits and Counseling range stacking.
   - [x] Explicit Core loaded capacities, reload actions, supply prices, single attack resolution and aggregate routine spending.
   - [ ] Spare ammunition consumption, rechargeable packs, generator connections and E-Web crew/mount readiness.
-  - [ ] Remaining conditional feat actions and ion/stun target effects.
+  - [x] Stun settings/ranges, incoming HP/threshold/Condition Track effects, ion targets, FP survival and nonfatal Stun consciousness checks.
+  - [x] Saved Stun/Ion zero-HP death alternative in Ambiguities; type-specific knockout remains the default.
+  - [ ] Remaining conditional feat actions, bracing and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 
 - [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.

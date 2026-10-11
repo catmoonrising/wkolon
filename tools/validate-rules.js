@@ -182,6 +182,9 @@ export function validatePack(p) {
         if(r.mode==='ranged')assert(r.rangeType||r.ranges,'Missing ranged weapon ranges');
         if(r.areaType)assert(['burst','splash'].includes(r.areaType));
         if(r.stunDamage)assert(/^\d+d\d+$/.test(r.stunDamage));
+        if(r.stunRange!==undefined)assert(r.stunDamage&&r.mode==='ranged'&&r.stunRange===6,'Invalid stun range');
+        if(r.stunOnly!==undefined)assert(r.stunOnly===true&&!r.stunDamage,'Invalid stun-only weapon');
+        if(r.stunDamageType!==undefined)assert(r.stunDamage&&typeof r.stunDamageType==='string','Invalid stun damage type');
         if(r.modes){assert(new Set(r.modes.map(m=>m.id)).size===r.modes.length);for(const m of r.modes)assert(typeof m.id==='string'&&typeof m.name==='string'&&/^\d+d\d+$/.test(m.damage)&&typeof m.double==='boolean'&&typeof m.thrown==='boolean'&&Number.isInteger(m.reach)&&m.reach>=1);}
         if(r.launchers)for(const l of r.launchers)assert(typeof l.id==='string'&&typeof l.name==='string'&&l.rangeType in p.rules.weaponRanges.limits&&typeof l.accurate==='boolean');
       }
@@ -211,7 +214,8 @@ export function validatePack(p) {
   for(const group of ['naturalHealing','unconsciousRecovery'])assert(p.rules[group]?.sourceIds?.length&&p.rules[group].sourceIds.every(id=>sources.has(id)),`Missing ${group} sources`);
   const natural=p.rules.naturalHealing,awake=p.rules.unconsciousRecovery;
   assert.deepEqual(Object.keys(natural).sort(),['removablePersistent','restHours','sourceIds','usesPerDay']);assert(natural.restHours===8&&natural.usesPerDay===1);assert.deepEqual(natural.removablePersistent,['rage','second-wind','injury']);
-  assert.deepEqual(Object.keys(awake).sort(),['dc','deathFailureMargin','fatalNatural','firstMinutes','retryHours','sourceIds']);assert(awake.dc===10&&awake.firstMinutes===1&&awake.retryHours===1&&awake.deathFailureMargin===5&&awake.fatalNatural===1);
+  assert.deepEqual(Object.keys(awake).sort(),['dc','deathFailureMargin','fatalNatural','firstMinutes','retryHours','sourceIds','stunNoFatalCheck']);assert(awake.dc===10&&awake.firstMinutes===1&&awake.retryHours===1&&awake.deathFailureMargin===5&&awake.fatalNatural===1&&awake.stunNoFatalCheck===true);
+  const incoming=p.rules.incomingDamage;assert(incoming&&incoming.sourceIds.length&&incoming.sourceIds.every(id=>sources.has(id)),'Missing damage sources');assert.deepEqual(Object.keys(incoming).sort(),['forcePointCost','helplessStep','ion','normalThresholdSteps','sourceIds','stun']);assert(incoming.normalThresholdSteps===1&&incoming.helplessStep===5&&incoming.forcePointCost===1);assert.deepEqual(incoming.stun,{hpDivisor:2,thresholdSteps:2,blasterRange:6});assert.deepEqual(incoming.ion,{hpDivisor:2,thresholdSteps:2});
   if(access){assert(Object.keys(access).every(k=>['trees','sourceIds'].includes(k)));assert(Array.isArray(access.trees)&&access.trees.length===4&&new Set(access.trees).size===4&&access.trees.every(t=>p.talents.some(r=>r.tree===t)));assert(access.sourceIds.length&&access.sourceIds.every(id=>sources.has(id)));}
   if(recovery){assert(Object.keys(recovery).every(k=>['sourceIds','restMinutes','forcePointCost','naturalRoll'].includes(k)));assert(recovery.sourceIds.length&&recovery.sourceIds.every(id=>sources.has(id)));assert(recovery.restMinutes===1&&recovery.forcePointCost===1&&recovery.naturalRoll===20);}
   if(p.heroicTraits) {
@@ -239,7 +243,11 @@ export function validatePack(p) {
       for(const o of r.options)assert(Object.keys(o).every(k=>['value','name'].includes(k))&&/^[a-z0-9-]+$/.test(o.value)&&typeof o.name==='string','Invalid ambiguity option');
       assert(r.options.some(o=>o.value===r.default),'Invalid ambiguity default');
       assert(Array.isArray(r.passages)&&r.passages.length>=1,'Missing ambiguity passages');
-      for(const passage of r.passages){const page=p.rulePages.find(p=>p.id===passage.ruleId);assert(Object.keys(passage).every(k=>['ruleId','paragraphCount'].includes(k))&&page&&r.sourceIds.includes(page.sourceId)&&Number.isInteger(passage.paragraphCount)&&passage.paragraphCount>0&&passage.paragraphCount<=page.article.blocks.filter(n=>n?.tag==='p').length,'Invalid ambiguity passage');}
+      for(const passage of r.passages){
+        const page=p.rulePages.find(p=>p.id===passage.ruleId);
+        assert(Object.keys(passage).every(k=>['ruleId','paragraphCount','fullText'].includes(k))&&page&&r.sourceIds.includes(page.sourceId),'Invalid ambiguity passage');
+        assert(passage.fullText===true?passage.paragraphCount===undefined:passage.fullText===undefined&&Number.isInteger(passage.paragraphCount)&&passage.paragraphCount>0&&passage.paragraphCount<=page.article.blocks.filter(n=>n?.tag==='p').length,'Invalid ambiguity excerpt');
+      }
     }
   }
   assert(movement&&Object.keys(movement).every(k=>['sourceIds','speedMultipliers','runMultipliers','droidHeavySlowedSpeeds'].includes(k)),'Missing armor movement rules');

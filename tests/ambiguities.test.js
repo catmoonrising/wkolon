@@ -17,7 +17,7 @@ function runner(){
 test('ambiguity settings preserve explicit choices and defaults for older saves, rejecting unknown values',()=>{
  const c=runner();assert.equal(ambiguityValue(c,pack,id),'armor-limit');const ui=createHouseRules(pack);ui.setTab('ambiguities');
  let html=ui.render(c);assert(html.includes('Ambiguities')&&html.includes('data-ambiguity'));
- assert(html.includes('five times')&&html.includes('three times'));assert(!html.includes('Hard March'));assert(!html.toLowerCase().includes('droid'));
+ assert(html.includes('five times')&&html.includes('three times'));assert(!html.includes('Hard March'));assert(!pack.rules.ambiguities.some(r=>/droid.*armor|armor.*droid/i.test(r.name)));
  assert(ui.change({hasAttribute:n=>n==='data-ambiguity',dataset:{ambiguity:id},value:'sprint-limit'},c));
  const restored=JSON.parse(JSON.stringify(c));validateCharacter(restored,pack);assert.equal(ambiguityValue(restored,pack,id),'sprint-limit');
  assert.equal(ambiguityValue(newCharacter(pack),pack,id),'armor-limit');

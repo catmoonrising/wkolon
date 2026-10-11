@@ -1,15 +1,15 @@
 import {counselingEnabled,ambiguityValue} from './house-rules.js';
 import {evalExpr} from './dice.js';
 
-const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,ragesSpent:0,rageRounds:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,dead:false,limbs:[]});
+const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,ragesSpent:0,rageRounds:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
 export const recoveryState=c=>({...empty(),...c.recovery});
-const state=c=>{c.recovery=recoveryState(c);return c.recovery;};
+const state=c=>{c.recovery??={};Object.assign(c.recovery,recoveryState(c));return c.recovery;};
 const causes=Object.freeze({'rage':'Rage','second-wind':'Second Wind','injury':'Injury','limb-loss':'Lost limb','other':'Other'});
 export const persistentName=p=>Object.hasOwn(causes,p)?causes[p]:undefined;
 export function validateRecovery(c,bad){
  if(c.recovery===undefined)return;
  const r=c.recovery,integer=n=>Number.isInteger(n)&&n>=0&&n<=100000;
- if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).some(k=>!Object.keys(empty()).includes(k))||!['secondWindsSpent','ragesSpent','rageRounds'].every(k=>integer(r[k]))||typeof r.secondWindEncounter!=='boolean'||!Array.isArray(r.persistent)||new Set(r.persistent).size!==r.persistent.length||r.persistent.some(p=>!persistentName(p))||['naturalHealingUsed','unconsciousRetry','dead'].some(k=>r[k]!==undefined&&typeof r[k]!=='boolean'))bad('recovery state');
+ if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).some(k=>!Object.keys(empty()).includes(k))||!['secondWindsSpent','ragesSpent','rageRounds'].every(k=>integer(r[k]))||typeof r.secondWindEncounter!=='boolean'||!Array.isArray(r.persistent)||new Set(r.persistent).size!==r.persistent.length||r.persistent.some(p=>!persistentName(p))||['naturalHealingUsed','unconsciousRetry','stunUnconscious','dead'].some(k=>r[k]!==undefined&&typeof r[k]!=='boolean'))bad('recovery state');
  if(r.limbs!==undefined&&(!Array.isArray(r.limbs)||r.limbs.length>20||new Set(r.limbs.map(l=>l?.id)).size!==r.limbs.length||r.limbs.some(l=>!l||Object.keys(l).some(k=>!['id','name','days','persistent'].includes(k))||typeof l.id!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(l.id)||typeof l.name!=='string'||!l.name.trim()||l.name.length>100||typeof l.persistent!=='boolean'||!Number.isInteger(l.days)||l.days<1||l.days>10)))bad('limb regeneration');
 }
 export function recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude,extraSecondWinds,extraRages,rageBonus,forceRecovery}){
@@ -70,7 +70,7 @@ export function setPersistent(c,cause,on){
 }
 export function setDead(c,on){
  state(c).dead=on;
- if(on){c.currentHP=0;c.condition=5;state(c).rageRounds=0;}
+ if(on){c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
 }
 export function receiveHealing(c,d,pack,amount){
  if(!Number.isInteger(amount)||amount<1||amount>100000)throw new Error('Enter healing from 1 to 100,000');
@@ -78,7 +78,7 @@ export function receiveHealing(c,d,pack,amount){
  const before=c.currentHP??d.hp,unconscious=c.condition===5||before===0;
  const additive=!unconscious||ambiguityValue(c,pack,'ambiguity:unconscious-healing')==='add';
  c.currentHP=Math.min(d.hp,(additive?before:0)+amount);
- if(unconscious){c.condition=4;state(c).unconsciousRetry=false;}
+ if(unconscious){c.condition=4;state(c).unconsciousRetry=false;state(c).stunUnconscious=false;}
  return {before,after:c.currentHP,revived:unconscious};
 }
 export function restEightHours(c,d,pack){
@@ -86,24 +86,29 @@ export function restEightHours(c,d,pack){
  if(recoveryState(c).rageRounds)endRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;
  r.persistent=r.persistent.filter(p=>!rule.removablePersistent.includes(p));
- let healed=0;
+ const before=c.currentHP??d.hp;let healed=0;
  if(!r.persistent.length){
-  if(!r.naturalHealingUsed){const before=c.currentHP??d.hp;c.currentHP=Math.min(d.hp,before+d.recovery.naturalHealing.amount);healed=c.currentHP-before;r.naturalHealingUsed=true;}
-  if((c.currentHP??d.hp)>0){c.condition=0;r.unconsciousRetry=false;}
+  if(!r.naturalHealingUsed){receiveHealing(c,d,pack,d.recovery.naturalHealing.amount);healed=c.currentHP-before;r.naturalHealingUsed=true;}
+  if((c.currentHP??d.hp)>0){c.condition=0;r.unconsciousRetry=false;r.stunUnconscious=false;}
  }
- return {healed,blocked:!!r.persistent.length};
+ return {healed,before,after:c.currentHP??d.hp,blocked:!!r.persistent.length};
 }
 export function checkConsciousness(c,d,pack,roller=evalExpr){
  if(!d.recovery.unconscious.available)throw new Error('Consciousness check unavailable');
  const rule=pack.rules.unconsciousRecovery,mod=d.recovery.unconscious.modifier;
  const rolled=roller(`1d20${mod>=0?'+':''}${mod}`),natural=rolled.d20?.[0];
  if(!Number.isInteger(natural)||natural<1||natural>20||!Number.isFinite(rolled.value))throw new Error('Invalid Constitution check');
- const dead=natural===rule.fatalNatural||rolled.value<=rule.dc-rule.deathFailureMargin,success=!dead&&rolled.value>=rule.dc;
+ const fatal=natural===rule.fatalNatural||rolled.value<=rule.dc-rule.deathFailureMargin;
+ const dead=fatal&&!(recoveryState(c).stunUnconscious&&rule.stunNoFatalCheck),success=!fatal&&rolled.value>=rule.dc;
  const r=state(c);
  if(dead)setDead(c,true);
- else if(success){c.currentHP=Math.min(d.hp,(c.currentHP??d.hp)+d.level);c.condition=4;r.unconsciousRetry=false;}
+ else if(success){c.currentHP=Math.min(d.hp,(c.currentHP??d.hp)+d.level);c.condition=4;r.unconsciousRetry=false;r.stunUnconscious=false;}
  else {r.unconsciousRetry=true;setPersistent(c,'injury',true);c.condition=5;}
  return {rolled,success,dead};
+}
+export function recordKnockout(c,type='normal'){
+ if(c.recovery===undefined&&type!=='stun')return;
+ const r=state(c);r.stunUnconscious=type==='stun';r.unconsciousRetry=false;
 }
 export function loseLimb(c,pack,name,roller=evalExpr,persistentInjury=true){
  const trait=pack.species.find(s=>s.id===c.species)?.limbRegeneration,r=recoveryState(c);

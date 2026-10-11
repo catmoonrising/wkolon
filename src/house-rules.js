@@ -15,7 +15,7 @@ export function createHouseRules(pack){
  let tab='settings',search='';
  const pages=new Map(pack.rulePages.map(r=>[r.id,r]));
  const mode=id=>pack.rules.counselingApplications[id]==='raw-equivalent'?'RAW unchanged':pack.rules.counselingApplications[id]?'Automatic':'Manual';
- const passage=r=>{const p=pages.get(r.ruleId);return `<h4>${escape(p.name)}</h4>${renderArticle({...p.article,blocks:p.article.blocks.filter(n=>n?.tag==='p').slice(0,r.paragraphCount)})}`;};
+ const passage=r=>{const p=pages.get(r.ruleId);return `<h4>${escape(p.name)}</h4>${renderArticle({...p.article,blocks:r.fullText?p.article.blocks:p.article.blocks.filter(n=>n?.tag==='p').slice(0,r.paragraphCount)})}`;};
  return {
   render(c){
    const topics=pack.jediCounseling.filter(r=>(r.name+' '+r.issue).toLowerCase().includes(search.toLowerCase()));

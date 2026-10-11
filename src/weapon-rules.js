@@ -13,6 +13,7 @@ export function unarmedWeapon(pack,size,steps=0){
 }
 export function weaponRange(w,entry,pack,has,c){
  if(w.mode!=='ranged')return {limits:null,band:null,penalty:0,available:true};
+ if(w.damageEffect==='stun'&&w.stunRange){const limit=w.stunRange;return {limits:[limit,limit,limit,limit],band:entry.distance===undefined?null:entry.distance<=limit?0:-1,penalty:0,available:entry.distance===undefined||entry.distance<=limit};}
  const limits=w.ranges||pack.rules.weaponRanges.limits[w.rangeType];
  const distance=entry.distance;
  const band=distance===undefined?null:limits.findIndex(n=>distance<=n);

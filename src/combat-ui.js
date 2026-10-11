@@ -1,6 +1,7 @@
 import {escapeHTML as escape} from './wiki-content.js';
-import {protectedDamage,rollRoutine,routineIssue} from './combat.js';
+import {rollRoutine,routineIssue} from './combat.js';
 import {reloadWeapon,spendAttackResources} from './ammunition.js';
+import {applyIncomingDamage} from './incoming-damage.js';
 
 const input=(key,value,label,max=100000)=>`<input type="number" min="0" max="${max}" data-field="${key}" value="${value}" aria-label="${label}">`;
 const percent=(current,max)=>max>0?Math.max(0,Math.min(100,current/max*100)):0;
@@ -10,7 +11,7 @@ export function statBar(kind,label,current,max,key,attrs=''){
 }
 export function healthBars(c,d){
  const p=c.protection;
- return `<div class="hp-bars"><div class="resource-bar sr-bar"><div class="resource-fill" style="width:${percent(p.sr,p.srMax)}%"></div><span class="resource-label"><abbr title="Shield Rating">SR</abbr> ${input('protection.sr',p.sr,'Current SR',p.srMax)}<span>/</span>${input('protection.srMax',p.srMax,'Maximum SR')}</span></div><div class="resource-bar dr-bar"><div class="resource-fill" style="width:${percent(p.dr,d.hp)}%"></div><span class="resource-label"><abbr title="Damage Reduction">DR</abbr> ${input('protection.dr',p.dr,'Damage reduction')}</span></div><div class="hp-bar"><div class="hp-fill" style="width:${percent(c.currentHP??d.hp,d.hp)}%"></div><span class="hp-bar-text"><input id="hp-cur" aria-label="Current HP" type="number" min="0" max="100000" data-field="currentHP" value="${c.currentHP??d.hp}"><span class="hp-slash">/</span><span class="derived">${d.hp}</span></span></div></div><details id="hp-damage-controls"><summary>Damage</summary><form id="apply-damage" class="actions"><input type="number" min="0" max="1000000000" value="0" aria-label="Incoming damage" data-incoming-damage><label><input type="checkbox" data-ignore-dr>Ignore DR</label><button type="submit">Apply</button></form><label>DR exceptions <input data-field="protection.drBypass" value="${escape(p.drBypass)}" maxlength="2000"></label><div class="hint"><a href="https://swse.miraheze.org/wiki/Damage_Reduction" target="_blank" rel="noopener">DR</a> · <a href="https://swse.miraheze.org/wiki/Shield_Rating" target="_blank" rel="noopener">SR</a></div></details>`;
+ return `<div class="hp-bars"><div class="resource-bar sr-bar"><div class="resource-fill" style="width:${percent(p.sr,p.srMax)}%"></div><span class="resource-label"><abbr title="Shield Rating">SR</abbr> ${input('protection.sr',p.sr,'Current SR',p.srMax)}<span>/</span>${input('protection.srMax',p.srMax,'Maximum SR')}</span></div><div class="resource-bar dr-bar"><div class="resource-fill" style="width:${percent(p.dr,d.hp)}%"></div><span class="resource-label"><abbr title="Damage Reduction">DR</abbr> ${input('protection.dr',p.dr,'Damage reduction')}</span></div><div class="hp-bar"><div class="hp-fill" style="width:${percent(c.currentHP??d.hp,d.hp)}%"></div><span class="hp-bar-text"><input id="hp-cur" aria-label="Current HP" type="number" min="0" max="100000" data-field="currentHP" value="${c.currentHP??d.hp}"><span class="hp-slash">/</span><span class="derived">${d.hp}</span></span></div></div><details id="hp-damage-controls"><summary>Damage</summary><form id="apply-damage" class="actions"><input type="number" min="0" max="1000000000" value="0" aria-label="Incoming damage" data-incoming-damage><select data-damage-type aria-label="Incoming damage type"><option value="normal">Normal</option><option value="stun">Stun</option><option value="ion">Ion</option></select><label><input type="checkbox" data-ignore-dr>Ignore DR</label>${d.forceCurrent>0?'<label><input type="checkbox" data-survive-fp>1 FP to survive</label>':''}<button type="submit" ${d.recovery.dead?'disabled':''}>Apply</button></form><label><input type="checkbox" data-combat-cybernetic ${c.cybernetic?'checked':''}>Cybernetic</label><label>DR exceptions <input data-field="protection.drBypass" value="${escape(p.drBypass)}" maxlength="2000"></label><div class="hint"><a href="https://swse.miraheze.org/wiki/Stun_Damage" data-rule-page="rule:stun-damage">Stun</a> · <a href="https://swse.miraheze.org/wiki/Ion_Damage" data-rule-page="rule:ion-damage">Ion</a> · <a href="https://swse.miraheze.org/wiki/Damage_Reduction" target="_blank" rel="noopener">DR</a> · <a href="https://swse.miraheze.org/wiki/Shield_Rating" target="_blank" rel="noopener">SR</a></div></details>`;
 }
 export function xpBar(c,d,rules){
  const floor=d.level*(d.level-1)/2*rules.xpStep,next=d.nextXP;
@@ -44,7 +45,7 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
  }
  return {renderRoutines,
   input(event){if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
-  change:edit,
+  change(el){if(el.hasAttribute('data-combat-cybernetic')){current().cybernetic=el.checked;changed();return true;}return edit(el);},
   click(el){
    const action=el?.dataset.combat;if(!action)return false;
    if(action==='attack'){const a=derived().attacks.find(a=>a.uid===el.dataset.attackId);if(a)run({name:a.name,steps:[{attackId:a.uid,count:1,attackMod:0,damageMod:0}]});return true;}
@@ -67,9 +68,8 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
    const el=form.querySelector('[data-incoming-damage]'),amount=Number(el.value);
    try{
     const c=current(),d=derived(),before=c.protection.sr;
-    const result=protectedDamage(c.protection,amount,pack.rules.combat,form.querySelector('[data-ignore-dr]').checked);
-    c.currentHP=Math.max(0,(c.currentHP??d.hp)-result.hpDamage);c.protection.sr=result.srAfter;
-    log('hp',`Damage ${amount}: SR −${result.srBlocked}, DR −${result.drBlocked}; HP −${result.hpDamage}${before!==result.srAfter?`; SR ${before} → ${result.srAfter}`:''}`);changed();
+    const result=applyIncomingDamage(c,d,pack,amount,{type:form.querySelector('[data-damage-type]').value,ignoreDR:form.querySelector('[data-ignore-dr]').checked,spendForcePoint:form.querySelector('[data-survive-fp]')?.checked});
+    log('hp',`${result.type==='normal'?'Damage':result.type==='stun'?'Stun':'Ion'} ${amount}: ${result.immune?'Immune':`SR −${result.srBlocked}, DR −${result.drBlocked}; HP ${result.beforeHP} → ${result.afterHP}${result.conditionSteps?`; −${result.conditionSteps} condition steps`:''}${result.dead?'; '+(pack.species.find(s=>s.id===c.species).isDroid?'Destroyed':'Dead'):''}${result.forcePointSpent?'; −1 Force Point':''}${before!==result.srAfter?`; SR ${before} → ${result.srAfter}`:''}`}`);changed();
    }catch(e){error(e.message);}
   }
  };

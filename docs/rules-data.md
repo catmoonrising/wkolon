@@ -444,3 +444,41 @@ Aim. Misses and failed area attacks spend ammunition. The sheet's ▶ button res
 a single attack through that same pipeline; its separate dice buttons remain
 previews. Reload's tooltip gives the required action; elapsed combat time and
 supplying a fresh magazine/pack are asserted by the player.
+
+
+## Stun settings and incoming damage
+
+Reviewed weapon fields `stunRange`, `stunOnly` and `stunDamageType` complement the
+existing `stunDamage` dice. Inventory `damageSetting` selects normal/stun only
+where the weapon permits it. Resolved weapons expose a separate `damageEffect`
+(normal, stun or ion) while preserving physical damage types. Grenade payloads
+carry the effect into their launcher. A blaster's Stun range is six squares with
+no penalties; range feats and accessories cannot extend it.
+
+`rules.incomingDamage` declares pinned sources, ordinary threshold steps, the
+Helpless step, the survival Force Point cost and the two special damage profiles.
+`damageOutcome` computes without mutation; `applyIncomingDamage` atomically
+updates HP, shields, Condition Track, knockout cause, optional FP and death.
+The explicit survival choice spends only on a qualifying lethal zero-HP attack;
+it never spends on nonlethal damage or an ineligible positive-HP death. Incoming
+amounts represent one attack, already adjusted for the attack's area hit/miss,
+Evasion and cover. General shield/DR protection precedes HP-only halving, while
+special threshold checks use the protected pre-halving amount. This combined
+ordering and the type-specific knockout interpretation are documented for review.
+The saved `ambiguity:stun-ion-death` choice defaults to `knockout`; `general-death`
+applies the general lethal threshold and FP exception at zero HP. Ambiguity
+passages select either a positive `paragraphCount` or `fullText: true`, never
+both, so list-based rules retain their original presentation.
+
+Optional saved `cybernetic` is a boolean target classification; it neither grants
+prosthesis equipment nor applies unreviewed implant modifiers. Optional recovery
+`stunUnconscious` preserves the printed nonfatal consciousness-check exception.
+`rules.unconsciousRecovery.stunNoFatalCheck` and its pinned source declare that
+exception. A natural one still remains unconscious even if its total reaches DC
+10. Healing/check success/rest clears the cause. Bellow and other newly recorded
+knockouts use their own cause rather than retaining an old Stun exemption.
+
+Natural healing uses the same unconscious healing calculation as received
+healing. Rest reports before/after HP, since literal replacement can reduce
+remaining HP. The once-per-day ledger remains attached to the same recovery
+object throughout revival. Old characters need none of the new fields.

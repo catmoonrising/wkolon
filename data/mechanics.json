@@ -4253,6 +4253,26 @@
       "sha256": "fe83760174a1462160f0157d344bc79c2e28ab65b774e0283ed5a79af21c8d20",
       "url": "https://swse.miraheze.org/w/index.php?oldid=27406",
       "history": "https://swse.miraheze.org/w/index.php?title=Attacks&action=history"
+    },
+    {
+      "id": "source:wiki-stun-damage",
+      "title": "Stun Damage",
+      "section": null,
+      "revision": 18534,
+      "timestamp": "2024-08-25T20:16:37Z",
+      "sha256": "f069a92ecfaa5ead2e03958359c8a0c334fc59999cb378921e9c18936385fdf4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18534",
+      "history": "https://swse.miraheze.org/w/index.php?title=Stun%20Damage&action=history"
+    },
+    {
+      "id": "source:wiki-ion-damage",
+      "title": "Ion Damage",
+      "section": null,
+      "revision": 26732,
+      "timestamp": "2025-07-05T16:41:36Z",
+      "sha256": "09c9ce834ff4f13cc83637c9d5850ea94bfc40ec67500b62939fca7095a77aae",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26732",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ion%20Damage&action=history"
     }
   ],
   "species": [
@@ -9018,7 +9038,8 @@
           ],
           "sourceId": "source:blaster-pistol"
         }
-      ]
+      ],
+      "stunRange": 6
     },
     {
       "id": "equipment:blaster-rifle",
@@ -9057,7 +9078,8 @@
           ],
           "sourceId": "source:blaster-rifle"
         }
-      ]
+      ],
+      "stunRange": 6
     },
     {
       "id": "equipment:combat-jumpsuit",
@@ -9592,7 +9614,8 @@
           ],
           "sourceId": "source:wiki-blaster-carbine"
         }
-      ]
+      ],
+      "stunRange": 6
     },
     {
       "id": "equipment:bow",
@@ -9964,7 +9987,8 @@
           ],
           "sourceId": "source:wiki-heavy-blaster-pistol"
         }
-      ]
+      ],
+      "stunRange": 6
     },
     {
       "id": "equipment:heavy-blaster-rifle",
@@ -10000,7 +10024,8 @@
           ],
           "sourceId": "source:wiki-heavy-blaster-rifle"
         }
-      ]
+      ],
+      "stunRange": 6
     },
     {
       "id": "equipment:heavy-repeating-blaster",
@@ -10472,7 +10497,8 @@
           ],
           "sourceId": "source:wiki-sporting-blaster-pistol"
         }
-      ]
+      ],
+      "stunRange": 6
     },
     {
       "id": "equipment:sporting-blaster-rifle",
@@ -10507,7 +10533,8 @@
           ],
           "sourceId": "source:wiki-sporting-blaster-rifle"
         }
-      ]
+      ],
+      "stunRange": 6
     },
     {
       "id": "equipment:stun-baton",
@@ -10518,7 +10545,7 @@
       "mode": "melee",
       "size": "small",
       "damage": "1d6",
-      "damageType": "Bludgeoning or Energy (Stun)",
+      "damageType": "Bludgeoning",
       "cost": 15.0,
       "weight": 0.5,
       "availability": [],
@@ -10528,7 +10555,8 @@
       "autofireOnly": false,
       "areaAttack": false,
       "stunDamage": "2d6",
-      "mechanical": true
+      "mechanical": true,
+      "stunDamageType": "Energy"
     },
     {
       "id": "equipment:stun-grenade",
@@ -10552,7 +10580,8 @@
       "areaAttack": true,
       "rangeType": "thrown",
       "areaType": "burst",
-      "mechanical": true
+      "mechanical": true,
+      "stunOnly": true
     },
     {
       "id": "equipment:thermal-detonator",
@@ -11108,6 +11137,40 @@
             "name": "Add to remaining HP"
           }
         ]
+      },
+      {
+        "id": "ambiguity:stun-ion-death",
+        "name": "Stun/Ion at 0 HP",
+        "sourceIds": [
+          "source:wiki-stun-damage",
+          "source:wiki-ion-damage",
+          "source:wiki-hit-points"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:stun-damage",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:ion-damage",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:hit-points",
+            "paragraphCount": 4
+          }
+        ],
+        "default": "knockout",
+        "options": [
+          {
+            "value": "knockout",
+            "name": "Unconscious/Disabled"
+          },
+          {
+            "value": "general-death",
+            "name": "Apply general death rule"
+          }
+        ]
       }
     ],
     "forceTalentAccess": {
@@ -11266,13 +11329,15 @@
     },
     "unconsciousRecovery": {
       "sourceIds": [
-        "source:wiki-hit-points-falling-unconscious"
+        "source:wiki-hit-points-falling-unconscious",
+        "source:wiki-stun-damage"
       ],
       "dc": 10,
       "firstMinutes": 1,
       "retryHours": 1,
       "deathFailureMargin": 5,
-      "fatalNatural": 1
+      "fatalNatural": 1,
+      "stunNoFatalCheck": true
     },
     "weaponAccessories": {
       "sourceIds": [
@@ -11294,6 +11359,26 @@
         "source:wiki-attacks"
       ],
       "autofireShots": 10
+    },
+    "incomingDamage": {
+      "sourceIds": [
+        "source:wiki-stun-damage",
+        "source:wiki-ion-damage",
+        "source:wiki-hit-points",
+        "source:wiki-conditions"
+      ],
+      "normalThresholdSteps": 1,
+      "helplessStep": 5,
+      "forcePointCost": 1,
+      "stun": {
+        "hpDivisor": 2,
+        "thresholdSteps": 2,
+        "blasterRange": 6
+      },
+      "ion": {
+        "hpDivisor": 2,
+        "thresholdSteps": 2
+      }
     }
   },
   "heroicTraits": {

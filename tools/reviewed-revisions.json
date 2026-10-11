@@ -322,5 +322,7 @@
   "Energy Cell": 18148,
   "Power Recharger": 18416,
   "Power Generator": 18413,
-  "Manipulate an Item": 18345
+  "Manipulate an Item": 18345,
+  "Stun Damage": 18534,
+  "Ion Damage": 26732
 }

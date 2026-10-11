@@ -635,6 +635,9 @@
             },
             "fatalNatural": {
               "const": 1
+            },
+            "stunNoFatalCheck": {
+              "const": true
             }
           }
         },
@@ -687,6 +690,72 @@
             },
             "autofireShots": {
               "const": 10
+            }
+          }
+        },
+        "incomingDamage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "normalThresholdSteps",
+            "helplessStep",
+            "forcePointCost",
+            "stun",
+            "ion"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "normalThresholdSteps": {
+              "const": 1
+            },
+            "helplessStep": {
+              "const": 5
+            },
+            "forcePointCost": {
+              "const": 1
+            },
+            "stun": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "hpDivisor",
+                "thresholdSteps",
+                "blasterRange"
+              ],
+              "properties": {
+                "hpDivisor": {
+                  "const": 2
+                },
+                "thresholdSteps": {
+                  "const": 2
+                },
+                "blasterRange": {
+                  "const": 6
+                }
+              }
+            },
+            "ion": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "hpDivisor",
+                "thresholdSteps"
+              ],
+              "properties": {
+                "hpDivisor": {
+                  "const": 2
+                },
+                "thresholdSteps": {
+                  "const": 2
+                }
+              }
             }
           }
         }
@@ -1486,6 +1555,15 @@
               }
             }
           }
+        },
+        "stunRange": {
+          "const": 6
+        },
+        "stunOnly": {
+          "const": true
+        },
+        "stunDamageType": {
+          "type": "string"
         }
       }
     },
@@ -1871,8 +1949,7 @@
             "type": "object",
             "additionalProperties": false,
             "required": [
-              "ruleId",
-              "paragraphCount"
+              "ruleId"
             ],
             "properties": {
               "ruleId": {
@@ -1881,8 +1958,33 @@
               "paragraphCount": {
                 "type": "integer",
                 "minimum": 1
+              },
+              "fullText": {
+                "const": true
               }
-            }
+            },
+            "oneOf": [
+              {
+                "required": [
+                  "paragraphCount"
+                ],
+                "not": {
+                  "required": [
+                    "fullText"
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "fullText"
+                ],
+                "not": {
+                  "required": [
+                    "paragraphCount"
+                  ]
+                }
+              }
+            ]
           }
         },
         "default": {

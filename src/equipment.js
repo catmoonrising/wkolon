@@ -38,7 +38,10 @@ export function resolveEquipment(e,pack,c={}){
  if(r.retractableStock&&e.stockPosition==='none')tags.push('No Stock');
  const throwing=e.attackStyle==='thrown'&&(mode?.thrown??r.thrown);
  if(throwing)tags.push('Thrown');
- return {...r,...mode,...(launcher?{rangeType:launcher.rangeType,accurate:launcher.accurate}:{}),...(ammunition?{damage:ammunition.damage,damageType:ammunition.damageType,areaType:ammunition.areaType,stunDamage:ammunition.stunDamage}:{}),...(r.retractableStock&&e.stockPosition==='folded'?{group:'pistols',rangeType:'pistols'}:{}),...(throwing?{mode:'ranged',rangeType:'thrown'}:{}),id:r.id,cost,weight,name:r.family?`${r.family} (${tags.join(', ')})`:r.name+(tags.length?` (${tags.join(', ')})`:'')};
+ const stun=!!ammunition?.stunOnly||!!r.stunOnly||e.damageSetting==='stun';
+ const damageType=stun?(r.stunDamageType||ammunition?.damageType||r.damageType)+' (Stun)':ammunition?.damageType||r.damageType;
+ if(stun&&!r.stunOnly&&!ammunition?.stunOnly)tags.push('Stun');
+ return {...r,...mode,...(launcher?{rangeType:launcher.rangeType,accurate:launcher.accurate}:{}),...(ammunition?{damage:ammunition.damage,areaType:ammunition.areaType,stunDamage:ammunition.stunDamage}:{}),...(stun&&r.stunDamage?{damage:r.stunDamage}:{}),...(r.retractableStock&&e.stockPosition==='folded'?{group:'pistols',rangeType:'pistols'}:{}),...(throwing?{mode:'ranged',rangeType:'thrown'}:{}),damageType,damageEffect:stun?'stun':damageType==='Ion'?'ion':'normal',id:r.id,cost,weight,name:r.family?`${r.family} (${tags.join(', ')})`:r.name+(tags.length?` (${tags.join(', ')})`:'')};
 }
 export function purchaseQuote(e,quantity,pack,c,{license=true,market='normal',benefits={}}={}){
  const item=resolveEquipment(e,pack,c);
@@ -66,6 +69,7 @@ export function validateInventoryOptions(e,pack,bad){
  if(e.stockPosition!==undefined&&(!r.retractableStock||!['none','extended','folded'].includes(e.stockPosition)))bad('stock position');
  if(e.oneHanded!==undefined&&(r.kind!=='weapon'||r.mode!=='ranged'||typeof e.oneHanded!=='boolean'))bad('weapon grip');
  if(e.aimed!==undefined&&(r.kind!=='weapon'||typeof e.aimed!=='boolean'))bad('aim');
+ if(e.damageSetting!==undefined&&(!r.stunDamage||!['normal','stun'].includes(e.damageSetting)))bad('damage setting');
  if(e.scopeUid!==undefined&&(!['pistols','rifles'].includes(r.group)||typeof e.scopeUid!=='string'||!/^[a-f0-9-]{36}$/.test(e.scopeUid)))bad('targeting scope');
 }
 

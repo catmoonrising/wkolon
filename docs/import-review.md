@@ -294,7 +294,8 @@ The weapon review preserved these exceptions:
 - Combat Gloves add one unarmed damage bonus, with Small and Medium variants.
 - Autofire carries its -5 attack penalty and area rules. Reviewed loaded-shot
   counters now spend ten shots per autofire attack. Stocks and scopes are supported;
-  bracing, ion/stun target effects and other readiness requirements remain manual.
+  bracing and other readiness requirements remain manual. Incoming damage now
+  applies the separately reviewed ion/stun rules.
 
 Area routines no longer multiply natural-20 damage. Misses halve rolled damage;
 Evasion, cover and splash have separate result columns. These are rolled damage
@@ -416,3 +417,47 @@ ammunition, conversion of partially used batteries between weapons, and loaded
 versus spare battery weight are not inferred. Generator attachment/crew state,
 spare consumption and four-hour recharging need separate reviewed resource state;
 buying those supplies currently records possessions only.
+
+## Incoming damage and Stun review
+
+Stun Damage 18534, Ion Damage 26732, Hit Points 23421 and Conditions 24990
+provide the reviewed incoming-damage mapping. Normal damage that meets the
+current threshold moves one step; reaching zero HP becomes Helpless. Meeting
+threshold on the attack reaching zero causes death/destruction, with an explicit
+one-Force-Point survival choice. The already-unconscious normal-damage rule is
+also retained: threshold damage kills even if HP would remain. A Force Point
+cannot prevent that positive-HP death because its exception requires zero HP.
+
+Stun halves HP damage, compares damage before that halving to threshold and moves
+two steps. Droids are immune. A Stun knockout records its cause; natural 1 or a
+Constitution check failing by five remains unconscious instead of dying. The
+generic failed-check persistent injury still applies, since Stun supplies no
+exception for it. Successful checks, healing and completed rest clear the cause.
+A manual Stunned checkbox supports existing/adjudicated unconscious characters.
+
+Blaster Stun settings use the printed six-square maximum with no range penalty;
+Far Shot, Accurate, stocks and scopes cannot extend it. Melee Stun settings retain
+melee range. Stun Baton uses 1d6 Bludgeoning normally or 2d6 Energy (Stun); Stun
+Grenade and a launcher's Stun Grenade payload retain their Stun-only effect.
+Autofire is not prohibited by the Stun page, so it retains the general ten-shot
+cost and area rules when selected. No extra prohibition is invented.
+
+Ion follows its dedicated rule by default: all targets lose half HP damage, with
+the two-step threshold effect limited to electronic/cybernetic targets. A saved
+Cybernetic flag identifies that target condition independently of species. The
+contradictory Ion Pistol/Rifle descriptions remain visible in full.
+
+**Interpretations notified to the user:** general SR/DR protection is applied
+before HP-only halving, and threshold uses the protected amount before halving.
+The pages do not provide a combined worked example. Dedicated Stun/Ion knockout
+wording is treated as the specific exception to generic zero-HP death by default.
+The user approved a saved Ambiguities alternative applying general death when
+Stun/Ion damage reaches zero HP and meets threshold, with the same Force Point
+survival option. This choice leaves positive-HP special-damage knockouts and
+Stun consciousness-check protection intact. Full Stun/Ion passages retain the
+list items containing their knockout rules alongside the general HP passage.
+
+**Recovery correction:** natural healing during unconsciousness now uses the
+user's literal HP replacement default, or the existing additive Ambiguities
+choice. Eight-hour rest still clears eligible conditions and retains its daily
+healing ledger; a type-specific revival no longer loses that ledger.
