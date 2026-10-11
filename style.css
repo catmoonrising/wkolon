@@ -103,6 +103,8 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 #condition-effect tr[data-condition-step] { cursor: pointer; }
 #condition-effect tr[data-condition-step]:hover { background: color-mix(in srgb, var(--fg) 8%, var(--bg)); }
 #condition-effect tr.condition-on, #condition-effect tr.condition-on:hover { background: var(--accent-soft-bg); }
+.rules-library .rule-link { color: var(--link); background: transparent; border: 0; padding: 0; text-align: left; cursor: pointer; }
+.rules-library .rule-link:hover { text-decoration: underline; }
 #condition-effect tr.condition-current { font-weight: bold; }
 #condition-effect button { background: transparent; color: inherit; border: 0; font: inherit; padding: .1rem 0; width: 100%; text-align: left; }
 .module[data-module=condition] { max-width: 100%; }

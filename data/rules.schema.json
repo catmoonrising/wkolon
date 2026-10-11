@@ -250,6 +250,29 @@
       "items": {
         "$ref": "#/$defs/record"
       }
+    },
+    "catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "book",
+        "records"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "book": {
+          "const": "Core Rulebook"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/catalogRecord"
+          }
+        }
+      }
     }
   },
   "$defs": {
@@ -451,6 +474,79 @@
           }
         }
       ]
+    },
+    "catalogRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "sourceId",
+        "ruleId",
+        "books",
+        "status",
+        "mechanicsIds"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^catalog:[a-z0-9-]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "species",
+            "class",
+            "prestigeClass",
+            "skill",
+            "feat",
+            "talent",
+            "talentTree",
+            "weapon",
+            "armor",
+            "gear",
+            "forcePower"
+          ]
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "ruleId": {
+          "type": "string",
+          "pattern": "^rule:[a-z0-9-]+$"
+        },
+        "books": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "enum": [
+            "available",
+            "reference"
+          ]
+        },
+        "tree": {
+          "type": "string"
+        },
+        "classIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mechanicsIds": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
     }
   }
 }

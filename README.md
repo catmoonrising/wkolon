@@ -50,13 +50,20 @@ not an automatically executable pack. Compilation checks the reviewed revision m
 New mechanical mappings need explicit
 review of prerequisites, stacking, conditions, timing and errata.
 
-To reproduce the initial pack's revision capture and reviewed mapping:
+Import the Core Rulebook library and build the browser pack:
 
 ```sh
-python3 tools/wiki-extract.py --titles-file tools/core-titles.txt --output .build/wiki-snapshot.json
+python3 tools/import-wiki.py
 python3 tools/compile-core.py
 npm run validate
 ```
+
+The compiler also works offline from the committed `data/wiki-catalog.json` and
+`data/mechanics.json`. Use `python3 tools/import-wiki.py --offline` to repeat an
+import from previously captured raw snapshots and pinned parse files. Importing
+text does not enable unreviewed mechanics. Rules contains the searchable embedded
+library; [docs/import-review.md](docs/import-review.md) records source conflicts
+and pending mechanical mappings.
 
 Raw snapshots are gitignored. Reviewed structured data is committed so the Pages
 site works immediately. Wiki adaptations retain CC BY-SA 4.0 attribution;

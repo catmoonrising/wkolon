@@ -131,7 +131,8 @@ const server=http.createServer((req,res)=>{
   assert((await page.locator('#module-skills [id="ref-skill:mechanics"] .rules-ref-body').innerText()).includes('INT modifier'));
   await page.locator('#module-skills [id="ref-skill:mechanics"] > summary').click();
   await page.locator('#module-inventory [id="inventory-1-equipment:stormtrooper-armor"] > summary').click();
-  assert((await page.locator('#module-inventory [id="inventory-1-equipment:stormtrooper-armor"] .rules-ref-body').innerText()).includes('Reflex +6'));
+  const armorText=await page.locator('#module-inventory [id="inventory-1-equipment:stormtrooper-armor"] .rules-ref-body').innerText();
+  assert(/Bonus to\s+Reflex Defense:\s*\+6/.test(armorText));
   await page.locator('#module-inventory [id="inventory-1-equipment:stormtrooper-armor"] > summary').click();
   // Math fields retain pmcrwf's relative adjustment and expression behavior.
   const hp=page.locator('#hp-cur');const initialHP=Number(await hp.inputValue());
@@ -211,6 +212,17 @@ const server=http.createServer((req,res)=>{
   await page.keyboard.press('Escape');await editor.waitFor({state:'hidden'});
   await page.waitForFunction(()=>location.hash==='#overview');
   await page.evaluate(()=>location.hash='rules');await editor.getByRole('heading',{name:'Source revisions'}).waitFor();
+  await editor.locator('#rules-kind').selectOption('forcePower');
+  await editor.locator('#rules-search').fill('Lightning');
+  await editor.locator('#rules-results [data-rule-page="rule:force-lightning"]').click();
+  await page.locator('#rule-detail-modal').waitFor();
+  assert((await page.locator('#rule-detail-body').innerText()).includes('8d6'));
+  await page.locator('#rule-detail-close').click();
+  await editor.locator('#rules-search').fill('amphibious');
+  await editor.locator('#rules-kind').selectOption('species');
+  assert(await editor.locator('#rules-results').getByRole('button',{name:'Mon Calamari',exact:true}).count());
+  await editor.locator('#rules-builder-only').check();
+  assert.equal(await editor.locator('#rules-results').getByRole('button',{name:'Mon Calamari',exact:true}).count(),0);
   await editor.locator('#cr-done').click();await page.locator('#print').click();
   assert.equal(await editor.isVisible(),false);
   assert(await page.locator('#stat-block-modal').isVisible());
@@ -240,7 +252,7 @@ const server=http.createServer((req,res)=>{
   assert(await offlinePage.evaluate(async()=>!(await caches.keys()).includes('wkolon-old')));
   assert(await offlinePage.evaluate(async()=>(await caches.keys()).includes('pmcrwf-sentinel')));
   const cached=await offlinePage.evaluate(async()=> (await (await caches.open('wkolon-__BUILD__')).keys()).map(req=>req.url));
-  for (const asset of ['data/core.json','src/math-fields.js','src/dice.js','src/ability-generation.js','src/creation-steps.js','src/combat.js','src/combat-ui.js','src/stat-block.js','src/stat-block-ui.js','src/rules-reference.js','css/themes/truesight-dark.css','layouts/flow.json']) assert(cached.some(url=>url.endsWith('/wkolon/'+asset)),asset);
+  for (const asset of ['data/core.json','src/rules-catalog.js','docs/import-review.md','src/math-fields.js','src/dice.js','src/ability-generation.js','src/creation-steps.js','src/combat.js','src/combat-ui.js','src/stat-block.js','src/stat-block-ui.js','src/rules-reference.js','css/themes/truesight-dark.css','layouts/flow.json']) assert(cached.some(url=>url.endsWith('/wkolon/'+asset)),asset);
   await offlinePage.locator('main [data-field="name"]').fill('Offline hero');
   await offlineContext.setOffline(true);await offlinePage.reload();await offlinePage.locator('#module-abilities').waitFor();
   assert.equal(await offlinePage.locator('main [data-field="name"]').inputValue(),'Offline hero');
@@ -248,6 +260,11 @@ const server=http.createServer((req,res)=>{
   await offlinePage.waitForFunction(()=>getComputedStyle(document.body).backgroundColor==='rgb(22, 22, 26)');
   await offlinePage.locator('[id="ref-skill:mechanics"] > summary').click();
   assert((await offlinePage.locator('[id="ref-skill:mechanics"] .rules-ref-body').innerText()).includes('INT modifier'));
+  await offlinePage.evaluate(()=>location.hash='rules');
+  await offlinePage.locator('#rules-kind').selectOption('forcePower');
+  await offlinePage.locator('#rules-search').fill('Lightning');
+  await offlinePage.locator('#rules-results [data-rule-page="rule:force-lightning"]').click();
+  assert((await offlinePage.locator('#rule-detail-body').innerText()).includes('8d6'));
   await offlineContext.close();assert.deepEqual(errors,[]);
   console.log('Browser: complete offline reload, themes, rules and sister cache isolation passed');
   // A fixture species tests droid classification without publishing invented droid mechanics.

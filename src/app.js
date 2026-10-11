@@ -1,5 +1,6 @@
 import {createFeatureTrees} from './feature-trees.js';
 import {createSpeciesBrowser} from './species-browser.js';
+import {createRulesCatalog} from './rules-catalog.js';
 import {renderArticle} from './wiki-content.js';
 import {ABILITIES, GROUPS, signed, indexPack, derive, progression, eligible, classSkills} from './rules.js';
 import {createStore, downloadJSON} from './persistence.js';
@@ -20,7 +21,7 @@ const clone = value => structuredClone(value);
 const title = value => value.replaceAll('-', ' ').replace(/\b\w/g, c => c.toUpperCase());
 const SECTIONS = ['overview','creation','skills','features','equipment','advancement','rules'];
 let section = SECTIONS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
-let pack, ix, store, derived, speciesBrowser, featureTrees, combatControls;
+let pack, ix, store, derived, speciesBrowser, featureTrees, combatControls, rulesCatalog;
 let treeTarget=null;
 const activeFeatSlots=new Map();
 const knowledgeDrafts = new Map();
@@ -271,7 +272,7 @@ function advancement() {
     ${c.levels.map((l,i)=>`<section class="panel"><div class="panel-heading"><h2>Level ${i+1}</h2><span class="badge">${escape(derived.rows[i].cls.name)} ${derived.rows[i].classLevel}</span></div>${i?`<label>Class<select data-class="${i}">${choices(pack.classes,l.classId)}</select></label>`:''}${levelEditor(i)}</section>`).join('')}`;
 }
 function rules() {
-  return `${panel('Rules catalog',`<div class="stats-grid">${['species','classes','skills','feats','talents','equipment'].map(key=>metric(title(key),pack[key].length)).join('')}</div><p>Pack ${escape(pack.id)} / ${escape(pack.version)}. This starter catalog includes a selection of core feats, talents, and equipment.</p><p>Prestige classes, droid creation, and Force power selection are not available yet. Conditional abilities appear as reminders. Use sheet and attack modifiers for circumstances and table rulings.</p><p><a href="./docs/rules-data.md">Rules-data contract</a> | <a href="./data/core.json">Download the rules pack</a></p>`)}
+  return `${panel('Rules catalog',rulesCatalog.render()+`<p><a href="./docs/import-review.md">Rules review</a> | <a href="./docs/rules-data.md">Data format</a> | <a href="./data/core.json">Rules pack</a></p>`)}
     ${panel('Mechanics', ['species','classes','skills','feats','talents','equipment','destinies','backgrounds'].map(key=>`<details><summary>${escape(title(key))}</summary>${pack[key].map(r=>ruleReference(r,r.name,null,'rules')).join('')}</details>`).join(''))}
     ${panel('Data attribution',`<p>${escape(pack.license.attribution)}</p><p>${escape(pack.license.changes)}</p><a href="${escape(pack.license.url)}" target="_blank" rel="noopener">${escape(pack.license.name)} ↗</a>`)}
     ${panel('Source revisions',`<div class="table-scroll"><table><thead><tr><th>Source</th><th>Revision</th><th>Updated</th><th>History</th></tr></thead><tbody>${pack.sources.map(s=>`<tr><td><a href="${escape(s.url)}" target="_blank" rel="noopener">${escape(s.title)}${s.section?` / ${escape(s.section)}`:''}</a></td><td>${s.revision}</td><td>${escape(s.timestamp.slice(0,10))}</td><td><a href="${escape(s.history)}" target="_blank" rel="noopener">Contributors ↗</a></td></tr>`).join('')}</tbody></table></div>`)}`;
@@ -439,6 +440,7 @@ function events() {
   $('rule-detail-close').addEventListener('click',()=> $('rule-detail-modal').close());
   document.addEventListener('input',event=>{
     const el=event.target;
+    if(el.id==='rules-search'){rulesCatalog.search(el.value);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(el.matches('.hp-bar input, .resource-label input'))fitBarInput(el);
     if(combatControls.input(event))return;
     if(featureTrees.input(event))return;
@@ -470,6 +472,7 @@ function events() {
   });
   document.addEventListener('change',event=>{
     const el=event.target, c=current();
+    if(el.id==='rules-kind'||el.id==='rules-builder-only'){rulesCatalog.filter($('rules-kind').value,$('rules-builder-only').checked);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(featureTrees.change(event)||el.disabled)return;
     if(el.hasAttribute('data-generation-manual')) return;
     if(el.dataset.trait || el.dataset.story==='details')return;
@@ -634,7 +637,7 @@ function events() {
 async function boot(){
   try{
     const response=await fetch(new URL('../data/core.json',import.meta.url));if(!response.ok)throw new Error(`Rules could not load (${response.status})`);
-    pack=await response.json();ix=indexPack(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});events();render();route();
+    pack=await response.json();ix=indexPack(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});events();render();route();
     if(!saveState[1])status('Saved',false);
   }catch(error){$('main').innerHTML=`<h1>Unable to open the sheet</h1><p>${escape(error.message)}</p><p><a href="./">Reload</a></p>`;status('Sheet unavailable',true);}
 }

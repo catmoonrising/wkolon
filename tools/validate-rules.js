@@ -20,6 +20,7 @@ export function validatePack(p) {
     assert(Number.isInteger(s.revision) && s.revision > 0);
     assert(!Number.isNaN(Date.parse(s.timestamp)));
     for (const k of ['url','history']) assert.equal(new URL(s[k]).hostname, 'swse.miraheze.org');
+    if(s.sha256)assert(/^[a-f0-9]{64}$/.test(s.sha256),'Invalid source checksum');
   }
   function requireRef(collection, id) { assert(ix[collection].has(id), `Unknown ${collection} reference: ${id}`); }
   function prerequisite(r) {
@@ -101,6 +102,27 @@ export function validatePack(p) {
   if(p.heroicTraits) {
     assert(Array.isArray(p.heroicTraits.sourceIds));p.heroicTraits.sourceIds.forEach(id=>assert(sources.has(id)));
     for(const key of ['eras','heroTypes'])assert(Array.isArray(p.heroicTraits[key]) && p.heroicTraits[key].every(value=>typeof value==='string'));
+  }
+  if(p.catalog) {
+    assert.equal(p.catalog.schemaVersion,1);
+    assert.equal(p.catalog.book,'Core Rulebook');
+    assert(Array.isArray(p.catalog.records));
+    const kinds=['species','class','prestigeClass','skill','feat','talent','talentTree','weapon','armor','gear','forcePower'];
+    const catalogIds=new Set(), pages=new Map(p.rulePages.map(r=>[r.id,r]));
+    for(const r of p.catalog.records) {
+      assert(/^catalog:[a-z0-9-]+$/.test(r.id)&&!catalogIds.has(r.id),'Invalid catalog ID');catalogIds.add(r.id);
+      assert.equal(typeof r.name,'string');assert(kinds.includes(r.kind),'Unknown catalog kind');
+      assert(['available','reference'].includes(r.status),'Invalid catalog status');
+      assert(sources.has(r.sourceId)&&pages.has(r.ruleId),'Missing catalog reference');
+      assert.equal(pages.get(r.ruleId).sourceId,r.sourceId,'Catalog source mismatch');
+      assert(Array.isArray(r.books)&&r.books.every(b=>typeof b==='string'));
+      assert(Array.isArray(r.mechanicsIds)&&new Set(r.mechanicsIds).size===r.mechanicsIds.length,'Invalid catalog mechanics');
+      const collection={species:'species',class:'classes',skill:'skills',feat:'feats',talent:'talents',weapon:'equipment',armor:'equipment',gear:'equipment'}[r.kind];
+      r.mechanicsIds.forEach(id=>{assert(collection,'Unsupported catalog mechanics');requireRef(collection,id);});
+      assert.equal(r.status,r.mechanicsIds.length?'available':'reference','Unreviewed catalog entry enabled');
+      if(r.classIds){assert(Array.isArray(r.classIds));r.classIds.forEach(id=>requireRef('classes',id));}
+      assert(Object.keys(r).every(k=>['id','name','kind','ruleId','sourceId','books','tree','classIds','mechanicsIds','status'].includes(k)),'Invalid catalog attribute');
+    }
   }
   return p;
 }

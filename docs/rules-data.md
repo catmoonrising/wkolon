@@ -106,12 +106,46 @@ choices are reported and excluded from calculations.
 5. Compile only reviewed records; validate references and calculations in CI.
    A changed source revision goes back to review before updating an existing pack.
 
-`tools/wiki-extract.py` implements resumable API/category discovery and XML intake.
-`tools/compile-core.py` uses an explicit reviewed mapping of the captured records.
-The compiler checks `tools/reviewed-revisions.json` and refuses changed source revisions until the mapping and manifest are reviewed.
-The initial pack covers the five heroic classes, ten species, core skills and a
-selected feat/talent/equipment catalog. Prestige classes, droid creation and Force
-power libraries require additional reviewed records and engine/UI support.
+`tools/import-wiki.py` discovers the intersection of Core Rulebook membership
+with species, feats, talent trees, weapons, armor, general equipment, Force powers
+and prestige classes. Skills and the five heroic classes are captured explicitly.
+Continuation is followed; redirects and section identities are retained. Parsing
+uses revision IDs, not whatever revision happens to be current during an import.
+Core talent records come only from Core Talents headings. Complete tree pages
+still contain their labeled Additional sections. Category membership alone does
+not resolve different published species variants or errata.
+
+Three committed files have distinct roles:
+
+- `data/wiki-catalog.json`: imported, sanitized articles, library records, source
+  revisions, SHA-256 wikitext checksums and contributor histories. No executable
+  mechanical inference. Full articles retain wording, tables and wiki links.
+- `data/mechanics.json`: reviewable, declarative calculation mappings using the
+  typed fields above. Calculations no longer live in the Python compiler.
+- `data/core.json`: generated browser pack, combining both. Rebuild offline with
+  `python3 tools/compile-core.py`. The compiler checks
+  `tools/reviewed-revisions.json` and refuses changed revisions for existing
+  mechanical mappings. Additive reference imports keep the character pack version
+  unchanged; a future incompatible mechanical change requires migration.
+
+`catalog: {schemaVersion: 1, book, records}` supplements the pack. Catalog entries
+have stable `id`, `name`, `kind`, `sourceId`, `ruleId`, `books`, `status`, and optional
+`tree`, `classIds`, and a `mechanicsIds` array. `ruleId` resolves to an embedded `rulePages`
+article; its source must match `sourceId`. Status is `available` only when a
+builder option exists, otherwise `reference`. Variant pages may have several
+mapped options. It does not mean every variant or all situational
+effects are automated. Imported reference text grants no effects or eligibility.
+Rules searches names and complete article text, with type and builder filters.
+
+The imported library has 483 entries: 21 species, five heroic classes, twelve
+prestige classes, nineteen skill pages (Knowledge contains seven fields), 64 feat
+pages (including Weapon Proficiency), 200 Core talents, forty talent trees,
+48 weapons, eleven armor entries, 46 general equipment pages, and seventeen Force
+powers. The reviewed builder still covers ten species and a smaller feat, talent
+and equipment subset. Read [import-review.md](import-review.md) for actual source
+conflicts, unresolved variants and remaining mechanical work.
+
+`tools/wiki-extract.py` remains available for resumable extraction and XML intake.
 
 The wiki API advertises CC BY-SA 4.0 for wiki contributions. Preserve source
 attribution and revision/history links, mark adaptations, and keep data attribution

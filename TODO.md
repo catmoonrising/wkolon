@@ -1,5 +1,9 @@
 # Todo
 
+- [x] Import the Core Rulebook reference library with pinned revisions, verbatim articles and offline search.
+- [x] Separate imported presentation from declarative reviewed mechanics.
+- [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.
+
 - [ ] **Revamp character creation** — species, feat and talent browsers implemented; class and skill mechanics remain.
   - [x] Species: searchable and sortable table, expandable wiki articles, complete species feat dialogs.
   - [x] Separate feat and talent screens with shared prerequisite trees from left to right.
