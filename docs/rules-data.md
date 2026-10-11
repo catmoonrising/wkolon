@@ -14,7 +14,8 @@ and retains immunity to Force effects targeting Will as a manual defensive trait
 and mechanical-tool check penalty, not a penalty to all checks.
 
 Optional `houseRules: {jediCounseling: {topicId: boolean}, comlinkUpgradeFees:
-boolean}` is saved with the character. Counseling switches default off. Imported
+boolean}` is saved with the character. Counseling switches default on, including
+older characters with no saved switch; an explicit `false` stays off. Imported
 topics retain complete pinned text; only explicitly supported calculations change.
 An explanation that already follows RAW does not invent a different off-state.
 Comlink functionality fees default to the user's requested interpretation: base

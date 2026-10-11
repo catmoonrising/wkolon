@@ -1,6 +1,6 @@
 import {escapeHTML as escape, renderArticle} from './wiki-content.js';
 
-export const counselingEnabled=(c,id)=>c.houseRules?.jediCounseling?.[id]===true;
+export const counselingEnabled=(c,id)=>c.houseRules?.jediCounseling?.[id]!==false;
 export function validateHouseRules(c,pack,bad){
  if(c.houseRules===undefined)return;
  const h=c.houseRules,obj=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);

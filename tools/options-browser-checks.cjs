@@ -37,9 +37,13 @@ module.exports=async function(browser,base,root){
   await page.locator('#module-inventory [data-field="credits"]').fill('4645.5');await page.locator('#module-inventory [data-field="credits"]').press('Tab');
   assert.equal(await page.locator('#module-inventory [data-field="credits"]').inputValue(),'4645.5');
   const house=page.locator('#module-house-rules');await house.locator('[data-house-tab="counseling"]').click();assert.equal(await house.locator('[data-counseling]').count(),57);
-  assert.equal(await house.locator('[data-counseling]:checked').count(),0);
+  assert.equal(await house.locator('[data-counseling]:checked').count(),57);
   await house.locator('[data-counseling-search]').fill('Weapon Familiarity');assert.equal(await house.locator('[data-counseling]').count(),1);
   await house.locator('details > summary').click();assert((await house.locator('.wiki-article').innerText()).includes('Wookiee'));
+  await house.locator('[data-counseling]').uncheck();await waitSave();await page.reload();await house.waitFor();
+  await house.locator('[data-house-tab="counseling"]').click();assert.equal(await house.locator('[data-counseling]:checked').count(),56);
+  assert(!(await house.locator('[data-counseling="jc:112-weapon-familiarity-with-feats-and-talents"]').isChecked()));
+  await house.locator('[data-counseling-search]').fill('Weapon Familiarity');
   await house.locator('[data-counseling]').check();await waitSave();
   const character=await saved();assert.equal(character.credits,4645.5);assert.equal(character.inventory[1].options.join(','),'encryption,holo');assert.equal(character.inventory[3].licenseStatus,'approved');assert(character.houseRules.jediCounseling['jc:112-weapon-familiarity-with-feats-and-talents']);
   await page.reload();await page.locator('#module-house-rules').waitFor();assert((await inventory.innerText()).includes('Comlink (Long-Range, Encryption, Holo Capability)'));assert.equal(await inventory.locator('[data-inventory="licenseStatus"]').inputValue(),'approved');

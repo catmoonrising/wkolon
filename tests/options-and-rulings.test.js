@@ -5,6 +5,7 @@ import {newCharacter,derive,validateCharacter,ABILITIES,eligible,indexPack,progr
 import {resolveEquipment,purchaseQuote,equipmentFamilies} from '../src/equipment.js';
 import {articleText} from '../src/wiki-content.js';
 import {renderStatBlock} from '../src/stat-block.js';
+import {counselingEnabled} from '../src/house-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const hero=(species='human',cls='soldier')=>{const c=newCharacter(pack);c.species='species:'+species;c.levels[0].classId='class:'+cls;c.abilityMethod='manual';c.abilities=Object.fromEntries(ABILITIES.map(a=>[a,10]));return c;};
 const item=(id,extra={})=>({id:'equipment:'+id,quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...extra});
@@ -59,18 +60,31 @@ test('license fees use normal fitted costs, are separate from market prices, and
  c.inventory=[item('vonduun-crabshell')];assert.equal(derive(c,pack).defenses.fortitude,18);validateCharacter(c,pack);
 });
 
-test('Counseling defaults off; toggles change supported rules and leave RAW-equivalent clarifications unchanged',()=>{
+test('Counseling defaults on for new and older characters; explicit off settings survive validation and JSON roundtrip',()=>{
+ const c=hero();
+ assert(pack.jediCounseling.every(topic=>counselingEnabled(c,topic.id)));
+ c.houseRules={comlinkUpgradeFees:false};
+ assert(pack.jediCounseling.every(topic=>counselingEnabled(c,topic.id)));
+ toggle(c,'jc:106-jedi-multiclassing',false);
+ validateCharacter(c,pack);const restored=JSON.parse(JSON.stringify(c));validateCharacter(restored,pack);
+ assert(!counselingEnabled(restored,'jc:106-jedi-multiclassing'));
+ assert(counselingEnabled(restored,'jc:112-weapon-focus-proficiency'));
+ toggle(restored,'jc:106-jedi-multiclassing',true);assert(counselingEnabled(restored,'jc:106-jedi-multiclassing'));
+});
+
+test('Counseling toggles change supported rules and leave RAW-equivalent clarifications unchanged',()=>{
  const c=hero('wookiee');c.levels[0].feats=[{id:'feat:weapon-focus',choice:'rifles'}];c.inventory=[item('bowcaster')];
- assert.equal(derive(c,pack).attacks[0].attack,0);toggle(c,'jc:112-weapon-familiarity-with-feats-and-talents',true);assert.equal(derive(c,pack).attacks[0].attack,1);toggle(c,'jc:112-weapon-familiarity-with-feats-and-talents',false);assert.equal(derive(c,pack).attacks[0].attack,0);
+ assert.equal(derive(c,pack).attacks[0].attack,1);toggle(c,'jc:112-weapon-familiarity-with-feats-and-talents',false);assert.equal(derive(c,pack).attacks[0].attack,0);toggle(c,'jc:112-weapon-familiarity-with-feats-and-talents',true);assert.equal(derive(c,pack).attacks[0].attack,1);
  const j=hero('human','jedi');j.levels[0].classId='class:scout';j.levels.push({classId:'class:jedi',hpRoll:6,startingFeat:{id:'feat:weapon-proficiency-lightsabers'},talent:{id:'talent:block'},feats:[],abilityIncreases:[],trainedSkills:[]});
- assert(derive(j,pack).ctx.talents.some(t=>t.id==='talent:block'));toggle(j,'jc:106-jedi-multiclassing',true);assert(!derive(j,pack).ctx.talents.some(t=>t.id==='talent:block'));assert(derive(j,pack).issues.some(s=>s.includes('Block is not eligible')));
- const d=derive(c,pack);toggle(c,'jc:114-conditions-and-damage-threshold',true);assert.equal(derive(c,pack).threshold,d.threshold);
+ assert(!derive(j,pack).ctx.talents.some(t=>t.id==='talent:block'));assert(derive(j,pack).issues.some(s=>s.includes('Block is not eligible')));toggle(j,'jc:106-jedi-multiclassing',false);assert(derive(j,pack).ctx.talents.some(t=>t.id==='talent:block'));
+ const d=derive(c,pack);toggle(c,'jc:114-conditions-and-damage-threshold',false);assert.equal(derive(c,pack).threshold,d.threshold);
  assert.equal(pack.jediCounseling.length,57);for(const topic of pack.jediCounseling)assert(articleText(pack.rulePages.find(r=>r.id===topic.ruleId).article).length>40);
  validateCharacter(c,pack);toggle(c,'jc:999-invented',true);assert.throws(()=>validateCharacter(c,pack),/Jedi Counseling/);
 });
 
 test('partial proficiency Counseling never replaces an explicit feat prerequisite',()=>{
- const c=hero('gungan','scout'),ix=indexPack(pack),ctx=progression(c,pack).ctx;
+ const c=hero('gungan','scout');toggle(c,'jc:112-weapon-focus-proficiency',false);toggle(c,'jc:112-weapon-familiarity-with-feats-and-talents',false);
+ const ix=indexPack(pack),ctx=progression(c,pack).ctx;
  const w=ix.equipment.get('equipment:electropole');
  const focus=ix.feats.get('feat:weapon-focus');assert(!eligible(focus,{id:focus.id,choice:w.group},ctx,ix,'feats'));
  toggle(ctx,'jc:112-weapon-focus-proficiency',true);assert(eligible(focus,{id:focus.id,choice:w.group},ctx,ix,'feats'));

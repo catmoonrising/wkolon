@@ -6,7 +6,7 @@
   - [x] Enable the nine remaining unambiguous Core species, size and conditional defense calculations, and all six weapon-proficiency groups.
   - [x] Separate species book variants, Ithorese, and Core/Legacy Yuuzhan Vong restrictions.
   - [x] Group equipment variants and Comlink functionality; include licensing prices and owned-only armor.
-  - [x] Jedi Counseling switches, default off, with embedded wording and supported/manual status.
+  - [x] Jedi Counseling switches, default on, with embedded wording and supported/manual status.
   - [x] All eleven Core armor entries, Heavy proficiency, armor speed/run limits and Powersuit Strength.
   - [ ] Species special attacks, rerolls, sensory traits and carrying limits.
 

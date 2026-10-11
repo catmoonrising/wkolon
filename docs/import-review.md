@@ -56,7 +56,8 @@ published book and official errata before changing their wording or interpretati
 
 House Rules has a Jedi Counseling tab with all 57 topics from Saga issues 105–115,
 including nested optional rules. Each topic retains complete pinned wording and
-its own saved switch; all default off. Unsupported combat, Force power, vehicle,
+its own saved switch; all default on unless explicitly disabled. Existing saved
+off settings remain off; missing settings use the enabled default. Unsupported combat, Force power, vehicle,
 and healing procedures are marked **Manual** rather than reported as automated.
 
 Automatic switches currently cover:
