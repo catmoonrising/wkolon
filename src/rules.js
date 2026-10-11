@@ -1,9 +1,9 @@
 import {emptyTraits, emptyStory, activeBackground, validateFinishing} from './heroic-traits.js';
 import {emptyProtection,validateCombatState} from './combat.js';
 import {counselingEnabled,ambiguityValue,validateHouseRules} from './house-rules.js';
-import {resolveEquipment,validateInventoryOptions,validateStartingEquipment} from './equipment.js';
+import {resolveEquipment,validateInventoryOptions,validateStartingEquipment,validateAttachments,attachedScope} from './equipment.js';
 import {featureChoices,WEAPON_GROUPS,UNARMED_ID} from './feature-choices.js';
-import {unarmedWeapon,weaponRange} from './weapon-rules.js';
+import {unarmedWeapon,weaponRange,canAim} from './weapon-rules.js';
 import {carryingLimits} from './species-rules.js';
 import {recoveryState,recoveryDetails,validateRecovery} from './recovery.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
@@ -78,6 +78,7 @@ export function validateCharacter(c, pack) {
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
   validateStartingEquipment(c,pack,bad);
+  validateAttachments(c,pack,bad);
   if(c.mechanicalSkills!==undefined&&!skillList(c.mechanicalSkills))bad('mechanical tool checks');
   if(c.skillCheckSources!==undefined&&(!obj(c.skillCheckSources)||Object.entries(c.skillCheckSources).some(([id,source])=>!ix.skills.has(id)||!ix.skills.has(source))))bad('skill check sources');
   validateHouseRules(c,pack,bad);
@@ -347,15 +348,23 @@ export function derive(c, pack) {
     const strength = w.mode === 'melee' ? (e.twoHanded && !light && !w.unarmed && mods.str > 0 ? 2 * mods.str : mods.str) : w.addsStrength||w.rangeType==='thrown'?mods.str:0;
     const range=weaponRange(w,e,pack,featHas,c),pointBlank=w.mode==='ranged'&&range.band===0&&featHas('point-blank-shot')?1:0;
     const autofire=w.autofireOnly||e.fireMode==='autofire';
+    const aimed=!!e.aimed&&canAim(w,e),accessories=pack.rules.weaponAccessories;
+    const aimBonus=aimed&&featHas('careful-shot')?accessories.carefulShotBonus:0;
+    const grip=w.group==='rifles'&&e.oneHanded?accessories.rifleOneHandedPenalty:0;
     const firePenalty=autofire?-5:0;
     const criticalMultiplier=Math.max(pack.rules.combat.criticalMultiplier,...effects.filter(f=>f.target==='criticalMultiplier'&&f.selection.choice===w.id).map(f=>f.amount));
     const meleeBonus = total('meleeDamage',w);
     const rage=w.mode==='melee'?rageBonus:0;
     const damageBonus = half + strength + specialization + meleeBonus + pointBlank + rage + c.modifiers.damage + e.damageMod;
-    return {...w,uid:e.uid,proficient,range,criticalMultiplier,areaType:autofire?'burst':w.areaType,available:range.available,
-      attack: ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + c.modifiers.attack + e.attackMod,
-      damageBonus, damageDisplay: w.damage?w.damage+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition',
-      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} autofire${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${autofire||w.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}`};
+    const damage=aimed&&featHas('deadeye')?w.damage.replace(/^(\d+)d/,(all,n)=>(Number(n)+accessories.deadeyeDice)+'d'):w.damage;
+    const attack=ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + grip + aimBonus + c.modifiers.attack + e.attackMod;
+    const display=dice=>dice?dice+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
+    const unAimedRange=weaponRange(w,{...e,aimed:false},pack,featHas,c);
+    return {...w,damage,uid:e.uid,proficient,range,criticalMultiplier,areaType:autofire?'burst':w.areaType,available:range.available,
+      attack,aimed,ignoresCover:aimed,ignoresDarkness:aimed&&!!attachedScope(e,c,pack)?.scope.ignoresDarkness,
+      ...(aimed?{unAimed:{aimed:false,attack:attack-aimBonus-range.penalty+unAimedRange.penalty,damage:w.damage,damageDisplay:display(w.damage),ignoresCover:false,ignoresDarkness:false}}:{}),
+      damageBonus, damageDisplay:display(damage),
+      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} autofire${grip?' + '+grip+' one-handed':''}${aimBonus?' + '+aimBonus+' Careful Shot':''}${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${autofire||w.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}${aimed?'; Aim: ignores cover':''}`};
   });
   const missingAssignments=c.abilityGeneration && Object.values(c.abilityGeneration.assign).some(i=>i===null);
   if (missingAssignments) issues.push('Assign all six ability scores');

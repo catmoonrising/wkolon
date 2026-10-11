@@ -46,7 +46,7 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
    const stepIndex=r?.steps.findIndex(s=>s.id===el.closest('[data-step-id]')?.dataset.stepId);
    if(action==='add-routine'){if(c.routines.length>=20)return true;c.routines.push({id:crypto.randomUUID(),name:'',steps:[]});}
    else if(!r)return true;
-   else if(action==='run'){if(derived().incapacitated)return true;try{const result=rollRoutine(r,derived().attacks,pack.rules.combat);log('roll',result.text,result.html);}catch(e){error(e.message);}return true;}
+   else if(action==='run'){if(derived().incapacitated)return true;try{const result=rollRoutine(r,derived().attacks,pack.rules.combat);for(const uid of result.aimConsumed){const item=c.inventory.find(e=>e.uid===uid);if(item)item.aimed=false;}log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    else if(action==='delete-routine')c.routines.splice(c.routines.indexOf(r),1);
    else if(action==='add-step'){if(!derived().attacks.length||r.steps.length>=50||r.steps.reduce((n,s)=>n+s.count,0)>=100)return true;r.steps.push({id:crypto.randomUUID(),attackId:derived().attacks[0].uid,count:1,attackMod:0,damageMod:0});}
    else if(action==='delete-step')r.steps.splice(stepIndex,1);

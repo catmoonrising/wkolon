@@ -313,5 +313,9 @@
   "Encumbrance": 18325,
   "Recover": 18447,
   "Droids": 26658,
-  "Hit Points": 23421
+  "Hit Points": 23421,
+  "Targeting Scope": 24958,
+  "Aim": 15771,
+  "Retractable Stock": 19749,
+  "Rifles": 18458
 }

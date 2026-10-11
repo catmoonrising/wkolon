@@ -22,7 +22,10 @@
   - [x] Ithorian Bellow, extra dice, Fortitude results and optional Helpless cap in Ambiguities.
   - [x] Natural healing, unconscious healing/checks, persistent injuries and Trandoshan limb regeneration.
   - [x] Kel Dor starting mask, goggles and filters; once-only species/class equipment grants and Jedi lightsabers.
-  - [ ] Remaining conditional feat actions, stocks/scopes, ammunition consumption and ion/stun target effects.
+  - [x] Core folding stocks, stockless prices, rifle grips, standard/enhanced scopes and owned attachments.
+  - [x] Aim, Careful Shot and Deadeye; one-use routine benefits and Counseling range stacking.
+  - [ ] Remaining conditional feat actions, ammunition consumption and ion/stun target effects.
+  - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 
 - [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.
   - [x] Species: searchable and sortable table, expandable wiki articles, complete species feat dialogs.

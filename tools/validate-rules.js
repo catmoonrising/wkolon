@@ -164,6 +164,8 @@ export function validatePack(p) {
     }
     if (key === 'equipment') {
       assert(['weapon','armor','gear'].includes(r.kind)); assert((r.cost===null || Number.isFinite(r.cost) && r.cost>=0) && (r.weight===null || Number.isFinite(r.weight) && r.weight>=0));
+      if(r.retractableStock){assert(r.kind==='weapon'&&r.group==='rifles');assert.deepEqual(Object.keys(r.retractableStock),['withoutCost']);assert(Number.isFinite(r.retractableStock.withoutCost)&&r.retractableStock.withoutCost>=0&&r.retractableStock.withoutCost<r.cost,'Invalid stockless cost');}
+      if(r.scope){assert(r.kind==='gear');assert.deepEqual(Object.keys(r.scope).sort(),['ignoresDarkness','rangeReduction']);assert(r.scope.rangeReduction===1&&typeof r.scope.ignoresDarkness==='boolean','Invalid targeting scope');}
       if(r.kind==='weapon') {
         assert(p.rules.weaponSizeOrder.includes(r.size) && [...GROUPS,'exotic-melee','exotic-ranged'].includes(r.group) && ['melee','ranged'].includes(r.mode));
         assert(/^\d+d\d+$/.test(r.damage)||r.damage===null&&(r.damageAction==='Grab / Grapple'||r.ammunition==='grenade'||r.unarmed),'Unsupported weapon damage');
@@ -185,6 +187,7 @@ export function validatePack(p) {
     }
   }
   const access=p.rules.forceTalentAccess,recovery=p.rules.forcePowerRecovery;
+  const accessories=p.rules.weaponAccessories;assert(accessories&&accessories.sourceIds.length&&accessories.sourceIds.every(id=>sources.has(id)),'Missing accessory sources');assert.deepEqual(Object.keys(accessories).sort(),['carefulShotBonus','deadeyeDice','rifleOneHandedPenalty','scopeRangeReduction','sourceIds']);assert(accessories.scopeRangeReduction===1&&accessories.rifleOneHandedPenalty===-5&&accessories.carefulShotBonus===1&&accessories.deadeyeDice===1,'Unsupported weapon accessory rule');
   for(const key of ['weaponRanges','unarmed','secondWind','encumbrance'])assert(p.rules[key]?.sourceIds?.length&&p.rules[key].sourceIds.every(id=>sources.has(id)),`Missing ${key} sources`);
   const load=p.rules.encumbrance;assert(load.heavyFraction===.25&&load.liftFraction===.5&&load.strainFraction===1&&load.speedMultiplier===.75&&load.runMultiplier===3&&load.skillPenalty===-10,'Unsupported encumbrance rule');
   assert.deepEqual(load.skills,['acrobatics','climb','endurance','initiative','jump','stealth','swim'].map(id=>'skill:'+id));assert.deepEqual(load.sizeMultipliers,{fine:.01,diminutive:.25,tiny:.5,small:.75,medium:1,large:2,huge:5,gargantuan:10,colossal:20});

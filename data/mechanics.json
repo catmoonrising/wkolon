@@ -4153,6 +4153,46 @@
       "sha256": "75075081701ea367c28974423949cd87e46c1808d4854d2e3cb2dd81f9a9c4a7",
       "url": "https://swse.miraheze.org/w/index.php?oldid=26685#Kel_Dor_Species_Traits",
       "history": "https://swse.miraheze.org/w/index.php?title=Kel_Dor&action=history"
+    },
+    {
+      "id": "source:wiki-targeting-scope",
+      "title": "Targeting Scope",
+      "section": null,
+      "revision": 24958,
+      "timestamp": "2024-11-10T16:09:45Z",
+      "sha256": "dd2d2bbeb8ce388739b90a5a99716bd999ac415267f4d30233ce1cf26b5a414a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24958",
+      "history": "https://swse.miraheze.org/w/index.php?title=Targeting%20Scope&action=history"
+    },
+    {
+      "id": "source:wiki-aim",
+      "title": "Aim",
+      "section": null,
+      "revision": 15771,
+      "timestamp": "2024-08-18T00:53:09Z",
+      "sha256": "6f5e371b9e5cd1e0a8192c91d945e155dc02dc1f83914f912a875184f1cee447",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15771",
+      "history": "https://swse.miraheze.org/w/index.php?title=Aim&action=history"
+    },
+    {
+      "id": "source:wiki-retractable-stock",
+      "title": "Retractable Stock",
+      "section": null,
+      "revision": 19749,
+      "timestamp": "2024-08-25T22:32:32Z",
+      "sha256": "60384fd67fa7602bc02237ab20b1af4b3489b0351217f16b6ed71c8bda8c5d46",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19749",
+      "history": "https://swse.miraheze.org/w/index.php?title=Retractable%20Stock&action=history"
+    },
+    {
+      "id": "source:wiki-rifles",
+      "title": "Rifles",
+      "section": null,
+      "revision": 18458,
+      "timestamp": "2024-08-25T20:09:48Z",
+      "sha256": "2a50badebb88b53dc1f79415b37c50f0279377859e45d321b3de73dfbdaa3aa3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18458",
+      "history": "https://swse.miraheze.org/w/index.php?title=Rifles&action=history"
     }
   ],
   "species": [
@@ -8930,7 +8970,10 @@
       "autofireOnly": false,
       "areaAttack": false,
       "rangeType": "rifles",
-      "stunDamage": "3d8"
+      "stunDamage": "3d8",
+      "retractableStock": {
+        "withoutCost": 900
+      }
     },
     {
       "id": "equipment:combat-jumpsuit",
@@ -9438,7 +9481,10 @@
       "areaAttack": false,
       "rangeType": "rifles",
       "stunDamage": "3d8",
-      "mechanical": true
+      "mechanical": true,
+      "retractableStock": {
+        "withoutCost": 850
+      }
     },
     {
       "id": "equipment:bow",
@@ -10344,6 +10390,36 @@
       "cost": 200,
       "weight": null,
       "availability": []
+    },
+    {
+      "id": "equipment:targeting-scope",
+      "name": "Targeting Scope (Standard)",
+      "family": "Targeting Scope",
+      "variant": "Standard",
+      "sourceId": "source:wiki-targeting-scope",
+      "kind": "gear",
+      "cost": 100,
+      "weight": 0.2,
+      "availability": [],
+      "scope": {
+        "rangeReduction": 1,
+        "ignoresDarkness": false
+      }
+    },
+    {
+      "id": "equipment:targeting-scope-low-light",
+      "name": "Targeting Scope (Enhanced Low-Light)",
+      "family": "Targeting Scope",
+      "variant": "Enhanced Low-Light",
+      "sourceId": "source:wiki-targeting-scope",
+      "kind": "gear",
+      "cost": 1000,
+      "weight": 1.2,
+      "availability": [],
+      "scope": {
+        "rangeReduction": 1,
+        "ignoresDarkness": true
+      }
     }
   ],
   "rules": {
@@ -10797,6 +10873,20 @@
       "retryHours": 1,
       "deathFailureMargin": 5,
       "fatalNatural": 1
+    },
+    "weaponAccessories": {
+      "sourceIds": [
+        "source:wiki-targeting-scope",
+        "source:wiki-aim",
+        "source:wiki-retractable-stock",
+        "source:wiki-rifles",
+        "source:wiki-careful-shot",
+        "source:wiki-deadeye"
+      ],
+      "scopeRangeReduction": 1,
+      "rifleOneHandedPenalty": -5,
+      "carefulShotBonus": 1,
+      "deadeyeDice": 1
     }
   },
   "heroicTraits": {

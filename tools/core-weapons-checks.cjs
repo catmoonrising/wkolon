@@ -10,7 +10,7 @@ module.exports=async function(browser,base,root){
  assert((await page.locator('#module-attacks').innerText()).includes('Unarmed Attack'));
  assert((await page.locator('#module-attacks').innerText()).includes('Grab / Grapple'));
  assert((await page.locator('#module-attacks').innerText()).includes('Choose ammunition'));
- const distance=page.locator('#module-attacks [data-inventory="distance"][data-index="0"]');await distance.locator('xpath=ancestor::details').locator('summary').click();await distance.fill('81');await distance.dispatchEvent('change');await page.waitForTimeout(100);
+ const distance=page.locator('#module-attacks [data-inventory="distance"][data-index="0"]');await distance.locator('xpath=ancestor::details').locator(':scope > summary').click();await distance.fill('81');await distance.dispatchEvent('change');await page.waitForTimeout(100);
  assert(await page.locator('#module-attacks [data-roll-label="Blaster Pistol attack"]').isDisabled());
  await distance.fill('20');await distance.dispatchEvent('change');await page.waitForTimeout(100);assert(!(await page.locator('#module-attacks [data-roll-label="Blaster Pistol attack"]').isDisabled()));
  await page.locator('#module-inventory [data-inventory="ammunitionId"]').selectOption('equipment:frag-grenade');await page.waitForTimeout(100);assert((await page.locator('#module-attacks').innerText()).includes('4d6'));

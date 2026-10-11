@@ -637,6 +637,38 @@
               "const": 1
             }
           }
+        },
+        "weaponAccessories": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "scopeRangeReduction",
+            "rifleOneHandedPenalty",
+            "carefulShotBonus",
+            "deadeyeDice"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "scopeRangeReduction": {
+              "const": 1
+            },
+            "rifleOneHandedPenalty": {
+              "const": -5
+            },
+            "carefulShotBonus": {
+              "const": 1
+            },
+            "deadeyeDice": {
+              "const": 1
+            }
+          }
         }
       },
       "required": [
@@ -1356,6 +1388,35 @@
               "accurate": {
                 "type": "boolean"
               }
+            }
+          }
+        },
+        "scope": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "rangeReduction",
+            "ignoresDarkness"
+          ],
+          "properties": {
+            "rangeReduction": {
+              "const": 1
+            },
+            "ignoresDarkness": {
+              "type": "boolean"
+            }
+          }
+        },
+        "retractableStock": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "withoutCost"
+          ],
+          "properties": {
+            "withoutCost": {
+              "type": "number",
+              "minimum": 0
             }
           }
         }

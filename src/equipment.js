@@ -13,7 +13,7 @@ export function resolveEquipment(e,pack,c={}){
  if(!r)throw new Error('Unknown equipment');
  const options=(r.upgrades||[]).filter(u=>(e.options||[]).includes(u.id));
  const scale=r.kind==='armor'?armorScale(e.armorSize):1;
- const base=r.cost===null?null:r.cost*scale;
+ const base=r.cost===null?null:(r.retractableStock&&e.stockPosition==='none'?r.retractableStock.withoutCost:r.cost)*scale;
  let cost=base;
  if(cost!==null){
   const mini=options.find(u=>u.id==='miniaturized');
@@ -34,9 +34,11 @@ export function resolveEquipment(e,pack,c={}){
  if(launcher&&launcher.id!=='hand')tags.push(launcher.name);
  if(ammunition)tags.push(ammunition.name);
  if(e.fireMode==='autofire')tags.push('Autofire');
+ if(r.retractableStock&&e.stockPosition==='folded')tags.push('Stock Folded');
+ if(r.retractableStock&&e.stockPosition==='none')tags.push('No Stock');
  const throwing=e.attackStyle==='thrown'&&(mode?.thrown??r.thrown);
  if(throwing)tags.push('Thrown');
- return {...r,...mode,...(launcher?{rangeType:launcher.rangeType,accurate:launcher.accurate}:{}),...(ammunition?{damage:ammunition.damage,damageType:ammunition.damageType,areaType:ammunition.areaType,stunDamage:ammunition.stunDamage}:{}),...(throwing?{mode:'ranged',rangeType:'thrown'}:{}),id:r.id,cost,weight,name:r.family?`${r.family} (${tags.join(', ')})`:r.name+(tags.length?` (${tags.join(', ')})`:'')};
+ return {...r,...mode,...(launcher?{rangeType:launcher.rangeType,accurate:launcher.accurate}:{}),...(ammunition?{damage:ammunition.damage,damageType:ammunition.damageType,areaType:ammunition.areaType,stunDamage:ammunition.stunDamage}:{}),...(r.retractableStock&&e.stockPosition==='folded'?{group:'pistols',rangeType:'pistols'}:{}),...(throwing?{mode:'ranged',rangeType:'thrown'}:{}),id:r.id,cost,weight,name:r.family?`${r.family} (${tags.join(', ')})`:r.name+(tags.length?` (${tags.join(', ')})`:'')};
 }
 export function purchaseQuote(e,quantity,pack,c,{license=true,market='normal',benefits={}}={}){
  const item=resolveEquipment(e,pack,c);
@@ -61,6 +63,25 @@ export function validateInventoryOptions(e,pack,bad){
  if(e.launcher!==undefined&&!r.launchers?.some(l=>l.id===e.launcher))bad('weapon launcher');
  if(e.fireMode!==undefined&&(!r.autofire||r.autofireOnly||!['single','autofire'].includes(e.fireMode)))bad('fire mode');
  if(e.ammunitionId!==undefined&&(r.ammunition!=='grenade'||!pack.equipment.some(w=>w.id===e.ammunitionId&&['equipment:frag-grenade','equipment:ion-grenade','equipment:stun-grenade'].includes(w.id))))bad('grenade ammunition');
+ if(e.stockPosition!==undefined&&(!r.retractableStock||!['none','extended','folded'].includes(e.stockPosition)))bad('stock position');
+ if(e.oneHanded!==undefined&&(r.kind!=='weapon'||r.mode!=='ranged'||typeof e.oneHanded!=='boolean'))bad('weapon grip');
+ if(e.aimed!==undefined&&(r.kind!=='weapon'||typeof e.aimed!=='boolean'))bad('aim');
+ if(e.scopeUid!==undefined&&(!['pistols','rifles'].includes(r.group)||typeof e.scopeUid!=='string'||!/^[a-f0-9-]{36}$/.test(e.scopeUid)))bad('targeting scope');
+}
+
+export function attachedScope(entry,c,pack){
+ if(!entry.scopeUid)return undefined;
+ const item=c.inventory?.find(e=>e.uid===entry.scopeUid);
+ return item&&item.carried!==false?pack.equipment.find(r=>r.id===item.id&&r.scope):undefined;
+}
+export function validateAttachments(c,pack,bad){
+ const use=new Map();
+ for(const e of c.inventory)if(e.scopeUid!==undefined){
+  const item=c.inventory.find(item=>item.uid===e.scopeUid);
+  if(!item||!pack.equipment.find(r=>r.id===item.id)?.scope)bad('targeting scope reference');
+  const n=(use.get(e.scopeUid)||0)+1;use.set(e.scopeUid,n);
+  if(n>item.quantity)bad('targeting scope quantity');
+ }
 }
 
 // Grants are explicit, once per character, and only belong to level-one

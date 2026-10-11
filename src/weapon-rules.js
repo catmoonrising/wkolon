@@ -1,5 +1,8 @@
 import {counselingEnabled} from './house-rules.js';
 import {UNARMED_ID} from './feature-choices.js';
+import {attachedScope} from './equipment.js';
+
+export const canAim=(w,e={})=>w.mode==='ranged'&&!w.areaType&&!w.autofireOnly&&e.fireMode!=='autofire'&&!!w.damage;
 
 export function unarmedWeapon(pack,size,steps=0){
  const base=pack.rules.unarmed.damage[size];
@@ -14,10 +17,12 @@ export function weaponRange(w,entry,pack,has,c){
  const distance=entry.distance;
  const band=distance===undefined?null:limits.findIndex(n=>distance<=n);
  const far=has('far-shot')?1:0;
+ const scope=entry.aimed&&canAim(w,entry)&&attachedScope(entry,c,pack)?pack.rules.weaponAccessories.scopeRangeReduction:0;
  let penalties=pack.rules.weaponRanges.penalties;
  if(w.accurate){
   penalties=far&&counselingEnabled(c,'jc:107-far-shot-accurate-weapon-and-targeting-scope')?[0,0,0,-5]:far?[0,0,-2,-5]:[0,0,-5,-10];
  }else if(far)penalties=[0,0,-2,-5];
+ if(scope)penalties=w.accurate&&far&&counselingEnabled(c,'jc:107-far-shot-accurate-weapon-and-targeting-scope')?[0,0,0,0]:penalties.map((_,i)=>penalties[Math.max(0,i-scope)]);
  const available=band!==-1&&!(w.inaccurate&&band===3);
- return {limits,band,penalty:band===null||!available?0:penalties[band],available};
+ return {limits,band,penalty:band===null||!available?0:penalties[band],available,scope:!!scope};
 }
