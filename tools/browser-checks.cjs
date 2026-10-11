@@ -318,5 +318,6 @@ const server=http.createServer((req,res)=>{
   await require('./natural-recovery-checks.cjs')(browser,base,root);
   await require('./starting-equipment-checks.cjs')(browser,base,root);
   await require('./weapon-accessories-checks.cjs')(browser,base,root);
+  await require('./ammunition-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});

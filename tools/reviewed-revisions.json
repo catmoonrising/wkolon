@@ -317,5 +317,10 @@
   "Targeting Scope": 24958,
   "Aim": 15771,
   "Retractable Stock": 19749,
-  "Rifles": 18458
+  "Rifles": 18458,
+  "Power Pack": 18414,
+  "Energy Cell": 18148,
+  "Power Recharger": 18416,
+  "Power Generator": 18413,
+  "Manipulate an Item": 18345
 }

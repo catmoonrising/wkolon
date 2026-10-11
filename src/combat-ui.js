@@ -1,5 +1,6 @@
 import {escapeHTML as escape} from './wiki-content.js';
-import {protectedDamage,rollRoutine} from './combat.js';
+import {protectedDamage,rollRoutine,routineIssue} from './combat.js';
+import {reloadWeapon,spendAttackResources} from './ammunition.js';
 
 const input=(key,value,label,max=100000)=>`<input type="number" min="0" max="${max}" data-field="${key}" value="${value}" aria-label="${label}">`;
 const percent=(current,max)=>max>0?Math.max(0,Math.min(100,current/max*100)):0;
@@ -17,13 +18,17 @@ export function xpBar(c,d,rules){
  return `<div class="resource-bar xp-bar"><div class="resource-fill" style="width:${fill}%"></div><span class="resource-label">XP ${input('xp',c.xp,'Experience points',1000000000)}${next===null?'':`<span>/</span><span>${next.toLocaleString()}</span>`}</span></div>`;
 }
 export function createCombatControls(pack,{current,derived,changed,save,log,error}){
+ function run(routine){
+  if(derived().incapacitated)return;
+  try{const result=rollRoutine(routine,derived().attacks,pack.rules.combat);spendAttackResources(current(),result);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}
+ }
  const choices=(selected)=>{
   const attacks=derived().attacks;
   return `${attacks.some(a=>a.uid===selected)?'':`<option value="${selected||''}" selected>${selected?'Attack unavailable':'Choose attack'}</option>`}${attacks.map(a=>`<option value="${a.uid}" ${a.uid===selected?'selected':''}>${escape(a.name)}</option>`).join('')}`;
  };
  function renderRoutines(){
   const c=current(),d=derived();
-  return `<div id="routines-list">${c.routines.map(r=>`<fieldset data-routine="${r.id}"><legend><input data-routine-field="name" data-routine="${r.id}" value="${escape(r.name)}" maxlength="200" aria-label="Routine name"><button data-combat="run" data-routine="${r.id}" ${!r.steps.length||d.incapacitated||r.steps.some(s=>!d.attacks.some(a=>a.uid===s.attackId&&a.available!==false&&a.damage!==null))?'disabled':''}>▶ Run</button><button data-combat="delete-routine" data-routine="${r.id}" aria-label="Delete routine">×</button></legend>${r.steps.map((s,i)=>`<div class="routine-step" data-routine="${r.id}" data-step-id="${s.id}"><div class="actions"><input type="number" min="1" max="20" value="${s.count}" data-routine-field="count" aria-label="Attack count">× <select data-routine-field="attackId" aria-label="Routine attack">${choices(s.attackId)}</select><button data-combat="move-up" aria-label="Move attack up" ${i===0?'disabled':''}>↑</button><button data-combat="move-down" aria-label="Move attack down" ${i===r.steps.length-1?'disabled':''}>↓</button><button data-combat="delete-step" aria-label="Remove attack">×</button></div><details id="routine-modifiers-${s.id}"><summary>Modifiers</summary><div class="actions"><label>Attack <input type="number" min="-1000" max="1000" value="${s.attackMod}" data-routine-field="attackMod" aria-label="Routine attack modifier"></label><label>Damage <input type="number" min="-1000" max="1000" value="${s.damageMod}" data-routine-field="damageMod" aria-label="Routine damage modifier"></label></div></details></div>`).join('')}<button data-combat="add-step" data-routine="${r.id}" ${!d.attacks.length||r.steps.length>=50||r.steps.reduce((n,s)=>n+s.count,0)>=100?'disabled':''}>+ Attack</button></fieldset>`).join('')}</div><button data-combat="add-routine" ${c.routines.length>=20?'disabled':''}>+ Routine</button>`;
+  return `<div id="routines-list">${c.routines.map(r=>`<fieldset data-routine="${r.id}"><legend><input data-routine-field="name" data-routine="${r.id}" value="${escape(r.name)}" maxlength="200" aria-label="Routine name"><button data-combat="run" data-routine="${r.id}" ${d.incapacitated||routineIssue(r,d.attacks)?'disabled':''} title="${escape(routineIssue(r,d.attacks))}">▶ Run</button><button data-combat="delete-routine" data-routine="${r.id}" aria-label="Delete routine">×</button></legend>${r.steps.map((s,i)=>`<div class="routine-step" data-routine="${r.id}" data-step-id="${s.id}"><div class="actions"><input type="number" min="1" max="20" value="${s.count}" data-routine-field="count" aria-label="Attack count">× <select data-routine-field="attackId" aria-label="Routine attack">${choices(s.attackId)}</select><button data-combat="move-up" aria-label="Move attack up" ${i===0?'disabled':''}>↑</button><button data-combat="move-down" aria-label="Move attack down" ${i===r.steps.length-1?'disabled':''}>↓</button><button data-combat="delete-step" aria-label="Remove attack">×</button></div><details id="routine-modifiers-${s.id}"><summary>Modifiers</summary><div class="actions"><label>Attack <input type="number" min="-1000" max="1000" value="${s.attackMod}" data-routine-field="attackMod" aria-label="Routine attack modifier"></label><label>Damage <input type="number" min="-1000" max="1000" value="${s.damageMod}" data-routine-field="damageMod" aria-label="Routine damage modifier"></label></div></details></div>`).join('')}<button data-combat="add-step" data-routine="${r.id}" ${!d.attacks.length||r.steps.length>=50||r.steps.reduce((n,s)=>n+s.count,0)>=100?'disabled':''}>+ Attack</button></fieldset>`).join('')}</div><button data-combat="add-routine" ${c.routines.length>=20?'disabled':''}>+ Routine</button>`;
  }
  function edit(el){
   if(!el.dataset.routineField)return false;
@@ -42,11 +47,16 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   change:edit,
   click(el){
    const action=el?.dataset.combat;if(!action)return false;
+   if(action==='attack'){const a=derived().attacks.find(a=>a.uid===el.dataset.attackId);if(a)run({name:a.name,steps:[{attackId:a.uid,count:1,attackMod:0,damageMod:0}]});return true;}
+   if(action==='reload'){
+    if(derived().incapacitated)return true;
+    try{const c=current(),p=reloadWeapon(c,pack,el.dataset.attackId),entry=c.inventory.find(e=>e.uid===el.dataset.attackId);log('resource',`${pack.equipment.find(w=>w.id===entry.id).name}: Reload ${p.capacity} ${p.capacity===1?'shot':'shots'} (${p.reloadAction.replaceAll('-',' ')})`);changed();}catch(e){error(e.message);}return true;
+   }
    const c=current(),r=c.routines.find(r=>r.id===el.closest('[data-routine]')?.dataset.routine);
    const stepIndex=r?.steps.findIndex(s=>s.id===el.closest('[data-step-id]')?.dataset.stepId);
    if(action==='add-routine'){if(c.routines.length>=20)return true;c.routines.push({id:crypto.randomUUID(),name:'',steps:[]});}
    else if(!r)return true;
-   else if(action==='run'){if(derived().incapacitated)return true;try{const result=rollRoutine(r,derived().attacks,pack.rules.combat);for(const uid of result.aimConsumed){const item=c.inventory.find(e=>e.uid===uid);if(item)item.aimed=false;}log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
+   else if(action==='run'){run(r);return true;}
    else if(action==='delete-routine')c.routines.splice(c.routines.indexOf(r),1);
    else if(action==='add-step'){if(!derived().attacks.length||r.steps.length>=50||r.steps.reduce((n,s)=>n+s.count,0)>=100)return true;r.steps.push({id:crypto.randomUUID(),attackId:derived().attacks[0].uid,count:1,attackMod:0,damageMod:0});}
    else if(action==='delete-step')r.steps.splice(stepIndex,1);

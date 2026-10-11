@@ -166,6 +166,13 @@ export function validatePack(p) {
       assert(['weapon','armor','gear'].includes(r.kind)); assert((r.cost===null || Number.isFinite(r.cost) && r.cost>=0) && (r.weight===null || Number.isFinite(r.weight) && r.weight>=0));
       if(r.retractableStock){assert(r.kind==='weapon'&&r.group==='rifles');assert.deepEqual(Object.keys(r.retractableStock),['withoutCost']);assert(Number.isFinite(r.retractableStock.withoutCost)&&r.retractableStock.withoutCost>=0&&r.retractableStock.withoutCost<r.cost,'Invalid stockless cost');}
       if(r.scope){assert(r.kind==='gear');assert.deepEqual(Object.keys(r.scope).sort(),['ignoresDarkness','rangeReduction']);assert(r.scope.rangeReduction===1&&typeof r.scope.ignoresDarkness==='boolean','Invalid targeting scope');}
+      if(r.ammunitionProfiles!==undefined){
+        assert(r.kind==='weapon'&&r.mode==='ranged'&&Array.isArray(r.ammunitionProfiles)&&r.ammunitionProfiles.length&&new Set(r.ammunitionProfiles.map(a=>a.id)).size===r.ammunitionProfiles.length,'Invalid ammunition profiles');
+        for(const a of r.ammunitionProfiles){
+          assert.deepEqual(Object.keys(a).sort(),['capacity','id','name','reloadAction','sourceId','supplyIds']);assert(/^[a-z-]+$/.test(a.id)&&typeof a.name==='string'&&Number.isInteger(a.capacity)&&a.capacity>0&&a.capacity<=10000,'Invalid ammunition capacity');
+          assert(['move-action','free-action','full-round-action'].includes(a.reloadAction)&&sources.has(a.sourceId),'Invalid reload rule');assert(Array.isArray(a.supplyIds)&&a.supplyIds.length&&new Set(a.supplyIds).size===a.supplyIds.length,'Invalid ammunition supplies');a.supplyIds.forEach(id=>requireRef('equipment',id));
+        }
+      }
       if(r.kind==='weapon') {
         assert(p.rules.weaponSizeOrder.includes(r.size) && [...GROUPS,'exotic-melee','exotic-ranged'].includes(r.group) && ['melee','ranged'].includes(r.mode));
         assert(/^\d+d\d+$/.test(r.damage)||r.damage===null&&(r.damageAction==='Grab / Grapple'||r.ammunition==='grenade'||r.unarmed),'Unsupported weapon damage');
@@ -187,6 +194,7 @@ export function validatePack(p) {
     }
   }
   const access=p.rules.forceTalentAccess,recovery=p.rules.forcePowerRecovery;
+  const ammo=p.rules.ammunition;assert(ammo&&Object.keys(ammo).every(k=>['sourceIds','autofireShots'].includes(k))&&ammo.sourceIds.length&&ammo.sourceIds.every(id=>sources.has(id))&&ammo.autofireShots===10,'Invalid ammunition rules');
   const accessories=p.rules.weaponAccessories;assert(accessories&&accessories.sourceIds.length&&accessories.sourceIds.every(id=>sources.has(id)),'Missing accessory sources');assert.deepEqual(Object.keys(accessories).sort(),['carefulShotBonus','deadeyeDice','rifleOneHandedPenalty','scopeRangeReduction','sourceIds']);assert(accessories.scopeRangeReduction===1&&accessories.rifleOneHandedPenalty===-5&&accessories.carefulShotBonus===1&&accessories.deadeyeDice===1,'Unsupported weapon accessory rule');
   for(const key of ['weaponRanges','unarmed','secondWind','encumbrance'])assert(p.rules[key]?.sourceIds?.length&&p.rules[key].sourceIds.every(id=>sources.has(id)),`Missing ${key} sources`);
   const load=p.rules.encumbrance;assert(load.heavyFraction===.25&&load.liftFraction===.5&&load.strainFraction===1&&load.speedMultiplier===.75&&load.runMultiplier===3&&load.skillPenalty===-10,'Unsupported encumbrance rule');

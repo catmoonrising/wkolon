@@ -418,3 +418,29 @@ Core Blaster Rifle/Carbine `retractableStock: {withoutCost}` specifies printed s
 `rules.weaponAccessories` retains pinned sources and declares scope category reduction, the rifle grip penalty, Careful Shot’s bonus and Deadeye’s extra die. Inventory `aimed` asserts completed Aim against the current target. Area attacks gain no benefit; normal Aim ignores cover, scopes reduce range penalties, Careful Shot adds +1 and Deadeye adds one weapon die. Enhanced Low-Light ignores Concealment from darkness, never Total Concealment. Physical range limits and Point-Blank Shot use actual distance.
 
 Jedi Counseling 107 applies its complete published stacking table by default. Disabled, Far Shot uses its printed explicit penalties and a scope reduces one category. Routines apply Aim only to their first attack, lose it on a preceding different attack or miss, and clear saved Aim after successful execution. The separate sheet attack/damage dice remain calculation previews and do not resolve actions. Other intervening actions, changed targets and lost line of sight require clearing Aim; they are not represented by a global combat turn tracker.
+
+
+## Loaded ammunition
+
+Weapon `ammunitionProfiles` contains closed records with `id`, `name`, `capacity`,
+`reloadAction`, `supplyIds` and pinned `sourceId`. Only explicit capacities are
+reviewed; a quiver size never implies a magazine capacity. `rules.ammunition`
+retains general reload/autofire sources and the ten-shot autofire cost.
+
+Inventory may store `ammoProfile` (missing selects the first profile) and
+`shotsRemaining` (whole number from zero to its capacity). Missing count means
+untracked, preserving older characters and avoiding a free-ammunition assumption.
+Changing supplies clears the count for explicit loading. Reload records a supplied
+reload and fills that weapon's counter; supplies are managed separately in
+Inventory. It never creates purchased supplies or changes credits. No charge
+fraction conversion or battery weights are inferred. A stacked weapon entry tracks
+one active weapon, rather than multiplying its magazine by the stack quantity.
+
+Derived attacks expose `ammunition` with profile, remaining count, cost and
+availability. Routine preflight aggregates every step for each physical weapon
+UID, aborting before dice on any deficit. Results carry `ammunitionSpent`; atomic
+application rechecks every referenced counter before decrementing and clearing
+Aim. Misses and failed area attacks spend ammunition. The sheet's ▶ button resolves
+a single attack through that same pipeline; its separate dice buttons remain
+previews. Reload's tooltip gives the required action; elapsed combat time and
+supplying a fresh magazine/pack are asserted by the player.

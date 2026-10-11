@@ -22,6 +22,7 @@ import {generationState, setGenerationMethod, assignScore, setPoolScore, setRoll
 import {featureChoices,choiceName,UNARMED_ID} from './feature-choices.js';
 import {createSpeciesChecks} from './species-rules.js';
 import {canAim} from './weapon-rules.js';
+import {ammunitionProfile} from './ammunition.js';
 
 const $ = id => document.getElementById(id);
 const escape = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -204,10 +205,15 @@ function attackTable(scope='') {
   const rangeNames=['Point-Blank','Short','Medium','Long'];
   return `<div class="table-scroll"><table><thead><tr><th>Weapon</th><th>Attack</th><th>Damage</th></tr></thead><tbody>${derived.attacks.map((a,i)=>{
     const index=current().inventory.findIndex(e=>e.uid===a.uid),e=current().inventory[index];
-    const range=a.range.limits?`<details id="${scope}attack-range-${i}"><summary>Range${a.range.band===null?'':a.available?' · '+rangeNames[a.range.band]:' · Out of range'}</summary><label>Squares<input type="number" min="0" max="100000" data-inventory="distance" data-index="${index}" value="${e.distance??''}" aria-label="${escape(a.name)} distance in squares" placeholder="—"></label><dl>${a.range.limits.map((limit,j)=>j&&limit===a.range.limits[j-1]?'':`<dt>${rangeNames[j]}</dt><dd>${j?a.range.limits[j-1]+1:0}–${limit}</dd>`).join('')}</dl>${canAim(a,e)?`<label class="checkbox"><input type="checkbox" data-inventory="aimed" data-index="${index}" ${e.aimed?'checked':''}>Aim</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:aim'),'ⓘ',null,scope+'aim-'+i)}`:''}</details>`:'';
+    const range=a.range.limits?`<details id="${scope}attack-range-${i}"><summary>Range${a.range.band===null?'':a.range.available?' · '+rangeNames[a.range.band]:' · Out of range'}</summary><label>Squares<input type="number" min="0" max="100000" data-inventory="distance" data-index="${index}" value="${e.distance??''}" aria-label="${escape(a.name)} distance in squares" placeholder="—"></label><dl>${a.range.limits.map((limit,j)=>j&&limit===a.range.limits[j-1]?'':`<dt>${rangeNames[j]}</dt><dd>${j?a.range.limits[j-1]+1:0}–${limit}</dd>`).join('')}</dl>${canAim(a,e)?`<label class="checkbox"><input type="checkbox" data-inventory="aimed" data-index="${index}" ${e.aimed?'checked':''}>Aim</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:aim'),'ⓘ',null,scope+'aim-'+i)}`:''}</details>`:'';
     const modifiers=a.id===UNARMED_ID?`<details id="${scope}unarmed-modifiers"><summary>Modifiers</summary>${['attackMod','damageMod'].map(k=>`<label>${k==='attackMod'?'Attack':'Damage'}<input type="number" min="-100" max="100" data-unarmed-modifier="${k}" value="${current().unarmedModifiers?.[k]||0}"></label>`).join('')}</details>`:'';
-    return `<tr><td>${ruleReference(ix.equipment.get(a.id)||a,a.name,null,`${scope}attack-${i}`)}<small>${escape(a.damageType)}${a.proficient?'':' | Not proficient'}${a.areaType?' | Area':a.criticalMultiplier>2?' | ×'+a.criticalMultiplier+' critical':''}</small>${range}${modifiers}</td><td><button class="roll" data-roll="${a.attack}" data-roll-label="${escape(a.name)} attack" ${derived.incapacitated||!a.available?'disabled':''}>${signed(a.attack)}</button></td><td>${a.damage?`<button class="roll" data-damage="${escape(a.damageDisplay)}" data-roll-label="${escape(a.name)} damage" ${derived.incapacitated||!a.available?'disabled':''}>${escape(a.damageDisplay)}</button>`:escape(a.damageDisplay)}</td></tr>`;
+    return `<tr><td>${ruleReference(ix.equipment.get(a.id)||a,a.name,null,`${scope}attack-${i}`)}<small>${escape(a.damageType)}${a.proficient?'':' | Not proficient'}${a.areaType?' | Area':a.criticalMultiplier>2?' | ×'+a.criticalMultiplier+' critical':''}</small>${range}${modifiers}</td><td><button data-combat="attack" data-attack-id="${a.uid}" aria-label="Attack with ${escape(a.name)}" title="Attack and damage" ${derived.incapacitated||!a.available||a.damage===null?'disabled':''}>▶</button> <button class="roll" data-roll="${a.attack}" data-roll-label="${escape(a.name)} attack" ${derived.incapacitated||!a.available?'disabled':''}>${signed(a.attack)}</button></td><td>${a.damage?`<button class="roll" data-damage="${escape(a.damageDisplay)}" data-roll-label="${escape(a.name)} damage" ${derived.incapacitated||!a.available?'disabled':''}>${escape(a.damageDisplay)}</button>`:escape(a.damageDisplay)}</td></tr>`;
   }).join('')}</tbody></table></div>${calculations(scope+'attack-calculations',derived.attacks.map(a=>[a.name,a.breakdown]))}`;
+}
+function ammunitionControls(r,e,i,scope){
+ const p=ammunitionProfile(e,pack);if(!p)return '';
+ const action={'move-action':'Move Action','free-action':'Free Action','full-round-action':'Full-Round Action'}[p.reloadAction];
+ return `<details id="${scope}ammunition-${i}"><summary>Ammunition${e.shotsRemaining===undefined?'':' · '+e.shotsRemaining+'/'+p.capacity}</summary><div class="actions">${r.ammunitionProfiles.length>1?`<label>Supply<select data-inventory="ammoProfile" data-index="${i}">${r.ammunitionProfiles.map(p=>option(p.id,p.name,e.ammoProfile||r.ammunitionProfiles[0].id)).join('')}</select></label>`:''}<label>Shots <input type="number" min="0" max="${p.capacity}" data-inventory="shotsRemaining" data-index="${i}" value="${e.shotsRemaining??''}" placeholder="—" aria-label="${escape(r.name)} loaded shots"> / ${p.capacity}</label><button data-combat="reload" data-attack-id="${e.uid}" title="${action}" ${derived.incapacitated||e.shotsRemaining===p.capacity?'disabled':''}>Reload</button>${ruleReference(p.reloadAction==='move-action'?pack.rulePages.find(r=>r.id==='rule:manipulate-an-item'):ix.equipment.get(e.id),'ⓘ',null,scope+'reload-'+i)}</div></details>`;
 }
 function weaponOptions(r,e,i,scope=''){
  const select=(key,label,records,value,empty=false)=>`<label>${label}<select data-inventory="${key}" data-index="${i}">${empty?option('',typeof empty==='string'?empty:'Choose…',value):''}${records.map(o=>option(o.id,o.name,value,o.disabled)).join('')}</select></label>`;
@@ -222,7 +228,7 @@ function weaponOptions(r,e,i,scope=''){
    const scope=ix.equipment.get(item.id);if(!scope.scope)return [];
    const used=current().inventory.filter(other=>other!==e&&other.scopeUid===item.uid).length;
    return [{id:item.uid,name:scope.name,disabled:item.carried===false||used>=item.quantity}];
-  }),e.scopeUid||'','None'):'');
+  }),e.scopeUid||'','None'):'')+ammunitionControls(r,e,i,scope);
 }
 function conditionTrack() {
   const step=current().condition, species=ix.species.get(current().species);
@@ -382,6 +388,7 @@ function fitBarInput(el) {
 function numericFields(root) {
   root.querySelectorAll('input[type=number]:not([data-generation-manual])').forEach(el=>{
     el.dataset.number='true'; el.dataset.math=''; el.dataset.prev=el.value;
+    if(['distance','weightOverride','shotsRemaining'].includes(el.dataset.inventory))el.dataset.allowEmpty='';
     if(el.step&&Number(el.step)<1)el.dataset.decimal='';
     if(el.hasAttribute('min')) el.dataset.min=el.min;
     if(el.hasAttribute('max')) el.dataset.max=el.max;
@@ -648,9 +655,12 @@ function events() {
       if(el.dataset.inventory==='equipped'&&el.checked)e.carried=true;
       if(el.dataset.inventory==='carried'&&!el.checked)e.equipped=false;
       if(el.dataset.inventory==='equipped'&&el.checked&&ix.equipment.get(e.id).kind==='armor') c.inventory.filter(other=>ix.equipment.get(other.id).kind==='armor').forEach(other=>other.equipped=false);
-      const val=el.type==='checkbox'?el.checked:['licenseStatus','weaponMode','launcher','ammunitionId','fireMode','attackStyle','scopeUid','stockPosition'].includes(el.dataset.inventory)?el.value:Number(el.value);
+      const val=el.type==='checkbox'?el.checked:['licenseStatus','weaponMode','launcher','ammunitionId','fireMode','attackStyle','scopeUid','stockPosition','ammoProfile'].includes(el.dataset.inventory)?el.value:Number(el.value);
       if(el.dataset.inventory==='distance'&&el.value===''){delete e.distance;changed();return;}
       if(el.dataset.inventory==='weightOverride'&&el.value===''){delete e.weightOverride;changed();return;}
+      if(el.dataset.inventory==='shotsRemaining'&&el.value===''){delete e.shotsRemaining;changed();return;}
+      if(el.dataset.inventory==='shotsRemaining'&&(!Number.isInteger(val)||val<0||val>ammunitionProfile(e,pack).capacity)){notify('Enter a valid shot count.');render();return;}
+      if(el.dataset.inventory==='ammoProfile'){delete e.shotsRemaining;e.aimed=false;}
       if(el.dataset.inventory==='scopeUid'&&!el.value){delete e.scopeUid;e.aimed=false;changed();return;}
       if(el.dataset.inventory==='ammunitionId'&&!el.value){delete e.ammunitionId;changed();return;}
       if(el.dataset.inventory==='distance'&&(!Number.isInteger(val)||val<0||val>100000)){notify('Enter a valid distance.');render();return;}

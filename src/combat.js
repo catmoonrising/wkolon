@@ -62,11 +62,29 @@ export function defenseRangeRows(results){
  return rows;
 }
 const signed=n=>n>=0?'+'+n:String(n);
+export function routinePlan(routine,attacks){
+ if(!routine.steps.length)throw new Error('Add an attack');
+ const spending=new Map();
+ const plan=routine.steps.map(s=>{
+  const attack=attacks.find(a=>a.uid===s.attackId);
+  if(!attack)throw new Error('Attack unavailable');
+  if(!integer(s.count,1,20))throw new Error('Attack count must be 1–20');
+  if(attack.ammunition?.remaining!==null&&attack.ammunition?.remaining!==undefined){
+   const shots=(spending.get(attack.uid)?.shots||0)+s.count*attack.ammunition.cost;
+   if(shots>attack.ammunition.remaining)throw new Error(`${attack.name}: needs ${shots} ${shots===1?'shot':'shots'}; ${attack.ammunition.remaining} loaded`);
+   spending.set(attack.uid,{uid:attack.uid,shots});
+  }
+  if(attack.available===false)throw new Error('Attack unavailable');
+  if(attack.damage===null)throw new Error(attack.damageAction||'Choose ammunition');
+  return {step:s,attack};
+ });
+ if(plan.reduce((n,p)=>n+p.step.count,0)>100)throw new Error('Maximum 100 attacks per routine');
+ return {plan,ammunitionSpent:[...spending.values()]};
+}
+export function routineIssue(routine,attacks){try{routinePlan(routine,attacks);return '';}catch(e){return e.message;}}
 export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Reflex'){
  if(!['Reflex','Fortitude'].includes(defense))throw new Error('Unsupported defense');
- if(!routine.steps.length)throw new Error('Add an attack');
- const plan=routine.steps.map(s=>{const attack=attacks.find(a=>a.uid===s.attackId);if(!attack||attack.available===false)throw new Error('Attack unavailable');if(attack.damage===null)throw new Error(attack.damageAction||'Choose ammunition');return {step:s,attack};});
- if(plan.reduce((n,p)=>n+p.step.count,0)>100)throw new Error('Maximum 100 attacks per routine');
+ const {plan,ammunitionSpent}=routinePlan(routine,attacks);
  const results=[],aimConsumed=new Set(attacks.filter(a=>a.aimed).map(a=>a.uid));
  for(const {step:s,attack:original} of plan)for(let i=0;i<s.count;i++){
   const a=results.length&&original.unAimed?{...original,...original.unAimed}:original;
@@ -86,6 +104,6 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Refle
  const rows=defenseRangeRows(results),range=r=>r.lo===null?(r.hi===null?'Any':`≤ ${r.hi}`):r.hi===null?`${r.lo}+`:r.lo===r.hi?String(r.lo):`${r.lo}–${r.hi}`;
  const area=results.some(r=>r.areaType),splash=results.some(r=>r.areaType==='splash');
  const details=results.map(r=>`<div><b>${escape(r.name)}</b>: ${r.attackRoll.display} = ${totalHtml(r.attackRoll)}${r.naturalMiss||r.failedArea?' · Miss':r.critical?' · Critical':r.naturalHit?' · Hit':''}${r.damageRoll?` | ${r.damageRoll.display} = ${totalHtml(r.damageRoll)}`:''}${r.aimed?' · Ignores cover':''}${r.ignoresDarkness?' · Ignores Concealment from darkness':''}</div>`).join('');
- return {results,rows,aimConsumed:[...aimConsumed],text:`${routine.name||'Routine'}: ${rows.map(r=>`${defense} ${range(r)}: ${r.damage} damage`).join('; ')}`,
+ return {results,rows,aimConsumed:[...aimConsumed],ammunitionSpent,text:`${routine.name||'Routine'}: ${rows.map(r=>`${defense} ${range(r)}: ${r.damage} damage`).join('; ')}`,
   html:`<b>${escape(routine.name||'Routine')}</b><table class="routine-result"><thead><tr><th>${defense}</th><th title="Rolled damage, before target damage-type effects, DR and SR">Damage</th>${area?'<th>Evasion</th><th>Cover</th>':''}${splash?'<th>Splash</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${range(r)}</td><td>${r.damage}</td>${area?`<td>${r.evasion}</td><td>${r.cover}</td>`:''}${splash?`<td>${r.splash}</td>`:''}</tr>`).join('')}</tbody></table><details><summary>Rolls</summary>${details}</details>`};
 }

@@ -4,6 +4,7 @@ import {counselingEnabled,ambiguityValue,validateHouseRules} from './house-rules
 import {resolveEquipment,validateInventoryOptions,validateStartingEquipment,validateAttachments,attachedScope} from './equipment.js';
 import {featureChoices,WEAPON_GROUPS,UNARMED_ID} from './feature-choices.js';
 import {unarmedWeapon,weaponRange,canAim} from './weapon-rules.js';
+import {ammunitionState,validateAmmunition} from './ammunition.js';
 import {carryingLimits} from './species-rules.js';
 import {recoveryState,recoveryDetails,validateRecovery} from './recovery.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
@@ -77,6 +78,7 @@ export function validateCharacter(c, pack) {
   if(c.unarmedModifiers!==undefined&&(!obj(c.unarmedModifiers)||Object.keys(c.unarmedModifiers).some(k=>!['attackMod','damageMod'].includes(k))||!['attackMod','damageMod'].every(k=>num(c.unarmedModifiers[k],-100,100))))bad('unarmed modifiers');
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
+  c.inventory.forEach(e=>validateAmmunition(e,pack,bad));
   validateStartingEquipment(c,pack,bad);
   validateAttachments(c,pack,bad);
   if(c.mechanicalSkills!==undefined&&!skillList(c.mechanicalSkills))bad('mechanical tool checks');
@@ -348,6 +350,7 @@ export function derive(c, pack) {
     const strength = w.mode === 'melee' ? (e.twoHanded && !light && !w.unarmed && mods.str > 0 ? 2 * mods.str : mods.str) : w.addsStrength||w.rangeType==='thrown'?mods.str:0;
     const range=weaponRange(w,e,pack,featHas,c),pointBlank=w.mode==='ranged'&&range.band===0&&featHas('point-blank-shot')?1:0;
     const autofire=w.autofireOnly||e.fireMode==='autofire';
+    const ammunition=ammunitionState(e,pack,autofire);
     const aimed=!!e.aimed&&canAim(w,e),accessories=pack.rules.weaponAccessories;
     const aimBonus=aimed&&featHas('careful-shot')?accessories.carefulShotBonus:0;
     const grip=w.group==='rifles'&&e.oneHanded?accessories.rifleOneHandedPenalty:0;
@@ -360,7 +363,7 @@ export function derive(c, pack) {
     const attack=ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + grip + aimBonus + c.modifiers.attack + e.attackMod;
     const display=dice=>dice?dice+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
     const unAimedRange=weaponRange(w,{...e,aimed:false},pack,featHas,c);
-    return {...w,damage,uid:e.uid,proficient,range,criticalMultiplier,areaType:autofire?'burst':w.areaType,available:range.available,
+    return {...w,damage,uid:e.uid,proficient,range,criticalMultiplier,ammunition,areaType:autofire?'burst':w.areaType,available:range.available&&(!ammunition||ammunition.available),
       attack,aimed,ignoresCover:aimed,ignoresDarkness:aimed&&!!attachedScope(e,c,pack)?.scope.ignoresDarkness,
       ...(aimed?{unAimed:{aimed:false,attack:attack-aimBonus-range.penalty+unAimedRange.penalty,damage:w.damage,damageDisplay:display(w.damage),ignoresCover:false,ignoresDarkness:false}}:{}),
       damageBonus, damageDisplay:display(damage),

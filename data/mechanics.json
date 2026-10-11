@@ -4193,6 +4193,66 @@
       "sha256": "2a50badebb88b53dc1f79415b37c50f0279377859e45d321b3de73dfbdaa3aa3",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18458",
       "history": "https://swse.miraheze.org/w/index.php?title=Rifles&action=history"
+    },
+    {
+      "id": "source:wiki-power-pack",
+      "title": "Power Pack",
+      "section": null,
+      "revision": 18414,
+      "timestamp": "2024-08-25T20:05:40Z",
+      "sha256": "ca5f750ed9f60b999f080ab9907cf5f34021e17e1e6f851cafb7478c1c17ed37",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18414",
+      "history": "https://swse.miraheze.org/w/index.php?title=Power%20Pack&action=history"
+    },
+    {
+      "id": "source:wiki-energy-cell",
+      "title": "Energy Cell",
+      "section": null,
+      "revision": 18148,
+      "timestamp": "2024-08-25T19:40:05Z",
+      "sha256": "51394cfbd701e2eb655219fc44f02e20ff2de8b73cb54b85f3b909042f7dc9a9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18148",
+      "history": "https://swse.miraheze.org/w/index.php?title=Energy%20Cell&action=history"
+    },
+    {
+      "id": "source:wiki-power-recharger",
+      "title": "Power Recharger",
+      "section": null,
+      "revision": 18416,
+      "timestamp": "2024-08-25T20:05:51Z",
+      "sha256": "5d6d6326c68f5140ff9805824608f9ac2ea31864145eb08fd23e9055321c62d7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18416",
+      "history": "https://swse.miraheze.org/w/index.php?title=Power%20Recharger&action=history"
+    },
+    {
+      "id": "source:wiki-power-generator",
+      "title": "Power Generator",
+      "section": null,
+      "revision": 18413,
+      "timestamp": "2024-08-25T20:05:34Z",
+      "sha256": "d285525a91bee0839a18edf72d3d008687e5307815f993737023dccb238d009a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18413",
+      "history": "https://swse.miraheze.org/w/index.php?title=Power%20Generator&action=history"
+    },
+    {
+      "id": "source:wiki-manipulate-an-item",
+      "title": "Manipulate an Item",
+      "section": null,
+      "revision": 18345,
+      "timestamp": "2024-08-25T19:59:35Z",
+      "sha256": "e8356a014d3f52d476e3518f5bd1d8fffc3d35a0e61efa7534c303b2c71bfba3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18345",
+      "history": "https://swse.miraheze.org/w/index.php?title=Manipulate%20an%20Item&action=history"
+    },
+    {
+      "id": "source:wiki-attacks",
+      "title": "Attacks",
+      "section": null,
+      "revision": 27406,
+      "timestamp": "2026-05-19T10:24:03Z",
+      "sha256": "fe83760174a1462160f0157d344bc79c2e28ab65b774e0283ed5a79af21c8d20",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27406",
+      "history": "https://swse.miraheze.org/w/index.php?title=Attacks&action=history"
     }
   ],
   "species": [
@@ -8946,7 +9006,19 @@
       "autofireOnly": false,
       "areaAttack": false,
       "rangeType": "pistols",
-      "stunDamage": "3d6"
+      "stunDamage": "3d6",
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 100,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:blaster-pistol"
+        }
+      ]
     },
     {
       "id": "equipment:blaster-rifle",
@@ -8973,7 +9045,19 @@
       "stunDamage": "3d8",
       "retractableStock": {
         "withoutCost": 900
-      }
+      },
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 50,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:blaster-rifle"
+        }
+      ]
     },
     {
       "id": "equipment:combat-jumpsuit",
@@ -9457,7 +9541,19 @@
       "areaAttack": true,
       "rangeType": "heavy-weapons",
       "areaType": "splash",
-      "mechanical": true
+      "mechanical": true,
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 10,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:wiki-blaster-cannon"
+        }
+      ]
     },
     {
       "id": "equipment:blaster-carbine",
@@ -9484,7 +9580,19 @@
       "mechanical": true,
       "retractableStock": {
         "withoutCost": 850
-      }
+      },
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 50,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:wiki-blaster-carbine"
+        }
+      ]
     },
     {
       "id": "equipment:bow",
@@ -9505,7 +9613,19 @@
       "autofireOnly": false,
       "areaAttack": false,
       "rangeType": "simple-weapons",
-      "addsStrength": true
+      "addsStrength": true,
+      "ammunitionProfiles": [
+        {
+          "id": "arrow",
+          "name": "Arrow",
+          "capacity": 1,
+          "reloadAction": "free-action",
+          "supplyIds": [
+            "equipment:arrow-quiver"
+          ],
+          "sourceId": "source:wiki-bow"
+        }
+      ]
     },
     {
       "id": "equipment:club",
@@ -9713,7 +9833,19 @@
         6,
         6
       ],
-      "areaType": "burst"
+      "areaType": "burst",
+      "ammunitionProfiles": [
+        {
+          "id": "cartridge",
+          "name": "Chemical Cartridge",
+          "capacity": 5,
+          "reloadAction": "full-round-action",
+          "supplyIds": [
+            "equipment:flamethrower-cartridge"
+          ],
+          "sourceId": "source:wiki-flamethrower"
+        }
+      ]
     },
     {
       "id": "equipment:force-pike",
@@ -9782,7 +9914,21 @@
       "areaAttack": true,
       "rangeType": "heavy-weapons",
       "ammunition": "grenade",
-      "areaType": "burst"
+      "areaType": "burst",
+      "ammunitionProfiles": [
+        {
+          "id": "grenades",
+          "name": "Grenades",
+          "capacity": 4,
+          "reloadAction": "full-round-action",
+          "supplyIds": [
+            "equipment:frag-grenade",
+            "equipment:ion-grenade",
+            "equipment:stun-grenade"
+          ],
+          "sourceId": "source:wiki-grenade-launcher"
+        }
+      ]
     },
     {
       "id": "equipment:heavy-blaster-pistol",
@@ -9806,7 +9952,19 @@
       "areaAttack": false,
       "rangeType": "pistols",
       "stunDamage": "3d8",
-      "mechanical": true
+      "mechanical": true,
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 50,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:wiki-heavy-blaster-pistol"
+        }
+      ]
     },
     {
       "id": "equipment:heavy-blaster-rifle",
@@ -9830,7 +9988,19 @@
       "areaAttack": false,
       "rangeType": "rifles",
       "stunDamage": "3d10",
-      "mechanical": true
+      "mechanical": true,
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 30,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:wiki-heavy-blaster-rifle"
+        }
+      ]
     },
     {
       "id": "equipment:heavy-repeating-blaster",
@@ -9854,7 +10024,19 @@
       "areaAttack": false,
       "rangeType": "heavy-weapons",
       "areaType": "burst",
-      "mechanical": true
+      "mechanical": true,
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 20,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:wiki-heavy-repeating-blaster"
+        }
+      ]
     },
     {
       "id": "equipment:hold-out-blaster-pistol",
@@ -9876,7 +10058,19 @@
       "autofire": false,
       "autofireOnly": false,
       "areaAttack": false,
-      "rangeType": "pistols"
+      "rangeType": "pistols",
+      "ammunitionProfiles": [
+        {
+          "id": "energy-cell",
+          "name": "Energy Cell",
+          "capacity": 6,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:energy-cell"
+          ],
+          "sourceId": "source:wiki-hold-out-blaster-pistol"
+        }
+      ]
     },
     {
       "id": "equipment:ion-grenade",
@@ -9923,7 +10117,19 @@
       "autofireOnly": false,
       "areaAttack": false,
       "rangeType": "pistols",
-      "mechanical": true
+      "mechanical": true,
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 30,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:wiki-ion-pistol"
+        }
+      ]
     },
     {
       "id": "equipment:ion-rifle",
@@ -9946,7 +10152,19 @@
       "autofireOnly": false,
       "areaAttack": false,
       "rangeType": "rifles",
-      "mechanical": true
+      "mechanical": true,
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 20,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:wiki-ion-rifle"
+        }
+      ]
     },
     {
       "id": "equipment:light-repeating-blaster",
@@ -9970,7 +10188,19 @@
       "areaAttack": false,
       "rangeType": "rifles",
       "areaType": "burst",
-      "mechanical": true
+      "mechanical": true,
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 30,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:wiki-light-repeating-blaster"
+        }
+      ]
     },
     {
       "id": "equipment:mace",
@@ -10012,7 +10242,19 @@
       "autofireOnly": false,
       "areaAttack": true,
       "rangeType": "heavy-weapons",
-      "areaType": "burst"
+      "areaType": "burst",
+      "ammunitionProfiles": [
+        {
+          "id": "magazine",
+          "name": "Missile Magazine",
+          "capacity": 4,
+          "reloadAction": "full-round-action",
+          "supplyIds": [
+            "equipment:missile-magazine"
+          ],
+          "sourceId": "source:wiki-missile-launcher"
+        }
+      ]
     },
     {
       "id": "equipment:net",
@@ -10119,7 +10361,19 @@
       "autofire": false,
       "autofireOnly": false,
       "areaAttack": false,
-      "rangeType": "pistols"
+      "rangeType": "pistols",
+      "ammunitionProfiles": [
+        {
+          "id": "clip",
+          "name": "Clip",
+          "capacity": 10,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:slugthrower-pistol-clip"
+          ],
+          "sourceId": "source:wiki-slugthrower-pistol"
+        }
+      ]
     },
     {
       "id": "equipment:slugthrower-rifle",
@@ -10141,7 +10395,19 @@
       "autofire": true,
       "autofireOnly": false,
       "areaAttack": false,
-      "rangeType": "rifles"
+      "rangeType": "rifles",
+      "ammunitionProfiles": [
+        {
+          "id": "clip",
+          "name": "Clip",
+          "capacity": 20,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:slugthrower-rifle-clip"
+          ],
+          "sourceId": "source:wiki-slugthrower-rifle"
+        }
+      ]
     },
     {
       "id": "equipment:spear",
@@ -10184,7 +10450,29 @@
       "autofireOnly": false,
       "areaAttack": false,
       "rangeType": "pistols",
-      "stunDamage": "3d4"
+      "stunDamage": "3d4",
+      "ammunitionProfiles": [
+        {
+          "id": "energy-cell",
+          "name": "Energy Cell",
+          "capacity": 6,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:energy-cell"
+          ],
+          "sourceId": "source:wiki-sporting-blaster-pistol"
+        },
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 100,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:wiki-sporting-blaster-pistol"
+        }
+      ]
     },
     {
       "id": "equipment:sporting-blaster-rifle",
@@ -10207,7 +10495,19 @@
       "autofireOnly": false,
       "areaAttack": false,
       "rangeType": "rifles",
-      "stunDamage": "3d6"
+      "stunDamage": "3d6",
+      "ammunitionProfiles": [
+        {
+          "id": "power-pack",
+          "name": "Power Pack",
+          "capacity": 100,
+          "reloadAction": "move-action",
+          "supplyIds": [
+            "equipment:power-pack"
+          ],
+          "sourceId": "source:wiki-sporting-blaster-rifle"
+        }
+      ]
     },
     {
       "id": "equipment:stun-baton",
@@ -10420,6 +10720,106 @@
         "rangeReduction": 1,
         "ignoresDarkness": true
       }
+    },
+    {
+      "id": "equipment:power-pack",
+      "name": "Power Pack",
+      "sourceId": "source:wiki-power-pack",
+      "kind": "gear",
+      "cost": 25,
+      "weight": 0.1,
+      "availability": []
+    },
+    {
+      "id": "equipment:energy-cell",
+      "name": "Energy Cell",
+      "sourceId": "source:wiki-energy-cell",
+      "kind": "gear",
+      "cost": 10,
+      "weight": null,
+      "availability": []
+    },
+    {
+      "id": "equipment:power-recharger",
+      "name": "Power Recharger",
+      "sourceId": "source:wiki-power-recharger",
+      "kind": "gear",
+      "cost": 100,
+      "weight": 1,
+      "availability": []
+    },
+    {
+      "id": "equipment:power-generator",
+      "name": "Power Generator",
+      "sourceId": "source:wiki-power-generator",
+      "kind": "gear",
+      "cost": 750,
+      "weight": 15,
+      "availability": []
+    },
+    {
+      "id": "equipment:slugthrower-pistol-clip",
+      "name": "Slugthrower Clip (Pistol, 10 Slugs)",
+      "sourceId": "source:wiki-slugthrower-pistol",
+      "kind": "gear",
+      "cost": 20,
+      "weight": 0.1,
+      "availability": [],
+      "family": "Slugthrower Clip",
+      "variant": "Pistol, 10 Slugs"
+    },
+    {
+      "id": "equipment:slugthrower-rifle-clip",
+      "name": "Slugthrower Clip (Rifle, 20 Slugs)",
+      "sourceId": "source:wiki-slugthrower-rifle",
+      "kind": "gear",
+      "cost": 40,
+      "weight": 0.2,
+      "availability": [],
+      "family": "Slugthrower Clip",
+      "variant": "Rifle, 20 Slugs"
+    },
+    {
+      "id": "equipment:arrow-quiver",
+      "name": "Arrows (Quiver of 10)",
+      "sourceId": "source:wiki-bow",
+      "kind": "gear",
+      "cost": 20,
+      "weight": 0.8,
+      "availability": [],
+      "family": "Arrows",
+      "variant": "Quiver of 10"
+    },
+    {
+      "id": "equipment:quarrel-quiver",
+      "name": "Quarrels (Quiver of 10)",
+      "sourceId": "source:wiki-bowcaster",
+      "kind": "gear",
+      "cost": 50,
+      "weight": 1,
+      "availability": [],
+      "family": "Quarrels",
+      "variant": "Quiver of 10"
+    },
+    {
+      "id": "equipment:flamethrower-cartridge",
+      "name": "Flamethrower Chemical Cartridge",
+      "sourceId": "source:wiki-flamethrower",
+      "kind": "gear",
+      "cost": 200,
+      "weight": 4,
+      "availability": []
+    },
+    {
+      "id": "equipment:missile-magazine",
+      "name": "Missiles (Magazine of 4)",
+      "sourceId": "source:wiki-missile-launcher",
+      "kind": "gear",
+      "cost": 200,
+      "weight": 5,
+      "availability": [],
+      "family": "Missiles",
+      "variant": "Magazine of 4"
     }
   ],
   "rules": {
@@ -10887,6 +11287,13 @@
       "rifleOneHandedPenalty": -5,
       "carefulShotBonus": 1,
       "deadeyeDice": 1
+    },
+    "ammunition": {
+      "sourceIds": [
+        "source:wiki-manipulate-an-item",
+        "source:wiki-attacks"
+      ],
+      "autofireShots": 10
     }
   },
   "heroicTraits": {

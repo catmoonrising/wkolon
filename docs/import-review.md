@@ -292,9 +292,9 @@ The weapon review preserved these exceptions:
 - Bowcaster uses rifle ranges. Energy Balls use thrown, Atlatl or Cesta ranges.
 - Double weapons roll one end's damage per configured attack.
 - Combat Gloves add one unarmed damage bonus, with Small and Medium variants.
-- Autofire carries its -5 attack penalty and area rules; ammunition and action
-  costs, bracing, stock functionality, ion/stun target effects and weapon-specific
-  readiness requirements remain manual.
+- Autofire carries its -5 attack penalty and area rules. Reviewed loaded-shot
+  counters now spend ten shots per autofire attack. Stocks and scopes are supported;
+  bracing, ion/stun target effects and other readiness requirements remain manual.
 
 Area routines no longer multiply natural-20 damage. Misses halve rolled damage;
 Evasion, cover and splash have separate result columns. These are rolled damage
@@ -388,3 +388,31 @@ Reviewed current Targeting Scope 24958, Aim 15771, Retractable Stock 19749, Rifl
 Tests cover all eight Accurate/Far Shot/scope combinations across all four bands, the Counseling-off interpretation, unavailable inaccurate/maximum ranges, actual-distance Point-Blank Shot, owned/carried scope capacity, rifle grip penalties, and once-only Aim/Careful Shot/Deadeye routine results. Deadeye’s printed prohibition on stacking with Burst Fire/Rapid Shot will also be enforced when those conditional modes are added.
 
 **Open wiki contradiction: Ion Damage vs ion weapon descriptions.** Ion Damage 26732 halves HP damage for every target, with extra track effects for electronic/cybernetic targets. Ion Pistol 18290 describes normal damage to those targets and half to other creatures. The user has been notified; the dedicated damage rule is the proposed RAW default. No alternate interpretation has been added without a ruling.
+
+## Loaded ammunition review
+
+Nineteen Core weapons now declare twenty ammunition profiles, each with a pinned
+weapon source, capacity, supply references and reload action. The general Move
+Action comes from Manipulate an Item 18345; Bow 16363 explicitly reloads as a Free
+Action, while Flamethrower 18221, Missile Launcher 18369 and Grenade Launcher
+18224 specify Full-Round Actions. Sporting Blaster Pistol 18521 supports either
+a six-shot Energy Cell or a 100-shot Power Pack. Attacks 27406 explicitly consumes
+ten shots/slugs for autofire and requires at least that many loaded.
+
+Ten supply entries preserve printed prices and weights: Power Pack, Energy Cell,
+Power Recharger, Power Generator, the two Slugthrower clips, arrow/quarrel quivers,
+Flamethrower cartridges and four-missile magazines. Energy Cell gives no weight;
+it remains unknown rather than zero. The generator's cost is 750 credits.
+
+A loaded-shot counter applies to the active weapon represented by its Inventory
+entry. Untracked legacy entries remain valid. A supplied Reload sets the stated
+capacity and clears Aim, without creating or debiting assumed spare supplies.
+Routine preflight totals all uses of each weapon before any dice, including misses
+and failed area attacks. Single attacks use the same resolution and spending.
+
+**Unspecified details retained:** Bowcaster lists a ten-quarrel quiver but gives no
+loaded magazine capacity; none is invented. Melee battery lifetimes, included free
+ammunition, conversion of partially used batteries between weapons, and loaded
+versus spare battery weight are not inferred. Generator attachment/crew state,
+spare consumption and four-hour recharging need separate reviewed resource state;
+buying those supplies currently records possessions only.

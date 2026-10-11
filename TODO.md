@@ -24,7 +24,9 @@
   - [x] Kel Dor starting mask, goggles and filters; once-only species/class equipment grants and Jedi lightsabers.
   - [x] Core folding stocks, stockless prices, rifle grips, standard/enhanced scopes and owned attachments.
   - [x] Aim, Careful Shot and Deadeye; one-use routine benefits and Counseling range stacking.
-  - [ ] Remaining conditional feat actions, ammunition consumption and ion/stun target effects.
+  - [x] Explicit Core loaded capacities, reload actions, supply prices, single attack resolution and aggregate routine spending.
+  - [ ] Spare ammunition consumption, rechargeable packs, generator connections and E-Web crew/mount readiness.
+  - [ ] Remaining conditional feat actions and ion/stun target effects.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 
 - [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.

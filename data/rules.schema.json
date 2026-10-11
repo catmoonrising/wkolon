@@ -669,6 +669,26 @@
               "const": 1
             }
           }
+        },
+        "ammunition": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "autofireShots"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "autofireShots": {
+              "const": 10
+            }
+          }
         }
       },
       "required": [
@@ -1417,6 +1437,53 @@
             "withoutCost": {
               "type": "number",
               "minimum": 0
+            }
+          }
+        },
+        "ammunitionProfiles": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "capacity",
+              "reloadAction",
+              "supplyIds",
+              "sourceId"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z-]+$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "capacity": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "reloadAction": {
+                "enum": [
+                  "move-action",
+                  "free-action",
+                  "full-round-action"
+                ]
+              },
+              "supplyIds": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "sourceId": {
+                "type": "string"
+              }
             }
           }
         }
