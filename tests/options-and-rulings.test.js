@@ -75,6 +75,9 @@ test('partial proficiency Counseling never replaces an explicit feat prerequisit
  const focus=ix.feats.get('feat:weapon-focus');assert(!eligible(focus,{id:focus.id,choice:w.group},ctx,ix,'feats'));
  toggle(ctx,'jc:112-weapon-focus-proficiency',true);assert(eligible(focus,{id:focus.id,choice:w.group},ctx,ix,'feats'));
  assert(!ctx.feats.some(f=>f.id==='feat:weapon-proficiency-advanced-melee-weapons'));
+ toggle(ctx,'jc:112-weapon-familiarity-with-feats-and-talents',true);
+ assert(!eligible(focus,{id:focus.id,choice:w.group},ctx,ix,'feats'));
+ assert(eligible(focus,{id:focus.id,choice:'simple-weapons'},ctx,ix,'feats'));
 });
 
 test('invalid inventory variants and House Rules cannot enter persistence',()=>{

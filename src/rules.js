@@ -91,7 +91,7 @@ export function prerequisite(p, ctx, ix, choice) {
     case 'classSkill': return classSkills(ctx, ix).has(value);
     case 'bab': return ctx.bab >= p.min;
     case 'nonDroid': return !ctx.isDroid;
-    case 'proficientChoice': return ctx.feats.some(f => ix.feats.get(f.id)?.weaponGroup === value) || counselingEnabled(ctx,'jc:112-weapon-focus-proficiency') && [...ix.equipment.values()].some(w=>w.kind==='weapon'&&w.group===value&&weaponProficient(w,ctx,ix));
+    case 'proficientChoice': return ctx.feats.some(f => ix.feats.get(f.id)?.weaponGroup === value) || counselingEnabled(ctx,'jc:112-weapon-focus-proficiency') && [...ix.equipment.values()].some(w=>w.kind==='weapon'&&weaponEffectGroup(w,ctx)===value&&weaponProficient(w,ctx,ix));
     case 'focusChoice': return ctx.feats.some(f => f.id === F('weapon-focus') && f.choice === value);
     default: throw new Error(`Unsupported prerequisite: ${p.kind}`);
   }
@@ -113,6 +113,8 @@ export function weaponProficient(w,ctx,ix){
  const group=ctx.weaponFamiliarity?.[w.id]||w.group;
  return ctx.feats.some(f=>ix.feats.get(f.id)?.weaponGroup===group);
 }
+
+const weaponEffectGroup=(w,ctx)=>counselingEnabled(ctx,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity?.[w.id]||w.group:w.group;
 
 export function levelSlots(levelNumber, classLevel, species, cls, pack) {
   const slots = [];
@@ -256,7 +258,7 @@ export function derive(c, pack) {
   const attacks = c.inventory.filter(e => e.equipped && ix.equipment.get(e.id).kind === 'weapon').map(e => {
     const w = resolveEquipment(e,pack,c);
     const proficient = weaponProficient(w,ctx,ix);
-    const group=counselingEnabled(c,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity[w.id]||w.group:w.group;
+    const group=weaponEffectGroup(w,ctx);
     const allowFocus=!counselingEnabled(c,'jc:112-weapon-focus-proficiency')||proficient;
     const mechanical=species.technophobic&&(e.mechanical??w.mechanical)&&!w.biotech?-5:0;
     const focus = allowFocus?effects.filter(f => f.target === 'weaponFocus' && f.selection.choice === group).reduce((n, f) => n + f.amount, 0):0;
