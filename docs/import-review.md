@@ -89,6 +89,23 @@ Force targeting is implemented.
 
 ## Remaining mechanical review
 
+### Armor batch
+
+All eleven Core armor entries now have reviewed mechanics. Armored Flight Suit,
+Armored Space Suit, Battle Armor, Ceremonial Armor, Corellian Powersuit, Heavy
+Battle Armor and Padded Flight Suit join the existing four. Armor Proficiency
+(Heavy) requires Medium and belongs to both Scout and Soldier bonus lists.
+All retain their complete revision-pinned articles and fitted-size/license prices.
+
+The Equipment page reduces Medium/Heavy movement to three-quarters, rounded
+down, regardless of proficiency; Heavy permits running at three times speed.
+Armor reductions precede Condition Track halving for normal and swim speeds.
+Corellian Powersuit's +2 equipment Strength applies only while equipped with
+Medium proficiency. It changes the displayed score, checks and melee attack/damage,
+without rewriting base scores or level history. No new conflicting wording was
+found. Heavy-load running limits, life-support resource tracking and supplementary
+equipment upgrades remain manual; their rules are not implied by these calculations.
+
 ### Species batch
 
 The builder now includes Aqualish, Cerean, Ewok, Hutt, Ithorian, Mon Calamari,

@@ -117,6 +117,7 @@ export function validatePack(p) {
       if(r.family!==undefined)assert(typeof r.family==='string'&&typeof r.variant==='string');
       if(r.upgrades!==undefined){assert(Array.isArray(r.upgrades)&&new Set(r.upgrades.map(u=>u.id)).size===r.upgrades.length);for(const u of r.upgrades){assert(Object.keys(u).every(k=>['id','name','costMultiplier','changesWeight'].includes(k)));assert(/^[a-z-]+$/.test(u.id)&&typeof u.name==='string'&&Number.isFinite(u.costMultiplier)&&u.costMultiplier>=1);if(u.changesWeight!==undefined)assert.equal(typeof u.changesWeight,'boolean');}}
       if(r.kind==='armor') { assert(p.rules.armorPenalties[r.category]!==undefined); for(const k of ['armorBonus','fortitudeBonus','maxDex']) assert(Number.isInteger(r[k])); for(const id of Object.keys(r.skillBonuses)) requireRef('skills',id); }
+      if(r.abilityBonuses!==undefined){assert(r.kind==='armor'&&r.abilityBonuses&&Object.keys(r.abilityBonuses).every(k=>k==='str'),'Unsupported equipment ability bonus');assert(Object.values(r.abilityBonuses).every(n=>Number.isInteger(n)&&n>0),'Invalid equipment ability bonus');}
     }
   }
   if(p.heroicTraits) {
@@ -133,6 +134,13 @@ export function validatePack(p) {
     assert.deepEqual(Object.keys(l.ratings).sort(),['illegal','licensed','military','restricted']);
     for(const r of Object.values(l.ratings)){assert.deepEqual(Object.keys(r).sort(),['blackMarket','days','dc','percent']);assert(Object.values(r).every(n=>Number.isInteger(n)&&n>0));}
   }
+  const movement=p.rules.armorMovement;
+  assert(movement&&Object.keys(movement).every(k=>['sourceIds','speedMultipliers','runMultipliers'].includes(k)),'Missing armor movement rules');
+  assert(movement.sourceIds.length&&movement.sourceIds.every(id=>sources.has(id)),'Missing armor movement source');
+  assert.deepEqual(Object.keys(movement.speedMultipliers).sort(),['heavy','light','medium']);
+  assert.deepEqual(Object.keys(movement.runMultipliers).sort(),['heavy','light','medium']);
+  assert(Object.values(movement.speedMultipliers).every(n=>Number.isFinite(n)&&n>0&&n<=1),'Invalid armor speed multiplier');
+  assert(Object.values(movement.runMultipliers).every(n=>Number.isInteger(n)&&n>0),'Invalid armor run multiplier');
   if(p.catalog) {
     assert.equal(p.catalog.schemaVersion,1);
     assert.equal(p.catalog.book,'Core Rulebook');

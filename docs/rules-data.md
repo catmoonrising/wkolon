@@ -31,6 +31,22 @@ the Equipment table's percentage of normal item cost, separately from any market
 surcharge. Paying an application fee does not automatically approve the license.
 Miniaturized Comlink weight is unspecified; a weight override can supply it.
 
+Armor movement uses `rules.armorMovement: {sourceIds, speedMultipliers,
+runMultipliers}`. The reviewed Equipment page supplies Light ×1, Medium/Heavy
+×0.75 (rounded down), and running ×4 except Heavy ×3. Proficiency does not
+remove movement limits. Apply armor to each movement speed, then the Condition
+Track's half-speed penalty; running uses the resulting normal speed. Carrying
+limits remain manual, so this running value does not include a Heavy Load.
+
+Armor may declare `abilityBonuses: {str: 2}`. Only Strength is currently supported,
+for the reviewed Corellian Powersuit. Apply it only while equipped and proficient,
+after permanent/species/level scores; it affects checks, melee attacks and damage.
+Saved base scores and the chronological advancement ledger remain unchanged.
+No currently enabled feat has a Strength prerequisite. Future Strength-prerequisite
+feats must also handle temporary prerequisites and losing access when gear is removed.
+Life-support durations and supplemental upgrade slots remain in the complete
+embedded articles; they do not create automatic resource pools.
+
 ## Pack
 
 `schemaVersion`, `id`, `version`, `name`, `license`, `sources`, `rules`, and arrays
@@ -173,12 +189,12 @@ mapped options. It does not mean every variant or all situational
 effects are automated. Imported reference text grants no effects or eligibility.
 Rules searches names and complete article text, with type and builder filters.
 
-The imported library has 483 entries: 21 species, five heroic classes, twelve
+The imported library has 485 entries: 23 species, five heroic classes, twelve
 prestige classes, nineteen skill pages (Knowledge contains seven fields), 64 feat
 pages (including Weapon Proficiency), 200 Core talents, forty talent trees,
 48 weapons, eleven armor entries, 46 general equipment pages, and seventeen Force
-powers. The reviewed builder covers nineteen species and a smaller feat, talent
-and equipment subset. Read [import-review.md](import-review.md) for actual source
+powers. The reviewed builder covers all 23 species and eleven armor entries,
+plus a smaller feat, talent and remaining equipment subset. Read [import-review.md](import-review.md) for actual source
 conflicts, unresolved variants and remaining mechanical work.
 
 `tools/wiki-extract.py` remains available for resumable extraction and XML intake.

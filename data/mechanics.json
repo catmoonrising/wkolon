@@ -1887,6 +1887,86 @@
       "sha256": "e2490221058ec344f38a8bd3362c3484bf32bee0bf8aa1b2635fba7ae0783b5b",
       "url": "https://swse.miraheze.org/w/index.php?oldid=21315",
       "history": "https://swse.miraheze.org/w/index.php?title=Electropole&action=history"
+    },
+    {
+      "id": "source:wiki-armored-flight-suit",
+      "title": "Armored Flight Suit",
+      "section": null,
+      "revision": 15914,
+      "timestamp": "2024-08-18T00:53:24Z",
+      "sha256": "5a68a5e321ceda5d1afe9b366f639fe3f7a5cb4e69a1cf4efadb49df9077f85f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15914",
+      "history": "https://swse.miraheze.org/w/index.php?title=Armored%20Flight%20Suit&action=history"
+    },
+    {
+      "id": "source:wiki-armored-space-suit",
+      "title": "Armored Space Suit",
+      "section": null,
+      "revision": 15919,
+      "timestamp": "2024-08-18T00:53:24Z",
+      "sha256": "0cdda9ab7ebb465a1c22e59638a681af8351e1cd4f21f9047885971be00351da",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15919",
+      "history": "https://swse.miraheze.org/w/index.php?title=Armored%20Space%20Suit&action=history"
+    },
+    {
+      "id": "source:wiki-battle-armor",
+      "title": "Battle Armor",
+      "section": null,
+      "revision": 16165,
+      "timestamp": "2024-08-18T00:56:24Z",
+      "sha256": "e15d233d3882a939dec1929467b3e6cab6887f377135e4d679ac262df6bde362",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16165",
+      "history": "https://swse.miraheze.org/w/index.php?title=Battle%20Armor&action=history"
+    },
+    {
+      "id": "source:wiki-ceremonial-armor",
+      "title": "Ceremonial Armor",
+      "section": null,
+      "revision": 18022,
+      "timestamp": "2024-08-25T19:27:36Z",
+      "sha256": "9aaf5927144b8d39bb72b3d8712216bd75350342b4b1bfc778e62c1b5b764532",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18022",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ceremonial%20Armor&action=history"
+    },
+    {
+      "id": "source:wiki-corellian-powersuit",
+      "title": "Corellian Powersuit",
+      "section": null,
+      "revision": 18056,
+      "timestamp": "2024-08-25T19:31:00Z",
+      "sha256": "4b82b4c078b334a30757816a81c938f267614e4cecd84ad7aba6fe0681b8ecae",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18056",
+      "history": "https://swse.miraheze.org/w/index.php?title=Corellian%20Powersuit&action=history"
+    },
+    {
+      "id": "source:wiki-heavy-battle-armor",
+      "title": "Heavy Battle Armor",
+      "section": null,
+      "revision": 18239,
+      "timestamp": "2024-08-25T19:49:59Z",
+      "sha256": "cc946c7740c022a6cdc31b49b2d1f6c24cabaa8d4636efdf32c984af7c59e1c5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18239",
+      "history": "https://swse.miraheze.org/w/index.php?title=Heavy%20Battle%20Armor&action=history"
+    },
+    {
+      "id": "source:wiki-padded-flight-suit",
+      "title": "Padded Flight Suit",
+      "section": null,
+      "revision": 18395,
+      "timestamp": "2024-08-25T20:04:02Z",
+      "sha256": "cc7c46437788384883c78420e1eb33d9ab00ab573be51aadc68156febc83b44c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18395",
+      "history": "https://swse.miraheze.org/w/index.php?title=Padded%20Flight%20Suit&action=history"
+    },
+    {
+      "id": "source:wiki-armor-proficiency-heavy",
+      "title": "Armor Proficiency (Heavy)",
+      "section": null,
+      "revision": 15904,
+      "timestamp": "2024-08-18T00:53:23Z",
+      "sha256": "3f9937559d5be9f0b40681eed6dd2a4e735f8de329b9a171eda40bb463876fc3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15904",
+      "history": "https://swse.miraheze.org/w/index.php?title=Armor%20Proficiency%20%28Heavy%29&action=history"
     }
   ],
   "species": [
@@ -2765,6 +2845,7 @@
         "feat:skill-training",
         "feat:armor-proficiency-light",
         "feat:armor-proficiency-medium",
+        "feat:armor-proficiency-heavy",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
         "feat:weapon-proficiency-simple-weapons",
@@ -2845,6 +2926,7 @@
         "feat:weapon-focus",
         "feat:armor-proficiency-light",
         "feat:armor-proficiency-medium",
+        "feat:armor-proficiency-heavy",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
         "feat:weapon-proficiency-simple-weapons",
@@ -3120,6 +3202,18 @@
       "repeat": "never",
       "effects": [],
       "reminder": "Remove medium armor penalties and enable its equipment bonuses."
+    },
+    {
+      "id": "feat:armor-proficiency-heavy",
+      "name": "Armor Proficiency (Heavy)",
+      "sourceId": "source:wiki-armor-proficiency-heavy",
+      "prerequisite": {
+        "kind": "feat",
+        "value": "feat:armor-proficiency-medium"
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Remove heavy armor penalties and enable its equipment bonuses."
     },
     {
       "id": "feat:dodge",
@@ -4058,6 +4152,119 @@
         "licensed"
       ],
       "mechanical": true
+    },
+    {
+      "id": "equipment:armored-flight-suit",
+      "name": "Armored Flight Suit",
+      "sourceId": "source:wiki-armored-flight-suit",
+      "kind": "armor",
+      "category": "light",
+      "cost": 4000,
+      "weight": 10,
+      "armorBonus": 5,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "licensed"
+      ]
+    },
+    {
+      "id": "equipment:armored-space-suit",
+      "name": "Armored Space Suit",
+      "sourceId": "source:wiki-armored-space-suit",
+      "kind": "armor",
+      "category": "heavy",
+      "cost": 12000,
+      "weight": 35,
+      "armorBonus": 9,
+      "fortitudeBonus": 3,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "restricted"
+      ]
+    },
+    {
+      "id": "equipment:battle-armor",
+      "name": "Battle Armor",
+      "sourceId": "source:wiki-battle-armor",
+      "kind": "armor",
+      "category": "medium",
+      "cost": 7000,
+      "weight": 16,
+      "armorBonus": 8,
+      "fortitudeBonus": 2,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ]
+    },
+    {
+      "id": "equipment:ceremonial-armor",
+      "name": "Ceremonial Armor",
+      "sourceId": "source:wiki-ceremonial-armor",
+      "kind": "armor",
+      "category": "medium",
+      "cost": 5000,
+      "weight": 13,
+      "armorBonus": 7,
+      "fortitudeBonus": 0,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "restricted"
+      ]
+    },
+    {
+      "id": "equipment:corellian-powersuit",
+      "name": "Corellian Powersuit",
+      "sourceId": "source:wiki-corellian-powersuit",
+      "kind": "armor",
+      "category": "medium",
+      "cost": 10000,
+      "weight": 20,
+      "armorBonus": 7,
+      "fortitudeBonus": 0,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "restricted"
+      ],
+      "abilityBonuses": {
+        "str": 2
+      }
+    },
+    {
+      "id": "equipment:heavy-battle-armor",
+      "name": "Heavy Battle Armor",
+      "sourceId": "source:wiki-heavy-battle-armor",
+      "kind": "armor",
+      "category": "heavy",
+      "cost": 15000,
+      "weight": 30,
+      "armorBonus": 10,
+      "fortitudeBonus": 4,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ]
+    },
+    {
+      "id": "equipment:padded-flight-suit",
+      "name": "Padded Flight Suit",
+      "sourceId": "source:wiki-padded-flight-suit",
+      "kind": "armor",
+      "category": "light",
+      "cost": 2000,
+      "weight": 5,
+      "armorBonus": 3,
+      "fortitudeBonus": 1,
+      "maxDex": 4,
+      "skillBonuses": {},
+      "availability": []
     }
   ],
   "rules": {
@@ -4211,6 +4418,21 @@
       "jc:112-weapon-familiarity-with-feats-and-talents": "weapon-familiarity",
       "jc:112-weapon-focus-proficiency": "partial-proficiency",
       "jc:114-conditions-and-damage-threshold": "raw-equivalent"
+    },
+    "armorMovement": {
+      "sourceIds": [
+        "source:wiki-equipment"
+      ],
+      "speedMultipliers": {
+        "light": 1,
+        "medium": 0.75,
+        "heavy": 0.75
+      },
+      "runMultipliers": {
+        "light": 4,
+        "medium": 4,
+        "heavy": 3
+      }
     }
   },
   "heroicTraits": {

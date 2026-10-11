@@ -214,7 +214,6 @@ export function derive(c, pack) {
       if(background.bonusLanguages.length>1 && !background.bonusLanguages.includes(story.language))issues.push('Choose a Background language');
     }
   }
-  const mods = Object.fromEntries(ABILITIES.map(a => [a, modifier(ctx.scores[a])]));
   const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
   const total = target => effects.filter(e => e.target === target).reduce((n, e) => n + e.amount * (e.perLevel ? level : 1), 0);
   const armorEntries = c.inventory.filter(e => e.equipped && ix.equipment.get(e.id).kind === 'armor');
@@ -222,6 +221,9 @@ export function derive(c, pack) {
   const armor = armorEntries.length ? resolveEquipment(armorEntries[0],pack,c) : null;
   const has = id => ctx.talents.some(t => t.id === `talent:${id}`);
   const proficientArmor = armor && ctx.feats.some(f => f.id === F(`armor-proficiency-${armor.category}`));
+  const equipmentAbilities = proficientArmor ? armor.abilityBonuses || {} : {};
+  const scores = Object.fromEntries(ABILITIES.map(a => [a, ctx.scores[a] + (equipmentAbilities[a] || 0)]));
+  const mods = Object.fromEntries(ABILITIES.map(a => [a, modifier(scores[a])]));
   const armorPenalty = armor && !proficientArmor ? pack.rules.armorPenalties[armor.category] : 0;
   let reflexBase = armor?.armorBonus ?? level;
   if (armor && proficientArmor && has('improved-armored-defense')) reflexBase = Math.max(armor.armorBonus, level + Math.floor(armor.armorBonus / 2));
@@ -276,10 +278,16 @@ export function derive(c, pack) {
   if (c.abilityMethod === 'standard' && !missingAssignments && [...Object.values(c.abilities)].sort((a,b) => a-b).join() !== [...pack.rules.standardArray].sort((a,b) => a-b).join()) issues.push('Standard package must use 15, 14, 13, 12, 10, 8 once each');
   const pointCost = (c.abilityMethod==='point-buy' && c.abilityGeneration ? c.abilityGeneration.pool : Object.values(c.abilities)).reduce((n, v) => n + (pack.rules.pointBuyCosts[v] ?? Infinity), 0);
   if (c.abilityMethod === 'point-buy' && pointCost > c.pointBudget) issues.push('Point-buy budget exceeded or a base score is outside 8–18');
-  return {level, half, scores: ctx.scores, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, ctx, rows, issues,
+  const movement = pack.rules.armorMovement;
+  const speedMultiplier = armor ? movement.speedMultipliers[armor.category] : 1;
+  const move = n => Math.floor(Math.floor(n * speedMultiplier) / (c.condition >= 4 ? 2 : 1));
+  const speed = move(species.speed);
+  const runMultiplier = armor ? movement.runMultipliers[armor.category] : movement.runMultipliers.light;
+  const speedBreakdown = `${species.speed} species × ${speedMultiplier} armor (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
+  return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, ctx, rows, issues,
     conditionalDefenses: (species.conditionalDefenses||[]).map(e=>({...e,total:defenses[e.defense]+e.amount})),
-    speed: c.condition >= 4 ? Math.floor(species.speed / 2) : species.speed,
-    speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,c.condition >= 4 ? Math.floor(n / 2) : n])),
+    speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
+    speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n)])),
     incapacitated: c.condition === 5, forceMaximum: species.forceImmune?0:pack.rules.resources.forcePointBase + half, forceCurrent:species.forceImmune?0:c.forcePoints, pointCost,
     weightUnknown:c.inventory.some(e=>resolveEquipment(e,pack,c).weight===null),
     weight: c.inventory.reduce((n,e) => n + (resolveEquipment(e,pack,c).weight||0) * e.quantity, 0),

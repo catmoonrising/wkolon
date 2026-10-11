@@ -194,12 +194,80 @@
               "raw-equivalent"
             ]
           }
+        },
+        "armorMovement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "speedMultipliers",
+            "runMultipliers"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "speedMultipliers": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "light",
+                "medium",
+                "heavy"
+              ],
+              "properties": {
+                "light": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "medium": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                },
+                "heavy": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 1
+                }
+              }
+            },
+            "runMultipliers": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "light",
+                "medium",
+                "heavy"
+              ],
+              "properties": {
+                "light": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "medium": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "heavy": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
         }
       },
       "required": [
         "combat",
         "resources",
-        "sizeStealth"
+        "sizeStealth",
+        "armorMovement"
       ]
     },
     "species": {
@@ -710,6 +778,16 @@
               "changesWeight": {
                 "type": "boolean"
               }
+            }
+          }
+        },
+        "abilityBonuses": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "str": {
+              "type": "integer",
+              "minimum": 1
             }
           }
         }

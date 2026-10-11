@@ -306,5 +306,6 @@ const server=http.createServer((req,res)=>{
   await quotaContext.close();console.log('Browser: quota failure preserves exportable in-memory character');
   await recoveryContext.close();await context.close();
   await require('./options-browser-checks.cjs')(browser,base,root);
+  await require('./armor-browser-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});
