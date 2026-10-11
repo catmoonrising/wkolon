@@ -25,7 +25,8 @@ character to move it between browsers or retain a backup. GitHub Pages requires
 no application server, account, runtime scraping or external database.
 
 The reviewed builder includes 23 species, the five heroic classes, 25 skills,
-31 feats, 48 talents and 24 equipment records. The searchable Rules library has
+31 feats, 95 talents and 24 equipment records. All Core heroic class talent trees
+are selectable. The searchable Rules library has
 485 entries, including reference-only options awaiting mechanical review. It is a
 partial implementation of the sourcebooks. Prestige classes, droid creation,
 Force power selection, vehicles and additional catalogs are future work.

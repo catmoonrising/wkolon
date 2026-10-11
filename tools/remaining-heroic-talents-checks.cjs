@@ -1,0 +1,45 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url');
+module.exports=async function(browser,base,root){
+ const {newCharacter,validateCharacter}=await import(pathToFileURL(path.join(root,'src/rules.js')).href),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
+ const hero=(name,cls,t)=>{const c=newCharacter(pack);Object.assign(c,{name,abilityMethod:'manual',credits:10000,abilities:{str:10,dex:8,con:10,int:10,wis:10,cha:20}});c.levels[0].classId='class:'+cls;c.levels[0].talent={id:'talent:'+t};return c;};
+ const jedi=hero('Jedi','jedi','force-intuition');jedi.trainedSkills=['skill:use-the-force','skill:acrobatics','skill:perception'];jedi.levels[0].feats=[{id:'feat:skill-focus',choice:'skill:use-the-force'},{id:'feat:weapon-focus',choice:'lightsabers'}];
+ jedi.levels.push({classId:'class:jedi',hpRoll:4,feats:[{id:'feat:skill-focus',choice:'skill:initiative'}],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]},{classId:'class:jedi',hpRoll:4,feats:[{id:'feat:toughness'}],talent:{id:'talent:weapon-specialization-lightsabers'},startingFeat:null,abilityIncreases:[],trainedSkills:[]});
+ const noble=hero('Noble','noble','connections');noble.levels[0].feats=[{id:'feat:toughness'},{id:'feat:improved-defenses'}];
+ const scoundrel=hero('Scoundrel','scoundrel','trace');scoundrel.abilities.int=18;scoundrel.abilities.cha=8;scoundrel.trainedSkills=['skill:use-computer'];scoundrel.levels[0].feats=[{id:'feat:skill-focus',choice:'skill:use-computer'},{id:'feat:toughness'}];
+ const characters=[jedi,noble,scoundrel];characters.forEach(c=>validateCharacter(c,pack));
+ const roster={schemaVersion:1,activeId:jedi.id,characters};
+ const context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];
+ page.on('pageerror',e=>errors.push(e.message));
+ await context.addInitScript(roster=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster));},roster);
+ const waitSave=()=>page.waitForFunction(()=>document.querySelector('#save-status').textContent==='Saved');
+ const groups=async()=>page.locator('#cr-body [data-tree-group]').evaluateAll(buttons=>buttons.map(b=>b.dataset.treeGroup));
+ const openTree=async()=>{await page.locator('#module-header a[href="#creation"]').click();await page.locator('[data-step="5"]').click();};
+ try{
+  await page.goto(base);const skills=page.locator('#module-skills');const initiative=skills.locator('[data-skill-source="skill:initiative"]');
+  assert.equal(await initiative.inputValue(),'skill:use-the-force');assert.equal(await skills.locator('[data-roll-label="Initiative"]').getAttribute('data-roll'),'16');
+  await initiative.selectOption('skill:initiative');assert.equal(await skills.locator('[data-roll-label="Initiative"]').getAttribute('data-roll'),'10');await waitSave();await page.reload();assert.equal(await initiative.inputValue(),'skill:initiative');
+  await page.locator('#print').click();assert((await page.locator('#stat-block-text').inputValue()).includes('Initiative +10'));await page.locator('#stat-block-close').click();
+  await initiative.selectOption('skill:use-the-force');await openTree();
+  assert.deepEqual(await groups(),['all','tree:jedi-consular','tree:jedi-guardian','tree:jedi-sentinel','tree:lightsaber-combat']);
+  await page.locator('[data-tree-group="tree:jedi-sentinel"]').click();assert(await page.locator('[data-tree-pick="talent:dark-side-scourge|"]').isDisabled());
+  await page.locator('[data-tree-group="tree:lightsaber-combat"]').click();await page.locator('[data-tree-fold="talent:weapon-specialization-lightsabers|"]').click();
+  assert((await page.locator('#rule-detail-body').innerText()).includes('+2 bonus on melee damage'));await page.locator('#rule-detail-close').click();await page.locator('#cr-done').click();
+  await page.locator(`[data-character="${noble.id}"]`).click();await openTree();assert.deepEqual(await groups(),['all','tree:influence','tree:inspiration','tree:leadership','tree:lineage']);await page.locator('#cr-done').click();
+  await page.locator('#equipment-catalog > summary').click();await page.locator('#purchase-item').selectOption('equipment:blaster-pistol');
+  const quote=page.locator('#purchase [data-shop-quote]'),quantity=page.locator('#purchase-quantity');
+  assert((await quote.innerText()).includes('500 cr')&&(await quote.innerText()).includes('Connections'));assert.equal(await page.locator('#purchase [data-shop-field="license"]').count(),0);
+  await quantity.fill('3');await quantity.press('Tab');assert((await quote.innerText()).includes('1,650 cr'));assert.equal(await page.locator('#purchase [data-shop-field="license"]').count(),1);
+  await quantity.fill('2');await quantity.press('Tab');assert((await quote.innerText()).includes('1,000 cr'));await page.locator('#purchase button[type="submit"]').click();
+  assert.equal(await page.locator('#module-inventory [data-inventory="licenseStatus"]').inputValue(),'approved');assert.equal(await page.locator('#module-inventory [data-field="credits"]').inputValue(),'9000');
+  await page.locator('#purchase [data-shop-field="market"]').selectOption('black-market');assert((await quote.innerText()).includes('2,000 cr'));
+  await page.locator(`[data-character="${scoundrel.id}"]`).click();await openTree();assert.deepEqual(await groups(),['all','tree:fortune','tree:misfortune','tree:slicer','tree:spacer']);await page.locator('#cr-done').click();
+  const gather=skills.locator('[data-skill-source="skill:gather-information"]');assert.equal(await gather.inputValue(),'skill:gather-information');assert((await gather.innerText()).includes('Use Computer (network) +14'));
+  await gather.selectOption('skill:use-computer');assert.equal(await skills.locator('[data-roll-label="Gather Information"]').getAttribute('data-roll'),'14');
+  await page.locator('#theme-select').selectOption({label:'Dracula Dark'});await skills.scrollIntoViewIfNeeded();await page.screenshot({path:path.join(root,'.build/skill-substitution-dracula.png')});await waitSave();
+  await page.evaluate(async()=>{await navigator.serviceWorker.register('./sw.js');await navigator.serviceWorker.ready;});await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);
+  await context.setOffline(true);await page.reload();assert.equal(await gather.inputValue(),'skill:use-computer');assert.equal(await skills.locator('[data-roll-label="Gather Information"]').getAttribute('data-roll'),'14');
+  await openTree();await page.locator('[data-tree-group="tree:spacer"]').click();await page.locator('[data-tree-fold="talent:spacehound|"]').click();assert((await page.locator('#rule-detail-body').innerText()).includes('Starship Weapon'));await page.locator('#rule-detail-close').click();await page.locator('#cr-done').click();
+  await page.setViewportSize({width:390,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  assert.deepEqual(errors,[]);console.log('Remaining heroic talents: all class trees, unavailable prerequisites, full text, skill sources, print, Connections quantities/licensing, Dracula and saved offline mobile passed');
+ }finally{await context.close();}
+};

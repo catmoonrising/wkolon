@@ -90,6 +90,44 @@ Force targeting is implemented.
 
 ## Remaining mechanical review
 
+### Jedi, Noble and Scoundrel talent batch
+
+Added 47 Core class talents, completing the Core heroic class trees: Jedi Consular,
+Jedi Guardian, Jedi Sentinel, Lightsaber Combat; Influence, Inspiration, Leadership,
+Lineage; Fortune, Misfortune, Slicer, Spacer. Fresh API snapshots matched the
+imported revisions. Each class tree list and each original talent section is
+pinned independently. The full articles, including their labeled vehicle and
+supplementary passages, remain verbatim. Core Force talent trees are a separate
+access rule and still await mechanical review.
+
+Force Intuition and Force Persuasion grant their destination skill's training
+during level replay, so later feats can use it as a prerequisite. Substitution
+uses the source skill's complete check modifier once. The sheet defaults to the
+better native/source modifier and retains a user's override. Trace does not
+grant training or assume a computer network; its replacement requires selecting
+the network option. Removing the enabling talent invalidates the substitution
+and any later choices that depended on its training. Species conditional focus
+also responds to training granted by these talents.
+
+Lightsaber Defense, Coordinate and Sneak Attack enforce their 3/5/10 selection
+caps. Jedi Weapon Specialization requires Lightsaber focus and adds 2 to melee
+lightsaber damage. It and the Soldier's chosen-group version represent the same
+talent for repeat eligibility, preventing a second specialization for that group.
+Jedi Counseling 106 additionally gates talents requiring a Force Point to activate;
+optional Force enhancements do not forbid a talent's ordinary use. Disabling the
+topic preserves the existing RAW off-state.
+
+Connections waives licensing fees and background checks for a purchase whose
+complete quantity costs at most 1,000 credits per character level, before fees;
+the resulting inventory license is approved. Fitted sizes, options and applicable
+market prices count toward that limit. Its black-market multiplier reduction
+applies independently of the allowance. Owned-only items remain unpurchasable.
+
+Ally/target effects, temporary bonuses, actions, per-day uses, Educated's Knowledge
+applications, rerolls, Wealth awards and starship effects remain manual. Their
+complete mechanics are available in the talent browser and Features module;
+selection does not turn conditional benefits into permanent sheet bonuses.
+
 ### Scout and Soldier talent batch
 
 All Core Scout and Soldier class talents are selectable, adding 27 reviewed

@@ -11,6 +11,8 @@
   - [x] Ten additional Core combat feats, reviewed prerequisites and class bonus lists; conditional actions retain full rules text.
   - [x] All Core Scout/Soldier class talents and tree access; automate Armor Mastery, Juggernaut, Second Skin, Long Stride and Melee Smash.
   - [x] Sprint running calculation and per-character Ambiguities tab for its heavy-armor interaction.
+  - [x] All Core Jedi/Noble/Scoundrel class talents, pinned tree access, repeat caps, skill substitutions, lightsaber specialization and Connections pricing.
+  - [ ] Core Force talent trees and access through Force Sensitivity.
   - [ ] Species special attacks, rerolls, sensory traits and carrying limits.
 
 - [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.

@@ -190,7 +190,8 @@ function calculations(id, entries) {
 }
 function skillTable() {
   const technophobic=ix.species.get(current().species).technophobic;
-  return `<div class="table-scroll"><table><thead><tr><th>Skill</th><th>Ability</th><th>Trained</th>${technophobic?'<th>Mechanical tools</th>':''}<th>Check</th></tr></thead><tbody>${derived.skills.map(s=>`<tr><td>${ruleReference(ix.skills.get(s.id))}</td><td>${s.ability.toUpperCase()}</td><td>${s.trained ? '✓' : '—'}</td>${technophobic?`<td><input type="checkbox" data-mechanical-skill="${s.id}" ${(current().mechanicalSkills||[]).includes(s.id)?'checked':''} aria-label="${escape(s.name)} uses mechanical tools"></td>`:''}<td><button class="roll" data-roll="${s.total}" data-roll-label="${escape(s.name)}" ${!s.available || derived.incapacitated ? 'disabled' : ''}>${s.available ? signed(s.total) : '—'}</button></td></tr>`).join('')}</tbody></table></div>${calculations('skill-calculations',derived.skills.map(s=>[s.name,s.breakdown]))}`;
+  const ability=s=>s.checkSources.length>1?`<select data-skill-source="${s.id}" aria-label="${escape(s.name)} check modifier">${s.checkSources.map(r=>option(r.id,`${r.id===s.id?r.ability.toUpperCase():r.name}${r.when?' (network)':''} ${signed(r.total)}`,s.checkSource)).join('')}</select>`:s.ability.toUpperCase();
+  return `<div class="table-scroll"><table><thead><tr><th>Skill</th><th>Ability</th><th>Trained</th>${technophobic?'<th>Mechanical tools</th>':''}<th>Check</th></tr></thead><tbody>${derived.skills.map(s=>`<tr><td>${ruleReference(ix.skills.get(s.id))}</td><td>${ability(s)}</td><td>${s.trained ? '✓' : '—'}</td>${technophobic?`<td><input type="checkbox" data-mechanical-skill="${s.id}" ${(current().mechanicalSkills||[]).includes(s.id)?'checked':''} aria-label="${escape(s.name)} uses mechanical tools"></td>`:''}<td><button class="roll" data-roll="${s.total}" data-roll-label="${escape(s.name)}" ${!s.available || derived.incapacitated ? 'disabled' : ''}>${s.available ? signed(s.total) : '—'}</button></td></tr>`).join('')}</tbody></table></div>${calculations('skill-calculations',derived.skills.map(s=>[s.name,s.breakdown]))}`;
 }
 function attackTable(scope='') {
   return derived.attacks.length ? `<div class="table-scroll"><table><thead><tr><th>Weapon</th><th>Attack</th><th>Damage</th></tr></thead><tbody>${derived.attacks.map((a,i)=>`<tr><td>${ruleReference(ix.equipment.get(a.id),a.name,null,`${scope}attack-${i}`)}<small>${escape(a.damageType)}${a.proficient?'':' | Not proficient'}</small></td><td><button class="roll" data-roll="${a.attack}" data-roll-label="${escape(a.name)} attack" ${derived.incapacitated?'disabled':''}>${signed(a.attack)}</button></td><td><button class="roll" data-damage="${escape(a.damageDisplay)}" data-roll-label="${escape(a.name)} damage">${a.damageDisplay}</button></td></tr>`).join('')}</tbody></table></div>${calculations(scope+'attack-calculations',derived.attacks.map(a=>[a.name,a.breakdown]))}` : '';
@@ -274,11 +275,12 @@ function shopDraft(scope){
  if(!equipmentDrafts.has(key))equipmentDrafts.set(key,{id:pack.equipment.find(r=>r.kind==='armor').id,options:[],armorSize:ix.species.get(current().species).size,license:true,market:'normal',quantity:1});
  return equipmentDrafts.get(key);
 }
+const shopQuote=(draft,quantity,c)=>purchaseQuote(draft,quantity,pack,c,{...draft,benefits:derived.purchaseBenefits});
 function shopForm(scope){
  const c=current(),prefix=scope?'cr-':'',draft=shopDraft(scope),r=ix.equipment.get(draft.id);
- const quote=purchaseQuote(draft,draft.quantity,pack,c,draft),family=equipmentFamilies(pack,r.kind).find(f=>f.records.some(r=>r.id===draft.id));
+ const quote=shopQuote(draft,draft.quantity,c),family=equipmentFamilies(pack,r.kind).find(f=>f.records.some(r=>r.id===draft.id));
  const equipmentRule=pack.rulePages.find(r=>r.name==='Equipment');
- return `<form id="${prefix}purchase" data-equipment-scope="${scope||'sheet'}" class="purchase-form"><label>Item<select id="${prefix}purchase-item" data-catalog-item>${['armor','gear','weapon'].map(kind=>`<optgroup label="${title(kind)}">${equipmentFamilies(pack,kind).map(f=>option(f.id,f.name,family.id)).join('')}</optgroup>`).join('')}</select></label>${family.records.length>1?`<label>Variant<select data-catalog-variant>${family.records.map(r=>option(r.id,r.variant,draft.id)).join('')}</select></label>`:''}${r.kind==='armor'?`<label>Size<select data-shop-field="armorSize">${['small','medium','large'].map(size=>option(size,title(size),draft.armorSize)).join('')}</select></label>`:''}${(r.upgrades||[]).map(u=>`<label class="checkbox"><input type="checkbox" data-shop-upgrade="${u.id}" ${draft.options.includes(u.id)?'checked':''}>${escape(u.name)}</label>`).join('')}<label>Quantity<input id="${prefix}purchase-quantity" data-catalog-quantity type="number" min="1" max="999" value="${draft.quantity}" required></label>${quote.rating||r.availability?.includes('rare')?`<label>Market<select data-shop-field="market">${option('normal','Normal',draft.market)}${quote.rating?option('black-market','Black market',draft.market):''}${r.availability?.includes('rare')?option('offworld','Offworld (×2)',draft.market):''}</select></label>`:''}${quote.rating&&draft.market!=='black-market'&&r.cost!==null?`<label class="checkbox"><input type="checkbox" data-shop-field="license" ${draft.license?'checked':''}>License fee (+${(quote.item.cost*quote.rating.percent/100).toLocaleString()} cr each)</label>`:''}<span data-shop-quote>${quote.total===null?'No market price':quote.total.toLocaleString()+' cr'} · ${weightText(quote.item.weight===null?null:quote.item.weight*draft.quantity)}</span><button class="primary" type="submit" ${quote.total===null?'disabled':''}>Buy</button><button type="button" data-action="add-gear">Add owned</button></form>${quote.rating&&equipmentRule?ruleReference(equipmentRule,'Licensing',null,prefix+'licensing'):''}`;
+ return `<form id="${prefix}purchase" data-equipment-scope="${scope||'sheet'}" class="purchase-form"><label>Item<select id="${prefix}purchase-item" data-catalog-item>${['armor','gear','weapon'].map(kind=>`<optgroup label="${title(kind)}">${equipmentFamilies(pack,kind).map(f=>option(f.id,f.name,family.id)).join('')}</optgroup>`).join('')}</select></label>${family.records.length>1?`<label>Variant<select data-catalog-variant>${family.records.map(r=>option(r.id,r.variant,draft.id)).join('')}</select></label>`:''}${r.kind==='armor'?`<label>Size<select data-shop-field="armorSize">${['small','medium','large'].map(size=>option(size,title(size),draft.armorSize)).join('')}</select></label>`:''}${(r.upgrades||[]).map(u=>`<label class="checkbox"><input type="checkbox" data-shop-upgrade="${u.id}" ${draft.options.includes(u.id)?'checked':''}>${escape(u.name)}</label>`).join('')}<label>Quantity<input id="${prefix}purchase-quantity" data-catalog-quantity type="number" min="1" max="999" value="${draft.quantity}" required></label>${quote.rating||r.availability?.includes('rare')?`<label>Market<select data-shop-field="market">${option('normal','Normal',draft.market)}${quote.rating?option('black-market','Black market',draft.market):''}${r.availability?.includes('rare')?option('offworld','Offworld (×2)',draft.market):''}</select></label>`:''}${quote.rating&&!quote.connections&&draft.market!=='black-market'&&r.cost!==null?`<label class="checkbox"><input type="checkbox" data-shop-field="license" ${draft.license?'checked':''}>License fee (+${(quote.item.cost*quote.rating.percent/100).toLocaleString()} cr each)</label>`:''}<span data-shop-quote>${quote.total===null?'No market price':quote.total.toLocaleString()+' cr'} · ${weightText(quote.item.weight===null?null:quote.item.weight*draft.quantity)}${quote.connections?' · Connections':''}</span><button class="primary" type="submit" ${quote.total===null?'disabled':''}>Buy</button><button type="button" data-action="add-gear">Add owned</button></form>${quote.rating&&equipmentRule?ruleReference(equipmentRule,'Licensing',null,prefix+'licensing'):''}`;
 }
 function refreshShop(form){
  const scope=form.dataset.equipmentScope==='cr'?'cr':'',prefix=scope?'cr-':'';
@@ -455,7 +457,7 @@ function addInventory(id,quantity=1,options={}) {
 function purchase(debit, form=$('purchase')) {
  const scope=form.dataset.equipmentScope==='cr'?'cr':'',draft=shopDraft(scope),quantity=Number(form.querySelector('[data-catalog-quantity]').value);
  if(!Number.isInteger(quantity)||quantity<1||quantity>999)return notify('Choose a quantity from 1 to 999.');
- const quote=purchaseQuote(draft,quantity,pack,current(),draft);
+ const quote=shopQuote(draft,quantity,current());
  if(debit&&quote.total===null)return notify('No market price.');
  if(debit&&current().credits<quote.total)return notify(`Insufficient credits. ${quote.total.toLocaleString()} required.`);
  if(debit)current().credits=Math.round((current().credits-quote.total)*100)/100;
@@ -537,13 +539,15 @@ function events() {
       if(el.dataset.shopField)draft[el.dataset.shopField]=el.type==='checkbox'?el.checked:el.value;
       if(el.dataset.shopUpgrade)draft.options=el.checked?[...draft.options,el.dataset.shopUpgrade]:draft.options.filter(id=>id!==el.dataset.shopUpgrade);
       if(el.hasAttribute('data-catalog-quantity')){
-        const quote=purchaseQuote(draft,draft.quantity,pack,c,draft);
+        if(derived.purchaseBenefits.licenseAllowance){refreshShop(form);return;}
+        const quote=shopQuote(draft,draft.quantity,c);
         form.querySelector('[data-shop-quote]').textContent=`${quote.total===null?'No market price':quote.total.toLocaleString()+' cr'} · ${weightText(quote.item.weight===null?null:quote.item.weight*draft.quantity)}`;
         return;
       }
       refreshShop(form);return;
     }
     if(el.dataset.mechanicalSkill){c.mechanicalSkills=el.checked?[...(c.mechanicalSkills||[]),el.dataset.mechanicalSkill]:(c.mechanicalSkills||[]).filter(id=>id!==el.dataset.mechanicalSkill);changed();return;}
+    if(el.dataset.skillSource){c.skillCheckSources??={};c.skillCheckSources[el.dataset.skillSource]=el.value;changed();return;}
     if(el.hasAttribute('data-math')) commitMath(el);
     if(combatControls.change(el))return;
     if (el.dataset.field) {

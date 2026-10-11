@@ -18,7 +18,8 @@ export function featureGraph(pack,options) {
   if(!allowed.has(r.id))continue;
   const key=type==='feats'?featureValue(r):r.id+'|';let node=nodes.get(key);
   if(!node){node={key,name:type==='feats'?(featureFamily(r)||r.name):r.name,group:type==='talents'?r.tree:null,records:[],parents:[],main:true,available:false,owned:false,selected:false};nodes.set(key,node);}
-  node.records.push(r);node.available||=possible(r).length>0;node.owned||=possessed.some(s=>s.id===r.id);node.selected||=selected?.id===r.id;byId.set(r.id,key);
+  const owns=s=>{const prior=ix[type].get(s.id);return s.id===r.id||r.repeatGroup&&prior?.repeatGroup===r.repeatGroup&&(!r.weaponGroup||(prior.weaponGroup||s.choice)===r.weaponGroup);};
+  node.records.push(r);node.available||=possible(r).length>0;node.owned||=possessed.some(owns);node.selected||=selected?.id===r.id;byId.set(r.id,key);
  }
  function condition(p) {
   const key='condition:'+JSON.stringify(p);if(nodes.has(key))return key;
@@ -31,7 +32,7 @@ export function featureGraph(pack,options) {
   else if(p.kind==='bab')name='Base attack +'+p.min;
   else if(p.kind==='nonDroid')name='Not a droid';
   else if(p.kind==='proficientChoice')name='Weapon Proficiency';
-  else if(p.kind==='focusChoice')name='Weapon Focus';
+  else if(p.kind==='focusChoice')name='Weapon Focus'+(choice?'':` (${title(p.value)})`);
   const choices=choice?(p.kind==='proficientChoice'||p.kind==='focusChoice'?GROUPS:pack.skills.map(s=>s.id)):[null];
   const owned=choices.some(value=>prerequisite(p,ctx,ix,value));
   nodes.set(key,{key,name,group:null,records:record?[record]:[],parents:[],main:false,owned,available:owned,selected:false});return key;

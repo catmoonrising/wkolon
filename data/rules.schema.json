@@ -864,56 +864,117 @@
           "items": {
             "$ref": "#/$defs/effect"
           }
+        },
+        "maxSelections": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "repeatGroup": {
+          "type": "string",
+          "pattern": "^talent:[a-z0-9-]+$"
+        },
+        "forceActivation": {
+          "enum": [
+            "check",
+            "forcePoint"
+          ]
         }
       }
     },
     "effect": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "target",
-        "amount",
-        "type"
-      ],
-      "properties": {
-        "target": {
-          "enum": [
-            "defenses",
-            "hp",
-            "threshold",
-            "skillFocus",
-            "skillTraining",
-            "weaponFocus",
-            "weaponSpecialization",
-            "armorMaxDex",
-            "armorBonus",
-            "armorFortitude",
-            "armorMovement",
-            "speed",
-            "meleeDamage",
-            "runMultiplier"
-          ]
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "amount",
+            "type"
+          ],
+          "properties": {
+            "target": {
+              "enum": [
+                "defenses",
+                "hp",
+                "threshold",
+                "skillFocus",
+                "skillTraining",
+                "weaponFocus",
+                "weaponSpecialization",
+                "armorMaxDex",
+                "armorBonus",
+                "armorFortitude",
+                "armorMovement",
+                "speed",
+                "meleeDamage",
+                "runMultiplier",
+                "licenseAllowance",
+                "blackMarketReduction"
+              ]
+            },
+            "amount": {
+              "type": "number"
+            },
+            "type": {
+              "enum": [
+                "untyped",
+                "competence"
+              ]
+            },
+            "perLevel": {
+              "type": "boolean"
+            },
+            "when": {
+              "enum": [
+                "proficientArmor",
+                "lightOrNoArmor",
+                "meleeAttack"
+              ]
+            },
+            "weaponGroup": {
+              "type": "string",
+              "enum": [
+                "advanced-melee-weapons",
+                "heavy-weapons",
+                "lightsabers",
+                "pistols",
+                "rifles",
+                "simple-weapons"
+              ]
+            }
+          }
         },
-        "amount": {
-          "type": "number"
-        },
-        "type": {
-          "enum": [
-            "untyped",
-            "competence"
-          ]
-        },
-        "perLevel": {
-          "type": "boolean"
-        },
-        "when": {
-          "enum": [
-            "proficientArmor",
-            "lightOrNoArmor",
-            "meleeAttack"
-          ]
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "skill",
+            "replacement",
+            "grantsTraining"
+          ],
+          "properties": {
+            "target": {
+              "const": "skillSubstitution"
+            },
+            "skill": {
+              "type": "string",
+              "pattern": "^skill:[a-z0-9-]+$"
+            },
+            "replacement": {
+              "type": "string",
+              "pattern": "^skill:[a-z0-9-]+$"
+            },
+            "grantsTraining": {
+              "type": "boolean"
+            },
+            "when": {
+              "const": "computerNetwork"
+            }
+          }
         }
-      }
+      ]
     },
     "ambiguity": {
       "type": "object",

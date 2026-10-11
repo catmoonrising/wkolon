@@ -63,6 +63,7 @@ export function validateCharacter(c, pack) {
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
   if(c.mechanicalSkills!==undefined&&!skillList(c.mechanicalSkills))bad('mechanical tool checks');
+  if(c.skillCheckSources!==undefined&&(!obj(c.skillCheckSources)||Object.entries(c.skillCheckSources).some(([id,source])=>!ix.skills.has(id)||!ix.skills.has(source))))bad('skill check sources');
   validateHouseRules(c,pack,bad);
   if (!Number.isFinite(c.credits)||c.credits<0||c.credits>1000000000 || !num(c.forcePoints, 0, 1000) || !num(c.condition, 0, 5) || !(c.currentHP === null || num(c.currentHP, 0, 100000))) bad('play state');
   if (!obj(c.modifiers) || !['reflex', 'fortitude', 'will', 'hp', 'threshold', 'attack', 'damage'].every(k => num(c.modifiers[k], -1000, 1000))) bad('modifiers');
@@ -104,8 +105,12 @@ export function eligible(record, selection, ctx, ix, type) {
   if (record.choiceType === 'skill' && !ix.skills.has(selection.choice)) return false;
   if (record.choiceType === 'weaponGroup' && !GROUPS.includes(selection.choice)) return false;
   const existing = ctx[type];
+  if(record.maxSelections&&existing.filter(s=>s.id===record.id).length>=record.maxSelections)return false;
   if (record.repeat === 'never' && existing.some(s => s.id === record.id)) return false;
-  if (record.repeat === 'choice' && existing.some(s => selectionKey(s) === selectionKey(selection))) return false;
+  if (record.repeat === 'choice' && existing.some(s => {
+    const prior=ix[type].get(s.id);
+    return (prior.repeatGroup||prior.id)===(record.repeatGroup||record.id)&&(prior.weaponGroup||s.choice||'')===(record.weaponGroup||selection.choice||'');
+  })) return false;
   return prerequisite(record.prerequisite, ctx, ix, selection.choice);
 }
 
@@ -144,7 +149,10 @@ export function progression(c, pack, through = c.levels.length) {
     const r = ix[type].get(s.id);
     if (!allow(r, s) || !eligible(r, s, ctx, ix, type)) { issue(i, `${r?.name || 'Unknown choice'} is not eligible for ${label}`); return; }
     recordFeature(s,type,i+1);
-    if (r.effects.some(e => e.target === 'skillTraining')) ctx.trained.add(s.choice);
+    for(const e of r.effects){
+      if(e.target==='skillTraining')ctx.trained.add(s.choice);
+      if(e.target==='skillSubstitution'&&e.grantsTraining)ctx.trained.add(e.skill);
+    }
     conditionalFocus();
   }
   for (const [i, l] of c.levels.slice(0, through).entries()) {
@@ -248,7 +256,7 @@ export function derive(c, pack) {
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
   const threshold = defenses.fortitude + pack.rules.sizeThreshold[species.size] + total('threshold') + c.modifiers.threshold;
   const hp = ix.classes.get(c.levels[0].classId).startingHP + mods.con + c.levels.slice(1).reduce((n, l) => n + Math.max(1, l.hpRoll + mods.con), 0) + total('hp') + c.modifiers.hp;
-  const skills = pack.skills.map(s => {
+  const nativeSkills = pack.skills.map(s => {
     const trained = ctx.trained.has(s.id);
     const focus = Math.max(0, ...effects.filter(e => e.target === 'skillFocus' && e.selection.choice === s.id && trained).map(e => e.amount));
     const backgroundBonus=!trained && background?.relevantSkills.includes(s.id)?background.untrainedBonus:0;
@@ -260,6 +268,16 @@ export function derive(c, pack) {
       total: half + mods[s.ability] + (trained ? pack.rules.trainingBonus : 0) + Math.max(focus,backgroundBonus) + equipment + penalty + size + condition + tools,
       breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${focus} focus + ${backgroundBonus} background + ${equipment} equipment + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools`};
   });
+  const nativeById=new Map(nativeSkills.map(s=>[s.id,s]));
+  const skills=nativeSkills.map(s=>{
+    const replacements=effects.filter(e=>e.target==='skillSubstitution'&&e.skill===s.id&&nativeById.get(e.replacement)?.available);
+    const sources=[{id:s.id,name:s.name,total:s.total,ability:s.ability},...replacements.map(e=>{const r=nativeById.get(e.replacement);return {id:r.id,name:r.name,total:r.total,ability:r.ability,...(e.when?{when:e.when}:{})};})];
+    const saved=c.skillCheckSources?.[s.id];
+    const automatic=sources.filter(r=>!r.when).reduce((best,r)=>r.total>best.total?r:best,sources[0]);
+    const source=saved?(sources.find(r=>r.id===saved)||sources[0]):automatic;
+    const native=nativeById.get(source.id);
+    return {...s,total:source.total,checkSource:source.id,checkSources:sources,breakdown:source.id===s.id?s.breakdown:`${native.name}${source.when?' (computer network)':''}: ${native.breakdown}`};
+  });
   const attacks = c.inventory.filter(e => e.equipped && ix.equipment.get(e.id).kind === 'weapon').map(e => {
     const w = resolveEquipment(e,pack,c);
     const proficient = weaponProficient(w,ctx,ix);
@@ -267,7 +285,7 @@ export function derive(c, pack) {
     const allowFocus=!counselingEnabled(c,'jc:112-weapon-focus-proficiency')||proficient;
     const mechanical=species.technophobic&&(e.mechanical??w.mechanical)&&!w.biotech?-5:0;
     const focus = allowFocus?effects.filter(f => f.target === 'weaponFocus' && f.selection.choice === group).reduce((n, f) => n + f.amount, 0):0;
-    const specialization = effects.filter(f => f.target === 'weaponSpecialization' && f.selection.choice === group).reduce((n, f) => n + f.amount, 0);
+    const specialization = effects.filter(f => f.target === 'weaponSpecialization' && (f.weaponGroup||f.selection.choice) === group && applies(f,w)).reduce((n, f) => n + f.amount, 0);
     const ability = w.mode === 'melee' ? mods.str : mods.dex;
     const light = pack.rules.weaponSizeOrder.indexOf(w.size) < pack.rules.weaponSizeOrder.indexOf(species.size);
     const strength = w.mode === 'melee' ? (e.twoHanded && !light && mods.str > 0 ? 2 * mods.str : mods.str) : 0;
@@ -295,6 +313,7 @@ export function derive(c, pack) {
   const runMultiplier = sprintAllowed ? Math.max(armorRunMultiplier,talentRunMultiplier) : armorRunMultiplier;
   const speedBreakdown = `(${species.speed} species + ${stride} talents) × ${speedMultiplier} armor (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
   return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, ctx, rows, issues,
+    purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses: (species.conditionalDefenses||[]).map(e=>({...e,total:defenses[e.defense]+e.amount})),
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n)])),

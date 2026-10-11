@@ -32,6 +32,7 @@ export function validatePack(p) {
     if (r.kind === 'feat') requireRef('feats',r.value);
     if (r.kind === 'talent') requireRef('talents',r.value);
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
+    if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
   for (const key of ['species','classes','skills','feats','talents','equipment','destinies','backgrounds','rulePages']) for (const r of p[key]||[]) {
     assert(!ids.has(r.id), `Duplicate ID ${r.id}`); ids.add(r.id);
@@ -93,19 +94,32 @@ export function validatePack(p) {
     }
     if (key === 'skills') assert(ABILITIES.includes(r.ability) && typeof r.trainedOnly==='boolean' && typeof r.armorCheck==='boolean');
     if (['feats','talents'].includes(key)) {
-      if(r.forceActivation!==undefined)assert.equal(r.forceActivation,'check');
+      if(r.forceActivation!==undefined)assert(['check','forcePoint'].includes(r.forceActivation));
       prerequisite(r.prerequisite); assert(['never','choice','stack'].includes(r.repeat));
+      if(r.maxSelections!==undefined)assert(r.repeat==='stack'&&Number.isInteger(r.maxSelections)&&r.maxSelections>=1&&r.maxSelections<=20,'Invalid repeat limit');
+      if(r.repeatGroup!==undefined){requireRef(key,r.repeatGroup);assert.equal(r.repeat,'choice');}
+      if(r.weaponGroup!==undefined)assert(GROUPS.includes(r.weaponGroup),'Unknown weapon group');
       if(r.choiceType) assert(['skill','weaponGroup'].includes(r.choiceType));
       assert(Array.isArray(r.effects) && typeof r.reminder==='string');
       const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};
       for(const e of r.effects) {
-        assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when'].includes(k)),'Unsupported effect field');
-        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
+        if(e.target==='skillSubstitution'){
+          assert(Object.keys(e).every(k=>['target','skill','replacement','grantsTraining','when'].includes(k)),'Unsupported substitution field');
+          requireRef('skills',e.skill);requireRef('skills',e.replacement);assert.notEqual(e.skill,e.replacement);assert.equal(typeof e.grantsTraining,'boolean');
+          assert(e.when===undefined||e.when==='computerNetwork','Unsupported substitution condition');
+          assert(!(e.when&&e.grantsTraining),'Conditional substitutions cannot grant permanent training');
+          continue;
+        }
+        assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when','weaponGroup'].includes(k)),'Unsupported effect field');
+        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
         assert(Number.isFinite(e.amount));assert(['untyped','competence'].includes(e.type));
         if(e.perLevel!==undefined)assert.equal(typeof e.perLevel,'boolean');
         if(e.target in passiveConditions){assert.equal(e.when,passiveConditions[e.target],'Missing passive condition');assert(e.type==='untyped'&&Number.isInteger(e.amount)&&e.amount>0&&!e.perLevel,'Unsupported passive effect');if(e.target==='armorMovement')assert.equal(e.amount,1);}
+        else if(e.target==='weaponSpecialization'&&e.weaponGroup)assert.equal(e.when,'meleeAttack');
         else assert(e.when===undefined,'Unsupported effect condition');
+        if(e.weaponGroup!==undefined)assert(e.target==='weaponSpecialization'&&GROUPS.includes(e.weaponGroup),'Unsupported fixed specialization');
         if(e.target==='runMultiplier')assert(Number.isInteger(e.amount)&&e.amount>=4&&e.amount<=10&&e.type==='untyped'&&!e.perLevel,'Invalid running multiplier');
+        if(['licenseAllowance','blackMarketReduction'].includes(e.target))assert(e.type==='untyped'&&Number.isInteger(e.amount)&&e.amount>0&&!!e.perLevel===(e.target==='licenseAllowance'),'Unsupported purchase effect');
       }
     }
     if(key==='backgrounds') {

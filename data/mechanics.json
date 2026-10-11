@@ -2367,6 +2367,506 @@
       "sha256": "03a04840acba8116c2af9703fb4f99a2ab788c234afa151f4bd5cd652daeed9e",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18461",
       "history": "https://swse.miraheze.org/w/index.php?title=Run&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-talent-trees",
+      "title": "Jedi Talent Trees",
+      "section": null,
+      "revision": 18306,
+      "timestamp": "2024-08-25T19:56:08Z",
+      "sha256": "0f2d645df52be8be0d19685e8d5a76f2ee80adfa50f80b72163bcafdcc8565bd",
+      "url": "https://swse.miraheze.org/w/index.php?title=Jedi_Talent_Trees&oldid=18306",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi_Talent_Trees&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-guardian-talent-tree-acrobatic-recovery",
+      "title": "Jedi Guardian Talent Tree",
+      "section": "Acrobatic Recovery",
+      "revision": 26764,
+      "timestamp": "2025-07-18T15:35:11Z",
+      "sha256": "904a36fcebd62b2edb39c5659c15c3f8b97ee2fda617c5e1c1a34e21ba362ead",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26764#Acrobatic_Recovery",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Guardian%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-consular-talent-tree-adept-negotiator",
+      "title": "Jedi Consular Talent Tree",
+      "section": "Adept Negotiator",
+      "revision": 26763,
+      "timestamp": "2025-07-18T13:57:46Z",
+      "sha256": "8467d26c7922a64c6284697d6ab72db6b796fdf4a209159bdbf7922c562b9ddb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26763#Adept_Negotiator",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Consular%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-guardian-talent-tree-battle-meditation",
+      "title": "Jedi Guardian Talent Tree",
+      "section": "Battle Meditation",
+      "revision": 26764,
+      "timestamp": "2025-07-18T15:35:11Z",
+      "sha256": "904a36fcebd62b2edb39c5659c15c3f8b97ee2fda617c5e1c1a34e21ba362ead",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26764#Battle_Meditation",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Guardian%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-sentinel-talent-tree-clear-mind",
+      "title": "Jedi Sentinel Talent Tree",
+      "section": "Clear Mind",
+      "revision": 26765,
+      "timestamp": "2025-07-18T23:04:16Z",
+      "sha256": "949b438c53f05759201ebbe66181fdf077ebf7536604478f0eefd07abbf028ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26765#Clear_Mind",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Sentinel%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-sentinel-talent-tree-dark-side-scourge",
+      "title": "Jedi Sentinel Talent Tree",
+      "section": "Dark Side Scourge",
+      "revision": 26765,
+      "timestamp": "2025-07-18T23:04:16Z",
+      "sha256": "949b438c53f05759201ebbe66181fdf077ebf7536604478f0eefd07abbf028ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26765#Dark_Side_Scourge",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Sentinel%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-sentinel-talent-tree-dark-side-sense",
+      "title": "Jedi Sentinel Talent Tree",
+      "section": "Dark Side Sense",
+      "revision": 26765,
+      "timestamp": "2025-07-18T23:04:16Z",
+      "sha256": "949b438c53f05759201ebbe66181fdf077ebf7536604478f0eefd07abbf028ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26765#Dark_Side_Sense",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Sentinel%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-guardian-talent-tree-elusive-target",
+      "title": "Jedi Guardian Talent Tree",
+      "section": "Elusive Target",
+      "revision": 26764,
+      "timestamp": "2025-07-18T15:35:11Z",
+      "sha256": "904a36fcebd62b2edb39c5659c15c3f8b97ee2fda617c5e1c1a34e21ba362ead",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26764#Elusive_Target",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Guardian%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-sentinel-talent-tree-force-haze",
+      "title": "Jedi Sentinel Talent Tree",
+      "section": "Force Haze",
+      "revision": 26765,
+      "timestamp": "2025-07-18T23:04:16Z",
+      "sha256": "949b438c53f05759201ebbe66181fdf077ebf7536604478f0eefd07abbf028ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26765#Force_Haze",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Sentinel%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-guardian-talent-tree-force-intuition",
+      "title": "Jedi Guardian Talent Tree",
+      "section": "Force Intuition",
+      "revision": 26764,
+      "timestamp": "2025-07-18T15:35:11Z",
+      "sha256": "904a36fcebd62b2edb39c5659c15c3f8b97ee2fda617c5e1c1a34e21ba362ead",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26764#Force_Intuition",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Guardian%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-consular-talent-tree-force-persuasion",
+      "title": "Jedi Consular Talent Tree",
+      "section": "Force Persuasion",
+      "revision": 26763,
+      "timestamp": "2025-07-18T13:57:46Z",
+      "sha256": "8467d26c7922a64c6284697d6ab72db6b796fdf4a209159bdbf7922c562b9ddb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26763#Force_Persuasion",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Consular%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-combat-talent-tree-lightsaber-defense",
+      "title": "Lightsaber Combat Talent Tree",
+      "section": "Lightsaber Defense",
+      "revision": 26712,
+      "timestamp": "2025-06-24T21:32:34Z",
+      "sha256": "9be5d334d705efddfdecb7db85c3e04edaac8bb246778c9acfd5d38f27989ca1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26712#Lightsaber_Defense",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Combat%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-combat-talent-tree-lightsaber-throw",
+      "title": "Lightsaber Combat Talent Tree",
+      "section": "Lightsaber Throw",
+      "revision": 26712,
+      "timestamp": "2025-06-24T21:32:34Z",
+      "sha256": "9be5d334d705efddfdecb7db85c3e04edaac8bb246778c9acfd5d38f27989ca1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26712#Lightsaber_Throw",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Combat%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-consular-talent-tree-master-negotiator",
+      "title": "Jedi Consular Talent Tree",
+      "section": "Master Negotiator",
+      "revision": 26763,
+      "timestamp": "2025-07-18T13:57:46Z",
+      "sha256": "8467d26c7922a64c6284697d6ab72db6b796fdf4a209159bdbf7922c562b9ddb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26763#Master_Negotiator",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Consular%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-combat-talent-tree-redirect-shot",
+      "title": "Lightsaber Combat Talent Tree",
+      "section": "Redirect Shot",
+      "revision": 26712,
+      "timestamp": "2025-06-24T21:32:34Z",
+      "sha256": "9be5d334d705efddfdecb7db85c3e04edaac8bb246778c9acfd5d38f27989ca1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26712#Redirect_Shot",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Combat%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-guardian-talent-tree-resilience",
+      "title": "Jedi Guardian Talent Tree",
+      "section": "Resilience",
+      "revision": 26764,
+      "timestamp": "2025-07-18T15:35:11Z",
+      "sha256": "904a36fcebd62b2edb39c5659c15c3f8b97ee2fda617c5e1c1a34e21ba362ead",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26764#Resilience",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Guardian%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-jedi-sentinel-talent-tree-resist-the-dark-side",
+      "title": "Jedi Sentinel Talent Tree",
+      "section": "Resist the Dark Side",
+      "revision": 26765,
+      "timestamp": "2025-07-18T23:04:16Z",
+      "sha256": "949b438c53f05759201ebbe66181fdf077ebf7536604478f0eefd07abbf028ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26765#Resist_the_Dark_Side",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Sentinel%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-combat-talent-tree-weapon-specialization-lightsabers",
+      "title": "Lightsaber Combat Talent Tree",
+      "section": "Weapon Specialization (Lightsabers)",
+      "revision": 26712,
+      "timestamp": "2025-06-24T21:32:34Z",
+      "sha256": "9be5d334d705efddfdecb7db85c3e04edaac8bb246778c9acfd5d38f27989ca1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26712#Weapon_Specialization_%28Lightsabers%29",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Combat%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-noble-talent-trees",
+      "title": "Noble Talent Trees",
+      "section": null,
+      "revision": 18388,
+      "timestamp": "2024-08-25T20:03:27Z",
+      "sha256": "68ba0dac701ddec6e76f4df301d79eac088557a9ecfda93d20668013f4ea3f32",
+      "url": "https://swse.miraheze.org/w/index.php?title=Noble_Talent_Trees&oldid=18388",
+      "history": "https://swse.miraheze.org/w/index.php?title=Noble_Talent_Trees&action=history"
+    },
+    {
+      "id": "source:wiki-inspiration-talent-tree-bolster-ally",
+      "title": "Inspiration Talent Tree",
+      "section": "Bolster Ally",
+      "revision": 18283,
+      "timestamp": "2024-08-25T19:54:06Z",
+      "sha256": "03bbc9c75e3d22f9347a51c301e394dc20ba27b78c769c1c8fb51db1698e4fc6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18283#Bolster_Ally",
+      "history": "https://swse.miraheze.org/w/index.php?title=Inspiration%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lineage-talent-tree-connections",
+      "title": "Lineage Talent Tree",
+      "section": "Connections",
+      "revision": 26290,
+      "timestamp": "2025-03-12T01:30:54Z",
+      "sha256": "82b8d5b2d64b3ce1515b5957857e8c03287c6bdfeba8c84d3c2874f0986629de",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26290#Connections",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lineage%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-leadership-talent-tree-coordinate",
+      "title": "Leadership Talent Tree",
+      "section": "Coordinate",
+      "revision": 18324,
+      "timestamp": "2024-08-25T19:57:43Z",
+      "sha256": "4a49f8cfa8427efbd1f76cb81ae4bdf6c7fa849b137c3dd4145dc2b45c85f6c2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18324#Coordinate",
+      "history": "https://swse.miraheze.org/w/index.php?title=Leadership%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-influence-talent-tree-demand-surrender",
+      "title": "Influence Talent Tree",
+      "section": "Demand Surrender",
+      "revision": 18281,
+      "timestamp": "2024-08-25T19:53:51Z",
+      "sha256": "90399c74dd4af653297a81662a017ea4bacde7f714884f3c6ad53aaf871a119c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18281#Demand_Surrender",
+      "history": "https://swse.miraheze.org/w/index.php?title=Influence%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-leadership-talent-tree-distant-command",
+      "title": "Leadership Talent Tree",
+      "section": "Distant Command",
+      "revision": 18324,
+      "timestamp": "2024-08-25T19:57:43Z",
+      "sha256": "4a49f8cfa8427efbd1f76cb81ae4bdf6c7fa849b137c3dd4145dc2b45c85f6c2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18324#Distant_Command",
+      "history": "https://swse.miraheze.org/w/index.php?title=Leadership%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lineage-talent-tree-educated",
+      "title": "Lineage Talent Tree",
+      "section": "Educated",
+      "revision": 26290,
+      "timestamp": "2025-03-12T01:30:54Z",
+      "sha256": "82b8d5b2d64b3ce1515b5957857e8c03287c6bdfeba8c84d3c2874f0986629de",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26290#Educated",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lineage%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-leadership-talent-tree-fearless-leader",
+      "title": "Leadership Talent Tree",
+      "section": "Fearless Leader",
+      "revision": 18324,
+      "timestamp": "2024-08-25T19:57:43Z",
+      "sha256": "4a49f8cfa8427efbd1f76cb81ae4bdf6c7fa849b137c3dd4145dc2b45c85f6c2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18324#Fearless_Leader",
+      "history": "https://swse.miraheze.org/w/index.php?title=Leadership%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-inspiration-talent-tree-ignite-fervor",
+      "title": "Inspiration Talent Tree",
+      "section": "Ignite Fervor",
+      "revision": 18283,
+      "timestamp": "2024-08-25T19:54:06Z",
+      "sha256": "03bbc9c75e3d22f9347a51c301e394dc20ba27b78c769c1c8fb51db1698e4fc6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18283#Ignite_Fervor",
+      "history": "https://swse.miraheze.org/w/index.php?title=Inspiration%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-influence-talent-tree-improved-weaken-resolve",
+      "title": "Influence Talent Tree",
+      "section": "Improved Weaken Resolve",
+      "revision": 18281,
+      "timestamp": "2024-08-25T19:53:51Z",
+      "sha256": "90399c74dd4af653297a81662a017ea4bacde7f714884f3c6ad53aaf871a119c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18281#Improved_Weaken_Resolve",
+      "history": "https://swse.miraheze.org/w/index.php?title=Influence%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-inspiration-talent-tree-inspire-haste",
+      "title": "Inspiration Talent Tree",
+      "section": "Inspire Haste",
+      "revision": 18283,
+      "timestamp": "2024-08-25T19:54:06Z",
+      "sha256": "03bbc9c75e3d22f9347a51c301e394dc20ba27b78c769c1c8fb51db1698e4fc6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18283#Inspire_Haste",
+      "history": "https://swse.miraheze.org/w/index.php?title=Inspiration%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-inspiration-talent-tree-inspire-zeal",
+      "title": "Inspiration Talent Tree",
+      "section": "Inspire Zeal",
+      "revision": 18283,
+      "timestamp": "2024-08-25T19:54:06Z",
+      "sha256": "03bbc9c75e3d22f9347a51c301e394dc20ba27b78c769c1c8fb51db1698e4fc6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18283#Inspire_Zeal",
+      "history": "https://swse.miraheze.org/w/index.php?title=Inspiration%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-influence-talent-tree-presence",
+      "title": "Influence Talent Tree",
+      "section": "Presence",
+      "revision": 18281,
+      "timestamp": "2024-08-25T19:53:51Z",
+      "sha256": "90399c74dd4af653297a81662a017ea4bacde7f714884f3c6ad53aaf871a119c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18281#Presence",
+      "history": "https://swse.miraheze.org/w/index.php?title=Influence%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-leadership-talent-tree-rally",
+      "title": "Leadership Talent Tree",
+      "section": "Rally",
+      "revision": 18324,
+      "timestamp": "2024-08-25T19:57:43Z",
+      "sha256": "4a49f8cfa8427efbd1f76cb81ae4bdf6c7fa849b137c3dd4145dc2b45c85f6c2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18324#Rally",
+      "history": "https://swse.miraheze.org/w/index.php?title=Leadership%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lineage-talent-tree-spontaneous-skill",
+      "title": "Lineage Talent Tree",
+      "section": "Spontaneous Skill",
+      "revision": 26290,
+      "timestamp": "2025-03-12T01:30:54Z",
+      "sha256": "82b8d5b2d64b3ce1515b5957857e8c03287c6bdfeba8c84d3c2874f0986629de",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26290#Spontaneous_Skill",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lineage%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-leadership-talent-tree-trust",
+      "title": "Leadership Talent Tree",
+      "section": "Trust",
+      "revision": 18324,
+      "timestamp": "2024-08-25T19:57:43Z",
+      "sha256": "4a49f8cfa8427efbd1f76cb81ae4bdf6c7fa849b137c3dd4145dc2b45c85f6c2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18324#Trust",
+      "history": "https://swse.miraheze.org/w/index.php?title=Leadership%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-influence-talent-tree-weaken-resolve",
+      "title": "Influence Talent Tree",
+      "section": "Weaken Resolve",
+      "revision": 18281,
+      "timestamp": "2024-08-25T19:53:51Z",
+      "sha256": "90399c74dd4af653297a81662a017ea4bacde7f714884f3c6ad53aaf871a119c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18281#Weaken_Resolve",
+      "history": "https://swse.miraheze.org/w/index.php?title=Influence%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-scoundrel-talent-trees",
+      "title": "Scoundrel Talent Trees",
+      "section": null,
+      "revision": 18469,
+      "timestamp": "2024-08-25T20:10:42Z",
+      "sha256": "5e94a43be24f54f1fb26399d4f644306041c67d64f789f9f268b29be14265c5a",
+      "url": "https://swse.miraheze.org/w/index.php?title=Scoundrel_Talent_Trees&oldid=18469",
+      "history": "https://swse.miraheze.org/w/index.php?title=Scoundrel_Talent_Trees&action=history"
+    },
+    {
+      "id": "source:wiki-misfortune-talent-tree-dastardly-strike",
+      "title": "Misfortune Talent Tree",
+      "section": "Dastardly Strike",
+      "revision": 25729,
+      "timestamp": "2024-12-13T00:59:06Z",
+      "sha256": "610ef527879f315193b12a43b7e5009b7ed9bc72ab999d1f9f8dcf9e2a5574a5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25729#Dastardly_Strike",
+      "history": "https://swse.miraheze.org/w/index.php?title=Misfortune%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-misfortune-talent-tree-disruptive",
+      "title": "Misfortune Talent Tree",
+      "section": "Disruptive",
+      "revision": 25729,
+      "timestamp": "2024-12-13T00:59:06Z",
+      "sha256": "610ef527879f315193b12a43b7e5009b7ed9bc72ab999d1f9f8dcf9e2a5574a5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25729#Disruptive",
+      "history": "https://swse.miraheze.org/w/index.php?title=Misfortune%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-fortune-talent-tree-fortune-s-favor",
+      "title": "Fortune Talent Tree",
+      "section": "Fortune's Favor",
+      "revision": 26137,
+      "timestamp": "2025-02-03T04:13:58Z",
+      "sha256": "3457679fea5413b4520efbb7c512bbd180f1bf7b79cde15a4041bab8785ca147",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26137#Fortune%27s_Favor",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fortune%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-fortune-talent-tree-gambler",
+      "title": "Fortune Talent Tree",
+      "section": "Gambler",
+      "revision": 26137,
+      "timestamp": "2025-02-03T04:13:58Z",
+      "sha256": "3457679fea5413b4520efbb7c512bbd180f1bf7b79cde15a4041bab8785ca147",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26137#Gambler",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fortune%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-slicer-talent-tree-gimmick",
+      "title": "Slicer Talent Tree",
+      "section": "Gimmick",
+      "revision": 18503,
+      "timestamp": "2024-08-25T20:13:27Z",
+      "sha256": "dee68b90344297bef586d8c7f2f6c71125cb8bcb87dc4408d783e2d5e8c6bd96",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18503#Gimmick",
+      "history": "https://swse.miraheze.org/w/index.php?title=Slicer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-spacer-talent-tree-hyperdriven",
+      "title": "Spacer Talent Tree",
+      "section": "Hyperdriven",
+      "revision": 18516,
+      "timestamp": "2024-08-25T20:14:46Z",
+      "sha256": "a6ea2ab93ebcee1ce9c2437a6fc163d6fb902db063912f170dacb06ebfe050d5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18516#Hyperdriven",
+      "history": "https://swse.miraheze.org/w/index.php?title=Spacer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-fortune-talent-tree-lucky-shot",
+      "title": "Fortune Talent Tree",
+      "section": "Lucky Shot",
+      "revision": 26137,
+      "timestamp": "2025-02-03T04:13:58Z",
+      "sha256": "3457679fea5413b4520efbb7c512bbd180f1bf7b79cde15a4041bab8785ca147",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26137#Lucky_Shot",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fortune%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-slicer-talent-tree-master-slicer",
+      "title": "Slicer Talent Tree",
+      "section": "Master Slicer",
+      "revision": 18503,
+      "timestamp": "2024-08-25T20:13:27Z",
+      "sha256": "dee68b90344297bef586d8c7f2f6c71125cb8bcb87dc4408d783e2d5e8c6bd96",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18503#Master_Slicer",
+      "history": "https://swse.miraheze.org/w/index.php?title=Slicer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-misfortune-talent-tree-skirmisher",
+      "title": "Misfortune Talent Tree",
+      "section": "Skirmisher",
+      "revision": 25729,
+      "timestamp": "2024-12-13T00:59:06Z",
+      "sha256": "610ef527879f315193b12a43b7e5009b7ed9bc72ab999d1f9f8dcf9e2a5574a5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25729#Skirmisher",
+      "history": "https://swse.miraheze.org/w/index.php?title=Misfortune%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-spacer-talent-tree-spacehound",
+      "title": "Spacer Talent Tree",
+      "section": "Spacehound",
+      "revision": 18516,
+      "timestamp": "2024-08-25T20:14:46Z",
+      "sha256": "a6ea2ab93ebcee1ce9c2437a6fc163d6fb902db063912f170dacb06ebfe050d5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18516#Spacehound",
+      "history": "https://swse.miraheze.org/w/index.php?title=Spacer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-spacer-talent-tree-starship-raider",
+      "title": "Spacer Talent Tree",
+      "section": "Starship Raider",
+      "revision": 18516,
+      "timestamp": "2024-08-25T20:14:46Z",
+      "sha256": "a6ea2ab93ebcee1ce9c2437a6fc163d6fb902db063912f170dacb06ebfe050d5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18516#Starship_Raider",
+      "history": "https://swse.miraheze.org/w/index.php?title=Spacer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-spacer-talent-tree-stellar-warrior",
+      "title": "Spacer Talent Tree",
+      "section": "Stellar Warrior",
+      "revision": 18516,
+      "timestamp": "2024-08-25T20:14:46Z",
+      "sha256": "a6ea2ab93ebcee1ce9c2437a6fc163d6fb902db063912f170dacb06ebfe050d5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18516#Stellar_Warrior",
+      "history": "https://swse.miraheze.org/w/index.php?title=Spacer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-slicer-talent-tree-trace",
+      "title": "Slicer Talent Tree",
+      "section": "Trace",
+      "revision": 18503,
+      "timestamp": "2024-08-25T20:13:27Z",
+      "sha256": "dee68b90344297bef586d8c7f2f6c71125cb8bcb87dc4408d783e2d5e8c6bd96",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18503#Trace",
+      "history": "https://swse.miraheze.org/w/index.php?title=Slicer%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-misfortune-talent-tree-walk-the-line",
+      "title": "Misfortune Talent Tree",
+      "section": "Walk the Line",
+      "revision": 25729,
+      "timestamp": "2024-12-13T00:59:06Z",
+      "sha256": "610ef527879f315193b12a43b7e5009b7ed9bc72ab999d1f9f8dcf9e2a5574a5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25729#Walk_the_Line",
+      "history": "https://swse.miraheze.org/w/index.php?title=Misfortune%20Talent%20Tree&action=history"
     }
   ],
   "species": [
@@ -3009,6 +3509,8 @@
       ],
       "talentTrees": [
         "tree:jedi-consular",
+        "tree:jedi-guardian",
+        "tree:jedi-sentinel",
         "tree:lightsaber-combat"
       ],
       "credits": {
@@ -3021,7 +3523,8 @@
           "lightsabers"
         ]
       },
-      "bonusSourceId": "source:jedi-bonus-feats"
+      "bonusSourceId": "source:jedi-bonus-feats",
+      "talentAccessSourceId": "source:wiki-jedi-talent-trees"
     },
     {
       "id": "class:noble",
@@ -3090,6 +3593,7 @@
         "feat:weapon-proficiency-advanced-melee-weapons"
       ],
       "talentTrees": [
+        "tree:influence",
         "tree:inspiration",
         "tree:leadership",
         "tree:lineage"
@@ -3100,7 +3604,8 @@
         "multiplier": 400
       },
       "bonusRestrictions": {},
-      "bonusSourceId": "source:noble-bonus-feats"
+      "bonusSourceId": "source:noble-bonus-feats",
+      "talentAccessSourceId": "source:wiki-noble-talent-trees"
     },
     {
       "id": "class:scoundrel",
@@ -3175,7 +3680,9 @@
       ],
       "talentTrees": [
         "tree:fortune",
-        "tree:misfortune"
+        "tree:misfortune",
+        "tree:slicer",
+        "tree:spacer"
       ],
       "credits": {
         "dice": 3,
@@ -3183,7 +3690,8 @@
         "multiplier": 250
       },
       "bonusRestrictions": {},
-      "bonusSourceId": "source:scoundrel-bonus-feats"
+      "bonusSourceId": "source:scoundrel-bonus-feats",
+      "talentAccessSourceId": "source:wiki-scoundrel-talent-trees"
     },
     {
       "id": "class:scout",
@@ -4324,7 +4832,8 @@
       },
       "repeat": "stack",
       "reminder": "Add 1d6 per selection against targets denied Dexterity; ranged attacks require a target within 6 squares.",
-      "effects": []
+      "effects": [],
+      "maxSelections": 10
     },
     {
       "id": "talent:uncanny-dodge-i",
@@ -4416,7 +4925,8 @@
           "type": "untyped"
         }
       ],
-      "choiceType": "weaponGroup"
+      "choiceType": "weaponGroup",
+      "repeatGroup": "talent:weapon-specialization"
     },
     {
       "id": "talent:hidden-movement",
@@ -4826,6 +5336,795 @@
       "effects": [],
       "reminder": "Choose a single Exotic Weapon or Weapon Group with which you are proficient. Whenever you make a successful attack against a target with such a weapon, you treat your target's Damage Reduction as if it were 5 points lower when determining the result of your attack. If you select Heavy Weapons as the Weapon Group this Talent applies to, you may also use the Talent with Vehicle Weapon attacks. You may select this Talent multiple times. Each time you select this Talent, it applies to a different Exotic Weapon or Weapon Group.",
       "choiceType": "weaponGroup"
+    },
+    {
+      "id": "talent:acrobatic-recovery",
+      "name": "Acrobatic Recovery",
+      "sourceId": "source:wiki-jedi-guardian-talent-tree-acrobatic-recovery",
+      "tree": "tree:jedi-guardian",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:adept-negotiator",
+      "name": "Adept Negotiator",
+      "sourceId": "source:wiki-jedi-consular-talent-tree-adept-negotiator",
+      "tree": "tree:jedi-consular",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:battle-meditation",
+      "name": "Battle Meditation",
+      "sourceId": "source:wiki-jedi-guardian-talent-tree-battle-meditation",
+      "tree": "tree:jedi-guardian",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [],
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:clear-mind",
+      "name": "Clear Mind",
+      "sourceId": "source:wiki-jedi-sentinel-talent-tree-clear-mind",
+      "tree": "tree:jedi-sentinel",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [],
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:dark-side-scourge",
+      "name": "Dark Side Scourge",
+      "sourceId": "source:wiki-jedi-sentinel-talent-tree-dark-side-scourge",
+      "tree": "tree:jedi-sentinel",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:dark-side-sense"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:dark-side-sense",
+      "name": "Dark Side Sense",
+      "sourceId": "source:wiki-jedi-sentinel-talent-tree-dark-side-sense",
+      "tree": "tree:jedi-sentinel",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [],
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:elusive-target",
+      "name": "Elusive Target",
+      "sourceId": "source:wiki-jedi-guardian-talent-tree-elusive-target",
+      "tree": "tree:jedi-guardian",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:force-haze",
+      "name": "Force Haze",
+      "sourceId": "source:wiki-jedi-sentinel-talent-tree-force-haze",
+      "tree": "tree:jedi-sentinel",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:clear-mind"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [],
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:force-intuition",
+      "name": "Force Intuition",
+      "sourceId": "source:wiki-jedi-guardian-talent-tree-force-intuition",
+      "tree": "tree:jedi-guardian",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "skillSubstitution",
+          "skill": "skill:initiative",
+          "replacement": "skill:use-the-force",
+          "grantsTraining": true
+        }
+      ],
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:force-persuasion",
+      "name": "Force Persuasion",
+      "sourceId": "source:wiki-jedi-consular-talent-tree-force-persuasion",
+      "tree": "tree:jedi-consular",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:adept-negotiator"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "skillSubstitution",
+          "skill": "skill:persuasion",
+          "replacement": "skill:use-the-force",
+          "grantsTraining": true
+        }
+      ],
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:lightsaber-defense",
+      "name": "Lightsaber Defense",
+      "sourceId": "source:wiki-lightsaber-combat-talent-tree-lightsaber-defense",
+      "tree": "tree:lightsaber-combat",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "stack",
+      "reminder": "",
+      "effects": [],
+      "maxSelections": 3
+    },
+    {
+      "id": "talent:lightsaber-throw",
+      "name": "Lightsaber Throw",
+      "sourceId": "source:wiki-lightsaber-combat-talent-tree-lightsaber-throw",
+      "tree": "tree:lightsaber-combat",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:master-negotiator",
+      "name": "Master Negotiator",
+      "sourceId": "source:wiki-jedi-consular-talent-tree-master-negotiator",
+      "tree": "tree:jedi-consular",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:adept-negotiator"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:redirect-shot",
+      "name": "Redirect Shot",
+      "sourceId": "source:wiki-lightsaber-combat-talent-tree-redirect-shot",
+      "tree": "tree:lightsaber-combat",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:deflect"
+          },
+          {
+            "kind": "bab",
+            "min": 5
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:resilience",
+      "name": "Resilience",
+      "sourceId": "source:wiki-jedi-guardian-talent-tree-resilience",
+      "tree": "tree:jedi-guardian",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:resist-the-dark-side",
+      "name": "Resist the Dark Side",
+      "sourceId": "source:wiki-jedi-sentinel-talent-tree-resist-the-dark-side",
+      "tree": "tree:jedi-sentinel",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:dark-side-sense"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:weapon-specialization-lightsabers",
+      "name": "Weapon Specialization (Lightsabers)",
+      "sourceId": "source:wiki-lightsaber-combat-talent-tree-weapon-specialization-lightsabers",
+      "tree": "tree:lightsaber-combat",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "focusChoice",
+            "value": "lightsabers"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "weaponSpecialization",
+          "amount": 2,
+          "type": "untyped",
+          "weaponGroup": "lightsabers",
+          "when": "meleeAttack"
+        }
+      ],
+      "repeatGroup": "talent:weapon-specialization",
+      "weaponGroup": "lightsabers"
+    },
+    {
+      "id": "talent:bolster-ally",
+      "name": "Bolster Ally",
+      "sourceId": "source:wiki-inspiration-talent-tree-bolster-ally",
+      "tree": "tree:inspiration",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:connections",
+      "name": "Connections",
+      "sourceId": "source:wiki-lineage-talent-tree-connections",
+      "tree": "tree:lineage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "licenseAllowance",
+          "amount": 1000,
+          "type": "untyped",
+          "perLevel": true
+        },
+        {
+          "target": "blackMarketReduction",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "talent:coordinate",
+      "name": "Coordinate",
+      "sourceId": "source:wiki-leadership-talent-tree-coordinate",
+      "tree": "tree:leadership",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "stack",
+      "reminder": "",
+      "effects": [],
+      "maxSelections": 5
+    },
+    {
+      "id": "talent:demand-surrender",
+      "name": "Demand Surrender",
+      "sourceId": "source:wiki-influence-talent-tree-demand-surrender",
+      "tree": "tree:influence",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:presence"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:distant-command",
+      "name": "Distant Command",
+      "sourceId": "source:wiki-leadership-talent-tree-distant-command",
+      "tree": "tree:leadership",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:born-leader"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:educated",
+      "name": "Educated",
+      "sourceId": "source:wiki-lineage-talent-tree-educated",
+      "tree": "tree:lineage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:fearless-leader",
+      "name": "Fearless Leader",
+      "sourceId": "source:wiki-leadership-talent-tree-fearless-leader",
+      "tree": "tree:leadership",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:born-leader"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:ignite-fervor",
+      "name": "Ignite Fervor",
+      "sourceId": "source:wiki-inspiration-talent-tree-ignite-fervor",
+      "tree": "tree:inspiration",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:bolster-ally"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:inspire-confidence"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:improved-weaken-resolve",
+      "name": "Improved Weaken Resolve",
+      "sourceId": "source:wiki-influence-talent-tree-improved-weaken-resolve",
+      "tree": "tree:influence",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:presence"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:weaken-resolve"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:inspire-haste",
+      "name": "Inspire Haste",
+      "sourceId": "source:wiki-inspiration-talent-tree-inspire-haste",
+      "tree": "tree:inspiration",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:inspire-zeal",
+      "name": "Inspire Zeal",
+      "sourceId": "source:wiki-inspiration-talent-tree-inspire-zeal",
+      "tree": "tree:inspiration",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:ignite-fervor"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:presence",
+      "name": "Presence",
+      "sourceId": "source:wiki-influence-talent-tree-presence",
+      "tree": "tree:influence",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:rally",
+      "name": "Rally",
+      "sourceId": "source:wiki-leadership-talent-tree-rally",
+      "tree": "tree:leadership",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:distant-command"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:spontaneous-skill",
+      "name": "Spontaneous Skill",
+      "sourceId": "source:wiki-lineage-talent-tree-spontaneous-skill",
+      "tree": "tree:lineage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:educated"
+          }
+        ]
+      },
+      "repeat": "stack",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:trust",
+      "name": "Trust",
+      "sourceId": "source:wiki-leadership-talent-tree-trust",
+      "tree": "tree:leadership",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:born-leader"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:coordinate"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:weaken-resolve",
+      "name": "Weaken Resolve",
+      "sourceId": "source:wiki-influence-talent-tree-weaken-resolve",
+      "tree": "tree:influence",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:presence"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:dastardly-strike",
+      "name": "Dastardly Strike",
+      "sourceId": "source:wiki-misfortune-talent-tree-dastardly-strike",
+      "tree": "tree:misfortune",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:disruptive",
+      "name": "Disruptive",
+      "sourceId": "source:wiki-misfortune-talent-tree-disruptive",
+      "tree": "tree:misfortune",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:fortune-s-favor",
+      "name": "Fortune's Favor",
+      "sourceId": "source:wiki-fortune-talent-tree-fortune-s-favor",
+      "tree": "tree:fortune",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:gambler",
+      "name": "Gambler",
+      "sourceId": "source:wiki-fortune-talent-tree-gambler",
+      "tree": "tree:fortune",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "stack",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:gimmick",
+      "name": "Gimmick",
+      "sourceId": "source:wiki-slicer-talent-tree-gimmick",
+      "tree": "tree:slicer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:hyperdriven",
+      "name": "Hyperdriven",
+      "sourceId": "source:wiki-spacer-talent-tree-hyperdriven",
+      "tree": "tree:spacer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:lucky-shot",
+      "name": "Lucky Shot",
+      "sourceId": "source:wiki-fortune-talent-tree-lucky-shot",
+      "tree": "tree:fortune",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:knack"
+          }
+        ]
+      },
+      "repeat": "stack",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:master-slicer",
+      "name": "Master Slicer",
+      "sourceId": "source:wiki-slicer-talent-tree-master-slicer",
+      "tree": "tree:slicer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:gimmick"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:skirmisher",
+      "name": "Skirmisher",
+      "sourceId": "source:wiki-misfortune-talent-tree-skirmisher",
+      "tree": "tree:misfortune",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:spacehound",
+      "name": "Spacehound",
+      "sourceId": "source:wiki-spacer-talent-tree-spacehound",
+      "tree": "tree:spacer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:starship-raider",
+      "name": "Starship Raider",
+      "sourceId": "source:wiki-spacer-talent-tree-starship-raider",
+      "tree": "tree:spacer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:spacehound"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:stellar-warrior",
+      "name": "Stellar Warrior",
+      "sourceId": "source:wiki-spacer-talent-tree-stellar-warrior",
+      "tree": "tree:spacer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:spacehound"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:trace",
+      "name": "Trace",
+      "sourceId": "source:wiki-slicer-talent-tree-trace",
+      "tree": "tree:slicer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "skillSubstitution",
+          "skill": "skill:gather-information",
+          "replacement": "skill:use-computer",
+          "grantsTraining": false,
+          "when": "computerNetwork"
+        }
+      ]
+    },
+    {
+      "id": "talent:walk-the-line",
+      "name": "Walk the Line",
+      "sourceId": "source:wiki-misfortune-talent-tree-walk-the-line",
+      "tree": "tree:misfortune",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:disruptive"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
     }
   ],
   "equipment": [

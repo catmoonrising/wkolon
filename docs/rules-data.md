@@ -109,6 +109,36 @@ put Applications behind a disclosure, preserving supplementary section labels.
 
 ## Prerequisites and effects
 
+Features may specify `maxSelections` for an expressly capped repeatable talent.
+`repeatGroup` identifies the same talent across class-tree records; `weaponGroup`
+binds a fixed specialization. Jedi and Soldier Weapon Specialization therefore
+share the once-per-group limit. Fixed lightsaber specialization applies only to
+melee damage, as its source says. `forceActivation` distinguishes `check` and
+`forcePoint`; the existing Counseling switch controls both restrictions.
+
+`skillSubstitution` is a separate closed effect shape: `{target, skill,
+replacement, grantsTraining, when?}`. Force Intuition and Force Persuasion grant
+training in their destination skill immediately during chronological replay,
+before later prerequisites. The chosen check uses the replacement's complete
+modifier, without adding the destination's training, focus or penalties again.
+Unconditional substitutions default to the better available modifier. Trace has
+`when: "computerNetwork"` and defaults to the native skill; choosing the network
+option asserts access for that check. Neither substitution invents skill training
+in the replacement skill. Reroll actions remain manual.
+
+Optional character `skillCheckSources` maps skill IDs to another known skill ID
+or the native skill ID. Only currently earned, available substitutions can affect
+checks; stale saved preferences fall back to the native skill. The sheet exposes
+a selector only when a replacement is currently available.
+
+Connections declares `licenseAllowance` (1,000 credits per character level) and
+`blackMarketReduction` (1). Purchase quotes receive only earned, reviewed effects.
+The allowance checks the complete quantity's market price before licensing fees;
+eligible normal/offworld purchases waive fees and background checks. Black-market
+quotes reduce the multiplier independently of the allowance. Connections never
+supplies a market price for an owned-only item. Other talents' temporary bonuses,
+actions, per-day uses, Knowledge applications and starship effects remain manual.
+
 Scout/Soldier passive talents use the closed effect targets `armorMaxDex`,
 `armorBonus`, `armorFortitude`, `armorMovement`, `speed` and `meleeDamage`.
 Each carries an explicit `when`: `proficientArmor`, `lightOrNoArmor` or
