@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 
 export function validatePack(p) {
   assert.equal(p.schemaVersion, 1);
-  const numericRules={combat:['shieldLoss','shieldRecharge','rechargeDC','rechargeActions','naturalHit','naturalMiss','criticalMultiplier','minimumDamage'],resources:['forcePointBase','xpStep']};
+  const numericRules={combat:['shieldLoss','shieldRecharge','rechargeDC','rechargeActions','naturalHit','naturalMiss','criticalMultiplier','minimumDamage','areaMinimumRoll'],resources:['forcePointBase','xpStep']};
   for(const [group,keys] of Object.entries(numericRules)){
     const rules=p.rules?.[group];assert(rules,group);
     assert(Array.isArray(rules.sourceIds)&&rules.sourceIds.length>0&&rules.sourceIds.every(id=>p.sources?.some(s=>s.id===id)),group+' sources');
@@ -67,6 +67,8 @@ export function validatePack(p) {
       }
     }
     if (key === 'species') {
+      if(r.bellow)assert.deepEqual(r.bellow,{damageDice:3,die:6,coneSquares:6,conditionCost:1,extraDieCost:1,defense:'fortitude'});
+      if(r.rage){assert.deepEqual(Object.keys(r.rage).sort(),['blockedSkills','bonus','dailyUses','durationBase','restMinutes']);assert(r.rage.dailyUses===1&&r.rage.bonus===2&&r.rage.durationBase===5&&r.rage.restMinutes===10);assert.deepEqual(r.rage.blockedSkills,['skill:mechanics','skill:stealth','skill:use-the-force']);r.rage.blockedSkills.forEach(id=>requireRef('skills',id));}
       if(r.skillRerolls){assert(Array.isArray(r.skillRerolls));for(const e of r.skillRerolls){requireRef('skills',e.skill);assert(Object.keys(e).every(k=>['skill','keep','when'].includes(k))&&['replace','best'].includes(e.keep)&&(!e.when||['intimidate','searchYourFeelingsOrSenseForce'].includes(e.when)),'Unsupported species reroll');}}
       if(r.take10Skills){assert(Array.isArray(r.take10Skills)&&new Set(r.take10Skills).size===r.take10Skills.length);r.take10Skills.forEach(id=>requireRef('skills',id));}
       if(r.vision)assert(['low-light','darkvision'].includes(r.vision));
@@ -185,6 +187,9 @@ export function validatePack(p) {
   for(const limits of Object.values(p.rules.weaponRanges.limits))assert(limits.length===4&&limits.every((n,i)=>Number.isInteger(n)&&n>=0&&(!i||n>limits[i-1])),'Invalid weapon ranges');
   assert.deepEqual(p.rules.unarmed.damage,{small:'1d3',medium:'1d4',large:'1d6'});assert.deepEqual(p.rules.unarmed.dieSteps,[3,4,6,8,10,12]);
   assert(p.rules.secondWind.hitPointFraction===.25&&p.rules.secondWind.maximumHitPointFraction===.5&&p.rules.secondWind.dailyUses===1,'Unsupported Second Wind rule');
+  const wind=p.rules.secondWind;assert.deepEqual(Object.keys(wind).sort(),['dailyUses','exhaustionRestHours','exhaustionTopic','forceRecovery','hitPointFraction','maximumHitPointFraction','multipleUsesTopic','sourceIds','usesPerEncounter']);assert(wind.usesPerEncounter===1&&wind.exhaustionRestHours===8);assert.deepEqual(wind.forceRecovery,{talentId:'talent:force-recovery',die:6,maxDice:10});requireRef('talents',wind.forceRecovery.talentId);
+  assert(wind.multipleUsesTopic==='jc:114-variant-rule-multiple-second-winds'&&wind.exhaustionTopic==='jc:114-optional-rule-the-edge-of-exhaustion');
+  assert(Object.keys(p.rules.recovery).every(k=>['sourceIds','swiftActions'].includes(k))&&p.rules.recovery.swiftActions===3&&p.rules.recovery.sourceIds.length&&p.rules.recovery.sourceIds.every(id=>sources.has(id)),'Unsupported Recover rule');assert.equal(p.rules.combat.areaMinimumRoll,10);
   if(access){assert(Object.keys(access).every(k=>['trees','sourceIds'].includes(k)));assert(Array.isArray(access.trees)&&access.trees.length===4&&new Set(access.trees).size===4&&access.trees.every(t=>p.talents.some(r=>r.tree===t)));assert(access.sourceIds.length&&access.sourceIds.every(id=>sources.has(id)));}
   if(recovery){assert(Object.keys(recovery).every(k=>['sourceIds','restMinutes','forcePointCost','naturalRoll'].includes(k)));assert(recovery.sourceIds.length&&recovery.sourceIds.every(id=>sources.has(id)));assert(recovery.restMinutes===1&&recovery.forcePointCost===1&&recovery.naturalRoll===20);}
   if(p.heroicTraits) {
@@ -194,7 +199,7 @@ export function validatePack(p) {
   if(p.jediCounseling){
     assert(Array.isArray(p.jediCounseling));const topics=new Set();
     for(const r of p.jediCounseling){assert(Object.keys(r).every(k=>['id','name','issue','ruleId','sourceId'].includes(k)));assert(/^jc:\d+-[a-z0-9-]+$/.test(r.id)&&!topics.has(r.id));topics.add(r.id);assert(typeof r.name==='string'&&Number.isInteger(r.issue)&&r.issue>=105&&r.issue<=115);assert(sources.has(r.sourceId)&&p.rulePages.some(page=>page.id===r.ruleId&&page.sourceId===r.sourceId));}
-    for(const [id,mode] of Object.entries(p.rules.counselingApplications||{}))assert(topics.has(id)&&['talent-activation','weapon-familiarity','partial-proficiency','raw-equivalent','range-penalties','unarmed-proficiency','unarmed-finesse'].includes(mode));
+    for(const [id,mode] of Object.entries(p.rules.counselingApplications||{}))assert(topics.has(id)&&['talent-activation','weapon-familiarity','partial-proficiency','raw-equivalent','range-penalties','unarmed-proficiency','unarmed-finesse','second-winds','second-wind-exhaustion'].includes(mode));
   }
   if(p.rules.licensing){
     const l=p.rules.licensing;assert(Object.keys(l).every(k=>['sourceIds','ratings'].includes(k))&&l.sourceIds.length&&l.sourceIds.every(id=>sources.has(id)));
@@ -211,7 +216,7 @@ export function validatePack(p) {
       assert(Array.isArray(r.options)&&r.options.length>=2&&new Set(r.options.map(o=>o.value)).size===r.options.length,'Invalid ambiguity options');
       for(const o of r.options)assert(Object.keys(o).every(k=>['value','name'].includes(k))&&/^[a-z0-9-]+$/.test(o.value)&&typeof o.name==='string','Invalid ambiguity option');
       assert(r.options.some(o=>o.value===r.default),'Invalid ambiguity default');
-      assert(Array.isArray(r.passages)&&r.passages.length>=2,'Missing ambiguity passages');
+      assert(Array.isArray(r.passages)&&r.passages.length>=1,'Missing ambiguity passages');
       for(const passage of r.passages){const page=p.rulePages.find(p=>p.id===passage.ruleId);assert(Object.keys(passage).every(k=>['ruleId','paragraphCount'].includes(k))&&page&&r.sourceIds.includes(page.sourceId)&&Number.isInteger(passage.paragraphCount)&&passage.paragraphCount>0&&passage.paragraphCount<=page.article.blocks.filter(n=>n?.tag==='p').length,'Invalid ambiguity passage');}
     }
   }

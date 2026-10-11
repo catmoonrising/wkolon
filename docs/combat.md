@@ -77,3 +77,21 @@ The selected Flat-footed state affects Reflex and dodge; a separate default
 flat-footed stat and Grapple are not invented.
 The catalog currently contains only heroic classes, so CL is total heroic level.
 Print formatting is black on white and independent of saved module layout/theme.
+
+Second Wind appears below HP, with remaining daily uses and an encounter limit.
+New encounter and New day clear only their corresponding usage counters; they
+do not heal HP, restore Force Points or remove persistent conditions. Force
+Recovery adds its rolled healing without spending Force Points.
+
+Wookiee Rage and Ithorian Bellow controls appear in Features. Rage's round counter
+advances explicitly, persists across reloads and adds its persistent condition
+on expiration. Recover is one complete three-swift-action recovery; its timing
+is asserted by the player. Recuperation removes only the corresponding
+persistent cause. Removing Second Wind exhaustion asserts completed Surgery or
+eight consecutive uninterrupted hours of rest; track changes and natural
+healing are still manual.
+
+Bellow rolls against Fortitude and costs one condition step plus a step per
+extra die. Ambiguities offers an optional Helpless cap; uncapped RAW is the
+default. Large pools require an entered damage total rather than truncating
+dice. Bellow and persistent conditions are included in stat blocks.

@@ -17,8 +17,11 @@
   - [x] All Core feat and weapon pages, specific weapon choices, prerequisites and class bonus lists.
   - [x] Unarmed attacks, Martial Arts, Finesse, Triple Crit, Force Boon, Strong in the Force, weapon ranges and area routines.
   - [x] Species native-check rerolls, threatened Take 10, senses and carrying/lifting limits.
-  - [ ] Species special attacks, Rage, healing/regeneration and starting special equipment.
-  - [ ] Second Wind/recovery actions; conditional feat actions, stocks/scopes, ammunition consumption and ion/stun target effects.
+  - [x] Second Wind, Extra Second Wind, Tough as Nails, Force Recovery and both Jedi Counseling Second Wind options.
+  - [x] Wookiee Rage, Extra Rage, Dreadful Rage, persistent fatigue and Recover controls.
+  - [x] Ithorian Bellow, extra dice, Fortitude results and optional Helpless cap in Ambiguities.
+  - [ ] Natural healing/regeneration and starting special equipment.
+  - [ ] Remaining conditional feat actions, stocks/scopes, ammunition consumption and ion/stun target effects.
 
 - [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.
   - [x] Species: searchable and sortable table, expandable wiki articles, complete species feat dialogs.
@@ -37,4 +40,3 @@
 - [x] CSV armor gap: speed penalties and heavy-armor running limits.
 - [x] CSV gap: Force power selection and tracking.
 - [x] CSV gaps: per-skill modifiers, weapon ranges and critical details.
-- [ ] Optional Athletics homebrew (keep RAW Climb, Jump and Swim as the default).

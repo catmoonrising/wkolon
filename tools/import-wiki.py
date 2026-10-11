@@ -56,6 +56,32 @@ def heading(node, rank=None):
 def section(blocks, name):
     start = next((i for i, n in enumerate(blocks) if heading(n) and text(n).strip() == name), None)
     if start is None:
+        # Species abilities are bold list terms, not headings. Preserve the
+        # exact term and text, including nested cost/benefit paragraphs.
+        def trait(nodes):
+            for n in nodes:
+                if not isinstance(n, dict):
+                    continue
+                if n['tag'] == 'li' and text(n).strip().startswith(name + ':'):
+                    result, paragraph = [], []
+                    for child in n['children']:
+                        if isinstance(child, dict) and child['tag'] == 'ul':
+                            if paragraph:
+                                result.append(dict(tag='p', children=paragraph))
+                                paragraph = []
+                            result.extend(dict(tag='p', children=c['children']) for c in child['children']
+                                if isinstance(c, dict) and c['tag'] == 'li')
+                        else:
+                            paragraph.append(child)
+                    if paragraph:
+                        result.append(dict(tag='p', children=paragraph))
+                    return result
+                found = trait(n['children'])
+                if found:
+                    return found
+        result = trait(blocks)
+        if result:
+            return result
         raise ValueError('Missing section: ' + name)
     rank = int(blocks[start]['tag'][1])
     end = next((i for i in range(start + 1, len(blocks)) if heading(blocks[i]) and int(blocks[i]['tag'][1]) <= rank), len(blocks))
@@ -89,6 +115,7 @@ def category(name):
 
 def discover():
     core = {m['title'] for m in category('Core Rulebook') if m['ns'] == 0}
+    core -= {m['title'] for m in category('Homebrew Content') if m['ns'] == 0}
     return {name: sorted(m['title'] for m in category(name) if m['ns'] == 0 and m['title'] in core)
         for name in CATEGORIES}
 
@@ -171,6 +198,10 @@ def compile_catalog(inventory, pages, redirects, baseline):
         return rid, sid
 
     def add_record(kind, name, title=None, part=None, **extra):
+        raw = pages[title or name]['revisions'][0]['slots']['main']['content']
+        if re.search(r'\[\[Category:Homebrew[ _]Content(?:\|[^\]]*)?\]\]', raw, re.I) or any(
+                'homebrew' in line.lower() for line in raw.splitlines() if 'Reference Book' in line):
+            raise ValueError('Homebrew excluded: ' + name)
         if kind == 'forcePower' and name == 'Corruption':
             part = 'Force Power'
         rid, sid = add_page(name, title, part,

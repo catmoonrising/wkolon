@@ -14,6 +14,7 @@ import {animateNewestRoll} from './roll-anim.js';
 import {renderStatBlock} from './stat-block.js';
 import {installStatBlock} from './stat-block-ui.js';
 import {healthBars,xpBar,statBar,createCombatControls} from './combat-ui.js';
+import {createRecoveryControls} from './recovery-ui.js';
 import {CREATOR_STEPS} from './creation-steps.js';
 import {referenceEntries} from './rules-reference.js';
 import {TRAIT_FIELDS, TRAIT_TEXT, emptyStory, backgroundLanguage} from './heroic-traits.js';
@@ -27,7 +28,7 @@ const clone = value => structuredClone(value);
 const title = value => value.replaceAll('-', ' ').replace(/\b\w/g, c => c.toUpperCase());
 const SECTIONS = ['overview','creation','skills','features','equipment','advancement','rules'];
 let section = SECTIONS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
-let pack, ix, store, derived, speciesBrowser, featureTrees, combatControls, rulesCatalog,speciesChecks;
+let pack, ix, store, derived, speciesBrowser, featureTrees, combatControls, rulesCatalog,speciesChecks,recoveryControls;
 let treeTarget=null, houseRules, creationOptions,forcePowersUI,powerManageLevel=0;
 const equipmentDrafts=new Map();
 const weightText=(weight)=>weight===null?'? kg':`${Number(weight.toFixed(2))} kg`;
@@ -347,7 +348,7 @@ function sheet() {
   const classes = `<table id="class-table"><thead><tr><th>Class</th><th>Level</th><th>Hit die</th><th>Base attack</th></tr></thead><tbody>${[...derived.ctx.classLevels].map(([id,n])=>{const cls=ix.classes.get(id);return `<tr><td>${ruleReference(cls)}</td><td class="derived">${n}</td><td>d${cls.hitDie}</td><td>${signed(cls.bab[n-1])}</td></tr>`;}).join('')}</tbody></table><div class="class-summary"><a href="#advancement" class="button">Level Up</a></div>`;
   const abilities = `<table><thead><tr><th>Ability</th><th>Mod</th><th>Score</th><th>Base</th><th>Species</th></tr></thead><tbody>${ABILITIES.map(a=>`<tr><td>${a.toUpperCase()}</td><td><button class="roll" data-roll="${derived.mods[a]+pack.rules.conditionPenalties[c.condition]}" data-roll-label="${a.toUpperCase()}" aria-label="${a.toUpperCase()} check ${signed(derived.mods[a]+pack.rules.conditionPenalties[c.condition])}" ${derived.incapacitated?'disabled':''}>${signed(derived.mods[a])}</button></td><td class="derived" title="${derived.ctx.scores[a]}${derived.equipmentAbilities[a]?` + ${derived.equipmentAbilities[a]} ${escape(derived.armor.name)}`:''}">${derived.scores[a]}</td><td><input type="number" min="3" max="30" aria-label="Base ${a.toUpperCase()}" data-ability="${a}" value="${c.abilities[a]}"></td><td>${signed(species.abilityAdjustments[a]||0)}</td></tr>`).join('')}</tbody></table>${Object.keys(derived.equipmentAbilities).length?`<details><summary class="hint">Calculations</summary>${Object.entries(derived.equipmentAbilities).map(([a,n])=>`<div class="hint">${a.toUpperCase()}: ${derived.ctx.scores[a]} + ${n} ${escape(derived.armor.name)}</div>`).join('')}</details>`:''}`;
   const defenses = `<label class="checkbox"><input type="checkbox" data-flat-footed ${c.flatFooted?'checked':''}>Flat-footed</label><table><thead><tr><th>Defense</th><th>Total</th></tr></thead><tbody>${['reflex','fortitude','will'].map(k=>`<tr title="${escape(derived.breakdowns[k])}"><td>${title(k)}</td><td class="derived defense-total" data-defense="${k}">${derived.defenses[k]}</td></tr>`).join('')}${derived.conditionalDefenses.map(e=>`<tr><td>${title(e.defense)} vs. Use the Force</td><td class="derived defense-total" data-defense="${e.defense}-${e.against}">${e.total}</td></tr>`).join('')}</tbody></table><details><summary class="hint">Calculations</summary>${['reflex','fortitude','will'].map(k=>`<div class="hint">${title(k)}: ${escape(derived.breakdowns[k])}</div>`).join('')}</details>`;
-  const hp = healthBars(c,derived);
+  const hp = healthBars(c,derived)+recoveryControls.health();
 
   return moduleHTML('header','Character',character,'wide') + moduleHTML('classes','Classes',classes+xpBar(c,derived,pack.rules.resources),'wide')
     + moduleHTML('abilities','Ability Scores',abilities) + moduleHTML('defenses','Defenses',defenses)
@@ -356,12 +357,12 @@ function sheet() {
     + moduleHTML('speed','Speed',`<div class="stat-big">${derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armor&&derived.armor.category!=='light'?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}`,'small')
     + moduleHTML('force','Force Points',statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${species.forceImmune?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`)
     + moduleHTML('dark-side','Dark Side Score',statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'))
-    + moduleHTML('condition','Condition Track',conditionTrack()) + moduleHTML('skills','Skills',skillTable())
+    + moduleHTML('condition','Condition Track',conditionTrack()+recoveryControls.condition()) + moduleHTML('skills','Skills',skillTable())
     + moduleHTML('attacks','Attacks',attackTable())
     + (derived.powerSlots||derived.forcePowers.length?moduleHTML('force-powers','Force Powers',forcePowersUI.sheet(),'wide'):'')
     + moduleHTML('routines','Offensive Routines',combatControls.renderRoutines(),'wide')
     + moduleHTML('inventory','Inventory',`${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<span class="hint">${totalWeight()}</span>${carryingDisplay()}<details class="shop" id="equipment-catalog"><summary>Catalog</summary>${panelBody(inventoryPanels[0]).replace(/<div class="actions">[\s\S]*?<\/div>$/, '')}</details>${panelBody(inventoryPanels[1])}`)
-    + moduleHTML('features','Features',`${panelBody(panelParts(featureList())[0])}<a href="#advancement" class="screen-only">Edit</a>`)
+    + moduleHTML('features','Features',`${recoveryControls.species()}${panelBody(panelParts(featureList())[0])}<a href="#advancement" class="screen-only">Edit</a>`)
     + moduleHTML('modifiers','Modifiers',`<div class="form-grid">${Object.entries(c.modifiers).map(([key,val])=>field(title(key),`modifiers.${key}`,val,'number','min="-1000" max="1000"')).join('')}</div>`)
     + moduleHTML('notes','Notes',`<label><span class="sr-only">Character notes</span><textarea data-field="notes" rows="5">${escape(c.notes)}</textarea></label>`)
     + moduleHTML('house-rules','House Rules',houseRules.render(c),'wide')
@@ -580,6 +581,7 @@ function events() {
     if(el.dataset.skillSource){c.skillCheckSources??={};c.skillCheckSources[el.dataset.skillSource]=el.value;changed();return;}
     if(el.hasAttribute('data-math')) commitMath(el);
     if(combatControls.change(el))return;
+    if(recoveryControls.change(el))return;
     if (el.dataset.field) {
       if(el.dataset.field==='protection.drBypass')return;
       if (['name','player','notes','languages'].includes(el.dataset.field)) return;
@@ -648,7 +650,7 @@ function events() {
     } else return;
     changed();
   });
-  document.addEventListener('submit',event=>{if(event.target.id==='apply-damage'){event.preventDefault();const el=event.target.querySelector('[data-incoming-damage]');commitMath(el);combatControls.damage(event.target);return;}if(event.target.matches('form[data-equipment-scope]')){event.preventDefault();purchase(true,event.target);}});
+  document.addEventListener('submit',event=>{if(event.target.id==='bellow-controls'){event.preventDefault();recoveryControls.bellow(event.target);return;}if(event.target.id==='apply-damage'){event.preventDefault();const el=event.target.querySelector('[data-incoming-damage]');commitMath(el);combatControls.damage(event.target);return;}if(event.target.matches('form[data-equipment-scope]')){event.preventDefault();purchase(true,event.target);}});
   document.addEventListener('click',event=>{
     const houseTab=event.target.closest('[data-house-tab]');if(houseTab){houseRules.setTab(houseTab.dataset.houseTab);render();return;}
     if(creationOptions.click(event))return;
@@ -682,6 +684,7 @@ function events() {
     }
     const el=event.target.closest('button'); if(!el) return;
     if(combatControls.click(el))return;
+    if(recoveryControls.click(el))return;
     if(forcePowersUI.click(el))return;
     const c=current();
     if(el.dataset.openTree){
@@ -741,7 +744,7 @@ function events() {
 async function boot(){
   try{
     const response=await fetch(new URL('../data/core.json',import.meta.url));if(!response.ok)throw new Error(`Rules could not load (${response.status})`);
-    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);speciesChecks=createSpeciesChecks({current,derived:()=>derived,log:(...args)=>{render();logEvent(...args);}});combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});events();render();route();
+    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);speciesChecks=createSpeciesChecks({current,derived:()=>derived,log:(...args)=>{render();logEvent(...args);}});combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});recoveryControls=createRecoveryControls(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});events();render();route();
     if(!saveState[1])status('Saved',false);
   }catch(error){$('main').innerHTML=`<h1>Unable to open the sheet</h1><p>${escape(error.message)}</p><p><a href="./">Reload</a></p>`;status('Sheet unavailable',true);}
 }

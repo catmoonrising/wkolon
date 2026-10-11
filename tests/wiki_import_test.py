@@ -21,6 +21,30 @@ presentation = load('wiki_presentation', 'compile-wiki-articles.py')
 
 
 class WikiImportTests(unittest.TestCase):
+    def test_species_trait_sections_preserve_nested_costs_without_other_traits(self):
+        pack = json.loads((ROOT / 'data/core.json').read_text())
+        species = next(r for r in pack['species'] if r['id'] == 'species:ithorian')
+        blocks = importer.section(species['article']['blocks'], 'Bellow')
+        value = ''.join(importer.text(n) for n in blocks)
+        self.assertIn('Fortitude Defense', value)
+        self.assertIn('each additional 1d6', value)
+        self.assertNotIn('Iron Will', value)
+        self.assertTrue(all(n['tag'] == 'p' for n in blocks))
+        with self.assertRaisesRegex(ValueError, 'Missing section'):
+            importer.section(species['article']['blocks'], 'Invented ability')
+
+    def test_core_discovery_excludes_homebrew_even_when_core_category_is_present(self):
+        def category(name):
+            names = ['Official', 'Homebrew'] if name != 'Homebrew Content' else ['Homebrew']
+            return [dict(title=n, ns=0) for n in names]
+        with patch.object(importer, 'category', side_effect=category):
+            inventory = importer.discover()
+        self.assertTrue(all(names == ['Official'] for names in inventory.values()))
+        page = dict(title='Homebrew', revisions=[dict(slots=dict(main=dict(content='[[Category:Homebrew Content]]')))])
+        baseline = {k: [] for k in ['species', 'classes', 'feats', 'talents', 'equipment', 'sources']}
+        with self.assertRaisesRegex(ValueError, 'Homebrew excluded'):
+            importer.compile_catalog({'Feats': ['Homebrew'], 'Talent Trees': []}, {'Homebrew': page}, [], baseline)
+
     def test_corruption_import_keeps_destiny_and_supplement_power_tabs_separate(self):
         pages = {title: {'title': title, 'revisions': [{'revid': 42,
             'timestamp': '2024-01-01T00:00:00Z', 'slots': {'main': {'content':

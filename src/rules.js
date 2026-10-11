@@ -5,6 +5,7 @@ import {resolveEquipment,validateInventoryOptions} from './equipment.js';
 import {featureChoices,WEAPON_GROUPS,UNARMED_ID} from './feature-choices.js';
 import {unarmedWeapon,weaponRange} from './weapon-rules.js';
 import {carryingLimits} from './species-rules.js';
+import {recoveryState,recoveryDetails,validateRecovery} from './recovery.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 export const GROUPS = WEAPON_GROUPS;
 export const modifier = score => Math.floor((score - 10) / 2);
@@ -79,6 +80,7 @@ export function validateCharacter(c, pack) {
   if(c.mechanicalSkills!==undefined&&!skillList(c.mechanicalSkills))bad('mechanical tool checks');
   if(c.skillCheckSources!==undefined&&(!obj(c.skillCheckSources)||Object.entries(c.skillCheckSources).some(([id,source])=>!ix.skills.has(id)||!ix.skills.has(source))))bad('skill check sources');
   validateHouseRules(c,pack,bad);
+  validateRecovery(c,bad);
   if (!Number.isFinite(c.credits)||c.credits<0||c.credits>1000000000 || !num(c.forcePoints, 0, 1000) || !num(c.condition, 0, 5) || !(c.currentHP === null || num(c.currentHP, 0, 100000))) bad('play state');
   if (!obj(c.modifiers) || !['reflex', 'fortitude', 'will', 'hp', 'threshold', 'attack', 'damage'].every(k => num(c.modifiers[k], -1000, 1000))) bad('modifiers');
   validateFinishing(c,pack,bad);
@@ -270,6 +272,8 @@ export function derive(c, pack) {
   const equipmentAbilities = proficientArmor ? armor.abilityBonuses || {} : {};
   const scores = Object.fromEntries(ABILITIES.map(a => [a, ctx.scores[a] + (equipmentAbilities[a] || 0)]));
   const mods = Object.fromEntries(ABILITIES.map(a => [a, modifier(scores[a])]));
+  const raging=!!species.rage&&recoveryState(c).rageRounds>0;
+  const rageBonus=raging?species.rage.bonus+total('rageBonus'):0;
   const carried=c.inventory.filter(e=>e.carried!==false);
   const weight=carried.reduce((n,e)=>n+(resolveEquipment(e,pack,c).weight||0)*e.quantity,0);
   const load=carryingLimits(scores.str,species.size,weight,pack.rules.encumbrance);
@@ -308,7 +312,7 @@ export function derive(c, pack) {
     const tools=species.technophobic&&c.mechanicalSkills?.includes(s.id)?-5:0;
     const misc=c.skillModifiers?.[s.id]||0;
     const encumbrance=load.heavy&&pack.rules.encumbrance.skills.includes(s.id)?pack.rules.encumbrance.skillPenalty:0;
-    return {...s, trained, focus, available: !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || ctx.feats.some(f => f.id === F('force-sensitivity'))),
+    return {...s, trained, focus, available: !(raging&&species.rage.blockedSkills.includes(s.id)) && !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || ctx.feats.some(f => f.id === F('force-sensitivity'))),
       total: half + mods[s.ability] + (trained ? pack.rules.trainingBonus : 0) + Math.max(focus,backgroundBonus) + equipment + penalty + size + condition + tools + misc + encumbrance,
       breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${focus} focus + ${backgroundBonus} background + ${equipment} equipment + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools + ${misc} misc + ${encumbrance} load`};
   });
@@ -321,7 +325,7 @@ export function derive(c, pack) {
     const source=saved?(sources.find(r=>r.id===saved)||sources[0]):automatic;
     const native=nativeById.get(source.id);
     const scope=source.when==='computerNetwork'?'computer network':source.when==='perceptionApplications'?'Avoid Surprise, Notice Targets, Sense Deception, Sense Influence':'';
-    return {...s,total:source.total,checkSource:source.id,checkSources:sources,breakdown:source.id===s.id?s.breakdown:`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}`};
+    return {...s,available:s.available&&native.available,total:source.total,checkSource:source.id,checkSources:sources,breakdown:source.id===s.id?s.breakdown:`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}`};
   });
   const unarmed=unarmedWeapon(pack,species.size,total('unarmedDieSteps'));
   const gloves=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).unarmed);
@@ -345,11 +349,12 @@ export function derive(c, pack) {
     const firePenalty=autofire?-5:0;
     const criticalMultiplier=Math.max(pack.rules.combat.criticalMultiplier,...effects.filter(f=>f.target==='criticalMultiplier'&&f.selection.choice===w.id).map(f=>f.amount));
     const meleeBonus = total('meleeDamage',w);
-    const damageBonus = half + strength + specialization + meleeBonus + pointBlank + c.modifiers.damage + e.damageMod;
+    const rage=w.mode==='melee'?rageBonus:0;
+    const damageBonus = half + strength + specialization + meleeBonus + pointBlank + rage + c.modifiers.damage + e.damageMod;
     return {...w,uid:e.uid,proficient,range,criticalMultiplier,areaType:autofire?'burst':w.areaType,available:range.available,
-      attack: ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + c.modifiers.attack + e.attackMod,
+      attack: ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + c.modifiers.attack + e.attackMod,
       damageBonus, damageDisplay: w.damage?w.damage+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition',
-      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} autofire + ${c.modifiers.attack + e.attackMod} misc; ${autofire||w.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}`};
+      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} autofire${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${autofire||w.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}`};
   });
   const missingAssignments=c.abilityGeneration && Object.values(c.abilityGeneration.assign).some(i=>i===null);
   if (missingAssignments) issues.push('Assign all six ability scores');
@@ -372,12 +377,14 @@ export function derive(c, pack) {
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
   return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, ctx, rows, issues,
+    specialAttackPenalty:armorPenalty+condition+c.modifiers.attack,
+    recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
     forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,spent:p.spent,level:p.level})),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses: (species.conditionalDefenses||[]).map(e=>({...e,total:defenses[e.defense]+e.amount})),
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n)])),
-    incapacitated: c.condition === 5, forceMaximum: species.forceImmune?0:pack.rules.resources.forcePointBase + half + total('forcePoints'), forceCurrent:species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
+    incapacitated: c.condition === 5 || c.currentHP===0, forceMaximum: species.forceImmune?0:pack.rules.resources.forcePointBase + half + total('forcePoints'), forceCurrent:species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
     weightUnknown:carried.some(e=>resolveEquipment(e,pack,c).weight===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};
 }

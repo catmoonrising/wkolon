@@ -110,6 +110,9 @@
               "items": {
                 "type": "string"
               }
+            },
+            "areaMinimumRoll": {
+              "const": 10
             }
           }
         },
@@ -201,7 +204,9 @@
               "raw-equivalent",
               "range-penalties",
               "unarmed-proficiency",
-              "unarmed-finesse"
+              "unarmed-finesse",
+              "second-winds",
+              "second-wind-exhaustion"
             ]
           }
         },
@@ -426,7 +431,12 @@
             "sourceIds",
             "hitPointFraction",
             "maximumHitPointFraction",
-            "dailyUses"
+            "dailyUses",
+            "usesPerEncounter",
+            "multipleUsesTopic",
+            "exhaustionTopic",
+            "exhaustionRestHours",
+            "forceRecovery"
           ],
           "properties": {
             "sourceIds": {
@@ -444,6 +454,38 @@
             },
             "dailyUses": {
               "const": 1
+            },
+            "usesPerEncounter": {
+              "const": 1
+            },
+            "multipleUsesTopic": {
+              "const": "jc:114-variant-rule-multiple-second-winds"
+            },
+            "exhaustionTopic": {
+              "const": "jc:114-optional-rule-the-edge-of-exhaustion"
+            },
+            "exhaustionRestHours": {
+              "const": 8
+            },
+            "forceRecovery": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "talentId",
+                "die",
+                "maxDice"
+              ],
+              "properties": {
+                "talentId": {
+                  "const": "talent:force-recovery"
+                },
+                "die": {
+                  "const": 6
+                },
+                "maxDice": {
+                  "const": 10
+                }
+              }
             }
           }
         },
@@ -501,6 +543,26 @@
             },
             "skillPenalty": {
               "const": -10
+            }
+          }
+        },
+        "recovery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "swiftActions"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "swiftActions": {
+              "const": 3
             }
           }
         }
@@ -1330,6 +1392,70 @@
         "naturalHealingMultiplier": {
           "type": "integer",
           "minimum": 1
+        },
+        "rage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "dailyUses",
+            "bonus",
+            "durationBase",
+            "restMinutes",
+            "blockedSkills"
+          ],
+          "properties": {
+            "dailyUses": {
+              "const": 1
+            },
+            "bonus": {
+              "const": 2
+            },
+            "durationBase": {
+              "const": 5
+            },
+            "restMinutes": {
+              "const": 10
+            },
+            "blockedSkills": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "bellow": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "damageDice",
+            "die",
+            "coneSquares",
+            "conditionCost",
+            "extraDieCost",
+            "defense"
+          ],
+          "properties": {
+            "damageDice": {
+              "const": 3
+            },
+            "die": {
+              "const": 6
+            },
+            "coneSquares": {
+              "const": 6
+            },
+            "conditionCost": {
+              "const": 1
+            },
+            "extraDieCost": {
+              "const": 1
+            },
+            "defense": {
+              "const": "fortitude"
+            }
+          }
         }
       }
     },
@@ -1518,7 +1644,7 @@
         },
         "passages": {
           "type": "array",
-          "minItems": 2,
+          "minItems": 1,
           "items": {
             "type": "object",
             "additionalProperties": false,

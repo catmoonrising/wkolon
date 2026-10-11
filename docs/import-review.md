@@ -244,10 +244,10 @@ Focus, Toughness, Primitive restrictions, natural armor and Hutt Force resistanc
 are calculated. The Hutt Will bonus is displayed separately against Use the
 Force. Native-homeworld Background exclusions cover the newly selectable species.
 
-Rerolls, sensory traits, Ithorian Bellow, limb regeneration and carrying limits
-remain manual; their exact rules are in each species disclosure. Bellow is a
-special attack against Fortitude, with a condition cost and half damage on a miss,
-so it must not become an ordinary weapon attack. The new linked species feat
+Native rerolls, sensory traits, carrying limits and Ithorian Bellow now have
+controls and calculations. Limb regeneration remains manual. Bellow uses its
+special Fortitude attack, sonic damage and condition cost; it is not an ordinary
+weapon attack. The new linked species feat
 articles are readable offline; importing them does not grant selectable feats.
 
 Weapon Proficiency now includes Advanced Melee Weapons and Heavy Weapons. Advanced
@@ -281,9 +281,8 @@ Unarmed attacks, Martial Arts, Finesse, Triple Crit, Force Boon and Strong in th
 Force now have calculation support. Conditional action feats—including Power
 Attack, Double/Triple Attack, Dual Weapon Mastery, Cleave and Burst Fire—retain
 complete wording and remain player-configured through routine modifiers. Extra
-Rage, Dreadful Rage and Extra Second Wind are selectable; their activation and
-recovery tracking remains manual. Importing their numeric benefits does not
-claim automated action handling.
+Rage, Dreadful Rage and Extra Second Wind now have activation and recovery
+tracking, including their printed limits and the separate Counseling switches.
 
 The weapon review preserved these exceptions:
 
@@ -304,11 +303,40 @@ values before target damage-type effects and protection.
 Species native-check rerolls and threatened Take 10 are implemented with their
 original scopes and keep rules. Vision and Scent appear in stat blocks; carrying
 and lifting limits, skill penalties and movement are calculated. Neimoidian's
-misnamed Deceptive sentence remains visible and manual. Bellow, Rage, natural
-healing, regeneration and starting special equipment still need action/state
-support.
+misnamed Deceptive sentence remains visible and manual. Bellow and Rage now have action/state support. Natural healing, regeneration
+and starting special equipment remain to be implemented.
 
 Sprint's printed ×5 also conflicts with Encumbrance's Heavy Load ×3. The
 Ambiguities tab retains both pinned passages and defaults to the explicit load
 limit. Juggernaut removes armor restrictions, not weight restrictions. No new
 heavy-armor rule was added for droid speeds other than 4 or 6.
+
+## Recovery and species actions
+
+Checked current MediaWiki revisions: Catch a Second Wind 18474, Wookiee 27423,
+Ithorian 18294, Conditions 24990, Recover 18447, Droids 26658, Control Talent Tree
+24989, Survivor Talent Tree 26659 and Web Enhancements 26287. The two Second Wind
+Counseling topics now run automatically when enabled; both default on. Extra
+Second Wind and Tough as Nails add one base allotment under Multiple Second Winds,
+or one use under RAW. Force Recovery rolls 1d6 per possessed Force Point, capped
+at 10d6, without spending points.
+
+Rage grants melee-only bonuses, blocks the three explicitly named concentration
+skills, lasts 5 + CON modifier rounds and ends with persistent fatigue. The list
+of prohibited skills is expressly exemplary; other applications need GM
+adjudication. Ten minutes recuperation removes its persistent cause, not the
+condition step. Recover cannot be used while any tracked persistent cause remains.
+Manual track edits permit other abilities and GM adjudication. Natural healing
+and automatic rest healing remain outside these controls.
+
+Bellow's extra-dice wording gives no upper bound on dice once the Condition Track
+is exhausted. Per the user's ruling, Ambiguities defaults to uncapped RAW and
+offers Stop at Helpless. Its roll is against Fortitude; generic area attack
+errata still supply the modified-roll minimum of 10, Evasion/cover handling and
+no critical damage. Pools over 500 dice require an entered damage total and are
+marked as entered; they never use a silently truncated roll.
+
+Only official published rules, errata and Jedi Counseling are implementation
+sources. Wiki homebrew is excluded, including Athletics. The user's specifically
+requested ambiguity settings and Comlink pricing ruling remain opt-in/saved
+campaign settings. No selectable mechanics in this batch contain homebrew labels.

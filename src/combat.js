@@ -43,8 +43,8 @@ export function defenseRangeRows(results){
   return ranges.map(row=>{
    const defense=row.hi??Infinity;let damage=0,evasion=0,cover=0,splash=0;
    for(const r of results){
-    if(r.naturalMiss||r.failedArea)continue;
-    const hit=r.naturalHit||r.total>=defense,half=Math.floor(r.damage/2);
+    if(r.failedArea||r.naturalMiss&&!r.areaType)continue;
+    const hit=!r.naturalMiss&&(r.naturalHit||r.total>=defense),half=Math.floor(r.damage/2);
     damage+=hit?r.damage:r.areaType?half:0;
     evasion+=r.areaType?(hit?half:0):(hit?r.damage:0);
     cover+=hit?r.damage:0;
@@ -62,7 +62,8 @@ export function defenseRangeRows(results){
  return rows;
 }
 const signed=n=>n>=0?'+'+n:String(n);
-export function rollRoutine(routine,attacks,rules,roller=evalExpr){
+export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Reflex'){
+ if(!['Reflex','Fortitude'].includes(defense))throw new Error('Unsupported defense');
  if(!routine.steps.length)throw new Error('Add an attack');
  const plan=routine.steps.map(s=>{const attack=attacks.find(a=>a.uid===s.attackId);if(!attack||attack.available===false)throw new Error('Attack unavailable');if(attack.damage===null)throw new Error(attack.damageAction||'Choose ammunition');return {step:s,attack};});
  if(plan.reduce((n,p)=>n+p.step.count,0)>100)throw new Error('Maximum 100 attacks per routine');
@@ -70,10 +71,10 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr){
  for(const {step:s,attack:a} of plan)for(let i=0;i<s.count;i++){
   const attackRoll=roller('1d20'+signed(a.attack+s.attackMod)),die=attackRoll.d20[0];
   const naturalHit=die===rules.naturalHit,naturalMiss=die===rules.naturalMiss;
-  const failedArea=!!a.areaType&&!naturalHit&&attackRoll.value<10;
+  const failedArea=!!a.areaType&&attackRoll.value<rules.areaMinimumRoll;
   const critical=naturalHit&&!a.areaType,multiplier=a.criticalMultiplier||rules.criticalMultiplier;
   let damageRoll=null,damage=0;
-  if(!naturalMiss&&!failedArea){
+  if(!failedArea&&(!naturalMiss||a.areaType)){
    const expr=a.damageDisplay+(s.damageMod?signed(s.damageMod):'');
    damageRoll=roller(critical?`(${expr})*${multiplier}`:expr);
    damage=Math.max(rules.minimumDamage*(critical?multiplier:1),damageRoll.value);
@@ -83,7 +84,7 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr){
  }
  const rows=defenseRangeRows(results),range=r=>r.lo===null?(r.hi===null?'Any':`≤ ${r.hi}`):r.hi===null?`${r.lo}+`:r.lo===r.hi?String(r.lo):`${r.lo}–${r.hi}`;
  const area=results.some(r=>r.areaType),splash=results.some(r=>r.areaType==='splash');
- const details=results.map(r=>`<div><b>${escape(r.name)}</b>: ${r.attackRoll.display} = ${totalHtml(r.attackRoll)}${r.naturalMiss||r.failedArea?' · Miss':`${r.critical?' · Critical':r.naturalHit?' · Hit':''} | ${r.damageRoll.display} = ${totalHtml(r.damageRoll)}`}</div>`).join('');
- return {results,rows,text:`${routine.name||'Routine'}: ${rows.map(r=>`Reflex ${range(r)}: ${r.damage} damage`).join('; ')}`,
-  html:`<b>${escape(routine.name||'Routine')}</b><table class="routine-result"><thead><tr><th>Reflex</th><th title="Rolled damage, before target damage-type effects, DR and SR">Damage</th>${area?'<th>Evasion</th><th>Cover</th>':''}${splash?'<th>Splash</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${range(r)}</td><td>${r.damage}</td>${area?`<td>${r.evasion}</td><td>${r.cover}</td>`:''}${splash?`<td>${r.splash}</td>`:''}</tr>`).join('')}</tbody></table><details><summary>Rolls</summary>${details}</details>`};
+ const details=results.map(r=>`<div><b>${escape(r.name)}</b>: ${r.attackRoll.display} = ${totalHtml(r.attackRoll)}${r.naturalMiss||r.failedArea?' · Miss':r.critical?' · Critical':r.naturalHit?' · Hit':''}${r.damageRoll?` | ${r.damageRoll.display} = ${totalHtml(r.damageRoll)}`:''}</div>`).join('');
+ return {results,rows,text:`${routine.name||'Routine'}: ${rows.map(r=>`${defense} ${range(r)}: ${r.damage} damage`).join('; ')}`,
+  html:`<b>${escape(routine.name||'Routine')}</b><table class="routine-result"><thead><tr><th>${defense}</th><th title="Rolled damage, before target damage-type effects, DR and SR">Damage</th>${area?'<th>Evasion</th><th>Cover</th>':''}${splash?'<th>Splash</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${range(r)}</td><td>${r.damage}</td>${area?`<td>${r.evasion}</td><td>${r.cover}</td>`:''}${splash?`<td>${r.splash}</td>`:''}</tr>`).join('')}</tbody></table><details><summary>Rolls</summary>${details}</details>`};
 }

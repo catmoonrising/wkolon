@@ -14,7 +14,7 @@ module.exports=async function(browser,base,root){
   assert((await speed.innerText()).includes('Run 12'));
   const house=page.locator('#module-house-rules'),control=house.locator('[data-ambiguity="ambiguity:sprint-heavy-armor"]');
   await house.locator('[data-house-tab="ambiguities"]').click();assert.equal(await control.inputValue(),'armor-limit');
-  assert.equal(await house.locator('[data-ambiguity]').count(),2);assert(!(await house.innerText()).toLowerCase().includes('droid'));
+  assert.equal(await house.locator('[data-ambiguity]').count(),3);assert(!(await house.innerText()).toLowerCase().includes('droid'));
   await house.locator('details summary').first().click();const text=await house.innerText();assert(text.includes('five times')&&text.includes('three times'));assert(!text.includes('Hard March'));
   await control.selectOption('sprint-limit');assert((await speed.innerText()).includes('Run 20'));
   await page.locator('#print').click();assert((await page.locator('#stat-block-text').inputValue()).includes('4 Squares (Run 20 Squares)'));await page.locator('#stat-block-close').click();

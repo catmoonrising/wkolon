@@ -4063,6 +4063,46 @@
       "timestamp": "2024-08-25T19:57:48Z",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18325",
       "history": "https://swse.miraheze.org/w/index.php?title=Encumbrance&action=history"
+    },
+    {
+      "id": "source:wiki-recover",
+      "title": "Recover",
+      "section": null,
+      "revision": 18447,
+      "timestamp": "2024-08-25T20:08:44Z",
+      "sha256": "71d598df671cc422c4002a825755d4eac123db886a2655ba9bf27ad3f74cec9d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18447",
+      "history": "https://swse.miraheze.org/w/index.php?title=Recover&action=history"
+    },
+    {
+      "id": "source:wiki-conditions",
+      "title": "Conditions",
+      "section": null,
+      "revision": 24990,
+      "timestamp": "2024-11-10T16:50:31Z",
+      "sha256": "1204e88ef3d473888c9815a1d123bd8087e323c969c5cf072edf1fa36c465efe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24990",
+      "history": "https://swse.miraheze.org/w/index.php?title=Conditions&action=history"
+    },
+    {
+      "id": "source:wiki-droids",
+      "title": "Droids",
+      "section": null,
+      "revision": 26658,
+      "timestamp": "2025-04-23T21:52:42Z",
+      "sha256": "1cf87a3cb4eced37b36bc4d671ebc3b796b0f2b898eb05dbfb35fc5ff16dd6bd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26658",
+      "history": "https://swse.miraheze.org/w/index.php?title=Droids&action=history"
+    },
+    {
+      "id": "source:wiki-ithorian-bellow",
+      "title": "Ithorian",
+      "section": "Bellow",
+      "revision": 18294,
+      "timestamp": "2024-08-25T19:55:03Z",
+      "sha256": "2ea1ba2899be6c1edb4d9d8239f1a502c72b85e2bbf86a2615063f2ce06adbfe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18294#Bellow",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ithorian&action=history"
     }
   ],
   "species": [
@@ -4361,7 +4401,15 @@
           "skill": "skill:survival",
           "keep": "replace"
         }
-      ]
+      ],
+      "bellow": {
+        "damageDice": 3,
+        "die": 6,
+        "coneSquares": 6,
+        "conditionCost": 1,
+        "extraDieCost": 1,
+        "defense": "fortitude"
+      }
     },
     {
       "id": "species:kel-dor",
@@ -4673,7 +4721,18 @@
       "take10Skills": [
         "skill:climb"
       ],
-      "naturalHealingMultiplier": 2
+      "naturalHealingMultiplier": 2,
+      "rage": {
+        "dailyUses": 1,
+        "bonus": 2,
+        "durationBase": 5,
+        "restMinutes": 10,
+        "blockedSkills": [
+          "skill:mechanics",
+          "skill:stealth",
+          "skill:use-the-force"
+        ]
+      }
     },
     {
       "id": "species:yuuzhan-vong-core-rulebook",
@@ -7534,7 +7593,13 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "secondWinds",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
       "reminder": "You can catch a Second Wind one extra time per day. If you have this Talent and the Extra Second Wind feat, you can catch your Second Wind a total of three times per day."
     },
     {
@@ -10198,7 +10263,8 @@
       "minimumDamage": 1,
       "areaSourceIds": [
         "source:attacks"
-      ]
+      ],
+      "areaMinimumRoll": 10
     },
     "pointBuyBudget": 25,
     "pointBuyCosts": {
@@ -10330,7 +10396,9 @@
       "jc:114-conditions-and-damage-threshold": "raw-equivalent",
       "jc:107-far-shot-accurate-weapon-and-targeting-scope": "range-penalties",
       "jc:112-unarmed-weapon-group": "unarmed-proficiency",
-      "jc:112-unarmed-attacks-and-weapon-finesse": "unarmed-finesse"
+      "jc:112-unarmed-attacks-and-weapon-finesse": "unarmed-finesse",
+      "jc:114-variant-rule-multiple-second-winds": "second-winds",
+      "jc:114-optional-rule-the-edge-of-exhaustion": "second-wind-exhaustion"
     },
     "armorMovement": {
       "sourceIds": [
@@ -10407,6 +10475,30 @@
           {
             "value": "sprint-limit",
             "name": "Sprint (×5)"
+          }
+        ]
+      },
+      {
+        "id": "ambiguity:bellow-extra-dice",
+        "name": "Bellow: extra dice",
+        "sourceIds": [
+          "source:wiki-ithorian-bellow"
+        ],
+        "default": "uncapped",
+        "options": [
+          {
+            "value": "uncapped",
+            "name": "RAW (uncapped)"
+          },
+          {
+            "value": "track-limit",
+            "name": "Stop at Helpless"
+          }
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:bellow",
+            "paragraphCount": 4
           }
         ]
       }
@@ -10494,11 +10586,24 @@
     },
     "secondWind": {
       "sourceIds": [
-        "source:wiki-catch-a-second-wind"
+        "source:wiki-catch-a-second-wind",
+        "source:wiki-category-web-enhancements-variant-rule-multiple-second-winds",
+        "source:wiki-category-web-enhancements-optional-rule-the-edge-of-exhaustion",
+        "source:wiki-control-talent-tree-force-recovery",
+        "source:wiki-droids"
       ],
       "hitPointFraction": 0.25,
       "maximumHitPointFraction": 0.5,
-      "dailyUses": 1
+      "dailyUses": 1,
+      "usesPerEncounter": 1,
+      "multipleUsesTopic": "jc:114-variant-rule-multiple-second-winds",
+      "exhaustionTopic": "jc:114-optional-rule-the-edge-of-exhaustion",
+      "exhaustionRestHours": 8,
+      "forceRecovery": {
+        "talentId": "talent:force-recovery",
+        "die": 6,
+        "maxDice": 10
+      }
     },
     "encumbrance": {
       "sourceIds": [
@@ -10530,6 +10635,13 @@
         "gargantuan": 10,
         "colossal": 20
       }
+    },
+    "recovery": {
+      "sourceIds": [
+        "source:wiki-recover",
+        "source:wiki-conditions"
+      ],
+      "swiftActions": 3
     }
   },
   "heroicTraits": {
