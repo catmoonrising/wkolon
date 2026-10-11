@@ -244,8 +244,8 @@ Focus, Toughness, Primitive restrictions, natural armor and Hutt Force resistanc
 are calculated. The Hutt Will bonus is displayed separately against Use the
 Force. Native-homeworld Background exclusions cover the newly selectable species.
 
-Native rerolls, sensory traits, carrying limits and Ithorian Bellow now have
-controls and calculations. Limb regeneration remains manual. Bellow uses its
+Native rerolls, sensory traits, carrying limits, limb regeneration and Ithorian Bellow now have
+controls and calculations. Bellow uses its
 special Fortitude attack, sonic damage and condition cost; it is not an ordinary
 weapon attack. The new linked species feat
 articles are readable offline; importing them does not grant selectable feats.
@@ -303,8 +303,8 @@ values before target damage-type effects and protection.
 Species native-check rerolls and threatened Take 10 are implemented with their
 original scopes and keep rules. Vision and Scent appear in stat blocks; carrying
 and lifting limits, skill penalties and movement are calculated. Neimoidian's
-misnamed Deceptive sentence remains visible and manual. Bellow and Rage now have action/state support. Natural healing, regeneration
-and starting special equipment remain to be implemented.
+misnamed Deceptive sentence remains visible and manual. Bellow and Rage now have action/state support. Natural healing
+and regeneration have recovery controls; starting special equipment remains to be implemented.
 
 Sprint's printed ×5 also conflicts with Encumbrance's Heavy Load ×3. The
 Ambiguities tab retains both pinned passages and defaults to the explicit load
@@ -327,7 +327,7 @@ of prohibited skills is expressly exemplary; other applications need GM
 adjudication. Ten minutes recuperation removes its persistent cause, not the
 condition step. Recover cannot be used while any tracked persistent cause remains.
 Manual track edits permit other abilities and GM adjudication. Natural healing
-and automatic rest healing remain outside these controls.
+and completed eight-hour rest have separate controls described below.
 
 Bellow's extra-dice wording gives no upper bound on dice once the Condition Track
 is exhausted. Per the user's ruling, Ambiguities defaults to uncapped RAW and
@@ -340,3 +340,37 @@ Only official published rules, errata and Jedi Counseling are implementation
 sources. Wiki homebrew is excluded, including Athletics. The user's specifically
 requested ambiguity settings and Comlink pricing ruling remain opt-in/saved
 campaign settings. No selectable mechanics in this batch contain homebrew labels.
+
+## Natural healing and unconscious recovery
+
+Reviewed Hit Points revision 23421, Conditions 24990 and Trandoshan 18573 against
+fresh API snapshots. Natural Healing, Falling Unconscious and Limb Regeneration
+are retained as separate verbatim sections, with source checksums and review pins.
+Eight uninterrupted hours restore level HP once per 24 hours, doubled for Wookiees.
+Rest clears only recorded causes whose printed cures include that rest: Rage,
+Second Wind exhaustion and injuries from failed consciousness checks. Untreated
+other causes and lost limbs continue to block ordinary recovery and natural healing.
+The rest control asserts completion; it does not simulate hazards, interruptions,
+long-term care or any consciousness checks due during the interval.
+
+Consciousness checks use the Constitution modifier and DC 10, after one minute
+initially and one hour after a nonfatal failure. Helpless lists no numeric check
+penalty; the preceding -10 step is not applied to this automatic check. Success
+adds level HP and moves up one step; failure records a persistent injury; natural
+1 or failure by five records death. Death blocks ordinary recovery and actions.
+The saved death checkbox can be cleared for an adjudicated revival effect; it
+does not perform that effect or supply healing by itself. Prone is reported in
+the roll log, as positional condition tracking is not yet implemented.
+
+**User-resolved ambiguity: healing while unconscious with HP remaining.** The
+source assigns the amount healed as the resulting HP, which can reduce HP after
+an Ithorian Bellow knockout. The user requested literal replacement by default,
+and an additive alternative in Ambiguities. Healing/repair moves up one step and
+revives/reactivates; it does not remove unrelated persistent causes.
+
+Each lost Trandoshan limb rolls 1d10 days. New day explicitly advances 24 hours
+of game time; completed limbs remove their associated persistent cause without
+moving the track or healing HP. Multiple limbs finish independently. Each limb has an explicit, editable persistent flag: losing a limb
+does not itself establish a universal persistent Condition Track penalty. The injury
+control records the loss; its initial track movement and other effects remain
+adjudicated. No supplements or wiki homebrew were enabled in this batch.

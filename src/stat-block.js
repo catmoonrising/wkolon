@@ -3,6 +3,7 @@ import {TRAIT_FIELDS, backgroundLanguage} from './heroic-traits.js';
 import {escapeHTML as escape} from './wiki-content.js';
 import {resolveEquipment} from './equipment.js';
 import {choiceName} from './feature-choices.js';
+import {persistentName} from './recovery.js';
 
 // Formatting reference: Darth Vader, wiki revision 25962. All values come from
 // the saved character and Saga derivation, never from the reference NPC.
@@ -33,7 +34,7 @@ export function renderStatBlock(c,d,pack){
  <p>${points}</p>${line('Initiative',signed(skill('initiative').total)+'; <b>Senses:</b> Perception '+signed(skill('perception').total)+[species.vision==='darkvision'?'Darkvision':species.vision==='low-light'?'Low-Light Vision':'',species.scentRange?'Scent '+species.scentRange+' Squares':''].filter(Boolean).map(s=>', '+s).join(''))}${line('Languages',languages)}
  <h2>Defenses</h2><p><b>Reflex Defense:</b> ${d.defenses.reflex}, <b>Fortitude Defense:</b> ${d.defenses.fortitude}, <b>Will Defense:</b> ${d.defenses.will}${(d.conditionalDefenses||[]).filter(e=>e.defense==='will').map(e=>` (${e.total} vs. Use the Force)`).join('')}</p>
  <p><b>Hit Points:</b> ${c.currentHP??d.hp}/${d.hp}; <b>Damage Threshold:</b> ${d.threshold}${protection.dr?`; <b>DR:</b> ${protection.dr}${protection.drBypass?' ('+escape(protection.drBypass)+')':''}`:''}${protection.srMax?`; <b>SR:</b> ${protection.sr}/${protection.srMax}`:''}</p>
- ${textLine('Condition Track',condition)}${d.recovery?.persistent.length?textLine('Persistent Conditions',d.recovery.persistent.map(p=>p==='rage'?'Rage':'Second Wind').join(', ')):''}
+ ${d.recovery?.dead?textLine('Status',species.isDroid?'Destroyed':'Dead'):''}${textLine('Condition Track',condition)}${d.recovery?.persistent.length?textLine('Persistent Conditions',d.recovery.persistent.map(persistentName).join(', ')):''}
  <h2>Offense</h2>${line('Speed',d.speed+' Squares'+Object.entries(d.speeds||{}).map(([type,n])=>`, ${escape(type)} ${n} Squares`).join('')+(d.runMultiplier!==4?` (Run ${d.runSpeed} Squares)`:''))}${attacks}${routines}${species.bellow?line('Special Attacks',`Bellow ${signed(d.level+d.specialAttackPenalty)} (${species.bellow.damageDice}d${species.bellow.die} Sonic; ${species.bellow.coneSquares}-Square Cone; Fortitude)`):''}${line('Base Attack Bonus',signed(d.bab))}
  <h2>Base Stats</h2>${line('Abilities',ABILITIES.map(a=>`${a[0].toUpperCase()+a.slice(1)} ${d.scores[a]}`).join(', '))}
  ${line('Force Powers',d.forcePowers?.map(p=>escape(p.name)).join(', '))}

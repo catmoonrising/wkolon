@@ -67,6 +67,7 @@ export function validatePack(p) {
       }
     }
     if (key === 'species') {
+      if(r.limbRegeneration){assert.deepEqual(Object.keys(r.limbRegeneration).sort(),['die','sourceId']);assert.equal(r.limbRegeneration.die,10);assert(sources.has(r.limbRegeneration.sourceId),'Missing limb regeneration source');}
       if(r.bellow)assert.deepEqual(r.bellow,{damageDice:3,die:6,coneSquares:6,conditionCost:1,extraDieCost:1,defense:'fortitude'});
       if(r.rage){assert.deepEqual(Object.keys(r.rage).sort(),['blockedSkills','bonus','dailyUses','durationBase','restMinutes']);assert(r.rage.dailyUses===1&&r.rage.bonus===2&&r.rage.durationBase===5&&r.rage.restMinutes===10);assert.deepEqual(r.rage.blockedSkills,['skill:mechanics','skill:stealth','skill:use-the-force']);r.rage.blockedSkills.forEach(id=>requireRef('skills',id));}
       if(r.skillRerolls){assert(Array.isArray(r.skillRerolls));for(const e of r.skillRerolls){requireRef('skills',e.skill);assert(Object.keys(e).every(k=>['skill','keep','when'].includes(k))&&['replace','best'].includes(e.keep)&&(!e.when||['intimidate','searchYourFeelingsOrSenseForce'].includes(e.when)),'Unsupported species reroll');}}
@@ -190,6 +191,10 @@ export function validatePack(p) {
   const wind=p.rules.secondWind;assert.deepEqual(Object.keys(wind).sort(),['dailyUses','exhaustionRestHours','exhaustionTopic','forceRecovery','hitPointFraction','maximumHitPointFraction','multipleUsesTopic','sourceIds','usesPerEncounter']);assert(wind.usesPerEncounter===1&&wind.exhaustionRestHours===8);assert.deepEqual(wind.forceRecovery,{talentId:'talent:force-recovery',die:6,maxDice:10});requireRef('talents',wind.forceRecovery.talentId);
   assert(wind.multipleUsesTopic==='jc:114-variant-rule-multiple-second-winds'&&wind.exhaustionTopic==='jc:114-optional-rule-the-edge-of-exhaustion');
   assert(Object.keys(p.rules.recovery).every(k=>['sourceIds','swiftActions'].includes(k))&&p.rules.recovery.swiftActions===3&&p.rules.recovery.sourceIds.length&&p.rules.recovery.sourceIds.every(id=>sources.has(id)),'Unsupported Recover rule');assert.equal(p.rules.combat.areaMinimumRoll,10);
+  for(const group of ['naturalHealing','unconsciousRecovery'])assert(p.rules[group]?.sourceIds?.length&&p.rules[group].sourceIds.every(id=>sources.has(id)),`Missing ${group} sources`);
+  const natural=p.rules.naturalHealing,awake=p.rules.unconsciousRecovery;
+  assert.deepEqual(Object.keys(natural).sort(),['removablePersistent','restHours','sourceIds','usesPerDay']);assert(natural.restHours===8&&natural.usesPerDay===1);assert.deepEqual(natural.removablePersistent,['rage','second-wind','injury']);
+  assert.deepEqual(Object.keys(awake).sort(),['dc','deathFailureMargin','fatalNatural','firstMinutes','retryHours','sourceIds']);assert(awake.dc===10&&awake.firstMinutes===1&&awake.retryHours===1&&awake.deathFailureMargin===5&&awake.fatalNatural===1);
   if(access){assert(Object.keys(access).every(k=>['trees','sourceIds'].includes(k)));assert(Array.isArray(access.trees)&&access.trees.length===4&&new Set(access.trees).size===4&&access.trees.every(t=>p.talents.some(r=>r.tree===t)));assert(access.sourceIds.length&&access.sourceIds.every(id=>sources.has(id)));}
   if(recovery){assert(Object.keys(recovery).every(k=>['sourceIds','restMinutes','forcePointCost','naturalRoll'].includes(k)));assert(recovery.sourceIds.length&&recovery.sourceIds.every(id=>sources.has(id)));assert(recovery.restMinutes===1&&recovery.forcePointCost===1&&recovery.naturalRoll===20);}
   if(p.heroicTraits) {

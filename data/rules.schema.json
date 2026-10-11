@@ -565,6 +565,78 @@
               "const": 3
             }
           }
+        },
+        "naturalHealing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "restHours",
+            "usesPerDay",
+            "removablePersistent"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "restHours": {
+              "const": 8
+            },
+            "usesPerDay": {
+              "const": 1
+            },
+            "removablePersistent": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "rage",
+                  "second-wind",
+                  "injury"
+                ]
+              }
+            }
+          }
+        },
+        "unconsciousRecovery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "dc",
+            "firstMinutes",
+            "retryHours",
+            "deathFailureMargin",
+            "fatalNatural"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "dc": {
+              "const": 10
+            },
+            "firstMinutes": {
+              "const": 1
+            },
+            "retryHours": {
+              "const": 1
+            },
+            "deathFailureMargin": {
+              "const": 5
+            },
+            "fatalNatural": {
+              "const": 1
+            }
+          }
         }
       },
       "required": [
@@ -1454,6 +1526,22 @@
             },
             "defense": {
               "const": "fortitude"
+            }
+          }
+        },
+        "limbRegeneration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceId",
+            "die"
+          ],
+          "properties": {
+            "sourceId": {
+              "type": "string"
+            },
+            "die": {
+              "const": 10
             }
           }
         }

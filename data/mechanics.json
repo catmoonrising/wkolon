@@ -4103,6 +4103,46 @@
       "sha256": "2ea1ba2899be6c1edb4d9d8239f1a502c72b85e2bbf86a2615063f2ce06adbfe",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18294#Bellow",
       "history": "https://swse.miraheze.org/w/index.php?title=Ithorian&action=history"
+    },
+    {
+      "id": "source:wiki-hit-points",
+      "title": "Hit Points",
+      "section": null,
+      "revision": 23421,
+      "timestamp": "2024-09-27T12:37:57Z",
+      "sha256": "65b7880bf56c2268a45b46082d072bb82fa131b83d94c0873dae109b54018b5e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=23421",
+      "history": "https://swse.miraheze.org/w/index.php?title=Hit%20Points&action=history"
+    },
+    {
+      "id": "source:wiki-hit-points-natural-healing",
+      "title": "Hit Points",
+      "section": "Natural Healing",
+      "revision": 23421,
+      "timestamp": "2024-09-27T12:37:57Z",
+      "sha256": "65b7880bf56c2268a45b46082d072bb82fa131b83d94c0873dae109b54018b5e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=23421#Natural_Healing",
+      "history": "https://swse.miraheze.org/w/index.php?title=Hit%20Points&action=history"
+    },
+    {
+      "id": "source:wiki-hit-points-falling-unconscious",
+      "title": "Hit Points",
+      "section": "Falling Unconscious",
+      "revision": 23421,
+      "timestamp": "2024-09-27T12:37:57Z",
+      "sha256": "65b7880bf56c2268a45b46082d072bb82fa131b83d94c0873dae109b54018b5e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=23421#Falling_Unconscious",
+      "history": "https://swse.miraheze.org/w/index.php?title=Hit%20Points&action=history"
+    },
+    {
+      "id": "source:wiki-trandoshan-limb-regeneration",
+      "title": "Trandoshan",
+      "section": "Limb Regeneration",
+      "revision": 18573,
+      "timestamp": "2024-08-25T20:20:34Z",
+      "sha256": "db0c712638ec41729768f8414befec8ebdc877ecf5caedd6f39119d7aa24818c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18573#Limb_Regeneration",
+      "history": "https://swse.miraheze.org/w/index.php?title=Trandoshan&action=history"
     }
   ],
   "species": [
@@ -4645,7 +4685,11 @@
       "startingFeats": [
         "feat:toughness"
       ],
-      "vision": "darkvision"
+      "vision": "darkvision",
+      "limbRegeneration": {
+        "sourceId": "source:wiki-trandoshan-limb-regeneration",
+        "die": 10
+      }
     },
     {
       "id": "species:twi-lek",
@@ -10501,6 +10545,30 @@
             "paragraphCount": 4
           }
         ]
+      },
+      {
+        "id": "ambiguity:unconscious-healing",
+        "name": "Healing with HP Remaining",
+        "sourceIds": [
+          "source:wiki-hit-points-falling-unconscious"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:hit-points-falling-unconscious",
+            "paragraphCount": 5
+          }
+        ],
+        "default": "replace",
+        "options": [
+          {
+            "value": "replace",
+            "name": "Replace remaining HP"
+          },
+          {
+            "value": "add",
+            "name": "Add to remaining HP"
+          }
+        ]
       }
     ],
     "forceTalentAccess": {
@@ -10642,6 +10710,30 @@
         "source:wiki-conditions"
       ],
       "swiftActions": 3
+    },
+    "naturalHealing": {
+      "sourceIds": [
+        "source:wiki-hit-points-natural-healing",
+        "source:wiki-conditions",
+        "source:wiki-wookiee"
+      ],
+      "restHours": 8,
+      "usesPerDay": 1,
+      "removablePersistent": [
+        "rage",
+        "second-wind",
+        "injury"
+      ]
+    },
+    "unconsciousRecovery": {
+      "sourceIds": [
+        "source:wiki-hit-points-falling-unconscious"
+      ],
+      "dc": 10,
+      "firstMinutes": 1,
+      "retryHours": 1,
+      "deathFailureMargin": 5,
+      "fatalNatural": 1
     }
   },
   "heroicTraits": {
