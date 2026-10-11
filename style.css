@@ -213,8 +213,9 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 }
 
 .feature-tree-node.owned .wiki-article a { color: var(--select-fg); }
-.module[data-module=force] > .lay-body, .module[data-module=dark-side] > .lay-body { width: auto; }
+.module[data-module=classes] > .lay-body, .module[data-module=force] > .lay-body, .module[data-module=dark-side] > .lay-body { width: auto; }
 .resource-bar { position: relative; border: 1px solid var(--border); min-height: 1.8rem; display: flex; justify-content: center; align-items: center; margin: .2rem 0; background: #2e3436; color: #fff; text-shadow: 0 1px 2px #000; }
+.resource-bar.xp-bar { width: 21.3rem; max-width: 100%; box-sizing: border-box; }
 .resource-fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--select); transition: width .15s ease; }
 .resource-label { position: relative; display: inline-flex; gap: .3rem; align-items: baseline; padding: 0 .2rem; background: transparent; color: inherit; font-weight: bold; max-width: 100%; }
 .resource-label input { font: inherit; min-width: 0; padding: 0; border: 0; color: inherit; background: transparent; text-align: center; }
