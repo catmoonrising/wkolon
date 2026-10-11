@@ -12,7 +12,8 @@
   - [x] All Core Scout/Soldier class talents and tree access; automate Armor Mastery, Juggernaut, Second Skin, Long Stride and Melee Smash.
   - [x] Sprint running calculation and per-character Ambiguities tab for its heavy-armor interaction.
   - [x] All Core Jedi/Noble/Scoundrel class talents, pinned tree access, repeat caps, skill substitutions, lightsaber specialization and Connections pricing.
-  - [ ] Core Force talent trees and access through Force Sensitivity.
+  - [x] Core Force talent trees and access through Force Sensitivity.
+  - [x] Force Training and all 16 Core Force powers, duplicate copies, chronological Wisdom gains, spent tracking and suite recovery.
   - [ ] Species special attacks, rerolls, sensory traits and carrying limits.
 
 - [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.
@@ -30,5 +31,6 @@
 - [ ] Piloting maneuvers.
 
 - [x] CSV armor gap: speed penalties and heavy-armor running limits.
-- [ ] CSV gaps: Force power selection/tracking, per-skill modifiers, weapon ranges and critical details.
+- [x] CSV gap: Force power selection and tracking.
+- [ ] CSV gaps: per-skill modifiers, weapon ranges and critical details.
 - [ ] Optional Athletics homebrew (keep RAW Climb, Jump and Swim as the default).

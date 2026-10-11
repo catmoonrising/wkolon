@@ -26,6 +26,8 @@ export function featureGraph(pack,options) {
   const choice=p.value==='$choice';let name,record;
   if(['feat','talent'].includes(p.kind)){record=ix[p.kind==='feat'?'feats':'talents'].get(p.value);name=record.name;}
   else if(p.kind==='trained')name='Trained in '+(choice?'a skill':ix.skills.get(p.value).name);
+  else if(p.kind==='power'){record=ix.forcePowers.get(p.value);name=record.name;}
+  else if(p.kind==='darkSideScore')name='DSS '+p.min;
   else if(p.kind==='untrained')name='Untrained in '+(choice?'chosen skill':ix.skills.get(p.value).name);
   else if(p.kind==='classSkill')name=choice?'Class skill':ix.skills.get(p.value).name+' class skill';
   else if(p.kind==='ability')name=p.value.toUpperCase()+' '+p.min;

@@ -109,6 +109,40 @@ put Applications behind a disclosure, preserving supplementary section labels.
 
 ## Prerequisites and effects
 
+`rules.forceTalentAccess` pins the four Core Force trees and their access sources.
+An earned Force Sensitivity feat permits these trees in any existing talent slot;
+it creates no additional slot and is required even with Counseling disabled.
+Dark Side talents require `darkSideScore >= 1`. Their selections retain
+`darkSideScore` at acquisition; replay verifies historical prerequisites using
+that value. Current DSS 0 suspends the talents without discarding ownership.
+Inactive talents cannot supply current prerequisites or effects.
+
+`forcePowers` contains reviewed, pinned power records with action and descriptor
+IDs; articles retain complete original mechanics. Force Training declares
+`forcePowerSlots: {amount: 1, ability: "wis", minimum: 1, type: "untyped"}`.
+Each earned instance initially contributes `max(1, 1 + permanent WIS modifier)`
+slots. Each later permanent modifier increase adds one slot per previously earned
+instance, even when both the old and new modifiers are negative. Replay retains
+this chronological capacity rather than recalculating it from current Wisdom.
+Level entries may retain `forcePowers: [{id, powerId, spent}]`; duplicate powers
+are allowed, but copy IDs are unique. New choices are replayed after that level's
+feats and before its talent, so later learning cannot meet an earlier power
+prerequisite. Permanent WIS increases grant capacity for every earned instance.
+
+`rules.forcePowerRecovery` pins the suite rules: rest after combat (1 minute),
+natural 20 recovery at the end of the turn, and spending 1 Force Point to recover
+one power. Optional `forcePowerRecoveryPending` records pending turn-end recovery.
+Use consumes a copy even on a failed check; generic Use the Force rolls do not
+trigger recovery. Dark Side descriptor use increments DSS, capped at WIS.
+Target effects, maintained durations and special Force Point enhancements remain
+manual. Recovery buttons assert the timing described in their source text.
+
+Force Perception grants Perception training, but its substitution is conditional
+on `when: "perceptionApplications"`; selecting it asserts that the check is for
+Avoid Surprise, Notice Targets, Sense Deception or Sense Influence. Its selector
+and calculation disclosure retain those names. Other Perception checks use the
+native modifier by default. Force Pilot is an unconditional substitution.
+
 Features may specify `maxSelections` for an expressly capped repeatable talent.
 `repeatGroup` identifies the same talent across class-tree records; `weaponGroup`
 binds a fixed specialization. Jedi and Soldier Weapon Specialization therefore
@@ -254,7 +288,8 @@ The imported library has 485 entries: 23 species, five heroic classes, twelve
 prestige classes, nineteen skill pages (Knowledge contains seven fields), 64 feat
 pages (including Weapon Proficiency), 200 Core talents, forty talent trees,
 48 weapons, eleven armor entries, 46 general equipment pages, and seventeen Force
-powers. The reviewed builder covers all 23 species and eleven armor entries,
+power references. Sixteen powers are Core; Corruption is a separate Force Unleashed
+tab on a page whose Destiny is Core. The reviewed builder covers all 23 species and eleven armor entries,
 plus a smaller feat, talent and remaining equipment subset. Read [import-review.md](import-review.md) for actual source
 conflicts, unresolved variants and remaining mechanical work.
 

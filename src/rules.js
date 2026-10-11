@@ -10,7 +10,7 @@ export const selectionKey = s => `${s.id}:${s.choice || ''}`;
 const F = name => `feat:${name}`;
 
 export function indexPack(pack) {
-  return Object.fromEntries(['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds'].map(key => [key, new Map((pack[key]||[]).map(r => [r.id, r]))]));
+  return Object.fromEntries(['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds','forcePowers'].map(key => [key, new Map((pack[key]||[]).map(r => [r.id, r]))]));
 }
 
 export function newCharacter(pack) {
@@ -59,7 +59,15 @@ export function validateCharacter(c, pack) {
     if (!obj(l) || !ix.classes.has(l.classId) || (i && !num(l.hpRoll, 1, ix.classes.get(l.classId).hitDie))) bad('class or HP roll');
     if (!Array.isArray(l.feats) || l.feats.length > 4 || !l.feats.every(s => choice(s, 'feats')) || !choice(l.talent, 'talents') || !choice(l.startingFeat, 'feats')) bad('level choices');
     if (!Array.isArray(l.abilityIncreases) || l.abilityIncreases.length > 2 || !l.abilityIncreases.every(a => a === '' || ABILITIES.includes(a)) || !skillList(l.trainedSkills)) bad('level ability/skill choices');
+    if(l.talent?.darkSideScore!==undefined&&!num(l.talent.darkSideScore,1,1000))bad('talent acquisition DSS');
+    if(l.talent&&!l.talent.pending&&ix.talents.get(l.talent.id).requiresDarkSide&&!num(l.talent.darkSideScore,1,1000))bad('talent acquisition DSS');
   }
+  const powerIds=new Set();
+  for(const l of c.levels)if(l.forcePowers!==undefined){
+    if(!Array.isArray(l.forcePowers)||l.forcePowers.length>200)bad('Force powers');
+    for(const p of l.forcePowers){if(!obj(p)||Object.keys(p).some(k=>!['id','powerId','spent'].includes(k))||typeof p.id!=='string'||!/^[a-f0-9-]{36}$/.test(p.id)||powerIds.has(p.id)||!ix.forcePowers.has(p.powerId)||typeof p.spent!=='boolean')bad('Force power copy');powerIds.add(p.id);}
+  }
+  if(c.forcePowerRecoveryPending!==undefined&&typeof c.forcePowerRecoveryPending!=='boolean')bad('Force power recovery');
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
   if(c.mechanicalSkills!==undefined&&!skillList(c.mechanicalSkills))bad('mechanical tool checks');
@@ -86,7 +94,9 @@ export function prerequisite(p, ctx, ix, choice) {
     case 'any': return p.requirements.some(r => prerequisite(r, ctx, ix, choice));
     case 'ability': return ctx.scores[value] >= p.min;
     case 'feat': return ctx.feats.some(f => f.id === value);
-    case 'talent': return ctx.talents.some(t => t.id === value);
+    case 'talent': return !ctx.inactiveTalents?.has(value)&&ctx.talents.some(t => t.id === value);
+    case 'power': return ctx.forcePowers?.some(p=>p.powerId===value)||false;
+    case 'darkSideScore': return (ctx.darkSideScore||0)>=p.min;
     case 'trained': return ctx.trained.has(value);
     case 'untrained': return !ctx.trained.has(value);
     case 'classSkill': return classSkills(ctx, ix).has(value);
@@ -119,6 +129,10 @@ export function weaponProficient(w,ctx,ix){
  return ctx.feats.some(f=>ix.feats.get(f.id)?.weaponGroup===group);
 }
 
+export function talentTrees(cls,ctx,pack){
+ return [...cls.talentTrees,...(!ctx.forceImmune&&ctx.feats.some(f=>f.id===F('force-sensitivity'))?pack.rules.forceTalentAccess?.trees||[]:[])];
+}
+
 const weaponEffectGroup=(w,ctx)=>counselingEnabled(ctx,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity?.[w.id]||w.group:w.group;
 
 export function levelSlots(levelNumber, classLevel, species, cls, pack) {
@@ -135,6 +149,7 @@ export function progression(c, pack, through = c.levels.length) {
   const background=activeBackground(c,pack);
   const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, c.abilities[a] + (species.abilityAdjustments[a] || 0)])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
   Object.assign(ctx,{forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules});
+  Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0});
   const issues = [], rows = [];
   function recordFeature(selection,type,level) {
     const s={...selection,level};
@@ -147,11 +162,14 @@ export function progression(c, pack, through = c.levels.length) {
   function grant(s, type, i, label, allow = () => true) {
     if (!s) { issue(i, `choose ${label}`); return; }
     const r = ix[type].get(s.id);
-    if (!allow(r, s) || !eligible(r, s, ctx, ix, type)) { issue(i, `${r?.name || 'Unknown choice'} is not eligible for ${label}`); return; }
+    const acquired=r?.requiresDarkSide&&s.darkSideScore?{...ctx,darkSideScore:s.darkSideScore,inactiveTalents:new Set()}:ctx;
+    if (!allow(r, s) || !eligible(r, s, acquired, ix, type)) { issue(i, `${r?.name || 'Unknown choice'} is not eligible for ${label}`); return; }
     recordFeature(s,type,i+1);
+    if(r.requiresDarkSide&&ctx.darkSideScore===0)ctx.inactiveTalents.add(r.id);
     for(const e of r.effects){
       if(e.target==='skillTraining')ctx.trained.add(s.choice);
       if(e.target==='skillSubstitution'&&e.grantsTraining)ctx.trained.add(e.skill);
+      if(e.target==='forcePowerSlots')ctx.powerSlots+=Math.max(e.minimum,e.amount+modifier(ctx.scores[e.ability]));
     }
     conditionalFocus();
   }
@@ -161,11 +179,15 @@ export function progression(c, pack, through = c.levels.length) {
     const cl = (ctx.classLevels.get(cls.id) || 0) + 1;
     ctx.classLevels.set(cls.id, cl);
     ctx.bab = [...ctx.classLevels].reduce((sum, [id, level]) => sum + ix.classes.get(id).bab[level - 1], 0);
-    const priorInt = modifier(ctx.scores.int);
+    const priorInt = modifier(ctx.scores.int),priorWis=modifier(ctx.scores.wis);
     if (pack.rules.abilityLevels.includes(n)) {
       if (l.abilityIncreases.length !== 2 || new Set(l.abilityIncreases).size !== 2 || !l.abilityIncreases.every(a => ABILITIES.includes(a))) issue(i, 'increase two different abilities');
       else l.abilityIncreases.forEach(a => ctx.scores[a]++);
     } else if (l.abilityIncreases.length) issue(i, 'ability increases are not available');
+    // Permanent Wisdom increases add powers to each previously earned training,
+    // including increases between negative modifiers. Temporary bonuses do not.
+    const wisdomGain=Math.max(0,modifier(ctx.scores.wis)-priorWis);
+    ctx.powerSlots+=wisdomGain*ctx.feats.filter(s=>ix.feats.get(s.id).effects.some(e=>e.target==='forcePowerSlots')).length;
     if (i === 0) {
       for (const id of species.startingFeats||[]) recordFeature({id,automatic:true},'feats',1);
       for (const id of cls.startingFeats) if (!(species.excludedStartingFeats||[]).includes(id) && !ctx.feats.some(f=>f.id===id) && !['feat:linguist', 'feat:shake-it-off'].includes(id) && eligible(ix.feats.get(id),{id},ctx,ix,'feats')) recordFeature({id,automatic:true},'feats',1);
@@ -195,9 +217,12 @@ export function progression(c, pack, through = c.levels.length) {
     const slots = levelSlots(n, cl, species, cls, pack);
     for (const [j, slot] of slots.entries()) grant(l.feats[j], 'feats', i, slot.label, (r, s) => slot.kind === 'general' || (cls.bonusFeats.includes(r?.id) || cls.startingFeats.includes(r?.id)) && (!cls.bonusRestrictions[r?.id] || cls.bonusRestrictions[r.id].includes(s.choice)));
     if (l.feats.slice(slots.length).some(Boolean)) issue(i, 'extra feat selections are not available');
-    if (cl % 2) grant(l.talent, 'talents', i, 'a talent', r => cls.talentTrees.includes(r?.tree));
+    const powerChoices=Math.max(0,ctx.powerSlots-ctx.forcePowers.length),chosenPowers=l.forcePowers||[];
+    if(chosenPowers.length!==powerChoices)issue(i,`choose ${powerChoices} Force powers (${chosenPowers.length} selected)`);
+    for(const p of chosenPowers.slice(0,powerChoices))if(ix.forcePowers.has(p.powerId))ctx.forcePowers.push({...p,level:n});
+    if (cl % 2) grant(l.talent, 'talents', i, 'a talent', r => talentTrees(cls,ctx,pack).includes(r?.tree));
     else if (l.talent) issue(i, 'a talent is not available at this class level');
-    rows.push({number: n, classLevel: cl, cls, slots, scores: {...ctx.scores}, ctx: {...ctx, classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained)}});
+    rows.push({number: n, classLevel: cl, cls, slots,powerChoices, scores: {...ctx.scores}, ctx: {...ctx, classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers]}});
   }
   // Conditional Skill Focus is a competence bonus, granted only while trained.
   conditionalFocus();
@@ -222,7 +247,7 @@ export function derive(c, pack) {
       if(background.bonusLanguages.length>1 && !background.bonusLanguages.includes(story.language))issues.push('Choose a Background language');
     }
   }
-  const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
+  const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.filter(s=>!ctx.inactiveTalents.has(s.id)).map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
   const armorEntries = c.inventory.filter(e => e.equipped && ix.equipment.get(e.id).kind === 'armor');
   if (armorEntries.length > 1) issues.push('Only one suit of armor can be equipped');
   const armor = armorEntries.length ? resolveEquipment(armorEntries[0],pack,c) : null;
@@ -276,7 +301,8 @@ export function derive(c, pack) {
     const automatic=sources.filter(r=>!r.when).reduce((best,r)=>r.total>best.total?r:best,sources[0]);
     const source=saved?(sources.find(r=>r.id===saved)||sources[0]):automatic;
     const native=nativeById.get(source.id);
-    return {...s,total:source.total,checkSource:source.id,checkSources:sources,breakdown:source.id===s.id?s.breakdown:`${native.name}${source.when?' (computer network)':''}: ${native.breakdown}`};
+    const scope=source.when==='computerNetwork'?'computer network':source.when==='perceptionApplications'?'Avoid Surprise, Notice Targets, Sense Deception, Sense Influence':'';
+    return {...s,total:source.total,checkSource:source.id,checkSources:sources,breakdown:source.id===s.id?s.breakdown:`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}`};
   });
   const attacks = c.inventory.filter(e => e.equipped && ix.equipment.get(e.id).kind === 'weapon').map(e => {
     const w = resolveEquipment(e,pack,c);
@@ -313,6 +339,7 @@ export function derive(c, pack) {
   const runMultiplier = sprintAllowed ? Math.max(armorRunMultiplier,talentRunMultiplier) : armorRunMultiplier;
   const speedBreakdown = `(${species.speed} species + ${stride} talents) × ${speedMultiplier} armor (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
   return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, ctx, rows, issues,
+    forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,spent:p.spent,level:p.level})),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses: (species.conditionalDefenses||[]).map(e=>({...e,total:defenses[e.defense]+e.amount})),
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,

@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COLLECTIONS = ['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds']
+COLLECTIONS = ['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds', 'forcePowers']
 
 
 def compile_pack(mechanics, catalog, reviewed):
@@ -26,10 +26,10 @@ def compile_pack(mechanics, catalog, reviewed):
         return (source['title'], source['revision'], source.get('section'))
     by_source = {source_key(sources[r['sourceId']]): r for r in pack['rulePages']}
     typed = {r['id']:r for key in COLLECTIONS for r in pack.get(key, [])}
-    for key in ['species', 'classes', 'feats', 'talents', 'equipment']:
-        for r in pack[key]:
+    for key in ['species', 'classes', 'feats', 'talents', 'equipment', 'forcePowers']:
+        for r in pack.get(key, []):
             mechanical = sources[r['sourceId']]
-            article = by_name.get(r['name']) or by_source.get(source_key(mechanical))
+            article = by_source.get(source_key(mechanical)) or by_name.get(r['name'])
             if not article:
                 raise ValueError('Missing imported article: ' + r['name'])
             presentation = sources[article['sourceId']]
@@ -38,7 +38,7 @@ def compile_pack(mechanics, catalog, reviewed):
             r['article'] = article['article']
     records = json.loads(json.dumps(catalog['records']))
     collections = {'species':'species', 'class':'classes', 'skill':'skills', 'feat':'feats',
-        'talent':'talents', 'weapon':'equipment', 'armor':'equipment', 'gear':'equipment'}
+        'talent':'talents', 'weapon':'equipment', 'armor':'equipment', 'gear':'equipment', 'forcePower':'forcePowers'}
     for record in records:
         if any(id not in typed for id in record['mechanicsIds']):
             raise ValueError('Missing reviewed mechanics: ' + record['name'])

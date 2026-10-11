@@ -99,7 +99,8 @@ and number the remaining eight tabs. Manual and point-buy pools use the same
 unique-index assignment as standard and rolled scores. The gear tab uses its own
 form IDs, preserving the main sheet's catalog.
 
-Talent browsers show the class's talent trees and all their options, including
+Talent browsers show the class's trees plus the Core Force trees when Force
+Sensitivity grants access, and all their options, including
 choices with unmet prerequisites. Class bonus-feat browsers similarly restrict
 their catalog to that class. External prerequisites remain small, read-only nodes.
 Features begins with species, followed by the progression's acquisition order;
@@ -128,3 +129,10 @@ selectors save per-character interpretations and immediately update calculations
 The relevant original passages sit behind Text; neither reading them nor changing
 an unrelated character grants a talent. Sprint's heavy-armor interpretation is
 the first entry. The user-requested droid speed exception is not listed there.
+
+Force power selection uses the species browser's searchable table and separate
+Select/disclosure controls, with full source text and individual/global folding.
+Copies keep independent spent states. A collapsible sheet module contains Use,
+Force Point recovery, rest and pending end-of-turn recovery, along with the
+complete suite mechanics. The creation feat step and level editor both expose
+new power choices; Manage opens the same controls without changing other steps.

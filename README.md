@@ -25,11 +25,15 @@ character to move it between browsers or retain a backup. GitHub Pages requires
 no application server, account, runtime scraping or external database.
 
 The reviewed builder includes 23 species, the five heroic classes, 25 skills,
-31 feats, 95 talents and 24 equipment records. All Core heroic class talent trees
-are selectable. The searchable Rules library has
+32 feats, 111 talents, 24 equipment records and 16 Core Force powers. All Core
+heroic class trees and the four Core Force trees are selectable. Force Training
+adds power copies during creation and advancement; the sheet tracks spent copies,
+Force Point recovery, rest and natural-20 recovery at the end of the turn.
+The searchable Rules library has
 485 entries, including reference-only options awaiting mechanical review. It is a
 partial implementation of the sourcebooks. Prestige classes, droid creation,
-Force power selection, vehicles and additional catalogs are future work.
+vehicles and additional catalogs are future work. Force power target effects,
+durations and special enhancements remain manual.
 Conditional feats/talents appear as reminders; numeric sheet and attack
 modifiers handle table rulings and circumstances.
 

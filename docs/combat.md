@@ -58,14 +58,16 @@ are optional nonnegative integers, defaulting to zero. XP progress runs from the
 current level's threshold to the next; it does not automatically advance levels.
 Force Point capacity is 5 + half heroic level, rounded down, and resets on advancement.
 Dark Side Score's bar maximum is the current Wisdom score. The tracker does not
-change GM control or automatically assign Dark Side transgressions.
+change GM control or infer narrative transgressions. Using an imported Dark Side
+power records its explicit DSS increase.
 
 The Stat Block button opens plain text with Copy and Print controls. Clipboard
 copy falls back to text selection when the Clipboard API is unavailable.
 Print and browser Print both generate a static character stat block. The order
 and headings follow [Darth Vader, revision 25962](https://swse.miraheze.org/w/index.php?oldid=25962).
 It includes current HP, SR, DR, condition penalties, equipped attacks and configured
-routines, with trained skills and earned feats/talents. Unsupported fields such as
-Force powers, flat-footed defense and Grapple are omitted rather than invented.
+routines, learned Force power copies, trained skills and earned feats/talents.
+Unsupported fields such as flat-footed defense and Grapple are omitted rather
+than invented.
 The catalog currently contains only heroic classes, so CL is total heroic level.
 Print formatting is black on white and independent of saved module layout/theme.

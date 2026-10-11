@@ -1,11 +1,12 @@
 import {createCreationOptions} from './creation-options.js';
+import {createForcePowers} from './force-powers-ui.js';
 import {createHouseRules} from './house-rules.js';
 import {equipmentFamilies,resolveEquipment,purchaseQuote} from './equipment.js';
 import {createFeatureTrees} from './feature-trees.js';
 import {createSpeciesBrowser} from './species-browser.js';
 import {createRulesCatalog} from './rules-catalog.js';
 import {renderArticle} from './wiki-content.js';
-import {ABILITIES, GROUPS, signed, indexPack, derive, progression, eligible, classSkills} from './rules.js';
+import {ABILITIES, GROUPS, signed, indexPack, derive, progression, eligible, classSkills,talentTrees} from './rules.js';
 import {createStore, downloadJSON} from './persistence.js';
 import {commitMath} from './math-fields.js';
 import {evalExpr, totalHtml} from './dice.js';
@@ -25,7 +26,7 @@ const title = value => value.replaceAll('-', ' ').replace(/\b\w/g, c => c.toUppe
 const SECTIONS = ['overview','creation','skills','features','equipment','advancement','rules'];
 let section = SECTIONS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
 let pack, ix, store, derived, speciesBrowser, featureTrees, combatControls, rulesCatalog;
-let treeTarget=null, houseRules, creationOptions;
+let treeTarget=null, houseRules, creationOptions,forcePowersUI,powerManageLevel=0;
 const equipmentDrafts=new Map();
 const weightText=(weight)=>weight===null?'? kg':`${Number(weight.toFixed(2))} kg`;
 const totalWeight=()=>`${derived.weight.toFixed(1)}${derived.weightUnknown?' + ?':''} kg`;
@@ -73,7 +74,7 @@ function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=f
   const l = current().levels[levelIndex], cls = ix.classes.get(l.classId);
   const ctx = selectorContext(levelIndex,kind,slotIndex);
   let records = pack[type];
-  if (kind === 'talent') records = records.filter(r => cls.talentTrees.includes(r.tree));
+  if (kind === 'talent') records = records.filter(r => talentTrees(cls,ctx,pack).includes(r.tree));
   if (kind === 'startingFeat') records = records.filter(r => cls.startingFeats.includes(r.id));
   if (slot?.kind === 'bonus') records = records.filter(r => cls.bonusFeats.includes(r.id) || cls.startingFeats.includes(r.id));
   const available = r => variants(r).filter(s=>eligible(r,s,ctx,ix,type) && (slot?.kind !== 'bonus' || !cls.bonusRestrictions[r.id] || cls.bonusRestrictions[r.id].includes(s.choice)));
@@ -107,9 +108,10 @@ function treeOptions(level,kind,slotIndex=0) {
   const c=current(),l=c.levels[level],cls=ix.classes.get(l.classId),row=derived.rows[level];
   const slot=kind==='feat'?row.slots[slotIndex]:null;
   const type=kind==='talent'?'talents':'feats';
-  const allowedIds=pack[type].filter(r=>kind==='talent'?cls.talentTrees.includes(r.tree):kind==='startingFeat'?cls.startingFeats.includes(r.id):slot.kind!=='bonus'||cls.bonusFeats.includes(r.id)||cls.startingFeats.includes(r.id)).map(r=>r.id);
+  const ctx=selectorContext(level,kind,slotIndex);
+  const allowedIds=pack[type].filter(r=>kind==='talent'?talentTrees(cls,ctx,pack).includes(r.tree):kind==='startingFeat'?cls.startingFeats.includes(r.id):slot.kind!=='bonus'||cls.bonusFeats.includes(r.id)||cls.startingFeats.includes(r.id)).map(r=>r.id);
   return {key:c.id+':'+level+':'+kind+':'+slotIndex,type,kind,level,slotIndex,
-    selected:kind==='feat'?l.feats[slotIndex]:l[kind],ctx:selectorContext(level,kind,slotIndex),
+    selected:kind==='feat'?l.feats[slotIndex]:l[kind],ctx,
     allowedIds,restrictions:slot?.kind==='bonus'?cls.bonusRestrictions:null};
 }
 function choiceScreen(kind) {
@@ -132,6 +134,7 @@ function levelEditor(i) {
     ${i && row.classLevel === 1 ? selectChoice(i,'startingFeat',0,null,l.startingFeat) : ''}
     <div class="form-grid">${row.slots.map((slot,j) => selectChoice(i,'feat',j,slot,l.feats[j])).join('')}${row.classLevel % 2 ? selectChoice(i,'talent',0,null,l.talent) : ''}</div>
     ${trainingAfterIncrease(i)}
+    ${forcePowersUI.library(i)}
   </div>`;
 }
 function trainingList(scope) {return scope==='initial'?current().trainedSkills:current().levels[Number(scope)].trainedSkills;}
@@ -190,7 +193,7 @@ function calculations(id, entries) {
 }
 function skillTable() {
   const technophobic=ix.species.get(current().species).technophobic;
-  const ability=s=>s.checkSources.length>1?`<select data-skill-source="${s.id}" aria-label="${escape(s.name)} check modifier">${s.checkSources.map(r=>option(r.id,`${r.id===s.id?r.ability.toUpperCase():r.name}${r.when?' (network)':''} ${signed(r.total)}`,s.checkSource)).join('')}</select>`:s.ability.toUpperCase();
+  const ability=s=>s.checkSources.length>1?`<select data-skill-source="${s.id}" aria-label="${escape(s.name)} check modifier" ${s.checkSources.some(r=>r.when==='perceptionApplications')?'title="Use the Force: Avoid Surprise, Notice Targets, Sense Deception, Sense Influence"':''}>${s.checkSources.map(r=>option(r.id,`${r.id===s.id?r.ability.toUpperCase():r.name}${r.when==='computerNetwork'?' (network)':r.when==='perceptionApplications'?' (specific uses)':''} ${signed(r.total)}`,s.checkSource)).join('')}</select>`:s.ability.toUpperCase();
   return `<div class="table-scroll"><table><thead><tr><th>Skill</th><th>Ability</th><th>Trained</th>${technophobic?'<th>Mechanical tools</th>':''}<th>Check</th></tr></thead><tbody>${derived.skills.map(s=>`<tr><td>${ruleReference(ix.skills.get(s.id))}</td><td>${ability(s)}</td><td>${s.trained ? '✓' : '—'}</td>${technophobic?`<td><input type="checkbox" data-mechanical-skill="${s.id}" ${(current().mechanicalSkills||[]).includes(s.id)?'checked':''} aria-label="${escape(s.name)} uses mechanical tools"></td>`:''}<td><button class="roll" data-roll="${s.total}" data-roll-label="${escape(s.name)}" ${!s.available || derived.incapacitated ? 'disabled' : ''}>${s.available ? signed(s.total) : '—'}</button></td></tr>`).join('')}</tbody></table></div>${calculations('skill-calculations',derived.skills.map(s=>[s.name,s.breakdown]))}`;
 }
 function attackTable(scope='') {
@@ -254,7 +257,7 @@ function creation() {
     speciesBrowser.render(c.species),
     creationOptions.classes(c),
     skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`),
-    choiceScreen('feat'),
+    choiceScreen('feat')+forcePowersUI.library(0),
     choiceScreen('talent'),
     `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${c.credits||c.inventory.length?'disabled':''}>Roll credits</button>${cls.id==='class:jedi'?'<button data-action="jedi-lightsaber">Add lightsaber</button>':''}</div>${gear.map(p=>p.outerHTML).join('')}`,
     finishing()
@@ -268,7 +271,7 @@ function languageCount() {
 function featureList() {
   const species = ix.species.get(current().species);
   const features = derived.ctx.features.map(({type,selection:s})=>({s,r:ix[type].get(s.id),prefix:type==='feats'?'(F)':'(T)'}));
-  return panel('Features',`<div class="feature-list"><article>${ruleReference(species,species.name,null,'features-species')}</article>${features.map(({s,r,prefix},i)=>`<article><div>${ruleReference(r,`${prefix} ${entryLabel(s)}`,s,`feature-${i}`)}${s.automatic?'':`<span class="badge">Level ${s.level}</span>`}</div></article>`).join('')}</div>`);
+  return panel('Features',`<div class="feature-list"><article>${ruleReference(species,species.name,null,'features-species')}</article>${features.map(({s,r,prefix},i)=>`<article class="${derived.ctx.inactiveTalents.has(r.id)?'feature-inactive':''}"><div>${derived.ctx.inactiveTalents.has(r.id)?'<span class="badge" title="DSS 0">Inactive</span> ':''}${ruleReference(r,`${prefix} ${entryLabel(s)}`,s,`feature-${i}`)}${s.automatic?'':`<span class="badge">Level ${s.level}</span>`}</div></article>`).join('')}</div>`);
 }
 function shopDraft(scope){
  const key=current().id+':'+scope;
@@ -335,6 +338,7 @@ function sheet() {
     + moduleHTML('dark-side','Dark Side Score',statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'))
     + moduleHTML('condition','Condition Track',conditionTrack()) + moduleHTML('skills','Skills',skillTable())
     + moduleHTML('attacks','Attacks',attackTable())
+    + (derived.powerSlots||derived.forcePowers.length?moduleHTML('force-powers','Force Powers',forcePowersUI.sheet(),'wide'):'')
     + moduleHTML('routines','Offensive Routines',combatControls.renderRoutines(),'wide')
     + moduleHTML('inventory','Inventory',`${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<span class="hint">${totalWeight()}</span><details class="shop" id="equipment-catalog"><summary>Catalog</summary>${panelBody(inventoryPanels[0]).replace(/<div class="actions">[\s\S]*?<\/div>$/, '')}</details>${panelBody(inventoryPanels[1])}`)
     + moduleHTML('features','Features',`${panelBody(panelParts(featureList())[0])}<a href="#advancement" class="screen-only">Edit</a>`)
@@ -363,7 +367,7 @@ function renderCreatorIssues() {
 function renderEditor() {
   if (!editorMode) return;
   featureTrees.remember();creationOptions.remember();
-  $('cr-title').textContent = {creation:'Character Creation',advancement:'Level up',rules:'Rules'}[editorMode];
+  $('cr-title').textContent = {creation:'Character Creation',advancement:'Level up',rules:'Rules',powers:'Force Powers'}[editorMode];
   const isCreation = editorMode === 'creation';
   $('cr-stepper').hidden = !isCreation;
   $('cr-prev').hidden = $('cr-next').hidden = !isCreation;
@@ -376,7 +380,7 @@ function renderEditor() {
   if (isCreation) $('cr-body').setAttribute('aria-labelledby',`cr-tab-${creatorStep}`); else $('cr-body').removeAttribute('aria-labelledby');
   const oldScroll = $('cr-body').scrollTop;
   const openDetails=[...$('cr-body').querySelectorAll('details[open][id]')].map(el=>el.id);
-  $('cr-body').innerHTML = isCreation ? panelBody(panelParts(creation())[creatorStep]) : ({advancement,rules}[editorMode])();
+  $('cr-body').innerHTML = isCreation ? panelBody(panelParts(creation())[creatorStep]) : editorMode==='powers'?forcePowersUI.manager(powerManageLevel):({advancement,rules}[editorMode])();
   openDetails.forEach(id=>{const detail=$('cr-body').querySelector(`[id="${CSS.escape(id)}"]`);if(detail)detail.open=true;});
   numericFields($('cr-body')); $('cr-body').scrollTop=oldScroll;
   renderTreeDialog();if($('creator-modal').open)featureTrees.layout();requestAnimationFrame(()=>featureTrees.layout());
@@ -481,6 +485,7 @@ function events() {
     if(el.id==='rules-search'){rulesCatalog.search(el.value);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(el.matches('.hp-bar input, .resource-label input'))fitBarInput(el);
     if(combatControls.input(event))return;
+    if(forcePowersUI.input(el))return;
     if(featureTrees.input(event))return;
     if(el.id==='species-search'){speciesBrowser.search(el.value);$('species-results').innerHTML=speciesBrowser.results(current().species);return;}
     if(el.dataset.trait){current().heroicTraits||={};current().heroicTraits[el.dataset.trait]=el.value;store.schedule();return;}
@@ -512,6 +517,8 @@ function events() {
     const el=event.target, c=current();
     if(el.id==='rules-kind'||el.id==='rules-builder-only'){rulesCatalog.filter($('rules-kind').value,$('rules-builder-only').checked);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(featureTrees.change(event)||el.disabled)return;
+    if(forcePowersUI.change(el))return;
+    if(el.hasAttribute('data-power-manage-level')){powerManageLevel=Number(el.value);renderEditor();return;}
     if(el.hasAttribute('data-generation-manual')) return;
     if(el.dataset.trait || el.dataset.story==='details')return;
     if(el.dataset.story) {
@@ -596,6 +603,7 @@ function events() {
       const representative=familyName && pack.feats.find(r=>r.name.startsWith(familyName+' ('));
       let s=familyName?{id:representative.id,pending:true}:parseSelection(el.value);
       if(el.hasAttribute('data-secondary') && !s){const old=el.dataset.choice==='feat'?l.feats[Number(el.dataset.slot)]:l[el.dataset.choice];s=old?{id:old.id,...(/^(Weapon Proficiency|Armor Proficiency) \(/.test(ix.feats.get(old.id)?.name||'')?{pending:true}:{})}:null;}
+      if(el.dataset.choice==='talent'&&s&&ix.talents.get(s.id).requiresDarkSide)s.darkSideScore=c.darkSideScore;
       if(el.dataset.choice==='feat') l.feats[Number(el.dataset.slot)]=s; else l[el.dataset.choice]=s;
     } else if(el.dataset.increase) {
       const l=c.levels[Number(el.dataset.level)]; l.abilityIncreases[Number(el.dataset.increase)]=el.value;
@@ -617,7 +625,7 @@ function events() {
     const classPick=event.target.closest('[data-select-class]');
     if(classPick){const id=classPick.dataset.selectClass;if(!classPick.disabled&&ix.classes.has(id)&&!(ix.species.get(current().species).forbiddenClasses||[]).includes(id)){current().levels[0].classId=id;changed();}return;}
     const treeClick=featureTrees.click(event);
-    if(treeClick){if(treeClick.detail){$('rule-detail-title').textContent=treeClick.detail.title;$('rule-detail-body').innerHTML=treeClick.detail.html;$('rule-detail-modal').showModal();}if('selection' in treeClick){const o=treeClick.options,l=current().levels[o.level];if(o.kind==='feat')l.feats[o.slotIndex]=treeClick.selection;else l[o.kind]=treeClick.selection;changed();}return;}
+    if(treeClick){if(treeClick.detail){$('rule-detail-title').textContent=treeClick.detail.title;$('rule-detail-body').innerHTML=treeClick.detail.html;$('rule-detail-modal').showModal();}if('selection' in treeClick){const o=treeClick.options,l=current().levels[o.level],s=treeClick.selection;if(o.kind==='talent'&&s&&ix.talents.get(s.id).requiresDarkSide)s.darkSideScore=current().darkSideScore;if(o.kind==='feat')l.feats[o.slotIndex]=s;else l[o.kind]=s;changed();}return;}
     const mechanicsFold=event.target.closest('[data-mechanics-fold]');
     if(mechanicsFold){$('rule-detail-body').querySelectorAll('.feature-mechanics').forEach(el=>el.open=mechanicsFold.dataset.mechanicsFold==='unfold');return;}
     const ruleLink=event.target.closest('[data-rule-page]');
@@ -644,6 +652,7 @@ function events() {
     }
     const el=event.target.closest('button'); if(!el) return;
     if(combatControls.click(el))return;
+    if(forcePowersUI.click(el))return;
     const c=current();
     if(el.dataset.openTree){
       const [kind,rawLevel,rawSlot]=el.dataset.openTree.split(':'),level=Number(rawLevel),slotIndex=Number(rawSlot);
@@ -662,6 +671,7 @@ function events() {
     if(el.hasAttribute('data-roll') && !el.classList.contains('die')){const die=d(20),bonus=Number(el.dataset.roll),total=die+bonus;logEvent('roll',`${el.dataset.rollLabel}: ${die} ${signed(bonus)} = ${total}`,`${escape(el.dataset.rollLabel)}: ${dieHTML(die,20)} ${signed(bonus)} = ${totalHtml({value:total,coeffs:[1]})}`);return;}
     if(el.hasAttribute('data-remove-item')){c.inventory.splice(Number(el.dataset.removeItem),1);changed();return;}
     switch(el.dataset.action){
+      case 'manage-powers':openEditor('powers');return;
       case 'clear-log': if(store.roster.logs) delete store.roster.logs[c.id];store.schedule();paintLogs();return;
       case 'roll-abilities': {const sets=ABILITIES.map(()=>{const dice=[d(6),d(6),d(6),d(6)].sort((a,b)=>b-a);return {dice,value:dice.slice(0,3).reduce((a,b)=>a+b)};});setRolledPool(c,sets.map(s=>s.value));logEvent('roll',`Ability scores: 4d6 drop lowest ×6: ${sets.map(s=>`${s.value} (${s.dice.join(',')})`).join(' | ')}`,`Ability scores: 4d6 drop lowest ×6: ${sets.map((s,i)=>`${totalHtml({value:s.value,coeffs:[1],rollId:i+1})} (${s.dice.map((value,j)=>dieHTML(value,6,`data-roll="${i+1}" data-ops="kh3"`,j===3)).join(', ')})`).join(' | ')}`);break;}
       case 'starting-credits': {const r=ix.classes.get(c.levels[0].classId).credits;const rolls=Array.from({length:r.dice},()=>d(r.sides));c.credits=rolls.reduce((a,b)=>a+b)*r.multiplier;logEvent('roll',`${rolls.join(' + ')} × ${r.multiplier} = ${c.credits} credits`,`${rolls.map(value=>dieHTML(value,r.sides)).join(' + ')} × ${r.multiplier} = ${totalHtml({value:c.credits,coeffs:[r.multiplier]})} credits`);break;}
@@ -699,7 +709,7 @@ function events() {
 async function boot(){
   try{
     const response=await fetch(new URL('../data/core.json',import.meta.url));if(!response.ok)throw new Error(`Rules could not load (${response.status})`);
-    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});events();render();route();
+    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});events();render();route();
     if(!saveState[1])status('Saved',false);
   }catch(error){$('main').innerHTML=`<h1>Unable to open the sheet</h1><p>${escape(error.message)}</p><p><a href="./">Reload</a></p>`;status('Sheet unavailable',true);}
 }

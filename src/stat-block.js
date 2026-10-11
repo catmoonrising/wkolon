@@ -11,7 +11,7 @@ export function renderStatBlock(c,d,pack){
  const textLine=(label,value)=>line(label,escape(value));
  const featureName=(type,s)=>{
   const record=ix[type].get(s.id);
-  return escape(record.name+(s.choice?` (${ix.skills.get(s.choice)?.name||s.choice.replaceAll('-',' ')})`:''));
+  return escape(record.name+(d.ctx.inactiveTalents?.has(s.id)?' (Inactive)':'')+(s.choice?` (${ix.skills.get(s.choice)?.name||s.choice.replaceAll('-',' ')})`:''));
  };
  const classes=[...d.ctx.classLevels].map(([id,n])=>`${escape(ix.classes.get(id).name)} ${n}`).join('/');
  const skill=id=>d.skills.find(s=>s.id==='skill:'+id);
@@ -35,6 +35,7 @@ export function renderStatBlock(c,d,pack){
  ${textLine('Condition Track',condition)}
  <h2>Offense</h2>${line('Speed',d.speed+' Squares'+Object.entries(d.speeds||{}).map(([type,n])=>`, ${escape(type)} ${n} Squares`).join('')+(d.runMultiplier!==4?` (Run ${d.runSpeed} Squares)`:''))}${attacks}${routines}${line('Base Attack Bonus',signed(d.bab))}
  <h2>Base Stats</h2>${line('Abilities',ABILITIES.map(a=>`${a[0].toUpperCase()+a.slice(1)} ${d.scores[a]}`).join(', '))}
+ ${line('Force Powers',d.forcePowers?.map(p=>escape(p.name)).join(', '))}
  ${line('Talents',d.ctx.talents.map(s=>featureName('talents',s)).join(', '))}${line('Feats',d.ctx.feats.map(s=>featureName('feats',s)).join(', '))}
  ${line('Skills',d.skills.filter(s=>s.trained&&s.available).map(s=>`${escape(s.name)} ${signed(s.total)}`).join(', '))}
  ${line('Possessions',c.inventory.map(e=>`${escape(resolveEquipment(e,pack,c).name)}${e.quantity>1?' (×'+e.quantity+')':''}`).concat(c.credits?`${c.credits.toLocaleString()} Credits`:[]).join(', '))}

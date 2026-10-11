@@ -153,8 +153,11 @@ def compile_catalog(inventory, pages, redirects, baseline):
         title = alias.get('to', title)
         rid = rule_id or targets.get(name, 'rule:' + slug(name))
         variant = part if part in SPECIES_VARIANTS.get(title, []) else None
-        full = presentation.article(ROOT, title, pages, source, targets, variant=variant)
-        blocks = section(full['blocks'], part) if part and not variant else full['blocks']
+        # Corruption contains two unrelated rules in tabs. A Core category hit
+        # belongs to its Destiny; the Force power is from Force Unleashed.
+        tab = ('Force Power' if part == 'Force Power' else 'Destiny') if title == 'Corruption' else None
+        full = presentation.article(ROOT, title, pages, source, targets, variant=variant, tab=tab)
+        blocks = section(full['blocks'], part) if part and not variant and not tab else full['blocks']
         first = next((n for n in blocks if text(n).strip()), None)
         if part and (first is None or not text(first).strip().startswith('Reference Book')):
             # A Core talent inherits the tree's book attribution, not the next
@@ -168,11 +171,16 @@ def compile_catalog(inventory, pages, redirects, baseline):
         return rid, sid
 
     def add_record(kind, name, title=None, part=None, **extra):
-        rid, sid = add_page(name, title, part)
+        if kind == 'forcePower' and name == 'Corruption':
+            part = 'Force Power'
+        rid, sid = add_page(name, title, part,
+            'rule:corruption-force-power' if kind == 'forcePower' and name == 'Corruption' else None)
         raw = pages[title or name]['revisions'][0]['slots']['main']['content']
         # Book labels are provenance, not precedence decisions. Species may contain variants.
         books = sorted(set(re.findall(r'\[\[([^\]|]+)(?:\|[^\]]*)?\]\]', '\n'.join(
             line for line in raw.splitlines() if 'Reference Book' in line))))
+        if kind == 'forcePower' and name == 'Corruption':
+            books = ['Force Unleashed Campaign Guide']
         record = dict(id='catalog:' + slug(kind) + '-' + slug(name), name=name, kind=kind,
             ruleId=rid, sourceId=sid, books=['Core Rulebook'] if kind == 'talent' else books, **extra)
         records[record['id']] = record
@@ -233,7 +241,7 @@ def compile_catalog(inventory, pages, redirects, baseline):
             src = next(s for s in baseline['sources'] if s['id'] == r['sourceId'])
             add_page(r['name'], src['title'], src.get('section'), 'rule:' + slug(r['name']))
     collections = {'species':'species', 'class':'classes', 'skill':'skills', 'feat':'feats',
-        'talent':'talents', 'weapon':'equipment', 'armor':'equipment', 'gear':'equipment'}
+        'talent':'talents', 'weapon':'equipment', 'armor':'equipment', 'gear':'equipment', 'forcePower':'forcePowers'}
     old_sources = {s['id']:s for s in baseline['sources']}
     for item in records.values():
         item['mechanicsIds'] = []

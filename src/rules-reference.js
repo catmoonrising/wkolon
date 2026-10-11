@@ -13,7 +13,8 @@ export function referenceEntries(r, pack, selection) {
       case 'ability': return `${p.value.toUpperCase()} ${p.min}`;
       case 'bab': return `Base attack +${p.min}`;
       case 'nonDroid': return 'Cannot be a Droid';
-      case 'feat': case 'talent': return target(p.value);
+      case 'feat': case 'talent': case 'power': return target(p.value);
+      case 'darkSideScore': return `Dark Side Score ${p.min}+`;
       case 'trained': return `Trained in ${target(p.value)}`;
       case 'untrained': return `Untrained in ${target(p.value)}`;
       case 'classSkill': return `${target(p.value)} is a class skill`;

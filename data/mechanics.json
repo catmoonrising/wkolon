@@ -2867,6 +2867,346 @@
       "sha256": "610ef527879f315193b12a43b7e5009b7ed9bc72ab999d1f9f8dcf9e2a5574a5",
       "url": "https://swse.miraheze.org/w/index.php?oldid=25729#Walk_the_Line",
       "history": "https://swse.miraheze.org/w/index.php?title=Misfortune%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-control-talent-tree-damage-reduction-10",
+      "title": "Control Talent Tree",
+      "section": "Damage Reduction 10",
+      "revision": 24989,
+      "timestamp": "2024-11-10T16:49:15Z",
+      "sha256": "bd1b0f1b019b2b20df753b9bc970ad5fbfc9e32a9ecfbb21dec481b74c582e88",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24989#Damage_Reduction_10",
+      "history": "https://swse.miraheze.org/w/index.php?title=Control%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-dark-side-talent-tree-dark-presence",
+      "title": "Dark Side Talent Tree",
+      "section": "Dark Presence",
+      "revision": 25735,
+      "timestamp": "2024-12-14T00:01:06Z",
+      "sha256": "ae9512cc420974126a4c25ae299b26e4a98ecf6079fbb4571874b1d66c322df7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25735#Dark_Presence",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Side%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-alter-talent-tree-disciplined-strike",
+      "title": "Alter Talent Tree",
+      "section": "Disciplined Strike",
+      "revision": 15801,
+      "timestamp": "2024-08-18T00:53:12Z",
+      "sha256": "6255502e1a9a3ee4a0c7402cadb99c00a4116ad41880cc38d60dfb80b5d8d36d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15801#Disciplined_Strike",
+      "history": "https://swse.miraheze.org/w/index.php?title=Alter%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-control-talent-tree-equilibrium",
+      "title": "Control Talent Tree",
+      "section": "Equilibrium",
+      "revision": 24989,
+      "timestamp": "2024-11-10T16:49:15Z",
+      "sha256": "bd1b0f1b019b2b20df753b9bc970ad5fbfc9e32a9ecfbb21dec481b74c582e88",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24989#Equilibrium",
+      "history": "https://swse.miraheze.org/w/index.php?title=Control%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-control-talent-tree-force-focus",
+      "title": "Control Talent Tree",
+      "section": "Force Focus",
+      "revision": 24989,
+      "timestamp": "2024-11-10T16:49:15Z",
+      "sha256": "bd1b0f1b019b2b20df753b9bc970ad5fbfc9e32a9ecfbb21dec481b74c582e88",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24989#Force_Focus",
+      "history": "https://swse.miraheze.org/w/index.php?title=Control%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sense-talent-tree-force-perception",
+      "title": "Sense Talent Tree",
+      "section": "Force Perception",
+      "revision": 18481,
+      "timestamp": "2024-08-25T20:11:42Z",
+      "sha256": "9eabf5855e7ad62e63ed884221d978794a3e72a871eb295f16aa48419324d74b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18481#Force_Perception",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sense%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sense-talent-tree-force-pilot",
+      "title": "Sense Talent Tree",
+      "section": "Force Pilot",
+      "revision": 18481,
+      "timestamp": "2024-08-25T20:11:42Z",
+      "sha256": "9eabf5855e7ad62e63ed884221d978794a3e72a871eb295f16aa48419324d74b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18481#Force_Pilot",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sense%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-control-talent-tree-force-recovery",
+      "title": "Control Talent Tree",
+      "section": "Force Recovery",
+      "revision": 24989,
+      "timestamp": "2024-11-10T16:49:15Z",
+      "sha256": "bd1b0f1b019b2b20df753b9bc970ad5fbfc9e32a9ecfbb21dec481b74c582e88",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24989#Force_Recovery",
+      "history": "https://swse.miraheze.org/w/index.php?title=Control%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sense-talent-tree-foresight",
+      "title": "Sense Talent Tree",
+      "section": "Foresight",
+      "revision": 18481,
+      "timestamp": "2024-08-25T20:11:42Z",
+      "sha256": "9eabf5855e7ad62e63ed884221d978794a3e72a871eb295f16aa48419324d74b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18481#Foresight",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sense%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sense-talent-tree-gauge-force-potential",
+      "title": "Sense Talent Tree",
+      "section": "Gauge Force Potential",
+      "revision": 18481,
+      "timestamp": "2024-08-25T20:11:42Z",
+      "sha256": "9eabf5855e7ad62e63ed884221d978794a3e72a871eb295f16aa48419324d74b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18481#Gauge_Force_Potential",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sense%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-dark-side-talent-tree-power-of-the-dark-side",
+      "title": "Dark Side Talent Tree",
+      "section": "Power of the Dark Side",
+      "revision": 25735,
+      "timestamp": "2024-12-14T00:01:06Z",
+      "sha256": "ae9512cc420974126a4c25ae299b26e4a98ecf6079fbb4571874b1d66c322df7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25735#Power_of_the_Dark_Side",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Side%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-dark-side-talent-tree-revenge",
+      "title": "Dark Side Talent Tree",
+      "section": "Revenge",
+      "revision": 25735,
+      "timestamp": "2024-12-14T00:01:06Z",
+      "sha256": "ae9512cc420974126a4c25ae299b26e4a98ecf6079fbb4571874b1d66c322df7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25735#Revenge",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Side%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-dark-side-talent-tree-swift-power",
+      "title": "Dark Side Talent Tree",
+      "section": "Swift Power",
+      "revision": 25735,
+      "timestamp": "2024-12-14T00:01:06Z",
+      "sha256": "ae9512cc420974126a4c25ae299b26e4a98ecf6079fbb4571874b1d66c322df7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25735#Swift_Power",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Side%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-alter-talent-tree-telekinetic-power",
+      "title": "Alter Talent Tree",
+      "section": "Telekinetic Power",
+      "revision": 15801,
+      "timestamp": "2024-08-18T00:53:12Z",
+      "sha256": "6255502e1a9a3ee4a0c7402cadb99c00a4116ad41880cc38d60dfb80b5d8d36d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15801#Telekinetic_Power",
+      "history": "https://swse.miraheze.org/w/index.php?title=Alter%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-alter-talent-tree-telekinetic-savant",
+      "title": "Alter Talent Tree",
+      "section": "Telekinetic Savant",
+      "revision": 15801,
+      "timestamp": "2024-08-18T00:53:12Z",
+      "sha256": "6255502e1a9a3ee4a0c7402cadb99c00a4116ad41880cc38d60dfb80b5d8d36d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15801#Telekinetic_Savant",
+      "history": "https://swse.miraheze.org/w/index.php?title=Alter%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sense-talent-tree-visions",
+      "title": "Sense Talent Tree",
+      "section": "Visions",
+      "revision": 18481,
+      "timestamp": "2024-08-25T20:11:42Z",
+      "sha256": "9eabf5855e7ad62e63ed884221d978794a3e72a871eb295f16aa48419324d74b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18481#Visions",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sense%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-force-training",
+      "title": "Force Training",
+      "section": null,
+      "revision": 18198,
+      "timestamp": "2024-08-25T19:45:12Z",
+      "sha256": "d8ce217301029ebd9e740fbb19975dcefe3abb1fafa235c1809174424ab5cef9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18198",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Training&action=history"
+    },
+    {
+      "id": "source:wiki-battle-strike",
+      "title": "Battle Strike",
+      "section": null,
+      "revision": 16171,
+      "timestamp": "2024-08-18T00:56:25Z",
+      "sha256": "d86bbd0c193b97da21350b3089375eeb9a9cad2fd9ca84395301083c6b3aa51c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16171",
+      "history": "https://swse.miraheze.org/w/index.php?title=Battle%20Strike&action=history"
+    },
+    {
+      "id": "source:wiki-dark-rage",
+      "title": "Dark Rage",
+      "section": null,
+      "revision": 18081,
+      "timestamp": "2024-08-25T19:33:32Z",
+      "sha256": "f1180e4e907a89ac2bf52794a0ace64504291c18f4a9092bc9aa6f7a8951e707",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18081",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Rage&action=history"
+    },
+    {
+      "id": "source:wiki-farseeing",
+      "title": "Farseeing",
+      "section": null,
+      "revision": 18168,
+      "timestamp": "2024-08-25T19:42:07Z",
+      "sha256": "61d7d4a1164663b92c27243386c809a2d6d1e3ba5d6d20f391f66e3a1603080a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18168",
+      "history": "https://swse.miraheze.org/w/index.php?title=Farseeing&action=history"
+    },
+    {
+      "id": "source:wiki-force-disarm",
+      "title": "Force Disarm",
+      "section": null,
+      "revision": 18183,
+      "timestamp": "2024-08-25T19:43:48Z",
+      "sha256": "df2b918261cd441859de1fedab217a56250dcc93a6b470a3253c922c140cf145",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18183",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Disarm&action=history"
+    },
+    {
+      "id": "source:wiki-force-grip",
+      "title": "Force Grip",
+      "section": null,
+      "revision": 18186,
+      "timestamp": "2024-08-25T19:44:04Z",
+      "sha256": "5cc862d87e8b50da1890e049a976d1b8f7c6bba97e00cc9740f376bf07c68976",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18186",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Grip&action=history"
+    },
+    {
+      "id": "source:wiki-force-lightning",
+      "title": "Force Lightning",
+      "section": null,
+      "revision": 18188,
+      "timestamp": "2024-08-25T19:44:15Z",
+      "sha256": "4121a501bdbedbbada0bdf64a223e79e4f7c5ab458acf90280f486d1bbcd24ac",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18188",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Lightning&action=history"
+    },
+    {
+      "id": "source:wiki-force-slam",
+      "title": "Force Slam",
+      "section": null,
+      "revision": 18194,
+      "timestamp": "2024-08-25T19:44:50Z",
+      "sha256": "c66377afa5eb571e04208a46f0d50d2fc282bb4fd79bfd3b4d523f4a0a572bc0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18194",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Slam&action=history"
+    },
+    {
+      "id": "source:wiki-force-stun",
+      "title": "Force Stun",
+      "section": null,
+      "revision": 18195,
+      "timestamp": "2024-08-25T19:44:55Z",
+      "sha256": "cde585f4907a2b2e2aa28d80841bc9996f48555ccfc3d142dfcdca84042bd4c6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18195",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Stun&action=history"
+    },
+    {
+      "id": "source:wiki-force-thrust",
+      "title": "Force Thrust",
+      "section": null,
+      "revision": 24977,
+      "timestamp": "2024-11-10T16:35:11Z",
+      "sha256": "d54f87f0ae13cefbf18b918cdf145903b5a339580299d9d1f8840b2c1f7a5538",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24977",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Thrust&action=history"
+    },
+    {
+      "id": "source:wiki-mind-trick",
+      "title": "Mind Trick",
+      "section": null,
+      "revision": 24983,
+      "timestamp": "2024-11-10T16:42:27Z",
+      "sha256": "cd263656d4a462c584438addfc35f5ef99b12959eeaf42fc094b37791e3a73e9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24983",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mind%20Trick&action=history"
+    },
+    {
+      "id": "source:wiki-move-object",
+      "title": "Move Object",
+      "section": null,
+      "revision": 24976,
+      "timestamp": "2024-11-10T16:34:46Z",
+      "sha256": "c157c3355e9016c8431bdeaec5cb1d832893712e0115ae068b62b94267d2ac3d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24976",
+      "history": "https://swse.miraheze.org/w/index.php?title=Move%20Object&action=history"
+    },
+    {
+      "id": "source:wiki-negate-energy",
+      "title": "Negate Energy",
+      "section": null,
+      "revision": 18380,
+      "timestamp": "2024-08-25T20:02:39Z",
+      "sha256": "fce1f36ca2852a2a20e5095edacf98c7eacca1201deefc6ba5a76da2f597a67c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18380",
+      "history": "https://swse.miraheze.org/w/index.php?title=Negate%20Energy&action=history"
+    },
+    {
+      "id": "source:wiki-rebuke",
+      "title": "Rebuke",
+      "section": null,
+      "revision": 18443,
+      "timestamp": "2024-08-25T20:08:26Z",
+      "sha256": "43dc873ba6b4e2d121bad1624bb6244c26d751021fa7675ae510190db33bd52d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18443",
+      "history": "https://swse.miraheze.org/w/index.php?title=Rebuke&action=history"
+    },
+    {
+      "id": "source:wiki-sever-force",
+      "title": "Sever Force",
+      "section": null,
+      "revision": 18485,
+      "timestamp": "2024-08-25T20:11:59Z",
+      "sha256": "9ddcf9870f7547dcf3cb3db82d1783b6c2efb14c17590e88719c2d36bc6f539a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18485",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sever%20Force&action=history"
+    },
+    {
+      "id": "source:wiki-surge",
+      "title": "Surge",
+      "section": null,
+      "revision": 18539,
+      "timestamp": "2024-08-25T20:17:05Z",
+      "sha256": "2439b69d0a05e0905988d31205228be3a668e15304410c49a164f8c237236bdb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18539",
+      "history": "https://swse.miraheze.org/w/index.php?title=Surge&action=history"
+    },
+    {
+      "id": "source:wiki-vital-transfer",
+      "title": "Vital Transfer",
+      "section": null,
+      "revision": 18598,
+      "timestamp": "2024-08-25T20:23:31Z",
+      "sha256": "42e88dd2f599aaf586d6b8164766e702a049b296777ce380acbd6c941180778c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18598",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vital%20Transfer&action=history"
+    },
+    {
+      "id": "source:wiki-force-powers",
+      "title": "Force Powers",
+      "section": null,
+      "revision": 18202,
+      "timestamp": "2024-08-25T19:46:39Z",
+      "sha256": "73bf7f0e6bbe81ea11fc3b63d2ae1e00a6de5d32e0213f9d5447ef9686fe6cd0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18202",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force_Powers&action=history"
     }
   ],
   "species": [
@@ -4183,7 +4523,7 @@
       },
       "repeat": "never",
       "effects": [],
-      "reminder": "Use the Force becomes available and a class skill. Force talent trees become available when imported."
+      "reminder": "Use the Force becomes available and a class skill. Force talent trees become available in any earned talent slot."
     },
     {
       "id": "feat:improved-damage-threshold",
@@ -4592,6 +4932,35 @@
       "repeat": "never",
       "effects": [],
       "reminder": "Effect: Once per round (as a Reaction), when you are Piloting a Vehicle or Starship, you may negate a weapon hit by making a successful Pilot check. The DC of the Skill Check is equal to the result of the attack roll you wish to negate. In addition, while you are Piloting a Vehicle, you are considered proficient with Pilot-operated Vehicle Weapons."
+    },
+    {
+      "id": "feat:force-training",
+      "name": "Force Training",
+      "sourceId": "source:wiki-force-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "trained",
+            "value": "skill:use-the-force"
+          }
+        ]
+      },
+      "repeat": "stack",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "forcePowerSlots",
+          "amount": 1,
+          "ability": "wis",
+          "minimum": 1,
+          "type": "untyped"
+        }
+      ]
     }
   ],
   "talents": [
@@ -6125,6 +6494,366 @@
       "repeat": "never",
       "reminder": "",
       "effects": []
+    },
+    {
+      "id": "talent:damage-reduction-10",
+      "name": "Damage Reduction 10",
+      "sourceId": "source:wiki-control-talent-tree-damage-reduction-10",
+      "tree": "tree:control",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:dark-presence",
+      "name": "Dark Presence",
+      "sourceId": "source:wiki-dark-side-talent-tree-dark-presence",
+      "tree": "tree:dark-side",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:power-of-the-dark-side"
+          },
+          {
+            "kind": "darkSideScore",
+            "min": 1
+          },
+          {
+            "kind": "ability",
+            "value": "cha",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [],
+      "requiresDarkSide": true
+    },
+    {
+      "id": "talent:disciplined-strike",
+      "name": "Disciplined Strike",
+      "sourceId": "source:wiki-alter-talent-tree-disciplined-strike",
+      "tree": "tree:alter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:equilibrium",
+      "name": "Equilibrium",
+      "sourceId": "source:wiki-control-talent-tree-equilibrium",
+      "tree": "tree:control",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:force-focus",
+      "name": "Force Focus",
+      "sourceId": "source:wiki-control-talent-tree-force-focus",
+      "tree": "tree:control",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:force-perception",
+      "name": "Force Perception",
+      "sourceId": "source:wiki-sense-talent-tree-force-perception",
+      "tree": "tree:sense",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "skillSubstitution",
+          "skill": "skill:perception",
+          "replacement": "skill:use-the-force",
+          "grantsTraining": true,
+          "when": "perceptionApplications"
+        }
+      ]
+    },
+    {
+      "id": "talent:force-pilot",
+      "name": "Force Pilot",
+      "sourceId": "source:wiki-sense-talent-tree-force-pilot",
+      "tree": "tree:sense",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [
+        {
+          "target": "skillSubstitution",
+          "skill": "skill:pilot",
+          "replacement": "skill:use-the-force",
+          "grantsTraining": true
+        }
+      ]
+    },
+    {
+      "id": "talent:force-recovery",
+      "name": "Force Recovery",
+      "sourceId": "source:wiki-control-talent-tree-force-recovery",
+      "tree": "tree:control",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:equilibrium"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:foresight",
+      "name": "Foresight",
+      "sourceId": "source:wiki-sense-talent-tree-foresight",
+      "tree": "tree:sense",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:force-perception"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:gauge-force-potential",
+      "name": "Gauge Force Potential",
+      "sourceId": "source:wiki-sense-talent-tree-gauge-force-potential",
+      "tree": "tree:sense",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:force-perception"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:power-of-the-dark-side",
+      "name": "Power of the Dark Side",
+      "sourceId": "source:wiki-dark-side-talent-tree-power-of-the-dark-side",
+      "tree": "tree:dark-side",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "darkSideScore",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [],
+      "requiresDarkSide": true
+    },
+    {
+      "id": "talent:revenge",
+      "name": "Revenge",
+      "sourceId": "source:wiki-dark-side-talent-tree-revenge",
+      "tree": "tree:dark-side",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:dark-presence"
+          },
+          {
+            "kind": "darkSideScore",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [],
+      "requiresDarkSide": true
+    },
+    {
+      "id": "talent:swift-power",
+      "name": "Swift Power",
+      "sourceId": "source:wiki-dark-side-talent-tree-swift-power",
+      "tree": "tree:dark-side",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:power-of-the-dark-side"
+          },
+          {
+            "kind": "darkSideScore",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": [],
+      "requiresDarkSide": true
+    },
+    {
+      "id": "talent:telekinetic-power",
+      "name": "Telekinetic Power",
+      "sourceId": "source:wiki-alter-talent-tree-telekinetic-power",
+      "tree": "tree:alter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:telekinetic-savant",
+      "name": "Telekinetic Savant",
+      "sourceId": "source:wiki-alter-talent-tree-telekinetic-savant",
+      "tree": "tree:alter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "stack",
+      "reminder": "",
+      "effects": []
+    },
+    {
+      "id": "talent:visions",
+      "name": "Visions",
+      "sourceId": "source:wiki-sense-talent-tree-visions",
+      "tree": "tree:sense",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:force-perception"
+          },
+          {
+            "kind": "power",
+            "value": "power:farseeing"
+          }
+        ]
+      },
+      "repeat": "never",
+      "reminder": "",
+      "effects": []
     }
   ],
   "equipment": [
@@ -6734,7 +7463,27 @@
           }
         ]
       }
-    ]
+    ],
+    "forceTalentAccess": {
+      "trees": [
+        "tree:alter",
+        "tree:control",
+        "tree:dark-side",
+        "tree:sense"
+      ],
+      "sourceIds": [
+        "source:the-force",
+        "source:force-sensitivity"
+      ]
+    },
+    "forcePowerRecovery": {
+      "sourceIds": [
+        "source:wiki-force-powers"
+      ],
+      "restMinutes": 1,
+      "forcePointCost": 1,
+      "naturalRoll": 20
+    }
   },
   "heroicTraits": {
     "sourceIds": [
@@ -8157,6 +8906,140 @@
           "text": "As a result of your loss, you have learned to search diligently, either for those responsible for the death of your loved one or for those who might know his or her current whereabouts. You can Take 20 on Gather Information checks, but it takes 20 times as long as normal to gain the information.",
           "sourceId": "source:widowed"
         }
+      ]
+    }
+  ],
+  "forcePowers": [
+    {
+      "id": "power:battle-strike",
+      "name": "Battle Strike",
+      "sourceId": "source:wiki-battle-strike",
+      "action": "swift-action",
+      "descriptors": []
+    },
+    {
+      "id": "power:dark-rage",
+      "name": "Dark Rage",
+      "sourceId": "source:wiki-dark-rage",
+      "action": "swift-action",
+      "descriptors": [
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:farseeing",
+      "name": "Farseeing",
+      "sourceId": "source:wiki-farseeing",
+      "action": "full-round-action",
+      "descriptors": []
+    },
+    {
+      "id": "power:force-disarm",
+      "name": "Force Disarm",
+      "sourceId": "source:wiki-force-disarm",
+      "action": "standard-action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:force-grip",
+      "name": "Force Grip",
+      "sourceId": "source:wiki-force-grip",
+      "action": "standard-action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:force-lightning",
+      "name": "Force Lightning",
+      "sourceId": "source:wiki-force-lightning",
+      "action": "standard-action",
+      "descriptors": [
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:force-slam",
+      "name": "Force Slam",
+      "sourceId": "source:wiki-force-slam",
+      "action": "standard-action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:force-stun",
+      "name": "Force Stun",
+      "sourceId": "source:wiki-force-stun",
+      "action": "standard-action",
+      "descriptors": []
+    },
+    {
+      "id": "power:force-thrust",
+      "name": "Force Thrust",
+      "sourceId": "source:wiki-force-thrust",
+      "action": "standard-action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:mind-trick",
+      "name": "Mind Trick",
+      "sourceId": "source:wiki-mind-trick",
+      "action": "standard-action",
+      "descriptors": [
+        "mind-affecting"
+      ]
+    },
+    {
+      "id": "power:move-object",
+      "name": "Move Object",
+      "sourceId": "source:wiki-move-object",
+      "action": "standard-action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:negate-energy",
+      "name": "Negate Energy",
+      "sourceId": "source:wiki-negate-energy",
+      "action": "reaction",
+      "descriptors": []
+    },
+    {
+      "id": "power:rebuke",
+      "name": "Rebuke",
+      "sourceId": "source:wiki-rebuke",
+      "action": "reaction",
+      "descriptors": []
+    },
+    {
+      "id": "power:sever-force",
+      "name": "Sever Force",
+      "sourceId": "source:wiki-sever-force",
+      "action": "standard-action",
+      "descriptors": [
+        "light-side"
+      ]
+    },
+    {
+      "id": "power:surge",
+      "name": "Surge",
+      "sourceId": "source:wiki-surge",
+      "action": "free-action",
+      "descriptors": []
+    },
+    {
+      "id": "power:vital-transfer",
+      "name": "Vital Transfer",
+      "sourceId": "source:wiki-vital-transfer",
+      "action": "standard-action",
+      "descriptors": [
+        "light-side"
       ]
     }
   ]

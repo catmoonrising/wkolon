@@ -275,3 +275,16 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .ambiguity-topic{padding:.5rem 0}
 .ambiguity-topic details{margin-top:.4rem}
 .purchase-form{gap:.6rem;align-items:center}
+
+.power-picks, .power-pick, .power-copy { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
+.power-picks { margin:.5rem 0; }
+.power-pick { border:1px solid var(--border); padding:.2rem .4rem; }
+.power-choices { margin-top:1rem; }
+.power-library td { vertical-align:top; }
+.power-library summary, .power-suite summary { color:var(--link); cursor:pointer; }
+.power-library .wiki-article { min-width:20rem; }
+.power-suite { margin-top:.5rem; }
+.power-copy { margin:.4rem 0; align-items:flex-start; }
+.power-copy details { flex:1; min-width:8rem; }
+.power-copy.spent > details > summary { opacity:.6; }
+.feature-inactive { opacity:.6; }

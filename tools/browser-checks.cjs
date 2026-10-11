@@ -311,5 +311,6 @@ const server=http.createServer((req,res)=>{
   await require('./scout-soldier-talents-checks.cjs')(browser,base,root);
   await require('./ambiguities-checks.cjs')(browser,base,root);
   await require('./remaining-heroic-talents-checks.cjs')(browser,base,root);
+  await require('./core-force-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});

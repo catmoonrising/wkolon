@@ -20,7 +20,7 @@ module.exports=async function(browser,base,root){
   await initiative.selectOption('skill:initiative');assert.equal(await skills.locator('[data-roll-label="Initiative"]').getAttribute('data-roll'),'10');await waitSave();await page.reload();assert.equal(await initiative.inputValue(),'skill:initiative');
   await page.locator('#print').click();assert((await page.locator('#stat-block-text').inputValue()).includes('Initiative +10'));await page.locator('#stat-block-close').click();
   await initiative.selectOption('skill:use-the-force');await openTree();
-  assert.deepEqual(await groups(),['all','tree:jedi-consular','tree:jedi-guardian','tree:jedi-sentinel','tree:lightsaber-combat']);
+  assert.deepEqual(await groups(),['all','tree:alter','tree:control','tree:dark-side','tree:jedi-consular','tree:jedi-guardian','tree:jedi-sentinel','tree:lightsaber-combat','tree:sense']);
   await page.locator('[data-tree-group="tree:jedi-sentinel"]').click();assert(await page.locator('[data-tree-pick="talent:dark-side-scourge|"]').isDisabled());
   await page.locator('[data-tree-group="tree:lightsaber-combat"]').click();await page.locator('[data-tree-fold="talent:weapon-specialization-lightsabers|"]').click();
   assert((await page.locator('#rule-detail-body').innerText()).includes('+2 bonus on melee damage'));await page.locator('#rule-detail-close').click();await page.locator('#cr-done').click();

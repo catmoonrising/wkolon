@@ -21,6 +21,27 @@ presentation = load('wiki_presentation', 'compile-wiki-articles.py')
 
 
 class WikiImportTests(unittest.TestCase):
+    def test_corruption_import_keeps_destiny_and_supplement_power_tabs_separate(self):
+        pages = {title: {'title': title, 'revisions': [{'revid': 42,
+            'timestamp': '2024-01-01T00:00:00Z', 'slots': {'main': {'content':
+            'Reference Books: [[Core Rulebook]], [[Force Unleashed Campaign Guide]]'}}}]}
+            for title in ['Corruption', 'Weapon Proficiency']}
+        inventory = {'Talent Trees': [], 'Force Powers': ['Corruption']}
+        baseline = {k: [] for k in ['species', 'classes', 'feats', 'talents', 'equipment', 'sources']}
+        baseline['rulePages'] = [dict(id='rule:corruption', name='Corruption', sourceId='source:old')]
+        baseline['sources'] = [dict(id='source:old', title='Corruption')]
+        def article(root, title, pages, source, targets, variant=None, tab=None):
+            return dict(sourceId=source(title), blocks=[dict(tag='p', children=[tab or title])])
+        with patch.object(importer, 'SKILLS', []), patch.object(importer, 'CLASSES', []), \
+                patch.object(importer.presentation, 'article', side_effect=article) as parse:
+            catalog = importer.compile_catalog(inventory, pages, [], baseline)
+        power = next(r for r in catalog['records'] if r['kind'] == 'forcePower')
+        self.assertEqual(power['books'], ['Force Unleashed Campaign Guide'])
+        self.assertEqual(power['ruleId'], 'rule:corruption-force-power')
+        self.assertEqual(next(s for s in catalog['sources'] if s['id'] == power['sourceId'])['section'], 'Force Power')
+        self.assertEqual(next(p for p in catalog['rulePages'] if p['id'] == power['ruleId'])['article']['blocks'][0]['children'], ['Force Power'])
+        self.assertEqual(next(p for p in catalog['rulePages'] if p['id'] == 'rule:corruption')['article']['blocks'][0]['children'], ['Destiny'])
+
     def test_book_tabs_are_scoped_and_missing_variants_fail_closed(self):
         html = '<p>Common description</p><div class="tabs-tabbox"><label data-tabpos="1">Core Rulebook</label><label data-tabpos="2">Other Book</label><div class="tabs-container"><div class="tabs-content-1"><p>Core traits</p></div><div class="tabs-content-2"><p>Other traits</p></div></div></div>'
         pages = {'Fixture': {'revisions': [{'revid': 42}]}}
@@ -72,7 +93,8 @@ class WikiImportTests(unittest.TestCase):
         self.assertEqual(pack['version'], mechanics['version'])
         self.assertEqual(mechanics['feats'], [{k:v for k,v in r.items() if k != 'article'} for r in pack['feats']])
         lightning = next(r for r in pack['catalog']['records'] if r['name'] == 'Force Lightning')
-        self.assertEqual(lightning['status'], 'reference')
+        self.assertEqual(lightning['status'], 'available')
+        self.assertEqual(lightning['mechanicsIds'], ['power:force-lightning'])
         self.assertNotIn('forcePower:force-lightning', {r['id'] for r in pack['feats']})
         mechanics['sources'][0]['revision'] += 1
         self.assertRaisesRegex(ValueError, 'Review required', compiler.compile_pack, mechanics, catalog, reviewed)

@@ -26,7 +26,9 @@ export function validatePack(p) {
   function requireRef(collection, id) { assert(ix[collection].has(id), `Unknown ${collection} reference: ${id}`); }
   function prerequisite(r) {
     if (['all','any'].includes(r.kind)) { assert(Array.isArray(r.requirements)); r.requirements.forEach(prerequisite); return; }
-    assert(['ability','feat','talent','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    assert(['ability','feat','talent','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    if(r.kind==='power')requireRef('forcePowers',r.value);
+    if(r.kind==='darkSideScore')assert.equal(r.min,1);
     if (r.kind === 'ability') { assert(ABILITIES.includes(r.value)); assert(Number.isInteger(r.min)); }
     if (r.kind === 'bab') assert(Number.isInteger(r.min));
     if (r.kind === 'feat') requireRef('feats',r.value);
@@ -34,7 +36,7 @@ export function validatePack(p) {
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
     if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
-  for (const key of ['species','classes','skills','feats','talents','equipment','destinies','backgrounds','rulePages']) for (const r of p[key]||[]) {
+  for (const key of ['species','classes','skills','feats','talents','equipment','destinies','backgrounds','forcePowers','rulePages']) for (const r of p[key]||[]) {
     assert(!ids.has(r.id), `Duplicate ID ${r.id}`); ids.add(r.id);
     assert(/^[a-z]+:[a-z0-9-]+$/.test(r.id)); assert.equal(typeof r.name,'string'); assert(sources.has(r.sourceId), `Missing source ${r.id}`);
     if(r.article !== undefined) {
@@ -93,8 +95,10 @@ export function validatePack(p) {
       if(r.talentAccessSourceId!==undefined)assert(sources.has(r.talentAccessSourceId),'Missing talent access source');
     }
     if (key === 'skills') assert(ABILITIES.includes(r.ability) && typeof r.trainedOnly==='boolean' && typeof r.armorCheck==='boolean');
+    if(key==='forcePowers'){assert(['standard-action','swift-action','full-round-action','free-action','reaction'].includes(r.action));assert(Array.isArray(r.descriptors)&&new Set(r.descriptors).size===r.descriptors.length&&r.descriptors.every(d=>['dark-side','light-side','mind-affecting','telekinetic'].includes(d)));}
     if (['feats','talents'].includes(key)) {
       if(r.forceActivation!==undefined)assert(['check','forcePoint'].includes(r.forceActivation));
+      if(r.requiresDarkSide!==undefined)assert.equal(r.requiresDarkSide,true);
       prerequisite(r.prerequisite); assert(['never','choice','stack'].includes(r.repeat));
       if(r.maxSelections!==undefined)assert(r.repeat==='stack'&&Number.isInteger(r.maxSelections)&&r.maxSelections>=1&&r.maxSelections<=20,'Invalid repeat limit');
       if(r.repeatGroup!==undefined){requireRef(key,r.repeatGroup);assert.equal(r.repeat,'choice');}
@@ -106,12 +110,15 @@ export function validatePack(p) {
         if(e.target==='skillSubstitution'){
           assert(Object.keys(e).every(k=>['target','skill','replacement','grantsTraining','when'].includes(k)),'Unsupported substitution field');
           requireRef('skills',e.skill);requireRef('skills',e.replacement);assert.notEqual(e.skill,e.replacement);assert.equal(typeof e.grantsTraining,'boolean');
-          assert(e.when===undefined||e.when==='computerNetwork','Unsupported substitution condition');
-          assert(!(e.when&&e.grantsTraining),'Conditional substitutions cannot grant permanent training');
+          assert(e.when===undefined||['computerNetwork','perceptionApplications'].includes(e.when),'Unsupported substitution condition');
+          assert(!(e.when==='computerNetwork'&&e.grantsTraining),'Conditional substitutions cannot grant permanent training');
+          if(e.when==='perceptionApplications')assert(e.skill==='skill:perception'&&e.replacement==='skill:use-the-force'&&e.grantsTraining,'Unsupported Perception applications');
           continue;
         }
-        assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when','weaponGroup'].includes(k)),'Unsupported effect field');
-        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
+        assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when','weaponGroup','ability','minimum'].includes(k)),'Unsupported effect field');
+        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
+        if(e.target==='forcePowerSlots')assert(e.amount===1&&e.ability==='wis'&&e.minimum===1&&e.type==='untyped'&&!e.perLevel,'Unsupported Force power capacity');
+        else assert(e.ability===undefined&&e.minimum===undefined,'Unsupported effect ability');
         assert(Number.isFinite(e.amount));assert(['untyped','competence'].includes(e.type));
         if(e.perLevel!==undefined)assert.equal(typeof e.perLevel,'boolean');
         if(e.target in passiveConditions){assert.equal(e.when,passiveConditions[e.target],'Missing passive condition');assert(e.type==='untyped'&&Number.isInteger(e.amount)&&e.amount>0&&!e.perLevel,'Unsupported passive effect');if(e.target==='armorMovement')assert.equal(e.amount,1);}
@@ -144,6 +151,9 @@ export function validatePack(p) {
       if(r.abilityBonuses!==undefined){assert(r.kind==='armor'&&r.abilityBonuses&&Object.keys(r.abilityBonuses).every(k=>k==='str'),'Unsupported equipment ability bonus');assert(Object.values(r.abilityBonuses).every(n=>Number.isInteger(n)&&n>0),'Invalid equipment ability bonus');}
     }
   }
+  const access=p.rules.forceTalentAccess,recovery=p.rules.forcePowerRecovery;
+  if(access){assert(Object.keys(access).every(k=>['trees','sourceIds'].includes(k)));assert(Array.isArray(access.trees)&&access.trees.length===4&&new Set(access.trees).size===4&&access.trees.every(t=>p.talents.some(r=>r.tree===t)));assert(access.sourceIds.length&&access.sourceIds.every(id=>sources.has(id)));}
+  if(recovery){assert(Object.keys(recovery).every(k=>['sourceIds','restMinutes','forcePointCost','naturalRoll'].includes(k)));assert(recovery.sourceIds.length&&recovery.sourceIds.every(id=>sources.has(id)));assert(recovery.restMinutes===1&&recovery.forcePointCost===1&&recovery.naturalRoll===20);}
   if(p.heroicTraits) {
     assert(Array.isArray(p.heroicTraits.sourceIds));p.heroicTraits.sourceIds.forEach(id=>assert(sources.has(id)));
     for(const key of ['eras','heroTypes'])assert(Array.isArray(p.heroicTraits[key]) && p.heroicTraits[key].every(value=>typeof value==='string'));
@@ -193,7 +203,7 @@ export function validatePack(p) {
       assert.equal(pages.get(r.ruleId).sourceId,r.sourceId,'Catalog source mismatch');
       assert(Array.isArray(r.books)&&r.books.every(b=>typeof b==='string'));
       assert(Array.isArray(r.mechanicsIds)&&new Set(r.mechanicsIds).size===r.mechanicsIds.length,'Invalid catalog mechanics');
-      const collection={species:'species',class:'classes',skill:'skills',feat:'feats',talent:'talents',weapon:'equipment',armor:'equipment',gear:'equipment'}[r.kind];
+      const collection={species:'species',class:'classes',skill:'skills',feat:'feats',talent:'talents',weapon:'equipment',armor:'equipment',gear:'equipment',forcePower:'forcePowers'}[r.kind];
       r.mechanicsIds.forEach(id=>{assert(collection,'Unsupported catalog mechanics');requireRef(collection,id);});
       assert.equal(r.status,r.mechanicsIds.length?'available':'reference','Unreviewed catalog entry enabled');
       if(r.classIds){assert(Array.isArray(r.classIds));r.classIds.forEach(id=>requireRef('classes',id));}
@@ -205,5 +215,5 @@ export function validatePack(p) {
 
 if (process.argv[1]?.endsWith('validate-rules.js')) {
   const p=validatePack(JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url),'utf8')));
-  console.log(`Validated ${p.id} ${p.version}: ${p.species.length} species, ${p.classes.length} classes, ${p.skills.length} skills, ${p.feats.length} feats, ${p.talents.length} talents, ${p.equipment.length} equipment`);
+  console.log(`Validated ${p.id} ${p.version}: ${p.species.length} species, ${p.classes.length} classes, ${p.skills.length} skills, ${p.feats.length} feats, ${p.talents.length} talents, ${p.equipment.length} equipment, ${(p.forcePowers||[]).length} Force powers`);
 }

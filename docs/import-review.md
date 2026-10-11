@@ -90,6 +90,43 @@ Force targeting is implemented.
 
 ## Remaining mechanical review
 
+### Core Force talents and power suite
+
+Enabled all 16 Core talents in Alter, Control, Dark Side and Sense. Their existing
+pinned sections and the Force Sensitivity/The Force access rules were checked
+against fresh API snapshots. Force Sensitivity opens these trees for any heroic
+class using its existing talent slots. Explicit prerequisites still apply with
+Jedi Counseling disabled. Dark Side talents require DSS 1+ when acquired; the
+selection retains that acquisition value so atonement makes the talent inactive
+rather than erasing it. Current inactive talents cannot supply prerequisites.
+
+Force Perception grants Perception training but substitutes Use the Force only
+for Avoid Surprise, Notice Targets, Sense Deception and Sense Influence. Native
+Perception remains the default. Force Pilot grants Pilot training and unrestricted
+substitution. Visions additionally requires previously learned Farseeing.
+Conditional actions, rerolls, per-day/encounter uses, DR 10, second-wind recovery
+and ally effects remain manual; selecting a talent does not activate them.
+
+Added Force Training and all 16 powers in the Core Force Powers table. Selection
+uses full imported text, searchable disclosures and individual power-copy IDs;
+duplicates are valid. Each training initially grants 1 + permanent Wisdom modifier
+(minimum 1), and each subsequent permanent modifier increase adds one power per
+previously earned training. This includes increases between negative modifiers.
+The level ledger prevents later choices from meeting earlier prerequisites.
+
+The Corruption page contains separate Destiny and Force Power tabs. A category
+intersection had previously included it as a Core power because its Destiny is
+Core. The corrected importer scopes both articles independently, attributes the
+power to Force Unleashed Campaign Guide and keeps it reference-only. This is an
+import correction, not a rules contradiction or a house rule.
+
+Using a power spends its copy even on a failed check. Natural 20 flags recovery
+at the end of the turn; an ordinary Use the Force check does not trigger this.
+One Force Point recovers one copy, and a one-minute rest after combat restores
+the suite. Dark Side descriptor use increases DSS, capped at Wisdom. The complete
+suite rules remain embedded alongside the powers. Target defenses/effects,
+maintaining powers, special enhancements and action timing remain manual.
+
 ### Jedi, Noble and Scoundrel talent batch
 
 Added 47 Core class talents, completing the Core heroic class trees: Jedi Consular,
@@ -97,8 +134,8 @@ Jedi Guardian, Jedi Sentinel, Lightsaber Combat; Influence, Inspiration, Leaders
 Lineage; Fortune, Misfortune, Slicer, Spacer. Fresh API snapshots matched the
 imported revisions. Each class tree list and each original talent section is
 pinned independently. The full articles, including their labeled vehicle and
-supplementary passages, remain verbatim. Core Force talent trees are a separate
-access rule and still await mechanical review.
+supplementary passages, remain verbatim. Core Force talent trees use the separate
+Force Sensitivity access rule reviewed below.
 
 Force Intuition and Force Persuasion grant their destination skill's training
 during level replay, so later feats can use it as a prerequisite. Substitution
