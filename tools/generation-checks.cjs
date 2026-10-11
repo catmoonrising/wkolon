@@ -103,7 +103,7 @@ module.exports=async function checkGeneration(browser,base,root){
   await body.locator('[data-field="credits"]').fill('1000');
   await body.locator('#cr-purchase-item').selectOption('equipment:blaster-pistol');
   await body.locator('#cr-purchase button[type="submit"]').click();
-  assert.equal(await body.locator('[data-field="credits"]').inputValue(),'500');
+  assert.equal(await body.locator('[data-field="credits"]').inputValue(),'450');
   assert.equal(await page.locator('[id="purchase-item"]').count(),1);
   assert.equal(await page.locator('[id="cr-purchase-item"]').count(),1);
   assert((await body.innerText()).includes('Blaster Pistol'));
@@ -117,7 +117,7 @@ module.exports=async function checkGeneration(browser,base,root){
   assert.deepEqual(Object.values(exported.abilityGeneration.assign),[0,1,2,3,4,5]);
   assert.deepEqual(exported.levels[0].feats[0],{id:'feat:weapon-proficiency-lightsabers'});
   assert.equal(exported.name,'Wiki creation');assert.equal(exported.heroicTraits.background,'Scout background.');
-  assert.equal(exported.credits,500);assert.equal(exported.inventory[0].id,'equipment:blaster-pistol');
+  assert.equal(exported.credits,450);assert.equal(exported.inventory[0].id,'equipment:blaster-pistol');
   if(base.startsWith('https:'))await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);
   assert.equal(await page.evaluate(()=>performance.timeOrigin),firstLoad);
   await page.reload();await openCreator();await step(0);

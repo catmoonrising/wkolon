@@ -1,6 +1,7 @@
 import {ABILITIES, indexPack, signed} from './rules.js';
 import {TRAIT_FIELDS, backgroundLanguage} from './heroic-traits.js';
 import {escapeHTML as escape} from './wiki-content.js';
+import {resolveEquipment} from './equipment.js';
 
 // Formatting reference: Darth Vader, wiki revision 25962. All values come from
 // the saved character and Saga derivation, never from the reference NPC.
@@ -15,7 +16,7 @@ export function renderStatBlock(c,d,pack){
  const classes=[...d.ctx.classLevels].map(([id,n])=>`${escape(ix.classes.get(id).name)} ${n}`).join('/');
  const skill=id=>d.skills.find(s=>s.id==='skill:'+id);
  const languages=[...species.languages,backgroundLanguage(c,pack),c.languages].filter(Boolean).map(escape).join(', ');
- const points=[c.story?.kind==='destiny'?`<b>Destiny Points:</b> ${c.story.points}`:'',`<b>Force Points:</b> ${c.forcePoints}`,`<b>Dark Side Score:</b> ${c.darkSideScore||0}`].filter(Boolean).join('; ');
+ const points=[c.story?.kind==='destiny'?`<b>Destiny Points:</b> ${c.story.points}`:'',`<b>Force Points:</b> ${d.forceCurrent??c.forcePoints}`,`<b>Dark Side Score:</b> ${c.darkSideScore||0}`].filter(Boolean).join('; ');
  const protection=c.protection||{dr:0,sr:0,srMax:0,drBypass:''};
  const condition=c.condition===5?`Helpless (${species.isDroid?'Disabled':'Unconscious'})`:c.condition?`${signed(pack.rules.conditionPenalties[c.condition])} Penalty${c.condition===4?'; Move at Half Speed':''}`:'';
  const attackText=(a,attackMod=0,damageMod=0)=>`${escape(a.name)} ${signed(a.attack+attackMod)} (${escape(a.damageDisplay)}${damageMod?signed(damageMod):''})`;
@@ -36,7 +37,7 @@ export function renderStatBlock(c,d,pack){
  <h2>Base Stats</h2>${line('Abilities',ABILITIES.map(a=>`${a[0].toUpperCase()+a.slice(1)} ${d.scores[a]}`).join(', '))}
  ${line('Talents',d.ctx.talents.map(s=>featureName('talents',s)).join(', '))}${line('Feats',d.ctx.feats.map(s=>featureName('feats',s)).join(', '))}
  ${line('Skills',d.skills.filter(s=>s.trained&&s.available).map(s=>`${escape(s.name)} ${signed(s.total)}`).join(', '))}
- ${line('Possessions',c.inventory.map(e=>`${escape(ix.equipment.get(e.id).name)}${e.quantity>1?' (×'+e.quantity+')':''}`).concat(c.credits?`${c.credits.toLocaleString()} Credits`:[]).join(', '))}
+ ${line('Possessions',c.inventory.map(e=>`${escape(resolveEquipment(e,pack,c).name)}${e.quantity>1?' (×'+e.quantity+')':''}`).concat(c.credits?`${c.credits.toLocaleString()} Credits`:[]).join(', '))}
  ${line('XP',(c.xp||0).toLocaleString())}${story?textLine(c.story.kind==='destiny'?'Destiny':'Background',story.name):''}${c.story?.kind==='destiny'?textLine('Destiny Details',c.story.details):''}
  ${traits?`<h2>Heroic Traits</h2>${traits}`:''}${textLine('Notes',c.notes)}
  ${d.issues.length?textLine('Unresolved Choices',d.issues.join('; ')):''}</article>`;

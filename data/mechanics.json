@@ -1747,6 +1747,146 @@
       "timestamp": "2024-08-25T20:26:16Z",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18624",
       "history": "https://swse.miraheze.org/w/index.php?title=Zabrak&action=history"
+    },
+    {
+      "id": "source:wiki-neimoidian-core-rulebook",
+      "title": "Neimoidian",
+      "section": "Core Rulebook",
+      "revision": 18381,
+      "timestamp": "2024-08-25T20:02:44Z",
+      "sha256": "7f90fb8c3745b48de177bcd45673b2070e7091f8db1438d6bbf4d9ff0c1c0c00",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18381",
+      "history": "https://swse.miraheze.org/w/index.php?title=Neimoidian&action=history"
+    },
+    {
+      "id": "source:wiki-neimoidian-galaxy-of-intrigue",
+      "title": "Neimoidian",
+      "section": "Galaxy of Intrigue",
+      "revision": 18381,
+      "timestamp": "2024-08-25T20:02:44Z",
+      "sha256": "7f90fb8c3745b48de177bcd45673b2070e7091f8db1438d6bbf4d9ff0c1c0c00",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18381",
+      "history": "https://swse.miraheze.org/w/index.php?title=Neimoidian&action=history"
+    },
+    {
+      "id": "source:wiki-yuuzhan-vong-core-rulebook",
+      "title": "Yuuzhan Vong",
+      "section": "Core Rulebook",
+      "revision": 27415,
+      "timestamp": "2026-07-04T13:28:37Z",
+      "sha256": "c990134cd91b330491cc67e50b7b502edaac29532dc205e60b02eac2a2721011",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27415",
+      "history": "https://swse.miraheze.org/w/index.php?title=Yuuzhan%20Vong&action=history"
+    },
+    {
+      "id": "source:wiki-yuuzhan-vong-legacy-era-campaign-guide",
+      "title": "Yuuzhan Vong",
+      "section": "Legacy Era Campaign Guide",
+      "revision": 27415,
+      "timestamp": "2026-07-04T13:28:37Z",
+      "sha256": "c990134cd91b330491cc67e50b7b502edaac29532dc205e60b02eac2a2721011",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27415",
+      "history": "https://swse.miraheze.org/w/index.php?title=Yuuzhan%20Vong&action=history"
+    },
+    {
+      "id": "source:wiki-vonduun-crabshell",
+      "title": "Vonduun Crabshell",
+      "section": null,
+      "revision": 18600,
+      "timestamp": "2024-08-25T20:23:43Z",
+      "sha256": "a23462d2d193e078fff248ebd44157982f1540dc779c2d6f1fedadddd4679aaa",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18600",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vonduun%20Crabshell&action=history"
+    },
+    {
+      "id": "source:wiki-bowcaster",
+      "title": "Bowcaster",
+      "section": null,
+      "revision": 16364,
+      "timestamp": "2024-08-18T00:56:46Z",
+      "sha256": "ffd78584949f0e315a6b94863eb9f1277f993fd4b1d4201ba196f94406972e45",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16364",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bowcaster&action=history"
+    },
+    {
+      "id": "source:wiki-atlatl",
+      "title": "Atlatl",
+      "section": null,
+      "revision": 15991,
+      "timestamp": "2024-08-18T00:53:30Z",
+      "sha256": "e520e7ed46268ef4210e574f663b67c76e755aa1467cb424fa0134204384b138",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15991",
+      "history": "https://swse.miraheze.org/w/index.php?title=Atlatl&action=history"
+    },
+    {
+      "id": "source:wiki-cesta",
+      "title": "Cesta",
+      "section": null,
+      "revision": 18023,
+      "timestamp": "2024-08-25T19:27:41Z",
+      "sha256": "4412768ff2be41bf3d59b845ed509bb796c1fa1d13149192704c9b319ab6e7b8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18023",
+      "history": "https://swse.miraheze.org/w/index.php?title=Cesta&action=history"
+    },
+    {
+      "id": "source:wiki-equipment",
+      "title": "Equipment",
+      "section": null,
+      "revision": 27413,
+      "timestamp": "2026-06-27T00:42:24Z",
+      "sha256": "7c7bc156e2e0c241615324834dfe6e56c400adf06e5ff00fc7a722db80cd7bc8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27413",
+      "history": "https://swse.miraheze.org/w/index.php?title=Equipment&action=history"
+    },
+    {
+      "id": "source:wiki-category-web-enhancements-jedi-multiclassing",
+      "title": "Category:Web Enhancements",
+      "section": "Jedi Multiclassing",
+      "revision": 26287,
+      "timestamp": "2025-03-12T00:07:48Z",
+      "sha256": "0ae82e38753f7ed42277d027d42d4408456362ef69ab3b43cf9d132eb08d8a8c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26287#Jedi_Multiclassing",
+      "history": "https://swse.miraheze.org/w/index.php?title=Category%3AWeb%20Enhancements&action=history"
+    },
+    {
+      "id": "source:wiki-category-web-enhancements-weapon-familiarity-with-feats-and-talents",
+      "title": "Category:Web Enhancements",
+      "section": "Weapon Familiarity with Feats and Talents",
+      "revision": 26287,
+      "timestamp": "2025-03-12T00:07:48Z",
+      "sha256": "0ae82e38753f7ed42277d027d42d4408456362ef69ab3b43cf9d132eb08d8a8c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26287#Weapon_Familiarity_with_Feats_and_Talents",
+      "history": "https://swse.miraheze.org/w/index.php?title=Category%3AWeb%20Enhancements&action=history"
+    },
+    {
+      "id": "source:wiki-category-web-enhancements-weapon-focus-proficiency",
+      "title": "Category:Web Enhancements",
+      "section": "Weapon Focus \"Proficiency\"",
+      "revision": 26287,
+      "timestamp": "2025-03-12T00:07:48Z",
+      "sha256": "0ae82e38753f7ed42277d027d42d4408456362ef69ab3b43cf9d132eb08d8a8c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26287#Weapon_Focus_%22Proficiency%22",
+      "history": "https://swse.miraheze.org/w/index.php?title=Category%3AWeb%20Enhancements&action=history"
+    },
+    {
+      "id": "source:wiki-category-web-enhancements-conditions-and-damage-threshold",
+      "title": "Category:Web Enhancements",
+      "section": "Conditions and Damage Threshold",
+      "revision": 26287,
+      "timestamp": "2025-03-12T00:07:48Z",
+      "sha256": "0ae82e38753f7ed42277d027d42d4408456362ef69ab3b43cf9d132eb08d8a8c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26287#Conditions_and_Damage_Threshold",
+      "history": "https://swse.miraheze.org/w/index.php?title=Category%3AWeb%20Enhancements&action=history"
+    },
+    {
+      "id": "source:wiki-electropole",
+      "title": "Electropole",
+      "section": null,
+      "revision": 21315,
+      "timestamp": "2024-08-26T01:34:22Z",
+      "sha256": "e2490221058ec344f38a8bd3362c3484bf32bee0bf8aa1b2635fba7ae0783b5b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21315",
+      "history": "https://swse.miraheze.org/w/index.php?title=Electropole&action=history"
     }
   ],
   "species": [
@@ -1918,7 +2058,12 @@
       "bonusFeats": 0,
       "bonusSkills": 0,
       "conditionalFocus": null,
-      "reminders": []
+      "reminders": [],
+      "weaponFamiliarity": {
+        "equipment:atlatl": "simple-weapons",
+        "equipment:cesta": "simple-weapons",
+        "equipment:electropole": "simple-weapons"
+      }
     },
     {
       "id": "species:human",
@@ -2036,6 +2181,55 @@
       "speeds": {
         "swim": 4
       }
+    },
+    {
+      "id": "species:neimoidian-core-rulebook",
+      "name": "Neimoidian (Core Rulebook)",
+      "sourceId": "source:wiki-neimoidian-core-rulebook",
+      "abilityAdjustments": {
+        "int": 2,
+        "wis": 2,
+        "str": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Neimoidian",
+        "Pak Pak"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocuses": [
+        "skill:deception"
+      ],
+      "bookVariant": "Core Rulebook",
+      "reminders": []
+    },
+    {
+      "id": "species:neimoidian-galaxy-of-intrigue",
+      "name": "Neimoidian (Galaxy of Intrigue)",
+      "sourceId": "source:wiki-neimoidian-galaxy-of-intrigue",
+      "abilityAdjustments": {
+        "cha": 2,
+        "str": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Neimoidian"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocuses": [
+        "skill:deception",
+        "skill:persuasion"
+      ],
+      "bookVariant": "Galaxy of Intrigue",
+      "reminders": []
     },
     {
       "id": "species:quarren",
@@ -2178,6 +2372,65 @@
         "Rage once per day: +2 melee attack and damage for 5 + CON modifier rounds, then a persistent condition step.",
         "Intimidation rerolls must use the new result. Bowcaster counts as rifles; Ryyk blade as advanced melee.",
         "Other languages can be understood, read and written, but not spoken."
+      ],
+      "weaponFamiliarity": {
+        "equipment:bowcaster": "rifles"
+      }
+    },
+    {
+      "id": "species:yuuzhan-vong-core-rulebook",
+      "name": "Yuuzhan Vong (Core Rulebook)",
+      "sourceId": "source:wiki-yuuzhan-vong-core-rulebook",
+      "abilityAdjustments": {
+        "str": 2,
+        "wis": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Yuuzhan Vong"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocuses": [],
+      "bookVariant": "Core Rulebook",
+      "reminders": [],
+      "forceImmune": true,
+      "biotechProficiency": true,
+      "forbiddenClasses": [
+        "class:jedi"
+      ],
+      "technophobic": true
+    },
+    {
+      "id": "species:yuuzhan-vong-legacy-era-campaign-guide",
+      "name": "Yuuzhan Vong (Legacy Era Campaign Guide)",
+      "sourceId": "source:wiki-yuuzhan-vong-legacy-era-campaign-guide",
+      "abilityAdjustments": {
+        "str": 2,
+        "wis": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Yuuzhan Vong"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocuses": [],
+      "bookVariant": "Legacy Era Campaign Guide",
+      "reminders": [],
+      "forceImmune": true,
+      "biotechProficiency": true,
+      "forbiddenClasses": [
+        "class:jedi"
+      ],
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
       ]
     },
     {
@@ -3215,16 +3468,12 @@
       "tree": "tree:lightsaber-combat",
       "prerequisite": {
         "kind": "all",
-        "requirements": [
-          {
-            "kind": "feat",
-            "value": "feat:force-sensitivity"
-          }
-        ]
+        "requirements": []
       },
       "repeat": "never",
       "reminder": "React with Use the Force against a melee attack; each additional Block/Deflect adds a cumulative -5. An ignited lightsaber is required.",
-      "effects": []
+      "effects": [],
+      "forceActivation": "check"
     },
     {
       "id": "talent:born-leader",
@@ -3246,16 +3495,12 @@
       "tree": "tree:lightsaber-combat",
       "prerequisite": {
         "kind": "all",
-        "requirements": [
-          {
-            "kind": "feat",
-            "value": "feat:force-sensitivity"
-          }
-        ]
+        "requirements": []
       },
       "repeat": "never",
       "reminder": "React with Use the Force against a ranged attack; each additional Block/Deflect adds a cumulative -5. An ignited lightsaber is required.",
-      "effects": []
+      "effects": [],
+      "forceActivation": "check"
     },
     {
       "id": "talent:evasion",
@@ -3534,7 +3779,8 @@
       "armorBonus": 2,
       "fortitudeBonus": 0,
       "maxDex": 5,
-      "skillBonuses": {}
+      "skillBonuses": {},
+      "availability": []
     },
     {
       "id": "equipment:blaster-pistol",
@@ -3547,7 +3793,11 @@
       "damage": "3d6",
       "damageType": "Energy",
       "cost": 500,
-      "weight": 1
+      "weight": 1,
+      "availability": [
+        "restricted"
+      ],
+      "mechanical": true
     },
     {
       "id": "equipment:blaster-rifle",
@@ -3560,7 +3810,11 @@
       "damage": "3d8",
       "damageType": "Energy",
       "cost": 1000,
-      "weight": 4.5
+      "weight": 4.5,
+      "availability": [
+        "restricted"
+      ],
+      "mechanical": true
     },
     {
       "id": "equipment:combat-jumpsuit",
@@ -3573,7 +3827,10 @@
       "armorBonus": 4,
       "fortitudeBonus": 0,
       "maxDex": 4,
-      "skillBonuses": {}
+      "skillBonuses": {},
+      "availability": [
+        "licensed"
+      ]
     },
     {
       "id": "equipment:comlink-short-range",
@@ -3581,7 +3838,27 @@
       "sourceId": "source:comlink",
       "kind": "gear",
       "cost": 25,
-      "weight": 0.1
+      "weight": 0.1,
+      "availability": [],
+      "family": "Comlink",
+      "variant": "Short-Range",
+      "upgrades": [
+        {
+          "id": "encryption",
+          "name": "Encryption",
+          "costMultiplier": 10
+        },
+        {
+          "id": "video",
+          "name": "Video",
+          "costMultiplier": 2
+        },
+        {
+          "id": "holo",
+          "name": "Holo Capability",
+          "costMultiplier": 5
+        }
+      ]
     },
     {
       "id": "equipment:knife",
@@ -3594,7 +3871,8 @@
       "damage": "1d4",
       "damageType": "Slashing or piercing",
       "cost": 25,
-      "weight": 1
+      "weight": 1,
+      "availability": []
     },
     {
       "id": "equipment:lightsaber",
@@ -3607,7 +3885,11 @@
       "damage": "2d8",
       "damageType": "Energy and slashing",
       "cost": 3000,
-      "weight": 1
+      "weight": 1,
+      "availability": [
+        "rare"
+      ],
+      "mechanical": true
     },
     {
       "id": "equipment:medpac",
@@ -3615,7 +3897,8 @@
       "sourceId": "source:medpac",
       "kind": "gear",
       "cost": 100,
-      "weight": 1
+      "weight": 1,
+      "availability": []
     },
     {
       "id": "equipment:stormtrooper-armor",
@@ -3630,7 +3913,11 @@
       "maxDex": 3,
       "skillBonuses": {
         "skill:perception": 2
-      }
+      },
+      "availability": [
+        "military",
+        "rare"
+      ]
     },
     {
       "id": "equipment:utility-belt-standard",
@@ -3638,7 +3925,139 @@
       "sourceId": "source:utility-belt",
       "kind": "gear",
       "cost": 500,
-      "weight": 4
+      "weight": 4,
+      "availability": [],
+      "family": "Utility Belt",
+      "variant": "Standard"
+    },
+    {
+      "id": "equipment:comlink-long-range",
+      "name": "Comlink (Long-Range)",
+      "sourceId": "source:comlink",
+      "kind": "gear",
+      "cost": 250,
+      "weight": 1,
+      "availability": [],
+      "family": "Comlink",
+      "variant": "Long-Range",
+      "upgrades": [
+        {
+          "id": "encryption",
+          "name": "Encryption",
+          "costMultiplier": 10
+        },
+        {
+          "id": "video",
+          "name": "Video",
+          "costMultiplier": 2
+        },
+        {
+          "id": "holo",
+          "name": "Holo Capability",
+          "costMultiplier": 5
+        },
+        {
+          "id": "miniaturized",
+          "name": "Miniaturized",
+          "costMultiplier": 2,
+          "changesWeight": true
+        }
+      ]
+    },
+    {
+      "id": "equipment:utility-belt-empty",
+      "name": "Utility Belt (Empty)",
+      "sourceId": "source:utility-belt",
+      "kind": "gear",
+      "cost": 55,
+      "weight": 0.3,
+      "availability": [],
+      "family": "Utility Belt",
+      "variant": "Empty"
+    },
+    {
+      "id": "equipment:vonduun-crabshell",
+      "name": "Vonduun Crabshell",
+      "sourceId": "source:wiki-vonduun-crabshell",
+      "kind": "armor",
+      "category": "light",
+      "cost": null,
+      "weight": 5,
+      "armorBonus": 5,
+      "fortitudeBonus": 5,
+      "maxDex": 4,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ],
+      "biotech": true
+    },
+    {
+      "id": "equipment:bowcaster",
+      "name": "Bowcaster",
+      "sourceId": "source:wiki-bowcaster",
+      "kind": "weapon",
+      "group": "exotic-ranged",
+      "size": "large",
+      "damage": "3d10",
+      "mode": "ranged",
+      "cost": 1500,
+      "weight": 8,
+      "damageType": "Energy and piercing",
+      "availability": [
+        "licensed",
+        "rare"
+      ],
+      "mechanical": true
+    },
+    {
+      "id": "equipment:atlatl",
+      "name": "Atlatl",
+      "sourceId": "source:wiki-atlatl",
+      "kind": "weapon",
+      "group": "exotic-melee",
+      "size": "medium",
+      "damage": "2d4",
+      "mode": "melee",
+      "cost": 50,
+      "weight": 1.5,
+      "damageType": "Bludgeoning",
+      "availability": [
+        "rare"
+      ]
+    },
+    {
+      "id": "equipment:cesta",
+      "name": "Cesta",
+      "sourceId": "source:wiki-cesta",
+      "kind": "weapon",
+      "group": "exotic-melee",
+      "size": "large",
+      "damage": "2d4",
+      "mode": "melee",
+      "cost": 100,
+      "weight": 1.8,
+      "damageType": "Bludgeoning",
+      "availability": [
+        "rare"
+      ]
+    },
+    {
+      "id": "equipment:electropole",
+      "name": "Electropole",
+      "sourceId": "source:wiki-electropole",
+      "kind": "weapon",
+      "group": "advanced-melee-weapons",
+      "size": "medium",
+      "damage": "2d8",
+      "mode": "melee",
+      "cost": 1500,
+      "weight": 1.3,
+      "damageType": "Bludgeoning and energy",
+      "availability": [
+        "licensed"
+      ],
+      "mechanical": true
     }
   ],
   "rules": {
@@ -3755,6 +4174,43 @@
       "small": 5,
       "medium": 0,
       "large": -5
+    },
+    "licensing": {
+      "sourceIds": [
+        "source:wiki-equipment"
+      ],
+      "ratings": {
+        "licensed": {
+          "percent": 5,
+          "blackMarket": 2,
+          "dc": 10,
+          "days": 1
+        },
+        "restricted": {
+          "percent": 10,
+          "blackMarket": 3,
+          "dc": 15,
+          "days": 2
+        },
+        "military": {
+          "percent": 20,
+          "blackMarket": 4,
+          "dc": 20,
+          "days": 5
+        },
+        "illegal": {
+          "percent": 50,
+          "blackMarket": 5,
+          "dc": 25,
+          "days": 10
+        }
+      }
+    },
+    "counselingApplications": {
+      "jc:106-jedi-multiclassing": "talent-activation",
+      "jc:112-weapon-familiarity-with-feats-and-talents": "weapon-familiarity",
+      "jc:112-weapon-focus-proficiency": "partial-proficiency",
+      "jc:114-conditions-and-damage-threshold": "raw-equivalent"
     }
   },
   "heroicTraits": {

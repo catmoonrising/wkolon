@@ -34,7 +34,7 @@ const server=http.createServer((req,res)=>{
   await step(7);
   await editor.locator('[data-field="name"]').waitFor();
   assert.equal(await page.locator('link[rel="icon"]').getAttribute('href'),'./favicon.png');
-  assert.equal(await page.locator('.module').count(),19);
+  assert.equal(await page.locator('.module').count(),20);
   assert.equal(await page.locator('body').evaluate(el=>getComputedStyle(el).fontFamily),'"Times New Roman", Times, serif');
   await editor.locator('[data-field="name"]').fill('Kera Voss');
   await step(2);
@@ -50,17 +50,17 @@ const server=http.createServer((req,res)=>{
   await choose(page,'talent','talent:armored-defense|',0,0);
   assert.equal(await page.locator('.validation').count(),0);
   await step(6);
-  await editor.locator('[data-field="credits"]').fill('10000');await editor.locator('[data-field="credits"]').press('Tab');
+  await editor.locator('[data-field="credits"]').fill('12000');await editor.locator('[data-field="credits"]').press('Tab');
   await page.screenshot({path:path.join(root,'.build/creator-desktop.png')});
   await editor.locator('#cr-done').click();
   await page.locator('#module-inventory').scrollIntoViewIfNeeded();
   await page.locator('#equipment-catalog > summary').click();
   await page.locator('#purchase-item').selectOption('equipment:blaster-pistol');
   await page.locator('#purchase button[type="submit"]').click();
-  assert.equal(await page.locator('main [data-field="credits"]').inputValue(),'9500');
+  assert.equal(await page.locator('main [data-field="credits"]').inputValue(),'11450');
   await page.locator('#purchase-item').selectOption('equipment:stormtrooper-armor');
   await page.locator('#purchase button[type="submit"]').click();
-  assert.equal(await page.locator('main [data-field="credits"]').inputValue(),'1500');
+  assert.equal(await page.locator('main [data-field="credits"]').inputValue(),'1850');
   await page.evaluate(()=>location.hash='overview');
   assert.equal(await page.locator('[data-defense="reflex"]').textContent(),'20');
   assert((await page.locator('main').textContent()).includes('3d6'));
@@ -69,7 +69,7 @@ const server=http.createServer((req,res)=>{
   await page.screenshot({path:path.join(root,'.build/overview-desktop.png'),fullPage:true});
   const downloadEvent=page.waitForEvent('download');await page.locator('#export-character').click();
   const download=await downloadEvent;const exported=JSON.parse(fs.readFileSync(await download.path(),'utf8'));
-  assert.equal(exported.name,'Kera Voss');assert.equal(exported.credits,1500);assert.equal(exported.inventory.length,2);
+  assert.equal(exported.name,'Kera Voss');assert.equal(exported.credits,1850);assert.equal(exported.inventory.length,2);
   // The track uses pmcrwf's click-to-set and click-current-to-step-down behavior.
   assert.equal(await page.locator('#module-condition > h2').textContent(),'▾Condition Track');
   assert.equal(await page.locator('#condition-effect tbody tr').count(),6);
@@ -305,5 +305,6 @@ const server=http.createServer((req,res)=>{
   const quotaDownload=quotaPage.waitForEvent('download');await quotaPage.locator('#export-character').click();const quotaFile=await quotaDownload;assert.equal(JSON.parse(fs.readFileSync(await quotaFile.path(),'utf8')).name,'Quota hero');
   await quotaContext.close();console.log('Browser: quota failure preserves exportable in-memory character');
   await recoveryContext.close();await context.close();
+  await require('./options-browser-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});

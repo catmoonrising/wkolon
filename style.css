@@ -246,3 +246,11 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 #stat-block-modal .modal-box { display: flex; flex-direction: column; gap: .6rem; width: min(55rem, calc(100vw - 2rem)); height: min(48rem, calc(100dvh - 2rem)); box-sizing: border-box; }
 #stat-block-title { margin: 0; }
 #stat-block-text { flex: 1; min-height: 8rem; width: 100%; box-sizing: border-box; resize: none; font: inherit; line-height: 1.3; }
+
+.hr-tabs{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.65rem}
+.hr-tab.active{color:var(--accent);border-bottom:3px solid var(--accent)}
+.counseling-topics{max-height:25rem;overflow:auto;margin-top:.7rem}
+.counseling-topic{padding:.5rem 0;border-bottom:1px solid var(--border)}
+.counseling-topic>small{display:block;opacity:.75;margin-left:1.6rem}
+.counseling-topic details{margin-left:1.6rem}
+.purchase-form{gap:.6rem;align-items:center}

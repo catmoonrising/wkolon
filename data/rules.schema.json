@@ -142,6 +142,58 @@
           "additionalProperties": {
             "type": "integer"
           }
+        },
+        "licensing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "ratings"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "ratings": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "licensed",
+                "restricted",
+                "military",
+                "illegal"
+              ],
+              "properties": {
+                "licensed": {
+                  "$ref": "#/$defs/licenseRating"
+                },
+                "restricted": {
+                  "$ref": "#/$defs/licenseRating"
+                },
+                "military": {
+                  "$ref": "#/$defs/licenseRating"
+                },
+                "illegal": {
+                  "$ref": "#/$defs/licenseRating"
+                }
+              }
+            }
+          }
+        },
+        "counselingApplications": {
+          "type": "object",
+          "additionalProperties": {
+            "enum": [
+              "talent-activation",
+              "weapon-familiarity",
+              "partial-proficiency",
+              "raw-equivalent"
+            ]
+          }
         }
       },
       "required": [
@@ -153,69 +205,7 @@
     "species": {
       "type": "array",
       "items": {
-        "allOf": [
-          {
-            "$ref": "#/$defs/record"
-          }
-        ],
-        "properties": {
-          "isDroid": {
-            "type": "boolean",
-            "default": false
-          },
-          "speeds": {
-            "type": "object",
-            "additionalProperties": {
-              "type": "integer",
-              "minimum": 0
-            }
-          },
-          "startingFeats": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "uniqueItems": true
-          },
-          "excludedStartingFeats": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "uniqueItems": true
-          },
-          "naturalArmor": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "conditionalDefenses": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "defense",
-                "against",
-                "amount",
-                "type"
-              ],
-              "properties": {
-                "defense": {
-                  "const": "will"
-                },
-                "against": {
-                  "const": "use-the-force"
-                },
-                "amount": {
-                  "type": "integer"
-                },
-                "type": {
-                  "const": "untyped"
-                }
-              }
-            }
-          }
-        }
+        "$ref": "#/$defs/species"
       }
     },
     "classes": {
@@ -245,7 +235,7 @@
     "equipment": {
       "type": "array",
       "items": {
-        "$ref": "#/$defs/record"
+        "$ref": "#/$defs/equipment"
       }
     },
     "destinies": {
@@ -313,6 +303,40 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/catalogRecord"
+          }
+        }
+      }
+    },
+    "jediCounseling": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "issue",
+          "sourceId",
+          "ruleId"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^jc:[0-9]+-[a-z0-9-]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "issue": {
+            "type": "integer",
+            "minimum": 105,
+            "maximum": 115
+          },
+          "sourceId": {
+            "type": "string"
+          },
+          "ruleId": {
+            "type": "string"
           }
         }
       }
@@ -588,6 +612,147 @@
             "type": "string"
           },
           "uniqueItems": true
+        }
+      }
+    },
+    "licenseRating": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "percent",
+        "blackMarket",
+        "dc",
+        "days"
+      ],
+      "properties": {
+        "percent": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "blackMarket": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "dc": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "days": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "equipment": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/record"
+        }
+      ],
+      "properties": {
+        "cost": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        },
+        "family": {
+          "type": "string"
+        },
+        "variant": {
+          "type": "string"
+        },
+        "biotech": {
+          "type": "boolean"
+        },
+        "mechanical": {
+          "type": "boolean"
+        },
+        "availability": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "licensed",
+              "restricted",
+              "military",
+              "illegal",
+              "rare"
+            ]
+          }
+        },
+        "upgrades": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "costMultiplier"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "costMultiplier": {
+                "type": "number",
+                "minimum": 1
+              },
+              "changesWeight": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "species": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/record"
+        }
+      ],
+      "properties": {
+        "bookVariant": {
+          "type": "string"
+        },
+        "forceImmune": {
+          "type": "boolean"
+        },
+        "technophobic": {
+          "type": "boolean"
+        },
+        "biotechProficiency": {
+          "type": "boolean"
+        },
+        "conditionalFocuses": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "forbiddenClasses": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "weaponFamiliarity": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
         }
       }
     }

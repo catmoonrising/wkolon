@@ -6,6 +6,31 @@ Character files store choices and play state, not calculated totals.
 
 Protection and attack sequences follow the [combat data contract](combat.md).
 
+Book-specific species are separate records with `bookVariant` and distinct IDs.
+Their articles retain common characteristics and only the selected book's traits.
+`conditionalFocuses` supports multiple independent training-dependent grants.
+`forceImmune` forbids Force Sensitivity and Use the Force, yields no Force Points,
+and retains immunity to Force effects targeting Will as a manual defensive trait. `technophobic` is an attack
+and mechanical-tool check penalty, not a penalty to all checks.
+
+Optional `houseRules: {jediCounseling: {topicId: boolean}, comlinkUpgradeFees:
+boolean}` is saved with the character. Counseling switches default off. Imported
+topics retain complete pinned text; only explicitly supported calculations change.
+An explanation that already follows RAW does not invent a different off-state.
+Comlink functionality fees default to the user's requested interpretation: base
+price plus each option's full base-price fee. With it off, quoted price multipliers multiply; the source itself does not
+settle combinations. Miniaturization doubles the base device cost in either mode.
+
+Equipment may have a `family`, `variant`, `upgrades`, `availability` and
+`biotech` flag. Inventory retains a concrete variant ID plus optional `options`,
+`armorSize`, `weightOverride`, `mechanical`, and `licenseStatus`.
+`mechanicalSkills` identifies checks currently using mechanical tools. Grouped purchasing resolves
+these choices before debiting credits. A `null` cost means Add owned only; it is
+never a free purchase. Armor cost and weight scale by fitted size. Licensing uses
+the Equipment table's percentage of normal item cost, separately from any market
+surcharge. Paying an application fee does not automatically approve the license.
+Miniaturized Comlink weight is unspecified; a weight override can supply it.
+
 ## Pack
 
 `schemaVersion`, `id`, `version`, `name`, `license`, `sources`, `rules`, and arrays
@@ -168,3 +193,18 @@ statement alone does not establish ownership of underlying publisher material.
 
 API documentation: https://www.mediawiki.org/wiki/API:Revisions and
 https://www.mediawiki.org/wiki/API:Categorymembers.
+
+## Counseling and licenses
+
+`jediCounseling` contains `{id, name, issue, sourceId, ruleId}` topics extracted
+from the pinned Saga Counseling tabs (105–115). `rules.counselingApplications`
+is an explicit reviewed allowlist of executable applications. Other topics are
+saved manual rulings. The compiler checks the source revision for each supported
+application, as it does for species and other mechanical records.
+
+`rules.licensing` has `sourceIds` and four `ratings`: `licensed`, `restricted`,
+`military`, `illegal`. Each stores `{percent, blackMarket, dc, days}` from the
+published table. Inventory license states are `none`, `pending`, `approved`,
+`denied`. Application payment sets `pending`; ownership never implies approval.
+Credits allow fractional values so fitted armor/license costs do not introduce
+an unprinted rounding rule. Existing inventory without `armorSize` stays Medium.

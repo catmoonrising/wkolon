@@ -15,15 +15,18 @@ prerequisites were not met at the level when they were taken.
 
 Characters autosave in the browser. Multiple character tabs, duplication, JSON
 import/export, pmcrwf's full theme catalog and a Saga stat block with text, Copy and Print are included.
+House Rules includes all Saga Jedi Counseling topics with saved optional switches.
+Equipment purchasing groups variants and functionality options, adds license
+application fees, and supports owned-only items without a market price.
 Module layouts support moving, resizing, snapping, collapsing and stacking.
 Roll buttons and dice commands feed a persistent character event log and its
 corner mirror. Numeric fields accept relative adjustments and arithmetic. Export a
 character to move it between browsers or retain a backup. GitHub Pages requires
 no application server, account, runtime scraping or external database.
 
-The reviewed builder includes nineteen species, the five heroic classes, 25 skills,
-20 feats, 21 talents and 10 equipment records. The searchable Rules library has
-483 entries, including reference-only options awaiting mechanical review. It is a
+The reviewed builder includes 23 species, the five heroic classes, 25 skills,
+20 feats, 21 talents and 17 equipment records. The searchable Rules library has
+485 entries, including reference-only options awaiting mechanical review. It is a
 partial implementation of the sourcebooks. Prestige classes, droid creation,
 Force power selection, vehicles and additional catalogs are future work.
 Conditional feats/talents appear as reminders; numeric sheet and attack

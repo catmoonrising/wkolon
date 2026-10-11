@@ -1,4 +1,5 @@
 import {GROUPS,indexPack,eligible,prerequisite} from './rules.js';
+import {counselingEnabled} from './house-rules.js';
 import {articleText,renderArticle,escapeHTML as escape} from './wiki-content.js';
 import {layoutFeatureGraph,featureEdgePath,featureCrossings} from './feature-layout.js';
 const title=value=>value.replace(/^tree:/,'').replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase());
@@ -41,7 +42,7 @@ export function featureGraph(pack,options) {
   if(!out.some(edge=>edge.key===key))out.push({key,alternative});
  }
  for(const node of [...nodes.values()])if(node.main) {
-  node.records.forEach(r=>parents(r.prerequisite,node.parents));node.parents=node.parents.filter(p=>p.key!==node.key);
+  node.records.forEach(r=>{parents(r.prerequisite,node.parents);if(r.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing'))parents({kind:'feat',value:'feat:force-sensitivity'},node.parents);});node.parents=node.parents.filter(p=>p.key!==node.key);
  }
  const main=[...nodes.values()].filter(n=>n.main);
  return {nodes,groups:[...new Set(main.map(n=>n.group).filter(Boolean))].sort((a,b)=>title(a).localeCompare(title(b))),possible};

@@ -62,7 +62,7 @@ export function referenceEntries(r, pack, selection) {
     if(r.repeat==='stack') add('Repeat','May be selected again; benefits accumulate.');
   }
   if(r.kind) {
-    add('Cost / weight',`${r.cost.toLocaleString('en-US')} cr; ${r.weight} kg`);
+    add('Cost / weight',`${r.cost===null?'No market price':r.cost.toLocaleString('en-US')+' cr'}; ${r.weight} kg`);
     if(r.kind==='weapon') {
       add('Weapon',`${title(r.group)}; ${title(r.size)}; ${r.mode}`);
       add('Damage',`${r.damage} ${r.damageType.toLowerCase()}`);

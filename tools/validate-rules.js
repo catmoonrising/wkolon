@@ -75,6 +75,11 @@ export function validatePack(p) {
         assert(new Set(r.conditionalDefenses.map(e=>e.defense+':'+e.against)).size===r.conditionalDefenses.length,'Duplicate conditional defense');
       }
       if(r.conditionalFocus) requireRef('skills',r.conditionalFocus);
+      if(r.conditionalFocuses){assert(Array.isArray(r.conditionalFocuses)&&new Set(r.conditionalFocuses).size===r.conditionalFocuses.length);r.conditionalFocuses.forEach(id=>requireRef('skills',id));}
+      for(const key of ['forceImmune','technophobic','biotechProficiency'])if(r[key]!==undefined)assert.equal(typeof r[key],'boolean');
+      if(r.bookVariant!==undefined)assert.equal(typeof r.bookVariant,'string');
+      if(r.forbiddenClasses){assert(Array.isArray(r.forbiddenClasses));r.forbiddenClasses.forEach(id=>requireRef('classes',id));}
+      if(r.weaponFamiliarity)for(const [id,group] of Object.entries(r.weaponFamiliarity)){requireRef('equipment',id);assert(GROUPS.includes(group));}
       for(const key of ['startingFeats','excludedStartingFeats'])if(r[key]){assert(Array.isArray(r[key]));r[key].forEach(id=>requireRef('feats',id));}
       if(r.speeds){assert(Object.keys(r.speeds).every(key=>/^[a-z-]+$/.test(key)));assert(Object.values(r.speeds).every(n=>Number.isInteger(n)&&n>=0));}
     }
@@ -87,6 +92,7 @@ export function validatePack(p) {
     }
     if (key === 'skills') assert(ABILITIES.includes(r.ability) && typeof r.trainedOnly==='boolean' && typeof r.armorCheck==='boolean');
     if (['feats','talents'].includes(key)) {
+      if(r.forceActivation!==undefined)assert.equal(r.forceActivation,'check');
       prerequisite(r.prerequisite); assert(['never','choice','stack'].includes(r.repeat));
       if(r.choiceType) assert(['skill','weaponGroup'].includes(r.choiceType));
       assert(Array.isArray(r.effects) && typeof r.reminder==='string');
@@ -104,14 +110,28 @@ export function validatePack(p) {
       if(r.conditionalFocus)requireRef('skills',r.conditionalFocus);
     }
     if (key === 'equipment') {
-      assert(['weapon','armor','gear'].includes(r.kind)); assert(Number.isFinite(r.cost) && r.cost>=0 && Number.isFinite(r.weight) && r.weight>=0);
-      if(r.kind==='weapon') assert(p.rules.weaponSizeOrder.includes(r.size) && GROUPS.includes(r.group) && /^\d+d\d+$/.test(r.damage) && ['melee','ranged'].includes(r.mode));
+      assert(['weapon','armor','gear'].includes(r.kind)); assert((r.cost===null || Number.isFinite(r.cost) && r.cost>=0) && Number.isFinite(r.weight) && r.weight>=0);
+      if(r.kind==='weapon') assert(p.rules.weaponSizeOrder.includes(r.size) && [...GROUPS,'exotic-melee','exotic-ranged'].includes(r.group) && /^\d+d\d+$/.test(r.damage) && ['melee','ranged'].includes(r.mode));
+      assert(Array.isArray(r.availability||[])&&(r.availability||[]).every(id=>['licensed','restricted','military','illegal','rare'].includes(id)));
+      for(const key of ['biotech','mechanical'])if(r[key]!==undefined)assert.equal(typeof r[key],'boolean');
+      if(r.family!==undefined)assert(typeof r.family==='string'&&typeof r.variant==='string');
+      if(r.upgrades!==undefined){assert(Array.isArray(r.upgrades)&&new Set(r.upgrades.map(u=>u.id)).size===r.upgrades.length);for(const u of r.upgrades){assert(Object.keys(u).every(k=>['id','name','costMultiplier','changesWeight'].includes(k)));assert(/^[a-z-]+$/.test(u.id)&&typeof u.name==='string'&&Number.isFinite(u.costMultiplier)&&u.costMultiplier>=1);if(u.changesWeight!==undefined)assert.equal(typeof u.changesWeight,'boolean');}}
       if(r.kind==='armor') { assert(p.rules.armorPenalties[r.category]!==undefined); for(const k of ['armorBonus','fortitudeBonus','maxDex']) assert(Number.isInteger(r[k])); for(const id of Object.keys(r.skillBonuses)) requireRef('skills',id); }
     }
   }
   if(p.heroicTraits) {
     assert(Array.isArray(p.heroicTraits.sourceIds));p.heroicTraits.sourceIds.forEach(id=>assert(sources.has(id)));
     for(const key of ['eras','heroTypes'])assert(Array.isArray(p.heroicTraits[key]) && p.heroicTraits[key].every(value=>typeof value==='string'));
+  }
+  if(p.jediCounseling){
+    assert(Array.isArray(p.jediCounseling));const topics=new Set();
+    for(const r of p.jediCounseling){assert(Object.keys(r).every(k=>['id','name','issue','ruleId','sourceId'].includes(k)));assert(/^jc:\d+-[a-z0-9-]+$/.test(r.id)&&!topics.has(r.id));topics.add(r.id);assert(typeof r.name==='string'&&Number.isInteger(r.issue)&&r.issue>=105&&r.issue<=115);assert(sources.has(r.sourceId)&&p.rulePages.some(page=>page.id===r.ruleId&&page.sourceId===r.sourceId));}
+    for(const [id,mode] of Object.entries(p.rules.counselingApplications||{}))assert(topics.has(id)&&['talent-activation','weapon-familiarity','partial-proficiency','raw-equivalent'].includes(mode));
+  }
+  if(p.rules.licensing){
+    const l=p.rules.licensing;assert(Object.keys(l).every(k=>['sourceIds','ratings'].includes(k))&&l.sourceIds.length&&l.sourceIds.every(id=>sources.has(id)));
+    assert.deepEqual(Object.keys(l.ratings).sort(),['illegal','licensed','military','restricted']);
+    for(const r of Object.values(l.ratings)){assert.deepEqual(Object.keys(r).sort(),['blackMarket','days','dc','percent']);assert(Object.values(r).every(n=>Number.isInteger(n)&&n>0));}
   }
   if(p.catalog) {
     assert.equal(p.catalog.schemaVersion,1);

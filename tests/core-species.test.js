@@ -15,14 +15,14 @@ function hero(species,cls='soldier'){
 }
 function level(c,cls,extra={}){c.levels.push({classId:'class:'+cls,hpRoll:6,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[],...extra});}
 
-test('reviewed species are selectable while conflicting book variants remain reference-only',()=>{
+test('reviewed species include individually selectable published variants',()=>{
  for(const name of ['aqualish','cerean','ewok','hutt','ithorian','mon-calamari','quarren','sullustan','trandoshan']){
   const c=hero(name);validateCharacter(c,pack);
   const record=pack.species.find(r=>r.id===c.species);
   assert(record.article.blocks.length);assert(pack.catalog.records.some(r=>r.kind==='species'&&r.mechanicsIds.includes(record.id)&&r.status==='available'));
  }
- for(const name of ['Neimoidian','Yuuzhan Vong'])assert.equal(pack.catalog.records.find(r=>r.name===name).status,'reference');
- assert.equal(pack.species.length,19);
+ for(const name of ['Neimoidian (Core Rulebook)','Neimoidian (Galaxy of Intrigue)','Yuuzhan Vong (Core Rulebook)','Yuuzhan Vong (Legacy Era Campaign Guide)'])assert.equal(pack.catalog.records.find(r=>r.name===name).status,'available');
+ assert.equal(pack.species.length,23);
 });
 
 test('Ewok size affects Reflex and Stealth, Primitive only removes first-level class grants',()=>{

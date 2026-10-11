@@ -12,7 +12,7 @@ test('library searches the full description and filters type without granting re
  library.search('amphibious');library.filter('species');
  assert(library.matches().some(r=>r.name==='Mon Calamari'));
  library.filter('species',true);assert(library.matches().some(r=>r.name==='Mon Calamari'));
- library.search('');assert(!library.matches().some(r=>r.name==='Neimoidian'));
+ library.search('');assert.equal(library.matches().filter(r=>r.name.startsWith('Neimoidian (')).length,2);
  library.search('');library.filter('forcePower');
  assert(library.matches().some(r=>r.name==='Force Lightning'));
  assert(library.matches().every(r=>r.status==='reference'));

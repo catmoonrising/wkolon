@@ -1,6 +1,7 @@
 import importlib.util
 import json
 import unittest
+import tempfile
 from pathlib import Path
 from unittest.mock import patch
 
@@ -16,9 +17,31 @@ def load(name, filename):
 
 importer = load('catalog_import', 'import-wiki.py')
 compiler = load('catalog_compile', 'compile-core.py')
+presentation = load('wiki_presentation', 'compile-wiki-articles.py')
 
 
 class WikiImportTests(unittest.TestCase):
+    def test_book_tabs_are_scoped_and_missing_variants_fail_closed(self):
+        html = '<p>Common description</p><div class="tabs-tabbox"><label data-tabpos="1">Core Rulebook</label><label data-tabpos="2">Other Book</label><div class="tabs-container"><div class="tabs-content-1"><p>Core traits</p></div><div class="tabs-content-2"><p>Other traits</p></div></div></div>'
+        pages = {'Fixture': {'revisions': [{'revid': 42}]}}
+        parsed = dict(title='Fixture', revision=42, result={'parse': {'revid': 42, 'text': html}})
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / '.build').mkdir()
+            (root / '.build/article-fixture-parse.json').write_text(json.dumps(parsed))
+            whole = presentation.article(root, 'Fixture', pages, lambda _: 'source:fixture', {})
+            scoped = presentation.article(root, 'Fixture', pages, lambda _: 'source:fixture', {}, variant='Core Rulebook')
+            issue = presentation.article(root, 'Fixture', pages, lambda _: 'source:fixture', {}, tab='Other Book')
+            self.assertIn('Core Rulebook', json.dumps(whole))
+            self.assertIn('Other Book', json.dumps(whole))
+            self.assertIn('Common description', json.dumps(scoped))
+            self.assertIn('Core traits', json.dumps(scoped))
+            self.assertNotIn('Other traits', json.dumps(scoped))
+            self.assertNotIn('Common description', json.dumps(issue))
+            self.assertIn('Other traits', json.dumps(issue))
+            with self.assertRaisesRegex(ValueError, 'Missing wiki variant'):
+                presentation.article(root, 'Fixture', pages, lambda _: 'source:fixture', {}, variant='Missing')
+
     def test_talent_sections_do_not_import_additional_talents_or_neighbour_text(self):
         def h(rank, label):
             return dict(tag='h' + str(rank), children=[label])

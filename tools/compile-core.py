@@ -20,6 +20,7 @@ def compile_pack(mechanics, catalog, reviewed):
         sources[source['id']] = source
     pack['sources'] = sorted(sources.values(), key=lambda s:s['id'])
     pack['rulePages'] = catalog['rulePages']
+    pack['jediCounseling'] = catalog.get('jediCounseling', [])
     by_name = {r['name']: r for r in pack['rulePages']}
     def source_key(source):
         return (source['title'], source['revision'], source.get('section'))

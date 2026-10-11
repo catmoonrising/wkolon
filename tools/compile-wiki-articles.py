@@ -38,21 +38,51 @@ class Tree(HTMLParser):
         self.stack[-1]['children'].append(text)
 
 
-def article(root, title, pages, source, feat_ids):
+def tab_contents(node):
+    """Keep the wiki's tab identity while removing its interactive controls."""
+    labels = [n for n in node['children'] if isinstance(n, dict) and n['tag'] == 'label'
+        and 'data-tabpos' in n['attrs']]
+    container = next((n for n in node['children'] if isinstance(n, dict)
+        and 'tabs-container' in n['attrs'].get('class', '').split()), None)
+    if not container:
+        return []
+    def text(n):
+        return n if isinstance(n, str) else ''.join(text(c) for c in n['children'])
+    result = []
+    for label in labels:
+        cls = 'tabs-content-' + label['attrs']['data-tabpos']
+        content = next((n for n in container['children'] if isinstance(n, dict)
+            and cls in n['attrs'].get('class', '').split()), None)
+        if content:
+            result.append((text(label).strip(), content))
+    return result
+
+
+def article(root, title, pages, source, feat_ids, variant=None, tab=None):
     page = pages[title]
     rev = page['revisions'][0]['revid']
     slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
     parsed = json.loads((root / '.build' / ('article-' + slug + '-parse.json')).read_text())
     assert parsed['title'] == title and parsed['revision'] == rev
     assert parsed['result']['parse']['revid'] == rev
+    selected_variant = False
 
     def clean(node):
+        nonlocal selected_variant
         if isinstance(node, str):
             return [node]
         tag, attrs = node['tag'], node['attrs']
         classes = set((attrs.get('class') or '').split())
         if tag in BLOCKED or classes.intersection({'comments-body', 'mw-editsection', 'toc', 'catlinks', 'navbox'}):
             return []
+        if 'tabs-tabbox' in classes:
+            entries = tab_contents(node)
+            if variant or tab:
+                selected = next((content for name, content in entries if name == (variant or tab)), None)
+                if selected:
+                    selected_variant = True
+                    return clean(selected)
+            return [n for name, content in entries for n in [dict(tag='h4', children=[name]), *clean(content)]]
         if 'tabs-label' in classes:
             # The wiki's disclosure repeats its label for open/closed controls.
             # Preserve one heading and the content, rather than duplicate controls.
@@ -77,7 +107,21 @@ def article(root, title, pages, source, feat_ids):
                 if value and value.isdigit() and 1 <= int(value) <= 30:
                     result[key] = int(value)
         return [result]
-    blocks = clean(Tree(parsed['result']['parse']['text']).root)
+    tree = Tree(parsed['result']['parse']['text']).root
+    if tab:
+        def find(node):
+            if isinstance(node, str):
+                return None
+            selected = next((content for name, content in tab_contents(node) if name == tab), None)
+            if selected:
+                return selected
+            return next((found for child in node['children'] if (found := find(child)) is not None), None)
+        tree = find(tree)
+        if tree is None:
+            raise ValueError('Missing wiki tab: ' + tab)
+    blocks = clean(tree)
+    if variant and not selected_variant:
+        raise ValueError('Missing wiki variant: ' + variant)
     return dict(sourceId=source(title), blocks=blocks)
 
 

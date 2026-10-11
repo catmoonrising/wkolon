@@ -26,6 +26,8 @@ SKILLS = ['Acrobatics', 'Climb', 'Deception', 'Endurance', 'Gather Information',
     'Initiative', 'Jump', 'Knowledge', 'Mechanics', 'Perception', 'Persuasion',
     'Pilot', 'Ride', 'Stealth', 'Survival', 'Swim', 'Treat Injury', 'Use Computer', 'Use the Force']
 CLASSES = ['Jedi', 'Noble', 'Scoundrel', 'Scout', 'Soldier']
+SPECIES_VARIANTS = {'Neimoidian': ['Core Rulebook', 'Galaxy of Intrigue'],
+    'Yuuzhan Vong': ['Core Rulebook', 'Legacy Era Campaign Guide']}
 
 
 def module(name, filename):
@@ -115,7 +117,7 @@ def compile_catalog(inventory, pages, redirects, baseline):
         p = pages[title]
         rev = p['revisions'][0]
         sid = 'source:wiki-' + slug(title) + ('-' + slug(part) if part else '')
-        fragment = '#' + quote(part.replace(' ', '_')) if part else ''
+        fragment = '#' + quote(part.replace(' ', '_')) if part and part not in SPECIES_VARIANTS.get(title, []) else ''
         raw = rev['slots']['main']['content']
         sources[sid] = dict(id=sid, title=title, section=part, revision=rev['revid'], timestamp=rev['timestamp'],
             sha256=hashlib.sha256(raw.encode()).hexdigest(),
@@ -150,8 +152,9 @@ def compile_catalog(inventory, pages, redirects, baseline):
         part = part or alias.get('tofragment')
         title = alias.get('to', title)
         rid = rule_id or targets.get(name, 'rule:' + slug(name))
-        full = presentation.article(ROOT, title, pages, source, targets)
-        blocks = section(full['blocks'], part) if part else full['blocks']
+        variant = part if part in SPECIES_VARIANTS.get(title, []) else None
+        full = presentation.article(ROOT, title, pages, source, targets, variant=variant)
+        blocks = section(full['blocks'], part) if part and not variant else full['blocks']
         first = next((n for n in blocks if text(n).strip()), None)
         if part and (first is None or not text(first).strip().startswith('Reference Book')):
             # A Core talent inherits the tree's book attribution, not the next
@@ -176,6 +179,12 @@ def compile_catalog(inventory, pages, redirects, baseline):
 
     for category_name, kind in CATEGORIES.items():
         for name in inventory.get(category_name, []):
+            if kind == 'species' and name in SPECIES_VARIANTS:
+                add_page(name)
+                for book in SPECIES_VARIANTS[name]:
+                    add_record(kind, f'{name} ({book})', name, book)
+                    records['catalog:species-' + slug(f'{name} ({book})')]['books'] = [book]
+                continue
             add_record(kind, name)
             if kind == 'talentTree':
                 blocks = rule_pages[targets[name]]['article']['blocks']
@@ -192,8 +201,31 @@ def compile_catalog(inventory, pages, redirects, baseline):
     for name in species_feats(pages, inventory.get('Species', [])):
         add_page(name)
 
+    # The complete Saga-era Counseling series (105–115), not snippets guessed
+    # from whichever character options have already been implemented.
+    counseling = []
+    jc_title = 'Category:Web Enhancements'
+    if jc_title in pages:
+        raw = pages[jc_title]['revisions'][0]['slots']['main']['content']
+        scope = raw.split('==Jedi Counseling==', 1)[1].split('==Saga Edition FAQ==', 1)[0]
+        for issue in re.findall(r'<tab name="(\d+)"', scope):
+            full = presentation.article(ROOT, jc_title, pages, source, targets, tab=issue)
+            names = [text(n).strip() for n in full['blocks'] if heading(n)]
+            for name in names:
+                sid = source(jc_title, name)
+                rid = 'rule:jc-' + issue + '-' + slug(name)
+                rule_pages[rid] = dict(id=rid, name=name, sourceId=sid,
+                    article=dict(sourceId=sid, blocks=section(full['blocks'], name)))
+                counseling.append(dict(id='jc:' + issue + '-' + slug(name), name=name,
+                    issue=int(issue), sourceId=sid, ruleId=rid))
+
+    if 'Equipment' in pages:
+        add_page('Equipment')
+
     # Retain previously available supplement references and stable link IDs.
     for old in baseline.get('rulePages', []):
+        if old['id'] in rule_pages:
+            continue
         src = next(s for s in baseline['sources'] if s['id'] == old['sourceId'])
         add_page(old['name'], src['title'], src.get('section'), old['id'])
     for kind in ['species', 'feats', 'talents', 'equipment', 'classes']:
@@ -223,7 +255,7 @@ def compile_catalog(inventory, pages, redirects, baseline):
     for page in rule_pages.values():
         for node in page['article']['blocks']:
             prune(node)
-    return dict(schemaVersion=1, book='Core Rulebook',
+    return dict(schemaVersion=1, book='Core Rulebook', jediCounseling=counseling,
         sources=sorted(sources.values(), key=lambda r:r['id']),
         records=sorted(records.values(), key=lambda r:(r['kind'], r['name'])),
         rulePages=sorted(rule_pages.values(), key=lambda r:r['id']))
@@ -238,11 +270,11 @@ def main():
     inventory_path.parent.mkdir(parents=True, exist_ok=True)
     if args.offline:
         inventory = json.loads(inventory_path.read_text())
-        snapshots = [json.loads(path.read_text()) for path in [BUILD / 'core-import-snapshot.json', BUILD / 'core-import-extra-snapshot.json', BUILD / 'core-species-feats-snapshot.json']]
+        snapshots = [json.loads(path.read_text()) for path in [BUILD / 'core-import-snapshot.json', BUILD / 'core-import-extra-snapshot.json', BUILD / 'core-species-feats-snapshot.json', BUILD / 'options-review-snapshot.json']]
     else:
         inventory = discover()
         inventory_path.write_text(json.dumps(inventory, indent=2) + '\n')
-        titles = set(SKILLS + CLASSES + ['Weapon Proficiency'])
+        titles = set(SKILLS + CLASSES + ['Weapon Proficiency', 'Category:Web Enhancements', 'Equipment'])
         titles.update(name for names in inventory.values() for name in names)
         titles.update(s['title'] for s in baseline['sources'])
         snapshots = [wiki.snapshot(sorted(titles), 'core-import-snapshot.json')]
