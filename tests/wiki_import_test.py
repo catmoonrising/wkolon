@@ -45,6 +45,31 @@ class WikiImportTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Homebrew excluded'):
             importer.compile_catalog({'Feats': ['Homebrew'], 'Talent Trees': []}, {'Homebrew': page}, [], baseline)
 
+    def test_core_discovery_excludes_nested_homebrew_through_shared_branches_and_cycles(self):
+        def category(name):
+            if name == 'Homebrew Content':
+                return [dict(title='Category:Nested', ns=14)]
+            if name == 'Nested':
+                return [dict(title='Nested homebrew', ns=0), dict(title='Category:Homebrew Content', ns=14)]
+            return [dict(title=n, ns=0) for n in ['Official', 'Nested homebrew']]
+        with patch.object(importer, 'category', side_effect=category) as request:
+            inventory = importer.discover()
+        self.assertTrue(all(names == ['Official'] for names in inventory.values()))
+        self.assertEqual(sum(call.args == ('Nested',) for call in request.call_args_list), 1)
+
+    def test_linked_species_feats_cannot_bypass_the_nested_homebrew_exclusion(self):
+        pages = {title:dict(title=title, revisions=[dict(revid=42,
+            timestamp='2024-01-01T00:00:00Z', slots=dict(main=dict(content='Reference Book: [[Core Rulebook]]')))])
+            for title in ['Weapon Proficiency', 'Nested homebrew']}
+        baseline = {k:[] for k in ['species', 'classes', 'feats', 'talents', 'equipment', 'sources']}
+        def article(root, title, pages, source, targets, **kwargs):
+            return dict(sourceId=source(title), blocks=[dict(tag='p', children=[title])])
+        with patch.object(importer, 'SKILLS', []), patch.object(importer, 'CLASSES', []), \
+                patch.object(importer, 'species_feats', return_value=['Nested homebrew']), \
+                patch.object(importer.presentation, 'article', side_effect=article):
+            with self.assertRaisesRegex(ValueError, 'Homebrew excluded: Nested homebrew'):
+                importer.compile_catalog({'Talent Trees':[]}, pages, [], baseline, {'Nested homebrew'})
+
     def test_corruption_import_keeps_destiny_and_supplement_power_tabs_separate(self):
         pages = {title: {'title': title, 'revisions': [{'revid': 42,
             'timestamp': '2024-01-01T00:00:00Z', 'slots': {'main': {'content':

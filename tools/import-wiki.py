@@ -113,9 +113,26 @@ def category(name):
             return members
 
 
-def discover():
+def homebrew_pages():
+    # A page can carry an official book category and a nested Homebrew category.
+    # Shared branches and category cycles must neither leak pages nor loop.
+    pending, visited, homebrew = ['Homebrew Content'], set(), set()
+    while pending:
+        name = pending.pop()
+        if name in visited:
+            continue
+        visited.add(name)
+        for member in category(name):
+            if member['ns'] == 0:
+                homebrew.add(member['title'])
+            elif member['ns'] == 14:
+                pending.append(member['title'].removeprefix('Category:'))
+    return homebrew
+
+
+def discover(excluded=None):
     core = {m['title'] for m in category('Core Rulebook') if m['ns'] == 0}
-    core -= {m['title'] for m in category('Homebrew Content') if m['ns'] == 0}
+    core -= homebrew_pages() if excluded is None else excluded
     return {name: sorted(m['title'] for m in category(name) if m['ns'] == 0 and m['title'] in core)
         for name in CATEGORIES}
 
@@ -136,7 +153,7 @@ def species_feats(pages, names):
     return sorted(feats)
 
 
-def compile_catalog(inventory, pages, redirects, baseline):
+def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=()):
     sources, rule_pages, records = {}, {}, {}
     aliases = {r['from']: r for r in redirects}
 
@@ -178,6 +195,10 @@ def compile_catalog(inventory, pages, redirects, baseline):
         alias = aliases.get(title, {})
         part = part or alias.get('tofragment')
         title = alias.get('to', title)
+        raw = pages[title]['revisions'][0]['slots']['main']['content']
+        if title in excluded_homebrew or re.search(r'\[\[Category:Homebrew[ _]Content(?:\|[^\]]*)?\]\]', raw, re.I) or any(
+                'homebrew' in line.lower() for line in raw.splitlines() if 'Reference Book' in line):
+            raise ValueError('Homebrew excluded: ' + name)
         rid = rule_id or targets.get(name, 'rule:' + slug(name))
         variant = part if part in SPECIES_VARIANTS.get(title, []) else None
         # Corruption contains two unrelated rules in tabs. A Core category hit
@@ -198,10 +219,6 @@ def compile_catalog(inventory, pages, redirects, baseline):
         return rid, sid
 
     def add_record(kind, name, title=None, part=None, **extra):
-        raw = pages[title or name]['revisions'][0]['slots']['main']['content']
-        if re.search(r'\[\[Category:Homebrew[ _]Content(?:\|[^\]]*)?\]\]', raw, re.I) or any(
-                'homebrew' in line.lower() for line in raw.splitlines() if 'Reference Book' in line):
-            raise ValueError('Homebrew excluded: ' + name)
         if kind == 'forcePower' and name == 'Corruption':
             part = 'Force Power'
         rid, sid = add_page(name, title, part,
@@ -306,12 +323,18 @@ def main():
     args = parser.parse_args()
     baseline = json.loads((ROOT / 'data/core.json').read_text())
     inventory_path = BUILD / 'import/inventory.json'
+    homebrew_path = BUILD / 'import/homebrew.json'
     inventory_path.parent.mkdir(parents=True, exist_ok=True)
     if args.offline:
+        if not homebrew_path.exists():
+            raise ValueError('Homebrew category capture required; refresh the importer first')
+        homebrew = set(json.loads(homebrew_path.read_text()))
         inventory = json.loads(inventory_path.read_text())
         snapshots = [json.loads(path.read_text()) for path in [BUILD / 'core-import-snapshot.json', BUILD / 'core-import-extra-snapshot.json', BUILD / 'core-species-feats-snapshot.json', BUILD / 'options-review-snapshot.json']]
     else:
-        inventory = discover()
+        homebrew = homebrew_pages()
+        homebrew_path.write_text(json.dumps(sorted(homebrew), indent=2) + '\n')
+        inventory = discover(homebrew)
         inventory_path.write_text(json.dumps(inventory, indent=2) + '\n')
         titles = set(SKILLS + CLASSES + ['Weapon Proficiency', 'Category:Web Enhancements', 'Equipment'])
         titles.update(name for names in inventory.values() for name in names)
@@ -324,7 +347,7 @@ def main():
     if not args.offline:
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
             list(pool.map(wiki.fetch_parse, pages.values()))
-    catalog = compile_catalog(inventory, pages, redirects, baseline)
+    catalog = compile_catalog(inventory, pages, redirects, baseline, homebrew)
     (ROOT / 'data/wiki-catalog.json').write_text(json.dumps(catalog, ensure_ascii=False, separators=(',', ':')) + '\n')
     print('Imported', {kind:sum(r['kind'] == kind for r in catalog['records']) for kind in sorted({r['kind'] for r in catalog['records']})})
 

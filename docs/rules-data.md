@@ -4,6 +4,14 @@ This contract was written before the calculation engine. The browser consumes a
 reviewed static `data/core.json` pack. It never interprets wiki prose as code.
 Character files store choices and play state, not calculated totals.
 
+`tools/discover-books.py` captures all Reference Books category memberships and
+the complete recursive Homebrew exclusion tree. It produces a title/status review
+queue under `.build/` and [the coverage report](wiki-coverage.md). A page with a
+reviewed mapping is only partially covered until all of its rules are reviewed.
+`tools/import-wiki.py` reuses a captured recursive exclusion list, including for
+linked species feats and redirects. Offline imports require that list; missing
+category captures and embedded Homebrew fail rather than silently importing it.
+
 Protection and attack sequences follow the [combat data contract](combat.md).
 
 Book-specific species are separate records with `bookVariant` and distinct IDs.

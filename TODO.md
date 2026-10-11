@@ -2,6 +2,7 @@
 
 - [x] Import the Core Rulebook reference library with pinned revisions, verbatim articles and offline search.
 - [x] Separate imported presentation from declarative reviewed mechanics.
+- [x] Inventory all 16 official source categories and recursively exclude Homebrew; publish the coverage queue in docs/wiki-coverage.md.
 - [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.
   - [x] Enable the nine remaining unambiguous Core species, size and conditional defense calculations, and all six weapon-proficiency groups.
   - [x] Separate species book variants, Ithorese, and Core/Legacy Yuuzhan Vong restrictions.
