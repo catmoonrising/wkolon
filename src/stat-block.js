@@ -29,10 +29,10 @@ export function renderStatBlock(c,d,pack){
  return `<article class="stat-block"><h1>${escape(c.name||'Unnamed hero')} <span>(CL ${d.level})</span></h1>
  <p>${escape(species.size.replace(/^./,ch=>ch.toUpperCase()))} ${escape(species.name)} ${classes}</p>
  <p>${points}</p>${line('Initiative',signed(skill('initiative').total)+'; <b>Senses:</b> Perception '+signed(skill('perception').total))}${line('Languages',languages)}
- <h2>Defenses</h2><p><b>Reflex Defense:</b> ${d.defenses.reflex}, <b>Fortitude Defense:</b> ${d.defenses.fortitude}, <b>Will Defense:</b> ${d.defenses.will}</p>
+ <h2>Defenses</h2><p><b>Reflex Defense:</b> ${d.defenses.reflex}, <b>Fortitude Defense:</b> ${d.defenses.fortitude}, <b>Will Defense:</b> ${d.defenses.will}${(d.conditionalDefenses||[]).filter(e=>e.defense==='will').map(e=>` (${e.total} vs. Use the Force)`).join('')}</p>
  <p><b>Hit Points:</b> ${c.currentHP??d.hp}/${d.hp}; <b>Damage Threshold:</b> ${d.threshold}${protection.dr?`; <b>DR:</b> ${protection.dr}${protection.drBypass?' ('+escape(protection.drBypass)+')':''}`:''}${protection.srMax?`; <b>SR:</b> ${protection.sr}/${protection.srMax}`:''}</p>
  ${textLine('Condition Track',condition)}
- <h2>Offense</h2>${line('Speed',d.speed+' Squares')}${attacks}${routines}${line('Base Attack Bonus',signed(d.bab))}
+ <h2>Offense</h2>${line('Speed',d.speed+' Squares'+Object.entries(d.speeds||{}).map(([type,n])=>`, ${escape(type)} ${n} Squares`).join(''))}${attacks}${routines}${line('Base Attack Bonus',signed(d.bab))}
  <h2>Base Stats</h2>${line('Abilities',ABILITIES.map(a=>`${a[0].toUpperCase()+a.slice(1)} ${d.scores[a]}`).join(', '))}
  ${line('Talents',d.ctx.talents.map(s=>featureName('talents',s)).join(', '))}${line('Feats',d.ctx.feats.map(s=>featureName('feats',s)).join(', '))}
  ${line('Skills',d.skills.filter(s=>s.trained&&s.available).map(s=>`${escape(s.name)} ${signed(s.total)}`).join(', '))}

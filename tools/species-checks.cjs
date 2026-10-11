@@ -7,7 +7,7 @@ module.exports=async function checkSpecies(browser,base,root){
   await page.goto(base+'#creation');await page.locator('[data-step="1"]').click();
   const results=page.locator('#species-results'),search=page.locator('#species-search');
   const names=()=>results.locator('.sp-name-link').allTextContents();
-  const initial=await names();assert.equal(initial.length,10);assert.deepEqual(initial,[...initial].sort((a,b)=>a.localeCompare(b)));
+  const initial=await names();assert.equal(initial.length,19);assert.deepEqual(initial,[...initial].sort((a,b)=>a.localeCompare(b)));
   assert.equal(await results.locator('[data-sort="name"]').innerText(),'Species ▼');
   await results.locator('[data-sort="name"]').click();assert.deepEqual(await names(),[...initial].reverse());assert.equal(await results.locator('[data-sort="name"]').innerText(),'Species ▲');
   await results.locator('[data-sort="name"]').press('Enter');assert.deepEqual(await names(),initial);
@@ -26,8 +26,8 @@ module.exports=async function checkSpecies(browser,base,root){
   await search.evaluate(el=>el._sameSearch=true);await search.fill('BIOTECH');assert.deepEqual(await names(),['Gungan']);assert(await search.evaluate(el=>el._sameSearch && el===document.activeElement));assert(await article.isVisible());
   await search.fill('no species matches this phrase');assert.equal(await names().then(n=>n.length),0);assert.equal(await results.locator('[role="status"]').innerText(),'No matches');
   await search.fill('');await results.locator('[data-sort="speed"]').click();assert.equal((await names())[0],'Gungan');assert.equal(await results.locator('th[aria-sort="descending"]').innerText(),'Speed ▲');
-  await results.locator('[data-sort="speed"]').click();assert.equal((await names()).at(-1),'Gungan');
-  await results.locator('[data-sort="abilities"]').click();assert.equal((await names())[0],'Duros');await results.locator('[data-sort="abilities"]').click();assert.equal((await names())[0],'Gamorrean');
+  await results.locator('[data-sort="speed"]').click();assert.equal((await names())[0],'Hutt');assert.equal((await names()).at(-1),'Quarren');
+  await results.locator('[data-sort="abilities"]').click();assert.equal((await names())[0],'Cerean');await results.locator('[data-sort="abilities"]').click();assert.equal((await names())[0],'Aqualish');
   await search.fill('gungan');await results.locator('[data-select-species="species:gungan"]').click();assert.equal(await search.inputValue(),'gungan');assert.equal(await results.locator('[data-select-species="species:gungan"]').getAttribute('aria-pressed'),'true');assert(await article.isVisible());
   await page.locator('[data-step="0"]').click();assert.equal(await page.locator('#cr-final-dex').innerText(),'12');
   await page.locator('[data-step="1"]').click();assert.equal(await search.inputValue(),'gungan');

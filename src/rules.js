@@ -1,7 +1,7 @@
 import {emptyTraits, emptyStory, activeBackground, validateFinishing} from './heroic-traits.js';
 import {emptyProtection,validateCombatState} from './combat.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
-export const GROUPS = ['lightsabers', 'pistols', 'rifles', 'simple-weapons'];
+export const GROUPS = ['advanced-melee-weapons', 'heavy-weapons', 'lightsabers', 'pistols', 'rifles', 'simple-weapons'];
 export const modifier = score => Math.floor((score - 10) / 2);
 export const signed = n => n >= 0 ? `+${n}` : String(n);
 export const selectionKey = s => `${s.id}:${s.choice || ''}`;
@@ -220,8 +220,9 @@ export function derive(c, pack) {
     const sp = species.defenses[key] || 0;
     const equipment = key === 'fortitude' && proficientArmor ? armor.fortitudeBonus : 0;
     const size = key === 'reflex' ? pack.rules.sizeReflex[species.size] : 0;
-    defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + total('defenses') + condition + c.modifiers[key];
-    breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${total('defenses')} feats + ${condition} condition + ${c.modifiers[key]} misc`;
+    const naturalArmor = key === 'reflex' ? species.naturalArmor || 0 : 0;
+    defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + total('defenses') + condition + c.modifiers[key];
+    breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${total('defenses')} feats + ${condition} condition + ${c.modifiers[key]} misc`;
   }
   // Conditions' Jedi Counseling ruling includes every Fortitude modifier.
   const threshold = defenses.fortitude + pack.rules.sizeThreshold[species.size] + total('threshold') + c.modifiers.threshold;
@@ -232,9 +233,10 @@ export function derive(c, pack) {
     const backgroundBonus=!trained && background?.relevantSkills.includes(s.id)?background.untrainedBonus:0;
     const equipment = proficientArmor ? armor.skillBonuses[s.id] || 0 : 0;
     const penalty = s.armorCheck ? armorPenalty : 0;
+    const size = s.id === 'skill:stealth' ? pack.rules.sizeStealth[species.size] : 0;
     return {...s, trained, focus, available: !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || ctx.feats.some(f => f.id === F('force-sensitivity'))),
-      total: half + mods[s.ability] + (trained ? pack.rules.trainingBonus : 0) + Math.max(focus,backgroundBonus) + equipment + penalty + condition,
-      breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${focus} focus + ${backgroundBonus} background + ${equipment} equipment + ${penalty} armor + ${condition} condition`};
+      total: half + mods[s.ability] + (trained ? pack.rules.trainingBonus : 0) + Math.max(focus,backgroundBonus) + equipment + penalty + size + condition,
+      breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${focus} focus + ${backgroundBonus} background + ${equipment} equipment + ${penalty} armor + ${size} size + ${condition} condition`};
   });
   const attacks = c.inventory.filter(e => e.equipped && ix.equipment.get(e.id).kind === 'weapon').map(e => {
     const w = ix.equipment.get(e.id);
@@ -255,7 +257,9 @@ export function derive(c, pack) {
   const pointCost = (c.abilityMethod==='point-buy' && c.abilityGeneration ? c.abilityGeneration.pool : Object.values(c.abilities)).reduce((n, v) => n + (pack.rules.pointBuyCosts[v] ?? Infinity), 0);
   if (c.abilityMethod === 'point-buy' && pointCost > c.pointBudget) issues.push('Point-buy budget exceeded or a base score is outside 8–18');
   return {level, half, scores: ctx.scores, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, ctx, rows, issues,
+    conditionalDefenses: (species.conditionalDefenses||[]).map(e=>({...e,total:defenses[e.defense]+e.amount})),
     speed: c.condition >= 4 ? Math.floor(species.speed / 2) : species.speed,
+    speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,c.condition >= 4 ? Math.floor(n / 2) : n])),
     incapacitated: c.condition === 5, forceMaximum: pack.rules.resources.forcePointBase + half, pointCost,
     weight: c.inventory.reduce((n,e) => n + ix.equipment.get(e.id).weight * e.quantity, 0),
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};

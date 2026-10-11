@@ -16,6 +16,7 @@ export function validatePack(p) {
   for (const k of ['species','classes','skills','feats','talents','equipment','sources']) assert(Array.isArray(p[k]), k);
   assert(p.license && p.rules && p.sources.length);
   const ix = indexPack(p), ids = new Set(), sources = new Set(p.sources.map(s => s.id));
+  assert(p.rules.sizeStealth && Object.entries(p.rules.sizeReflex).every(([size])=>Number.isInteger(p.rules.sizeStealth[size])), 'Missing size modifiers for Stealth');
   for (const s of p.sources) {
     assert(Number.isInteger(s.revision) && s.revision > 0);
     assert(!Number.isNaN(Date.parse(s.timestamp)));
@@ -64,6 +65,15 @@ export function validatePack(p) {
       assert(p.rules.sizeReflex[r.size] !== undefined && Number.isInteger(r.speed));
       for(const [k,v] of Object.entries(r.abilityAdjustments)) assert(ABILITIES.includes(k) && Number.isInteger(v));
       assert(Array.isArray(r.languages) && Array.isArray(r.reminders));
+      if(r.naturalArmor!==undefined)assert(Number.isInteger(r.naturalArmor)&&r.naturalArmor>=0,'Invalid natural armor');
+      if(r.conditionalDefenses!==undefined){
+        assert(Array.isArray(r.conditionalDefenses));
+        for(const e of r.conditionalDefenses){
+          assert(Object.keys(e).every(k=>['defense','against','amount','type'].includes(k)));
+          assert(e.defense==='will'&&e.against==='use-the-force'&&e.type==='untyped'&&Number.isInteger(e.amount),'Unsupported conditional defense');
+        }
+        assert(new Set(r.conditionalDefenses.map(e=>e.defense+':'+e.against)).size===r.conditionalDefenses.length,'Duplicate conditional defense');
+      }
       if(r.conditionalFocus) requireRef('skills',r.conditionalFocus);
       for(const key of ['startingFeats','excludedStartingFeats'])if(r[key]){assert(Array.isArray(r[key]));r[key].forEach(id=>requireRef('feats',id));}
       if(r.speeds){assert(Object.keys(r.speeds).every(key=>/^[a-z-]+$/.test(key)));assert(Object.values(r.speeds).every(n=>Number.isInteger(n)&&n>=0));}

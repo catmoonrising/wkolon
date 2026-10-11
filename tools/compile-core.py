@@ -21,21 +21,33 @@ def compile_pack(mechanics, catalog, reviewed):
     pack['sources'] = sorted(sources.values(), key=lambda s:s['id'])
     pack['rulePages'] = catalog['rulePages']
     by_name = {r['name']: r for r in pack['rulePages']}
+    def source_key(source):
+        return (source['title'], source['revision'], source.get('section'))
+    by_source = {source_key(sources[r['sourceId']]): r for r in pack['rulePages']}
     typed = {r['id']:r for key in COLLECTIONS for r in pack.get(key, [])}
     for key in ['species', 'classes', 'feats', 'talents', 'equipment']:
         for r in pack[key]:
-            article = by_name.get(r['name'])
+            mechanical = sources[r['sourceId']]
+            article = by_name.get(r['name']) or by_source.get(source_key(mechanical))
             if not article:
                 raise ValueError('Missing imported article: ' + r['name'])
-            mechanical = sources[r['sourceId']]
             presentation = sources[article['sourceId']]
             if (mechanical['title'], mechanical['revision'], mechanical.get('section')) != (presentation['title'], presentation['revision'], presentation.get('section')):
                 raise ValueError('Changed mechanical source needs review: ' + r['name'])
             r['article'] = article['article']
     records = json.loads(json.dumps(catalog['records']))
+    collections = {'species':'species', 'class':'classes', 'skill':'skills', 'feat':'feats',
+        'talent':'talents', 'weapon':'equipment', 'armor':'equipment', 'gear':'equipment'}
     for record in records:
         if any(id not in typed for id in record['mechanicsIds']):
             raise ValueError('Missing reviewed mechanics: ' + record['name'])
+        # A reviewed mapping can be added after the reference import. Match its
+        # exact pinned source, including section, rather than enabling prose.
+        for item in pack.get(collections.get(record['kind'], ''), []):
+            same_name = item['name'] == record['name']
+            same_source = source_key(sources[item['sourceId']]) == source_key(sources[record['sourceId']])
+            if (same_name or same_source) and item['id'] not in record['mechanicsIds']:
+                record['mechanicsIds'].append(item['id'])
         record['status'] = 'available' if record['mechanicsIds'] else 'reference'
     pack['catalog'] = dict(schemaVersion=1, book=catalog['book'], records=records)
     pack['license']['attribution'] = 'Adapted from Star Wars Saga Edition wiki contributors. Source revisions and contributor histories are retained.'

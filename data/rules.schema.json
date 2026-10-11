@@ -131,11 +131,23 @@
               "minimum": 1
             }
           }
+        },
+        "sizeStealth": {
+          "type": "object",
+          "required": [
+            "small",
+            "medium",
+            "large"
+          ],
+          "additionalProperties": {
+            "type": "integer"
+          }
         }
       },
       "required": [
         "combat",
-        "resources"
+        "resources",
+        "sizeStealth"
       ]
     },
     "species": {
@@ -171,6 +183,37 @@
               "type": "string"
             },
             "uniqueItems": true
+          },
+          "naturalArmor": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "conditionalDefenses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "defense",
+                "against",
+                "amount",
+                "type"
+              ],
+              "properties": {
+                "defense": {
+                  "const": "will"
+                },
+                "against": {
+                  "const": "use-the-force"
+                },
+                "amount": {
+                  "type": "integer"
+                },
+                "type": {
+                  "const": "untyped"
+                }
+              }
+            }
           }
         }
       }

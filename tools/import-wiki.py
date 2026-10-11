@@ -91,6 +91,22 @@ def discover():
         for name in CATEGORIES}
 
 
+def species_feats(pages, names):
+    """Read feat names from the first table column, not links in benefit text."""
+    feats = set()
+    for name in names:
+        raw = pages[name]['revisions'][0]['slots']['main']['content']
+        match = re.search(r'^==[^\n=]*Species Feats[^\n=]*==\s*$', raw, re.M)
+        if not match:
+            continue
+        scope = re.split(r'^==[^=]', raw[match.end():], maxsplit=1, flags=re.M)[0]
+        for row in re.split(r'^\|-\s*$', scope, flags=re.M):
+            cell = re.search(r'^\|\s*\[\[([^\]|]+)', row, re.M)
+            if cell:
+                feats.add(cell.group(1))
+    return sorted(feats)
+
+
 def compile_catalog(inventory, pages, redirects, baseline):
     sources, rule_pages, records = {}, {}, {}
     aliases = {r['from']: r for r in redirects}
@@ -109,6 +125,8 @@ def compile_catalog(inventory, pages, redirects, baseline):
 
     targets = {title: 'rule:' + slug(title) for title in pages if not title.startswith('Category:')}
     targets.update({r['name']: r['id'] for r in baseline.get('rulePages', [])})
+    targets.update({r['name']: 'rule:' + slug(r['name'])
+        for kind in ['species', 'feats', 'talents', 'equipment', 'classes'] for r in baseline[kind]})
     # Local links to individual talents resolve to their section, not the whole tree.
     for title in inventory['Talent Trees']:
         blocks = presentation.article(ROOT, title, pages, lambda _: 'unused', {})['blocks']
@@ -171,6 +189,8 @@ def compile_catalog(inventory, pages, redirects, baseline):
     for name in CLASSES:
         add_record('class', name)
     add_record('feat', 'Weapon Proficiency')
+    for name in species_feats(pages, inventory.get('Species', [])):
+        add_page(name)
 
     # Retain previously available supplement references and stable link IDs.
     for old in baseline.get('rulePages', []):
@@ -218,7 +238,7 @@ def main():
     inventory_path.parent.mkdir(parents=True, exist_ok=True)
     if args.offline:
         inventory = json.loads(inventory_path.read_text())
-        snapshots = [json.loads(path.read_text()) for path in [BUILD / 'core-import-snapshot.json', BUILD / 'core-import-extra-snapshot.json']]
+        snapshots = [json.loads(path.read_text()) for path in [BUILD / 'core-import-snapshot.json', BUILD / 'core-import-extra-snapshot.json', BUILD / 'core-species-feats-snapshot.json']]
     else:
         inventory = discover()
         inventory_path.write_text(json.dumps(inventory, indent=2) + '\n')
@@ -226,6 +246,8 @@ def main():
         titles.update(name for names in inventory.values() for name in names)
         titles.update(s['title'] for s in baseline['sources'])
         snapshots = [wiki.snapshot(sorted(titles), 'core-import-snapshot.json')]
+        initial_pages = {p['title']:p for p in snapshots[0]['query']['pages']}
+        snapshots.append(wiki.snapshot(species_feats(initial_pages, inventory['Species']), 'core-species-feats-snapshot.json'))
     pages = {p['title']:p for snap in snapshots for p in snap['query']['pages']}
     redirects = [r for snap in snapshots for r in snap['query'].get('redirects', [])]
     if not args.offline:

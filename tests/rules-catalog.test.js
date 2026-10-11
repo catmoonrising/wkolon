@@ -11,7 +11,8 @@ test('library searches the full description and filters type without granting re
  const library=createRulesCatalog(pack);
  library.search('amphibious');library.filter('species');
  assert(library.matches().some(r=>r.name==='Mon Calamari'));
- library.filter('species',true);assert(!library.matches().some(r=>r.name==='Mon Calamari'));
+ library.filter('species',true);assert(library.matches().some(r=>r.name==='Mon Calamari'));
+ library.search('');assert(!library.matches().some(r=>r.name==='Neimoidian'));
  library.search('');library.filter('forcePower');
  assert(library.matches().some(r=>r.name==='Force Lightning'));
  assert(library.matches().every(r=>r.status==='reference'));
@@ -23,7 +24,7 @@ test('library searches the full description and filters type without granting re
  assert(library.matches().some(r=>r.name==='Acrobatics'));
  assert.equal(library.matches().find(r=>r.name==='Knowledge').mechanicsIds.length,7);
  library.filter('feat',true);
- assert.equal(library.matches().find(r=>r.name==='Weapon Proficiency').mechanicsIds.length,4);
+ assert.equal(library.matches().find(r=>r.name==='Weapon Proficiency').mechanicsIds.length,6);
 });
 
 test('core talent sections preserve prerequisites and exclude neighbouring and supplementary abilities',()=>{

@@ -222,7 +222,7 @@ const server=http.createServer((req,res)=>{
   await editor.locator('#rules-kind').selectOption('species');
   assert(await editor.locator('#rules-results').getByRole('button',{name:'Mon Calamari',exact:true}).count());
   await editor.locator('#rules-builder-only').check();
-  assert.equal(await editor.locator('#rules-results').getByRole('button',{name:'Mon Calamari',exact:true}).count(),0);
+  assert.equal(await editor.locator('#rules-results').getByRole('button',{name:'Mon Calamari',exact:true}).count(),1);
   await editor.locator('#cr-done').click();await page.locator('#print').click();
   assert.equal(await editor.isVisible(),false);
   assert(await page.locator('#stat-block-modal').isVisible());
@@ -236,6 +236,7 @@ const server=http.createServer((req,res)=>{
   await require('./generation-checks.cjs')(browser,base,root);
   await require('./finishing-checks.cjs')(browser,base,root);
   await require('./species-checks.cjs')(browser,base,root);
+  await require('./core-species-checks.cjs')(browser,base,root);
   await require('./feature-tree-checks.cjs')(browser,base,root);
   await require('./feature-crossing-checks.cjs')(browser,base,root);
   await require('./header-checks.cjs')(browser,base,root);

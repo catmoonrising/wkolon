@@ -1613,6 +1613,106 @@
       "history": "https://swse.miraheze.org/w/index.php?title=Widowed&action=history"
     },
     {
+      "id": "source:wiki-aqualish",
+      "title": "Aqualish",
+      "section": null,
+      "revision": 15866,
+      "timestamp": "2024-08-18T00:53:20Z",
+      "sha256": "358b5c395e8880f8cd45439e5ae44698d259c14dd544d5b9969501596617a170",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15866",
+      "history": "https://swse.miraheze.org/w/index.php?title=Aqualish&action=history"
+    },
+    {
+      "id": "source:wiki-cerean",
+      "title": "Cerean",
+      "section": null,
+      "revision": 18021,
+      "timestamp": "2024-08-25T19:27:31Z",
+      "sha256": "cb49df005fc716b77f12f93bbb00ab06ee2b3d465b0a9a48c92896e6340401de",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18021",
+      "history": "https://swse.miraheze.org/w/index.php?title=Cerean&action=history"
+    },
+    {
+      "id": "source:wiki-ewok",
+      "title": "Ewok",
+      "section": null,
+      "revision": 18155,
+      "timestamp": "2024-08-25T19:40:46Z",
+      "sha256": "295f9a628de37edb1bcb572d6825004d589993a76ca0605b6193d7379ee35651",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18155",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ewok&action=history"
+    },
+    {
+      "id": "source:wiki-hutt",
+      "title": "Hutt",
+      "section": null,
+      "revision": 18258,
+      "timestamp": "2024-08-25T19:51:39Z",
+      "sha256": "9bd70f9abac5d6b6c0247d6417cef5547e20bc114ad9227b946d8f1b58e6988d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18258",
+      "history": "https://swse.miraheze.org/w/index.php?title=Hutt&action=history"
+    },
+    {
+      "id": "source:wiki-ithorian",
+      "title": "Ithorian",
+      "section": null,
+      "revision": 18294,
+      "timestamp": "2024-08-25T19:55:03Z",
+      "sha256": "2ea1ba2899be6c1edb4d9d8239f1a502c72b85e2bbf86a2615063f2ce06adbfe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18294",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ithorian&action=history"
+    },
+    {
+      "id": "source:wiki-mon-calamari",
+      "title": "Mon Calamari",
+      "section": null,
+      "revision": 18373,
+      "timestamp": "2024-08-25T20:02:02Z",
+      "sha256": "787cf135e85ddffb92164f22af11a35102f46f5757cfd4bdb3aa099670a591ea",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18373",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mon%20Calamari&action=history"
+    },
+    {
+      "id": "source:wiki-quarren",
+      "title": "Quarren",
+      "section": null,
+      "revision": 18422,
+      "timestamp": "2024-08-25T20:06:25Z",
+      "sha256": "20028c702cc7b59d20962ef963b35d46cd1599e092c801cdf5fb79e0368ff934",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18422",
+      "history": "https://swse.miraheze.org/w/index.php?title=Quarren&action=history"
+    },
+    {
+      "id": "source:wiki-sullustan",
+      "title": "Sullustan",
+      "section": null,
+      "revision": 27360,
+      "timestamp": "2025-10-13T11:31:04Z",
+      "sha256": "fcc38d625ae20288cab944ae8617b36c42b3477c266f49b3ae3f288855ca5e2b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27360",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sullustan&action=history"
+    },
+    {
+      "id": "source:wiki-trandoshan",
+      "title": "Trandoshan",
+      "section": null,
+      "revision": 18573,
+      "timestamp": "2024-08-25T20:20:34Z",
+      "sha256": "db0c712638ec41729768f8414befec8ebdc877ecf5caedd6f39119d7aa24818c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18573",
+      "history": "https://swse.miraheze.org/w/index.php?title=Trandoshan&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-proficiency",
+      "title": "Weapon Proficiency",
+      "section": null,
+      "revision": 22306,
+      "timestamp": "2024-09-02T15:04:39Z",
+      "sha256": "a240d16476e5ee2ce33cf9fd5186a0a0c68d97752fa50136fb55299f903f324e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=22306",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Proficiency&action=history"
+    },
+    {
       "id": "source:wookiee",
       "title": "Wookiee",
       "section": null,
@@ -1651,6 +1751,30 @@
   ],
   "species": [
     {
+      "id": "species:aqualish",
+      "name": "Aqualish",
+      "sourceId": "source:wiki-aqualish",
+      "abilityAdjustments": {
+        "con": 2,
+        "wis": -2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Aqualish"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "startingFeats": [
+        "feat:toughness"
+      ]
+    },
+    {
       "id": "species:bothan",
       "name": "Bothan",
       "sourceId": "source:bothan",
@@ -1670,6 +1794,27 @@
       "bonusFeats": 0,
       "bonusSkills": 0,
       "conditionalFocus": "skill:gather-information",
+      "reminders": []
+    },
+    {
+      "id": "species:cerean",
+      "name": "Cerean",
+      "sourceId": "source:wiki-cerean",
+      "abilityAdjustments": {
+        "int": 2,
+        "wis": 2,
+        "dex": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Cerean"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:initiative",
       "reminders": []
     },
     {
@@ -1693,6 +1838,30 @@
       "conditionalFocus": null,
       "reminders": [
         "Pilot rerolls must use the new result."
+      ]
+    },
+    {
+      "id": "species:ewok",
+      "name": "Ewok",
+      "sourceId": "source:wiki-ewok",
+      "abilityAdjustments": {
+        "dex": 2,
+        "str": -2
+      },
+      "defenses": {},
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Ewokese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:survival",
+      "reminders": [],
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
       ]
     },
     {
@@ -1768,6 +1937,59 @@
       "reminders": []
     },
     {
+      "id": "species:hutt",
+      "name": "Hutt",
+      "sourceId": "source:wiki-hutt",
+      "abilityAdjustments": {
+        "str": 2,
+        "con": 2,
+        "int": 2,
+        "dex": -6
+      },
+      "defenses": {},
+      "size": "large",
+      "speed": 2,
+      "languages": [
+        "Basic",
+        "Huttese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "conditionalDefenses": [
+        {
+          "defense": "will",
+          "against": "use-the-force",
+          "amount": 5,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "species:ithorian",
+      "name": "Ithorian",
+      "sourceId": "source:wiki-ithorian",
+      "abilityAdjustments": {
+        "wis": 2,
+        "cha": 2,
+        "dex": -2
+      },
+      "defenses": {
+        "will": 2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Ithorese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:knowledge-life-sciences",
+      "reminders": []
+    },
+    {
       "id": "species:kel-dor",
       "name": "Kel Dor",
       "sourceId": "source:kel-dor",
@@ -1792,6 +2014,54 @@
       ]
     },
     {
+      "id": "species:mon-calamari",
+      "name": "Mon Calamari",
+      "sourceId": "source:wiki-mon-calamari",
+      "abilityAdjustments": {
+        "int": 2,
+        "wis": 2,
+        "con": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Mon Calamarian"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:perception",
+      "reminders": [],
+      "speeds": {
+        "swim": 4
+      }
+    },
+    {
+      "id": "species:quarren",
+      "name": "Quarren",
+      "sourceId": "source:wiki-quarren",
+      "abilityAdjustments": {
+        "con": 2,
+        "wis": -2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Quarrenese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:persuasion",
+      "reminders": [],
+      "speeds": {
+        "swim": 4
+      }
+    },
+    {
       "id": "species:rodian",
       "name": "Rodian",
       "sourceId": "source:rodian",
@@ -1812,6 +2082,50 @@
       "conditionalFocus": "skill:survival",
       "reminders": [
         "Low-light vision. Perception rerolls must use the new result."
+      ]
+    },
+    {
+      "id": "species:sullustan",
+      "name": "Sullustan",
+      "sourceId": "source:wiki-sullustan",
+      "abilityAdjustments": {
+        "dex": 2,
+        "con": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Sullustese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": []
+    },
+    {
+      "id": "species:trandoshan",
+      "name": "Trandoshan",
+      "sourceId": "source:wiki-trandoshan",
+      "abilityAdjustments": {
+        "str": 2,
+        "dex": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Dosh"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "naturalArmor": 1,
+      "startingFeats": [
+        "feat:toughness"
       ]
     },
     {
@@ -2034,7 +2348,8 @@
         "feat:armor-proficiency-light",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
-        "feat:weapon-proficiency-simple-weapons"
+        "feat:weapon-proficiency-simple-weapons",
+        "feat:weapon-proficiency-advanced-melee-weapons"
       ],
       "talentTrees": [
         "tree:inspiration",
@@ -2113,7 +2428,8 @@
         "feat:skill-focus",
         "feat:skill-training",
         "feat:weapon-proficiency-pistols",
-        "feat:weapon-proficiency-simple-weapons"
+        "feat:weapon-proficiency-simple-weapons",
+        "feat:weapon-proficiency-advanced-melee-weapons"
       ],
       "talentTrees": [
         "tree:fortune",
@@ -2198,7 +2514,8 @@
         "feat:armor-proficiency-medium",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
-        "feat:weapon-proficiency-simple-weapons"
+        "feat:weapon-proficiency-simple-weapons",
+        "feat:weapon-proficiency-advanced-melee-weapons"
       ],
       "talentTrees": [
         "tree:awareness",
@@ -2277,7 +2594,9 @@
         "feat:armor-proficiency-medium",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
-        "feat:weapon-proficiency-simple-weapons"
+        "feat:weapon-proficiency-simple-weapons",
+        "feat:weapon-proficiency-advanced-melee-weapons",
+        "feat:weapon-proficiency-heavy-weapons"
       ],
       "talentTrees": [
         "tree:armor-specialist",
@@ -2834,6 +3153,32 @@
       "effects": [],
       "weaponGroup": "simple-weapons",
       "reminder": "Proficiency with simple weapons."
+    },
+    {
+      "id": "feat:weapon-proficiency-advanced-melee-weapons",
+      "name": "Weapon Proficiency (Advanced Melee Weapons)",
+      "sourceId": "source:wiki-weapon-proficiency",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "weaponGroup": "advanced-melee-weapons",
+      "reminder": ""
+    },
+    {
+      "id": "feat:weapon-proficiency-heavy-weapons",
+      "name": "Weapon Proficiency (Heavy Weapons)",
+      "sourceId": "source:wiki-weapon-proficiency",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "weaponGroup": "heavy-weapons",
+      "reminder": ""
     }
   ],
   "talents": [
@@ -3402,8 +3747,15 @@
       "source:skills",
       "source:conditions",
       "source:category-weapons",
-      "source:attacks"
-    ]
+      "source:attacks",
+      "source:wiki-ewok",
+      "source:wiki-hutt"
+    ],
+    "sizeStealth": {
+      "small": 5,
+      "medium": 0,
+      "large": -5
+    }
   },
   "heroicTraits": {
     "sourceIds": [
@@ -3916,7 +4268,9 @@
         "Cerean"
       ],
       "untrainedBonus": 0,
-      "excludedSpecies": [],
+      "excludedSpecies": [
+        "species:cerean"
+      ],
       "reference": [
         {
           "heading": "Planet of Origin",
@@ -4055,7 +4409,10 @@
         "Quarrenese"
       ],
       "untrainedBonus": 0,
-      "excludedSpecies": [],
+      "excludedSpecies": [
+        "species:mon-calamari",
+        "species:quarren"
+      ],
       "reference": [
         {
           "heading": "Planet of Origin",
@@ -4318,7 +4675,9 @@
         "Ithorese"
       ],
       "untrainedBonus": 0,
-      "excludedSpecies": [],
+      "excludedSpecies": [
+        "species:ithorian"
+      ],
       "reference": [
         {
           "heading": "Planet of Origin",
@@ -4692,7 +5051,9 @@
         "Sullustese"
       ],
       "untrainedBonus": 0,
-      "excludedSpecies": [],
+      "excludedSpecies": [
+        "species:sullustan"
+      ],
       "reference": [
         {
           "heading": "Planet of Origin",
@@ -4786,7 +5147,9 @@
         "Dosh"
       ],
       "untrainedBonus": 0,
-      "excludedSpecies": [],
+      "excludedSpecies": [
+        "species:trandoshan"
+      ],
       "reference": [
         {
           "heading": "Planet of Origin",

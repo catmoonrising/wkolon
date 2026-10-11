@@ -3,6 +3,8 @@
 - [x] Import the Core Rulebook reference library with pinned revisions, verbatim articles and offline search.
 - [x] Separate imported presentation from declarative reviewed mechanics.
 - [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.
+  - [x] Enable the nine remaining unambiguous Core species, size and conditional defense calculations, and all six weapon-proficiency groups.
+  - [ ] Species book variants, special attacks, rerolls, sensory traits and carrying limits.
 
 - [ ] **Revamp character creation** — species, feat and talent browsers implemented; class and skill mechanics remain.
   - [x] Species: searchable and sortable table, expandable wiki articles, complete species feat dialogs.

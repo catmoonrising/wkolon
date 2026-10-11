@@ -22,6 +22,12 @@ IDs do not depend on display labels. Characters pin a pack ID and version.
   and selects the Condition Track terminal label: `Helpless (Disabled)` for a
   droid, `Helpless (Unconscious)` otherwise. This classification does not
   implement droid construction or other droid mechanics.
+  Optional `naturalArmor` stacks with worn armor; it does not replace the level
+  bonus. `conditionalDefenses: [{defense: "will", against: "use-the-force",
+  amount: 5, type: "untyped"}]` adds a separate situational total, never a global
+  defense bonus. `rules.sizeStealth` contains Small +5, Medium 0 and Large −5.
+  Optional `speeds` retains movement types such as swimming; the sheet and stat
+  block display them and Condition Track reductions apply to each speed.
 - **Classes:** explicit BAB table for class levels 1–20, hit die, starting HP,
   starting trained skill count, class skill IDs, defense bonuses, starting feat IDs,
   permitted bonus feat IDs, talent tree IDs, starting credit dice and multiplier.
@@ -114,6 +120,9 @@ uses revision IDs, not whatever revision happens to be current during an import.
 Core talent records come only from Core Talents headings. Complete tree pages
 still contain their labeled Additional sections. Category membership alone does
 not resolve different published species variants or errata.
+Species feat names come from the first column of their table, with their complete
+articles bundled for local disclosures. Supplemental species feats remain
+reference-only until their prerequisites and effects have been reviewed.
 
 Three committed files have distinct roles:
 
@@ -126,7 +135,9 @@ Three committed files have distinct roles:
   `python3 tools/compile-core.py`. The compiler checks
   `tools/reviewed-revisions.json` and refuses changed revisions for existing
   mechanical mappings. Additive reference imports keep the character pack version
-  unchanged; a future incompatible mechanical change requires migration.
+  unchanged; a future incompatible mechanical change requires migration. The
+  compiler associates newly reviewed options with catalog entries by name or
+  exact source title, revision and section, without another reference import.
 
 `catalog: {schemaVersion: 1, book, records}` supplements the pack. Catalog entries
 have stable `id`, `name`, `kind`, `sourceId`, `ruleId`, `books`, `status`, and optional
@@ -141,7 +152,7 @@ The imported library has 483 entries: 21 species, five heroic classes, twelve
 prestige classes, nineteen skill pages (Knowledge contains seven fields), 64 feat
 pages (including Weapon Proficiency), 200 Core talents, forty talent trees,
 48 weapons, eleven armor entries, 46 general equipment pages, and seventeen Force
-powers. The reviewed builder still covers ten species and a smaller feat, talent
+powers. The reviewed builder covers nineteen species and a smaller feat, talent
 and equipment subset. Read [import-review.md](import-review.md) for actual source
 conflicts, unresolved variants and remaining mechanical work.
 

@@ -47,7 +47,7 @@ class WikiImportTests(unittest.TestCase):
         pack = compiler.compile_pack(mechanics, catalog, reviewed)
         self.assertEqual(pack, json.loads((ROOT / 'data/core.json').read_text()))
         self.assertEqual(pack['version'], mechanics['version'])
-        self.assertEqual(pack['feats'], [dict(r, article=next(p['article'] for p in pack['rulePages'] if p['name'] == r['name'])) for r in mechanics['feats']])
+        self.assertEqual(mechanics['feats'], [{k:v for k,v in r.items() if k != 'article'} for r in pack['feats']])
         lightning = next(r for r in pack['catalog']['records'] if r['name'] == 'Force Lightning')
         self.assertEqual(lightning['status'], 'reference')
         self.assertNotIn('forcePower:force-lightning', {r['id'] for r in pack['feats']})
@@ -62,3 +62,25 @@ class WikiImportTests(unittest.TestCase):
         source = next(s for s in catalog['sources'] if s['id'] == article['sourceId'])
         source['revision'] += 1
         self.assertRaisesRegex(ValueError, 'Changed mechanical source', compiler.compile_pack, mechanics, catalog, reviewed)
+
+    def test_species_feat_table_does_not_fetch_links_from_benefit_text(self):
+        raw = '==Example Species Feats==\n{|\n|-\n|[[First Feat]]\n|Gain [[Other Rule]].\n|-\n|[[Second Feat|Label]]\n|Benefit.\n|}\n==Other Section==\n|-\n|[[Unrelated]]'
+        pages = {'Example': {'revisions': [{'slots': {'main': {'content': raw}}}]}}
+        self.assertEqual(importer.species_feats(pages, ['Example']), ['First Feat', 'Second Feat'])
+
+    def test_reviewed_mappings_promote_by_exact_source_without_reimporting_catalog(self):
+        mechanics = json.loads((ROOT / 'data/mechanics.json').read_text())
+        catalog = json.loads((ROOT / 'data/wiki-catalog.json').read_text())
+        reviewed = json.loads((ROOT / 'tools/reviewed-revisions.json').read_text())
+        hutt = next(r for r in catalog['records'] if r['name'] == 'Hutt')
+        hutt['mechanicsIds'] = []
+        catalog['rulePages'] = [p for p in catalog['rulePages'] if p['name'] != 'Weapon Proficiency (Heavy Weapons)']
+        pack = compiler.compile_pack(mechanics, catalog, reviewed)
+        self.assertEqual(next(r for r in pack['catalog']['records'] if r['name'] == 'Hutt')['mechanicsIds'], ['species:hutt'])
+        weapon = next(r for r in pack['catalog']['records'] if r['name'] == 'Weapon Proficiency')
+        self.assertEqual(len(weapon['mechanicsIds']), 6)
+        variant = next(r for r in pack['feats'] if r['id'] == 'feat:weapon-proficiency-heavy-weapons')
+        self.assertEqual(variant['article']['sourceId'], 'source:wiki-weapon-proficiency')
+        # Another talent in the same tree is a different source section.
+        armor = next(r for r in pack['catalog']['records'] if r['name'] == 'Armor Mastery')
+        self.assertEqual(armor['status'], 'reference')

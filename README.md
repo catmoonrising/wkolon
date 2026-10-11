@@ -21,9 +21,10 @@ corner mirror. Numeric fields accept relative adjustments and arithmetic. Export
 character to move it between browsers or retain a backup. GitHub Pages requires
 no application server, account, runtime scraping or external database.
 
-The initial catalog includes eight species, the five heroic classes, 25 skills,
-18 feats, 15 talents and 10 equipment records. It is a starter catalog, not a
-complete implementation of every sourcebook. Prestige classes, droid creation,
+The reviewed builder includes nineteen species, the five heroic classes, 25 skills,
+20 feats, 21 talents and 10 equipment records. The searchable Rules library has
+483 entries, including reference-only options awaiting mechanical review. It is a
+partial implementation of the sourcebooks. Prestige classes, droid creation,
 Force power selection, vehicles and additional catalogs are future work.
 Conditional feats/talents appear as reminders; numeric sheet and attack
 modifiers handle table rulings and circumstances.

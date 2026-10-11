@@ -12,6 +12,7 @@ cannot be selected or purchased through the builder.
 | --- | --- | --- |
 | [Neimoidian](https://swse.miraheze.org/wiki/Neimoidian) | Core gives +2 INT, +2 WIS, −2 STR, Deception focus and Deceptive; Galaxy of Intrigue gives +2 CHA, −2 STR and both Deception/Persuasion focus. Languages also differ. The Core Deceptive sentence names a Twi’lek. | Preserve both labeled versions verbatim. Reference-only pending an explicit book/variant choice and review of the apparent copy error. |
 | [Yuuzhan Vong](https://swse.miraheze.org/wiki/Yuuzhan_Vong) | Core has Technophobic; Legacy replaces it with Primitive. Both forbid Force Sensitivity and Force Points. | Preserve both versions; reference-only until species variants and Force restrictions are supported. |
+| [Ithorian](https://swse.miraheze.org/wiki/Ithorian) | Characteristics names its language “Ithor”; Automatic Languages names it “Ithorese.” | Use the explicit Automatic Languages trait: Basic and Ithorese. Preserve both passages verbatim. |
 
 These are different published versions, not permission to combine their benefits.
 The wiki is a secondary transcription. Apparent errors need checking against the
@@ -29,6 +30,27 @@ published book and official errata before changing their wording or interpretati
 | Talent-tree pages | Core and Additional sections have different books. Individual talent records come from Core Talents headings only; complete tree reference articles retain their labeled supplementary sections. Existing selected supplementary talents remain available. |
 
 ## Remaining mechanical review
+
+### Species batch
+
+The builder now includes Aqualish, Cerean, Ewok, Hutt, Ithorian, Mon Calamari,
+Quarren, Sullustan and Trandoshan, bringing the reviewed species total to 19.
+Their source revisions are pinned separately from the imported text. Ability
+adjustments, size modifiers, normal/swim speeds, languages, conditional Skill
+Focus, Toughness, Primitive restrictions, natural armor and Hutt Force resistance
+are calculated. The Hutt Will bonus is displayed separately against Use the
+Force. Native-homeworld Background exclusions cover the newly selectable species.
+
+Rerolls, sensory traits, Ithorian Bellow, limb regeneration and carrying limits
+remain manual; their exact rules are in each species disclosure. Bellow is a
+special attack against Fortitude, with a condition cost and half damage on a miss,
+so it must not become an ordinary weapon attack. The new linked species feat
+articles are readable offline; importing them does not grant selectable feats.
+
+Weapon Proficiency now includes Advanced Melee Weapons and Heavy Weapons. Advanced
+Melee Weapons is a bonus feat for Noble, Scoundrel, Scout and Soldier; Heavy Weapons
+is a Soldier bonus feat. Jedi may select either as a general feat. Both retain the
+generic proficiency article and secondary-choice UI.
 
 `data/mechanics.json` is the calculation authority. Its current species, feats,
 talents and equipment cover a subset of the imported library. Before enabling an
