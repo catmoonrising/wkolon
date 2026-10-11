@@ -90,6 +90,22 @@ Force targeting is implemented.
 
 ## Remaining mechanical review
 
+### Combat feat batch
+
+Acrobatic Strike, Careful Shot, Charging Fire, Combat Reflexes, Coordinated Attack,
+Quick Draw, Rapid Shot, Rapid Strike, Running Attack and Vehicular Combat are now
+selectable. Each source revision and all five class bonus lists were checked;
+the articles include their Special, combined-feat and Jedi Counseling sections.
+Running Attack requires Dexterity 13, with no BAB prerequisite. Rapid Shot and
+Rapid Strike require BAB +1; Strength/Dexterity 13 changes their attack penalties
+rather than selection eligibility. Quick Draw uses a Swift Action.
+
+These are conditional actions, movement, reactions and attack procedures. Their
+rules remain manual; selecting them does not add passive attack/damage bonuses,
+extra attacks or global Heavy Weapons proficiency. Vehicular Combat's proficiency
+applies only to Pilot-operated weapons while piloting. Attack-context controls
+and vehicle integration remain future work. No new conflicting wording was found.
+
 ### Armor batch
 
 All eleven Core armor entries now have reviewed mechanics. Armored Flight Suit,

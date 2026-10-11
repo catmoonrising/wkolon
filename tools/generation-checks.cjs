@@ -24,7 +24,7 @@ module.exports=async function checkGeneration(browser,base,root){
   assert((await page.locator('#cr-blocker ul').innerText()).includes('trained skills'));
 
   await step(1);await body.locator('[data-select-species="species:duros"]').click();
-  await step(2);await body.locator('[data-class="0"]').selectOption('class:soldier');
+  await step(2);await body.locator('[data-select-class="class:soldier"]').click();
   await step(0);assert.equal(await body.locator('.cr-method').count(),4);
   await method('point-buy');
   const labelGap=async input=>input.evaluate(el=>{const label=el.closest('label'),range=document.createRange();range.selectNode(label.firstChild);return el.getBoundingClientRect().left-range.getBoundingClientRect().right;});
@@ -123,7 +123,7 @@ module.exports=async function checkGeneration(browser,base,root){
   await page.reload();await openCreator();await step(0);
   assert.deepEqual((await body.locator('.cr-pool').allTextContents()).map(Number),pool);
   await step(0);assert.deepEqual(await body.locator('.cr-assign').evaluateAll(es=>es.map(e=>e.value)),['0','1','2','3','4','5']);
-  await step(2);await body.locator('[data-class="0"]').selectOption('class:scout');await step(3);
+  await step(2);await body.locator('[data-select-class="class:scout"]').click();await step(3);
   assert.equal(await body.locator('.skill-picks').evaluate(el=>getComputedStyle(el).flexDirection),'column');
   assert.equal(await body.locator('[data-trained^="skill:knowledge-"]').count(),0);
   assert.equal(await body.locator('[data-knowledge-field]').count(),0);

@@ -99,6 +99,14 @@ Rules. The [feat and talent browser](feature-trees.md) uses prerequisite graphs 
 pinned wiki articles. Remaining creation work is tracked in `TODO.md`; generated
 summaries do not replace these articles.
 
+`src/creation-options.js` binds each class/skill preview to its imported catalog
+`ruleId` and that article's own pinned `sourceId`. Knowledge fields share the
+Knowledge article. Skill mechanical records that use the generic Skills source
+retain that provenance; showing a more detailed article does not reauthorize
+calculations. Previews reuse original document nodes, with the complete article
+available locally. Class previews omit the large progression table; skill previews
+put Applications behind a disclosure, preserving supplementary section labels.
+
 ## Prerequisites and effects
 
 Prerequisites use a closed JSON vocabulary: `all`, `any`, `ability` with `min`,

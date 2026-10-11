@@ -10,7 +10,7 @@ module.exports=async function checkFinishing(browser,base,root){
   const step=async n=>page.locator(`[data-step="${n}"]`).click();
   const finish=async()=>{if(!(await page.locator('#creator-modal').evaluate(el=>el.open)))await page.locator('#module-header a[href="#creation"]').click();await step(7);};
   const exportCharacter=async()=>{const event=page.waitForEvent('download');await page.locator('#export-character').click();return JSON.parse(fs.readFileSync(await(await event).path(),'utf8'));};
-  await step(2);await body.locator('[data-class="0"]').selectOption('class:soldier');
+  await step(2);await body.locator('[data-select-class="class:soldier"]').click();
   await step(0);for(const [i,a] of ['str','dex','con','int','wis','cha'].entries())await body.locator(`[data-generation-assign="${a}"]`).selectOption({value:String(i)});
   await finish();
   assert.equal(await body.locator('[data-field="notes"],[data-field="languages"]').count(),0);

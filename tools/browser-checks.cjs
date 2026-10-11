@@ -38,7 +38,7 @@ const server=http.createServer((req,res)=>{
   assert.equal(await page.locator('body').evaluate(el=>getComputedStyle(el).fontFamily),'"Times New Roman", Times, serif');
   await editor.locator('[data-field="name"]').fill('Kera Voss');
   await step(2);
-  await editor.locator('[data-class="0"]').selectOption('class:soldier');
+  await editor.locator('[data-select-class="class:soldier"]').click();
   await step(0);
   for(const [i,a] of ['str','dex','con','int','wis','cha'].entries())await editor.locator(`[data-generation-assign="${a}"]`).selectOption({value:String(i)});
   await step(3);
@@ -307,5 +307,6 @@ const server=http.createServer((req,res)=>{
   await recoveryContext.close();await context.close();
   await require('./options-browser-checks.cjs')(browser,base,root);
   await require('./armor-browser-checks.cjs')(browser,base,root);
+  await require('./creation-options-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});

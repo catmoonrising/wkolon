@@ -10,7 +10,7 @@ module.exports=async function checkCoreSpecies(browser,base,root){
   await species('cerean');await page.locator('[data-species-detail="species:cerean"]').click();
   await page.locator('#species-description-cerean [data-rule-page="rule:binary-mind"]').click();
   assert((await page.locator('#rule-detail-body').innerText()).includes('Prerequisite:'));await page.locator('#rule-detail-close').click();
-  await editor.locator('[data-step="2"]').click();await editor.locator('[data-class="0"]').selectOption('class:soldier');
+  await editor.locator('[data-step="2"]').click();await editor.locator('[data-select-class="class:soldier"]').click();
   await species('hutt');await page.locator('#cr-close').click();
   assert.equal(await page.locator('[data-defense="will"]').innerText(),'11');
   assert.equal(await page.locator('[data-defense="will-use-the-force"]').innerText(),'16');
@@ -20,7 +20,7 @@ module.exports=async function checkCoreSpecies(browser,base,root){
   await page.locator('#print').click();assert((await page.locator('#stat-block-text').inputValue()).includes('11 (16 vs. Use the Force)'));
   await page.locator('#stat-block-close').click();
   await page.locator('#module-header a[href="#creation"]').click();await species('ewok');
-  await editor.locator('[data-step="2"]').click();await editor.locator('[data-class="0"]').selectOption('class:soldier');
+  await editor.locator('[data-step="2"]').click();await editor.locator('[data-select-class="class:soldier"]').click();
   await editor.locator('[data-step="4"]').click();await choose(page,'feat','family:Weapon Proficiency');
   const secondary=editor.locator('[data-choice="feat"][data-secondary]');
   assert(await secondary.locator('option[value="feat:weapon-proficiency-heavy-weapons|"]').count());

@@ -112,3 +112,13 @@ D&D saving throws and advantage are not imported. Stable inventory IDs keep
 routine references attached to the same physical weapon after reordering.
 SR and fixed DR occupy graphical rows above HP. XP, Force Points and Dark Side
 Score use the theme accent and reuse the compact editable bar controls.
+
+Class creation uses comparison cards with separate Select controls and complete
+article links. The inline text is the original introductory paragraph and Class
+Features section onward; the complete article preserves flavor and progression
+tables. Skill choices remain vertical, including unavailable skills and one
+Knowledge row with secondary fields. Each row embeds the imported introduction;
+Applications expands the rest, including labeled supplemental books. Class and
+skill browsers search complete articles and support individual and global folding.
+Folding survives edits and tab changes within the session. The skill count stays
+beside the sticky search controls. Reading an article never selects its option.

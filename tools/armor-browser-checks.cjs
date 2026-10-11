@@ -9,7 +9,7 @@ module.exports=async function(browser,base,root){
  const saved=()=>page.evaluate(()=>{const r=JSON.parse(localStorage.getItem('wkolon-roster-v1'));return r.characters.find(c=>c.id===r.activeId);});
  try{
   await page.goto(base+'#creation');const editor=page.locator('#creator-modal');
-  await editor.locator('[data-step="2"]').click();await editor.locator('[data-class="0"]').selectOption('class:soldier');
+  await editor.locator('[data-step="2"]').click();await editor.locator('[data-select-class="class:soldier"]').click();
   await editor.locator('[data-step="0"]').click();
   for(const [i,a] of ['str','dex','con','int','wis','cha'].entries())await editor.locator(`[data-generation-assign="${a}"]`).selectOption(String(i));
   await editor.locator('[data-step="4"]').click();

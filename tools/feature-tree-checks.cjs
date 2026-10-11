@@ -6,7 +6,7 @@ module.exports=async function checkTrees(browser,base,root){
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'#creation');const body=page.locator('#cr-body');
   const step=async n=>page.locator(`[data-step="${n}"]`).click();
-  await step(2);await body.locator('[data-class="0"]').selectOption('class:scout');
+  await step(2);await body.locator('[data-select-class="class:scout"]').click();
   await step(3);
   assert.equal(await body.locator('[data-trained]').count(),18); // Knowledge's seven fields share one row.
   assert(await body.locator('[data-trained="skill:use-the-force"]').isDisabled());
@@ -68,10 +68,10 @@ module.exports=async function checkTrees(browser,base,root){
   assert(await pick('acute-senses').evaluate(el=>{const node=el.closest('article'),s=getComputedStyle(el),n=getComputedStyle(node);return s.backgroundColor==='rgba(0, 0, 0, 0)'&&s.color===n.color&&n.backgroundColor==='rgb(189, 147, 249)';}));
   await page.screenshot({path:path.join(root,'.build/talent-hover-dracula.png')});
 
-  await step(2);await body.locator('[data-class="0"]').selectOption('class:soldier');await step(5);await body.locator('[data-tree-group="all"]').click();
+  await step(2);await body.locator('[data-select-class="class:soldier"]').click();await step(5);await body.locator('[data-tree-group="all"]').click();
   assert.equal(await node('acute-senses').count(),0);
   assert.deepEqual(await body.locator('[data-tree-group]').evaluateAll(buttons=>buttons.map(b=>b.dataset.treeGroup)),['all','tree:armor-specialist','tree:weapon-specialist']);
-  await step(2);await body.locator('[data-class="0"]').selectOption('class:scout');await step(5);if(await pick('acute-senses').getAttribute('aria-pressed')!=='true')await choose(page,'talent','talent:acute-senses|');
+  await step(2);await body.locator('[data-select-class="class:scout"]').click();await step(5);if(await pick('acute-senses').getAttribute('aria-pressed')!=='true')await choose(page,'talent','talent:acute-senses|');
   // Add a third Scout level, so previous talents unlock the illustrated branches legitimately.
   await page.locator('#cr-done').click();await page.locator('#module-classes a[href="#advancement"]').click();
   await body.locator('#next-class').selectOption('class:scout');await body.locator('[data-action="add-level"]').click();await body.locator('[data-action="add-level"]').click();

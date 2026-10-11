@@ -129,6 +129,24 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
   .rules-ref-body { display: none !important; }
 }
 #cr-body .skill-picks { display: flex; flex-direction: column; align-items: flex-start; gap: .3rem; }
+.option-toolbar { position: sticky; top: 0; z-index: 1; background: var(--bg); padding-bottom: .3rem; }
+.option-toolbar input { width: 18rem; max-width: 100%; }
+.class-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 25rem), 1fr)); gap: .75rem; align-items: start; }
+.creation-option { min-width: 0; width: 100%; border: 1px solid var(--border-soft); box-sizing: border-box; }
+.option-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: .4rem; padding: .35rem .5rem; }
+.option-head label { gap: .3rem; }
+.option-name { color: var(--link); font-weight: bold; }
+.option-head small { color: var(--muted-fg); }
+.option-fold { font: inherit; padding: 0 .15rem; }
+.creation-option.selected { border-color: var(--select); }
+.creation-option.selected > .option-head { background: var(--accent-soft-bg); }
+.creation-option.unavailable > .option-head { background: var(--hover-bg); }
+.creation-option.unavailable .option-name { color: color-mix(in srgb, var(--fg) 60%, var(--bg)); }
+.option-preview { padding: 0 .6rem .5rem; overflow-wrap: anywhere; }
+.option-preview .wiki-article { max-width: none; }
+.option-preview .wiki-article > h3:first-child { margin-top: .5rem; }
+.option-preview > details > summary { cursor: pointer; color: var(--link); }
+.option-preview table { display: block; overflow-x: auto; max-width: 100%; }
 .knowledge-field { display: flex; align-items: center; gap: .3rem; }
 .knowledge-fields { display: flex; flex-direction: column; align-items: flex-start; gap: .3rem; margin: .3rem 0 .3rem 1.5rem; }
 

@@ -13,7 +13,7 @@ module.exports=async function checkCrossings(browser,base,root){
   await page.goto(base+'#creation');assert.equal(await page.title(),'wkolon');
   assert(!(await page.locator('header').innerText()).includes('Saga Edition'));
   assert.equal(await page.locator('header a[href*="pmcrwf"]').count(),0);
-  await page.locator('[data-step="2"]').click();await page.locator('[data-class="0"]').selectOption('class:scout');
+  await page.locator('[data-step="2"]').click();await page.locator('[data-select-class="class:scout"]').click();
   await page.locator('[data-step="5"]').click();await page.locator('[data-tree-group="tree:awareness"]').click();
   const svg=page.locator('#cr-body .feature-tree-arrows'),gaps=svg.locator('.feature-crossing-gap');assert(await gaps.count()>0);
   assert(await svg.locator('.feature-edge[mask]').count()>0);assert.equal(await svg.locator('.feature-arrowhead[mask]').count(),0);

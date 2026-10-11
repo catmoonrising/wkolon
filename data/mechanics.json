@@ -1967,6 +1967,106 @@
       "sha256": "3f9937559d5be9f0b40681eed6dd2a4e735f8de329b9a171eda40bb463876fc3",
       "url": "https://swse.miraheze.org/w/index.php?oldid=15904",
       "history": "https://swse.miraheze.org/w/index.php?title=Armor%20Proficiency%20%28Heavy%29&action=history"
+    },
+    {
+      "id": "source:wiki-acrobatic-strike",
+      "title": "Acrobatic Strike",
+      "section": null,
+      "revision": 15690,
+      "timestamp": "2024-08-18T00:53:03Z",
+      "sha256": "fb9edf8f8161ef1ad05e5413a3b9b8e668dc9484cbca61a729e14cc19dac7274",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15690",
+      "history": "https://swse.miraheze.org/w/index.php?title=Acrobatic%20Strike&action=history"
+    },
+    {
+      "id": "source:wiki-careful-shot",
+      "title": "Careful Shot",
+      "section": null,
+      "revision": 18018,
+      "timestamp": "2024-08-25T19:27:08Z",
+      "sha256": "622c2fef2f701f4ea37a479b60e1489f4a750d5c488adeb40affdb81b5b0effc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18018",
+      "history": "https://swse.miraheze.org/w/index.php?title=Careful%20Shot&action=history"
+    },
+    {
+      "id": "source:wiki-charging-fire",
+      "title": "Charging Fire",
+      "section": null,
+      "revision": 18027,
+      "timestamp": "2024-08-25T19:28:02Z",
+      "sha256": "307e5c96090a1acec9c60445c43eb1019b5ec56fd2221d15ad793cf68fa9abc5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18027",
+      "history": "https://swse.miraheze.org/w/index.php?title=Charging%20Fire&action=history"
+    },
+    {
+      "id": "source:wiki-combat-reflexes",
+      "title": "Combat Reflexes",
+      "section": null,
+      "revision": 26021,
+      "timestamp": "2025-01-20T20:32:49Z",
+      "sha256": "abd4ac341ffc2a17b816afe05830f862725f7f318baa722a982072dbfeb3064b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26021",
+      "history": "https://swse.miraheze.org/w/index.php?title=Combat%20Reflexes&action=history"
+    },
+    {
+      "id": "source:wiki-coordinated-attack",
+      "title": "Coordinated Attack",
+      "section": null,
+      "revision": 18054,
+      "timestamp": "2024-08-25T19:30:50Z",
+      "sha256": "e9042c6cfa43d785f8dd6968decd936b827065ce71f5534a859635382a794f4e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18054",
+      "history": "https://swse.miraheze.org/w/index.php?title=Coordinated%20Attack&action=history"
+    },
+    {
+      "id": "source:wiki-quick-draw",
+      "title": "Quick Draw",
+      "section": null,
+      "revision": 24964,
+      "timestamp": "2024-11-10T16:18:53Z",
+      "sha256": "f40159776633647d3dac4192e50f706647b29968d28db5c00aa372248ba2ec36",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24964",
+      "history": "https://swse.miraheze.org/w/index.php?title=Quick%20Draw&action=history"
+    },
+    {
+      "id": "source:wiki-rapid-shot",
+      "title": "Rapid Shot",
+      "section": null,
+      "revision": 24956,
+      "timestamp": "2024-11-10T16:07:34Z",
+      "sha256": "7bab9329e5be73210038e1e2bbc65bbf8f0e054b79ad4d5bcdeed3e67c4eebca",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24956",
+      "history": "https://swse.miraheze.org/w/index.php?title=Rapid%20Shot&action=history"
+    },
+    {
+      "id": "source:wiki-rapid-strike",
+      "title": "Rapid Strike",
+      "section": null,
+      "revision": 24955,
+      "timestamp": "2024-11-10T16:07:10Z",
+      "sha256": "01e1d78554b48a8a2629d7dd0a6acd8230eafc2a0a90c0c2176eb4fc0cc51031",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24955",
+      "history": "https://swse.miraheze.org/w/index.php?title=Rapid%20Strike&action=history"
+    },
+    {
+      "id": "source:wiki-running-attack",
+      "title": "Running Attack",
+      "section": null,
+      "revision": 18462,
+      "timestamp": "2024-08-25T20:10:13Z",
+      "sha256": "fdf423d5dc0e60eeef1bb9030062aec2290b85c225b685e8ae22627af42b4785",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18462",
+      "history": "https://swse.miraheze.org/w/index.php?title=Running%20Attack&action=history"
+    },
+    {
+      "id": "source:wiki-vehicular-combat",
+      "title": "Vehicular Combat",
+      "section": null,
+      "revision": 18589,
+      "timestamp": "2024-08-25T20:22:22Z",
+      "sha256": "43d05652180439705b392123058f702e74eadefb07565a34deeaf8c8c898658f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18589",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vehicular%20Combat&action=history"
     }
   ],
   "species": [
@@ -2600,7 +2700,12 @@
         "feat:skill-training",
         "feat:weapon-focus",
         "feat:weapon-proficiency-simple-weapons",
-        "feat:weapon-proficiency-lightsabers"
+        "feat:weapon-proficiency-lightsabers",
+        "feat:acrobatic-strike",
+        "feat:combat-reflexes",
+        "feat:quick-draw",
+        "feat:rapid-strike",
+        "feat:running-attack"
       ],
       "talentTrees": [
         "tree:jedi-consular",
@@ -2762,7 +2867,11 @@
         "feat:skill-training",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-simple-weapons",
-        "feat:weapon-proficiency-advanced-melee-weapons"
+        "feat:weapon-proficiency-advanced-melee-weapons",
+        "feat:quick-draw",
+        "feat:rapid-shot",
+        "feat:running-attack",
+        "feat:vehicular-combat"
       ],
       "talentTrees": [
         "tree:fortune",
@@ -2849,7 +2958,11 @@
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
         "feat:weapon-proficiency-simple-weapons",
-        "feat:weapon-proficiency-advanced-melee-weapons"
+        "feat:weapon-proficiency-advanced-melee-weapons",
+        "feat:careful-shot",
+        "feat:rapid-shot",
+        "feat:running-attack",
+        "feat:vehicular-combat"
       ],
       "talentTrees": [
         "tree:awareness",
@@ -2931,7 +3044,16 @@
         "feat:weapon-proficiency-rifles",
         "feat:weapon-proficiency-simple-weapons",
         "feat:weapon-proficiency-advanced-melee-weapons",
-        "feat:weapon-proficiency-heavy-weapons"
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:careful-shot",
+        "feat:charging-fire",
+        "feat:combat-reflexes",
+        "feat:coordinated-attack",
+        "feat:quick-draw",
+        "feat:rapid-shot",
+        "feat:rapid-strike",
+        "feat:running-attack",
+        "feat:vehicular-combat"
       ],
       "talentTrees": [
         "tree:armor-specialist",
@@ -3526,6 +3648,136 @@
       "effects": [],
       "weaponGroup": "heavy-weapons",
       "reminder": ""
+    },
+    {
+      "id": "feat:acrobatic-strike",
+      "name": "Acrobatic Strike",
+      "sourceId": "source:wiki-acrobatic-strike",
+      "prerequisite": {
+        "kind": "trained",
+        "value": "skill:acrobatics"
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Effect: If you succeed in Tumbling to avoid an Attack of Opportunity, you gain a +2 competence bonus on the next attack roll you make against that foe as long as the attack occurs before the end of your current turn."
+    },
+    {
+      "id": "feat:careful-shot",
+      "name": "Careful Shot",
+      "sourceId": "source:wiki-careful-shot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 2
+          },
+          {
+            "kind": "feat",
+            "value": "feat:point-blank-shot"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Effect: If you Aim before making a Ranged Attack, you gain a +1 bonus on your attack roll."
+    },
+    {
+      "id": "feat:charging-fire",
+      "name": "Charging Fire",
+      "sourceId": "source:wiki-charging-fire",
+      "prerequisite": {
+        "kind": "bab",
+        "min": 4
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Effect: When you Charge, you may make a Ranged Attack instead of a Melee Attack at the end of your movement. Unlike a normal Charge, your momentum does not help you overcome your target, so you gain no bonus on your attack roll. As with a normal Charge, you still take a -2 penalty to your Reflex Defense."
+    },
+    {
+      "id": "feat:combat-reflexes",
+      "name": "Combat Reflexes",
+      "sourceId": "source:wiki-combat-reflexes",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Effect: When opponents leave themselves open, you may make a number of additional Attacks of Opportunity equal to your Dexterity modifier."
+    },
+    {
+      "id": "feat:coordinated-attack",
+      "name": "Coordinated Attack",
+      "sourceId": "source:wiki-coordinated-attack",
+      "prerequisite": {
+        "kind": "bab",
+        "min": 2
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Effect: You are automatically successful when using the Aid Another Action to aid an ally's attack, or Suppress an Enemy as long as the target is adjacent to you or within Point-Blank Range."
+    },
+    {
+      "id": "feat:quick-draw",
+      "name": "Quick Draw",
+      "sourceId": "source:wiki-quick-draw",
+      "prerequisite": {
+        "kind": "bab",
+        "min": 1
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Effect: You can Draw or Holster a Weapon as a Swift Action instead of a Move Action."
+    },
+    {
+      "id": "feat:rapid-shot",
+      "name": "Rapid Shot",
+      "sourceId": "source:wiki-rapid-shot",
+      "prerequisite": {
+        "kind": "bab",
+        "min": 1
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Effect: When using a ranged weapon with which you are proficient, you may fire two shots as a single attack against a single target. You take a -2 penalty on your attack roll, but you deal +1 die of damage with a successful attack. This feat works normally with Vehicle Weapons. However, if you are using Missiles or Torpedoes and you miss with your attack roll, the projectile does not gain the benefit of this feat for the second attack roll."
+    },
+    {
+      "id": "feat:rapid-strike",
+      "name": "Rapid Strike",
+      "sourceId": "source:wiki-rapid-strike",
+      "prerequisite": {
+        "kind": "bab",
+        "min": 1
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Effect: When using a melee weapon with which you are proficient, you may make two strikes as a single attack against a single target. You take a -2 penalty on your attack roll, but deal +1 die of damage with a successful attack."
+    },
+    {
+      "id": "feat:running-attack",
+      "name": "Running Attack",
+      "sourceId": "source:wiki-running-attack",
+      "prerequisite": {
+        "kind": "ability",
+        "value": "dex",
+        "min": 13
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Effect: When making an attack with a melee or ranged weapon, you can Move both before and after the attack, provided that the total distance moved is not greater than your Speed."
+    },
+    {
+      "id": "feat:vehicular-combat",
+      "name": "Vehicular Combat",
+      "sourceId": "source:wiki-vehicular-combat",
+      "prerequisite": {
+        "kind": "trained",
+        "value": "skill:pilot"
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "Effect: Once per round (as a Reaction), when you are Piloting a Vehicle or Starship, you may negate a weapon hit by making a successful Pilot check. The DC of the Skill Check is equal to the result of the attack roll you wish to negate. In addition, while you are Piloting a Vehicle, you are considered proficient with Pilot-operated Vehicle Weapons."
     }
   ],
   "talents": [
