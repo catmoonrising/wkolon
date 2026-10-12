@@ -1016,6 +1016,88 @@
               "const": "until-next-turn"
             }
           }
+        },
+        "defensiveCombat": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "action",
+            "duration",
+            "acrobatics",
+            "fightPenalty",
+            "fightDefense",
+            "trainedFightDefense",
+            "totalDefense",
+            "trainedTotalDefense",
+            "meleeDefense",
+            "dodge",
+            "mobility",
+            "dodgeLostWithDexterity",
+            "helplessDexterityModifier"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "action": {
+              "const": "standard-action"
+            },
+            "duration": {
+              "const": "until-next-turn"
+            },
+            "acrobatics": {
+              "const": "skill:acrobatics"
+            },
+            "fightPenalty": {
+              "const": -5
+            },
+            "fightDefense": {
+              "const": 2
+            },
+            "trainedFightDefense": {
+              "const": 5
+            },
+            "totalDefense": {
+              "const": 5
+            },
+            "trainedTotalDefense": {
+              "const": 10
+            },
+            "meleeDefense": {
+              "const": {
+                "featId": "feat:melee-defense",
+                "maximum": 5,
+                "maximumFrom": "base-attack",
+                "trigger": "standard-melee-attack",
+                "attackScope": "all-attacks"
+              }
+            },
+            "dodge": {
+              "const": {
+                "featId": "feat:dodge",
+                "bonus": 1,
+                "scope": "designated-opponent"
+              }
+            },
+            "mobility": {
+              "const": {
+                "featId": "feat:mobility",
+                "bonus": 5,
+                "scope": "movement-opportunity"
+              }
+            },
+            "dodgeLostWithDexterity": {
+              "const": true
+            },
+            "helplessDexterityModifier": {
+              "const": -5
+            }
+          }
         }
       },
       "required": [

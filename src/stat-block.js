@@ -5,6 +5,7 @@ import {resolveEquipment} from './equipment.js';
 import {choiceName} from './feature-choices.js';
 import {persistentName} from './recovery.js';
 import {planFullAttack} from './full-attacks.js';
+import {conditionalDefenseLabel} from './defensive-combat.js';
 
 // Formatting reference: Darth Vader, wiki revision 25962. All values come from
 // the saved character and Saga derivation, never from the reference NPC.
@@ -22,6 +23,8 @@ export function renderStatBlock(c,d,pack){
  const points=[c.story?.kind==='destiny'?`<b>Destiny Points:</b> ${c.story.points}`:'',`<b>Force Points:</b> ${d.forceCurrent??c.forcePoints}`,`<b>Dark Side Score:</b> ${c.darkSideScore||0}`].filter(Boolean).join('; ');
  const protection=c.protection||{dr:0,sr:0,srMax:0,drBypass:''};
  const condition=c.condition===5?`Helpless (${species.isDroid?'Disabled':'Unconscious'})`:c.condition?`${signed(pack.rules.conditionPenalties[c.condition])} Penalty${c.condition===4?'; Move at Half Speed':''}`:'';
+ const defenseTotal=key=>d.defenses[key]+(d.conditionalDefenses||[]).filter(e=>e.defense===key).map(e=>` (${e.total} ${escape(conditionalDefenseLabel(e))})`).join('');
+ const defensiveOptions=[d.defensiveCombat.stance==='fight'?'Fight Defensively':d.defensiveCombat.stance==='total'?'Total Defense':'',d.defensiveCombat.melee?'Melee Defense '+d.defensiveCombat.melee:''].filter(Boolean).join('; ');
  const attackText=(a,attackMod=0,damageMod=0)=>`${escape(a.name)} ${signed(a.attack+attackMod)} (${escape(a.damageDisplay)}${damageMod?signed(damageMod):''}${a.criticalMultiplier>2&&!a.areaType?`; ×${a.criticalMultiplier} critical`:''})`;
  const attacks=d.attacks.map(a=>line(a.mode==='melee'?'Melee':'Ranged',attackText(a))).join('');
  const routines=(c.routines||[]).filter(r=>r.steps.length).map(r=>{
@@ -35,9 +38,9 @@ export function renderStatBlock(c,d,pack){
  return `<article class="stat-block"><h1>${escape(c.name||'Unnamed hero')} <span>(CL ${d.level})</span></h1>
  <p>${escape(species.size.replace(/^./,ch=>ch.toUpperCase()))} ${escape(species.name)} ${classes}</p>
  <p>${points}</p>${line('Initiative',signed(skill('initiative').total)+'; <b>Senses:</b> Perception '+signed(skill('perception').total)+[species.vision==='darkvision'?'Darkvision':species.vision==='low-light'?'Low-Light Vision':'',species.scentRange?'Scent '+species.scentRange+' Squares':''].filter(Boolean).map(s=>', '+s).join(''))}${line('Languages',languages)}
- <h2>Defenses</h2><p><b>Reflex Defense:</b> ${d.defenses.reflex}, <b>Fortitude Defense:</b> ${d.defenses.fortitude}, <b>Will Defense:</b> ${d.defenses.will}${(d.conditionalDefenses||[]).filter(e=>e.defense==='will').map(e=>` (${e.total} vs. Use the Force)`).join('')}</p>
+ <h2>Defenses</h2><p><b>Reflex Defense:</b> ${defenseTotal('reflex')}, <b>Fortitude Defense:</b> ${defenseTotal('fortitude')}, <b>Will Defense:</b> ${defenseTotal('will')}</p>${textLine('Defensive Abilities',defensiveOptions)}
  <p><b>Hit Points:</b> ${c.currentHP??d.hp}/${d.hp}; <b>Damage Threshold:</b> ${d.threshold}${protection.dr?`; <b>DR:</b> ${protection.dr}${protection.drBypass?' ('+escape(protection.drBypass)+')':''}`:''}${protection.srMax?`; <b>SR:</b> ${protection.sr}/${protection.srMax}`:''}</p>
- ${d.recovery?.dead?textLine('Status',species.isDroid?'Destroyed':'Dead'):''}${textLine('Condition Track',condition)}${d.recovery?.persistent.length?textLine('Persistent Conditions',d.recovery.persistent.map(persistentName).join(', ')):''}
+ ${d.recovery?.dead?textLine('Status',species.isDroid?'Destroyed':'Dead'):d.helpless&&c.condition!==5?textLine('Status',c.helpless?'Helpless':species.isDroid?'Disabled':'Unconscious'):''}${textLine('Condition Track',condition)}${d.recovery?.persistent.length?textLine('Persistent Conditions',d.recovery.persistent.map(persistentName).join(', ')):''}
  <h2>Offense</h2>${line('Speed',d.speed+' Squares'+Object.entries(d.speeds||{}).map(([type,n])=>`, ${escape(type)} ${n} Squares`).join('')+(d.runMultiplier!==4?` (Run ${d.runSpeed} Squares)`:''))}${attacks}${routines}${species.bellow?line('Special Attacks',`Bellow ${signed(d.level+d.specialAttackPenalty)} (${species.bellow.damageDice}d${species.bellow.die} Sonic; ${species.bellow.coneSquares}-Square Cone; Fortitude)`):''}${line('Base Attack Bonus',signed(d.bab))}
  <h2>Base Stats</h2>${line('Abilities',ABILITIES.map(a=>`${a[0].toUpperCase()+a.slice(1)} ${d.scores[a]}`).join(', '))}
  ${line('Force Powers',d.forcePowers?.map(p=>escape(p.name)).join(', '))}

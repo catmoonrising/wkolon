@@ -1,6 +1,7 @@
 import {evalExpr,totalHtml} from './dice.js';
 import {escapeHTML as escape} from './wiki-content.js';
 import {FULL_ATTACK_SOURCES,planFullAttack} from './full-attacks.js';
+import {validateDefensiveCombat} from './defensive-combat.js';
 
 const uuid=id=>typeof id==='string'&&/^[a-f0-9-]{36}$/.test(id);
 const integer=(n,min,max)=>Number.isInteger(n)&&n>=min&&n<=max;
@@ -11,6 +12,7 @@ export function prepareCombatState(c){
  return c;
 }
 export function validateCombatState(c,bad){
+ validateDefensiveCombat(c,bad);
  if(c.fullAttackPenalties!==undefined){
   const p=c.fullAttackPenalties;
   if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['twoWeapons','doubleAttack','tripleAttack'].includes(k))||

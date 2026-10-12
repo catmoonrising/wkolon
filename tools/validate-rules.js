@@ -221,6 +221,15 @@ export function validatePack(p) {
   assert.deepEqual(full.mastery,[{featId:'feat:dual-weapon-mastery-i',penalty:-5},{featId:'feat:dual-weapon-mastery-ii',penalty:-2},{featId:'feat:dual-weapon-mastery-iii',penalty:0}],'Invalid Dual Weapon Mastery');
   assert.deepEqual(full.sourceIds,['source:wiki-full-attacks',ix.feats.get(full.doubleFeat)?.sourceId,ix.feats.get(full.tripleFeat)?.sourceId,...full.mastery.map(m=>ix.feats.get(m.featId)?.sourceId),'source:wiki-category-weapons-weapon-sizes'],'Invalid Full Attack sources');
   assert(full.sourceIds.every(id=>sources.has(id))&&p.rulePages.some(r=>r.id==='rule:full-attacks'&&r.sourceId===full.sourceIds[0]),'Missing Full Attacks passage');
+  const defense=p.rules.defensiveCombat;
+  assert(defense&&Object.keys(defense).every(k=>['sourceIds','action','duration','acrobatics','fightPenalty','fightDefense','trainedFightDefense','totalDefense','trainedTotalDefense','meleeDefense','dodge','mobility','dodgeLostWithDexterity','helplessDexterityModifier'].includes(k)),'Invalid defensive combat mapping');
+  assert(defense.action==='standard-action'&&defense.duration==='until-next-turn'&&defense.acrobatics==='skill:acrobatics'&&defense.dodgeLostWithDexterity===true&&defense.helplessDexterityModifier===-5,'Unsupported defensive combat rule');
+  assert.deepEqual([defense.fightPenalty,defense.fightDefense,defense.trainedFightDefense,defense.totalDefense,defense.trainedTotalDefense],[-5,2,5,5,10],'Invalid defensive stance');
+  assert.deepEqual(defense.meleeDefense,{featId:'feat:melee-defense',maximum:5,maximumFrom:'base-attack',trigger:'standard-melee-attack',attackScope:'all-attacks'},'Invalid Melee Defense');
+  assert.deepEqual(defense.dodge,{featId:'feat:dodge',bonus:1,scope:'designated-opponent'},'Invalid Dodge');
+  assert.deepEqual(defense.mobility,{featId:'feat:mobility',bonus:5,scope:'movement-opportunity'},'Invalid Mobility');
+  assert.deepEqual(defense.sourceIds,['source:wiki-fight-defensively','source:wiki-fight-defensively-total-defense',ix.feats.get(defense.meleeDefense.featId)?.sourceId,ix.feats.get(defense.dodge.featId)?.sourceId,ix.feats.get(defense.mobility.featId)?.sourceId,'source:wiki-defenses-helpless'],'Invalid defensive combat sources');
+  assert(defense.sourceIds.every(id=>sources.has(id))&&['fight-defensively','total-defense','helpless'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&defense.sourceIds.includes(r.sourceId))),'Missing defensive combat passage');
   const settings=p.rules.weaponSettings;
   assert(settings&&Object.keys(settings).every(k=>['sourceId','mutuallyExclusive','autofireOnlyStun'].includes(k))&&sources.has(settings.sourceId)&&settings.autofireOnlyStun===true,'Invalid weapon settings');
   assert.deepEqual(settings.mutuallyExclusive,['autofire','stun'],'Invalid alternate settings');

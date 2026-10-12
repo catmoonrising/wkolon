@@ -37,6 +37,9 @@
   - [x] Switchable Stun/Autofire exclusivity and the printed autofire-only Stun exception.
   - [x] Full Attacks: two weapons/double weapons, Double/Triple Attack, combined penalties, order, ammo and printed previews.
   - [x] Dual Weapon Mastery ranks and the saved mixed-proficiency alternative in Ambiguities.
+  - [x] Fight Defensively, Total Defense and Melee Defense: trained Acrobatics bonuses, stacking, lost dodge bonuses and next-turn expiry.
+  - [x] Dodge/Mobility conditional Reflex totals; Helpless Dexterity 0 and matching stat blocks.
+  - [ ] Charge, cover/concealment, prone targets and target-side Helpless melee modifiers.
   - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 

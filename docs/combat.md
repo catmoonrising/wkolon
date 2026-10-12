@@ -105,3 +105,20 @@ Bellow rolls against Fortitude and costs one condition step plus a step per
 extra die. Ambiguities offers an optional Helpless cap; uncapped RAW is the
 default. Large pools require an entered damage total rather than truncating
 dice. Bellow and persistent conditions are included in stat blocks.
+
+Defenses → Options contains Fight Defensively, Total Defense and owned Melee
+Defense/Dodge controls. These are player declarations of the required actions;
+Melee Defense does not roll or grant its Standard Action melee attack. The saved
+stance and attack penalties last until Next turn. Total Defense disables weapon
+rolls, routines and Bellow without spending ammunition or rolling dice. It also
+clears Aim, Bracing and Mighty Swing when declared as a nonattack Standard Action.
+Offensive Force power effects and the wider action budget remain manual.
+
+Dodge accepts a named opponent. Separate Reflex rows show that opponent,
+movement-related attacks of opportunity and the combined case. Losing the
+Dexterity bonus removes all dodge bonuses; Uncanny Dodge preserves them against
+flat-footedness but cannot override helplessness. Helpless uses Dexterity 0 for
+Reflex only. Its checkbox covers bound/sleeping targets; 0 HP or the bottom of
+the Condition Track applies it automatically. The rules disclosure retains the
+complete Helpless passage. The opponent's +5 melee bonus remains a target-side
+modifier to declare manually pending target-context controls.

@@ -537,3 +537,30 @@ Ordinary routines retain their flexible count/modifier format and grant no actio
 The separate −5 penalty on an unproficient weapon remains in both readings.
 Untracked actions, extra limbs, weapon swapping and encounter timing remain player
 declarations; this is not a complete action-budget or hand-occupancy tracker.
+
+`rules.defensiveCombat` pins Fight Defensively 18172, the Total Defense section,
+Melee Defense 18361, Dodge 18108, Mobility 18370 and Defenses 18097 (Helpless).
+Its closed mapping specifies a Standard Action, next-turn expiry, −5 attack/+2
+dodge for Fight Defensively (+5 if trained in Acrobatics), and +5 dodge for
+Total Defense (+10 if trained). Melee Defense declares a Standard Action melee
+attack with a penalty limited by both BAB and 5; its matching dodge bonus and
+attack penalty persist until next turn. Different dodge bonuses stack and are
+lost when Dexterity is denied. Total Defense prevents all weapon attacks and
+Bellow, including routine attacks and attacks of opportunity.
+
+Optional character fields are `defenseStance: none | fight | total`,
+`meleeDefense: 0..5`, `dodgeOpponent: string` (up to 200 characters), and
+`helpless: boolean`. State does not invent or roll the Standard Action attack
+declared for Melee Defense. Next turn clears stance and Melee Defense; the
+designated opponent persists until changed. Full Attack penalties remain
+independent. Total Defense cannot be cancelled early by choosing Fight
+Defensively, and Melee Defense cannot be reduced before its expiry.
+
+Dodge's +1 applies only against its designated opponent. Mobility's +5 applies
+only to attacks of opportunity caused by movement into/out of a threatened area.
+These totals, including their combined case, are conditional rows and stat-block
+annotations. They never change general Reflex Defense. Manual helplessness or
+automatic unconsciousness/disablement uses a −5 Dexterity modifier for Reflex,
+even with Uncanny Dodge. Other abilities and Dexterity-based checks keep their
+actual scores. Target-side melee bonuses and offensive Force power effects are
+not resolved by these controls.

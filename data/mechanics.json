@@ -4322,6 +4322,35 @@
       "sha256": "08441503966a58780ca5056dde78d553a95cc9d8c6eda4118251e7fd25eecce4",
       "url": "https://swse.miraheze.org/w/index.php?oldid=27404",
       "history": "https://swse.miraheze.org/w/index.php?title=Full_Attacks&action=history"
+    },
+    {
+      "id": "source:wiki-fight-defensively",
+      "title": "Fight Defensively",
+      "revision": 18172,
+      "timestamp": "2024-08-25T19:42:41Z",
+      "sha256": "f61d53b8978d9d8ff565f2be959bf25d7ba9e32fc50f10f82e197d08466ac33b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18172",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fight_Defensively&action=history"
+    },
+    {
+      "id": "source:wiki-fight-defensively-total-defense",
+      "title": "Fight Defensively",
+      "revision": 18172,
+      "timestamp": "2024-08-25T19:42:41Z",
+      "sha256": "f61d53b8978d9d8ff565f2be959bf25d7ba9e32fc50f10f82e197d08466ac33b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18172#Total_Defense",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fight_Defensively&action=history",
+      "section": "Total Defense"
+    },
+    {
+      "id": "source:wiki-defenses-helpless",
+      "title": "Defenses",
+      "section": "Helpless",
+      "revision": 18097,
+      "timestamp": "2024-08-25T19:35:06Z",
+      "sha256": "bddf65f0e8f8f56f9975d14c0c42ba16abdc6aa7cd5f89dc9dbe06180a222644",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18097#Helpless",
+      "history": "https://swse.miraheze.org/w/index.php?title=Defenses&action=history"
     }
   ],
   "species": [
@@ -11606,6 +11635,43 @@
         }
       ],
       "duration": "until-next-turn"
+    },
+    "defensiveCombat": {
+      "sourceIds": [
+        "source:wiki-fight-defensively",
+        "source:wiki-fight-defensively-total-defense",
+        "source:wiki-melee-defense",
+        "source:dodge",
+        "source:wiki-mobility",
+        "source:wiki-defenses-helpless"
+      ],
+      "action": "standard-action",
+      "duration": "until-next-turn",
+      "acrobatics": "skill:acrobatics",
+      "fightPenalty": -5,
+      "fightDefense": 2,
+      "trainedFightDefense": 5,
+      "totalDefense": 5,
+      "trainedTotalDefense": 10,
+      "meleeDefense": {
+        "featId": "feat:melee-defense",
+        "maximum": 5,
+        "maximumFrom": "base-attack",
+        "trigger": "standard-melee-attack",
+        "attackScope": "all-attacks"
+      },
+      "dodge": {
+        "featId": "feat:dodge",
+        "bonus": 1,
+        "scope": "designated-opponent"
+      },
+      "mobility": {
+        "featId": "feat:mobility",
+        "bonus": 5,
+        "scope": "movement-opportunity"
+      },
+      "dodgeLostWithDexterity": true,
+      "helplessDexterityModifier": -5
     }
   },
   "heroicTraits": {

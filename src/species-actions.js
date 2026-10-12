@@ -11,7 +11,7 @@ export function bellowDetails(c,d,pack,extraDice=0){
  const maxExtra=limited?Math.max(0,Math.floor((5-c.condition-rule.conditionCost)/rule.extraDieCost)):null;
  const valid=Number.isSafeInteger(extraDice)&&extraDice>=0&&Number.isSafeInteger(extraDice+rule.damageDice);
  const dice=valid?rule.damageDice+extraDice:0,cost=rule.conditionCost+extraDice*rule.extraDieCost;
- return {dice,cost,maxExtra,manual:dice>500,attack:d.level+d.specialAttackPenalty,available:!d.incapacitated&&valid&&(maxExtra===null||extraDice<=maxExtra),damage:`${dice}d${rule.die}`,coneSquares:rule.coneSquares};
+ return {dice,cost,maxExtra,manual:dice>500,attack:d.level+d.specialAttackPenalty,available:!d.incapacitated&&!d.defensiveCombat.attacksBlocked&&valid&&(maxExtra===null||extraDice<=maxExtra),damage:`${dice}d${rule.die}`,coneSquares:rule.coneSquares};
 }
 export function rollBellow(c,d,pack,extraDice=0,manualDamage=null,roller=evalExpr){
  const b=bellowDetails(c,d,pack,extraDice);

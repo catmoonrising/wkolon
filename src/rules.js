@@ -9,6 +9,7 @@ import {carryingLimits} from './species-rules.js';
 import {recoveryState,recoveryDetails,validateRecovery} from './recovery.js';
 import {attackTechnique,extraDamageDice,validateAttackTechnique,bracingState,validateBracing,powerAttackState,powerAttackBonuses} from './attack-techniques.js';
 import {fullAttackState,fullAttackGrip} from './full-attacks.js';
+import {defensiveCombatState,defensiveConditionalTotals} from './defensive-combat.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 export const GROUPS = WEAPON_GROUPS;
 export const modifier = score => Math.floor((score - 10) / 2);
@@ -297,8 +298,10 @@ export function derive(c, pack) {
   let reflexBase = armor ? armorBonus : level;
   if (armor && proficientArmor && has('improved-armored-defense')) reflexBase = Math.max(armorBonus, level + Math.floor(armorBonus / 2));
   else if (armor && proficientArmor && has('armored-defense')) reflexBase = Math.max(level, armorBonus);
-  const dexDenied=c.flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
-  const dex = dexDenied?Math.min(0,mods.dex):armor ? Math.min(mods.dex, armorMaxDex) : mods.dex;
+  const helpless=!!c.helpless||c.condition===5||c.currentHP===0||recoveryState(c).dead;
+  const dexDenied=helpless||c.flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
+  const dex = helpless?pack.rules.defensiveCombat.helplessDexterityModifier:dexDenied?Math.min(0,mods.dex):armor ? Math.min(mods.dex, armorMaxDex) : mods.dex;
+  const defensiveCombat=defensiveCombatState(c,pack,ctx,dexDenied);
   const condition = pack.rules.conditionPenalties[c.condition];
   const defenses = {}, breakdowns = {};
   for (const key of ['reflex', 'fortitude', 'will']) {
@@ -309,7 +312,7 @@ export function derive(c, pack) {
     const equipment = key === 'fortitude' && proficientArmor ? armor.fortitudeBonus + total('armorFortitude') : 0;
     const size = key === 'reflex' ? pack.rules.sizeReflex[species.size] : 0;
     const naturalArmor = key === 'reflex' ? species.naturalArmor || 0 : 0;
-    const dodge=key==='reflex'&&!dexDenied?total('reflexDodge'):0;
+    const dodge=key==='reflex'&&!dexDenied?total('reflexDodge')+defensiveCombat.dodgeBonus:0;
     defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + total('defenses') + dodge + condition + c.modifiers[key];
     breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${total('defenses')} feats + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc`;
   }
@@ -376,17 +379,17 @@ export function derive(c, pack) {
     const mightySwingAvailable=w.mode==='melee'&&featHas('mighty-swing'),mightySwing=mightySwingAvailable&&!!c.mightySwing;
     const diceBonus=Math.max(technique.extraDice,aimed&&featHas('deadeye')?accessories.deadeyeDice:0,mightySwing?pack.rules.mightySwing.extraDice:0);
     const damage=extraDamageDice(w.damage,diceBonus);
-    const attack=ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + grip + aimBonus + c.modifiers.attack + e.attackMod + power.penalty + fullAttack.penalty;
+    const attack=ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + grip + aimBonus + c.modifiers.attack + e.attackMod + power.penalty + fullAttack.penalty + defensiveCombat.attackPenalty;
     const powerIssue=w.mode==='melee'&&powerAttack.selected&&!powerAttack.available?powerAttack.reason:'';
     const display=dice=>dice?dice+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
     const unAimedRange=weaponRange(w,{...e,aimed:false},pack,featHas,c);
-    return {...w,name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,ammunition,technique,powerAttack:power,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,issue:powerIssue||technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:!powerIssue&&technique.available&&range.available&&(!ammunition||ammunition.available),
+    return {...w,name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,ammunition,technique,powerAttack:power,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,issue:(defensiveCombat.attacksBlocked?defensiveCombat.reason||'Total Defense forbids attacks':'')||powerIssue||technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:!defensiveCombat.attacksBlocked&&!powerIssue&&technique.available&&range.available&&(!ammunition||ammunition.available),
       attack,aimed,bracing,braced:bracing.active,fullAttackGrip:fullAttackGrip(w,e,pack,species.size),ignoresCover:aimed,ignoresDarkness:aimed&&!!attachedScope(e,c,pack)?.scope.ignoresDarkness,
       ...(bracing.active?{unBraced:{braced:false,attack:attack-firePenalty+unBracedPenalty}}:{}),
       ...(aimed?{unAimed:{aimed:false,attack:attack-aimBonus-range.penalty+unAimedRange.penalty,damage:extraDamageDice(w.damage,technique.extraDice),damageDisplay:display(extraDamageDice(w.damage,technique.extraDice)),ignoresCover:false,ignoresDarkness:false}}:{}),
       ...(mightySwing?{unSwing:{mightySwing:false,damage:extraDamageDice(w.damage,technique.extraDice),damageDisplay:display(extraDamageDice(w.damage,technique.extraDice))}}:{}),
       damageBonus, damageDisplay:display(damage),
-      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} ${bracing.active?'Bracing':technique.selected==='normal'?'autofire':technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected}${grip?' + '+grip+' one-handed':''}${aimBonus?' + '+aimBonus+' Careful Shot':''}${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${technique.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}${diceBonus?'; +'+diceBonus+' damage '+(diceBonus===1?'die':'dice'):''}${aimed?'; Aim: ignores cover':''}${w.mode==='melee'&&powerAttack.selected?'; Power Attack: '+power.penalty+' attack, +'+power.damage+' damage ('+power.target+')':''}${fullAttack.penalty?'; Full Attack: '+fullAttack.penalty+' attack':''}`};
+      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} ${bracing.active?'Bracing':technique.selected==='normal'?'autofire':technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected}${grip?' + '+grip+' one-handed':''}${aimBonus?' + '+aimBonus+' Careful Shot':''}${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${technique.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}${diceBonus?'; +'+diceBonus+' damage '+(diceBonus===1?'die':'dice'):''}${aimed?'; Aim: ignores cover':''}${w.mode==='melee'&&powerAttack.selected?'; Power Attack: '+power.penalty+' attack, +'+power.damage+' damage ('+power.target+')':''}${fullAttack.penalty?'; Full Attack: '+fullAttack.penalty+' attack':''}${defensiveCombat.attackPenalty?'; Defense: '+defensiveCombat.attackPenalty+' attack':''}`};
   });
   const missingAssignments=c.abilityGeneration && Object.values(c.abilityGeneration.assign).some(i=>i===null);
   if (missingAssignments) issues.push('Assign all six ability scores');
@@ -408,12 +411,12 @@ export function derive(c, pack) {
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
-  return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, powerAttack, fullAttack, ctx, rows, issues,
-    specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty,
+  return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, helpless, ctx, rows, issues,
+    specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
     forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,spent:p.spent,level:p.level})),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
-    conditionalDefenses: (species.conditionalDefenses||[]).map(e=>({...e,total:defenses[e.defense]+e.amount})),
+    conditionalDefenses: [...(species.conditionalDefenses||[]).map(e=>({...e,total:defenses[e.defense]+e.amount})),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)],
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n)])),
     incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forceMaximum: species.forceImmune?0:pack.rules.resources.forcePointBase + half + total('forcePoints'), forceCurrent:species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,

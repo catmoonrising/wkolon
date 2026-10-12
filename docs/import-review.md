@@ -601,3 +601,34 @@ presentation rebuild and the complete browser suite pass. Dedicated Chromium
 and Firefox checks cover source selection/order, grip failures, aggregate ammo
 preflight, turn-long penalties/reset, the saved ambiguity, printed previews,
 Dracula mobile layout and complete offline reload.
+
+## Defensive combat
+
+Fresh API captures pin Fight Defensively 18172 (including Total Defense), Melee
+Defense 18361, Dodge 18108, Mobility 18370 and Defenses 18097 (Helpless). Full
+articles and section-specific passages are embedded with original links and
+revision provenance. Their explicit constants and triggers are reviewed in
+`rules.defensiveCombat`; prose is never parsed into live calculations.
+
+Fight Defensively applies −5 to all attacks and +2 dodge Reflex, or +5 with
+trained Acrobatics. Total Defense gives +5/+10, prohibits attacks until next turn
+and cannot be cancelled by another stance selection. Melee Defense's chosen
+penalty is capped by 5 and BAB, applies to attack rolls until next turn and gives
+an equal dodge bonus. Its field declares the required Standard Action melee
+attack; it does not grant or roll another attack. A saved selection that becomes
+ineligible grants no bonus and blocks attack execution until cleared.
+
+Dodge and Mobility remain conditional, with separate opponent/movement/composite
+totals rather than inflating general Reflex. Distinct dodge sources stack; all
+are lost with the Dexterity bonus. Helpless explicitly treats Dexterity as 0 for
+Reflex (−5), including when HP remains after Bellow. This corrects the previous
+positive-Dexterity removal without changing actual ability scores. Manual
+helplessness tracks bound/sleeping states; automatic knockout tracks organic or
+droid wording. The incoming melee +5 modifier and offensive Force power effects
+remain manual pending target/effect controls.
+
+Validation: 223 JavaScript and 19 Python tests, rules validation, an offline
+import/rebuild and the complete Chromium browser suite pass. Dedicated Chromium
+and Firefox checks cover stacking, conditional totals, lost Dexterity, Helpless,
+Total Defense attack/resource preflight, expiry, exact rules, stat blocks,
+persistence, Dracula mobile layout and offline reload.

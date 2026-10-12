@@ -326,6 +326,8 @@ button.roll.has-eff { border-bottom-color: var(--link-border); color: var(--link
 /* ----- character creator / level-up dialogs (src/creator.js) ----- */
 .cr-step label { display: inline-block; margin: .2rem 0; }
 .cr-method.active, .cr-racial.active { background: var(--select); color: var(--select-fg); border-color: var(--select); }
+button[data-defense-stance][aria-pressed="true"], button[data-defense-stance][aria-pressed="true"]:hover { background: var(--select); color: var(--select-fg); border-color: var(--select); }
+#module-defenses td:first-child { overflow-wrap: anywhere; }
 .cr-scores td { padding: .1rem .4rem .1rem 0; }
 .cr-pool { display: inline-block; border: 1px solid var(--border); border-radius: var(--radius); padding: 0 .3rem; margin-right: .15rem; }
 .cr-pool.used { opacity: .35; text-decoration: line-through; }
