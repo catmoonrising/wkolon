@@ -54,8 +54,9 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){state(c).secondWindEncounter=false;}
+export function newEncounter(c){state(c).secondWindEncounter=false;if(c.mightySwing!==undefined)c.mightySwing=false;}
 export function newDay(c,pack){
+ if(c.mightySwing!==undefined)c.mightySwing=false;
  const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.naturalHealingUsed=false;
  const regrown=[];
  if(pack?.species.find(s=>s.id===c.species)?.limbRegeneration&&!r.dead){
@@ -70,7 +71,7 @@ export function setPersistent(c,cause,on){
 }
 export function setDead(c,on){
  state(c).dead=on;
- if(on){c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
+ if(on){c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;if(c.mightySwing!==undefined)c.mightySwing=false;}
 }
 export function receiveHealing(c,d,pack,amount){
  if(!Number.isInteger(amount)||amount<1||amount>100000)throw new Error('Enter healing from 1 to 100,000');
@@ -83,6 +84,7 @@ export function receiveHealing(c,d,pack,amount){
 }
 export function restEightHours(c,d,pack){
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
+ if(c.mightySwing!==undefined)c.mightySwing=false;
  if(recoveryState(c).rageRounds)endRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;
  r.persistent=r.persistent.filter(p=>!rule.removablePersistent.includes(p));

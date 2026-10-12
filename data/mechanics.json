@@ -4273,6 +4273,16 @@
       "sha256": "09c9ce834ff4f13cc83637c9d5850ea94bfc40ec67500b62939fca7095a77aae",
       "url": "https://swse.miraheze.org/w/index.php?oldid=26732",
       "history": "https://swse.miraheze.org/w/index.php?title=Ion%20Damage&action=history"
+    },
+    {
+      "id": "source:wiki-actions-free-actions",
+      "title": "Actions",
+      "section": "Free Actions",
+      "revision": 24963,
+      "timestamp": "2024-11-10T16:17:33Z",
+      "sha256": "61961afd9aaf06611ebd4019f50e5d90bff7e10e70c4a16e4b703c30e81460de",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24963#Free_Actions",
+      "history": "https://swse.miraheze.org/w/index.php?title=Actions&action=history"
     }
   ],
   "species": [
@@ -11356,7 +11366,8 @@
     "ammunition": {
       "sourceIds": [
         "source:wiki-manipulate-an-item",
-        "source:wiki-attacks"
+        "source:wiki-attacks",
+        "source:wiki-actions-free-actions"
       ],
       "autofireShots": 10
     },
@@ -11379,6 +11390,54 @@
         "hpDivisor": 2,
         "thresholdSteps": 2
       }
+    },
+    "attackTechniques": [
+      {
+        "id": "burst-fire",
+        "featId": "feat:burst-fire",
+        "sourceId": "source:wiki-burst-fire",
+        "mode": "ranged",
+        "requiresAutofire": true,
+        "ability": "str",
+        "minimum": 13,
+        "penalty": -5,
+        "lowAbilityPenalty": -10,
+        "extraDice": 2,
+        "shots": 5
+      },
+      {
+        "id": "rapid-shot",
+        "featId": "feat:rapid-shot",
+        "sourceId": "source:wiki-rapid-shot",
+        "mode": "ranged",
+        "requiresAutofire": false,
+        "ability": "str",
+        "minimum": 13,
+        "penalty": -2,
+        "lowAbilityPenalty": -5,
+        "extraDice": 1,
+        "shots": 2
+      },
+      {
+        "id": "rapid-strike",
+        "featId": "feat:rapid-strike",
+        "sourceId": "source:wiki-rapid-strike",
+        "mode": "melee",
+        "requiresAutofire": false,
+        "ability": "dex",
+        "minimum": 13,
+        "penalty": -2,
+        "lowAbilityPenalty": -5,
+        "extraDice": 1,
+        "shots": 0,
+        "lightException": true
+      }
+    ],
+    "mightySwing": {
+      "sourceId": "source:wiki-mighty-swing",
+      "featId": "feat:mighty-swing",
+      "extraDice": 1,
+      "swiftActions": 2
     }
   },
   "heroicTraits": {

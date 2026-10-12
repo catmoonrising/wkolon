@@ -386,7 +386,7 @@ Explicit creation grants are claimed once, preserve existing items and selection
 
 Reviewed current Targeting Scope 24958, Aim 15771, Retractable Stock 19749, Rifles 18458, Careful Shot 18018 and Deadeye 18095. The source revisions match existing pins where present; new sources retain checksums/history. Standard and Enhanced Low-Light scopes are official Core/Scum and Villainy options. Core rifle/carbine built-in stocks use their original weapon-price sources, with the official Retractable Stock rule for folded/extended behavior. No aftermarket upgrades are enabled yet.
 
-Tests cover all eight Accurate/Far Shot/scope combinations across all four bands, the Counseling-off interpretation, unavailable inaccurate/maximum ranges, actual-distance Point-Blank Shot, owned/carried scope capacity, rifle grip penalties, and once-only Aim/Careful Shot/Deadeye routine results. Deadeye’s printed prohibition on stacking with Burst Fire/Rapid Shot will also be enforced when those conditional modes are added.
+Tests cover all eight Accurate/Far Shot/scope combinations across all four bands, the Counseling-off interpretation, unavailable inaccurate/maximum ranges, actual-distance Point-Blank Shot, owned/carried scope capacity, rifle grip penalties, and once-only Aim/Careful Shot/Deadeye routine results. Deadeye’s printed prohibition on stacking with Burst Fire/Rapid Shot is enforced by the conditional attack modes.
 
 **Open wiki contradiction: Ion Damage vs ion weapon descriptions.** Ion Damage 26732 halves HP damage for every target, with extra track effects for electronic/cybernetic targets. Ion Pistol 18290 describes normal damage to those targets and half to other creatures. The user has been notified; the dedicated damage rule is the proposed RAW default. No alternate interpretation has been added without a ruling.
 
@@ -461,3 +461,44 @@ list items containing their knockout rules alongside the general HP passage.
 user's literal HP replacement default, or the existing additive Ambiguities
 choice. Eight-hour rest still clears eligible conditions and retains its daily
 healing ledger; a type-specific revival no longer loses that ledger.
+
+## Conditional attack techniques and Mighty Swing
+
+Rechecked Burst Fire 16415, Rapid Shot 24956, Rapid Strike 24955, Mighty Swing
+18364, Aim 15771 and Attacks 27406 against the live wiki; their revisions still
+match the reviewed pins. The three attack techniques have closed declarative
+records for weapon mode, proficiency, ability threshold, penalties, extra damage
+dice and ammunition cost. Attack options are explicit and persist; merely owning
+a feat never changes every attack. Burst Fire is a five-shot single-target attack,
+including normal criticals, instead of the ten-shot autofire area attack. Rapid
+Shot consumes two shots. Insufficient Strength/Dexterity applies each feat's
+printed larger penalty; Rapid Strike retains its light-weapon exception and the
+existing Counseling switch for treating unarmed attacks as light weapons.
+
+Extra dice from Deadeye/Burst Fire/Rapid Shot and Mighty Swing/Rapid Strike do not
+stack. A routine consumes Aim on its first weapon attack while retaining the
+selected technique's benefits. Mighty Swing benefits the next melee attack in
+the same round, including a miss, across weapon entries; preceding ranged attacks
+do not consume it. Its explicit checkbox declares the two Swift Actions. Round
+expiration remains adjudicated because the sheet does not yet track turns;
+encounter/day/rest/death resets clear the declaration.
+
+**Bow interpretation:** Bow 16363 holds one arrow and reloads as a Free Action.
+The newly pinned Actions 24963 Free Actions section permits additional Free
+Actions and forbids them while flat-footed. An explicit supplied Free reloads
+choice allows Rapid Shot and repeated Bow attacks without inventing a larger
+loaded capacity. Routine preflight calculates the arrows reloaded and consumed;
+the loaded counter remains within its one-arrow capacity. Spare quivers are not
+yet debited automatically. No optional Free Actions limit variant is enabled.
+
+**User ruling queued for bracing:** the extended retractable stock requirement
+applies to Pistols only. Heavy Weapons and Rifles do not require that stock. The
+weapon must still be autofire-only, and bracing requires two Swift Actions
+immediately before firing. The user explicitly declined an alternative setting;
+bracing itself remains a separate implementation task.
+
+Validation: 189 JavaScript and 19 Python tests, rules validation and the complete
+browser suite pass. Browser checks cover individual attacks and routines, ammo
+preflight, misses and criticals, mixed-weapon Mighty Swing consumption, Bow free
+reloads, flat-footed restrictions, full rules text, saved choices, Dracula mobile
+layout and offline operation.

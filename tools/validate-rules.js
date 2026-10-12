@@ -197,6 +197,15 @@ export function validatePack(p) {
     }
   }
   const access=p.rules.forceTalentAccess,recovery=p.rules.forcePowerRecovery;
+  const techniques=p.rules.attackTechniques;
+  assert(Array.isArray(techniques)&&techniques.length===3&&new Set(techniques.map(t=>t.id)).size===3,'Invalid attack techniques');
+  const techniqueValues={'burst-fire':['ranged',true,'str',13,-5,-10,2,5,false],'rapid-shot':['ranged',false,'str',13,-2,-5,1,2,false],'rapid-strike':['melee',false,'dex',13,-2,-5,1,0,true]};
+  for(const t of techniques){
+    assert(Object.keys(t).every(k=>['id','featId','sourceId','mode','requiresAutofire','ability','minimum','penalty','lowAbilityPenalty','extraDice','shots','lightException'].includes(k)),'Unsupported attack technique');
+    assert(t.featId==='feat:'+t.id&&sources.has(t.sourceId)&&ix.feats.get(t.featId)?.sourceId===t.sourceId,'Missing technique source');
+    assert.deepEqual([t.mode,t.requiresAutofire,t.ability,t.minimum,t.penalty,t.lowAbilityPenalty,t.extraDice,t.shots,!!t.lightException],techniqueValues[t.id],'Unsupported Core attack technique');
+  }
+  const swing=p.rules.mightySwing;assert(swing&&Object.keys(swing).every(k=>['sourceId','featId','extraDice','swiftActions'].includes(k))&&swing.featId==='feat:mighty-swing'&&swing.sourceId===ix.feats.get(swing.featId)?.sourceId&&swing.extraDice===1&&swing.swiftActions===2,'Invalid Mighty Swing');
   const ammo=p.rules.ammunition;assert(ammo&&Object.keys(ammo).every(k=>['sourceIds','autofireShots'].includes(k))&&ammo.sourceIds.length&&ammo.sourceIds.every(id=>sources.has(id))&&ammo.autofireShots===10,'Invalid ammunition rules');
   const accessories=p.rules.weaponAccessories;assert(accessories&&accessories.sourceIds.length&&accessories.sourceIds.every(id=>sources.has(id)),'Missing accessory sources');assert.deepEqual(Object.keys(accessories).sort(),['carefulShotBonus','deadeyeDice','rifleOneHandedPenalty','scopeRangeReduction','sourceIds']);assert(accessories.scopeRangeReduction===1&&accessories.rifleOneHandedPenalty===-5&&accessories.carefulShotBonus===1&&accessories.deadeyeDice===1,'Unsupported weapon accessory rule');
   for(const key of ['weaponRanges','unarmed','secondWind','encumbrance'])assert(p.rules[key]?.sourceIds?.length&&p.rules[key].sourceIds.every(id=>sources.has(id)),`Missing ${key} sources`);

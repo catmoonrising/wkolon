@@ -9,7 +9,7 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | Clone Wars Campaign Guide | 571 | 21 | 6 | 544 | 1 |
-| Core Rulebook | 654 | 231 | 81 | 342 | 1 |
+| Core Rulebook | 654 | 232 | 81 | 341 | 1 |
 | Dawn of Defiance | 244 | 2 | 0 | 242 | 0 |
 | Force Unleashed Campaign Guide | 356 | 24 | 10 | 322 | 0 |
 | Galaxy at War | 274 | 13 | 6 | 255 | 0 |
@@ -23,7 +23,7 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 | Starships of the Galaxy | 253 | 16 | 5 | 232 | 0 |
 | Threats of the Galaxy | 256 | 4 | 1 | 251 | 0 |
 | Unknown Regions Campaign Guide | 355 | 6 | 10 | 339 | 0 |
-| Web Enhancements | 519 | 29 | 3 | 487 | 0 |
+| Web Enhancements | 519 | 30 | 3 | 486 | 0 |
 
 4,400 distinct candidate pages across 16 sources. Shared pages appear in more than one row. The exclusion tree contains 367 pages in 5 categories.
 

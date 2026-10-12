@@ -29,7 +29,11 @@
   - [ ] Spare ammunition consumption, rechargeable packs, generator connections and E-Web crew/mount readiness.
   - [x] Stun settings/ranges, incoming HP/threshold/Condition Track effects, ion targets, FP survival and nonfatal Stun consciousness checks.
   - [x] Saved Stun/Ion zero-HP death alternative in Ambiguities; type-specific knockout remains the default.
-  - [ ] Remaining conditional feat actions, bracing and damage interpretation alternatives awaiting rulings.
+  - [x] Burst Fire, Rapid Shot and Rapid Strike, specific penalties, nonstacking damage dice and ammunition costs.
+  - [x] Mighty Swing's next melee attack, including misses and mixed-weapon routines.
+  - [x] Explicit supplied Bow free reloads, including flat-footed restrictions and multi-shot attacks.
+  - [ ] Bracing: use the user-approved pistol-only extended-stock requirement; no alternate setting.
+  - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 
 - [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.

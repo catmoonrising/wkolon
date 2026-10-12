@@ -46,5 +46,6 @@ test('conditional combat feats retain full imported Special rules and do not mod
  c.inventory=[{id:'equipment:blaster-pistol',quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0}];
  const before=derive(c,pack);c.levels[0].feats=[{id:'feat:rapid-shot'},{id:'feat:vehicular-combat'}];c.trainedSkills=['skill:pilot'];
  const after=derive(c,pack);assert(after.ctx.feats.some(f=>f.id==='feat:rapid-shot'));assert(after.ctx.feats.some(f=>f.id==='feat:vehicular-combat'));
- assert.deepEqual(after.attacks,before.attacks);assert.deepEqual(after.defenses,before.defenses);
+ const ordinary=a=>({attack:a.attack,damage:a.damage,damageBonus:a.damageBonus,range:a.range,areaType:a.areaType,criticalMultiplier:a.criticalMultiplier,ammunition:a.ammunition});
+ assert.deepEqual(after.attacks.map(ordinary),before.attacks.map(ordinary));assert.deepEqual(after.defenses,before.defenses);
 });

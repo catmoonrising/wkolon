@@ -758,6 +758,105 @@
               }
             }
           }
+        },
+        "attackTechniques": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "featId",
+              "sourceId",
+              "mode",
+              "requiresAutofire",
+              "ability",
+              "minimum",
+              "penalty",
+              "lowAbilityPenalty",
+              "extraDice",
+              "shots"
+            ],
+            "properties": {
+              "id": {
+                "enum": [
+                  "burst-fire",
+                  "rapid-shot",
+                  "rapid-strike"
+                ]
+              },
+              "featId": {
+                "type": "string"
+              },
+              "sourceId": {
+                "type": "string"
+              },
+              "mode": {
+                "enum": [
+                  "melee",
+                  "ranged"
+                ]
+              },
+              "requiresAutofire": {
+                "type": "boolean"
+              },
+              "ability": {
+                "enum": [
+                  "str",
+                  "dex"
+                ]
+              },
+              "minimum": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "penalty": {
+                "type": "integer",
+                "maximum": 0
+              },
+              "lowAbilityPenalty": {
+                "type": "integer",
+                "maximum": 0
+              },
+              "extraDice": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "shots": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "lightException": {
+                "const": true
+              }
+            }
+          }
+        },
+        "mightySwing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceId",
+            "featId",
+            "extraDice",
+            "swiftActions"
+          ],
+          "properties": {
+            "sourceId": {
+              "type": "string"
+            },
+            "featId": {
+              "const": "feat:mighty-swing"
+            },
+            "extraDice": {
+              "const": 1
+            },
+            "swiftActions": {
+              "const": 2
+            }
+          }
         }
       },
       "required": [

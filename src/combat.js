@@ -71,10 +71,10 @@ export function routinePlan(routine,attacks){
   if(!integer(s.count,1,20))throw new Error('Attack count must be 1–20');
   if(attack.ammunition?.remaining!==null&&attack.ammunition?.remaining!==undefined){
    const shots=(spending.get(attack.uid)?.shots||0)+s.count*attack.ammunition.cost;
-   if(shots>attack.ammunition.remaining)throw new Error(`${attack.name}: needs ${shots} ${shots===1?'shot':'shots'}; ${attack.ammunition.remaining} loaded`);
-   spending.set(attack.uid,{uid:attack.uid,shots});
+   if(shots>attack.ammunition.remaining&&!attack.ammunition.freeReloads)throw new Error(`${attack.name}: needs ${shots} ${shots===1?'shot':'shots'}; ${attack.ammunition.remaining} loaded`);
+   spending.set(attack.uid,{uid:attack.uid,shots,...(shots>attack.ammunition.remaining?{reloadShots:shots-attack.ammunition.remaining}:{})});
   }
-  if(attack.available===false)throw new Error('Attack unavailable');
+  if(attack.available===false)throw new Error(attack.issue||'Attack unavailable');
   if(attack.damage===null)throw new Error(attack.damageAction||'Choose ammunition');
   return {step:s,attack};
  });
@@ -85,9 +85,11 @@ export function routineIssue(routine,attacks){try{routinePlan(routine,attacks);r
 export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Reflex'){
  if(!['Reflex','Fortitude'].includes(defense))throw new Error('Unsupported defense');
  const {plan,ammunitionSpent}=routinePlan(routine,attacks);
- const results=[],aimConsumed=new Set(attacks.filter(a=>a.aimed).map(a=>a.uid));
+ const results=[],aimConsumed=new Set(attacks.filter(a=>a.aimed).map(a=>a.uid));let mightySwingConsumed=false;
  for(const {step:s,attack:original} of plan)for(let i=0;i<s.count;i++){
-  const a=results.length&&original.unAimed?{...original,...original.unAimed}:original;
+  let a=results.length&&original.unAimed?{...original,...original.unAimed}:original;
+  if(mightySwingConsumed&&original.unSwing)a={...a,...original.unSwing};
+  if(a.mightySwing)mightySwingConsumed=true;
   const attackRoll=roller('1d20'+signed(a.attack+s.attackMod)),die=attackRoll.d20[0];
   const naturalHit=die===rules.naturalHit,naturalMiss=die===rules.naturalMiss;
   const failedArea=!!a.areaType&&attackRoll.value<rules.areaMinimumRoll;
@@ -99,11 +101,12 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Refle
    damage=Math.max(rules.minimumDamage*(critical?multiplier:1),damageRoll.value);
    damageRoll={...damageRoll,value:damage};
   }
-  results.push({name:a.name,total:attackRoll.value,damage,naturalHit,naturalMiss,failedArea,critical,areaType:a.areaType,aimed:!!a.aimed,ignoresDarkness:!!a.ignoresDarkness,attackRoll,damageRoll});
+  results.push({name:a.name,total:attackRoll.value,damage,naturalHit,naturalMiss,failedArea,critical,areaType:a.areaType,aimed:!!a.aimed,mightySwing:!!a.mightySwing,ignoresDarkness:!!a.ignoresDarkness,attackRoll,damageRoll});
  }
  const rows=defenseRangeRows(results),range=r=>r.lo===null?(r.hi===null?'Any':`≤ ${r.hi}`):r.hi===null?`${r.lo}+`:r.lo===r.hi?String(r.lo):`${r.lo}–${r.hi}`;
  const area=results.some(r=>r.areaType),splash=results.some(r=>r.areaType==='splash');
- const details=results.map(r=>`<div><b>${escape(r.name)}</b>: ${r.attackRoll.display} = ${totalHtml(r.attackRoll)}${r.naturalMiss||r.failedArea?' · Miss':r.critical?' · Critical':r.naturalHit?' · Hit':''}${r.damageRoll?` | ${r.damageRoll.display} = ${totalHtml(r.damageRoll)}`:''}${r.aimed?' · Ignores cover':''}${r.ignoresDarkness?' · Ignores Concealment from darkness':''}</div>`).join('');
- return {results,rows,aimConsumed:[...aimConsumed],ammunitionSpent,text:`${routine.name||'Routine'}: ${rows.map(r=>`${defense} ${range(r)}: ${r.damage} damage`).join('; ')}`,
-  html:`<b>${escape(routine.name||'Routine')}</b><table class="routine-result"><thead><tr><th>${defense}</th><th title="Rolled damage, before target damage-type effects, DR and SR">Damage</th>${area?'<th>Evasion</th><th>Cover</th>':''}${splash?'<th>Splash</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${range(r)}</td><td>${r.damage}</td>${area?`<td>${r.evasion}</td><td>${r.cover}</td>`:''}${splash?`<td>${r.splash}</td>`:''}</tr>`).join('')}</tbody></table><details><summary>Rolls</summary>${details}</details>`};
+ const details=results.map(r=>`<div><b>${escape(r.name)}</b>: ${r.attackRoll.display} = ${totalHtml(r.attackRoll)}${r.naturalMiss||r.failedArea?' · Miss':r.critical?' · Critical':r.naturalHit?' · Hit':''}${r.damageRoll?` | ${r.damageRoll.display} = ${totalHtml(r.damageRoll)}`:''}${r.aimed?' · Ignores cover':''}${r.mightySwing?' · Mighty Swing':''}${r.ignoresDarkness?' · Ignores Concealment from darkness':''}</div>`).join('');
+ const reloads=ammunitionSpent.filter(s=>s.reloadShots).map(s=>`${attacks.find(a=>a.uid===s.uid).name}: ${s.reloadShots}`).join('; ');
+ return {results,rows,aimConsumed:[...aimConsumed],mightySwingConsumed,ammunitionSpent,text:`${routine.name||'Routine'}: ${rows.map(r=>`${defense} ${range(r)}: ${r.damage} damage`).join('; ')}`,
+  html:`<b>${escape(routine.name||'Routine')}</b><table class="routine-result"><thead><tr><th>${defense}</th><th title="Rolled damage, before target damage-type effects, DR and SR">Damage</th>${area?'<th>Evasion</th><th>Cover</th>':''}${splash?'<th>Splash</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${range(r)}</td><td>${r.damage}</td>${area?`<td>${r.evasion}</td><td>${r.cover}</td>`:''}${splash?`<td>${r.splash}</td>`:''}</tr>`).join('')}</tbody></table><details><summary>Rolls</summary>${details}${reloads?`<div>Free reloads: ${escape(reloads)}</div>`:''}</details>`};
 }
