@@ -20,7 +20,7 @@ export function planOpportunity(c,d,pack,uid){
  const p=opportunityContext(c),state=opportunityState(c,pack,d.ctx,d.mods),target=attackTarget(c);
  const fail=message=>{throw new Error(message);};
  if(d.incapacitated||d.helpless)fail('Cannot attack while helpless');
- if(c.flatFooted&&!state.reflexes)fail('Flat-footed: requires Combat Reflexes');
+ if((d.flatFooted||c.flatFooted)&&!state.reflexes)fail('Flat-footed: requires Combat Reflexes');
  if(!state.remaining)fail('No attacks of opportunity remaining this round');
  if(!p.opponent.trim()||!p.action.trim())fail('Identify opponent and provoking action');
  if(!p.provoked)fail('Confirm a provoking action in your threatened area');

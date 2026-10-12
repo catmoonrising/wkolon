@@ -11,6 +11,7 @@ import {attackTechnique,extraDamageDice,validateAttackTechnique,bracingState,val
 import {fullAttackState,fullAttackGrip} from './full-attacks.js';
 import {defensiveCombatState,defensiveConditionalTotals} from './defensive-combat.js';
 import {weaponCanOpportunity} from './opportunity.js';
+import {balanceFlatFooted} from './balance.js';
 import {applyAttackTarget,canAimAtTarget} from './attack-targets.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 export const GROUPS = WEAPON_GROUPS;
@@ -301,7 +302,8 @@ export function derive(c, pack) {
   if (armor && proficientArmor && has('improved-armored-defense')) reflexBase = Math.max(armorBonus, level + Math.floor(armorBonus / 2));
   else if (armor && proficientArmor && has('armored-defense')) reflexBase = Math.max(level, armorBonus);
   const helpless=!!c.helpless||c.condition===5||c.currentHP===0||recoveryState(c).dead;
-  const dexDenied=helpless||c.flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
+  const balancingFlatFooted=balanceFlatFooted(c,ctx),flatFooted=!!c.flatFooted||balancingFlatFooted;
+  const dexDenied=helpless||flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
   const dex = helpless?pack.rules.defensiveCombat.helplessDexterityModifier:dexDenied?Math.min(0,mods.dex):armor ? Math.min(mods.dex, armorMaxDex) : mods.dex;
   const defensiveCombat=defensiveCombatState(c,pack,ctx,dexDenied);
   const condition = pack.rules.conditionPenalties[c.condition];
@@ -370,7 +372,7 @@ export function derive(c, pack) {
     const aimed=!!e.aimed&&canAim(w,e)&&canAimAtTarget(c,species),accessories=pack.rules.weaponAccessories;
     const range=weaponRange(w,{...e,aimed},pack,featHas,c),pointBlank=w.mode==='ranged'&&range.band===0&&featHas('point-blank-shot')?1:0;
     const technique=attackTechnique(w,e,pack,featHas,{proficient,scores,light}),autofire=technique.autofire;
-    const ammunition=ammunitionState(e,pack,autofire,technique.shots,{flatFooted:c.flatFooted});
+    const ammunition=ammunitionState(e,pack,autofire,technique.shots,{flatFooted});
     const aimBonus=aimed&&featHas('careful-shot')?accessories.carefulShotBonus:0;
     const grip=w.group==='rifles'&&e.oneHanded?accessories.rifleOneHandedPenalty:0;
     const unBracedPenalty=technique.selected==='normal'?(autofire?-5:0):technique.penalty;
@@ -386,7 +388,7 @@ export function derive(c, pack) {
     const powerIssue=w.mode==='melee'&&powerAttack.selected&&!powerAttack.available?powerAttack.reason:'';
     const display=dice=>dice?dice+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
     const unAimedRange=weaponRange(w,{...e,aimed:false},pack,featHas,c);
-    return {...w,name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,ammunition,technique,powerAttack:power,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,issue:(defensiveCombat.attacksBlocked?defensiveCombat.reason||'Total Defense forbids attacks':'')||powerIssue||technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:!defensiveCombat.attacksBlocked&&!powerIssue&&technique.available&&range.available&&(!ammunition||ammunition.available),
+    return {...w,name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,ammunition,technique,powerAttack:power,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,flatFooted,issue:(defensiveCombat.attacksBlocked?defensiveCombat.reason||'Total Defense forbids attacks':'')||powerIssue||technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:!defensiveCombat.attacksBlocked&&!powerIssue&&technique.available&&range.available&&(!ammunition||ammunition.available),
       attack,aimed,bracing,braced:bracing.active,opportunityWeapon:weaponCanOpportunity(w,e,pack,ctx),fullAttackGrip:fullAttackGrip(w,e,pack,species.size),ignoresCover:aimed,ignoresDarkness:aimed&&!!attachedScope(e,c,pack)?.scope.ignoresDarkness,
       ...(bracing.active?{unBraced:{braced:false,attack:attack-firePenalty+unBracedPenalty}}:{}),
       ...(aimed?{unAimed:{aimed:false,attack:attack-aimBonus-range.penalty+unAimedRange.penalty,damage:extraDamageDice(w.damage,technique.extraDice),damageDisplay:display(extraDamageDice(w.damage,technique.extraDice)),ignoresCover:false,ignoresDarkness:false}}:{}),
@@ -414,7 +416,7 @@ export function derive(c, pack) {
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
-  return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, helpless, ctx, rows, issues,
+  return {level, half, scores, equipmentAbilities, armor, mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
     forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,spent:p.spent,level:p.level})),powerSlots:ctx.powerSlots,

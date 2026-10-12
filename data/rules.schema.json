@@ -1499,13 +1499,81 @@
               }
             }
           }
+        },
+        "balance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "skillId",
+            "trainedOnly",
+            "widthDCs",
+            "unstableDCIncrease",
+            "speedMultiplier",
+            "take10",
+            "take20",
+            "flatFootedUnlessTrained",
+            "damageRecheck",
+            "failure",
+            "catchDC",
+            "movementCostRule"
+          ],
+          "properties": {
+            "sourceIds": {
+              "const": [
+                "source:wiki-acrobatics",
+                "source:wiki-move"
+              ]
+            },
+            "skillId": {
+              "const": "skill:acrobatics"
+            },
+            "trainedOnly": {
+              "const": false
+            },
+            "widthDCs": {
+              "const": {
+                "8-15": 10,
+                "4-7": 15,
+                "under-4": 20
+              }
+            },
+            "unstableDCIncrease": {
+              "const": 5
+            },
+            "speedMultiplier": {
+              "const": 0.5
+            },
+            "take10": {
+              "const": false
+            },
+            "take20": {
+              "const": false
+            },
+            "flatFootedUnlessTrained": {
+              "const": true
+            },
+            "damageRecheck": {
+              "const": "same-dc"
+            },
+            "failure": {
+              "const": "prone-then-catch"
+            },
+            "catchDC": {
+              "const": 15
+            },
+            "movementCostRule": {
+              "const": "combatMovement"
+            }
+          }
         }
       },
       "required": [
         "combat",
         "resources",
         "sizeStealth",
-        "armorMovement"
+        "armorMovement",
+        "balance"
       ]
     },
     "species": {

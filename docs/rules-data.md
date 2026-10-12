@@ -742,3 +742,18 @@ keeps incomplete drafts importable; action preflight rejects inconsistent
 subsets and routes. The old `lowObjects` boolean remains an importable legacy
 permission flag and prevents action resolution until counts are supplied or
 the flag is explicitly cleared by editing a low-object count.
+
+## Balance
+
+`rules.balance` maps Acrobatics revision 27350 and Move revision 18374. Width
+bands retain the three printed labels and DCs rather than interpolate unspecified
+widths. Slippery or unstable adds one +5 adjustment. Successful movement uses half
+Speed and the reviewed normal movement costs. Training prevents Balance's
+flat-footed state; it is not required to attempt the check. No Take 10/20.
+
+A character's optional `balance` state separates draft width, instability, route
+and entered check/catch totals from the active check's saved DC. Damage rechecks
+use that saved DC, even if the next movement draft changes. Failed checks cause
+Prone followed by the DC15 catch check; a failed catch records a fall without
+inventing a height, landing position or damage. Manual HP edits do not establish
+that damage occurred; the incoming-damage action triggers the immediate recheck.

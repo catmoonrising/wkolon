@@ -12049,6 +12049,28 @@
         "failure": "normal-terrain-cost",
         "noAutomaticShortening": true
       }
+    },
+    "balance": {
+      "sourceIds": [
+        "source:wiki-acrobatics",
+        "source:wiki-move"
+      ],
+      "skillId": "skill:acrobatics",
+      "trainedOnly": false,
+      "widthDCs": {
+        "8-15": 10,
+        "4-7": 15,
+        "under-4": 20
+      },
+      "unstableDCIncrease": 5,
+      "speedMultiplier": 0.5,
+      "take10": false,
+      "take20": false,
+      "flatFootedUnlessTrained": true,
+      "damageRecheck": "same-dc",
+      "failure": "prone-then-catch",
+      "catchDC": 15,
+      "movementCostRule": "combatMovement"
     }
   },
   "heroicTraits": {

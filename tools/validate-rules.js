@@ -265,6 +265,10 @@ export function validatePack(p) {
   requireRef('skills',acrobaticsMovement.skillId);
   assert(acrobaticsMovement.sourceIds.every(id=>sources.has(id))&&['acrobatics','move','attacks-of-opportunity','prone','encumbrance'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&acrobaticsMovement.sourceIds.includes(r.sourceId))),'Missing Acrobatics movement passage');
   const combatMovement=p.rules.combatMovement;
+  const balance=p.rules.balance;
+  assert.deepEqual(balance,{sourceIds:['source:wiki-acrobatics','source:wiki-move'],skillId:'skill:acrobatics',trainedOnly:false,widthDCs:{'8-15':10,'4-7':15,'under-4':20},unstableDCIncrease:5,speedMultiplier:.5,take10:false,take20:false,flatFootedUnlessTrained:true,damageRecheck:'same-dc',failure:'prone-then-catch',catchDC:15,movementCostRule:'combatMovement'},'Invalid Balance mapping');
+  requireRef('skills',balance.skillId);
+  assert(balance.sourceIds.every(id=>sources.has(id))&&['acrobatics','move'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&balance.sourceIds.includes(r.sourceId))),'Missing Balance passage');
   assert.deepEqual(combatMovement,{sourceIds:['source:wiki-withdraw','source:wiki-move','source:wiki-running-attack','source:wiki-dodge','source:wiki-mobility','source:wiki-encumbrance'],diagonalCost:2,difficultCost:2,diagonalDifficultCost:4,withdraw:{action:'move-action',speedMultiplier:.5,protectedSquares:1,shortestRoute:true},running:{featId:'feat:running-attack',speedMultiplier:1,attackCount:1,dodgeFeat:'feat:dodge',dodgeBonus:1,dodgeScope:'opportunity-during-running-attack'},strainMovementAction:'full-round-action'},'Invalid combat movement mapping');
   for(const id of [combatMovement.running.featId,combatMovement.running.dodgeFeat])requireRef('feats',id);
   assert(combatMovement.sourceIds.every(id=>sources.has(id))&&['withdraw','move','running-attack','dodge','mobility','encumbrance'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&combatMovement.sourceIds.includes(r.sourceId))),'Missing combat movement passage');

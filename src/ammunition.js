@@ -1,4 +1,6 @@
 import {routineSignature} from './routine-progress.js';
+import {progression} from './rules.js';
+import {balanceFlatFooted} from './balance.js';
 import {clearBracing} from './attack-techniques.js';
 import {followUpState,applyFollowUpClaim,recordAttackFollowUps,clearFollowUps} from './attack-follow-ups.js';
 
@@ -24,10 +26,13 @@ export function validateAmmunition(entry,pack,bad){
 
 // Records a supplied reload. It never creates supplies, debits an assumed
 // battery, or invents a conversion for partially used packs across weapons.
-export function reloadWeapon(c,pack,uid){
+export function reloadWeapon(c,pack,uid,flatFooted){
+ // Derivation normally supplies the current context. Direct action callers
+ // still get the same Balance restriction, including training granted by feats.
+ flatFooted??=!!c.flatFooted||(c.balance?.active?balanceFlatFooted(c,progression(c,pack).ctx):false);
  const entry=c.inventory.find(e=>e.uid===uid),profile=entry&&ammunitionProfile(entry,pack);
  if(!profile)throw new Error('Weapon cannot be reloaded.');
- if(profile.reloadAction==='free-action'&&c.flatFooted)throw new Error('Free Actions are unavailable while flat-footed.');
+ if(profile.reloadAction==='free-action'&&flatFooted)throw new Error('Free Actions are unavailable while flat-footed.');
  clearFollowUps(c);if(profile.reloadAction!=='free-action')delete c.routineProgress;
  entry.shotsRemaining=profile.capacity;
  clearBracing(c);
@@ -43,7 +48,7 @@ export function spendAttackResources(c,result){
  if(result.opportunitySpent&&JSON.stringify(c.opportunity?.used||[])!==JSON.stringify(result.opportunityPrevious))throw new Error('Opportunity history changed; roll again.');
  const spending=(result.ammunitionSpent||[]).map(({uid,shots,reloadShots=0})=>{
   const entry=c.inventory.find(e=>e.uid===uid);
-  if(!entry||!Number.isInteger(shots)||shots<0||!Number.isInteger(reloadShots)||reloadShots<0||!Number.isInteger(entry.shotsRemaining)||entry.shotsRemaining+reloadShots<shots||reloadShots&&(entry.freeReloads!==true||c.flatFooted||reloadShots!==Math.max(0,shots-entry.shotsRemaining)))throw new Error('Ammunition changed; roll again.');
+  if(!entry||!Number.isInteger(shots)||shots<0||!Number.isInteger(reloadShots)||reloadShots<0||!Number.isInteger(entry.shotsRemaining)||entry.shotsRemaining+reloadShots<shots||reloadShots&&(entry.freeReloads!==true||c.flatFooted||result.flatFooted||reloadShots!==Math.max(0,shots-entry.shotsRemaining)))throw new Error('Ammunition changed; roll again.');
   return {entry,shots,reloadShots};
  });
  if(result.followUpConsume)applyFollowUpClaim(c,result.followUpConsume);

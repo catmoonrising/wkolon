@@ -4,6 +4,7 @@ import {FULL_ATTACK_SOURCES,planFullAttack} from './full-attacks.js';
 import {validateDefensiveCombat} from './defensive-combat.js';
 import {planCharge,validateCharge} from './charge.js';
 import {validateAcrobaticsMovement} from './acrobatics-movement.js';
+import {validateBalance} from './balance.js';
 import {validateCombatMovement} from './combat-movement.js';
 import {validateOpportunity} from './opportunity.js';
 import {validateFollowUps} from './attack-follow-ups.js';
@@ -25,6 +26,7 @@ export function validateCombatState(c,bad){
  validateOpportunity(c,bad);
  validateCombatMovement(c,bad);
  validateAcrobaticsMovement(c,bad);
+ validateBalance(c,bad);
  validateFollowUps(c,bad);
  if(c.fullAttackPenalties!==undefined){
   const p=c.fullAttackPenalties;
@@ -151,6 +153,6 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Refle
  const area=results.some(r=>r.areaType),splash=results.some(r=>r.areaType==='splash'),defenseLabel=defense+(results.some(r=>r.coverBonus)?' (before cover)':'');
  const details=results.map(r=>`<div><b>${escape(r.name)}</b>: ${r.attackRoll.display} = ${totalHtml(r.attackRoll)}${r.naturalMiss||r.failedArea?' · Miss':r.critical?' · Critical':r.naturalHit?' · Hit':''}${r.damageRoll?` | ${r.damageRoll.display} = ${totalHtml(r.damageRoll)}`:''}${r.aimed?' · Ignores cover':''}${r.coverBonus?' · Target Reflex +'+r.coverBonus+' cover':''}${r.braced?' · Braced':''}${r.mightySwing?' · Mighty Swing':''}${r.ignoresDarkness?' · Ignores Concealment from darkness':''}</div>`).join('');
  const reloads=ammunitionSpent.filter(s=>s.reloadShots).map(s=>`${attacks.find(a=>a.uid===s.uid).name}: ${s.reloadShots}`).join('; ');
- return {results,rows,aimConsumed:[...aimConsumed],bracingConsumed:attacks.some(a=>a.braced),mightySwingConsumed,ammunitionSpent,text:`${routine.name||'Routine'}: ${rows.map(r=>`${defenseLabel} ${range(r)}: ${r.damage} damage`).join('; ')}`,
+ return {results,rows,aimConsumed:[...aimConsumed],bracingConsumed:attacks.some(a=>a.braced),mightySwingConsumed,ammunitionSpent,...(attacks.some(a=>typeof a.flatFooted==='boolean')?{flatFooted:attacks.some(a=>a.flatFooted)}:{}),text:`${routine.name||'Routine'}: ${rows.map(r=>`${defenseLabel} ${range(r)}: ${r.damage} damage`).join('; ')}`,
   html:`<b>${escape(routine.name||'Routine')}</b><table class="routine-result"><thead><tr><th>${defenseLabel}</th><th title="Rolled damage, before target damage-type effects, DR and SR">Damage</th>${area?'<th>Evasion</th><th>Cover</th>':''}${splash?'<th>Splash</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${range(r)}</td><td>${r.damage}</td>${area?`<td>${r.evasion}</td><td>${r.cover}</td>`:''}${splash?`<td>${r.splash}</td>`:''}</tr>`).join('')}</tbody></table><details><summary>Rolls</summary>${details}${reloads?`<div>Free reloads: ${escape(reloads)}</div>`:''}</details>`};
 }

@@ -333,5 +333,6 @@ const server=http.createServer((req,res)=>{
   await require('./acrobatics-movement-checks.cjs')(browser,base,root);
   await require('./cross-terrain-checks.cjs')(browser,base,root);
   await require('./charge-terrain-checks.cjs')(browser,base,root);
+  await require('./balance-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});

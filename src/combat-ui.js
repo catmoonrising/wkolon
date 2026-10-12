@@ -14,6 +14,9 @@ import {escapeHTML as escape} from './wiki-content.js';
 import {rollCombatRoutine,rollCharge,routineIssue} from './combat.js';
 import {reloadWeapon,spendAttackResources} from './ammunition.js';
 import {applyIncomingDamage} from './incoming-damage.js';
+import {derive} from './rules.js';
+import {balanceState,validateBalance,balanceDC,balance,balanceAfterDamage,stopBalancing} from './balance.js';
+import {balanceIssue,balanceCostLabel} from './balance-ui.js';
 import {planFullAttack,FULL_ATTACK_NAMES} from './full-attacks.js';
 
 const input=(key,value,label,max=100000)=>`<input type="number" min="0" max="${max}" data-field="${key}" value="${value}" aria-label="${label}">`;
@@ -32,6 +35,17 @@ export function xpBar(c,d,rules){
  return `<div class="xp-bar xp-group"><div class="xp-meter" role="progressbar" aria-label="XP progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(fill)}"><div class="resource-fill" style="width:${fill}%"></div></div><label>XP ${input('xp',c.xp,'Experience points',1000000000)}${next===null?'':`<span>/</span><span>${next.toLocaleString()}</span>`}</label></div>`;
 }
 export function createCombatControls(pack,{current,derived,changed,save,log,error}){
+ function editBalance(el,report=false){
+  const c=current(),p=balanceState(c),[key,sub]=el.dataset.balance.split('.');
+  if(sub)p[key][sub]=Number(el.value);else p[key]=el.type==='checkbox'?el.checked:['check','catchCheck'].includes(key)?(el.value===''?null:Number(el.value)):el.value;
+  try{validateBalance({...c,balance:p},message=>{throw new Error('Invalid '+message);});c.balance=p;save();
+   const d=derived();
+   for(const action of ['balance','balance-recheck']){const issue=balanceIssue(c,d,pack,action==='balance-recheck');for(const button of document.querySelectorAll(`[data-combat="${action}"]`)){button.disabled=!!issue;button.title=issue||(action==='balance'?'Move at half Speed':'DC '+p.activeDC);}}
+   for(const label of document.querySelectorAll('[data-balance-cost]'))label.textContent=balanceCostLabel(c,d,pack);
+   for(const label of document.querySelectorAll('[data-balance-dc]'))label.textContent='DC '+balanceDC(c,pack);
+   return true;
+  }catch(e){if(report){error(e.message);changed();}return false;}
+ }
  function editAcrobaticsMovement(el,report=false){
   const c=current(),p=acrobaticsPath(c),[key,sub]=el.dataset.acrobaticsMovement.split('.');
   if(sub)p[key][sub]=Number(el.value);else p[key]=el.type==='checkbox'?el.checked:['check','terrainCheck','occupied'].includes(key)?(el.value===''&&['check','terrainCheck'].includes(key)?null:Number(el.value)):el.value;
@@ -114,8 +128,9 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   interruptRoutine(current(),r);step[key]=value;changed();return true;
  }
  return {renderRoutines,
-  input(event){if(event.target.hasAttribute('data-acrobatics-movement')&&event.target.type!=='checkbox'){editAcrobaticsMovement(event.target);return true;}if(event.target.hasAttribute('data-follow-up')&&event.target.type!=='checkbox'){editFollowUp(event.target);return true;}if(event.target.hasAttribute('data-movement')&&event.target.type==='number'){editMovement(event.target);return true;}if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
+  input(event){if(event.target.hasAttribute('data-balance')&&event.target.type!=='checkbox'){editBalance(event.target);return true;}if(event.target.hasAttribute('data-acrobatics-movement')&&event.target.type!=='checkbox'){editAcrobaticsMovement(event.target);return true;}if(event.target.hasAttribute('data-follow-up')&&event.target.type!=='checkbox'){editFollowUp(event.target);return true;}if(event.target.hasAttribute('data-movement')&&event.target.type==='number'){editMovement(event.target);return true;}if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
   change(el){
+   if(el.hasAttribute('data-balance')){if(editBalance(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-acrobatics-movement')){if(editAcrobaticsMovement(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-follow-up')){if(editFollowUp(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-movement')){editMovement(el,true);return true;}
@@ -133,6 +148,8 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   },
   click(el){
    const action=el?.dataset.combat;if(!action)return false;
+   if(action==='balance-stop'){stopBalancing(current());changed();return true;}
+   if(action==='balance'||action==='balance-recheck'){try{const result=balance(current(),derived(),pack,action==='balance-recheck');log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='acrobatics-move'){try{const result=acrobaticsMove(current(),derived(),pack);log(result.rolled?'roll':'resource',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='prone-action'||action==='acrobatics-prone'){try{const result=proneAction(current(),derived(),pack,action==='acrobatics-prone');log(result.rolled?'roll':'resource',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='cleave'){try{const result=rollCleave(current(),pack);spendAttackResources(current(),result);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
@@ -148,7 +165,7 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
    if(action==='attack'){const a=derived().attacks.find(a=>a.uid===el.dataset.attackId);if(a)run({name:a.name,steps:[{attackId:a.uid,count:1,attackMod:0,damageMod:0}]});return true;}
    if(action==='reload'){
     if(derived().incapacitated)return true;
-    try{const c=current(),p=reloadWeapon(c,pack,el.dataset.attackId),entry=c.inventory.find(e=>e.uid===el.dataset.attackId);log('resource',`${pack.equipment.find(w=>w.id===entry.id).name}: Reload ${p.capacity} ${p.capacity===1?'shot':'shots'} (${p.reloadAction.replaceAll('-',' ')})`);changed();}catch(e){error(e.message);}return true;
+    try{const c=current(),p=reloadWeapon(c,pack,el.dataset.attackId,derived().flatFooted),entry=c.inventory.find(e=>e.uid===el.dataset.attackId);log('resource',`${pack.equipment.find(w=>w.id===entry.id).name}: Reload ${p.capacity} ${p.capacity===1?'shot':'shots'} (${p.reloadAction.replaceAll('-',' ')})`);changed();}catch(e){error(e.message);}return true;
    }
    const c=current(),r=c.routines.find(r=>r.id===el.closest('[data-routine]')?.dataset.routine);
    const stepIndex=r?.steps.findIndex(s=>s.id===el.closest('[data-step-id]')?.dataset.stepId);
@@ -170,7 +187,9 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
    try{
     const c=current(),d=derived(),before=c.protection.sr;
     const result=applyIncomingDamage(c,d,pack,amount,{type:form.querySelector('[data-damage-type]').value,ignoreDR:form.querySelector('[data-ignore-dr]').checked,spendForcePoint:form.querySelector('[data-survive-fp]')?.checked});
-    log('hp',`${result.type==='normal'?'Damage':result.type==='stun'?'Stun':'Ion'} ${amount}: ${result.immune?'Immune':`SR −${result.srBlocked}, DR −${result.drBlocked}; HP ${result.beforeHP} → ${result.afterHP}${result.conditionSteps?`; −${result.conditionSteps} condition steps`:''}${result.dead?'; '+(pack.species.find(s=>s.id===c.species).isDroid?'Destroyed':'Dead'):''}${result.forcePointSpent?'; −1 Force Point':''}${before!==result.srAfter?`; SR ${before} → ${result.srAfter}`:''}`}`);changed();
+    log('hp',`${result.type==='normal'?'Damage':result.type==='stun'?'Stun':'Ion'} ${amount}: ${result.immune?'Immune':`SR −${result.srBlocked}, DR −${result.drBlocked}; HP ${result.beforeHP} → ${result.afterHP}${result.conditionSteps?`; −${result.conditionSteps} condition steps`:''}${result.dead?'; '+(pack.species.find(s=>s.id===c.species).isDroid?'Destroyed':'Dead'):''}${result.forcePointSpent?'; −1 Force Point':''}${before!==result.srAfter?`; SR ${before} → ${result.srAfter}`:''}`}`);
+    if(result.balanceCheckRequired){const outcome=balanceAfterDamage(c,derive(c,pack),pack);log('roll',outcome.text,outcome.html);}
+    changed();
    }catch(e){error(e.message);}
   }
  };

@@ -351,3 +351,26 @@ Old paths without the new counts retain their ordinary defaults. An old
 `lowObjects: true` flag survives import but requires explicit low-object square
 counts before resolving. Editing either low-object count clears that legacy
 flag. No square count or shorter path is guessed from an obstacle checkbox.
+
+## Balance
+
+The folded Balance controls in Speed use the three printed width bands and a
+single slippery/unstable adjustment. Both trained and untrained characters can
+attempt it. A successful route uses half normal Speed with diagonal and terrain
+costs retained. Balance does not halve the character's general Speed: leaving
+the narrow surface is a separate context decision. Stop ends the balancing state.
+
+Untrained balancing applies flat-footed restrictions, including lost Dexterity
+and dodge bonuses, opportunity restrictions and free arrow reloads. Training
+removes only the Balance source; the independent manual Flat-footed declaration
+remains intact. Uncanny Dodge and Combat Reflexes retain their normal effects.
+Damage remaining after SR/DR triggers an immediate check using the original DC
+and updated skill modifiers, including new Condition Track penalties. Draft
+width changes do not overwrite that DC. Recheck supports damage recorded outside
+the incoming-damage action; direct HP edits may instead be corrections.
+
+Failure applies Prone and then checks DC15 to catch the ledge or wire. A failed
+catch records Fall without inventing its height or damage. Incapacitated or
+otherwise unavailable Acrobatics cannot maintain balance. A movement attempt
+clears Aim, Bracing, immediate follow-ups and routine progress; a successful
+mandatory recheck does not spend a movement action.

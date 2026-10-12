@@ -876,3 +876,19 @@ Chromium browser suite and focused Chromium/Firefox checks cover explicit
 diagonal and low-object costs, native speeds, failed checks, legacy drafts,
 arithmetic fields, persistence, full rule passages, Dracula mobile layout and
 offline use. Offline import and compilation produce identical data hashes.
+
+## Acrobatics Balance
+
+Rechecked Acrobatics revision 27350, Move revision 18374, Attacks of Opportunity
+revision 16012 and Defenses revision 18097 through the API. Balance's three
+printed width bands, one slippery/unstable +5 adjustment, half-speed movement,
+untrained flat-footed state, damage recheck against the same DC, and DC15 catch
+check are explicitly mapped before calculation. No width interpolation, Take
+10/20 permission, landing position or fall height is inferred. General Speed
+remains available for movement that leaves the narrow surface.
+
+Validation: 336 JavaScript tests and 19 Python importer tests pass. The full
+Chromium browser suite and focused Chromium/Firefox checks cover half-speed
+routes, training/manual flat-footed separation, original-DC damage rechecks,
+catch/fall results, resource preparation, exact articles, arithmetic, persistence,
+Dracula mobile layout and offline use. Offline import/compilation are deterministic.
