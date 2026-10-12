@@ -632,3 +632,36 @@ import/rebuild and the complete Chromium browser suite pass. Dedicated Chromium
 and Firefox checks cover stacking, conditional totals, lost Dexterity, Helpless,
 Total Defense attack/resource preflight, expiry, exact rules, stat blocks,
 persistence, Dracula mobile layout and offline reload.
+
+## Charge
+
+Fresh API captures confirm Charge 18026, Powerful Charge 18417 and Improved
+Charge 18267; bundled Acrobatics 27350 provides Cross Difficult Terrain DC15.
+Their exact passages and linked rules back a closed `rules.charge` mapping.
+Powerful Charge adds an additional +2 attack and floor(half level) damage.
+Improved Charge allows direction changes rather than removing the −2 Reflex
+penalty. Character Charge is separate from the article's Mass Combat rules.
+
+Charge rolls one melee attack after a valid movement declaration. It never adds
+extra Full Attack sources or leaves an attack bonus on later attacks. Movement
+costs include difficult terrain; low-object Acrobatics uses DC25, or DC35 when
+combined with Cross Difficult Terrain. A separate terrain check uses DC15. Its
+failure restores normal difficult-terrain costs; failed low objects or movement
+exceeding Speed prevent an attack. Both entered totals and rolled checks work.
+
+Successful and failed attempts retain −2 Reflex until next turn. Bonuses stack
+with existing defensive choices; repeated declarations do not compound that
+penalty. Aim/Bracing are cleared; Mighty Swing is spent only by a performed melee
+attack. The geometry of the map, enemy-occupied squares, reactions and required
+end of further actions remain player declarations, with the complete rules
+available beside the control and the restriction recorded in the roll log.
+
+Entered Charge Acrobatics totals are consumed by one attempted check and cleared
+on Next turn; movement/path preferences persist. Reloading before the attempt
+retains the pending entered total, without reusing it after the action.
+
+Validation: 233 JavaScript tests, 19 Python tests, rules validation, deterministic
+offline import/rebuild, and the full Chromium browser suite pass. Focused
+Chromium/Firefox checks cover single-attack bonuses, failed checks, terrain,
+turns, Reflex expiry, attack blocking, entered-total consumption, saves, stat
+blocks, mobile layout and complete offline reload.

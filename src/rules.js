@@ -313,8 +313,9 @@ export function derive(c, pack) {
     const size = key === 'reflex' ? pack.rules.sizeReflex[species.size] : 0;
     const naturalArmor = key === 'reflex' ? species.naturalArmor || 0 : 0;
     const dodge=key==='reflex'&&!dexDenied?total('reflexDodge')+defensiveCombat.dodgeBonus:0;
-    defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + total('defenses') + dodge + condition + c.modifiers[key];
-    breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${total('defenses')} feats + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc`;
+    const charge=key==='reflex'?c.chargeReflexPenalty||0:0;
+    defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + total('defenses') + dodge + condition + c.modifiers[key] + charge;
+    breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${total('defenses')} feats + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc${charge?' + '+charge+' Charge':''}`;
   }
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
   const threshold = defenses.fortitude + pack.rules.sizeThreshold[species.size] + total('threshold') + c.modifiers.threshold;

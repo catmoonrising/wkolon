@@ -1098,6 +1098,85 @@
               "const": -5
             }
           }
+        },
+        "charge": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "action",
+            "minimumSquares",
+            "attackBonus",
+            "attackBonusType",
+            "reflexPenalty",
+            "duration",
+            "endsTurn",
+            "difficultTerrainCost",
+            "lowObjectsDC",
+            "crossTerrainDC",
+            "combinedDC",
+            "acrobatics",
+            "powerful",
+            "improved"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "action": {
+              "const": "standard-action"
+            },
+            "minimumSquares": {
+              "const": 2
+            },
+            "attackBonus": {
+              "const": 2
+            },
+            "attackBonusType": {
+              "const": "competence"
+            },
+            "reflexPenalty": {
+              "const": -2
+            },
+            "duration": {
+              "const": "until-next-turn"
+            },
+            "endsTurn": {
+              "const": true
+            },
+            "difficultTerrainCost": {
+              "const": 2
+            },
+            "lowObjectsDC": {
+              "const": 25
+            },
+            "crossTerrainDC": {
+              "const": 15
+            },
+            "combinedDC": {
+              "const": 35
+            },
+            "acrobatics": {
+              "const": "skill:acrobatics"
+            },
+            "powerful": {
+              "const": {
+                "featId": "feat:powerful-charge",
+                "attackBonus": 2,
+                "damagePerLevel": 0.5
+              }
+            },
+            "improved": {
+              "const": {
+                "featId": "feat:improved-charge",
+                "allowsTurning": true
+              }
+            }
+          }
         }
       },
       "required": [

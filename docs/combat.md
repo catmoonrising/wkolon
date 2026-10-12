@@ -122,3 +122,21 @@ Reflex only. Its checkbox covers bound/sleeping targets; 0 HP or the bottom of
 the Condition Track applies it automatically. The rules disclosure retains the
 complete Helpless passage. The opponent's +5 melee bonus remains a target-side
 modifier to declare manually pending target-context controls.
+
+Melee attack Options → Charge configures movement and makes one Charge attack.
+Normal terrain costs one per square and difficult terrain costs two. Improved
+Charge permits turns. Low objects and Cross Difficult Terrain offer the required
+Acrobatics checks; leave the total blank to roll, or enter a check resolved at the
+table. The map's path, occupied enemy squares and any reactions remain manual.
+Charge cannot Tumble, and no further actions may be taken that turn; the result
+log records that restriction. It is separate from Full Attack routines.
+
+Powerful Charge adds +2 attack and half level damage to the single attack, in
+addition to Charge's +2 competence bonus. Bonuses do not persist on later attacks.
+The −2 Reflex penalty remains until Next turn, including after a failed obstacle
+check. A failed attempt clears Aim/Bracing but makes no attack, spends no ammo
+and does not consume Mighty Swing. Improved Charge retains the Reflex penalty.
+
+Entered Charge Acrobatics totals are consumed by one attempted check and cleared
+on Next turn; movement/path preferences persist. Reloading before the attempt
+retains the pending entered total, without reusing it after the action.

@@ -44,4 +44,6 @@ export function spendAttackResources(c,result){
  if(result.mightySwingConsumed)c.mightySwing=false;
  if(result.bracingConsumed)clearBracing(c);
  if(result.fullAttackPenalties)c.fullAttackPenalties={...result.fullAttackPenalties};
+ if(result.chargeReflexPenalty!==undefined)c.chargeReflexPenalty=result.chargeReflexPenalty;
+ if(result.chargeEnteredTotal!==undefined&&c.chargePath?.acrobatics===result.chargeEnteredTotal)c.chargePath.acrobatics=null;
 }

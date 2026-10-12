@@ -24,7 +24,7 @@ export function renderStatBlock(c,d,pack){
  const protection=c.protection||{dr:0,sr:0,srMax:0,drBypass:''};
  const condition=c.condition===5?`Helpless (${species.isDroid?'Disabled':'Unconscious'})`:c.condition?`${signed(pack.rules.conditionPenalties[c.condition])} Penalty${c.condition===4?'; Move at Half Speed':''}`:'';
  const defenseTotal=key=>d.defenses[key]+(d.conditionalDefenses||[]).filter(e=>e.defense===key).map(e=>` (${e.total} ${escape(conditionalDefenseLabel(e))})`).join('');
- const defensiveOptions=[d.defensiveCombat.stance==='fight'?'Fight Defensively':d.defensiveCombat.stance==='total'?'Total Defense':'',d.defensiveCombat.melee?'Melee Defense '+d.defensiveCombat.melee:''].filter(Boolean).join('; ');
+ const defensiveOptions=[d.defensiveCombat.stance==='fight'?'Fight Defensively':d.defensiveCombat.stance==='total'?'Total Defense':'',d.defensiveCombat.melee?'Melee Defense '+d.defensiveCombat.melee:'',c.chargeReflexPenalty?'Charge':''].filter(Boolean).join('; ');
  const attackText=(a,attackMod=0,damageMod=0)=>`${escape(a.name)} ${signed(a.attack+attackMod)} (${escape(a.damageDisplay)}${damageMod?signed(damageMod):''}${a.criticalMultiplier>2&&!a.areaType?`; ×${a.criticalMultiplier} critical`:''})`;
  const attacks=d.attacks.map(a=>line(a.mode==='melee'?'Melee':'Ranged',attackText(a))).join('');
  const routines=(c.routines||[]).filter(r=>r.steps.length).map(r=>{

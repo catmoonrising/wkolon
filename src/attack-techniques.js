@@ -28,6 +28,8 @@ export function startNextTurn(c){
  clearBracing(c);
  if(c.defenseStance!==undefined)c.defenseStance='none';
  if(c.meleeDefense!==undefined)c.meleeDefense=0;
+ if(c.chargeReflexPenalty!==undefined)c.chargeReflexPenalty=0;
+ if(c.chargePath?.acrobatics!==undefined)c.chargePath.acrobatics=null;
  if(c.fullAttackPenalties!==undefined)c.fullAttackPenalties={twoWeapons:0,doubleAttack:0,tripleAttack:0};
  if(c.mightySwing!==undefined)c.mightySwing=false;
  if(c.powerAttack!==undefined)c.powerAttack=0;

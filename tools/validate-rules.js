@@ -230,6 +230,14 @@ export function validatePack(p) {
   assert.deepEqual(defense.mobility,{featId:'feat:mobility',bonus:5,scope:'movement-opportunity'},'Invalid Mobility');
   assert.deepEqual(defense.sourceIds,['source:wiki-fight-defensively','source:wiki-fight-defensively-total-defense',ix.feats.get(defense.meleeDefense.featId)?.sourceId,ix.feats.get(defense.dodge.featId)?.sourceId,ix.feats.get(defense.mobility.featId)?.sourceId,'source:wiki-defenses-helpless'],'Invalid defensive combat sources');
   assert(defense.sourceIds.every(id=>sources.has(id))&&['fight-defensively','total-defense','helpless'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&defense.sourceIds.includes(r.sourceId))),'Missing defensive combat passage');
+  const charge=p.rules.charge;
+  assert(charge&&Object.keys(charge).every(k=>['sourceIds','action','minimumSquares','attackBonus','attackBonusType','reflexPenalty','duration','endsTurn','difficultTerrainCost','lowObjectsDC','crossTerrainDC','combinedDC','acrobatics','powerful','improved'].includes(k)),'Invalid Charge mapping');
+  assert(charge.action==='standard-action'&&charge.duration==='until-next-turn'&&charge.endsTurn===true&&charge.attackBonusType==='competence'&&charge.acrobatics==='skill:acrobatics','Unsupported Charge rule');
+  assert.deepEqual([charge.minimumSquares,charge.attackBonus,charge.reflexPenalty,charge.difficultTerrainCost,charge.lowObjectsDC,charge.crossTerrainDC,charge.combinedDC],[2,2,-2,2,25,15,35],'Invalid Charge constants');
+  assert.deepEqual(charge.powerful,{featId:'feat:powerful-charge',attackBonus:2,damagePerLevel:0.5},'Invalid Powerful Charge');
+  assert.deepEqual(charge.improved,{featId:'feat:improved-charge',allowsTurning:true},'Invalid Improved Charge');
+  assert.deepEqual(charge.sourceIds,['source:wiki-charge',ix.feats.get(charge.powerful.featId)?.sourceId,ix.feats.get(charge.improved.featId)?.sourceId,'source:wiki-acrobatics'],'Invalid Charge sources');
+  assert(charge.sourceIds.every(id=>sources.has(id))&&['charge','acrobatics'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&charge.sourceIds.includes(r.sourceId))),'Missing Charge passage');
   const settings=p.rules.weaponSettings;
   assert(settings&&Object.keys(settings).every(k=>['sourceId','mutuallyExclusive','autofireOnlyStun'].includes(k))&&sources.has(settings.sourceId)&&settings.autofireOnlyStun===true,'Invalid weapon settings');
   assert.deepEqual(settings.mutuallyExclusive,['autofire','stun'],'Invalid alternate settings');

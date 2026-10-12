@@ -2,6 +2,7 @@ import {evalExpr,totalHtml} from './dice.js';
 import {escapeHTML as escape} from './wiki-content.js';
 import {FULL_ATTACK_SOURCES,planFullAttack} from './full-attacks.js';
 import {validateDefensiveCombat} from './defensive-combat.js';
+import {planCharge,validateCharge} from './charge.js';
 
 const uuid=id=>typeof id==='string'&&/^[a-f0-9-]{36}$/.test(id);
 const integer=(n,min,max)=>Number.isInteger(n)&&n>=min&&n<=max;
@@ -13,6 +14,7 @@ export function prepareCombatState(c){
 }
 export function validateCombatState(c,bad){
  validateDefensiveCombat(c,bad);
+ validateCharge(c,bad);
  if(c.fullAttackPenalties!==undefined){
   const p=c.fullAttackPenalties;
   if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['twoWeapons','doubleAttack','tripleAttack'].includes(k))||
@@ -76,6 +78,18 @@ const signed=n=>n>=0?'+'+n:String(n);
 export function rollCombatRoutine(routine,d,pack,roller=evalExpr){
  const plan=planFullAttack(routine,d,pack),result=rollRoutine(plan.routine,plan.attacks,pack.rules.combat,roller);
  return {...result,...(plan.penalties?{fullAttackPenalties:plan.penalties}:{})};
+}
+export function rollCharge(c,d,pack,uid,roller=evalExpr){
+ const plan=planCharge(c,d,pack,uid),r={name:'Charge',steps:[{attackId:uid,count:1,attackMod:0,damageMod:0}]};
+ routinePlan(r,[plan.attack]);
+ const check=plan.dc===null?null:plan.path.acrobatics===null?roller('1d20'+signed(plan.skill.total)):{value:plan.path.acrobatics,display:String(plan.path.acrobatics)};
+ const success=!check||check.value>=plan.dc,movementCost=plan.path.crossTerrain&&success?plan.path.squares:plan.normalCost;
+ const stopped=plan.path.lowObjects&&!success||movementCost>d.speed;
+ const checkText=check?`Acrobatics ${check.value} / DC ${plan.dc}; `:'',note=`${checkText}${plan.path.squares} squares; no further actions this turn`;
+ const result=stopped?{text:'Charge: '+note+'; no attack',html:'<b>Charge</b>: '+escape(note)+'; no attack',results:[],ammunitionSpent:[]}:
+  rollRoutine(r,[plan.attack],pack.rules.combat,roller);
+ return {...result,text:stopped?result.text:result.text+'; '+note,html:stopped?result.html:result.html+'<div>'+escape(note)+'</div>',chargeReflexPenalty:plan.reflexPenalty,
+  ...(check&&plan.path.acrobatics!==null?{chargeEnteredTotal:plan.path.acrobatics}:{}),bracingConsumed:true,aimConsumed:d.attacks.filter(a=>a.aimed).map(a=>a.uid),charge:{attackBonus:plan.attackBonus,damageBonus:plan.damageBonus,movementCost,check,dc:plan.dc,stopped}};
 }
 export function routinePlan(routine,attacks){
  if(!routine.steps.length)throw new Error('Add an attack');

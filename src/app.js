@@ -2,6 +2,8 @@ import {createCreationOptions} from './creation-options.js';
 import {declareBracing,clearBracing,declarePowerAttack,startNextTurn,changeWeaponSetting} from './attack-techniques.js';
 import {conditionalDefenseLabel,declareDefenseStance,declareMeleeDefense,designateDodgeOpponent} from './defensive-combat.js';
 import {defensiveCombatControls} from './defensive-combat-ui.js';
+import {chargeControls} from './charge-ui.js';
+import {chargePath,validateCharge} from './charge.js';
 import {createForcePowers} from './force-powers-ui.js';
 import {createHouseRules} from './house-rules.js';
 import {equipmentFamilies,resolveEquipment,purchaseQuote,startingEquipmentGrants,claimStartingEquipment,canRollStartingCredits} from './equipment.js';
@@ -208,7 +210,7 @@ function skillTable() {
 function attackTable(scope='') {
   const rangeNames=['Point-Blank','Short','Medium','Long'];
   const power=derived.powerAttack;
-  const controls=power.owned||power.selected||derived.fullAttack.penalty||derived.defensiveCombat.stance!=='none'||derived.defensiveCombat.selected||current().mightySwing||current().inventory.some(e=>e.braced)?`<div class="actions">${power.owned||power.selected?`<label title="Until the start of your next turn">Power Attack<input type="number" min="0" max="${power.maximum}" data-power-attack value="${power.selected}" ${derived.incapacitated?'disabled':''}></label>${ruleReference(ix.feats.get('feat:power-attack'),'ⓘ',null,scope+'power-attack')}`:''}<button data-next-turn>Next turn</button></div>`:'';
+  const controls=power.owned||power.selected||derived.fullAttack.penalty||derived.defensiveCombat.stance!=='none'||derived.defensiveCombat.selected||current().chargeReflexPenalty||current().mightySwing||current().inventory.some(e=>e.braced)?`<div class="actions">${power.owned||power.selected?`<label title="Until the start of your next turn">Power Attack<input type="number" min="0" max="${power.maximum}" data-power-attack value="${power.selected}" ${derived.incapacitated?'disabled':''}></label>${ruleReference(ix.feats.get('feat:power-attack'),'ⓘ',null,scope+'power-attack')}`:''}<button data-next-turn>Next turn</button></div>`:'';
   return controls+`<div class="table-scroll"><table><thead><tr><th>Weapon</th><th>Attack</th><th>Damage</th></tr></thead><tbody>${derived.attacks.map((a,i)=>{
     const index=current().inventory.findIndex(e=>e.uid===a.uid),e=current().inventory[index];
     const range=a.range.limits?`<details id="${scope}attack-range-${i}"><summary>Range${a.range.band===null?'':a.range.available?' · '+rangeNames[a.range.band]:' · Out of range'}</summary><label>Squares<input type="number" min="0" max="100000" data-inventory="distance" data-index="${index}" value="${e.distance??''}" aria-label="${escape(a.name)} distance in squares" placeholder="—"></label><dl>${a.range.limits.map((limit,j)=>j&&limit===a.range.limits[j-1]?'':`<dt>${rangeNames[j]}</dt><dd>${j?a.range.limits[j-1]+1:0}–${limit}</dd>`).join('')}</dl>${canAim(a,e)?`<label class="checkbox"><input type="checkbox" data-inventory="aimed" data-index="${index}" ${e.aimed?'checked':''}>Aim</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:aim'),'ⓘ',null,scope+'aim-'+i)}`:''}</details>`:'';
@@ -218,12 +220,13 @@ function attackTable(scope='') {
 }
 function attackOptions(a,i,index,scope){
  const targetAvailable=a.mode==='melee'&&derived.powerAttack.owned;
- if(!a.technique.choices.length&&!a.mightySwingAvailable&&!a.autofireOnly&&!targetAvailable)return '';
+ const charge=a.mode==='melee'?chargeControls(current(),derived,pack,a.uid,scope):'';
+ if(a.mode!=='melee'&&!a.technique.choices.length&&!a.mightySwingAvailable&&!a.autofireOnly&&!targetAvailable)return '';
  const attrs=a.id===UNARMED_ID?'data-unarmed-technique':`data-inventory="attackTechnique" data-index="${index}"`;
  const choices=a.technique.choices.length?`<label>Technique <select ${attrs} aria-label="${escape(a.name)} technique">${option('normal','Normal',a.technique.selected)}${a.technique.choices.map(t=>option(t.id,t.name,a.technique.selected,!t.available)).join('')}</select></label>`:'';
  const selected=a.technique.choices.find(t=>t.id===a.technique.selected);
  const target=targetAvailable?`<label>Target<select ${a.id===UNARMED_ID?'data-unarmed-target':`data-inventory="targetKind" data-index="${index}"`} aria-label="${escape(a.name)} target">${[['creature','Creature'],['object','Object'],['vehicle','Vehicle']].map(([id,name])=>option(id,name,a.powerAttack.target)).join('')}</select></label>`:'';
- return `<details id="${scope}attack-options-${i}"><summary>Options</summary>${target}${choices}${selected?ruleReference(pack.feats.find(f=>f.id===selected.featId),'ⓘ',null,scope+'technique-'+i):''}${a.autofireOnly?`<label class="checkbox" title="${escape(a.bracing.reason||'2 Swift Actions immediately before firing')}"><input type="checkbox" data-inventory="braced" data-index="${index}" ${a.braced?'checked':''} ${derived.incapacitated||!a.bracing.available?'disabled':''}>Brace</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:bracing'),'ⓘ',null,scope+'brace-'+i)}`:''}${a.mightySwingAvailable?`<label class="checkbox" title="${pack.rules.mightySwing.swiftActions} Swift Actions; same round"><input type="checkbox" data-mighty-swing ${current().mightySwing?'checked':''} ${derived.incapacitated?'disabled':''}>Mighty Swing</label>${ruleReference(ix.feats.get('feat:mighty-swing'),'ⓘ',null,scope+'mighty-swing-'+i)}`:''}</details>`;
+ return `<details id="${scope}attack-options-${i}"><summary>Options</summary>${charge}${target}${choices}${selected?ruleReference(pack.feats.find(f=>f.id===selected.featId),'ⓘ',null,scope+'technique-'+i):''}${a.autofireOnly?`<label class="checkbox" title="${escape(a.bracing.reason||'2 Swift Actions immediately before firing')}"><input type="checkbox" data-inventory="braced" data-index="${index}" ${a.braced?'checked':''} ${derived.incapacitated||!a.bracing.available?'disabled':''}>Brace</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:bracing'),'ⓘ',null,scope+'brace-'+i)}`:''}${a.mightySwingAvailable?`<label class="checkbox" title="${pack.rules.mightySwing.swiftActions} Swift Actions; same round"><input type="checkbox" data-mighty-swing ${current().mightySwing?'checked':''} ${derived.incapacitated?'disabled':''}>Mighty Swing</label>${ruleReference(ix.feats.get('feat:mighty-swing'),'ⓘ',null,scope+'mighty-swing-'+i)}`:''}</details>`;
 }
 function ammunitionControls(r,e,i,scope){
  const p=ammunitionProfile(e,pack);if(!p)return '';
@@ -591,6 +594,7 @@ function events() {
     }
 
     if(el.hasAttribute('data-unarmed-technique')){if(!['normal','rapid-strike'].includes(el.value))return;c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers.attackTechnique=el.value;changed();return;}
+    if(el.hasAttribute('data-charge-path')){const path=chargePath(c),key=el.dataset.chargePath;path[key]=el.type==='checkbox'?el.checked:el.value===''&&key==='acrobatics'?null:Number(el.value);try{validateCharge({...c,chargePath:path},reason=>{throw new Error('Invalid '+reason);});c.chargePath=path;}catch(err){notify(err.message);}changed();return;}
     if(el.hasAttribute('data-power-attack')){try{declarePowerAttack(c,derived,Number(el.value));}catch(err){notify(err.message);}changed();return;}
     if(el.hasAttribute('data-melee-defense')){try{declareMeleeDefense(c,derived,Number(el.value));}catch(err){notify(err.message);}changed();return;}
     if(el.hasAttribute('data-dodge-opponent')){try{designateDodgeOpponent(c,derived,el.value);}catch(err){notify(err.message);}changed();return;}

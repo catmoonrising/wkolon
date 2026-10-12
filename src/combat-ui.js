@@ -1,5 +1,5 @@
 import {escapeHTML as escape} from './wiki-content.js';
-import {rollCombatRoutine,routineIssue} from './combat.js';
+import {rollCombatRoutine,rollCharge,routineIssue} from './combat.js';
 import {reloadWeapon,spendAttackResources} from './ammunition.js';
 import {applyIncomingDamage} from './incoming-damage.js';
 import {planFullAttack,FULL_ATTACK_NAMES} from './full-attacks.js';
@@ -70,6 +70,9 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   },
   click(el){
    const action=el?.dataset.combat;if(!action)return false;
+   if(action==='charge'){
+    try{const result=rollCharge(current(),derived(),pack,el.dataset.attackId);spendAttackResources(current(),result);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;
+   }
    if(action==='attack'){const a=derived().attacks.find(a=>a.uid===el.dataset.attackId);if(a)run({name:a.name,steps:[{attackId:a.uid,count:1,attackMod:0,damageMod:0}]});return true;}
    if(action==='reload'){
     if(derived().incapacitated)return true;

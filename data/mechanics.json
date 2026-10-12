@@ -4351,6 +4351,15 @@
       "sha256": "bddf65f0e8f8f56f9975d14c0c42ba16abdc6aa7cd5f89dc9dbe06180a222644",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18097#Helpless",
       "history": "https://swse.miraheze.org/w/index.php?title=Defenses&action=history"
+    },
+    {
+      "id": "source:wiki-charge",
+      "title": "Charge",
+      "revision": 18026,
+      "timestamp": "2024-08-25T19:27:58Z",
+      "sha256": "c1204f2cff0dd1010cb8cb20a47d62c0c4cbb315a6df3ec70fa9f094fd8ac3c8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18026",
+      "history": "https://swse.miraheze.org/w/index.php?title=Charge&action=history"
     }
   ],
   "species": [
@@ -11672,6 +11681,35 @@
       },
       "dodgeLostWithDexterity": true,
       "helplessDexterityModifier": -5
+    },
+    "charge": {
+      "sourceIds": [
+        "source:wiki-charge",
+        "source:wiki-powerful-charge",
+        "source:wiki-improved-charge",
+        "source:wiki-acrobatics"
+      ],
+      "action": "standard-action",
+      "minimumSquares": 2,
+      "attackBonus": 2,
+      "attackBonusType": "competence",
+      "reflexPenalty": -2,
+      "duration": "until-next-turn",
+      "endsTurn": true,
+      "difficultTerrainCost": 2,
+      "lowObjectsDC": 25,
+      "crossTerrainDC": 15,
+      "combinedDC": 35,
+      "acrobatics": "skill:acrobatics",
+      "powerful": {
+        "featId": "feat:powerful-charge",
+        "attackBonus": 2,
+        "damagePerLevel": 0.5
+      },
+      "improved": {
+        "featId": "feat:improved-charge",
+        "allowsTurning": true
+      }
     }
   },
   "heroicTraits": {

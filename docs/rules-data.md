@@ -564,3 +564,32 @@ automatic unconsciousness/disablement uses a −5 Dexterity modifier for Reflex,
 even with Uncanny Dodge. Other abilities and Dexterity-based checks keep their
 actual scores. Target-side melee bonuses and offensive Force power effects are
 not resolved by these controls.
+
+`rules.charge` pins Charge 18026, Powerful Charge 18417, Improved Charge 18267
+and Acrobatics 27350. A Charge is a Standard Action ending further actions for
+that turn: at least 2 squares of movement within Speed, +2 competence on one
+melee attack, and −2 Reflex until next turn. Powerful Charge adds another +2
+attack and floor(half heroic level) damage. Improved Charge allows changes of
+direction; it does not waive the Reflex penalty or terrain costs.
+
+Optional `chargePath` saves `squares`, `difficultSquares`, `turns`, `lowObjects`,
+`crossTerrain` and `acrobatics`. Defaults are 2/0/false/false/false/null. The
+Acrobatics value is an entered check total; null rolls the derived skill. Low
+objects require training and DC25; Cross Difficult Terrain uses DC15 alone or
+DC35 in combination. A failed low-object check makes no attack. A failed terrain
+check restores double movement cost; no attack occurs if that exceeds Speed.
+Positions, low-object placement, occupied enemy squares, line of movement and
+the action budget remain player declarations. Charge cannot Tumble and cannot
+grant Full Attack extras. Those restrictions are preserved in its verbatim text.
+
+`rollCharge` preflights the path/attack before dice and returns one attack with
+temporary bonuses plus `chargeReflexPenalty: -2`. Resource application records
+the penalty after ammunition preflight, clears Aim/Bracing, and consumes Mighty
+Swing only when an attack occurs. Failed attempts retain the Reflex penalty but
+spend no ammunition and make no attack roll. Optional character
+`chargeReflexPenalty` is 0 or −2, expires on Next turn and is independent of
+dodge/other defense bonuses. Path preferences persist across turn changes.
+
+Entered Charge Acrobatics totals are consumed by one attempted check and cleared
+on Next turn; movement/path preferences persist. Reloading before the attempt
+retains the pending entered total, without reusing it after the action.
