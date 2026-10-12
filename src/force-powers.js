@@ -1,5 +1,5 @@
 // Power effects stay in pinned articles. These operations track individual suite copies.
-import {clearBracing} from './attack-techniques.js';
+import {clearBracing,startNextTurn} from './attack-techniques.js';
 export function powerCopy(c,id){return c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===id);}
 export function usePower(c,d,pack,id,natural){
  const power=d.forcePowers.find(p=>p.copyId===id),copy=powerCopy(c,id),skill=d.skills.find(s=>s.id==='skill:use-the-force');
@@ -19,7 +19,8 @@ export function recoverPower(c,d,pack,id){
 }
 export function recoverSuite(c,d,{endTurn=false}={}){
  if(endTurn&&!c.forcePowerRecoveryPending)throw new Error('No turn-end recovery pending');
- clearBracing(c);if(c.mightySwing!==undefined)c.mightySwing=false;
+ if(endTurn){clearBracing(c);if(c.mightySwing!==undefined)c.mightySwing=false;}
+ else startNextTurn(c);
  const ids=new Set(d.forcePowers.map(p=>p.copyId));
  for(const l of c.levels)for(const p of l.forcePowers||[])if(ids.has(p.id))p.spent=false;
  c.forcePowerRecoveryPending=false;

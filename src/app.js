@@ -1,5 +1,5 @@
 import {createCreationOptions} from './creation-options.js';
-import {declareBracing,clearBracing} from './attack-techniques.js';
+import {declareBracing,clearBracing,declarePowerAttack,startNextTurn,changeWeaponSetting} from './attack-techniques.js';
 import {createForcePowers} from './force-powers-ui.js';
 import {createHouseRules} from './house-rules.js';
 import {equipmentFamilies,resolveEquipment,purchaseQuote,startingEquipmentGrants,claimStartingEquipment,canRollStartingCredits} from './equipment.js';
@@ -205,7 +205,9 @@ function skillTable() {
 }
 function attackTable(scope='') {
   const rangeNames=['Point-Blank','Short','Medium','Long'];
-  return `<div class="table-scroll"><table><thead><tr><th>Weapon</th><th>Attack</th><th>Damage</th></tr></thead><tbody>${derived.attacks.map((a,i)=>{
+  const power=derived.powerAttack;
+  const controls=power.owned||power.selected||current().mightySwing||current().inventory.some(e=>e.braced)?`<div class="actions">${power.owned||power.selected?`<label title="Until the start of your next turn">Power Attack<input type="number" min="0" max="${power.maximum}" data-power-attack value="${power.selected}" ${derived.incapacitated?'disabled':''}></label>${ruleReference(ix.feats.get('feat:power-attack'),'ⓘ',null,scope+'power-attack')}`:''}<button data-next-turn>Next turn</button></div>`:'';
+  return controls+`<div class="table-scroll"><table><thead><tr><th>Weapon</th><th>Attack</th><th>Damage</th></tr></thead><tbody>${derived.attacks.map((a,i)=>{
     const index=current().inventory.findIndex(e=>e.uid===a.uid),e=current().inventory[index];
     const range=a.range.limits?`<details id="${scope}attack-range-${i}"><summary>Range${a.range.band===null?'':a.range.available?' · '+rangeNames[a.range.band]:' · Out of range'}</summary><label>Squares<input type="number" min="0" max="100000" data-inventory="distance" data-index="${index}" value="${e.distance??''}" aria-label="${escape(a.name)} distance in squares" placeholder="—"></label><dl>${a.range.limits.map((limit,j)=>j&&limit===a.range.limits[j-1]?'':`<dt>${rangeNames[j]}</dt><dd>${j?a.range.limits[j-1]+1:0}–${limit}</dd>`).join('')}</dl>${canAim(a,e)?`<label class="checkbox"><input type="checkbox" data-inventory="aimed" data-index="${index}" ${e.aimed?'checked':''}>Aim</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:aim'),'ⓘ',null,scope+'aim-'+i)}`:''}</details>`:'';
     const modifiers=a.id===UNARMED_ID?`<details id="${scope}unarmed-modifiers"><summary>Modifiers</summary>${['attackMod','damageMod'].map(k=>`<label>${k==='attackMod'?'Attack':'Damage'}<input type="number" min="-100" max="100" data-unarmed-modifier="${k}" value="${current().unarmedModifiers?.[k]||0}"></label>`).join('')}</details>`:'';
@@ -213,11 +215,13 @@ function attackTable(scope='') {
   }).join('')}</tbody></table></div>${calculations(scope+'attack-calculations',derived.attacks.map(a=>[a.name,a.breakdown]))}`;
 }
 function attackOptions(a,i,index,scope){
- if(!a.technique.choices.length&&!a.mightySwingAvailable&&!a.autofireOnly)return '';
+ const targetAvailable=a.mode==='melee'&&derived.powerAttack.owned;
+ if(!a.technique.choices.length&&!a.mightySwingAvailable&&!a.autofireOnly&&!targetAvailable)return '';
  const attrs=a.id===UNARMED_ID?'data-unarmed-technique':`data-inventory="attackTechnique" data-index="${index}"`;
  const choices=a.technique.choices.length?`<label>Technique <select ${attrs} aria-label="${escape(a.name)} technique">${option('normal','Normal',a.technique.selected)}${a.technique.choices.map(t=>option(t.id,t.name,a.technique.selected,!t.available)).join('')}</select></label>`:'';
  const selected=a.technique.choices.find(t=>t.id===a.technique.selected);
- return `<details id="${scope}attack-options-${i}"><summary>Options</summary>${choices}${selected?ruleReference(pack.feats.find(f=>f.id===selected.featId),'ⓘ',null,scope+'technique-'+i):''}${a.autofireOnly?`<label class="checkbox" title="${escape(a.bracing.reason||'2 Swift Actions immediately before firing')}"><input type="checkbox" data-inventory="braced" data-index="${index}" ${a.braced?'checked':''} ${derived.incapacitated||!a.bracing.available?'disabled':''}>Brace</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:bracing'),'ⓘ',null,scope+'brace-'+i)}`:''}${a.mightySwingAvailable?`<label class="checkbox" title="${pack.rules.mightySwing.swiftActions} Swift Actions; same round"><input type="checkbox" data-mighty-swing ${current().mightySwing?'checked':''} ${derived.incapacitated?'disabled':''}>Mighty Swing</label>${ruleReference(ix.feats.get('feat:mighty-swing'),'ⓘ',null,scope+'mighty-swing-'+i)}`:''}</details>`;
+ const target=targetAvailable?`<label>Target<select ${a.id===UNARMED_ID?'data-unarmed-target':`data-inventory="targetKind" data-index="${index}"`} aria-label="${escape(a.name)} target">${[['creature','Creature'],['object','Object'],['vehicle','Vehicle']].map(([id,name])=>option(id,name,a.powerAttack.target)).join('')}</select></label>`:'';
+ return `<details id="${scope}attack-options-${i}"><summary>Options</summary>${target}${choices}${selected?ruleReference(pack.feats.find(f=>f.id===selected.featId),'ⓘ',null,scope+'technique-'+i):''}${a.autofireOnly?`<label class="checkbox" title="${escape(a.bracing.reason||'2 Swift Actions immediately before firing')}"><input type="checkbox" data-inventory="braced" data-index="${index}" ${a.braced?'checked':''} ${derived.incapacitated||!a.bracing.available?'disabled':''}>Brace</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:bracing'),'ⓘ',null,scope+'brace-'+i)}`:''}${a.mightySwingAvailable?`<label class="checkbox" title="${pack.rules.mightySwing.swiftActions} Swift Actions; same round"><input type="checkbox" data-mighty-swing ${current().mightySwing?'checked':''} ${derived.incapacitated?'disabled':''}>Mighty Swing</label>${ruleReference(ix.feats.get('feat:mighty-swing'),'ⓘ',null,scope+'mighty-swing-'+i)}`:''}</details>`;
 }
 function ammunitionControls(r,e,i,scope){
  const p=ammunitionProfile(e,pack);if(!p)return '';
@@ -232,6 +236,7 @@ function weaponOptions(r,e,i,scope=''){
   (r.launchers?select('launcher','Launch',r.launchers,e.launcher||r.launchers[0].id):'')+
   (r.ammunition==='grenade'?select('ammunitionId','Grenade',pack.equipment.filter(w=>['equipment:frag-grenade','equipment:ion-grenade','equipment:stun-grenade'].includes(w.id)),e.ammunitionId||'',true):'')+
   (r.autofire&&!r.autofireOnly?select('fireMode','Fire',[{id:'single',name:'Single-shot'},{id:'autofire',name:'Autofire'}],e.fireMode||'single'):'')+
+  (r.autofire&&r.stunDamage?ruleReference(pack.rulePages.find(r=>r.id==='rule:weapon-settings'),'ⓘ',null,scope+'weapon-settings-'+i):'')+
   (r.retractableStock?select('stockPosition','Stock',[{id:'extended',name:'Extended'},{id:'folded',name:'Folded'},{id:'none',name:'None'}],e.stockPosition||'extended')+ruleReference(pack.rulePages.find(r=>r.id==='rule:retractable-stock'),'ⓘ',null,scope+'stock-'+i):'')+
   (r.group==='rifles'?`<label class="checkbox"><input type="checkbox" data-inventory="oneHanded" data-index="${i}" ${e.oneHanded?'checked':''}>One-handed</label>`:'')+
   (['pistols','rifles'].includes(ix.equipment.get(e.id).group)&&current().inventory.some(item=>ix.equipment.get(item.id).scope)?select('scopeUid','Scope',current().inventory.flatMap(item=>{
@@ -584,6 +589,8 @@ function events() {
     }
 
     if(el.hasAttribute('data-unarmed-technique')){if(!['normal','rapid-strike'].includes(el.value))return;c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers.attackTechnique=el.value;changed();return;}
+    if(el.hasAttribute('data-power-attack')){try{declarePowerAttack(c,derived,Number(el.value));}catch(err){notify(err.message);}changed();return;}
+    if(el.hasAttribute('data-unarmed-target')){if(!['creature','object','vehicle'].includes(el.value))return;c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers.targetKind=el.value;changed();return;}
     if(el.hasAttribute('data-mighty-swing')){c.mightySwing=el.checked;if(el.checked){clearBracing(c);for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;}changed();return;}
     if(el.dataset.unarmedModifier){const n=Number(el.value);if(!Number.isInteger(n)||n<-100||n>100){notify('Enter a valid modifier.');render();return;}c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers[el.dataset.unarmedModifier]=n;changed();return;}
     if(el.dataset.skillModifier){const n=Number(el.value);if(!Number.isInteger(n)||n<-1000||n>1000){notify('Enter a valid modifier.');render();return;}c.skillModifiers??={};c.skillModifiers[el.dataset.skillModifier]=n;changed();return;}
@@ -670,7 +677,7 @@ function events() {
       if(el.dataset.inventory==='equipped'&&el.checked)e.carried=true;
       if(el.dataset.inventory==='carried'&&!el.checked)e.equipped=false;
       if(el.dataset.inventory==='equipped'&&el.checked&&ix.equipment.get(e.id).kind==='armor') c.inventory.filter(other=>ix.equipment.get(other.id).kind==='armor').forEach(other=>other.equipped=false);
-      const val=el.type==='checkbox'?el.checked:['licenseStatus','weaponMode','launcher','ammunitionId','fireMode','attackStyle','scopeUid','stockPosition','ammoProfile','damageSetting','attackTechnique'].includes(el.dataset.inventory)?el.value:Number(el.value);
+      const val=el.type==='checkbox'?el.checked:['licenseStatus','weaponMode','launcher','ammunitionId','fireMode','attackStyle','scopeUid','stockPosition','ammoProfile','damageSetting','attackTechnique','targetKind'].includes(el.dataset.inventory)?el.value:Number(el.value);
       if(el.dataset.inventory==='distance'&&el.value===''){delete e.distance;changed();return;}
       if(el.dataset.inventory==='weightOverride'&&el.value===''){delete e.weightOverride;changed();return;}
       if(el.dataset.inventory==='shotsRemaining'&&el.value===''){delete e.shotsRemaining;changed();return;}
@@ -681,7 +688,8 @@ function events() {
       if(el.dataset.inventory==='ammunitionId'&&!el.value){delete e.ammunitionId;changed();return;}
       if(el.dataset.inventory==='distance'&&(!Number.isInteger(val)||val<0||val>100000)){notify('Enter a valid distance.');render();return;}
       if(el.dataset.inventory==='weightOverride'&&(!Number.isFinite(val)||val<0||val>1000000)){notify('Enter a valid weight.');render();return;}
-      e[el.dataset.inventory]=val;
+      if(['damageSetting','fireMode'].includes(el.dataset.inventory))changeWeaponSetting(e,pack,el.dataset.inventory,val);
+      else e[el.dataset.inventory]=val;
       if(el.dataset.inventory==='attackTechnique'&&ix.equipment.get(e.id).autofire&&!ix.equipment.get(e.id).autofireOnly){if(val==='burst-fire')e.fireMode='autofire';else if(val==='rapid-shot')e.fireMode='single';}
       if(el.dataset.inventory==='fireMode')delete e.attackTechnique;
       if(['scopeUid','stockPosition','fireMode'].includes(el.dataset.inventory))e.aimed=false;
@@ -693,6 +701,7 @@ function events() {
   });
   document.addEventListener('submit',event=>{if(['recovery-healing','recovery-limb'].includes(event.target.id)){event.preventDefault();recoveryControls.submit(event.target);return;}if(event.target.id==='bellow-controls'){event.preventDefault();recoveryControls.bellow(event.target);return;}if(event.target.id==='apply-damage'){event.preventDefault();const el=event.target.querySelector('[data-incoming-damage]');commitMath(el);combatControls.damage(event.target);return;}if(event.target.matches('form[data-equipment-scope]')){event.preventDefault();purchase(true,event.target);}});
   document.addEventListener('click',event=>{
+    if(event.target.closest('[data-next-turn]')){startNextTurn(current());changed();return;}
     const houseTab=event.target.closest('[data-house-tab]');if(houseTab){houseRules.setTab(houseTab.dataset.houseTab);render();return;}
     if(creationOptions.click(event))return;
     const classPick=event.target.closest('[data-select-class]');

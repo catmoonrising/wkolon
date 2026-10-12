@@ -490,3 +490,20 @@ Natural healing uses the same unconscious healing calculation as received
 healing. Rest reports before/after HP, since literal replacement can reduce
 remaining HP. The once-per-day ledger remains attached to the same recovery
 object throughout revival. Old characters need none of the new fields.
+
+### Power Attack and alternate weapon settings
+
+`rules.powerAttack` references Power Attack 18412 and Weapon Sizes 6153. It fixes
+BAB as the declaration maximum, a two-handed multiplier of 2, object/vehicle
+exclusions and expiry at the start of the next turn. Optional character
+`powerAttack` is an integer from 0 to 20. A declaration above current BAB or
+without the feat blocks melee resolution and grants no bonus. Inventory weapons
+and `unarmedModifiers` can save `targetKind: creature | object | vehicle`;
+omission means Creature. Power Attack applies to all melee attacks, including
+unarmed attacks, without changing ranged attacks or critical multiplication.
+
+`rules.weaponSettings` pins the Rate of Fire passage in Category:Weapons 6153.
+Stun and Autofire are mutually exclusive except for autofire-only weapons. State
+changes choose a single setting. Saved incompatible combinations pass structural
+validation for recovery, but cannot resolve an attack. This is separate from
+ammo preflight, damage type and the six-square Stun range.

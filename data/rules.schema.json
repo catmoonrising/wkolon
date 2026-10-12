@@ -893,6 +893,68 @@
               "const": true
             }
           }
+        },
+        "powerAttack": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "featId",
+            "maximum",
+            "twoHandedMultiplier",
+            "excludedDamageTargets",
+            "duration"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "featId": {
+              "const": "feat:power-attack"
+            },
+            "maximum": {
+              "const": "base-attack"
+            },
+            "twoHandedMultiplier": {
+              "const": 2
+            },
+            "excludedDamageTargets": {
+              "const": [
+                "object",
+                "vehicle"
+              ]
+            },
+            "duration": {
+              "const": "until-next-turn"
+            }
+          }
+        },
+        "weaponSettings": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceId",
+            "mutuallyExclusive",
+            "autofireOnlyStun"
+          ],
+          "properties": {
+            "sourceId": {
+              "type": "string"
+            },
+            "mutuallyExclusive": {
+              "const": [
+                "autofire",
+                "stun"
+              ]
+            },
+            "autofireOnlyStun": {
+              "const": true
+            }
+          }
         }
       },
       "required": [

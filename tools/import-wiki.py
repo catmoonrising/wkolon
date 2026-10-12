@@ -153,14 +153,14 @@ def species_feats(pages, names):
     return sorted(feats)
 
 
-def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=()):
+def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=(), previous_catalog=None):
     sources, rule_pages, records = {}, {}, {}
     aliases = {r['from']: r for r in redirects}
 
-    def source(title, part=None):
+    def source(title, part=None, source_id=None):
         p = pages[title]
         rev = p['revisions'][0]
-        sid = 'source:wiki-' + slug(title) + ('-' + slug(part) if part else '')
+        sid = source_id or 'source:wiki-' + slug(title) + ('-' + slug(part) if part else '')
         fragment = '#' + quote(part.replace(' ', '_')) if part and part not in SPECIES_VARIANTS.get(title, []) else ''
         raw = rev['slots']['main']['content']
         sources[sid] = dict(id=sid, title=title, section=part, revision=rev['revid'], timestamp=rev['timestamp'],
@@ -190,7 +190,7 @@ def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=())
         elif alias['to'] in targets:
             targets[alias['from']] = targets[alias['to']]
 
-    def add_page(name, title=None, part=None, rule_id=None):
+    def add_page(name, title=None, part=None, rule_id=None, source_id=None):
         title = title or name
         alias = aliases.get(title, {})
         part = part or alias.get('tofragment')
@@ -214,7 +214,7 @@ def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=())
                 and text(n).strip().startswith('Reference Book')), None)
             if inherited:
                 blocks = [inherited] + blocks
-        sid = source(title, part)
+        sid = source(title, part, source_id)
         rule_pages[rid] = dict(id=rid, name=name, sourceId=sid, article=dict(sourceId=sid, blocks=blocks))
         return rid, sid
 
@@ -283,11 +283,26 @@ def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=())
         if old['id'] in rule_pages:
             continue
         src = next(s for s in baseline['sources'] if s['id'] == old['sourceId'])
-        add_page(old['name'], src['title'], src.get('section'), old['id'])
+        add_page(old['name'], src['title'], src.get('section'), old['id'], src['id'])
     for kind in ['species', 'feats', 'talents', 'equipment', 'classes']:
         for r in baseline[kind]:
+            rule_id = 'rule:' + slug(r['name'])
+            if rule_id in rule_pages:
+                continue
             src = next(s for s in baseline['sources'] if s['id'] == r['sourceId'])
-            add_page(r['name'], src['title'], src.get('section'), 'rule:' + slug(r['name']))
+            add_page(r['name'], src['title'], src.get('section'), rule_id, src['id'])
+    # Preserve vetted official catalog entries if a category listing changes.
+    # Their source and rule text are still refreshed from the pinned page above.
+    for old in (previous_catalog or {}).get('records', []):
+        if old['id'] in records:
+            continue
+        src = next((s for s in baseline['sources'] if s['id'] == old['sourceId']), None)
+        if src is None:
+            src = next((s for s in (previous_catalog or {}).get('sources', []) if s['id'] == old['sourceId']), None)
+        if src is None or src['title'] not in pages:
+            continue
+        rid, sid = add_page(old['name'], src['title'], src.get('section'), old['ruleId'], src['id'])
+        records[old['id']] = dict(old, ruleId=rid, sourceId=sid)
     collections = {'species':'species', 'class':'classes', 'skill':'skills', 'feat':'feats',
         'talent':'talents', 'weapon':'equipment', 'armor':'equipment', 'gear':'equipment', 'forcePower':'forcePowers'}
     old_sources = {s['id']:s for s in baseline['sources']}
@@ -322,6 +337,8 @@ def main():
     parser.add_argument('--offline', action='store_true', help='Use captured snapshots and pinned parse files')
     args = parser.parse_args()
     baseline = json.loads((ROOT / 'data/core.json').read_text())
+    catalog_path = ROOT / 'data/wiki-catalog.json'
+    previous_catalog = json.loads(catalog_path.read_text()) if catalog_path.exists() else None
     inventory_path = BUILD / 'import/inventory.json'
     homebrew_path = BUILD / 'import/homebrew.json'
     inventory_path.parent.mkdir(parents=True, exist_ok=True)
@@ -347,8 +364,8 @@ def main():
     if not args.offline:
         with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
             list(pool.map(wiki.fetch_parse, pages.values()))
-    catalog = compile_catalog(inventory, pages, redirects, baseline, homebrew)
-    (ROOT / 'data/wiki-catalog.json').write_text(json.dumps(catalog, ensure_ascii=False, separators=(',', ':')) + '\n')
+    catalog = compile_catalog(inventory, pages, redirects, baseline, homebrew, previous_catalog)
+    catalog_path.write_text(json.dumps(catalog, ensure_ascii=False, separators=(',', ':')) + '\n')
     print('Imported', {kind:sum(r['kind'] == kind for r in catalog['records']) for kind in sorted({r['kind'] for r in catalog['records']})})
 
 

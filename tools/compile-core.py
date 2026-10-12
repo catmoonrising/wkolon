@@ -16,7 +16,15 @@ def compile_pack(mechanics, catalog, reviewed):
     sources = {s['id']: s for s in pack['sources']}
     for source in catalog['sources']:
         if source['id'] in sources and sources[source['id']] != source:
-            raise ValueError('Conflicting source: ' + source['id'])
+            old = sources[source['id']]
+            # Legacy mechanical pins omit checksums and encode URL spaces as
+            # underscores. A reimport may enrich those display fields, but
+            # may never change the title, revision, section, timestamp or a
+            # checksum already present on both sides.
+            keys = ('title', 'revision', 'section', 'timestamp')
+            if (any(old.get(k) != source.get(k) for k in keys) or
+                    old.get('sha256') and source.get('sha256') and old['sha256'] != source['sha256']):
+                raise ValueError('Conflicting source: ' + source['id'])
         sources[source['id']] = source
     pack['sources'] = sorted(sources.values(), key=lambda s:s['id'])
     pack['rulePages'] = catalog['rulePages']

@@ -439,8 +439,9 @@ Blaster Stun settings use the printed six-square maximum with no range penalty;
 Far Shot, Accurate, stocks and scopes cannot extend it. Melee Stun settings retain
 melee range. Stun Baton uses 1d6 Bludgeoning normally or 2d6 Energy (Stun); Stun
 Grenade and a launcher's Stun Grenade payload retain their Stun-only effect.
-Autofire is not prohibited by the Stun page, so it retains the general ten-shot
-cost and area rules when selected. No extra prohibition is invented.
+The later Weapon Settings review corrects the original omission here: Category:Weapons
+explicitly prohibits combining Stun and Autofire on switchable weapons. Its
+autofire-only exception retains the general ten-shot cost and area rules.
 
 Ion follows its dedicated rule by default: all targets lose half HP damage, with
 the two-step threshold effect limited to electronic/cybernetic targets. A saved
@@ -536,3 +537,34 @@ reload/Aim clearing, the saved ambiguity, full source text, Dracula mobile layou
 and offline operation. Unit tests additionally verify folded-stock and Pistol
 requirements, misses, criticals, mixed-weapon routines, action interruptions and
 atomic resource failures.
+
+## Power Attack and Weapon Settings review
+
+Fresh API captures confirm Power Attack 18412 and Category:Weapons 6153. The
+closed mappings reference the feat and the separately pinned Weapon Sizes and
+Rate of Fire passages, retaining exact text and links.
+
+Power Attack subtracts the chosen amount, up to BAB, from every melee attack
+until the start of the next turn. Its damage bonus doubles for a Two-Handed
+weapon or a One-Handed weapon held in two hands. Light weapons held in two hands
+and unarmed attacks retain the single bonus. Relative weapon/character sizes
+matter; a weapon one category larger requires two hands, including for its
+ordinary positive Strength damage. Negative Strength is not doubled.
+
+The damage bonus never applies against an object or vehicle. The attack penalty
+still applies. Target choices are saved per weapon and for unarmed attacks;
+Creature includes droids. Routines use each configured weapon's target choice.
+The declaration survives hits, misses, criticals and resource spending until
+Next turn. This control also clears pending Bracing and Mighty Swing; Aim keeps
+its existing action/line-of-sight conditions. New encounters, days and completed
+rest clear the attack declarations. End-of-turn Force recovery does not end
+Power Attack early. Failed declarations or routine preflight cannot change it.
+
+The weapon descriptions explicitly allow only one alternate setting at a time.
+Selecting Stun on a switchable weapon restores Single-shot and clears Burst
+Fire; selecting Autofire restores Normal damage. Burst Fire is unavailable on
+its Stun setting. Older incompatible saves remain readable, with attacks blocked
+and a specific reason until the player changes the setting. Autofire-only
+weapons retain the explicit Stun exception, their six-square Stun range and
+normal Autofire area/ammunition rules. No Core weapon is given a new Stun
+setting; a fixture verifies the exception for future official imports.

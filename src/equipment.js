@@ -70,6 +70,7 @@ export function validateInventoryOptions(e,pack,bad){
  if(e.oneHanded!==undefined&&(r.kind!=='weapon'||r.mode!=='ranged'||typeof e.oneHanded!=='boolean'))bad('weapon grip');
  if(e.aimed!==undefined&&(r.kind!=='weapon'||typeof e.aimed!=='boolean'))bad('aim');
  if(e.damageSetting!==undefined&&(!r.stunDamage||!['normal','stun'].includes(e.damageSetting)))bad('damage setting');
+ if(e.targetKind!==undefined&&(r.kind!=='weapon'||!['creature','object','vehicle'].includes(e.targetKind)))bad('attack target');
  if(e.scopeUid!==undefined&&(!['pistols','rifles'].includes(r.group)||typeof e.scopeUid!=='string'||!/^[a-f0-9-]{36}$/.test(e.scopeUid)))bad('targeting scope');
 }
 

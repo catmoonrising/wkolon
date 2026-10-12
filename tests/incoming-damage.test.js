@@ -23,7 +23,7 @@ test('reviewed stun modes retain physical types and dice; grenade payloads inher
 test('blaster stun has an unextended six-square range, even with Accurate, Far Shot, scopes or a folded stock',()=>{
  const c=hero();c.levels[0].feats=[{id:'feat:point-blank-shot'},{id:'feat:far-shot'}];const scope=item('targeting-scope');c.inventory=[item('sporting-blaster-pistol',{damageSetting:'stun',aimed:true,scopeUid:scope.uid,distance:6}),scope];let a=derive(c,pack).attacks[0];assert.equal(a.range.penalty,0);assert.equal(a.range.band,0);assert.deepEqual(a.range.limits,[6,6,6,6]);assert(a.available);
  c.inventory[0].distance=7;assert(!derive(c,pack).attacks[0].available);c.inventory[0].damageSetting='normal';assert(derive(c,pack).attacks[0].available);
- c.inventory=[item('blaster-rifle',{damageSetting:'stun',fireMode:'autofire',shotsRemaining:10,distance:6,stockPosition:'folded'})];a=derive(c,pack).attacks[0];assert.equal(a.damageEffect,'stun');assert.equal(a.ammunition.cost,10);assert(a.available);assert.equal(a.areaType,'burst');
+ c.inventory=[item('blaster-rifle',{damageSetting:'stun',fireMode:'autofire',shotsRemaining:10,distance:6,stockPosition:'folded'})];a=derive(c,pack).attacks[0];assert.equal(a.damageEffect,'stun');assert(!a.available);assert.match(a.issue,/Stun and Autofire/);validateCharacter(c,pack);
  c.inventory=[item('force-pike',{damageSetting:'stun'})];assert.equal(derive(c,pack).attacks[0].range.limits,null);
 });
 

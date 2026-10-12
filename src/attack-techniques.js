@@ -3,6 +3,49 @@ import {ambiguityValue} from './house-rules.js';
 
 export const extraDamageDice=(dice,extra=0)=>dice?.replace(/^(\d+)d/,(all,n)=>(Number(n)+extra)+'d')??dice;
 
+export function powerAttackState(c,pack,{bab,owned}){
+ const selected=c.powerAttack||0;
+ const reason=!owned?'Requires Power Attack':selected>bab?'Power Attack exceeds base attack bonus':'';
+ return {owned,selected,maximum:bab,available:!reason,reason,amount:reason?0:selected};
+}
+
+export function powerAttackBonuses(w,entry,pack,speciesSize,state){
+ const target=entry.targetKind||'creature',melee=w.mode==='melee';
+ const size=pack.rules.weaponSizeOrder.indexOf(w.size)-pack.rules.weaponSizeOrder.indexOf(speciesSize);
+ const twoHanded=!w.unarmed&&size>=0&&(size===1||entry.twoHanded);
+ const penalty=melee?-state.amount:0;
+ const damage=melee&&!pack.rules.powerAttack.excludedDamageTargets.includes(target)?state.amount*(twoHanded?pack.rules.powerAttack.twoHandedMultiplier:1):0;
+ return {penalty,damage,target,twoHanded};
+}
+
+export function declarePowerAttack(c,d,amount){
+ if(!Number.isInteger(amount)||amount<0||amount>d.bab)throw new Error('Power Attack must be from 0 to '+d.bab);
+ if(amount&&(!d.powerAttack.owned||d.incapacitated))throw new Error('Power Attack unavailable');
+ c.powerAttack=amount;
+}
+
+export function startNextTurn(c){
+ clearBracing(c);
+ if(c.mightySwing!==undefined)c.mightySwing=false;
+ if(c.powerAttack!==undefined)c.powerAttack=0;
+}
+
+export function weaponSettingIssue(w,entry,pack,autofire){
+ return autofire&&w.damageEffect==='stun'&&!w.autofireOnly&&pack.rules.weaponSettings.mutuallyExclusive.includes('stun')?'Stun and Autofire cannot be combined':'';
+}
+
+export function changeWeaponSetting(entry,pack,key,value){
+ const w=pack.equipment.find(w=>w.id===entry.id);
+ if(!w)throw new Error('Weapon unavailable');
+ if(key==='damageSetting'&&w.stunDamage&&['normal','stun'].includes(value)){
+  entry.damageSetting=value;
+  if(value==='stun'&&w.autofire&&!w.autofireOnly){entry.fireMode='single';if(entry.attackTechnique==='burst-fire')entry.attackTechnique='normal';}
+ }else if(key==='fireMode'&&w.autofire&&!w.autofireOnly&&['single','autofire'].includes(value)){
+  entry.fireMode=value;delete entry.attackTechnique;
+  if(value==='autofire'&&entry.damageSetting==='stun')entry.damageSetting='normal';
+ }else throw new Error('Weapon setting unavailable');
+}
+
 export function bracingState(w,entry,pack,c,technique){
  const rule=pack.rules.bracing;
  const reason=!w.autofireOnly?'Requires an autofire-only weapon':!rule.groups.includes(w.group)?'Requires Heavy Weapons, Rifles or Pistols':entry.stockPosition==='folded'?'Requires an extended stock':w.group==='pistols'&&(!w.retractableStock||entry.stockPosition==='none')?'Requires an extended retractable stock':'';
@@ -34,16 +77,18 @@ export function attackTechnique(w,entry,pack,has,{proficient,scores,light}){
   const owned=has(t.featId.slice(5));
   if(!owned&&t.id!==selected)return [];
   const name=pack.feats.find(f=>f.id===t.featId).name;
-  const reason=!owned?`Requires ${name}`:t.mode!==w.mode?`${name} requires a ${t.mode} weapon`:!proficient?`${name} requires proficiency`:!w.damage?`${name} requires weapon damage`:t.requiresAutofire&&!w.autofire?`${name} requires autofire`:!t.requiresAutofire&&(w.areaType||w.autofireOnly)?`${name} requires a single-target attack`:'';
+  const reason=!owned?`Requires ${name}`:t.mode!==w.mode?`${name} requires a ${t.mode} weapon`:!proficient?`${name} requires proficiency`:!w.damage?`${name} requires weapon damage`:t.requiresAutofire&&!w.autofire?`${name} requires autofire`:t.requiresAutofire&&weaponSettingIssue(w,entry,pack,true)?weaponSettingIssue(w,entry,pack,true):!t.requiresAutofire&&(w.areaType||w.autofireOnly)?`${name} requires a single-target attack`:'';
   return [{...t,name,available:!reason,reason,ruleId:'rule:'+t.id}];
  });
  const technique=choices.find(t=>t.id===selected);
- const available=selected==='normal'||!!technique?.available;
+ const autofire=technique?technique.requiresAutofire:!!w.autofireOnly||entry.fireMode==='autofire';
+ const settingIssue=weaponSettingIssue(w,entry,pack,autofire);
+ const available=(selected==='normal'||!!technique?.available)&&!settingIssue;
  const low=technique&&scores[technique.ability]<technique.minimum&&!(technique.lightException&&light);
- return {choices,selected,available,issue:available?'':technique?.reason||'Unknown attack technique',
+ return {choices,selected,available,issue:available?'':settingIssue||technique?.reason||'Unknown attack technique',
   penalty:technique?(low?technique.lowAbilityPenalty:technique.penalty):0,
   extraDice:technique?.extraDice||0,shots:technique?.shots,
-  autofire:technique?technique.requiresAutofire:!!w.autofireOnly||entry.fireMode==='autofire',
+  autofire,
   areaType:technique?null:w.autofireOnly||entry.fireMode==='autofire'?'burst':w.areaType};
 }
 

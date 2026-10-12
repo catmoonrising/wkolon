@@ -209,6 +209,15 @@ export function validatePack(p) {
   const brace=p.rules.bracing;assert(brace&&Object.keys(brace).every(k=>['sourceId','penalty','swiftActions','groups','pistolRequiresExtendedStock','autofireOnly'].includes(k))&&sources.has(brace.sourceId)&&brace.penalty===-2&&brace.swiftActions===2&&brace.pistolRequiresExtendedStock===true&&brace.autofireOnly===true,'Invalid bracing');
   assert.deepEqual(brace.groups,['heavy-weapons','rifles','pistols'],'Invalid bracing groups');
   assert(p.rulePages.some(r=>r.id==='rule:bracing'&&r.sourceId===brace.sourceId),'Missing bracing passage');
+  const power=p.rules.powerAttack;
+  assert(power&&Object.keys(power).every(k=>['sourceIds','featId','maximum','twoHandedMultiplier','excludedDamageTargets','duration'].includes(k))&&power.featId==='feat:power-attack'&&power.maximum==='base-attack'&&power.twoHandedMultiplier===2&&power.duration==='until-next-turn','Invalid Power Attack');
+  assert.deepEqual(power.sourceIds,[ix.feats.get(power.featId)?.sourceId,'source:wiki-category-weapons-weapon-sizes'],'Invalid Power Attack sources');
+  assert(power.sourceIds.every(id=>sources.has(id))&&p.rulePages.some(r=>r.id==='rule:weapon-sizes'&&r.sourceId===power.sourceIds[1]),'Missing weapon sizes passage');
+  assert.deepEqual(power.excludedDamageTargets,['object','vehicle'],'Invalid Power Attack targets');
+  const settings=p.rules.weaponSettings;
+  assert(settings&&Object.keys(settings).every(k=>['sourceId','mutuallyExclusive','autofireOnlyStun'].includes(k))&&sources.has(settings.sourceId)&&settings.autofireOnlyStun===true,'Invalid weapon settings');
+  assert.deepEqual(settings.mutuallyExclusive,['autofire','stun'],'Invalid alternate settings');
+  assert(p.rulePages.some(r=>r.id==='rule:weapon-settings'&&r.sourceId===settings.sourceId),'Missing weapon settings passage');
   const ammo=p.rules.ammunition;assert(ammo&&Object.keys(ammo).every(k=>['sourceIds','autofireShots'].includes(k))&&ammo.sourceIds.length&&ammo.sourceIds.every(id=>sources.has(id))&&ammo.autofireShots===10,'Invalid ammunition rules');
   const accessories=p.rules.weaponAccessories;assert(accessories&&accessories.sourceIds.length&&accessories.sourceIds.every(id=>sources.has(id)),'Missing accessory sources');assert.deepEqual(Object.keys(accessories).sort(),['carefulShotBonus','deadeyeDice','rifleOneHandedPenalty','scopeRangeReduction','sourceIds']);assert(accessories.scopeRangeReduction===1&&accessories.rifleOneHandedPenalty===-5&&accessories.carefulShotBonus===1&&accessories.deadeyeDice===1,'Unsupported weapon accessory rule');
   for(const key of ['weaponRanges','unarmed','secondWind','encumbrance'])assert(p.rules[key]?.sourceIds?.length&&p.rules[key].sourceIds.every(id=>sources.has(id)),`Missing ${key} sources`);

@@ -4293,6 +4293,26 @@
       "sha256": "fe83760174a1462160f0157d344bc79c2e28ab65b774e0283ed5a79af21c8d20",
       "url": "https://swse.miraheze.org/w/index.php?oldid=27406#Types_of_Area_Attacks",
       "history": "https://swse.miraheze.org/w/index.php?title=Attacks&action=history"
+    },
+    {
+      "id": "source:wiki-category-weapons-rate-of-fire",
+      "title": "Category:Weapons",
+      "section": "Rate of Fire",
+      "revision": 6153,
+      "timestamp": "2024-04-11T12:56:29Z",
+      "sha256": "a2e296f1e1955662e8a4d564d2207e1c1c3735ae3f9fd2d9c8027339273fac88",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=6153#Rate_of_Fire",
+      "history": "https://swse.miraheze.org/w/index.php?title=Category%3AWeapons&action=history"
+    },
+    {
+      "id": "source:wiki-category-weapons-weapon-sizes",
+      "title": "Category:Weapons",
+      "section": "Weapon Sizes",
+      "revision": 6153,
+      "timestamp": "2024-04-11T12:56:29Z",
+      "sha256": "a2e296f1e1955662e8a4d564d2207e1c1c3735ae3f9fd2d9c8027339273fac88",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=6153#Weapon_Sizes",
+      "history": "https://swse.miraheze.org/w/index.php?title=Category%3AWeapons&action=history"
     }
   ],
   "species": [
@@ -11489,6 +11509,28 @@
       ],
       "pistolRequiresExtendedStock": true,
       "autofireOnly": true
+    },
+    "powerAttack": {
+      "sourceIds": [
+        "source:wiki-power-attack",
+        "source:wiki-category-weapons-weapon-sizes"
+      ],
+      "featId": "feat:power-attack",
+      "maximum": "base-attack",
+      "twoHandedMultiplier": 2,
+      "excludedDamageTargets": [
+        "object",
+        "vehicle"
+      ],
+      "duration": "until-next-turn"
+    },
+    "weaponSettings": {
+      "sourceId": "source:wiki-category-weapons-rate-of-fire",
+      "mutuallyExclusive": [
+        "autofire",
+        "stun"
+      ],
+      "autofireOnlyStun": true
     }
   },
   "heroicTraits": {
