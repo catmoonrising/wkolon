@@ -256,3 +256,41 @@ again on resume. A bulk Run exposes only its final attack as an immediate
 trigger. Pending execution survives an ordinary reload of the website; importing
 or duplicating a character clears execution and trigger snapshots, preserving
 its spent counters and the stored routine definitions.
+
+Speed → Move records an ordinary Move Action up to the selected native Speed.
+The Tumble option requires trained, available Acrobatics and a DC 15 check.
+Squares is the complete planned route; Tumbled is the threatened/occupied subset,
+and Occupied identifies enemy-occupied squares within that subset. On success,
+only the tumbled squares avoid movement-triggered attacks of opportunity and
+permit passage through the declared enemy spaces. It supplies no persistent
+immunity to opportunities provoked by other actions. A failed check grants no
+protection and does not confirm passage through occupied enemy spaces; the
+remaining route is resolved at the table rather than inferred by the sheet.
+
+Tumble doubles the normal movement cost of its squares, including diagonal and
+difficult-terrain costs. The All and Tumbled terrain columns use the same disjoint
+categories as other movement controls. Untumbled movement retains its normal
+cost. A tumbled category must be a subset of the matching complete-route category.
+Check accepts an already resolved total; blank rolls the current Acrobatics
+modifier. Entered totals are cleared after one attempt. The skill's prohibition
+on Take 10/20 is retained, and natural 1/20 do not automatically fail/succeed.
+Normal Move has no skill check or opportunity protection. Both actions clear
+Aim/Brace and pending immediate follow-ups, interrupt routine execution, and
+preserve turn-limited penalties and same-round Mighty Swing. Native/adjusted
+speed and straining are checked before dice or mutation. Other feat-granted
+movement has not yet been given an inferred Tumble/action-economy interaction.
+
+Defenses → Fall Prone/Stand Up performs the actual Swift/Move Action. Acrobatics
+attempts the trained DC 15 Free/Swift alternative. Only success changes position;
+failure never falls back to the ordinary action automatically. Swift/Free attempts
+retain routine progress; ordinary standing interrupts it. Helpless/incapacitated
+actors cannot act, and Hutt prone immunity is respected. The existing Prone
+checkbox remains a manual condition control for knockdowns and outside effects.
+Standing is not grid movement, so straining does not invent an extra restriction
+on that action. All these attempts break Aim/Brace and pending immediate triggers.
+
+Aim's pinned passage removes its benefit after any other Action. Second Wind,
+Rage, Recover and Force-power use/recovery now clear it as well. Swift/Reaction
+operations retain routine progress; standard/move/full-round Force-power use
+interrupts execution. Receiving healing and automatic effect updates are not
+classified as an action by the healed character.

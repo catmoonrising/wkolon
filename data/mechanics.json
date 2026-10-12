@@ -11974,6 +11974,35 @@
         "speedMultiplier": 1,
         "beforeCleave": true
       }
+    },
+    "acrobaticsMovement": {
+      "sourceIds": [
+        "source:wiki-acrobatics",
+        "source:wiki-move",
+        "source:wiki-attacks-of-opportunity",
+        "source:wiki-prone",
+        "source:wiki-encumbrance"
+      ],
+      "skillId": "skill:acrobatics",
+      "trainedOnly": true,
+      "dc": 15,
+      "take10": false,
+      "take20": false,
+      "tumble": {
+        "action": "move-action",
+        "speedMultiplier": 1,
+        "movementMultiplier": 2,
+        "defaultCost": "multiply",
+        "protection": "tumbled-squares-only",
+        "occupiedSuccess": true,
+        "noAutomaticPassageOnFailure": true
+      },
+      "prone": {
+        "drop": "swift-action",
+        "trainedDrop": "free-action",
+        "stand": "move-action",
+        "trainedStand": "swift-action"
+      }
     }
   },
   "heroicTraits": {

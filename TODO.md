@@ -45,7 +45,10 @@
   - [x] Withdraw and Running Attack: movement/terrain budgets, native speeds, Aim/Brace timing and combined Dodge/Mobility defenses.
   - [x] Cleave, Great Cleave and Follow Through: exact copied attack bonus, same weapon, named HP-zero triggers, round/turn limits and movement.
   - [x] Routine stepping for immediate follow-ups between attacks, one-use benefits and resumable execution.
-  - [ ] Tumble and other movement/skill action controls.
+  - [x] Normal Move and Move Action Tumble: trained checks, declared totals, terrain subsets, occupied-space outcomes and one-use preparation.
+  - [x] Fall Prone/Stand Up: normal and trained action types, skill failures, immunity and routine timing.
+  - [x] Aim ends after actual recovery/Force actions as well as movement and prone actions.
+  - [ ] Tumble during feat-granted movement, Cross Difficult Terrain, Balance, Escape Bonds, falling and other skill actions.
   - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 

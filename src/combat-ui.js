@@ -1,3 +1,6 @@
+import {acrobaticsPath,validateAcrobaticsMovement} from './acrobatics-movement.js';
+import {acrobaticsMove,proneAction} from './acrobatics-movement-actions.js';
+import {acrobaticsMoveIssue,acrobaticsMoveCostLabel} from './acrobatics-movement-ui.js';
 import {followUpState,validateFollowUps,clearFollowUps,nextCombatantTurn} from './attack-follow-ups.js';
 import {rollCleave,cleaveIssue,followThrough} from './attack-follow-up-actions.js';
 import {followThroughIssue,followUpCostLabel} from './attack-follow-up-ui.js';
@@ -29,6 +32,16 @@ export function xpBar(c,d,rules){
  return `<div class="xp-bar xp-group"><div class="xp-meter" role="progressbar" aria-label="XP progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(fill)}"><div class="resource-fill" style="width:${fill}%"></div></div><label>XP ${input('xp',c.xp,'Experience points',1000000000)}${next===null?'':`<span>/</span><span>${next.toLocaleString()}</span>`}</label></div>`;
 }
 export function createCombatControls(pack,{current,derived,changed,save,log,error}){
+ function editAcrobaticsMovement(el,report=false){
+  const c=current(),p=acrobaticsPath(c),[key,sub]=el.dataset.acrobaticsMovement.split('.');
+  if(sub)p[key][sub]=Number(el.value);else p[key]=el.type==='checkbox'?el.checked:key==='check'||key==='occupied'?(el.value===''&&key==='check'?null:Number(el.value)):el.value;
+  try{validateAcrobaticsMovement({...c,acrobaticsMovement:p},message=>{throw new Error('Invalid '+message);});c.acrobaticsMovement=p;save();
+   const d=derived(),issue=acrobaticsMoveIssue(c,d,pack);
+   for(const button of document.querySelectorAll('[data-combat="acrobatics-move"]')){button.disabled=!!issue;button.title=issue||'Move Action'+(p.tumble?'; DC 15 trained Acrobatics':'');}
+   for(const label of document.querySelectorAll('[data-acrobatics-cost]'))label.textContent=acrobaticsMoveCostLabel(c,d,pack);
+   return true;
+  }catch(e){if(report){error(e.message);changed();}return false;}
+ }
  function editFollowUp(el,report=false){
   const c=current(),p=structuredClone(followUpState(c)),[key,sub]=el.dataset.followUp.split('.');
   const value=el.type==='checkbox'?el.checked:sub?Number(el.value):el.value;
@@ -101,8 +114,9 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   interruptRoutine(current(),r);step[key]=value;changed();return true;
  }
  return {renderRoutines,
-  input(event){if(event.target.hasAttribute('data-follow-up')&&event.target.type!=='checkbox'){editFollowUp(event.target);return true;}if(event.target.hasAttribute('data-movement')&&event.target.type==='number'){editMovement(event.target);return true;}if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
+  input(event){if(event.target.hasAttribute('data-acrobatics-movement')&&event.target.type!=='checkbox'){editAcrobaticsMovement(event.target);return true;}if(event.target.hasAttribute('data-follow-up')&&event.target.type!=='checkbox'){editFollowUp(event.target);return true;}if(event.target.hasAttribute('data-movement')&&event.target.type==='number'){editMovement(event.target);return true;}if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
   change(el){
+   if(el.hasAttribute('data-acrobatics-movement')){if(editAcrobaticsMovement(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-follow-up')){if(editFollowUp(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-movement')){editMovement(el,true);return true;}
    if(el.hasAttribute('data-opportunity')){if(editOpportunity(el,true)&&el.type==='checkbox')changed();return true;}
@@ -119,6 +133,8 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   },
   click(el){
    const action=el?.dataset.combat;if(!action)return false;
+   if(action==='acrobatics-move'){try{const result=acrobaticsMove(current(),derived(),pack);log(result.rolled?'roll':'resource',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
+   if(action==='prone-action'||action==='acrobatics-prone'){try{const result=proneAction(current(),derived(),pack,action==='acrobatics-prone');log(result.rolled?'roll':'resource',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='cleave'){try{const result=rollCleave(current(),pack);spendAttackResources(current(),result);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='follow-through'){try{const result=followThrough(current(),derived(),pack);log('resource',result.text);changed();}catch(e){error(e.message);}return true;}
    if(action==='other-turn'){nextCombatantTurn(current());changed();return true;}

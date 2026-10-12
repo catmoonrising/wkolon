@@ -1417,6 +1417,63 @@
               }
             }
           }
+        },
+        "acrobaticsMovement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "skillId",
+            "trainedOnly",
+            "dc",
+            "take10",
+            "take20",
+            "tumble",
+            "prone"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "skillId": {
+              "const": "skill:acrobatics"
+            },
+            "trainedOnly": {
+              "const": true
+            },
+            "dc": {
+              "const": 15
+            },
+            "take10": {
+              "const": false
+            },
+            "take20": {
+              "const": false
+            },
+            "tumble": {
+              "const": {
+                "action": "move-action",
+                "speedMultiplier": 1,
+                "movementMultiplier": 2,
+                "defaultCost": "multiply",
+                "protection": "tumbled-squares-only",
+                "occupiedSuccess": true,
+                "noAutomaticPassageOnFailure": true
+              }
+            },
+            "prone": {
+              "const": {
+                "drop": "swift-action",
+                "trainedDrop": "free-action",
+                "stand": "move-action",
+                "trainedStand": "swift-action"
+              }
+            }
+          }
         }
       },
       "required": [

@@ -757,3 +757,35 @@ suite and focused Firefox checks pass, covering exact inherited modifiers,
 Great Cleave chains, duplicate-victim prevention, native movement/terrain,
 independent turn/round limits, Swift/free reload timing, routine interleaving,
 resume/edit/import/duplication, verbatim rules, mobile themes and offline reload.
+
+## Move, Tumble and prone actions
+
+Reverified the live wiki API against pinned Acrobatics27350, Move18374,
+Attacks of Opportunity16012, Prone18420 and Encumbrance18325. Direct page requests
+returned403; API wikitext supplied the full passages, without guessing wording.
+All implemented applications are from official references. No Homebrew was added.
+
+Tumble is trained-only/DC15, protects only its threatened/occupied route subset,
+and requires a Move Action. Normal terrain costs and Tumble are multiplied by
+default: a diagonal tumbled square costs4 and a diagonal/difficult one costs8.
+The wiki does not explicitly state how this added cost combines with terrain;
+an optional flat2 interpretation was asked about and has not been added without
+a ruling. Failed enemy-space passage is not automatically completed or assigned
+an invented stopping position. Geometry, incoming reactions and the remaining
+route are GM/player decisions. Feat-granted movement integration remains listed
+separately rather than granting an unprinted additional action.
+
+Prone actions use the printed Swift/Move and trained Free/Swift alternatives.
+Checks use current modifiers and normal skill success, including natural1/20.
+Failure changes no position and does not spend the normal fallback action.
+Standing is not counted as a square of movement. Hutt immunity and action timing
+are preserved. Also checked Aim's exact "any other Action" condition and fixed
+actual recovery/Force actions that previously left an Aim declaration active.
+
+Validation: 293 JavaScript tests and 19 Python importer tests pass, along with
+rules validation, deterministic offline import/rebuild, the full Chromium suite
+and focused Firefox checks. Coverage includes native/adjusted speeds, terrain
+subsets, trained requirements, real skill modifiers and natural1/20, failed
+occupied-space passage, one-use entered totals, prone action types/immunity,
+Aim and routine timing, strict saved fields, exact articles, math inputs, mobile
+Dracula controls and complete offline reload.

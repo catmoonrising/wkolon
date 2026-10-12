@@ -679,3 +679,19 @@ Changing routine structure invalidates that signature. Applying a rolled result
 checks that its trigger/execution state and ammunition still match before any
 resource is consumed. Importing or duplicating resets transient snapshots because
 unarmed IDs and the execution context change, retaining spent limits.
+
+`rules.acrobaticsMovement` pins Acrobatics, Move, Attacks of Opportunity, Prone
+and Encumbrance. Its closed mapping requires trained Acrobatics/DC 15 for Tumble
+and the Free/Swift prone alternatives, prohibits ordinary Take 10/20, gives
+Tumble a Move Action/full native-Speed budget, doubles its normal movement cost,
+and limits protection/pass-through to successfully tumbled squares. Normal prone
+actions remain Swift/Move. The articles retain their full source wording.
+
+Optional `acrobaticsMovement` stores `mode`, `tumble`, `occupied`, an optional
+entered `check` total, and `path`/`tumbled` movement segments. Both segments use
+mutually exclusive diagonal/difficult/both counts. Structural import validation
+rejects unknown fields, malformed booleans/modes, invalid counts and check totals.
+Draft paths may temporarily disagree while the two columns are edited; the action
+planner requires a matching terrain subset, valid occupied count and cost within
+Speed before rolling or consuming declarations. No passive Tumble immunity or
+inferred board position is persisted. An entered check is consumed once.

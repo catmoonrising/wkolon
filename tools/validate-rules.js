@@ -252,6 +252,10 @@ export function validatePack(p) {
   const followThrough=p.feats.find(f=>f.id===cleave.followThrough.featId);
   assert.deepEqual(followThrough.prerequisite,{kind:'all',requirements:[]},'Follow Through has no listed prerequisite');
   assert(!p.classes.some(c=>c.bonusFeats?.includes(followThrough.id)),'Follow Through is not a class bonus feat');
+  const acrobaticsMovement=p.rules.acrobaticsMovement;
+  assert.deepEqual(acrobaticsMovement,{sourceIds:['source:wiki-acrobatics','source:wiki-move','source:wiki-attacks-of-opportunity','source:wiki-prone','source:wiki-encumbrance'],skillId:'skill:acrobatics',trainedOnly:true,dc:15,take10:false,take20:false,tumble:{action:'move-action',speedMultiplier:1,movementMultiplier:2,defaultCost:'multiply',protection:'tumbled-squares-only',occupiedSuccess:true,noAutomaticPassageOnFailure:true},prone:{drop:'swift-action',trainedDrop:'free-action',stand:'move-action',trainedStand:'swift-action'}},'Invalid Acrobatics movement mapping');
+  requireRef('skills',acrobaticsMovement.skillId);
+  assert(acrobaticsMovement.sourceIds.every(id=>sources.has(id))&&['acrobatics','move','attacks-of-opportunity','prone','encumbrance'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&acrobaticsMovement.sourceIds.includes(r.sourceId))),'Missing Acrobatics movement passage');
   const combatMovement=p.rules.combatMovement;
   assert.deepEqual(combatMovement,{sourceIds:['source:wiki-withdraw','source:wiki-move','source:wiki-running-attack','source:wiki-dodge','source:wiki-mobility','source:wiki-encumbrance'],diagonalCost:2,difficultCost:2,diagonalDifficultCost:4,withdraw:{action:'move-action',speedMultiplier:.5,protectedSquares:1,shortestRoute:true},running:{featId:'feat:running-attack',speedMultiplier:1,attackCount:1,dodgeFeat:'feat:dodge',dodgeBonus:1,dodgeScope:'opportunity-during-running-attack'},strainMovementAction:'full-round-action'},'Invalid combat movement mapping');
   for(const id of [combatMovement.running.featId,combatMovement.running.dodgeFeat])requireRef('feats',id);

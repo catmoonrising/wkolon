@@ -62,6 +62,8 @@ export function bracingState(w,entry,pack,c,technique){
  return {available,active,reason,penalty};
 }
 
+export function clearAiming(c){for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;}
+
 export function clearBracing(c){for(const e of c.inventory)if(e.braced!==undefined)e.braced=false;}
 
 export function declareBracing(c,pack,uid,on){

@@ -3,6 +3,7 @@ import {escapeHTML as escape} from './wiki-content.js';
 import {FULL_ATTACK_SOURCES,planFullAttack} from './full-attacks.js';
 import {validateDefensiveCombat} from './defensive-combat.js';
 import {planCharge,validateCharge} from './charge.js';
+import {validateAcrobaticsMovement} from './acrobatics-movement.js';
 import {validateCombatMovement} from './combat-movement.js';
 import {validateOpportunity} from './opportunity.js';
 import {validateFollowUps} from './attack-follow-ups.js';
@@ -23,6 +24,7 @@ export function validateCombatState(c,bad){
  validateAttackTarget(c,bad);
  validateOpportunity(c,bad);
  validateCombatMovement(c,bad);
+ validateAcrobaticsMovement(c,bad);
  validateFollowUps(c,bad);
  if(c.fullAttackPenalties!==undefined){
   const p=c.fullAttackPenalties;

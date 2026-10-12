@@ -2,7 +2,7 @@ import {clearFollowUps} from './attack-follow-ups.js';
 import {startNextRound} from './opportunity.js';
 import {counselingEnabled,ambiguityValue} from './house-rules.js';
 import {evalExpr} from './dice.js';
-import {clearBracing,startNextTurn} from './attack-techniques.js';
+import {clearAiming,clearBracing,startNextTurn} from './attack-techniques.js';
 
 const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,ragesSpent:0,rageRounds:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
 export const recoveryState=c=>({...empty(),...c.recovery});
@@ -31,7 +31,7 @@ export function catchSecondWind(c,d,pack,roll=evalExpr){
  const forceRoll=wind.forceDice?roll(`${wind.forceDice}d${pack.rules.secondWind.forceRecovery.die}`):null;
  const extra=forceRoll?.value??0;
  if(!Number.isFinite(extra)||extra<0)throw new Error('Invalid Force Recovery roll');
- clearFollowUps(c);clearBracing(c);
+ clearFollowUps(c);clearAiming(c);clearBracing(c);
  const before=c.currentHP??d.hp,r=state(c);
  c.currentHP=Math.min(d.hp,before+wind.healing+extra);r.secondWindsSpent++;r.secondWindEncounter=true;
  if(wind.exhaustion)persistent(c,'second-wind');
@@ -40,7 +40,7 @@ export function catchSecondWind(c,d,pack,roll=evalExpr){
 export function startRage(c,d){
  const rage=d.recovery.rage;
  if(!rage||rage.active||!rage.remaining||d.incapacitated)throw new Error('Rage unavailable');
- clearFollowUps(c);clearBracing(c);
+ clearFollowUps(c);clearAiming(c);clearBracing(c);
  const r=state(c);r.ragesSpent++;r.rageRounds=rage.duration;
 }
 export function endRage(c){
@@ -54,7 +54,7 @@ export function advanceRage(c){
 }
 export function recoverCondition(c,d){
  if(!d.recovery.recoverable)throw new Error('Recover unavailable');
- clearFollowUps(c);clearBracing(c);
+ clearFollowUps(c);clearAiming(c);clearBracing(c);
  c.condition--;
 }
 export function removePersistent(c,cause){
