@@ -16,7 +16,7 @@ export function targetModifiers(c,pack,ctx,species,a){
  let prone=melee&&target.prone?rule.prone.targetMeleeBonus:ranged&&target.prone?rule.prone.targetRangedPenalty:0;
  const helpless=melee&&target.helpless?rule.helplessMeleeBonus:0;
  if(prone>0&&helpless&&ambiguityValue(c,pack,'ambiguity:prone-helpless')==='no-stack')prone=0;
- const ownProne=melee&&c.prone&&!species.proneImmune?rule.prone.ownMeleePenalty:0;
+ const ownProne=melee&&c.prone?rule.prone.ownMeleePenalty:0;
  const intoMelee=ranged&&target.adjacentToAlly&&!ctx.feats.some(f=>f.id===rule.preciseShot)?rule.intoMeleePenalty:0;
  const conceal=concealment==='total'?rule.totalConcealmentPenalty:concealment==='concealment'?rule.concealmentPenalty:0;
  const cover=target.cover==='cover'?rule.coverBonus:target.cover==='improved'?rule.improvedCoverBonus:0;

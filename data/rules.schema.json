@@ -2375,7 +2375,7 @@
         "breatheUnderwater": {
           "type": "boolean"
         },
-        "proneImmune": {
+        "knockdownImmune": {
           "type": "boolean"
         },
         "scentRange": {

@@ -4713,7 +4713,7 @@
           "keep": "best"
         }
       ],
-      "proneImmune": true
+      "knockdownImmune": true
     },
     {
       "id": "species:ithorian",

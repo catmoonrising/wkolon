@@ -284,7 +284,8 @@ Defenses → Fall Prone/Stand Up performs the actual Swift/Move Action. Acrobati
 attempts the trained DC 15 Free/Swift alternative. Only success changes position;
 failure never falls back to the ordinary action automatically. Swift/Free attempts
 retain routine progress; ordinary standing interrupts it. Helpless/incapacitated
-actors cannot act, and Hutt prone immunity is respected. The existing Prone
+actors cannot act. Hutt Supreme Stability prevents being knocked Prone; it does
+not prevent voluntarily falling Prone or remove its penalties. The existing Prone
 checkbox remains a manual condition control for knockdowns and outside effects.
 Standing is not grid movement, so straining does not invent an extra restriction
 on that action. All these attempts break Aim/Brace and pending immediate triggers.

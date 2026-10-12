@@ -27,5 +27,15 @@ module.exports=async(browser,base,root)=>{
   assert(await page.evaluate(async()=>{const keys=await caches.keys(),assets=(await Promise.all(keys.filter(k=>k.startsWith('wkolon-')).map(async k=>(await (await caches.open(k)).keys()).map(r=>r.url)))).flat();return ['acrobatics-movement.js','acrobatics-movement-actions.js','acrobatics-movement-ui.js'].every(file=>assets.some(u=>u.endsWith('/src/'+file)));}));
   await context.setOffline(true);await page.reload();await move.locator(':scope > summary').click();await set('check','15');await act.click();assert((await page.locator('#dicelog').innerText()).includes('2 squares avoid attacks of opportunity'));assert.deepEqual(errors,[]);
  }finally{await context.close();}
- console.log('Browser: normal Move/Tumble costs, terrain subsets, declared checks/failure, occupied passage, Aim, prone action types, trained eligibility, wiki rules, math/save/reload, theme/mobile and offline passed');
+ const hutt=structuredClone(c);hutt.name='Supreme Stability';hutt.species='species:hutt';hutt.prone=true;
+ const hc=await browser.newContext(),hp=await hc.newPage(),he=[];hp.on('pageerror',e=>he.push(e.message));hp.setDefaultTimeout(15000);
+ try{
+  await hc.addInitScript(roster=>localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster)),{schemaVersion:1,activeId:hutt.id,characters:[hutt]});await hc.addInitScript(()=>Math.random=()=>.55);await hp.goto(base);
+  const checkbox=hp.locator('[data-prone]'),actions=hp.locator('#prone-actions');await checkbox.waitFor();assert(!await checkbox.isDisabled());assert(await checkbox.isChecked());
+  await actions.locator(':scope > summary').click();await actions.locator('[data-combat="prone-action"]').click();assert(!await checkbox.isChecked());await actions.locator('[data-combat="prone-action"]').click();assert(await checkbox.isChecked());
+  await checkbox.uncheck();assert.equal(await actions.locator(':scope > summary').innerText(),'Fall Prone');await actions.locator('[data-combat="acrobatics-prone"]').click();assert(await checkbox.isChecked());
+  await hp.waitForFunction(()=>document.querySelector('#save-status').textContent==='Saved');const roster=await hp.evaluate(()=>JSON.parse(localStorage.getItem('wkolon-roster-v1')));validateRoster(roster,pack);const current=roster.characters[0],standing=derive({...current,prone:false},pack),proned=derive(current,pack);assert.equal(proned.attacks.find(a=>a.uid===current.id).attack,standing.attacks.find(a=>a.uid===current.id).attack-5);
+  await hp.reload();assert(await checkbox.isChecked());assert(!await checkbox.isDisabled());assert.deepEqual(he,[]);
+ }finally{await hc.close();}
+ console.log('Browser: normal Move/Tumble costs, terrain subsets, declared checks/failure, occupied passage, Aim, prone action types, trained eligibility, wiki rules, math/save/reload, theme/mobile, offline and voluntary Hutt prone actions passed');
 };

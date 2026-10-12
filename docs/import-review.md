@@ -778,8 +778,8 @@ separately rather than granting an unprinted additional action.
 Prone actions use the printed Swift/Move and trained Free/Swift alternatives.
 Checks use current modifiers and normal skill success, including natural1/20.
 Failure changes no position and does not spend the normal fallback action.
-Standing is not counted as a square of movement. Hutt immunity and action timing
-are preserved. Also checked Aim's exact "any other Action" condition and fixed
+Standing is not counted as a square of movement. Action timing
+is preserved. Also checked Aim's exact "any other Action" condition and fixed
 actual recovery/Force actions that previously left an Aim declaration active.
 
 Validation: 293 JavaScript tests and 19 Python importer tests pass, along with
@@ -789,3 +789,19 @@ subsets, trained requirements, real skill modifiers and natural1/20, failed
 occupied-space passage, one-use entered totals, prone action types/immunity,
 Aim and routine timing, strict saved fields, exact articles, math inputs, mobile
 Dracula controls and complete offline reload.
+
+
+## Hutt Supreme Stability correction
+
+Hutt revision 18258 says Supreme Stability prevents being **knocked** Prone.
+The earlier `proneImmune` mapping wrongly prevented voluntary Fall Prone,
+disabled the sheet checkbox, and removed the melee penalty for a saved Prone
+Hutt. Species mechanics now use `knockdownImmune`, reserved for forced
+knockdown effects. Voluntary Swift/Free Fall Prone and Move/Swift Stand Up follow
+the normal rules, and a Prone Hutt takes the normal melee attack penalty.
+Existing characters retain their `prone` boolean without migration. The source
+revision and article are unchanged; this corrects the reviewed calculation.
+
+Validation: 294 JavaScript tests and 19 Python importer tests pass. Browser
+checks cover both ordinary and trained Hutt prone actions, manual changes,
+penalties, and persistence across reloads.

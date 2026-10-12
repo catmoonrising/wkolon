@@ -381,7 +381,7 @@ Force restrictions. `take10Skills` permits Take 10 even when threatened.
 Reroll controls refer to a pending native skill check in this session, cannot
 reroll Take 10, and become unavailable when its check modifier changes. They do
 not automatically apply to substituted skill checks. `vision`, `scentRange`,
-`breatheUnderwater`, `holdBreathMultiplier`, `proneImmune` and
+`breatheUnderwater`, `holdBreathMultiplier`, `knockdownImmune` and
 `naturalHealingMultiplier` record sensory and survival traits. Vision and Scent
 appear in stat blocks; environmental effects, healing and breath timers remain
 manual. The Neimoidian Deceptive copy error remains manual.
@@ -609,7 +609,8 @@ Optional `attackTarget` contains `cover` (`none`, `cover`, `improved`, `total`),
 This is one declared target for equipped weapons and offensive routines. The
 geometry and identity of the target remain player declarations. Values survive
 save/import and are checked before rolling. Optional character `prone` affects
-the attacker's melee rolls independently; species prone immunity overrides it.
+the attacker's melee rolls independently. Hutt `knockdownImmune` prevents being
+knocked Prone; it does not remove voluntary prone actions or their penalties.
 
 `ambiguity:prone-helpless` defaults to `stack` (+10 melee against both), following
 the unnamed-bonus stacking passage. The user-approved `no-stack` interpretation

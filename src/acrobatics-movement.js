@@ -34,9 +34,8 @@ export function planAcrobaticsMove(c,d,pack){
  return {path,cost,maximum,skill,dc:skill?pack.rules.acrobaticsMovement.dc:null};
 }
 export function planProneAction(c,d,pack,acrobatics=false){
- const species=pack.species.find(s=>s.id===c.species),standing=!!c.prone,rule=pack.rules.acrobaticsMovement;
+ const standing=!!c.prone,rule=pack.rules.acrobaticsMovement;
  if(d.incapacitated||d.helpless)throw new Error('Prone action unavailable');
- if(species.proneImmune&&!standing)throw new Error('Species cannot be Prone');
  const skill=acrobatics?acrobaticsMovementSkill(d,pack):null;
  return {standing,skill,dc:skill?rule.dc:null,action:standing?(acrobatics?rule.prone.trainedStand:rule.prone.stand):(acrobatics?rule.prone.trainedDrop:rule.prone.drop)};
 }

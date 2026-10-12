@@ -64,9 +64,9 @@ test('failed trained prone attempts change no position; Swift/Free actions prese
  proneAction(c,derive(c,pack),pack,true,roller(15));assert(c.prone);assert.equal(c.routineProgress.index,index);proneAction(c,derive(c,pack),pack,true,roller(15));assert(!c.prone);assert.equal(c.routineProgress.index,index);
  proneAction(c,derive(c,pack),pack,false,noDice);assert.equal(c.routineProgress.index,index);proneAction(c,derive(c,pack),pack,false,noDice);assert.equal(c.routineProgress,undefined);
 });
-test('Total Defense permits movement/prone actions; incapacitated actors and immune species cannot act',()=>{
+test('Total Defense permits movement/prone actions; incapacitated actors cannot act',()=>{
  const c=hero();c.defenseStance='total';path(c,{check:15});assert.doesNotThrow(()=>acrobaticsMove(c,derive(c,pack),pack,noDice));assert.doesNotThrow(()=>proneAction(c,derive(c,pack),pack,false,noDice));c.helpless=true;assert.throws(()=>proneAction(c,derive(c,pack),pack,false,noDice),/unavailable/);delete c.helpless;
- c.species='species:hutt';c.prone=false;assert.throws(()=>proneAction(c,derive(c,pack),pack,false,noDice),/cannot be Prone/);
+
 });
 test('saved movement drafts validate closed fields/terrain/check types and preserve partial defaults',()=>{
  const c=hero();c.acrobaticsMovement={path:{squares:3}};validateCharacter(c,pack);const p=acrobaticsPath(c);assert.equal(p.tumbled.squares,1);assert.equal(p.path.diagonal,0);assert.equal(p.check,null);
@@ -91,4 +91,13 @@ test('other actual Swift/Reaction actions also break Aim, preserving routine pro
 test('legitimate negative skill modifiers remain valid rolls and entered checks at the sheet modifier limits',()=>{
  const c=hero();c.condition=4;c.skillModifiers={'skill:acrobatics':-1000};path(c);const d=derive(c,pack);assert.equal(d.skills.find(s=>s.id==='skill:acrobatics').total,-1003);
  const r=acrobaticsMove(c,d,pack,roller(-1002,1));assert(!r.success);assert.equal(r.rolled.value,-1002);c.acrobaticsMovement.check=-1002;validateCharacter(c,pack);assert(!acrobaticsMove(c,d,pack,noDice).success);
+});
+
+
+test('Hutt Supreme Stability prevents knockdown, while voluntary prone actions and penalties still apply',()=>{
+ const c=hero();c.species='species:hutt';const species=pack.species.find(s=>s.id===c.species),text=articleText(species.article);
+ assert.equal(species.knockdownImmune,true);assert.equal(species.proneImmune,undefined);assert(text.includes('immune to being knocked Prone'));
+ const before=derive(c,pack);proneAction(c,before,pack,false,noDice);assert(c.prone);assert.equal(derive(c,pack).attacks.find(a=>a.uid===c.id).attack,before.attacks.find(a=>a.uid===c.id).attack-5);
+ const restored=JSON.parse(JSON.stringify(c));validateCharacter(restored,pack);assert(restored.prone);assert.equal(planProneAction(restored,derive(restored,pack),pack).action,'move-action');proneAction(restored,derive(restored,pack),pack,false,noDice);assert(!restored.prone);
+ proneAction(c,derive(c,pack),pack,true,roller(15));assert(!c.prone);proneAction(c,derive(c,pack),pack,true,roller(15));assert(c.prone);
 });

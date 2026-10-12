@@ -29,11 +29,11 @@ test('Prone and Helpless stack to +10 by default, with the approved +5 alternati
  c.attackTarget.helpless=false;c.attackTarget.prone=true;assert.equal(derive(c,pack).attacks[0].attack,before.attacks[0].attack+5);
  assert.equal(ambiguityValue(hero(),pack,ambiguity),'stack');
 });
-test('own Prone penalizes melee independently; prone immunity and ranged attacks are respected',()=>{
+test('own Prone penalizes melee independently; knockdown immunity never removes voluntary prone penalties',()=>{
  const c=hero(),before=derive(c,pack);c.prone=true;let d=derive(c,pack);
  assert.equal(d.attacks[0].attack,before.attacks[0].attack-5);assert.equal(d.attacks[1].attack,before.attacks[1].attack);
  c.attackTarget={prone:true,helpless:true};assert.equal(derive(c,pack).attacks[0].attack,before.attacks[0].attack+5);
- const fixture=structuredClone(pack);fixture.species.find(s=>s.id===c.species).proneImmune=true;assert.equal(derive(c,fixture).attacks[0].attack,before.attacks[0].attack+10);
+ c.species='species:hutt';const standing=derive({...c,prone:false},pack);assert.equal(derive(c,pack).attacks[0].attack,standing.attacks[0].attack-5);assert.equal(derive(c,pack).attacks[1].attack,standing.attacks[1].attack);
 });
 test('attacking into melee penalizes ranged and thrown attacks; only an eligible Precise Shot removes it',()=>{
  const c=hero(),before=derive(c,pack);c.attackTarget={adjacentToAlly:true};assert.equal(derive(c,pack).attacks[1].attack,before.attacks[1].attack-5);assert.equal(derive(c,pack).attacks[0].attack,before.attacks[0].attack);

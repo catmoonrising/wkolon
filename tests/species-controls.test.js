@@ -30,7 +30,7 @@ test('species senses preserve distinctions and stat blocks include vision and sc
  const d=hero('sullustan');assert(renderStatBlock(d,derive(d,pack),pack).includes('Darkvision'));
  const g=hero('gungan');assert(renderStatBlock(g,derive(g,pack),pack).includes('Low-Light Vision'));assert.equal(ix.species.get(g.species).holdBreathMultiplier,25);
  const e=hero('ewok');assert(renderStatBlock(e,derive(e,pack),pack).includes('Scent 10 Squares'));
- assert.equal(ix.species.get('species:hutt').proneImmune,true);
+ assert.equal(ix.species.get('species:hutt').knockdownImmune,true);
  assert(!ix.species.get('species:neimoidian-core-rulebook').skillRerolls,'Neimoidian copy error remains manual');
 });
 

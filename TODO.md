@@ -48,6 +48,7 @@
   - [x] Normal Move and Move Action Tumble: trained checks, declared totals, terrain subsets, occupied-space outcomes and one-use preparation.
   - [x] Fall Prone/Stand Up: normal and trained action types, skill failures, immunity and routine timing.
   - [x] Aim ends after actual recovery/Force actions as well as movement and prone actions.
+  - [x] Hutt Supreme Stability prevents forced knockdown, while voluntary Prone and its normal penalties remain available.
   - [ ] Tumble during feat-granted movement, Cross Difficult Terrain, Balance, Escape Bonds, falling and other skill actions.
   - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
