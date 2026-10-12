@@ -1,4 +1,32 @@
+import {resolveEquipment} from './equipment.js';
+import {ambiguityValue} from './house-rules.js';
+
 export const extraDamageDice=(dice,extra=0)=>dice?.replace(/^(\d+)d/,(all,n)=>(Number(n)+extra)+'d')??dice;
+
+export function bracingState(w,entry,pack,c,technique){
+ const rule=pack.rules.bracing;
+ const reason=!w.autofireOnly?'Requires an autofire-only weapon':!rule.groups.includes(w.group)?'Requires Heavy Weapons, Rifles or Pistols':entry.stockPosition==='folded'?'Requires an extended stock':w.group==='pistols'&&(!w.retractableStock||entry.stockPosition==='none')?'Requires an extended retractable stock':'';
+ const available=!reason,active=available&&!!entry.braced;
+ const lowStrength=technique?.selected==='burst-fire'&&technique.penalty===pack.rules.attackTechniques.find(t=>t.id==='burst-fire').lowAbilityPenalty;
+ const penalty=active&&!(lowStrength&&ambiguityValue(c,pack,'ambiguity:bracing-burst-fire')==='burst-penalty')?rule.penalty:null;
+ return {available,active,reason,penalty};
+}
+
+export function clearBracing(c){for(const e of c.inventory)if(e.braced!==undefined)e.braced=false;}
+
+export function declareBracing(c,pack,uid,on){
+ const entry=c.inventory.find(e=>e.uid===uid);
+ if(!entry||typeof on!=='boolean')throw new Error('Weapon unavailable');
+ const state=bracingState(resolveEquipment(entry,pack,c),entry,pack,c);
+ if(on&&(!state.available||c.condition===5||c.currentHP===0||c.recovery?.dead))throw new Error(state.reason||'Bracing unavailable');
+ clearBracing(c);entry.braced=on;
+ if(on)for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;
+}
+
+export function validateBracing(c,pack,bad){
+ for(const e of c.inventory)if(e.braced!==undefined&&(typeof e.braced!=='boolean'||!pack.equipment.find(w=>w.id===e.id)?.autofireOnly))bad('bracing');
+ if(c.inventory.filter(e=>e.braced).length>1||c.inventory.some(e=>e.braced)&&c.inventory.some(e=>e.aimed))bad('incompatible bracing declarations');
+}
 
 export function attackTechnique(w,entry,pack,has,{proficient,scores,light}){
  const selected=entry.attackTechnique||'normal';

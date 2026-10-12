@@ -857,6 +857,42 @@
               "const": 2
             }
           }
+        },
+        "bracing": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceId",
+            "penalty",
+            "swiftActions",
+            "groups",
+            "pistolRequiresExtendedStock",
+            "autofireOnly"
+          ],
+          "properties": {
+            "sourceId": {
+              "type": "string"
+            },
+            "penalty": {
+              "const": -2
+            },
+            "swiftActions": {
+              "const": 2
+            },
+            "groups": {
+              "const": [
+                "heavy-weapons",
+                "rifles",
+                "pistols"
+              ]
+            },
+            "pistolRequiresExtendedStock": {
+              "const": true
+            },
+            "autofireOnly": {
+              "const": true
+            }
+          }
         }
       },
       "required": [

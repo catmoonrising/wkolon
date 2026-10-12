@@ -4283,6 +4283,16 @@
       "sha256": "61961afd9aaf06611ebd4019f50e5d90bff7e10e70c4a16e4b703c30e81460de",
       "url": "https://swse.miraheze.org/w/index.php?oldid=24963#Free_Actions",
       "history": "https://swse.miraheze.org/w/index.php?title=Actions&action=history"
+    },
+    {
+      "id": "source:wiki-attacks-bracing",
+      "title": "Attacks",
+      "section": "Types of Area Attacks",
+      "revision": 27406,
+      "timestamp": "2026-05-19T10:24:03Z",
+      "sha256": "fe83760174a1462160f0157d344bc79c2e28ab65b774e0283ed5a79af21c8d20",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27406#Types_of_Area_Attacks",
+      "history": "https://swse.miraheze.org/w/index.php?title=Attacks&action=history"
     }
   ],
   "species": [
@@ -11181,6 +11191,35 @@
             "name": "Apply general death rule"
           }
         ]
+      },
+      {
+        "id": "ambiguity:bracing-burst-fire",
+        "name": "Bracing + Burst Fire below Str 13",
+        "sourceIds": [
+          "source:wiki-attacks-bracing",
+          "source:wiki-burst-fire"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:bracing",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:burst-fire",
+            "fullText": true
+          }
+        ],
+        "default": "brace-penalty",
+        "options": [
+          {
+            "value": "brace-penalty",
+            "name": "Bracing (−2)"
+          },
+          {
+            "value": "burst-penalty",
+            "name": "Burst Fire (−10)"
+          }
+        ]
       }
     ],
     "forceTalentAccess": {
@@ -11438,6 +11477,18 @@
       "featId": "feat:mighty-swing",
       "extraDice": 1,
       "swiftActions": 2
+    },
+    "bracing": {
+      "sourceId": "source:wiki-attacks-bracing",
+      "penalty": -2,
+      "swiftActions": 2,
+      "groups": [
+        "heavy-weapons",
+        "rifles",
+        "pistols"
+      ],
+      "pistolRequiresExtendedStock": true,
+      "autofireOnly": true
     }
   },
   "heroicTraits": {

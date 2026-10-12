@@ -26,6 +26,12 @@ module.exports=async function checkAccents(page,trackSelector,root){
    colors.track.forEach((c,i)=>assert(Math.abs(c-Math.round(colors.accent[i]*.24+colors.background[i]*.76))<=1,`${theme||'Default'} track tint`));
    const luminance=rgb=>rgb.map(c=>{c/=255;return c<=.04045?c/12.92:((c+.055)/1.055)**2.4;}).reduce((sum,c,i)=>sum+c*[.2126,.7152,.0722][i],0);
    const [lo,hi]=[luminance(colors.selection),luminance(colors.foreground)].sort((a,b)=>a-b);assert((hi+.05)/(lo+.05)>=4.5,`${theme||'Default'} selection text contrast`);
+   const bars=await page.evaluate(()=>{
+    const hp=document.querySelector('.hp-bar'),label=hp.querySelector('.hp-bar-text'),bar=hp.getBoundingClientRect(),text=label.getBoundingClientRect();
+    return {centerError:Math.abs((bar.left+bar.right-text.left-text.right)/2),color:getComputedStyle(label).color,labels:[...document.querySelectorAll('.resource-label,.resource-label > *, .hp-bar-text > *')].map(el=>({background:getComputedStyle(el).backgroundColor,color:getComputedStyle(el).color}))};
+   });
+   assert(bars.centerError<1,`${theme||'Default'} HP text is centered`);
+   for(const label of bars.labels){assert.equal(label.background,'rgba(0, 0, 0, 0)',`${theme||'Default'} resource text background`);assert.equal(label.color,bars.color,`${theme||'Default'} resource text matches HP`);}
    if(theme===''||theme==='dracula-dark.css'){
     await page.locator(trackSelector).first().hover();
     const hover=await page.locator(trackSelector).first().evaluate(el=>getComputedStyle(el).backgroundColor);
@@ -33,6 +39,6 @@ module.exports=async function checkAccents(page,trackSelector,root){
     await page.screenshot({path:path.join(root,'.build/accent-'+(theme?'dracula':'default')+'.png')});
    }
   }
-  console.log(`Theme accents: ${themes.length} palettes, native checkboxes, selected controls, tabs, text selection, track tint/hover and readable selection text passed`);
+  console.log(`Theme accents: ${themes.length} palettes, controls, track highlights, text contrast, transparent resource text and centered HP passed`);
  }finally{await apply(original);}
 };

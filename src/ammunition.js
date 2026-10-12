@@ -1,3 +1,5 @@
+import {clearBracing} from './attack-techniques.js';
+
 export function ammunitionProfile(entry,pack){
  const profiles=pack.equipment.find(w=>w.id===entry.id)?.ammunitionProfiles;
  return profiles?.find(p=>p.id===(entry.ammoProfile??profiles[0].id));
@@ -25,6 +27,7 @@ export function reloadWeapon(c,pack,uid){
  if(!profile)throw new Error('Weapon cannot be reloaded.');
  if(profile.reloadAction==='free-action'&&c.flatFooted)throw new Error('Free Actions are unavailable while flat-footed.');
  entry.shotsRemaining=profile.capacity;
+ clearBracing(c);
  for(const item of c.inventory)if(pack.equipment.find(r=>r.id===item.id)?.kind==='weapon')item.aimed=false;
  return profile;
 }
@@ -39,4 +42,5 @@ export function spendAttackResources(c,result){
  for(const {entry,shots,reloadShots} of spending)entry.shotsRemaining+=reloadShots-shots;
  for(const uid of result.aimConsumed||[]){const entry=c.inventory.find(e=>e.uid===uid);if(entry)entry.aimed=false;}
  if(result.mightySwingConsumed)c.mightySwing=false;
+ if(result.bracingConsumed)clearBracing(c);
 }

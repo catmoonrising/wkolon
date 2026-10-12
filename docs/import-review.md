@@ -491,14 +491,48 @@ loaded capacity. Routine preflight calculates the arrows reloaded and consumed;
 the loaded counter remains within its one-arrow capacity. Spare quivers are not
 yet debited automatically. No optional Free Actions limit variant is enabled.
 
-**User ruling queued for bracing:** the extended retractable stock requirement
+**User ruling for bracing:** the extended retractable stock requirement
 applies to Pistols only. Heavy Weapons and Rifles do not require that stock. The
 weapon must still be autofire-only, and bracing requires two Swift Actions
-immediately before firing. The user explicitly declined an alternative setting;
-bracing itself remains a separate implementation task.
+immediately before firing. The user explicitly declined an alternative stock-requirement setting. Bracing
+was implemented in the subsequent batch below.
 
 Validation: 189 JavaScript and 19 Python tests, rules validation and the complete
 browser suite pass. Browser checks cover individual attacks and routines, ammo
 preflight, misses and criticals, mixed-weapon Mighty Swing consumption, Bow free
 reloads, flat-footed restrictions, full rules text, saved choices, Dracula mobile
 layout and offline operation.
+
+## Bracing
+
+Rechecked live Attacks 27406, Burst Fire 16415, Retractable Stock 19749 and Aim
+15771. Bracing's verbatim paragraph is preserved under a separately identified
+pinned source section. Only autofire-only weapons can be braced; merely switching
+a Blaster Rifle to autofire does not qualify. The user-approved stock reading
+requires an extended retractable stock for Pistols, while Heavy Weapons and
+Rifles qualify without one. A folded retractable stock disallows bracing under
+its own explicit rule. No alternate stock-requirement setting was added.
+
+The Brace checkbox declares two Swift Actions immediately before firing. It
+replaces other bracing and Aim declarations. Only the first actual attack of a
+routine can benefit, even if it misses; attacking with a different weapon first
+loses the declaration. Bracing changes the autofire/Burst Fire penalty to −2,
+without changing ammunition cost, area shape, damage dice or critical rules.
+Reloading, stock/mode/equipment changes, Aim, Mighty Swing, Second Wind, Rage,
+Recover, Bellow, Force actions, knockout, death and time resets clear bracing.
+Routine preflight failures do not consume it. Untracked actions and game-time
+passage still need manual clearing; this does not claim a complete turn tracker.
+
+**User-resolved ambiguity: braced Burst Fire below Strength 13.** Attacks says
+bracing imposes only −2, including Burst Fire; Burst Fire says to increase its
+penalty to −10 below Strength 13. The user chose −2 by default and approved a
+saved Ambiguities alternative retaining −10. Both exact passages are embedded.
+The alternative has no effect without bracing or on ordinary autofire.
+
+Validation: 196 JavaScript and 19 Python tests, rules validation, offline rebuild
+and the complete browser suite pass. Dedicated browser checks verify the stock
+reading's supported Core weapons, declaration replacement, first-attack use,
+reload/Aim clearing, the saved ambiguity, full source text, Dracula mobile layout
+and offline operation. Unit tests additionally verify folded-stock and Pistol
+requirements, misses, criticals, mixed-weapon routines, action interruptions and
+atomic resource failures.

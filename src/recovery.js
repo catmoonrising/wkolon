@@ -1,5 +1,6 @@
 import {counselingEnabled,ambiguityValue} from './house-rules.js';
 import {evalExpr} from './dice.js';
+import {clearBracing} from './attack-techniques.js';
 
 const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,ragesSpent:0,rageRounds:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
 export const recoveryState=c=>({...empty(),...c.recovery});
@@ -28,6 +29,7 @@ export function catchSecondWind(c,d,pack,roll=evalExpr){
  const forceRoll=wind.forceDice?roll(`${wind.forceDice}d${pack.rules.secondWind.forceRecovery.die}`):null;
  const extra=forceRoll?.value??0;
  if(!Number.isFinite(extra)||extra<0)throw new Error('Invalid Force Recovery roll');
+ clearBracing(c);
  const before=c.currentHP??d.hp,r=state(c);
  c.currentHP=Math.min(d.hp,before+wind.healing+extra);r.secondWindsSpent++;r.secondWindEncounter=true;
  if(wind.exhaustion)persistent(c,'second-wind');
@@ -36,6 +38,7 @@ export function catchSecondWind(c,d,pack,roll=evalExpr){
 export function startRage(c,d){
  const rage=d.recovery.rage;
  if(!rage||rage.active||!rage.remaining||d.incapacitated)throw new Error('Rage unavailable');
+ clearBracing(c);
  const r=state(c);r.ragesSpent++;r.rageRounds=rage.duration;
 }
 export function endRage(c){
@@ -49,13 +52,15 @@ export function advanceRage(c){
 }
 export function recoverCondition(c,d){
  if(!d.recovery.recoverable)throw new Error('Recover unavailable');
+ clearBracing(c);
  c.condition--;
 }
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){state(c).secondWindEncounter=false;if(c.mightySwing!==undefined)c.mightySwing=false;}
+export function newEncounter(c){clearBracing(c);state(c).secondWindEncounter=false;if(c.mightySwing!==undefined)c.mightySwing=false;}
 export function newDay(c,pack){
+ clearBracing(c);
  if(c.mightySwing!==undefined)c.mightySwing=false;
  const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.naturalHealingUsed=false;
  const regrown=[];
@@ -71,7 +76,7 @@ export function setPersistent(c,cause,on){
 }
 export function setDead(c,on){
  state(c).dead=on;
- if(on){c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;if(c.mightySwing!==undefined)c.mightySwing=false;}
+ if(on){clearBracing(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;if(c.mightySwing!==undefined)c.mightySwing=false;}
 }
 export function receiveHealing(c,d,pack,amount){
  if(!Number.isInteger(amount)||amount<1||amount>100000)throw new Error('Enter healing from 1 to 100,000');
@@ -84,6 +89,7 @@ export function receiveHealing(c,d,pack,amount){
 }
 export function restEightHours(c,d,pack){
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
+ clearBracing(c);
  if(c.mightySwing!==undefined)c.mightySwing=false;
  if(recoveryState(c).rageRounds)endRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;
@@ -109,6 +115,7 @@ export function checkConsciousness(c,d,pack,roller=evalExpr){
  return {rolled,success,dead};
 }
 export function recordKnockout(c,type='normal'){
+ clearBracing(c);
  if(c.recovery===undefined&&type!=='stun')return;
  const r=state(c);r.stunUnconscious=type==='stun';r.unconsciousRetry=false;
 }

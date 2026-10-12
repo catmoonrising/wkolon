@@ -1,4 +1,5 @@
 import {createCreationOptions} from './creation-options.js';
+import {declareBracing,clearBracing} from './attack-techniques.js';
 import {createForcePowers} from './force-powers-ui.js';
 import {createHouseRules} from './house-rules.js';
 import {equipmentFamilies,resolveEquipment,purchaseQuote,startingEquipmentGrants,claimStartingEquipment,canRollStartingCredits} from './equipment.js';
@@ -212,11 +213,11 @@ function attackTable(scope='') {
   }).join('')}</tbody></table></div>${calculations(scope+'attack-calculations',derived.attacks.map(a=>[a.name,a.breakdown]))}`;
 }
 function attackOptions(a,i,index,scope){
- if(!a.technique.choices.length&&!a.mightySwingAvailable)return '';
+ if(!a.technique.choices.length&&!a.mightySwingAvailable&&!a.autofireOnly)return '';
  const attrs=a.id===UNARMED_ID?'data-unarmed-technique':`data-inventory="attackTechnique" data-index="${index}"`;
  const choices=a.technique.choices.length?`<label>Technique <select ${attrs} aria-label="${escape(a.name)} technique">${option('normal','Normal',a.technique.selected)}${a.technique.choices.map(t=>option(t.id,t.name,a.technique.selected,!t.available)).join('')}</select></label>`:'';
  const selected=a.technique.choices.find(t=>t.id===a.technique.selected);
- return `<details id="${scope}attack-options-${i}"><summary>Options</summary>${choices}${selected?ruleReference(pack.feats.find(f=>f.id===selected.featId),'ⓘ',null,scope+'technique-'+i):''}${a.mightySwingAvailable?`<label class="checkbox" title="${pack.rules.mightySwing.swiftActions} Swift Actions; same round"><input type="checkbox" data-mighty-swing ${current().mightySwing?'checked':''} ${derived.incapacitated?'disabled':''}>Mighty Swing</label>${ruleReference(ix.feats.get('feat:mighty-swing'),'ⓘ',null,scope+'mighty-swing-'+i)}`:''}</details>`;
+ return `<details id="${scope}attack-options-${i}"><summary>Options</summary>${choices}${selected?ruleReference(pack.feats.find(f=>f.id===selected.featId),'ⓘ',null,scope+'technique-'+i):''}${a.autofireOnly?`<label class="checkbox" title="${escape(a.bracing.reason||'2 Swift Actions immediately before firing')}"><input type="checkbox" data-inventory="braced" data-index="${index}" ${a.braced?'checked':''} ${derived.incapacitated||!a.bracing.available?'disabled':''}>Brace</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:bracing'),'ⓘ',null,scope+'brace-'+i)}`:''}${a.mightySwingAvailable?`<label class="checkbox" title="${pack.rules.mightySwing.swiftActions} Swift Actions; same round"><input type="checkbox" data-mighty-swing ${current().mightySwing?'checked':''} ${derived.incapacitated?'disabled':''}>Mighty Swing</label>${ruleReference(ix.feats.get('feat:mighty-swing'),'ⓘ',null,scope+'mighty-swing-'+i)}`:''}</details>`;
 }
 function ammunitionControls(r,e,i,scope){
  const p=ammunitionProfile(e,pack);if(!p)return '';
@@ -583,7 +584,7 @@ function events() {
     }
 
     if(el.hasAttribute('data-unarmed-technique')){if(!['normal','rapid-strike'].includes(el.value))return;c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers.attackTechnique=el.value;changed();return;}
-    if(el.hasAttribute('data-mighty-swing')){c.mightySwing=el.checked;changed();return;}
+    if(el.hasAttribute('data-mighty-swing')){c.mightySwing=el.checked;if(el.checked){clearBracing(c);for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;}changed();return;}
     if(el.dataset.unarmedModifier){const n=Number(el.value);if(!Number.isInteger(n)||n<-100||n>100){notify('Enter a valid modifier.');render();return;}c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers[el.dataset.unarmedModifier]=n;changed();return;}
     if(el.dataset.skillModifier){const n=Number(el.value);if(!Number.isInteger(n)||n<-1000||n>1000){notify('Enter a valid modifier.');render();return;}c.skillModifiers??={};c.skillModifiers[el.dataset.skillModifier]=n;changed();return;}
     if(el.hasAttribute('data-flat-footed')){c.flatFooted=el.checked;changed();return;}
@@ -663,6 +664,7 @@ function events() {
       l.abilityIncreases=l.abilityIncreases.map(v=>v||'');
     } else if(el.dataset.inventory) {
       const e=c.inventory[Number(el.dataset.index)];
+      if(el.dataset.inventory==='braced'){try{declareBracing(c,pack,e.uid,el.checked);}catch(err){notify(err.message);}changed();return;}
       if(['attackMod','damageMod'].includes(el.dataset.inventory)&&el.dataset.number==='true'&&(!Number.isInteger(Number(el.value))||Number(el.value)<-100||Number(el.value)>100)) {notify('Attack and damage modifiers must be whole numbers from −100 to 100.');render();return;}
       if(['attackMod','damageMod'].includes(el.dataset.inventory)&&(!Number.isInteger(Number(el.value))||Number(el.value)<-100||Number(el.value)>100)){notify('Enter a valid modifier.');render();return;}
       if(el.dataset.inventory==='equipped'&&el.checked)e.carried=true;
@@ -683,6 +685,7 @@ function events() {
       if(el.dataset.inventory==='attackTechnique'&&ix.equipment.get(e.id).autofire&&!ix.equipment.get(e.id).autofireOnly){if(val==='burst-fire')e.fireMode='autofire';else if(val==='rapid-shot')e.fireMode='single';}
       if(el.dataset.inventory==='fireMode')delete e.attackTechnique;
       if(['scopeUid','stockPosition','fireMode'].includes(el.dataset.inventory))e.aimed=false;
+      if(['stockPosition','fireMode','damageSetting','ammunitionId','weaponMode','equipped','carried','scopeUid'].includes(el.dataset.inventory)||el.dataset.inventory==='aimed'&&val)clearBracing(c);
       if(el.dataset.inventory==='aimed'&&val)c.inventory.filter(other=>other!==e&&ix.equipment.get(other.id).kind==='weapon').forEach(other=>other.aimed=false);
       if(el.dataset.inventory==='weaponMode'&&!ix.equipment.get(e.id).modes.find(m=>m.id===val).thrown)delete e.attackStyle;
     } else return;

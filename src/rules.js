@@ -7,7 +7,7 @@ import {unarmedWeapon,weaponRange,canAim} from './weapon-rules.js';
 import {ammunitionState,validateAmmunition} from './ammunition.js';
 import {carryingLimits} from './species-rules.js';
 import {recoveryState,recoveryDetails,validateRecovery} from './recovery.js';
-import {attackTechnique,extraDamageDice,validateAttackTechnique} from './attack-techniques.js';
+import {attackTechnique,extraDamageDice,validateAttackTechnique,bracingState,validateBracing} from './attack-techniques.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 export const GROUPS = WEAPON_GROUPS;
 export const modifier = score => Math.floor((score - 10) / 2);
@@ -86,6 +86,7 @@ export function validateCharacter(c, pack) {
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
   c.inventory.forEach(e=>validateAmmunition(e,pack,bad));
   c.inventory.forEach(e=>validateAttackTechnique(e,pack,bad));
+  validateBracing(c,pack,bad);
   validateStartingEquipment(c,pack,bad);
   validateAttachments(c,pack,bad);
   if(c.mechanicalSkills!==undefined&&!skillList(c.mechanicalSkills))bad('mechanical tool checks');
@@ -361,7 +362,8 @@ export function derive(c, pack) {
     const aimed=!!e.aimed&&canAim(w,e),accessories=pack.rules.weaponAccessories;
     const aimBonus=aimed&&featHas('careful-shot')?accessories.carefulShotBonus:0;
     const grip=w.group==='rifles'&&e.oneHanded?accessories.rifleOneHandedPenalty:0;
-    const firePenalty=technique.selected==='normal'?(autofire?-5:0):technique.penalty;
+    const unBracedPenalty=technique.selected==='normal'?(autofire?-5:0):technique.penalty;
+    const bracing=bracingState(w,e,pack,c,technique),firePenalty=bracing.penalty??unBracedPenalty;
     const criticalMultiplier=Math.max(pack.rules.combat.criticalMultiplier,...effects.filter(f=>f.target==='criticalMultiplier'&&f.selection.choice===w.id).map(f=>f.amount));
     const meleeBonus = total('meleeDamage',w);
     const rage=w.mode==='melee'?rageBonus:0;
@@ -373,11 +375,12 @@ export function derive(c, pack) {
     const display=dice=>dice?dice+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
     const unAimedRange=weaponRange(w,{...e,aimed:false},pack,featHas,c);
     return {...w,name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,ammunition,technique,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,issue:technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:technique.available&&range.available&&(!ammunition||ammunition.available),
-      attack,aimed,ignoresCover:aimed,ignoresDarkness:aimed&&!!attachedScope(e,c,pack)?.scope.ignoresDarkness,
+      attack,aimed,bracing,braced:bracing.active,ignoresCover:aimed,ignoresDarkness:aimed&&!!attachedScope(e,c,pack)?.scope.ignoresDarkness,
+      ...(bracing.active?{unBraced:{braced:false,attack:attack-firePenalty+unBracedPenalty}}:{}),
       ...(aimed?{unAimed:{aimed:false,attack:attack-aimBonus-range.penalty+unAimedRange.penalty,damage:extraDamageDice(w.damage,technique.extraDice),damageDisplay:display(extraDamageDice(w.damage,technique.extraDice)),ignoresCover:false,ignoresDarkness:false}}:{}),
       ...(mightySwing?{unSwing:{mightySwing:false,damage:extraDamageDice(w.damage,technique.extraDice),damageDisplay:display(extraDamageDice(w.damage,technique.extraDice))}}:{}),
       damageBonus, damageDisplay:display(damage),
-      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} ${technique.selected==='normal'?'autofire':technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected}${grip?' + '+grip+' one-handed':''}${aimBonus?' + '+aimBonus+' Careful Shot':''}${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${technique.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}${diceBonus?'; +'+diceBonus+' damage '+(diceBonus===1?'die':'dice'):''}${aimed?'; Aim: ignores cover':''}`};
+      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} ${bracing.active?'Bracing':technique.selected==='normal'?'autofire':technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected}${grip?' + '+grip+' one-handed':''}${aimBonus?' + '+aimBonus+' Careful Shot':''}${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${technique.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}${diceBonus?'; +'+diceBonus+' damage '+(diceBonus===1?'die':'dice'):''}${aimed?'; Aim: ignores cover':''}`};
   });
   const missingAssignments=c.abilityGeneration && Object.values(c.abilityGeneration.assign).some(i=>i===null);
   if (missingAssignments) issues.push('Assign all six ability scores');

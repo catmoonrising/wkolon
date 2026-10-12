@@ -2,6 +2,7 @@ import {ambiguityValue} from './house-rules.js';
 import {rollRoutine} from './combat.js';
 import {evalExpr} from './dice.js';
 import {recordKnockout} from './recovery.js';
+import {clearBracing} from './attack-techniques.js';
 
 export function bellowDetails(c,d,pack,extraDice=0){
  const rule=pack.species.find(s=>s.id===c.species)?.bellow;
@@ -19,6 +20,7 @@ export function rollBellow(c,d,pack,extraDice=0,manualDamage=null,roller=evalExp
  const attack={uid:c.id,name:'Bellow',attack:b.attack,damage:b.manual?String(manualDamage):b.damage,damageDisplay:b.manual?String(manualDamage):b.damage,areaType:'burst'};
  const result=rollRoutine({name:`Bellow (${b.damage}${b.manual?'; entered damage':''})`,steps:[{attackId:c.id,count:1,attackMod:0,damageMod:0}]},[attack],pack.rules.combat,roller,'Fortitude');
  c.condition=Math.min(5,c.condition+b.cost);
+ clearBracing(c);
  if(c.condition===5)recordKnockout(c);
  return {...result,cost:b.cost};
 }
