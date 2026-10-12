@@ -23,6 +23,9 @@ module.exports=async function checkCombat(browser,base,root){
   await damage(15,true);assert.equal(await value('currentHP'),'22');assert.equal(await value('protection.sr'),'5');
   assert.equal(await page.locator('#condition-level').inputValue(),'0');
   await set(field('xp'),500);assert.equal(await page.locator('.xp-bar .resource-fill').evaluate(el=>el.style.width),'50%');
+  assert.equal(await page.locator('.xp-meter').evaluate(el=>el.getBoundingClientRect().height),6);
+  assert.equal(await page.locator('.xp-meter .resource-fill').evaluate(el=>el.getBoundingClientRect().height),4);
+  assert.equal(await page.locator('.xp-meter').getAttribute('aria-valuenow'),'50');
   await set(field('darkSideScore'),5);assert.equal(await page.locator('.dark-side-bar .resource-fill').evaluate(el=>el.style.width),'50%');
   await set(field('forcePoints'),3);assert.equal(await page.locator('.force-bar .resource-fill').evaluate(el=>el.style.width),'60%');
   await page.locator('[data-combat="add-routine"]').click();await page.locator('[data-routine-field="name"]').fill('Double shot');

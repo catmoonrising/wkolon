@@ -16,7 +16,7 @@ export function healthBars(c,d){
 export function xpBar(c,d,rules){
  const floor=d.level*(d.level-1)/2*rules.xpStep,next=d.nextXP;
  const fill=next===null?100:percent(c.xp-floor,next-floor);
- return `<div class="resource-bar xp-bar"><div class="resource-fill" style="width:${fill}%"></div><span class="resource-label">XP ${input('xp',c.xp,'Experience points',1000000000)}${next===null?'':`<span>/</span><span>${next.toLocaleString()}</span>`}</span></div>`;
+ return `<div class="xp-bar xp-group"><div class="xp-meter" role="progressbar" aria-label="XP progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(fill)}"><div class="resource-fill" style="width:${fill}%"></div></div><label>XP ${input('xp',c.xp,'Experience points',1000000000)}${next===null?'':`<span>/</span><span>${next.toLocaleString()}</span>`}</label></div>`;
 }
 export function createCombatControls(pack,{current,derived,changed,save,log,error}){
  function run(routine){
