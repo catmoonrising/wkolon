@@ -35,6 +35,8 @@
   - [x] Bracing: pistol-only extended-stock requirement; next-attack use and saved low-Strength Burst Fire alternative.
   - [x] Power Attack: turn-long melee penalty, size-relative two-handed damage and object/vehicle exclusions.
   - [x] Switchable Stun/Autofire exclusivity and the printed autofire-only Stun exception.
+  - [x] Full Attacks: two weapons/double weapons, Double/Triple Attack, combined penalties, order, ammo and printed previews.
+  - [x] Dual Weapon Mastery ranks and the saved mixed-proficiency alternative in Ambiguities.
   - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 

@@ -323,5 +323,6 @@ const server=http.createServer((req,res)=>{
   await require('./attack-techniques-checks.cjs')(browser,base,root);
   await require('./bracing-checks.cjs')(browser,base,root);
   await require('./power-attack-checks.cjs')(browser,base,root);
+  await require('./full-attacks-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});

@@ -1,5 +1,6 @@
 import {evalExpr,totalHtml} from './dice.js';
 import {escapeHTML as escape} from './wiki-content.js';
+import {FULL_ATTACK_SOURCES,planFullAttack} from './full-attacks.js';
 
 const uuid=id=>typeof id==='string'&&/^[a-f0-9-]{36}$/.test(id);
 const integer=(n,min,max)=>Number.isInteger(n)&&n>=min&&n<=max;
@@ -10,6 +11,11 @@ export function prepareCombatState(c){
  return c;
 }
 export function validateCombatState(c,bad){
+ if(c.fullAttackPenalties!==undefined){
+  const p=c.fullAttackPenalties;
+  if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['twoWeapons','doubleAttack','tripleAttack'].includes(k))||
+    !['twoWeapons','doubleAttack','tripleAttack'].every(k=>[0,...(k==='twoWeapons'?[-2,-5,-10]:[-5])].includes(p[k])))bad('Full Attack penalties');
+ }
  for(const key of ['xp','darkSideScore'])if(c[key]!==undefined&&!integer(c[key],0,1000000000))bad(key);
  const uids=c.inventory.filter(i=>i.uid!==undefined).map(i=>i.uid);
  if(uids.some(id=>!uuid(id)||id===c.id)||new Set(uids).size!==uids.length)bad('inventory IDs');
@@ -21,12 +27,15 @@ export function validateCombatState(c,bad){
  if(!Array.isArray(c.routines)||c.routines.length>20)bad('routines');
  const ids=new Set();
  for(const r of c.routines){
-  if(!r||Object.keys(r).some(k=>!['id','name','steps'].includes(k))||!uuid(r.id)||ids.has(r.id)||typeof r.name!=='string'||r.name.length>200||!Array.isArray(r.steps)||r.steps.length>50)bad('routine');
+  if(!r||Object.keys(r).some(k=>!['id','name','steps','kind'].includes(k))||r.kind!==undefined&&r.kind!=='fullAttack'||!uuid(r.id)||ids.has(r.id)||typeof r.name!=='string'||r.name.length>200||!Array.isArray(r.steps)||r.steps.length>50)bad('routine');
   ids.add(r.id);let count=0;
   for(const s of r.steps){
-   if(!s||Object.keys(s).some(k=>!['id','attackId','count','attackMod','damageMod'].includes(k))||!uuid(s.id)||ids.has(s.id)||!uuid(s.attackId)||!integer(s.count,1,20)||!integer(s.attackMod,-1000,1000)||!integer(s.damageMod,-1000,1000))bad('routine step');
+   if(!s||Object.keys(s).some(k=>!['id','attackId','count','attackMod','damageMod','source'].includes(k))||
+     (r.kind==='fullAttack'?!FULL_ATTACK_SOURCES.includes(s.source)||s.count!==1:s.source!==undefined)||
+     !uuid(s.id)||ids.has(s.id)||!uuid(s.attackId)||!integer(s.count,1,20)||!integer(s.attackMod,-1000,1000)||!integer(s.damageMod,-1000,1000))bad('routine step');
    ids.add(s.id);count+=s.count;
   }
+  if(r.kind==='fullAttack'&&(r.steps.filter(s=>s.source==='base').length!==1||new Set(r.steps.map(s=>s.source)).size!==r.steps.length))bad('Full Attack sources');
   if(count>100)bad('maximum 100 attacks per routine');
  }
 }
@@ -62,6 +71,10 @@ export function defenseRangeRows(results){
  return rows;
 }
 const signed=n=>n>=0?'+'+n:String(n);
+export function rollCombatRoutine(routine,d,pack,roller=evalExpr){
+ const plan=planFullAttack(routine,d,pack),result=rollRoutine(plan.routine,plan.attacks,pack.rules.combat,roller);
+ return {...result,...(plan.penalties?{fullAttackPenalties:plan.penalties}:{})};
+}
 export function routinePlan(routine,attacks){
  if(!routine.steps.length)throw new Error('Add an attack');
  const spending=new Map();

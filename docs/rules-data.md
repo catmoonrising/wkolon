@@ -507,3 +507,33 @@ Stun and Autofire are mutually exclusive except for autofire-only weapons. State
 changes choose a single setting. Saved incompatible combinations pass structural
 validation for recovery, but cannot resolve an attack. This is separate from
 ammo preflight, damage type and the six-square Stun range.
+
+### Full Attacks
+
+`rules.fullAttacks` pins Full Attacks 27404, Double Attack 24946, Triple Attack
+24947, Dual Weapon Mastery I/II/III 24945/18125/18127 and Weapon Sizes 6153.
+The closed mapping declares a Full-Round Action, one base attack, −10 for two
+weapons, −5 each for Double and Triple Attack, the three Mastery penalties
+(−5/−2/0), and expiry at the start of the next turn.
+
+A routine can save `kind: fullAttack`. Each of its steps has count 1 and a unique
+`source: base | twoWeapons | doubleAttack | tripleAttack`. A base step is required;
+an extra step is required to run. Weapon references remain physical inventory
+UUIDs. Source names do not impose resolution order. Extra feat attacks must match
+an owned, eligible chosen weapon group or specific exotic weapon. A repeated feat
+with another group provides another eligible choice, rather than another copy
+of the same attack source. The Two weapons source requires two one-handed weapons
+or both ends of the same double weapon. Rifle one-handed penalties remain separate.
+
+Optional character `fullAttackPenalties` stores the three source penalties until
+Next turn. A subsequent attack retains them, and using a source again does not
+duplicate its penalty. The roll pipeline preflights the complete plan and aggregate
+ammunition before dice; resource application rechecks all loaded counters before
+recording the turn penalties. Printed previews use the same plan without mutation.
+Ordinary routines retain their flexible count/modifier format and grant no actions.
+
+`ambiguity:dual-weapon-proficiency` defaults to `both-weapons`. The user-approved
+`either-weapon` reading permits Mastery if either weapon in the pair is proficient.
+The separate −5 penalty on an unproficient weapon remains in both readings.
+Untracked actions, extra limbs, weapon swapping and encounter timing remain player
+declarations; this is not a complete action-budget or hand-occupancy tracker.

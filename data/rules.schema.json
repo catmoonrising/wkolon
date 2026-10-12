@@ -955,6 +955,67 @@
               "const": true
             }
           }
+        },
+        "fullAttacks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "action",
+            "baseAttacks",
+            "twoWeaponPenalty",
+            "extraAttackPenalty",
+            "doubleFeat",
+            "tripleFeat",
+            "mastery",
+            "duration"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "action": {
+              "const": "full-round-action"
+            },
+            "baseAttacks": {
+              "const": 1
+            },
+            "twoWeaponPenalty": {
+              "const": -10
+            },
+            "extraAttackPenalty": {
+              "const": -5
+            },
+            "doubleFeat": {
+              "const": "feat:double-attack"
+            },
+            "tripleFeat": {
+              "const": "feat:triple-attack"
+            },
+            "mastery": {
+              "const": [
+                {
+                  "featId": "feat:dual-weapon-mastery-i",
+                  "penalty": -5
+                },
+                {
+                  "featId": "feat:dual-weapon-mastery-ii",
+                  "penalty": -2
+                },
+                {
+                  "featId": "feat:dual-weapon-mastery-iii",
+                  "penalty": 0
+                }
+              ]
+            },
+            "duration": {
+              "const": "until-next-turn"
+            }
+          }
         }
       },
       "required": [

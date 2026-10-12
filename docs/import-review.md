@@ -568,3 +568,36 @@ and a specific reason until the player changes the setting. Autofire-only
 weapons retain the explicit Stun exception, their six-square Stun range and
 normal Autofire area/ammunition rules. No Core weapon is given a new Stun
 setting; a fixture verifies the exception for future official imports.
+
+## Full Attacks
+
+Fresh API captures confirm Full Attacks 27404, Double Attack 24946, Triple Attack
+24947 and Dual Weapon Mastery I/II/III 24945/18125/18127. Their verbatim articles
+and prerequisite links are bundled. Full Attack is a separate structured routine
+type: one base attack plus explicitly selected extra sources. Source order is
+independent of resolution order. Two one-handed weapons or both ends of a double
+weapon grant one extra attack; more armed weapons do not grant more two-weapon
+attacks. Double and Triple Attack choices remain bound to their groups or exotic
+weapons. Each source is used at most once, and Triple Attack requires the Double
+Attack source. All selected penalties combine and remain on every subsequent
+attack until the start of the next turn, including special attack rolls.
+
+Mastery ranks reduce the two-weapon penalty to −5/−2/0. They do not reduce the
+separate Double/Triple Attack penalties, nonproficiency, or one-handed rifle
+penalties. Power Attack and the other configured attack techniques keep their
+existing rules. Complete preflight occurs before dice and state mutation;
+ammunition failures cannot record a turn penalty. Stat blocks preview the same
+modifiers without executing the routine. Action costs and physical hand changes
+remain player declarations, as with existing Aim and Bracing controls.
+
+**User-resolved ambiguity: mixed weapon proficiency.** Mastery says its penalty
+applies to all attacks but conditions the reduction on wielding “a weapon” with
+which the character is proficient. The default requires proficiency with both
+weapons in the pair. The user approved an Ambiguities alternative requiring either
+weapon. Neither interpretation removes the separate nonproficiency penalty.
+
+Validation: 214 JavaScript and 19 Python tests, rules validation, an offline
+presentation rebuild and the complete browser suite pass. Dedicated Chromium
+and Firefox checks cover source selection/order, grip failures, aggregate ammo
+preflight, turn-long penalties/reset, the saved ambiguity, printed previews,
+Dracula mobile layout and complete offline reload.

@@ -43,4 +43,5 @@ export function spendAttackResources(c,result){
  for(const uid of result.aimConsumed||[]){const entry=c.inventory.find(e=>e.uid===uid);if(entry)entry.aimed=false;}
  if(result.mightySwingConsumed)c.mightySwing=false;
  if(result.bracingConsumed)clearBracing(c);
+ if(result.fullAttackPenalties)c.fullAttackPenalties={...result.fullAttackPenalties};
 }

@@ -4313,6 +4313,15 @@
       "sha256": "a2e296f1e1955662e8a4d564d2207e1c1c3735ae3f9fd2d9c8027339273fac88",
       "url": "https://swse.miraheze.org/w/index.php?oldid=6153#Weapon_Sizes",
       "history": "https://swse.miraheze.org/w/index.php?title=Category%3AWeapons&action=history"
+    },
+    {
+      "id": "source:wiki-full-attacks",
+      "title": "Full Attacks",
+      "revision": 27404,
+      "timestamp": "2026-05-19T10:22:42Z",
+      "sha256": "08441503966a58780ca5056dde78d553a95cc9d8c6eda4118251e7fd25eecce4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27404",
+      "history": "https://swse.miraheze.org/w/index.php?title=Full_Attacks&action=history"
     }
   ],
   "species": [
@@ -11240,6 +11249,40 @@
             "name": "Burst Fire (−10)"
           }
         ]
+      },
+      {
+        "id": "ambiguity:dual-weapon-proficiency",
+        "name": "Dual Weapon Mastery proficiency",
+        "sourceIds": [
+          "source:wiki-dual-weapon-mastery-i",
+          "source:wiki-dual-weapon-mastery-ii",
+          "source:wiki-dual-weapon-mastery-iii"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:dual-weapon-mastery-i",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:dual-weapon-mastery-ii",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:dual-weapon-mastery-iii",
+            "fullText": true
+          }
+        ],
+        "default": "both-weapons",
+        "options": [
+          {
+            "value": "both-weapons",
+            "name": "Both weapons"
+          },
+          {
+            "value": "either-weapon",
+            "name": "Either weapon"
+          }
+        ]
       }
     ],
     "forceTalentAccess": {
@@ -11531,6 +11574,38 @@
         "stun"
       ],
       "autofireOnlyStun": true
+    },
+    "fullAttacks": {
+      "sourceIds": [
+        "source:wiki-full-attacks",
+        "source:wiki-double-attack",
+        "source:wiki-triple-attack",
+        "source:wiki-dual-weapon-mastery-i",
+        "source:wiki-dual-weapon-mastery-ii",
+        "source:wiki-dual-weapon-mastery-iii",
+        "source:wiki-category-weapons-weapon-sizes"
+      ],
+      "action": "full-round-action",
+      "baseAttacks": 1,
+      "twoWeaponPenalty": -10,
+      "extraAttackPenalty": -5,
+      "doubleFeat": "feat:double-attack",
+      "tripleFeat": "feat:triple-attack",
+      "mastery": [
+        {
+          "featId": "feat:dual-weapon-mastery-i",
+          "penalty": -5
+        },
+        {
+          "featId": "feat:dual-weapon-mastery-ii",
+          "penalty": -2
+        },
+        {
+          "featId": "feat:dual-weapon-mastery-iii",
+          "penalty": 0
+        }
+      ],
+      "duration": "until-next-turn"
     }
   },
   "heroicTraits": {

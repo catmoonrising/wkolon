@@ -4,6 +4,7 @@ import {escapeHTML as escape} from './wiki-content.js';
 import {resolveEquipment} from './equipment.js';
 import {choiceName} from './feature-choices.js';
 import {persistentName} from './recovery.js';
+import {planFullAttack} from './full-attacks.js';
 
 // Formatting reference: Darth Vader, wiki revision 25962. All values come from
 // the saved character and Saga derivation, never from the reference NPC.
@@ -23,10 +24,12 @@ export function renderStatBlock(c,d,pack){
  const condition=c.condition===5?`Helpless (${species.isDroid?'Disabled':'Unconscious'})`:c.condition?`${signed(pack.rules.conditionPenalties[c.condition])} Penalty${c.condition===4?'; Move at Half Speed':''}`:'';
  const attackText=(a,attackMod=0,damageMod=0)=>`${escape(a.name)} ${signed(a.attack+attackMod)} (${escape(a.damageDisplay)}${damageMod?signed(damageMod):''}${a.criticalMultiplier>2&&!a.areaType?`; ×${a.criticalMultiplier} critical`:''})`;
  const attacks=d.attacks.map(a=>line(a.mode==='melee'?'Melee':'Ranged',attackText(a))).join('');
- const routines=(c.routines||[]).filter(r=>r.steps.length).map(r=>line(escape(r.name||'Routine'),r.steps.map(s=>{
-  const a=d.attacks.find(a=>a.uid===s.attackId);
+ const routines=(c.routines||[]).filter(r=>r.steps.length).map(r=>{
+  let plan;try{plan=planFullAttack(r,d,pack);}catch(e){return line(escape(r.name||'Routine'),escape(e.message));}
+  return line(escape(r.name||'Routine'),r.steps.map(s=>{
+  const a=plan.attacks.find(a=>a.uid===s.attackId);
   return `${s.count>1?s.count+' × ':''}${a?attackText(a,s.attackMod,s.damageMod):'Attack unavailable'}`;
- }).join(' and '))).join('');
+ }).join(' and '));}).join('');
  const story=c.story?.kind!=='none'&&ix[c.story?.kind==='destiny'?'destinies':'backgrounds']?.get(c.story?.id);
  const traits=TRAIT_FIELDS.filter(([key])=>c.heroicTraits?.[key]).map(([key,label])=>textLine(label,c.heroicTraits[key])).join('');
  return `<article class="stat-block"><h1>${escape(c.name||'Unnamed hero')} <span>(CL ${d.level})</span></h1>

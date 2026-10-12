@@ -43,7 +43,7 @@ critically multiply damage. Area rolls below 10 miss everyone; other area misses
 deal half damage, rounded down. Separate columns show Evasion, cover and splash. Weapon
 hits deal at least 1 damage before protection. The summary shows total damage
 against each Reflex Defense interval before target DR/SR. Individual rolls stay
-in a disclosure. A routine configures a sequence; it does not grant extra attacks
+in a disclosure. An ordinary routine configures a sequence; it does not grant extra attacks
 or waive action costs, range, cover or multiattack penalties. Step modifiers let
 the user enter those circumstances. Force-power routines, target ion/stun effects and other special resolutions remain
 manual. Net has no damaging routine resolution. Unresolved grenade ammunition
@@ -52,6 +52,16 @@ and unavailable range block the complete routine before any roll.
 The UI reuses pmcrwf's named routine fieldsets, attack counts, one-click Run,
 damage-by-defense summary and folded individual rolls. SR and DR are graphical
 layers above HP: current/max SR, and persistent DR measured relative to max HP.
+
+Full Attack routines select one base weapon and one weapon for each enabled
+extra source: Two weapons, Double Attack and Triple Attack. The sources may be
+reordered freely. The Two weapons source permits two one-handed weapons or both
+ends of a double weapon; the feat sources use their chosen groups/exotic weapons.
+The preview displays the combined attack penalty. Running records that penalty
+on all attacks until Next turn, while ammunition, hits and criticals use the
+ordinary routine pipeline. The saved mixed-proficiency interpretation is in
+House Rules → Ambiguities. Action costs and physical weapon handling remain
+player declarations.
 
 ## Resource bars and print
 

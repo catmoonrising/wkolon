@@ -214,6 +214,13 @@ export function validatePack(p) {
   assert.deepEqual(power.sourceIds,[ix.feats.get(power.featId)?.sourceId,'source:wiki-category-weapons-weapon-sizes'],'Invalid Power Attack sources');
   assert(power.sourceIds.every(id=>sources.has(id))&&p.rulePages.some(r=>r.id==='rule:weapon-sizes'&&r.sourceId===power.sourceIds[1]),'Missing weapon sizes passage');
   assert.deepEqual(power.excludedDamageTargets,['object','vehicle'],'Invalid Power Attack targets');
+  const full=p.rules.fullAttacks;
+  assert(full&&Object.keys(full).every(k=>['sourceIds','action','baseAttacks','twoWeaponPenalty','extraAttackPenalty','doubleFeat','tripleFeat','mastery','duration'].includes(k)),'Invalid Full Attack mapping');
+  assert(full.action==='full-round-action'&&full.baseAttacks===1&&full.twoWeaponPenalty===-10&&full.extraAttackPenalty===-5&&full.duration==='until-next-turn','Unsupported Full Attack rule');
+  assert(full.doubleFeat==='feat:double-attack'&&full.tripleFeat==='feat:triple-attack','Invalid extra attack feats');
+  assert.deepEqual(full.mastery,[{featId:'feat:dual-weapon-mastery-i',penalty:-5},{featId:'feat:dual-weapon-mastery-ii',penalty:-2},{featId:'feat:dual-weapon-mastery-iii',penalty:0}],'Invalid Dual Weapon Mastery');
+  assert.deepEqual(full.sourceIds,['source:wiki-full-attacks',ix.feats.get(full.doubleFeat)?.sourceId,ix.feats.get(full.tripleFeat)?.sourceId,...full.mastery.map(m=>ix.feats.get(m.featId)?.sourceId),'source:wiki-category-weapons-weapon-sizes'],'Invalid Full Attack sources');
+  assert(full.sourceIds.every(id=>sources.has(id))&&p.rulePages.some(r=>r.id==='rule:full-attacks'&&r.sourceId===full.sourceIds[0]),'Missing Full Attacks passage');
   const settings=p.rules.weaponSettings;
   assert(settings&&Object.keys(settings).every(k=>['sourceId','mutuallyExclusive','autofireOnlyStun'].includes(k))&&sources.has(settings.sourceId)&&settings.autofireOnlyStun===true,'Invalid weapon settings');
   assert.deepEqual(settings.mutuallyExclusive,['autofire','stun'],'Invalid alternate settings');

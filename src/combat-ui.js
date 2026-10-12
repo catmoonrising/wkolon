@@ -1,7 +1,8 @@
 import {escapeHTML as escape} from './wiki-content.js';
-import {rollRoutine,routineIssue} from './combat.js';
+import {rollCombatRoutine,routineIssue} from './combat.js';
 import {reloadWeapon,spendAttackResources} from './ammunition.js';
 import {applyIncomingDamage} from './incoming-damage.js';
+import {planFullAttack,FULL_ATTACK_NAMES} from './full-attacks.js';
 
 const input=(key,value,label,max=100000)=>`<input type="number" min="0" max="${max}" data-field="${key}" value="${value}" aria-label="${label}">`;
 const percent=(current,max)=>max>0?Math.max(0,Math.min(100,current/max*100)):0;
@@ -21,7 +22,11 @@ export function xpBar(c,d,rules){
 export function createCombatControls(pack,{current,derived,changed,save,log,error}){
  function run(routine){
   if(derived().incapacitated)return;
-  try{const result=rollRoutine(routine,derived().attacks,pack.rules.combat);spendAttackResources(current(),result);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}
+  try{
+   const result=rollCombatRoutine(routine,derived(),pack);
+   spendAttackResources(current(),result);
+   log('roll',result.text,result.html);changed();
+  }catch(e){error(e.message);}
  }
  const choices=(selected)=>{
   const attacks=derived().attacks;
@@ -29,7 +34,13 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
  };
  function renderRoutines(){
   const c=current(),d=derived();
-  return `<div id="routines-list">${c.routines.map(r=>`<fieldset data-routine="${r.id}"><legend><input data-routine-field="name" data-routine="${r.id}" value="${escape(r.name)}" maxlength="200" aria-label="Routine name"><button data-combat="run" data-routine="${r.id}" ${d.incapacitated||routineIssue(r,d.attacks)?'disabled':''} title="${escape(routineIssue(r,d.attacks))}">▶ Run</button><button data-combat="delete-routine" data-routine="${r.id}" aria-label="Delete routine">×</button></legend>${r.steps.map((s,i)=>`<div class="routine-step" data-routine="${r.id}" data-step-id="${s.id}"><div class="actions"><input type="number" min="1" max="20" value="${s.count}" data-routine-field="count" aria-label="Attack count">× <select data-routine-field="attackId" aria-label="Routine attack">${choices(s.attackId)}</select><button data-combat="move-up" aria-label="Move attack up" ${i===0?'disabled':''}>↑</button><button data-combat="move-down" aria-label="Move attack down" ${i===r.steps.length-1?'disabled':''}>↓</button><button data-combat="delete-step" aria-label="Remove attack">×</button></div><details id="routine-modifiers-${s.id}"><summary>Modifiers</summary><div class="actions"><label>Attack <input type="number" min="-1000" max="1000" value="${s.attackMod}" data-routine-field="attackMod" aria-label="Routine attack modifier"></label><label>Damage <input type="number" min="-1000" max="1000" value="${s.damageMod}" data-routine-field="damageMod" aria-label="Routine damage modifier"></label></div></details></div>`).join('')}<button data-combat="add-step" data-routine="${r.id}" ${!d.attacks.length||r.steps.length>=50||r.steps.reduce((n,s)=>n+s.count,0)>=100?'disabled':''}>+ Attack</button></fieldset>`).join('')}</div><button data-combat="add-routine" ${c.routines.length>=20?'disabled':''}>+ Routine</button>`;
+  const fieldsets=c.routines.map(r=>{
+   const full=r.kind==='fullAttack';let plan,issue;
+   try{plan=planFullAttack(r,d,pack);issue=routineIssue(r,plan.attacks);}catch(e){issue=e.message;}
+   const used=r.steps.map(s=>s.source),sources=[['twoWeapons',true],['doubleAttack',d.fullAttack.doubleChoices.length],['tripleAttack',d.fullAttack.tripleChoices.length&&used.includes('doubleAttack')]].filter(([s,on])=>on&&!used.includes(s));
+   return `<fieldset data-routine="${r.id}"><legend><input data-routine-field="name" data-routine="${r.id}" value="${escape(r.name)}" maxlength="200" aria-label="Routine name"><button data-combat="run" data-routine="${r.id}" ${d.incapacitated||issue?'disabled':''} title="${escape(issue||'')}">▶ Run</button><button data-combat="delete-routine" data-routine="${r.id}" aria-label="Delete routine">×</button></legend>${full?`<div class="actions"><a href="https://swse.miraheze.org/wiki/Full_Attacks" data-rule-page="rule:full-attacks">Full Attack</a>${plan?`<span title="Attack penalty until the start of your next turn">${plan.penalty<0?'−'+Math.abs(plan.penalty):'±0'}</span>`:''}${issue?`<span class="hint">${escape(issue)}</span>`:''}</div>`:''}${r.steps.map((s,i)=>`<div class="routine-step" data-routine="${r.id}" data-step-id="${s.id}"><div class="actions">${full?`<span>${FULL_ATTACK_NAMES[s.source]}</span>`:`<input type="number" min="1" max="20" value="${s.count}" data-routine-field="count" aria-label="Attack count">×`} <select data-routine-field="attackId" aria-label="${full?FULL_ATTACK_NAMES[s.source]+' weapon':'Routine attack'}">${choices(s.attackId)}</select><button data-combat="move-up" aria-label="Move attack up" ${i===0?'disabled':''}>↑</button><button data-combat="move-down" aria-label="Move attack down" ${i===r.steps.length-1?'disabled':''}>↓</button><button data-combat="delete-step" aria-label="Remove attack" ${full&&s.source==='base'?'disabled':''}>×</button></div><details id="routine-modifiers-${s.id}"><summary>Modifiers</summary><div class="actions"><label>Attack <input type="number" min="-1000" max="1000" value="${s.attackMod}" data-routine-field="attackMod" aria-label="Routine attack modifier"></label><label>Damage <input type="number" min="-1000" max="1000" value="${s.damageMod}" data-routine-field="damageMod" aria-label="Routine damage modifier"></label></div></details></div>`).join('')}${full?`<select data-full-source aria-label="Add extra attack" ${sources.length?'':'disabled'}><option value="">+ Attack</option>${sources.map(([s])=>`<option value="${s}">${FULL_ATTACK_NAMES[s]}</option>`).join('')}</select>`:`<button data-combat="add-step" data-routine="${r.id}" ${!d.attacks.length||r.steps.length>=50||r.steps.reduce((n,s)=>n+s.count,0)>=100?'disabled':''}>+ Attack</button>`}</fieldset>`;
+  }).join('');
+  return `<div id="routines-list">${fieldsets}</div><div class="actions"><button data-combat="add-routine" ${c.routines.length>=20?'disabled':''}>+ Routine</button><button data-combat="add-full-attack" ${c.routines.length>=20||!d.attacks.length?'disabled':''}>+ Full Attack</button>${d.fullAttack.penalty?'<button data-next-turn>Next turn</button>':''}</div>`;
  }
  function edit(el){
   if(!el.dataset.routineField)return false;
@@ -45,7 +56,18 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
  }
  return {renderRoutines,
   input(event){if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
-  change(el){if(el.hasAttribute('data-combat-cybernetic')){current().cybernetic=el.checked;changed();return true;}return edit(el);},
+  change(el){
+   if(el.hasAttribute('data-combat-cybernetic')){current().cybernetic=el.checked;changed();return true;}
+   if(el.hasAttribute('data-full-source')){
+    const r=current().routines.find(r=>r.id===el.closest('[data-routine]').dataset.routine),d=derived(),source=el.value;
+    if(r?.kind!=='fullAttack'||!['twoWeapons','doubleAttack','tripleAttack'].includes(source)||r.steps.some(s=>s.source===source))return true;
+    const base=d.attacks.find(a=>a.uid===r.steps.find(s=>s.source==='base')?.attackId),groups=source==='doubleAttack'?d.fullAttack.doubleChoices:d.fullAttack.tripleChoices;
+    const attack=source==='twoWeapons'?(base?.fullAttackGrip.double?base:d.attacks.find(a=>a.uid!==base?.uid&&a.fullAttackGrip.oneHanded)):
+      d.attacks.find(a=>groups.includes(a.group)||groups.includes(a.id));
+    r.steps.push({id:crypto.randomUUID(),source,attackId:(attack||d.attacks[0]).uid,count:1,attackMod:0,damageMod:0});changed();return true;
+   }
+   return edit(el);
+  },
   click(el){
    const action=el?.dataset.combat;if(!action)return false;
    if(action==='attack'){const a=derived().attacks.find(a=>a.uid===el.dataset.attackId);if(a)run({name:a.name,steps:[{attackId:a.uid,count:1,attackMod:0,damageMod:0}]});return true;}
@@ -56,11 +78,12 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
    const c=current(),r=c.routines.find(r=>r.id===el.closest('[data-routine]')?.dataset.routine);
    const stepIndex=r?.steps.findIndex(s=>s.id===el.closest('[data-step-id]')?.dataset.stepId);
    if(action==='add-routine'){if(c.routines.length>=20)return true;c.routines.push({id:crypto.randomUUID(),name:'',steps:[]});}
+   else if(action==='add-full-attack'){if(c.routines.length>=20||!derived().attacks.length)return true;c.routines.push({id:crypto.randomUUID(),name:'Full Attack',kind:'fullAttack',steps:[{id:crypto.randomUUID(),source:'base',attackId:derived().attacks[0].uid,count:1,attackMod:0,damageMod:0}]});}
    else if(!r)return true;
    else if(action==='run'){run(r);return true;}
    else if(action==='delete-routine')c.routines.splice(c.routines.indexOf(r),1);
-   else if(action==='add-step'){if(!derived().attacks.length||r.steps.length>=50||r.steps.reduce((n,s)=>n+s.count,0)>=100)return true;r.steps.push({id:crypto.randomUUID(),attackId:derived().attacks[0].uid,count:1,attackMod:0,damageMod:0});}
-   else if(action==='delete-step')r.steps.splice(stepIndex,1);
+   else if(action==='add-step'){if(r.kind==='fullAttack'||!derived().attacks.length||r.steps.length>=50||r.steps.reduce((n,s)=>n+s.count,0)>=100)return true;r.steps.push({id:crypto.randomUUID(),attackId:derived().attacks[0].uid,count:1,attackMod:0,damageMod:0});}
+   else if(action==='delete-step'){if(r.kind==='fullAttack'&&r.steps[stepIndex]?.source==='base')return true;r.steps.splice(stepIndex,1);}
    else if(action==='move-up'||action==='move-down'){const next=stepIndex+(action==='move-up'?-1:1);if(stepIndex<0||next<0||next>=r.steps.length)return true;[r.steps[stepIndex],r.steps[next]]=[r.steps[next],r.steps[stepIndex]];}
    changed();return true;
   },
