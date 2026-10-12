@@ -22,8 +22,10 @@ export function featureGraph(pack,options) {
   const owns=s=>{const prior=ix[type].get(s.id);return s.id===r.id||r.repeatGroup&&prior?.repeatGroup===r.repeatGroup&&(!r.weaponGroup||(prior.weaponGroup||s.choice)===r.weaponGroup);};
   node.records.push(r);node.available||=possible(r).length>0;node.owned||=possessed.some(owns);node.selected||=selected?.id===r.id;byId.set(r.id,key);
  }
- function condition(p) {
-  const key='condition:'+JSON.stringify(p);if(nodes.has(key))return key;
+ function condition(p,owner) {
+  // Repeat read-only requirements beside each option. Sharing a DEX/BAB label
+  // globally joins unrelated branches into one large, tangled component.
+  const key='condition:'+JSON.stringify(p)+':for:'+owner;if(nodes.has(key))return key;
   const choice=p.value==='$choice';let name,record;
   if(['feat','featChoice','talent'].includes(p.kind)){record=ix[p.kind==='talent'?'talents':'feats'].get(p.value);name=record.name+(p.kind==='featChoice'?' (same weapon)':'');}
   else if(p.kind==='trained')name='Trained in '+(choice?'a skill':ix.skills.get(p.value).name);
@@ -42,13 +44,13 @@ export function featureGraph(pack,options) {
   const owned=choices.some(value=>prerequisite(p,ctx,ix,value));
   nodes.set(key,{key,name,group:null,records:record?[record]:[],parents:[],main:false,owned,available:owned,selected:false});return key;
  }
- function parents(p,out,alternative=false) {
-  if(p.kind==='all'||p.kind==='any'){p.requirements.forEach(r=>parents(r,out,alternative||p.kind==='any'));return;}
-  const key=['feat','featChoice','talent'].includes(p.kind)&&byId.has(p.value)?byId.get(p.value):condition(p);
+ function parents(p,out,owner,alternative=false) {
+  if(p.kind==='all'||p.kind==='any'){p.requirements.forEach(r=>parents(r,out,owner,alternative||p.kind==='any'));return;}
+  const key=['feat','featChoice','talent'].includes(p.kind)&&byId.has(p.value)?byId.get(p.value):condition(p,owner);
   if(!out.some(edge=>edge.key===key))out.push({key,alternative});
  }
  for(const node of [...nodes.values()])if(node.main) {
-  node.records.forEach(r=>{parents(r.prerequisite,node.parents);if(r.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing'))parents({kind:'feat',value:'feat:force-sensitivity'},node.parents);});node.parents=node.parents.filter(p=>p.key!==node.key);
+  node.records.forEach(r=>{parents(r.prerequisite,node.parents,node.key);if(r.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing'))parents({kind:'feat',value:'feat:force-sensitivity'},node.parents,node.key);});node.parents=node.parents.filter(p=>p.key!==node.key);
  }
  const main=[...nodes.values()].filter(n=>n.main);
  return {nodes,groups:[...new Set(main.map(n=>n.group).filter(Boolean))].sort((a,b)=>title(a).localeCompare(title(b))),possible};
@@ -98,7 +100,7 @@ export function createFeatureTrees(pack) {
   const canvas=root.querySelector('.feature-tree-canvas'),svg=canvas.querySelector('svg'),stage=root.querySelector('.feature-tree-stage');
   canvas.style.width=width+'px';canvas.style.height=height+'px';canvas.style.transform=`scale(${s.zoom})`;
   stage.style.width=width*s.zoom+'px';stage.style.height=height*s.zoom+'px';svg.setAttribute('width',width);svg.setAttribute('height',height);
-  const edges=geometry.edges.map(edge=>({...edge,path:featureEdgePath(positions.get(edge.from),positions.get(edge.to))})),crossings=featureCrossings(edges);
+  const edges=geometry.edges.map(edge=>({...edge,path:featureEdgePath(positions.get(edge.from),positions.get(edge.to),edge.via)})),crossings=featureCrossings(edges);
   const maskId=i=>'cross-'+options.key.replace(/[^a-z0-9]/gi,'')+'-'+i;
   // Cut only the underpass at real crossings. SVG masks reveal the current theme
   // beneath it, while the overpass keeps its original solid/dotted curve.

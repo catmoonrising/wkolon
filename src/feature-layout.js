@@ -1,5 +1,18 @@
 // Geometry stays independent of the DOM, eligibility and article text.
 export function layoutFeatureGraph(nodes, sizes) {
+ const original=nodes;
+ const byOriginal=new Map(nodes.map(n=>[n.key,n])),routes=new Map();
+ nodes=nodes.map(n=>({...n,parents:n.parents.filter(p=>byOriginal.has(p.key)).map(p=>({...p}))}));sizes=new Map(sizes);
+ // Reserve a row in every intervening column for long connections. Without
+ // these invisible waypoints, a single curve can pass through other cards.
+ for(const n of [...nodes])for(const parent of n.parents){
+  const route=[],source=byOriginal.get(parent.key);let prior=parent.key;
+  for(let rank=source.rank+1;rank<n.rank;rank++){
+   const key='route:'+JSON.stringify([parent.key,n.key,rank]);
+   nodes.push({key,rank,parents:[{key:prior}],route:true});sizes.set(key,{width:0,height:16});route.push(key);prior=key;
+  }
+  routes.set(JSON.stringify([parent.key,n.key]),route);parent.key=prior;
+ }
  const columns=new Map(), byKey=new Map(nodes.map(n=>[n.key,n]));
  for(const n of nodes){if(!columns.has(n.rank))columns.set(n.rank,[]);columns.get(n.rank).push(n.key);}
  const ranks=[...columns.keys()].sort((a,b)=>a-b), edges=nodes.flatMap(n=>n.parents.filter(p=>byKey.has(p.key)).map(p=>({from:p.key,to:n.key,alternative:p.alternative})));
@@ -50,25 +63,38 @@ export function layoutFeatureGraph(nodes, sizes) {
   const rows=Math.max(...ranks.map(rank=>columns.get(rank).filter(key=>componentOf.get(key)===component.id).length));
   bands.set(component.id,cursor);cursor+=rows*(rowHeight+rowGap);
  }
- for(const rank of ranks){
-  const keys=columns.get(rank),columnWidth=Math.max(...keys.map(key=>sizes.get(key).width));
-  for(const component of components)keys.filter(key=>componentOf.get(key)===component.id).forEach((key,i)=>{const size=sizes.get(key),y=bands.get(component.id)+i*(rowHeight+rowGap)+(rowHeight-size.height)/2;positions.set(key,{x,y,width:size.width,height:size.height,center:y+size.height/2,exitX:x+columnWidth+8});height=Math.max(height,y+size.height+pad);});
-  x+=columnWidth+gap;width=x-gap+pad;
+ // Each independent branch uses its own widths. A long label in one branch
+ // must not push every other branch into the same distant column.
+ for(const component of components){
+  x=pad;
+  for(const rank of ranks){
+   const keys=columns.get(rank).filter(key=>componentOf.get(key)===component.id);if(!keys.length)continue;
+   const columnWidth=Math.max(...keys.map(key=>sizes.get(key).width));
+   keys.forEach((key,i)=>{const size=sizes.get(key),y=bands.get(component.id)+i*(rowHeight+rowGap)+(rowHeight-size.height)/2;positions.set(key,{x,y,width:size.width,height:size.height,center:y+size.height/2,exitX:x+columnWidth+8});height=Math.max(height,y+size.height+pad);});
+   x+=columnWidth+gap;width=Math.max(width,x-gap+pad);
+  }
  }
  // Single-node columns can align with their children without disturbing ordering.
  for(const rank of [...ranks].reverse())if(columns.get(rank).length===1){
   const key=columns.get(rank)[0],children=neighbours(key,false);if(!children.length)continue;
   const p=positions.get(key);p.center=children.reduce((sum,k)=>sum+positions.get(k).center,0)/children.length;p.y=p.center-p.height/2;height=Math.max(height,p.y+p.height+pad);
  }
- return {positions,edges,width:Math.max(1,width),height:Math.max(1,height),crossings:crossings()};
+ const actualPositions=new Map(original.map(n=>[n.key,positions.get(n.key)]));
+ const actualEdges=original.flatMap(n=>n.parents.filter(p=>byOriginal.has(p.key)).map(p=>({from:p.key,to:n.key,alternative:p.alternative,via:routes.get(JSON.stringify([p.key,n.key])).map(key=>{const q=positions.get(key);return {...q,width:q.exitX-q.x-8};})})));
+ return {positions:actualPositions,edges:actualEdges,width:Math.max(1,width),height:Math.max(1,height),crossings:crossings()};
 }
 
-export function featureEdgePath(a,b){
- const x=a.x+a.width,y=a.center,exit=a.exitX??x,tx=b.x-4,ty=b.center,mid=(exit+tx)/2;
- const points=[{x,y},{x:exit,y}];
- flattenCurve([{x:exit,y},{x:mid,y},{x:mid,y:ty},{x:tx,y:ty}],points);
+export function featureEdgePath(a,b,via=[]){
+ const x=a.x+a.width,y=a.center,exit=a.exitX??x,tx=b.x-4,ty=b.center;
+ const points=[{x,y},{x:exit,y}];let shaft=`M${x},${y} H${exit}`,prior={x:exit,y},mid;
+ for(const target of [...via,b]){
+  const tip={x:target.x-4,y:target.center};mid=(prior.x+tip.x)/2;
+  shaft+=` C${mid},${prior.y} ${mid},${tip.y} ${tip.x},${tip.y}`;
+  flattenCurve([prior,{x:mid,y:prior.y},{x:mid,y:tip.y},tip],points);
+  if(target!==b){prior={x:target.exitX,y:target.center};shaft+=` H${prior.x}`;points.push(prior);}
+ }
  // The head and shaft share the exact tip, with a horizontal tangent at the join.
- return {shaft:`M${x},${y} H${exit} C${mid},${y} ${mid},${ty} ${tx},${ty}`,head:`M${tx-7},${ty-4} L${tx},${ty} L${tx-7},${ty+4}`,x:mid,y:(y+ty)/2-5,points};
+ return {shaft,head:`M${tx-7},${ty-4} L${tx},${ty} L${tx-7},${ty+4}`,x:mid,y:(prior.y+ty)/2-5,points};
 }
 
 // Approximate curves within a fraction of a graph pixel for crossing detection.

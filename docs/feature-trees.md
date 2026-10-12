@@ -17,8 +17,13 @@ read-only nodes. Multiple prerequisite arrows are conjunctive unless marked “o
 
 Graph ranks follow prerequisite depth from left to right. Barycentric sweeps and
 adjacent swaps reduce line crossings instead of sorting names alphabetically.
-Disconnected branches occupy separate vertical bands. Arrows exit the full source
-column before bending, so shorter cards do not route lines behind wider neighbours.
+Read-only requirements are repeated beside the options that need them. A shared
+ability or Base Attack Bonus threshold does not join unrelated feat chains. Actual
+feat and talent prerequisites within the selection remain shared connections, including conjunctions
+and alternatives. Disconnected branches occupy separate vertical bands, using
+their own horizontal spacing and card widths. Long connections reserve invisible
+rows through intervening columns, so curves do not cut through other cards.
+Arrows exit their branch's source column before bending.
 Remaining curve intersections use overpasses: SVG masks cut a short gap in the
 underpassing line while retaining the overpassing curve and its dash pattern.
 Shared source branches and destination joins remain connected. Masks are in graph
@@ -51,3 +56,9 @@ they meet a prerequisite.
 Force Sensitivity adds the closed `nonDroid` prerequisite, evaluated against the
 species' `isDroid` flag. It prevents the feat (and its class-skill access) from being
 granted to a droid; it does not implement droid construction.
+
+Validation: 323 JavaScript tests, the full Chromium browser suite and focused
+Chromium/Firefox feature checks pass. The dense real feat graph is checked for
+connections passing through cards. Checks also cover local requirements, retained
+feat chains, arrow tips, crossing gaps, stable rule dialogs, zoom, mobile themes,
+selection replay and persistence.

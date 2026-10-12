@@ -19,6 +19,14 @@ module.exports=async function checkTrees(browser,base,root){
   assert.equal(await body.locator('[data-tree-pick="feat:skill-focus|"]').count(),1);
   assert.equal(await body.locator('[data-tree-pick="family:Weapon Proficiency"]').count(),1);
   assert(await body.locator('[data-tree-pick="feat:dodge|"]').isDisabled());
+  // Full feat selection is the dense real-world case: requirements repeat near
+  // their owners, and long connections must never cut through another card.
+  assert(await body.locator('.prerequisite-node').evaluateAll(nodes=>nodes.filter(n=>n.textContent.trim()==='DEX 13').length>1));
+  const blocked=await body.locator('.feature-tree-canvas').evaluate(canvas=>{
+   const cards=[...canvas.querySelectorAll('.feature-tree-node')].map(el=>({name:el.textContent.trim(),x:parseFloat(el.style.left),y:parseFloat(el.style.top),width:el.offsetWidth,height:el.offsetHeight})),blocked=[];
+   for(const edge of canvas.querySelectorAll('.feature-edge'))for(let l=1;l<edge.getTotalLength();l+=3){const p=edge.getPointAtLength(l),card=cards.find(c=>p.x>c.x+.5&&p.x<c.x+c.width-.5&&p.y>c.y+.5&&p.y<c.y+c.height-.5);if(card){blocked.push(card.name);break;}}
+   return blocked;
+  });assert.deepEqual(blocked,[]);
   await page.screenshot({path:path.join(root,'.build/feat-tree-folded.png')});
   await choose(page,'feat','feat:force-sensitivity|');await step(3);assert(!(await body.locator('[data-trained="skill:use-the-force"]').isDisabled()));
   await body.locator('[data-trained="skill:use-the-force"]').check();

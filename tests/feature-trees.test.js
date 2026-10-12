@@ -29,6 +29,17 @@ test('feat families appear once with secondary variants and class bonus restrict
  assert(!m.nodes.get('feat:skill-focus|').available);ctx.trained.add('skill:initiative');assert(!featureGraph(pack,{type:'feats',ctx,allowedIds:['feat:skill-focus'],restrictions:{'feat:skill-focus':['skill:pilot']}}).nodes.get('feat:skill-focus|').available);
  ctx.trained.add('skill:pilot');assert(featureGraph(pack,{type:'feats',ctx,allowedIds:['feat:skill-focus'],restrictions:{'feat:skill-focus':['skill:pilot']}}).nodes.get('feat:skill-focus|').available);
 });
+test('repeated ability prerequisites stay local while shared feat dependencies remain connected',()=>{
+ const c=newCharacter(pack);c.abilities.dex=10;const ctx=progression(c,pack).ctx;
+ const graph=featureGraph(pack,{type:'feats',ctx,allowedIds:pack.feats.map(r=>r.id)});
+ const dex13=[...graph.nodes.values()].filter(n=>!n.main&&n.name==='DEX 13');assert(dex13.length>1);
+ for(const requirement of dex13){assert.equal([...graph.nodes.values()].filter(n=>n.parents.some(p=>p.key===requirement.key)).length,1);assert(!requirement.owned);}
+ const dodge=graph.nodes.get('feat:dodge|'),mobility=graph.nodes.get('feat:mobility|');
+ assert(mobility.parents.some(p=>p.key===dodge.key));assert(dodge.parents.some(p=>dex13.some(n=>n.key===p.key)));
+ ctx.scores.dex=13;
+ const available=featureGraph(pack,{type:'feats',ctx,allowedIds:pack.feats.map(r=>r.id)});
+ assert([...available.nodes.values()].filter(n=>!n.main&&n.name==='DEX 13').every(n=>n.owned));
+});
 test('every selectable feat and talent has complete pinned article text; talent sections do not spill into neighbours',()=>{
  for(const r of [...pack.feats,...pack.talents])assert(articleText(r.article).length>30,r.name);
  const r=indexPack(pack).talents.get('talent:reset-initiative'),text=articleText(r.article);assert(text.includes('Initiative +5'));assert(text.includes('Force Unleashed Campaign Guide'));assert(!text.includes('Damage Reduction'));

@@ -32,7 +32,27 @@ test('disconnected branches align in separate bands instead of crossing unrelate
  assert.equal(positions.get('short').center,positions.get('first').center);
  assert.equal(positions.get('wide').center,positions.get('second').center);
  assert(positions.get('unrelated').y>positions.get('wide').y);
- assert(positions.get('short').exitX>positions.get('wide').x+positions.get('wide').width);
+ assert(positions.get('first').x<positions.get('second').x);
+ assert(positions.get('short').exitX<positions.get('first').x);
+});
+
+test('long prerequisite routes reserve intermediate rows and avoid all intervening cards',()=>{
+ const node=(key,rank,parents=[])=>({key,rank,parents:parents.map(key=>({key}))});
+ const nodes=[node('root',0),node('middle',1,['root']),node('next',2,['middle']),node('end',3,['root','next'])];
+ const sizes=new Map(nodes.map(n=>[n.key,{width:n.key==='middle'?260:90,height:40}]));
+ const graph=layoutFeatureGraph(nodes,sizes);
+ assert.equal(graph.positions.size,nodes.length);assert.equal(graph.edges.length,4);
+ const long=graph.edges.find(e=>e.from==='root'&&e.to==='end');assert.equal(long.via.length,2);
+ for(const edge of graph.edges){
+  const path=featureEdgePath(graph.positions.get(edge.from),graph.positions.get(edge.to),edge.via);
+  for(let i=1;i<path.points.length;i++){
+   const a=path.points[i-1],b=path.points[i];
+   for(let t=0;t<=1;t+=.1){const x=a.x+(b.x-a.x)*t,y=a.y+(b.y-a.y)*t;
+    for(const [key,p] of graph.positions)assert(!(x>p.x+.1&&x<p.x+p.width-.1&&y>p.y+.1&&y<p.y+p.height-.1),`${edge.from}→${edge.to} crosses ${key}`);
+   }
+  }
+  assert(path.shaft.endsWith(`${graph.positions.get(edge.to).x-4},${graph.positions.get(edge.to).center}`));
+ }
 });
 
 test('curved crossings get one underpass; shared branches, joins and separated paths stay intact',()=>{
