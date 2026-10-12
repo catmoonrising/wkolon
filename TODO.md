@@ -42,7 +42,8 @@
   - [x] Charge, Powerful/Improved Charge, movement costs, low-object/terrain Acrobatics checks and retained Reflex penalties.
   - [x] Cover/concealment, prone targets and target-side Helpless melee modifiers; +5/+10 ambiguity, Precise Shot and vision/scope exceptions.
   - [x] Attacks of opportunity and Combat Reflexes: round quotas, weapon eligibility, cover/vision and approved three-way limits.
-  - [ ] Withdraw, Running Attack, Cleave and Great Cleave.
+  - [x] Withdraw and Running Attack: movement/terrain budgets, native speeds, Aim/Brace timing and combined Dodge/Mobility defenses.
+  - [ ] Cleave, Great Cleave, Tumble and other movement/skill action controls.
   - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 

@@ -24,7 +24,7 @@ module.exports=async function(browser,base,root){
   await body.locator('[data-action="add-level"]').click();await body.locator('[data-action="add-level"]').click();
   await choose(page,'talent','talent:juggernaut|',2);await editor.locator('#cr-done').click();
   assert.equal(await page.locator('#module-speed .stat-big').innerText(),'6');
-  await page.locator('#module-speed details summary').click();assert((await page.locator('#module-speed details').innerText()).includes('× 1 armor'));
+  const speedCalculations=page.locator('#module-speed details').filter({has:page.locator('summary.hint')});await speedCalculations.locator('summary.hint').click();assert((await speedCalculations.innerText()).includes('× 1 armor'));
   await page.locator('#print').click();assert((await page.locator('#stat-block-text').inputValue()).includes('6 Squares'));await page.locator('#stat-block-close').click();
   await page.locator('#theme-select').selectOption({label:'Dracula Dark'});await page.locator('#module-classes a[href="#advancement"]').click();
   await body.locator('[data-open-tree="talent:2:0"]').click();const tree=page.locator('#feature-tree-modal');await tree.locator('[data-tree-group="tree:armor-specialist"]').click();

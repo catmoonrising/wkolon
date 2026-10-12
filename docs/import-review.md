@@ -701,10 +701,36 @@ Combat Reflexes (26021) says one opportunity per opponent; Attacks of
 Opportunity says one per provoking action. The user approved enforcing both
 by default, with either limit alone in Ambiguities. The opportunity mechanism
 uses the pinned Combat Reflexes, Martial Arts I and Line of Sight text; movement
-action automation remains pending. No Homebrew pages were admitted.
+action controls are covered in the following review. No Homebrew pages were admitted.
 
 Validation: 254 JavaScript tests, 19 Python importer tests, deterministic offline
 import/rebuild, rules validation and the full Chromium browser suite pass.
 Focused Chromium/Firefox checks cover both independent limits, interpretation
 changes, quotas, ammunition, turn/round separation, exact source text, saves,
 Dracula mobile layout and complete offline reload.
+
+
+## Withdraw and Running Attack
+
+Applied the pinned Move18374, Withdraw18615, Running Attack18462, Dodge18108,
+Mobility18370 and Encumbrance passages. Also checked Old Republic Era Heroes
+22304's Combined Feats section, reached through the Combined Feats redirect:
+it grants the listed combination when both required feats are present.
+Running Attack's local article retains the exact Dodge combination wording.
+No Homebrew, inferred crawl penalties, obstacle shortcuts or automatic
+Acrobatics successes were added.
+
+Separate terrain counts avoid double-counting diagonals and difficult squares;
+the combined category costs four. Withdraw requires the first grid square to
+clear all opponents by the shortest route and protects no later movement.
+Running Attack fits one current weapon attack between the before/after paths.
+Native Swim, adjusted Speed, straining, target-at-attack range, Aim/Brace timing,
+current attack penalties and nonduplicated conditional Dodge/Mobility totals
+are covered. Geometry, incoming reactions and the broader turn action budget
+remain player/GM declarations.
+
+Validation: 266 JavaScript tests, 19 Python importer tests, rules validation,
+deterministic offline import/rebuild and the full Chromium browser suite pass.
+Focused Chromium/Firefox checks cover path and terrain limits, native speeds,
+Aim timing, ammunition, conditional Reflex, exact articles, saved paths, Saga
+printing, expanded mobile terrain controls and complete offline reload.

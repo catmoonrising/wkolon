@@ -11879,6 +11879,34 @@
       "defaultLimit": "both",
       "coverPrevents": true,
       "totalConcealmentPrevents": true
+    },
+    "combatMovement": {
+      "sourceIds": [
+        "source:wiki-withdraw",
+        "source:wiki-move",
+        "source:wiki-running-attack",
+        "source:wiki-dodge",
+        "source:wiki-mobility",
+        "source:wiki-encumbrance"
+      ],
+      "diagonalCost": 2,
+      "difficultCost": 2,
+      "diagonalDifficultCost": 4,
+      "withdraw": {
+        "action": "move-action",
+        "speedMultiplier": 0.5,
+        "protectedSquares": 1,
+        "shortestRoute": true
+      },
+      "running": {
+        "featId": "feat:running-attack",
+        "speedMultiplier": 1,
+        "attackCount": 1,
+        "dodgeFeat": "feat:dodge",
+        "dodgeBonus": 1,
+        "dodgeScope": "opportunity-during-running-attack"
+      },
+      "strainMovementAction": "full-round-action"
     }
   },
   "heroicTraits": {

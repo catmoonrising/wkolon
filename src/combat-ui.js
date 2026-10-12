@@ -1,4 +1,7 @@
-import {rollOpportunity,opportunityIssue} from './opportunity-actions.js';
+import {runningPath,withdrawPath,validateCombatMovement} from './combat-movement.js';
+import {rollRunningAttack,runningAttackIssue,runningAttackView,withdraw} from './combat-movement-actions.js';
+import {runningCostLabel,withdrawCostLabel,withdrawIssue} from './combat-movement-ui.js';
+import {rollOpportunity,opportunityIssue,opportunityView} from './opportunity-actions.js';
 import {opportunityContext,validateOpportunity,startNextRound} from './opportunity.js';
 import {escapeHTML as escape} from './wiki-content.js';
 import {rollCombatRoutine,rollCharge,routineIssue} from './combat.js';
@@ -22,11 +25,25 @@ export function xpBar(c,d,rules){
  return `<div class="xp-bar xp-group"><div class="xp-meter" role="progressbar" aria-label="XP progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(fill)}"><div class="resource-fill" style="width:${fill}%"></div></div><label>XP ${input('xp',c.xp,'Experience points',1000000000)}${next===null?'':`<span>/</span><span>${next.toLocaleString()}</span>`}</label></div>`;
 }
 export function createCombatControls(pack,{current,derived,changed,save,log,error}){
+ function editMovement(el,report=false){
+  const c=current(),[root,segment,key]=el.dataset.movement.split('.'),p=root==='runningAttack'?runningPath(c):withdrawPath(c);
+  if(key)p[segment][key]=Number(el.value);else p[segment]=el.type==='checkbox'?el.checked:el.value;
+  try{validateCombatMovement({...c,[root]:p},message=>{throw new Error('Invalid '+message);});c[root]=p;save();
+   for(const input of document.querySelectorAll('[data-movement]'))if(input!==el&&input.dataset.movement===el.dataset.movement){if(el.type==='checkbox')input.checked=el.checked;else input.value=el.value;}
+   const view=runningAttackView(c,pack);
+   for(const button of document.querySelectorAll('[data-combat="running-attack"]')){const issue=runningAttackIssue(c,pack,button.dataset.attackId,view);button.disabled=!!issue;button.title=issue||'One weapon attack; move before and after';}
+   for(const button of document.querySelectorAll('[data-combat="withdraw"]')){const issue=withdrawIssue(c,derived(),pack);button.disabled=!!issue;button.title=issue||'Move Action; only the first square avoids attacks of opportunity';}
+   for(const label of document.querySelectorAll('[data-running-cost]'))label.textContent=runningCostLabel(c,derived(),pack);
+   for(const label of document.querySelectorAll('[data-withdraw-cost]'))label.textContent=withdrawCostLabel(c,derived(),pack);
+   return true;
+  }catch(e){if(report){error(e.message);changed();}return false;}
+ }
  function editOpportunity(el,report=false){
   const c=current(),p=opportunityContext(c),key=el.dataset.opportunity;
   p[key]=el.type==='checkbox'?el.checked:el.type==='number'?Number(el.value):el.value;
   try{validateOpportunity({...c,opportunity:p},message=>{throw new Error('Invalid '+message);});c.opportunity=p;save();
-   for(const button of document.querySelectorAll('[data-combat="opportunity"]')){const issue=opportunityIssue(c,pack,button.dataset.attackId);button.disabled=!!issue;button.title=issue||'Single free attack';}
+   const view=opportunityView(c,pack);
+   for(const button of document.querySelectorAll('[data-combat="opportunity"]')){const issue=opportunityIssue(c,pack,button.dataset.attackId,view);button.disabled=!!issue;button.title=issue||'Single free attack';}
    return true;
   }catch(e){if(report){error(e.message);changed();}return false;}
  }
@@ -65,8 +82,9 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   step[key]=value;changed();return true;
  }
  return {renderRoutines,
-  input(event){if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
+  input(event){if(event.target.hasAttribute('data-movement')&&event.target.type==='number'){editMovement(event.target);return true;}if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
   change(el){
+   if(el.hasAttribute('data-movement')){editMovement(el,true);return true;}
    if(el.hasAttribute('data-opportunity')){if(editOpportunity(el,true)&&el.type==='checkbox')changed();return true;}
    if(el.hasAttribute('data-combat-cybernetic')){current().cybernetic=el.checked;changed();return true;}
    if(el.hasAttribute('data-full-source')){
@@ -81,6 +99,8 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   },
   click(el){
    const action=el?.dataset.combat;if(!action)return false;
+   if(action==='running-attack'){try{const result=rollRunningAttack(current(),pack,el.dataset.attackId);spendAttackResources(current(),result);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
+   if(action==='withdraw'){try{const result=withdraw(current(),derived(),pack);log('resource',result.text);changed();}catch(e){error(e.message);}return true;}
    if(action==='next-round'){startNextRound(current());changed();return true;}
    if(action==='opportunity'){try{const result=rollOpportunity(current(),pack,el.dataset.attackId);spendAttackResources(current(),result);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='charge'){

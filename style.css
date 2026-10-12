@@ -290,3 +290,6 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .power-copy details { flex:1; min-width:8rem; }
 .power-copy.spent > details > summary { opacity:.6; }
 .feature-inactive { opacity:.6; }
+
+.movement-terrain-grid {display:grid;align-items:center;gap:.3rem .5rem;margin:.3rem 0;max-width:24rem;}
+.movement-terrain-grid input {width:100%;min-width:0;max-width:5rem;box-sizing:border-box;}

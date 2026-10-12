@@ -185,5 +185,36 @@ per-action limits apply by default; Ambiguities also offers either limit alone.
 Changing interpretation never replenishes the spent round quota. Next round
 resets the history and same-round Mighty Swing, preserving until-next-turn
 penalties. Next turn does not reset opportunities. New encounter/day and an
-eight-hour rest reset the counter. Withdraw and Running Attack currently retain
-reviewed reference text; their action controls remain on the implementation list.
+eight-hour rest reset the counter. Withdraw and Running Attack use the action controls below.
+
+
+Speed → Withdraw records a Move Action with a total half-Speed budget. The
+first grid square must clear every threatened area by the shortest route;
+only that square is protected from opportunities. The confirmation declares
+that geometry. Later squares can provoke. Total Defense permits Withdraw;
+helplessness and straining prevent its Move Action. The action clears pending
+Aim and Brace, preserving turn-limited penalties and same-round Mighty Swing.
+
+Owned Running Attack appears in each weapon's Options. Before/After record
+physical grid steps; the combined movement cost must fit the selected Speed.
+The action rolls one weapon attack with the ordinary current penalties and
+spends its ammunition atomically. Movement before it clears Aim and Brace in
+the calculation view; movement only after it preserves those benefits for the
+shot, then clears the declarations. Unavailable attacks roll no dice and
+consume nothing. Native Swim uses its adjusted speed, and straining cannot
+supply Move Action movement. Range still describes the target at the attack's
+position; the sheet does not infer routes, directions, obstacles, enemy
+reactions or remaining turn actions. Source text remains available locally.
+
+Terrain counts are disjoint: Diagonal excludes difficult terrain, Difficult
+excludes diagonal steps, and Both counts only steps with both properties.
+Their costs are 2, 2 and 4; all remaining steps cost 1. Difficult includes low
+objects. Fractional half-Speed budgets permit only whole movement costs.
+Acrobatics/Tumble checks and other movement modes without a native Speed remain
+on the action-control list; these inputs never assume a successful skill check.
+
+Running Attack + Dodge supplies a conditional +1 Reflex against any opportunity
+during the action. Mobility adds +5 only when movement provoked that attack.
+The combined +6 does not count the designated-opponent Dodge bonus again.
+Losing the Dexterity bonus removes both Dodge and Mobility; all are conditional
+rows, never a general persistent defense increase. Printing uses the same rows.

@@ -9,6 +9,7 @@ export function defensiveCombatState(c,pack,ctx,dexDenied=false){
  return {stance,selected,owned,maximum,reason,melee,trained,dexDenied,
   attackPenalty:(fight?rule.fightPenalty:0)-melee,dodgeBonus:dexDenied?0:stanceBonus+melee,
   attacksBlocked:total||!!reason,dodgeOwned:has(rule.dodge.featId),mobilityOwned:has(rule.mobility.featId),
+  runningOwned:has(pack.rules.combatMovement.running.featId),runningDodgeBonus:pack.rules.combatMovement.running.dodgeBonus,
   opponent:c.dodgeOpponent||'',dodgeAmount:dexDenied?0:rule.dodge.bonus,mobilityAmount:dexDenied?0:rule.mobility.bonus};
 }
 
@@ -17,12 +18,13 @@ export function defensiveConditionalTotals(state,reflex){
  if(state.dodgeOwned&&state.opponent)add('dodge-opponent',state.dodgeAmount,state.opponent);
  if(state.mobilityOwned)add('movement-opportunity',state.mobilityAmount);
  if(state.dodgeOwned&&state.opponent&&state.mobilityOwned)add('opponent-movement-opportunity',state.dodgeAmount+state.mobilityAmount,state.opponent);
+ if(state.runningOwned&&state.dodgeOwned){add('running-attack-opportunity',state.dexDenied?0:state.runningDodgeBonus);if(state.mobilityOwned)add('running-attack-movement-opportunity',(state.dexDenied?0:state.runningDodgeBonus)+state.mobilityAmount);}
  return rows;
 }
 
 export function conditionalDefenseLabel(row){
  return row.against==='dodge-opponent'?`vs. ${row.opponent}`:row.against==='movement-opportunity'?'vs. movement AoO':
-  row.against==='opponent-movement-opportunity'?`vs. ${row.opponent} movement AoO`:'vs. Use the Force';
+  row.against==='opponent-movement-opportunity'?`vs. ${row.opponent} movement AoO`:row.against==='running-attack-opportunity'?'vs. Running Attack AoO':row.against==='running-attack-movement-opportunity'?'vs. Running Attack movement AoO':'vs. Use the Force';
 }
 
 export function declareDefenseStance(c,d,stance){

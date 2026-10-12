@@ -647,3 +647,17 @@ Optional character `opportunity` stores opponent/action event names, distance,
 provocation confirmation and the spent `{opponent, action}` history. Import
 validation rejects unknown fields, invalid distances and duplicate normalized
 pairs. The history is independent of turn-limited attack penalties.
+
+
+`rules.combatMovement` pins Move/Withdraw/Running Attack/Dodge/Mobility and
+Encumbrance. Closed mappings specify diagonal/difficult/both costs, Withdraw's
+Move Action and half-Speed/first-square limits, Running Attack's one weapon
+attack/full-Speed budget, the conditional combined Dodge bonus and straining's
+full-round movement restriction. Optional `runningAttack` stores a mode and
+`before`/`after` segments; `withdraw` stores a mode, `path`, and `clearThreats`.
+A segment's `squares` is the total physical grid count. Its `diagonal`,
+`difficult`, and `diagonalDifficult` counts are mutually exclusive and must sum
+to at most `squares`. Import validation rejects unknown fields, negative or
+fractional counts, overcounted terrain and malformed mode identifiers. The
+planner rejects modes without a current native Speed. Independent calculation
+views retain attack timing without changing ordinary saved range or declarations.

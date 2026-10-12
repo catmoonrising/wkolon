@@ -1303,6 +1303,58 @@
               "const": true
             }
           }
+        },
+        "combatMovement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "diagonalCost",
+            "difficultCost",
+            "diagonalDifficultCost",
+            "withdraw",
+            "running",
+            "strainMovementAction"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "diagonalCost": {
+              "const": 2
+            },
+            "difficultCost": {
+              "const": 2
+            },
+            "diagonalDifficultCost": {
+              "const": 4
+            },
+            "withdraw": {
+              "const": {
+                "action": "move-action",
+                "speedMultiplier": 0.5,
+                "protectedSquares": 1,
+                "shortestRoute": true
+              }
+            },
+            "running": {
+              "const": {
+                "featId": "feat:running-attack",
+                "speedMultiplier": 1,
+                "attackCount": 1,
+                "dodgeFeat": "feat:dodge",
+                "dodgeBonus": 1,
+                "dodgeScope": "opportunity-during-running-attack"
+              }
+            },
+            "strainMovementAction": {
+              "const": "full-round-action"
+            }
+          }
         }
       },
       "required": [
