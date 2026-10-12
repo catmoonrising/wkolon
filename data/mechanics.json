@@ -4029,15 +4029,6 @@
       "history": "https://swse.miraheze.org/w/index.php?title=Vibrodagger&action=history"
     },
     {
-      "id": "source:wiki-ranged-attacks",
-      "title": "Ranged Attacks",
-      "section": null,
-      "revision": 18433,
-      "timestamp": "2024-08-25T20:07:26Z",
-      "url": "https://swse.miraheze.org/w/index.php?oldid=18433",
-      "history": "https://swse.miraheze.org/w/index.php?title=Ranged_Attacks&action=history"
-    },
-    {
       "id": "source:wiki-unarmed-attacks",
       "title": "Unarmed Attacks",
       "section": null,
@@ -4360,6 +4351,42 @@
       "sha256": "c1204f2cff0dd1010cb8cb20a47d62c0c4cbb315a6df3ec70fa9f094fd8ac3c8",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18026",
       "history": "https://swse.miraheze.org/w/index.php?title=Charge&action=history"
+    },
+    {
+      "id": "source:wiki-prone",
+      "title": "Prone",
+      "revision": 18420,
+      "timestamp": "2024-08-25T20:06:17Z",
+      "sha256": "9bf7bfaf8eb03e922c2ec5af431e115c85b08f2170c6894391d16ecc9b9b4de2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18420",
+      "history": "https://swse.miraheze.org/w/index.php?title=Prone&action=history"
+    },
+    {
+      "id": "source:wiki-line-of-sight",
+      "title": "Line of Sight",
+      "revision": 24330,
+      "timestamp": "2024-10-30T14:49:27Z",
+      "sha256": "653cf83ef8da100f5b41137d93e88a50591fa772c9538d0c8e1f25e2820b21be",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24330",
+      "history": "https://swse.miraheze.org/w/index.php?title=Line_of_Sight&action=history"
+    },
+    {
+      "id": "source:wiki-bonuses-and-penalties",
+      "title": "Bonuses and Penalties",
+      "revision": 16336,
+      "timestamp": "2024-08-18T00:56:42Z",
+      "sha256": "e93f4e705a4d34d13ec0294f26f5e47f58527d189b5c50d333bc28a24cc381b9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16336",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bonuses_and_Penalties&action=history"
+    },
+    {
+      "id": "source:wiki-ranged-attacks",
+      "title": "Ranged Attacks",
+      "revision": 18433,
+      "timestamp": "2024-08-25T20:07:26Z",
+      "sha256": "0519b0bc385c46affa04fa18699854cc686ee6cc4020a5c26e824595e35cfa20",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18433",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ranged_Attacks&action=history"
     }
   ],
   "species": [
@@ -11321,6 +11348,40 @@
             "name": "Either weapon"
           }
         ]
+      },
+      {
+        "id": "ambiguity:prone-helpless",
+        "name": "Prone + Helpless",
+        "sourceIds": [
+          "source:wiki-prone",
+          "source:wiki-defenses-helpless",
+          "source:wiki-bonuses-and-penalties"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:prone",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:helpless",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:bonuses-and-penalties",
+            "fullText": true
+          }
+        ],
+        "default": "stack",
+        "options": [
+          {
+            "value": "stack",
+            "name": "Stack (+10 melee)"
+          },
+          {
+            "value": "no-stack",
+            "name": "Do not stack (+5 melee)"
+          }
+        ]
       }
     ],
     "forceTalentAccess": {
@@ -11710,6 +11771,34 @@
         "featId": "feat:improved-charge",
         "allowsTurning": true
       }
+    },
+    "attackTargets": {
+      "sourceIds": [
+        "source:wiki-prone",
+        "source:wiki-defenses-helpless",
+        "source:wiki-bonuses-and-penalties",
+        "source:wiki-line-of-sight",
+        "source:wiki-ranged-attacks",
+        "source:wiki-precise-shot",
+        "source:wiki-aim",
+        "source:wiki-targeting-scope"
+      ],
+      "coverBonus": 5,
+      "improvedCoverBonus": 10,
+      "concealmentPenalty": -2,
+      "totalConcealmentPenalty": -5,
+      "prone": {
+        "ownMeleePenalty": -5,
+        "targetMeleeBonus": 5,
+        "targetRangedPenalty": -5
+      },
+      "helplessMeleeBonus": 5,
+      "intoMeleePenalty": -5,
+      "preciseShot": "feat:precise-shot",
+      "coverDefense": "reflex",
+      "areaMissWithCover": "no-damage",
+      "aimAreaBenefit": false,
+      "scopeIgnoresTotalDarkness": false
     }
   },
   "heroicTraits": {

@@ -326,5 +326,6 @@ const server=http.createServer((req,res)=>{
   await require('./full-attacks-checks.cjs')(browser,base,root);
   await require('./defensive-combat-checks.cjs')(browser,base,root);
   await require('./charge-checks.cjs')(browser,base,root);
+  await require('./attack-targets-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});

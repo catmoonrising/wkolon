@@ -40,7 +40,7 @@
   - [x] Fight Defensively, Total Defense and Melee Defense: trained Acrobatics bonuses, stacking, lost dodge bonuses and next-turn expiry.
   - [x] Dodge/Mobility conditional Reflex totals; Helpless Dexterity 0 and matching stat blocks.
   - [x] Charge, Powerful/Improved Charge, movement costs, low-object/terrain Acrobatics checks and retained Reflex penalties.
-  - [ ] Cover/concealment, prone targets and target-side Helpless melee modifiers.
+  - [x] Cover/concealment, prone targets and target-side Helpless melee modifiers; +5/+10 ambiguity, Precise Shot and vision/scope exceptions.
   - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 

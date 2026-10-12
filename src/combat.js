@@ -3,6 +3,7 @@ import {escapeHTML as escape} from './wiki-content.js';
 import {FULL_ATTACK_SOURCES,planFullAttack} from './full-attacks.js';
 import {validateDefensiveCombat} from './defensive-combat.js';
 import {planCharge,validateCharge} from './charge.js';
+import {validateAttackTarget} from './attack-targets.js';
 
 const uuid=id=>typeof id==='string'&&/^[a-f0-9-]{36}$/.test(id);
 const integer=(n,min,max)=>Number.isInteger(n)&&n>=min&&n<=max;
@@ -15,6 +16,7 @@ export function prepareCombatState(c){
 export function validateCombatState(c,bad){
  validateDefensiveCombat(c,bad);
  validateCharge(c,bad);
+ validateAttackTarget(c,bad);
  if(c.fullAttackPenalties!==undefined){
   const p=c.fullAttackPenalties;
   if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['twoWeapons','doubleAttack','tripleAttack'].includes(k))||
@@ -50,15 +52,16 @@ export function protectedDamage(protection,amount,rules,ignoreDR=false){
  return {hpDamage:afterShield-drBlocked,srBlocked,drBlocked,srAfter:Math.max(0,protection.sr-(amount>protection.sr?rules.shieldLoss:0))};
 }
 export function defenseRangeRows(results){
+ const total=r=>r.total-(r.coverBonus||0);
  if(results.some(r=>r.areaType)){
-  const totals=[...new Set(results.filter(r=>!r.naturalHit&&!r.naturalMiss&&!r.failedArea).map(r=>r.total))].sort((a,b)=>b-a);
+  const totals=[...new Set(results.filter(r=>!r.naturalHit&&!r.naturalMiss&&!r.failedArea).map(total))].sort((a,b)=>b-a);
   const ranges=totals.length?[{lo:totals[0]+1,hi:null},...totals.map((t,i)=>({lo:totals[i+1]===undefined?null:totals[i+1]+1,hi:t}))]:[{lo:null,hi:null}];
   return ranges.map(row=>{
    const defense=row.hi??Infinity;let damage=0,evasion=0,cover=0,splash=0;
    for(const r of results){
     if(r.failedArea||r.naturalMiss&&!r.areaType)continue;
-    const hit=!r.naturalMiss&&(r.naturalHit||r.total>=defense),half=Math.floor(r.damage/2);
-    damage+=hit?r.damage:r.areaType?half:0;
+    const hit=!r.naturalMiss&&(r.naturalHit||total(r)>=defense),half=Math.floor(r.damage/2);
+    damage+=hit?r.damage:r.areaType&&!r.targetCover?half:0;
     evasion+=r.areaType?(hit?half:0):(hit?r.damage:0);
     cover+=hit?r.damage:0;
     if(r.areaType==='splash'&&hit)splash+=half;
@@ -68,10 +71,10 @@ export function defenseRangeRows(results){
  }
  const critical=results.filter(r=>r.naturalHit).reduce((n,r)=>n+r.damage,0);
  const hits=results.filter(r=>!r.naturalHit&&!r.naturalMiss);
- const totals=[...new Set(hits.map(r=>r.total))].sort((a,b)=>b-a);
+ const totals=[...new Set(hits.map(total))].sort((a,b)=>b-a);
  if(!totals.length)return [{lo:null,hi:null,damage:critical}];
  const rows=[{lo:totals[0]+1,hi:null,damage:critical}];let damage=critical;
- totals.forEach((t,i)=>{damage+=hits.filter(r=>r.total===t).reduce((n,r)=>n+r.damage,0);rows.push({lo:totals[i+1]===undefined?null:totals[i+1]+1,hi:t,damage});});
+ totals.forEach((t,i)=>{damage+=hits.filter(r=>total(r)===t).reduce((n,r)=>n+r.damage,0);rows.push({lo:totals[i+1]===undefined?null:totals[i+1]+1,hi:t,damage});});
  return rows;
 }
 const signed=n=>n>=0?'+'+n:String(n);
@@ -116,9 +119,10 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Refle
  const {plan,ammunitionSpent}=routinePlan(routine,attacks);
  const results=[],aimConsumed=new Set(attacks.filter(a=>a.aimed).map(a=>a.uid));let mightySwingConsumed=false;
  for(const {step:s,attack:original} of plan)for(let i=0;i<s.count;i++){
-  let a=results.length&&original.unAimed?{...original,...original.unAimed}:original;
-  if(results.length&&original.unBraced)a={...a,...original.unBraced};
-  if(mightySwingConsumed&&original.unSwing)a={...a,...original.unSwing};
+  let a={...original};
+  const expire=variant=>{if(!variant)return;const attack=a.attack+(variant.attack===undefined?0:variant.attack-original.attack);a={...a,...variant,attack};};
+  if(results.length){expire(original.unAimed);expire(original.unBraced);}
+  if(mightySwingConsumed)expire(original.unSwing);
   if(a.mightySwing)mightySwingConsumed=true;
   const attackRoll=roller('1d20'+signed(a.attack+s.attackMod)),die=attackRoll.d20[0];
   const naturalHit=die===rules.naturalHit,naturalMiss=die===rules.naturalMiss;
@@ -131,12 +135,12 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Refle
    damage=Math.max(rules.minimumDamage*(critical?multiplier:1),damageRoll.value);
    damageRoll={...damageRoll,value:damage};
   }
-  results.push({name:a.name,total:attackRoll.value,damage,naturalHit,naturalMiss,failedArea,critical,areaType:a.areaType,aimed:!!a.aimed,braced:!!a.braced,mightySwing:!!a.mightySwing,ignoresDarkness:!!a.ignoresDarkness,attackRoll,damageRoll});
+  results.push({name:a.name,total:attackRoll.value,damage,naturalHit,naturalMiss,failedArea,critical,areaType:a.areaType,aimed:!!a.aimed,braced:!!a.braced,mightySwing:!!a.mightySwing,ignoresDarkness:!!a.ignoresDarkness,coverBonus:a.coverBonus||0,targetCover:!!a.targetCover,attackRoll,damageRoll});
  }
  const rows=defenseRangeRows(results),range=r=>r.lo===null?(r.hi===null?'Any':`≤ ${r.hi}`):r.hi===null?`${r.lo}+`:r.lo===r.hi?String(r.lo):`${r.lo}–${r.hi}`;
- const area=results.some(r=>r.areaType),splash=results.some(r=>r.areaType==='splash');
- const details=results.map(r=>`<div><b>${escape(r.name)}</b>: ${r.attackRoll.display} = ${totalHtml(r.attackRoll)}${r.naturalMiss||r.failedArea?' · Miss':r.critical?' · Critical':r.naturalHit?' · Hit':''}${r.damageRoll?` | ${r.damageRoll.display} = ${totalHtml(r.damageRoll)}`:''}${r.aimed?' · Ignores cover':''}${r.braced?' · Braced':''}${r.mightySwing?' · Mighty Swing':''}${r.ignoresDarkness?' · Ignores Concealment from darkness':''}</div>`).join('');
+ const area=results.some(r=>r.areaType),splash=results.some(r=>r.areaType==='splash'),defenseLabel=defense+(results.some(r=>r.coverBonus)?' (before cover)':'');
+ const details=results.map(r=>`<div><b>${escape(r.name)}</b>: ${r.attackRoll.display} = ${totalHtml(r.attackRoll)}${r.naturalMiss||r.failedArea?' · Miss':r.critical?' · Critical':r.naturalHit?' · Hit':''}${r.damageRoll?` | ${r.damageRoll.display} = ${totalHtml(r.damageRoll)}`:''}${r.aimed?' · Ignores cover':''}${r.coverBonus?' · Target Reflex +'+r.coverBonus+' cover':''}${r.braced?' · Braced':''}${r.mightySwing?' · Mighty Swing':''}${r.ignoresDarkness?' · Ignores Concealment from darkness':''}</div>`).join('');
  const reloads=ammunitionSpent.filter(s=>s.reloadShots).map(s=>`${attacks.find(a=>a.uid===s.uid).name}: ${s.reloadShots}`).join('; ');
- return {results,rows,aimConsumed:[...aimConsumed],bracingConsumed:attacks.some(a=>a.braced),mightySwingConsumed,ammunitionSpent,text:`${routine.name||'Routine'}: ${rows.map(r=>`${defense} ${range(r)}: ${r.damage} damage`).join('; ')}`,
-  html:`<b>${escape(routine.name||'Routine')}</b><table class="routine-result"><thead><tr><th>${defense}</th><th title="Rolled damage, before target damage-type effects, DR and SR">Damage</th>${area?'<th>Evasion</th><th>Cover</th>':''}${splash?'<th>Splash</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${range(r)}</td><td>${r.damage}</td>${area?`<td>${r.evasion}</td><td>${r.cover}</td>`:''}${splash?`<td>${r.splash}</td>`:''}</tr>`).join('')}</tbody></table><details><summary>Rolls</summary>${details}${reloads?`<div>Free reloads: ${escape(reloads)}</div>`:''}</details>`};
+ return {results,rows,aimConsumed:[...aimConsumed],bracingConsumed:attacks.some(a=>a.braced),mightySwingConsumed,ammunitionSpent,text:`${routine.name||'Routine'}: ${rows.map(r=>`${defenseLabel} ${range(r)}: ${r.damage} damage`).join('; ')}`,
+  html:`<b>${escape(routine.name||'Routine')}</b><table class="routine-result"><thead><tr><th>${defenseLabel}</th><th title="Rolled damage, before target damage-type effects, DR and SR">Damage</th>${area?'<th>Evasion</th><th>Cover</th>':''}${splash?'<th>Splash</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${range(r)}</td><td>${r.damage}</td>${area?`<td>${r.evasion}</td><td>${r.cover}</td>`:''}${splash?`<td>${r.splash}</td>`:''}</tr>`).join('')}</tbody></table><details><summary>Rolls</summary>${details}${reloads?`<div>Free reloads: ${escape(reloads)}</div>`:''}</details>`};
 }

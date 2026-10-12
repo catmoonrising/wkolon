@@ -329,5 +329,8 @@
   "Full Attacks": 27404,
   "Fight Defensively": 18172,
   "Charge": 18026,
-  "Acrobatics": 27350
+  "Acrobatics": 27350,
+  "Prone": 18420,
+  "Line of Sight": 24330,
+  "Bonuses and Penalties": 16336
 }

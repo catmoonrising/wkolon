@@ -1,5 +1,29 @@
 # Protection and offensive routines
 
+The Attacks module's Target disclosure applies declared cover, concealment,
+Prone, Helpless and adjacency to an ally to weapons and offensive routines.
+Prone + Helpless defaults to +10 melee; House Rules → Ambiguities offers +5.
+The PC's own Prone state is in Defenses and applies −5 to melee independently.
+
+Cover adds to the opponent's Reflex instead of lowering the attack roll.
+Result ranges say "Reflex (before cover)" when that bonus is applied, including
+routines whose first Aimed shot bypasses it. The area minimum of 10 uses the
+actual roll; misses against a covered target deal no damage. Different targets
+in an area require their own declared context, rather than sharing one target's
+conditions. Declare Burst/Splash cover from the area center, Autofire cover from
+the attacker; adjacent opponents never receive normal cover from the attacker.
+
+Normal darkness is ignored by Low-Light Vision or an Aimed low-light scope;
+Darkvision also ignores total darkness. Other concealment still applies.
+Total Cover blocks a routine before dice/ammunition changes. Total Concealment
+requires Attack square and −5, without claiming the chosen square is occupied.
+Aim requires line of sight and is unavailable against such a concealed target.
+The selected opponent's context is omitted from the general printed stat block.
+Map geometry, falling/standing actions, attacks of opportunity, and target Dex
+changes from Helpless remain declarations; Helpless already adjusts the PC's
+own Reflex on their sheet. Bellow's separate Fortitude routine remains outside
+this weapon-target mapping pending review of its cover interaction.
+
 Reviewed sources: [Attacks, revision 27406](https://swse.miraheze.org/w/index.php?oldid=27406)
 and [Conditions, revision 24990](https://swse.miraheze.org/w/index.php?oldid=24990).
 The CSV is a UI reference, not the calculation source.

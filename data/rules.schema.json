@@ -1177,6 +1177,74 @@
               }
             }
           }
+        },
+        "attackTargets": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "coverBonus",
+            "improvedCoverBonus",
+            "concealmentPenalty",
+            "totalConcealmentPenalty",
+            "prone",
+            "helplessMeleeBonus",
+            "intoMeleePenalty",
+            "preciseShot",
+            "coverDefense",
+            "areaMissWithCover",
+            "aimAreaBenefit",
+            "scopeIgnoresTotalDarkness"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "coverBonus": {
+              "const": 5
+            },
+            "improvedCoverBonus": {
+              "const": 10
+            },
+            "concealmentPenalty": {
+              "const": -2
+            },
+            "totalConcealmentPenalty": {
+              "const": -5
+            },
+            "prone": {
+              "const": {
+                "ownMeleePenalty": -5,
+                "targetMeleeBonus": 5,
+                "targetRangedPenalty": -5
+              }
+            },
+            "helplessMeleeBonus": {
+              "const": 5
+            },
+            "intoMeleePenalty": {
+              "const": -5
+            },
+            "preciseShot": {
+              "const": "feat:precise-shot"
+            },
+            "coverDefense": {
+              "const": "reflex"
+            },
+            "areaMissWithCover": {
+              "const": "no-damage"
+            },
+            "aimAreaBenefit": {
+              "const": false
+            },
+            "scopeIgnoresTotalDarkness": {
+              "const": false
+            }
+          }
         }
       },
       "required": [

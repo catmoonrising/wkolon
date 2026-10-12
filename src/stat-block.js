@@ -1,4 +1,4 @@
-import {ABILITIES, indexPack, signed} from './rules.js';
+import {ABILITIES, indexPack, signed, derive} from './rules.js';
 import {TRAIT_FIELDS, backgroundLanguage} from './heroic-traits.js';
 import {escapeHTML as escape} from './wiki-content.js';
 import {resolveEquipment} from './equipment.js';
@@ -10,6 +10,7 @@ import {conditionalDefenseLabel} from './defensive-combat.js';
 // Formatting reference: Darth Vader, wiki revision 25962. All values come from
 // the saved character and Saga derivation, never from the reference NPC.
 export function renderStatBlock(c,d,pack){
+ if(c.attackTarget)d=derive({...c,attackTarget:undefined},pack);
  const ix=indexPack(pack),species=ix.species.get(c.species);
  const line=(label,value)=>value?`<p><b>${label}:</b> ${value}</p>`:'';
  const textLine=(label,value)=>line(label,escape(value));

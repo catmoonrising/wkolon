@@ -1,5 +1,33 @@
 # Core Rulebook import review
 
+## Cover, concealment and attack targets
+
+Reviewed Prone 18420, Line of Sight 24330, Bonuses and Penalties 16336, Ranged
+Attacks 18433, Precise Shot 18418 and the existing Helpless/Aim/scope passages.
+Verbatim local articles retain their rule hyperlinks, including the official
+Jedi Academy Training Manual discussion of Line of Sight. That GM alternative
+is reference text and has not been silently automated. Homebrew stays excluded.
+
+Prone and Helpless each grant +5 melee. The unnamed-bonus passage supports
+stacking to +10; Helpless also calls its bonus "equivalent to attacking a Prone
+target." Per the user, default to +10 and offer +5 under Ambiguities. The option
+only affects that pair, independently of the attacker's Prone penalty.
+
+Cover adds +5/+10 Reflex, never an attack penalty. Target declarations support
+covered area misses, the actual-roll minimum of 10, first-shot Aim, concealment,
+species vision, low-light scopes, and Precise Shot's into-melee exception.
+Total Cover blocks attacks; Total Concealment requires a declared square and
+keeps −5. The scope explicitly excludes Total Concealment. Saved opponents do
+not alter general printed attack profiles. Geometry, reactions, falling/standing
+actions, and Bellow's interaction with Reflex-specific cover wording remain
+manual or pending separate review.
+
+Validation: 243 JavaScript tests, 19 Python importer tests, rules validation,
+deterministic offline import/rebuild, the full Chromium browser suite, and focused
+Chromium/Firefox checks pass. Browser coverage includes +10/+5, save/reload,
+verbatim rules, mixed Aim/cover routines, scopes, blocked attacks, general stat
+blocks, Dracula mobile layout and complete offline reload.
+
 This batch imports reference text; importing does not certify mechanical mappings.
 The Rules library marks entries **Available** when at least one reviewed builder option exists,
 and **Reference** when it does not. Available entries can still require manual

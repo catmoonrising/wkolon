@@ -238,6 +238,13 @@ export function validatePack(p) {
   assert.deepEqual(charge.improved,{featId:'feat:improved-charge',allowsTurning:true},'Invalid Improved Charge');
   assert.deepEqual(charge.sourceIds,['source:wiki-charge',ix.feats.get(charge.powerful.featId)?.sourceId,ix.feats.get(charge.improved.featId)?.sourceId,'source:wiki-acrobatics'],'Invalid Charge sources');
   assert(charge.sourceIds.every(id=>sources.has(id))&&['charge','acrobatics'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&charge.sourceIds.includes(r.sourceId))),'Missing Charge passage');
+  const target=p.rules.attackTargets;
+  assert(target&&Object.keys(target).every(k=>['sourceIds','coverBonus','improvedCoverBonus','concealmentPenalty','totalConcealmentPenalty','prone','helplessMeleeBonus','intoMeleePenalty','preciseShot','coverDefense','areaMissWithCover','aimAreaBenefit','scopeIgnoresTotalDarkness'].includes(k)),'Invalid attack target mapping');
+  assert.deepEqual([target.coverBonus,target.improvedCoverBonus,target.concealmentPenalty,target.totalConcealmentPenalty,target.helplessMeleeBonus,target.intoMeleePenalty],[5,10,-2,-5,5,-5],'Invalid target modifiers');
+  assert.deepEqual(target.prone,{ownMeleePenalty:-5,targetMeleeBonus:5,targetRangedPenalty:-5},'Invalid Prone rule');
+  assert(target.preciseShot==='feat:precise-shot'&&target.coverDefense==='reflex'&&target.areaMissWithCover==='no-damage'&&target.aimAreaBenefit===false&&target.scopeIgnoresTotalDarkness===false,'Unsupported attack target rule');
+  assert.deepEqual(target.sourceIds,['source:wiki-prone','source:wiki-defenses-helpless','source:wiki-bonuses-and-penalties','source:wiki-line-of-sight','source:wiki-ranged-attacks','source:wiki-precise-shot','source:wiki-aim','source:wiki-targeting-scope'],'Invalid target sources');
+  assert(target.sourceIds.every(id=>sources.has(id))&&['prone','helpless','bonuses-and-penalties','line-of-sight','ranged-attacks','precise-shot','aim','targeting-scope'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&target.sourceIds.includes(r.sourceId))),'Missing target passage');
   const settings=p.rules.weaponSettings;
   assert(settings&&Object.keys(settings).every(k=>['sourceId','mutuallyExclusive','autofireOnlyStun'].includes(k))&&sources.has(settings.sourceId)&&settings.autofireOnlyStun===true,'Invalid weapon settings');
   assert.deepEqual(settings.mutuallyExclusive,['autofire','stun'],'Invalid alternate settings');

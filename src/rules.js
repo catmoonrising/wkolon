@@ -10,6 +10,7 @@ import {recoveryState,recoveryDetails,validateRecovery} from './recovery.js';
 import {attackTechnique,extraDamageDice,validateAttackTechnique,bracingState,validateBracing,powerAttackState,powerAttackBonuses} from './attack-techniques.js';
 import {fullAttackState,fullAttackGrip} from './full-attacks.js';
 import {defensiveCombatState,defensiveConditionalTotals} from './defensive-combat.js';
+import {applyAttackTarget,canAimAtTarget} from './attack-targets.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 export const GROUPS = WEAPON_GROUPS;
 export const modifier = score => Math.floor((score - 10) / 2);
@@ -365,10 +366,10 @@ export function derive(c, pack) {
     const ability=w.mode==='melee'?(finesse?Math.max(mods.str,mods.dex):mods.str):mods.dex;
     const power=powerAttackBonuses(w,e,pack,species.size,powerAttack);
     const strength = w.mode === 'melee' ? (power.twoHanded && !light && !w.unarmed && mods.str > 0 ? 2 * mods.str : mods.str) : w.addsStrength||w.rangeType==='thrown'?mods.str:0;
-    const range=weaponRange(w,e,pack,featHas,c),pointBlank=w.mode==='ranged'&&range.band===0&&featHas('point-blank-shot')?1:0;
+    const aimed=!!e.aimed&&canAim(w,e)&&canAimAtTarget(c,species),accessories=pack.rules.weaponAccessories;
+    const range=weaponRange(w,{...e,aimed},pack,featHas,c),pointBlank=w.mode==='ranged'&&range.band===0&&featHas('point-blank-shot')?1:0;
     const technique=attackTechnique(w,e,pack,featHas,{proficient,scores,light}),autofire=technique.autofire;
     const ammunition=ammunitionState(e,pack,autofire,technique.shots,{flatFooted:c.flatFooted});
-    const aimed=!!e.aimed&&canAim(w,e),accessories=pack.rules.weaponAccessories;
     const aimBonus=aimed&&featHas('careful-shot')?accessories.carefulShotBonus:0;
     const grip=w.group==='rifles'&&e.oneHanded?accessories.rifleOneHandedPenalty:0;
     const unBracedPenalty=technique.selected==='normal'?(autofire?-5:0):technique.penalty;
@@ -391,7 +392,7 @@ export function derive(c, pack) {
       ...(mightySwing?{unSwing:{mightySwing:false,damage:extraDamageDice(w.damage,technique.extraDice),damageDisplay:display(extraDamageDice(w.damage,technique.extraDice))}}:{}),
       damageBonus, damageDisplay:display(damage),
       breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} ${bracing.active?'Bracing':technique.selected==='normal'?'autofire':technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected}${grip?' + '+grip+' one-handed':''}${aimBonus?' + '+aimBonus+' Careful Shot':''}${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${technique.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}${diceBonus?'; +'+diceBonus+' damage '+(diceBonus===1?'die':'dice'):''}${aimed?'; Aim: ignores cover':''}${w.mode==='melee'&&powerAttack.selected?'; Power Attack: '+power.penalty+' attack, +'+power.damage+' damage ('+power.target+')':''}${fullAttack.penalty?'; Full Attack: '+fullAttack.penalty+' attack':''}${defensiveCombat.attackPenalty?'; Defense: '+defensiveCombat.attackPenalty+' attack':''}`};
-  });
+  }).map(a=>applyAttackTarget(a,c,pack,ctx,species));
   const missingAssignments=c.abilityGeneration && Object.values(c.abilityGeneration.assign).some(i=>i===null);
   if (missingAssignments) issues.push('Assign all six ability scores');
   if (c.abilityMethod === 'standard' && !missingAssignments && [...Object.values(c.abilities)].sort((a,b) => a-b).join() !== [...pack.rules.standardArray].sort((a,b) => a-b).join()) issues.push('Standard package must use 15, 14, 13, 12, 10, 8 once each');

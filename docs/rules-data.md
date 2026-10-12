@@ -593,3 +593,46 @@ dodge/other defense bonuses. Path preferences persist across turn changes.
 Entered Charge Acrobatics totals are consumed by one attempted check and cleared
 on Next turn; movement/path preferences persist. Reloading before the attempt
 retains the pending entered total, without reusing it after the action.
+
+## Attack targets
+
+`rules.attackTargets` is a closed, sourced mapping: Cover +5 and Improved Cover
++10 to Reflex; Concealment −2 and Total Concealment −5 to attacks; own Prone −5
+melee; target Prone +5 melee/−5 ranged; Helpless +5 melee; attacks into melee −5
+ranged unless eligible Precise Shot applies. Sources pin Prone 18420, Defenses
+18097 (Helpless), Bonuses and Penalties 16336, Line of Sight 24330, Ranged Attacks
+18433, Precise Shot 18418, and the existing reviewed Aim and Targeting Scope.
+
+Optional `attackTarget` contains `cover` (`none`, `cover`, `improved`, `total`),
+`concealment` (`none`, `concealment`, `total`), and boolean `darkness`, `prone`,
+`helpless`, `adjacentToAlly`, `attackSquare`. Absent fields use none/false.
+This is one declared target for equipped weapons and offensive routines. The
+geometry and identity of the target remain player declarations. Values survive
+save/import and are checked before rolling. Optional character `prone` affects
+the attacker's melee rolls independently; species prone immunity overrides it.
+
+`ambiguity:prone-helpless` defaults to `stack` (+10 melee against both), following
+the unnamed-bonus stacking passage. The user-approved `no-stack` interpretation
+uses +5, reading Helpless's "equivalent to attacking a Prone target" as the same
+bonus. Both preserve −5 ranged against a Prone target and own Prone penalties.
+Exact passages are embedded in House Rules → Ambiguities.
+
+Cover stays separate from attack-roll modifiers. Routine intervals compare
+the actual roll minus each attack's cover bonus to Reflex before cover; the
+area minimum of 10 and natural 1/20 use the actual roll. An area miss against a
+covered target deals zero. Cover for Burst/Splash is declared relative to the
+area's center, and for Autofire relative to the attacker. The separate generic
+Cover column remains available for comparing targets with different conditions.
+
+Aim ignores cover only for the first attack and never benefits an area attack.
+Losing Aim restores its range and normal-darkness scope effects together;
+expiring Brace is additive, rather than overwriting the un-Aimed attack. A
+low-light scope and Low-Light Vision ignore only normal darkness concealment;
+Darkvision ignores total darkness too. Smoke and other concealment remain.
+Total Cover prevents attacks. Total Concealment requires an Attack square
+declaration, keeps its −5 penalty, and prevents Aim without actual line of sight.
+The occupied square is not verified. Printed stat blocks derive general attack
+profiles without the selected opponent's context, retaining the PC's own state.
+Ithorian Bellow's separate Fortitude routine remains outside this weapon-target
+mapping; its special interaction with the Reflex-specific cover passage has
+not been mechanically inferred.
