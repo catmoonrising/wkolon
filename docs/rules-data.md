@@ -696,3 +696,29 @@ Draft paths may temporarily disagree while the two columns are edited; the actio
 planner requires a matching terrain subset, valid occupied count and cost within
 Speed before rolling or consuming declarations. No passive Tumble immunity or
 inferred board position is persisted. An entered check is consumed once.
+
+
+Cross Difficult Terrain uses the closed `acrobaticsMovement.crossTerrain`
+mapping: trained DC 15 within a Move Action, difficult terrain cost removed only
+on success, and diagonal/low-object/Tumble costs retained. Combining ordinary
+Tumble and Cross Difficult Terrain defaults to two separate DC 15 checks;
+Nimble Charge's printed DC 35 is specific to that Charge combination.
+
+Movement drafts gain optional `crossTerrain` and `terrainCheck` (entered total or
+null). Each path/tumbled segment gains `lowObjects` and `diagonalLowObjects`:
+subsets of the existing Difficult/Both counts, which remain inclusive of terrain
+and low objects. The planner checks these subsets, and both the difficult-only
+and low-object tumbled subsets, before rolling. Earlier drafts default the new
+counts to zero. Cross failure restores normal terrain costs, leaves the route
+unconfirmed when over budget, and never invents a shorter route or arrival.
+Successful Tumble only protects actually tumbled squares; no passive immunity
+or claimed arrival is saved.
+
+
+`charge.difficultTerrainAmbiguityId` references the two-source saved ruling.
+`normal-cost` is the default; `nimble-check` adds the printed Nimble Charge
+requirement for difficult terrain (trained DC 25, or combined DC 35). Failed
+Nimble Charge stops the attack independently of the route's cost. Its normal
+success permits passage without ignoring cost; only successful Cross Difficult
+Terrain removes that cost. The existing low-object and Improved Charge turning
+rules remain. No character migration is required.

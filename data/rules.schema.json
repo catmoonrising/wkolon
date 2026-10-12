@@ -1117,7 +1117,8 @@
             "combinedDC",
             "acrobatics",
             "powerful",
-            "improved"
+            "improved",
+            "difficultTerrainAmbiguityId"
           ],
           "properties": {
             "sourceIds": {
@@ -1175,6 +1176,9 @@
                 "featId": "feat:improved-charge",
                 "allowsTurning": true
               }
+            },
+            "difficultTerrainAmbiguityId": {
+              "const": "ambiguity:charge-difficult-terrain"
             }
           }
         },
@@ -1429,7 +1433,8 @@
             "take10",
             "take20",
             "tumble",
-            "prone"
+            "prone",
+            "crossTerrain"
           ],
           "properties": {
             "sourceIds": {
@@ -1471,6 +1476,22 @@
                 "trainedDrop": "free-action",
                 "stand": "move-action",
                 "trainedStand": "swift-action"
+              }
+            },
+            "crossTerrain": {
+              "const": {
+                "dc": 15,
+                "trainedOnly": true,
+                "action": "move-action",
+                "ignores": "difficult-terrain-only",
+                "preserves": [
+                  "diagonal",
+                  "low-objects",
+                  "tumble"
+                ],
+                "combinedTumbleChecks": "separate",
+                "failure": "normal-terrain-cost",
+                "noAutomaticShortening": true
               }
             }
           }

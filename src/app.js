@@ -418,7 +418,7 @@ function fitBarInput(el) {
 function numericFields(root) {
   root.querySelectorAll('input[type=number]:not([data-generation-manual])').forEach(el=>{
     el.dataset.number='true'; el.dataset.math=''; el.dataset.prev=el.value;
-    if(el.dataset.acrobaticsMovement==='check'||['distance','weightOverride','shotsRemaining'].includes(el.dataset.inventory))el.dataset.allowEmpty='';
+    if(el.dataset.chargePath==='acrobatics'||['check','terrainCheck'].includes(el.dataset.acrobaticsMovement)||['distance','weightOverride','shotsRemaining'].includes(el.dataset.inventory))el.dataset.allowEmpty='';
     if(el.step&&Number(el.step)<1)el.dataset.decimal='';
     if(el.hasAttribute('min')) el.dataset.min=el.min;
     if(el.hasAttribute('max')) el.dataset.max=el.max;

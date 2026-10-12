@@ -11484,6 +11484,35 @@
             "name": "Provoking action only"
           }
         ]
+      },
+      {
+        "id": "ambiguity:charge-difficult-terrain",
+        "name": "Charge through Difficult Terrain",
+        "sourceIds": [
+          "source:wiki-charge",
+          "source:wiki-acrobatics"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:charge",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:acrobatics",
+            "fullText": true
+          }
+        ],
+        "default": "normal-cost",
+        "options": [
+          {
+            "value": "normal-cost",
+            "name": "Normal movement cost (2×)"
+          },
+          {
+            "value": "nimble-check",
+            "name": "Nimble Charge check (DC 25)"
+          }
+        ]
       }
     ],
     "forceTalentAccess": {
@@ -11872,7 +11901,8 @@
       "improved": {
         "featId": "feat:improved-charge",
         "allowsTurning": true
-      }
+      },
+      "difficultTerrainAmbiguityId": "ambiguity:charge-difficult-terrain"
     },
     "attackTargets": {
       "sourceIds": [
@@ -12002,6 +12032,20 @@
         "trainedDrop": "free-action",
         "stand": "move-action",
         "trainedStand": "swift-action"
+      },
+      "crossTerrain": {
+        "dc": 15,
+        "trainedOnly": true,
+        "action": "move-action",
+        "ignores": "difficult-terrain-only",
+        "preserves": [
+          "diagonal",
+          "low-objects",
+          "tumble"
+        ],
+        "combinedTumbleChecks": "separate",
+        "failure": "normal-terrain-cost",
+        "noAutomaticShortening": true
       }
     }
   },

@@ -76,7 +76,7 @@ test('the saved zero-HP ambiguity enables Stun/Ion death and FP survival without
  const droidPack=structuredClone(pack);droidPack.species.find(s=>s.id==='species:human').isDroid=true;
  const droid=hero();droid.currentHP=1;droid.houseRules={ambiguities:{'ambiguity:stun-ion-death':'general-death'}};assert(damageOutcome(droid,stats(droid),droidPack,100,{type:'stun'}).immune);assert(damageOutcome(droid,stats(droid),droidPack,10,{type:'ion'}).dead);
  const ui=createHouseRules(pack);ui.setTab('ambiguities');const html=ui.render(hero());assert(html.includes('If the Stun Damage reduces'));assert(html.includes('If the Ion Damage reduces'));assert(html.includes('instead suffers'));assert(html.includes('value="knockout" selected'));
- const bad=structuredClone(pack);bad.rules.ambiguities.at(-1).passages[0].paragraphCount=1;assert.throws(()=>validatePack(bad),/excerpt/);
+ const bad=structuredClone(pack);bad.rules.ambiguities.find(a=>a.id==='ambiguity:stun-ion-death').passages[0].paragraphCount=1;assert.throws(()=>validatePack(bad),/excerpt/);
 });
 
 test('natural rest uses the selected unconscious healing rule and retains the once-per-day ledger across revival',()=>{

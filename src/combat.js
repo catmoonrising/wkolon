@@ -97,12 +97,12 @@ export function rollCharge(c,d,pack,uid,roller=evalExpr){
  routinePlan(r,[plan.attack]);
  const check=plan.dc===null?null:plan.path.acrobatics===null?roller('1d20'+signed(plan.skill.total)):{value:plan.path.acrobatics,display:String(plan.path.acrobatics)};
  const success=!check||check.value>=plan.dc,movementCost=plan.path.crossTerrain&&success?plan.path.squares:plan.normalCost;
- const stopped=plan.path.lowObjects&&!success||movementCost>d.speed;
+ const stopped=plan.nimbleRequired&&!success||movementCost>d.speed;
  const checkText=check?`Acrobatics ${check.value} / DC ${plan.dc}; `:'',note=`${checkText}${plan.path.squares} squares; no further actions this turn`;
  const result=stopped?{text:'Charge: '+note+'; no attack',html:'<b>Charge</b>: '+escape(note)+'; no attack',results:[],ammunitionSpent:[]}:
   rollRoutine(r,[plan.attack],pack.rules.combat,roller);
  return {...result,text:stopped?result.text:result.text+'; '+note,html:stopped?result.html:result.html+'<div>'+escape(note)+'</div>',chargeReflexPenalty:plan.reflexPenalty,
-  ...(check&&plan.path.acrobatics!==null?{chargeEnteredTotal:plan.path.acrobatics}:{}),bracingConsumed:true,aimConsumed:d.attacks.filter(a=>a.aimed).map(a=>a.uid),charge:{attackBonus:plan.attackBonus,damageBonus:plan.damageBonus,movementCost,check,dc:plan.dc,stopped}};
+  ...(check&&plan.path.acrobatics!==null?{chargeEnteredTotal:plan.path.acrobatics}:{}),bracingConsumed:true,aimConsumed:d.attacks.filter(a=>a.aimed).map(a=>a.uid),charge:{attackBonus:plan.attackBonus,damageBonus:plan.damageBonus,movementCost,check,dc:plan.dc,nimbleRequired:plan.nimbleRequired,stopped}};
 }
 export function routinePlan(routine,attacks){
  if(!routine.steps.length)throw new Error('Add an attack');

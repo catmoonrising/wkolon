@@ -87,3 +87,8 @@ test('optional Charge state validates and retains path preferences across next t
  const c=hero();c.chargePath={squares:4,turns:true,difficultSquares:1,lowObjects:true,crossTerrain:true,acrobatics:35};c.chargeReflexPenalty=-2;validateCharacter(c,pack);startNextTurn(c);assert.equal(c.chargePath.acrobatics,null);assert.equal(c.chargePath.squares,4);
  for(const state of [{chargeReflexPenalty:-4},{chargePath:[]},{chargePath:{squares:1}},{chargePath:{turns:1}},{chargePath:{acrobatics:NaN}},{chargePath:{unknown:true}}])assert.throws(()=>validateCharacter({...c,...state},pack),/Invalid/);
 });
+
+test('Improved Charge only permits turning and does not bypass the selected difficult-terrain Nimble Charge requirement',()=>{
+ const c=hero();c.houseRules={ambiguities:{'ambiguity:charge-difficult-terrain':'nimble-check'}};c.chargePath={squares:3,difficultSquares:1,turns:true,acrobatics:24};const d=derive(c,pack),plan=planCharge(c,d,pack,c.inventory[0].uid);assert(plan.improved);assert(plan.nimbleRequired);assert.equal(plan.dc,25);assert(rollCharge(c,d,pack,c.inventory[0].uid,noDice).charge.stopped);
+ c.houseRules.ambiguities['ambiguity:charge-difficult-terrain']='normal-cost';assert.equal(planCharge(c,d,pack,c.inventory[0].uid).dc,null);assert(!planCharge(c,d,pack,c.inventory[0].uid).nimbleRequired);
+});

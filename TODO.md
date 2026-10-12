@@ -49,7 +49,10 @@
   - [x] Fall Prone/Stand Up: normal and trained action types, skill failures, immunity and routine timing.
   - [x] Aim ends after actual recovery/Force actions as well as movement and prone actions.
   - [x] Hutt Supreme Stability prevents forced knockdown, while voluntary Prone and its normal penalties remain available.
-  - [ ] Tumble during feat-granted movement, Cross Difficult Terrain, Balance, Escape Bonds, falling and other skill actions.
+  - [x] Cross Difficult Terrain during Move: independent trained DC15 checks, low-object/diagonal costs, failure budgets and Tumble interactions.
+  - [ ] Tumble during feat-granted movement, Balance, Escape Bonds, falling and other skill actions.
+  - [ ] Complete explicit Charge diagonal and low-object square counts; its current obstacle flag records check permission.
+  - [x] Charge/Acrobatics difficult-terrain conflict: ordinary double cost by default; saved DC25/DC35 alternative.
   - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 
@@ -70,3 +73,5 @@
 - [x] CSV armor gap: speed penalties and heavy-armor running limits.
 - [x] CSV gap: Force power selection and tracking.
 - [x] CSV gaps: per-skill modifiers, weapon ranges and critical details.
+
+- [x] Consolidate accepted rulings and default-only decisions in docs/rulings.md for later review.

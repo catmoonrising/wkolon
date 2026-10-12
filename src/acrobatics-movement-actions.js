@@ -1,4 +1,4 @@
-import {planAcrobaticsMove,planProneAction,acrobaticsPath} from './acrobatics-movement.js';
+import {planAcrobaticsMove,planProneAction,acrobaticsMoveCost} from './acrobatics-movement.js';
 import {clearAiming,clearBracing} from './attack-techniques.js';
 import {clearFollowUps} from './attack-follow-ups.js';
 import {evalExpr,totalHtml} from './dice.js';
@@ -15,15 +15,27 @@ function beginAction(c,moveAction){
  if(moveAction)delete c.routineProgress;
 }
 export function acrobaticsMove(c,d,pack,roller=evalExpr){
- const plan=planAcrobaticsMove(c,d,pack),rolled=check(plan,plan.path.check,roller),success=rolled?.success??true;
+ const plan=planAcrobaticsMove(c,d,pack),p=plan.path;
+ // Independent applications: only Nimble Charge has a printed combined DC.
+ const terrainRoll=p.crossTerrain?check({...plan,dc:pack.rules.acrobaticsMovement.crossTerrain.dc},p.terrainCheck,roller):null;
+ const tumbleRoll=p.tumble?check(plan,p.check,roller):null;
+ const crossSucceeded=terrainRoll?.success??false,tumbleSucceeded=tumbleRoll?.success??true;
+ const cost=acrobaticsMoveCost(c,pack,crossSucceeded),success=(terrainRoll?.success??true)&&tumbleSucceeded;
+ const movementComplete=cost<=plan.maximum&&tumbleSucceeded;
+ const qualifiedSquares=tumbleRoll?.success?p.tumbled.squares:0,protectedSquares=movementComplete?qualifiedSquares:0;
+ const protectionUnconfirmed=qualifiedSquares>0&&!movementComplete,rolled=tumbleRoll||terrainRoll;
  beginAction(c,true);
- if(rolled&&c.acrobaticsMovement?.check!==undefined)c.acrobaticsMovement.check=null;
- const protectedSquares=rolled?.success?plan.path.tumbled.squares:0;
- const movementComplete=success;
- const name=plan.path.tumble?'Tumble':'Move',note=`${plan.path.path.squares} squares (${plan.cost}/${plan.maximum} movement; ${plan.path.mode})`;
- const outcome=rolled?(success?`${protectedSquares} squares avoid attacks of opportunity`:'Failure; movement can provoke'+(plan.path.occupied?'; passage through occupied squares unconfirmed':'')):'';
- const text=`${name}: ${rolled?`Acrobatics ${rolled.value} / DC ${plan.dc}; `:''}${note}${outcome?'; '+outcome:''}`;
- return {...plan,rolled,success,protectedSquares,movementComplete,text,html:`<b>${name}</b>: ${rolled?`${rolled.display} = ${totalHtml(rolled)} / DC ${plan.dc}; `:''}${escape(note)}${outcome?'; '+escape(outcome):''}`};
+ if(tumbleRoll&&c.acrobaticsMovement?.check!==undefined)c.acrobaticsMovement.check=null;
+ if(terrainRoll&&c.acrobaticsMovement?.terrainCheck!==undefined)c.acrobaticsMovement.terrainCheck=null;
+ const name=p.tumble?'Tumble':'Move',note=`${p.path.squares} squares (${cost}/${plan.maximum} movement; ${p.mode})`;
+ const checks=[...(terrainRoll?[{name:'Cross Difficult Terrain',roll:terrainRoll,dc:pack.rules.acrobaticsMovement.crossTerrain.dc}]:[]),...(tumbleRoll?[{name:terrainRoll?'Tumble':'Acrobatics',roll:tumbleRoll,dc:plan.dc}]:[])];
+ const outcomes=[];
+ if(terrainRoll&&!terrainRoll.success)outcomes.push('Cross Difficult Terrain failed; normal terrain costs');
+ if(cost>plan.maximum)outcomes.push('route exceeds Speed; movement unconfirmed');
+ if(tumbleRoll)outcomes.push(tumbleRoll.success?(protectionUnconfirmed?'Tumble succeeded; protection applies only to squares actually tumbled':`${protectedSquares} squares avoid attacks of opportunity`):'Failure; movement can provoke'+(p.occupied?'; passage through occupied squares unconfirmed':''));
+ const outcome=outcomes.join('; '),text=`${name}: ${checks.map(c=>`${c.name} ${c.roll.value} / DC ${c.dc}; `).join('')}${note}${outcome?'; '+outcome:''}`;
+ const html=`<b>${name}</b>: ${checks.map(c=>`${c.name} ${c.roll.display} = ${totalHtml(c.roll)} / DC ${c.dc}; `).join('')}${escape(note)}${outcome?'; '+escape(outcome):''}`;
+ return {...plan,plannedCost:plan.cost,cost,terrainRoll,tumbleRoll,rolled,checks,success,qualifiedSquares,protectedSquares,protectionUnconfirmed,movementComplete,text,html};
 }
 export function proneAction(c,d,pack,acrobatics=false,roller=evalExpr){
  const plan=planProneAction(c,d,pack,acrobatics),rolled=check(plan,null,roller),success=rolled?.success??true;

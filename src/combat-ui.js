@@ -34,10 +34,10 @@ export function xpBar(c,d,rules){
 export function createCombatControls(pack,{current,derived,changed,save,log,error}){
  function editAcrobaticsMovement(el,report=false){
   const c=current(),p=acrobaticsPath(c),[key,sub]=el.dataset.acrobaticsMovement.split('.');
-  if(sub)p[key][sub]=Number(el.value);else p[key]=el.type==='checkbox'?el.checked:key==='check'||key==='occupied'?(el.value===''&&key==='check'?null:Number(el.value)):el.value;
+  if(sub)p[key][sub]=Number(el.value);else p[key]=el.type==='checkbox'?el.checked:['check','terrainCheck','occupied'].includes(key)?(el.value===''&&['check','terrainCheck'].includes(key)?null:Number(el.value)):el.value;
   try{validateAcrobaticsMovement({...c,acrobaticsMovement:p},message=>{throw new Error('Invalid '+message);});c.acrobaticsMovement=p;save();
    const d=derived(),issue=acrobaticsMoveIssue(c,d,pack);
-   for(const button of document.querySelectorAll('[data-combat="acrobatics-move"]')){button.disabled=!!issue;button.title=issue||'Move Action'+(p.tumble?'; DC 15 trained Acrobatics':'');}
+   for(const button of document.querySelectorAll('[data-combat="acrobatics-move"]')){button.disabled=!!issue;button.title=issue||'Move Action'+(p.tumble||p.crossTerrain?'; DC 15 trained Acrobatics':'');}
    for(const label of document.querySelectorAll('[data-acrobatics-cost]'))label.textContent=acrobaticsMoveCostLabel(c,d,pack);
    return true;
   }catch(e){if(report){error(e.message);changed();}return false;}

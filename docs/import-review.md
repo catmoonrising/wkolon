@@ -805,3 +805,47 @@ revision and article are unchanged; this corrects the reviewed calculation.
 Validation: 294 JavaScript tests and 19 Python importer tests pass. Browser
 checks cover both ordinary and trained Hutt prone actions, manual changes,
 penalties, and persistence across reloads.
+
+
+## Cross Difficult Terrain during Move
+
+Reviewed Acrobatics revision 27350 and Move revision 18374 against the live API;
+both match the pinned articles. Cross Difficult Terrain is trained DC 15 and
+ignores difficult terrain cost on success. Move explicitly doubles diagonal
+costs twice when combined with difficult terrain or low objects. Low objects
+remain separate from the ignored difficult terrain surcharge.
+
+The closed data mapping precedes calculations, with separate movement/check
+state and low-object subsets. Cross and Tumble are separate applications with
+no printed ordinary combined-check rule; the user chose separate checks with
+no Ambiguities alternative. Nimble Charge's explicit DC 35 is kept specific to
+that combination. Failure restores ordinary costs. Above-budget routes and
+successful Tumble protection on untraversed squares are not automatically
+resolved. Route geometry and actual squares traversed remain player/GM state.
+
+Also reviewed Charge and Improved Charge against their current pinned revisions.
+Charge explicitly permits difficult terrain at double movement cost, whereas
+Acrobatics' Nimble Charge requires DC 25 to charge through low objects **and**
+difficult terrain. This is a source contradiction, not an ordinary Move rule.
+The user retained the action-page default and approved a saved DC 25
+alternative, with the printed DC 35 when combined with Cross Difficult Terrain.
+Failed Nimble Charge prevents the attack; a DC 25 success alone does not waive
+terrain costs. The setting changes Charge's controls and resolution while
+ordinary Move continues to use its separate DC 15 applications.
+
+The ruling register in docs/rulings.md also retains explicit decisions to omit
+alternatives (bracing stock clause, Cleave copied modifiers, shared ordinary
+Acrobatics checks, and no extrapolation of droid armor slowdown), so they can be
+revisited later.
+
+
+Charge's existing path model still has a low-object permission flag rather than
+explicit low-object/diagonal cost counts. Completing those path counts remains
+on the TODO; the new ordinary Move calculation already distinguishes them.
+
+
+Validation: 309 JavaScript tests and 19 Python importer tests pass. The full
+Chromium browser suite and focused Chromium/Firefox checks cover separate
+terrain/Tumble checks, restored failure costs, low-object/diagonal subsets,
+Charge defaults and saved alternatives, full source passages, reloads, mobile
+Dracula layout, and offline use. Offline import and compilation are deterministic.

@@ -295,3 +295,34 @@ Rage, Recover and Force-power use/recovery now clear it as well. Swift/Reaction
 operations retain routine progress; standard/move/full-round Force-power use
 interrupts execution. Receiving healing and automatic effect updates are not
 classified as an action by the healed character.
+
+
+### Cross Difficult Terrain
+
+Speed → Move offers Cross Difficult Terrain as a trained DC 15 Acrobatics
+application. Its entered total is consumed once; blank rolls with the current
+skill modifier. A successful check removes the difficult-terrain surcharge.
+Diagonal costs, low-object costs and Tumble costs remain. Terrain's Low objects
+and Low, diagonal counts are subsets of Difficult/Both, so an obstacle is not
+mistakenly waived with the difficult terrain.
+
+Ordinary Cross Difficult Terrain and Tumble use separate DC 15 checks, per the
+user's default-only ruling. Either may succeed independently. On terrain
+failure, movement uses its normal cost. A route that still fits Speed can
+complete at that cost. An over-budget route remains unconfirmed; the app does
+not invent a destination or shorten the route. A successful Tumble check then
+qualifies protection only on squares actually tumbled, rather than claiming the
+entire planned path was traversed. Successful Cross Difficult Terrain alone
+never prevents an attack of opportunity. All attempts clear Aim/Brace and
+immediate follow-up/routine state as other Move Actions do.
+
+Charge continues to use its separate controls and printed low-object/Cross
+Difficult Terrain combined DC 35. That value is not applied to ordinary Move.
+The Charge article's allowance for difficult terrain at double cost conflicts
+with Acrobatics' Nimble Charge wording, which names difficult terrain alongside
+low objects as requiring DC 25. Charge's action-page calculation remains the default. The approved
+Ambiguities option requires trained Nimble Charge DC 25 through difficult
+terrain, or DC 35 when also using Cross Difficult Terrain. Failure prevents the
+attack even when the ordinary path cost fits. DC 25 alone still retains terrain
+costs; Improved Charge only changes turning and does not remove the requirement.
+The choice is saved per character and does not affect ordinary Move.

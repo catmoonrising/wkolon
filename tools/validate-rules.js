@@ -231,9 +231,15 @@ export function validatePack(p) {
   assert.deepEqual(defense.sourceIds,['source:wiki-fight-defensively','source:wiki-fight-defensively-total-defense',ix.feats.get(defense.meleeDefense.featId)?.sourceId,ix.feats.get(defense.dodge.featId)?.sourceId,ix.feats.get(defense.mobility.featId)?.sourceId,'source:wiki-defenses-helpless'],'Invalid defensive combat sources');
   assert(defense.sourceIds.every(id=>sources.has(id))&&['fight-defensively','total-defense','helpless'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&defense.sourceIds.includes(r.sourceId))),'Missing defensive combat passage');
   const charge=p.rules.charge;
-  assert(charge&&Object.keys(charge).every(k=>['sourceIds','action','minimumSquares','attackBonus','attackBonusType','reflexPenalty','duration','endsTurn','difficultTerrainCost','lowObjectsDC','crossTerrainDC','combinedDC','acrobatics','powerful','improved'].includes(k)),'Invalid Charge mapping');
+  assert(charge&&Object.keys(charge).every(k=>['sourceIds','action','minimumSquares','attackBonus','attackBonusType','reflexPenalty','duration','endsTurn','difficultTerrainCost','lowObjectsDC','crossTerrainDC','combinedDC','acrobatics','powerful','improved','difficultTerrainAmbiguityId'].includes(k)),'Invalid Charge mapping');
   assert(charge.action==='standard-action'&&charge.duration==='until-next-turn'&&charge.endsTurn===true&&charge.attackBonusType==='competence'&&charge.acrobatics==='skill:acrobatics','Unsupported Charge rule');
   assert.deepEqual([charge.minimumSquares,charge.attackBonus,charge.reflexPenalty,charge.difficultTerrainCost,charge.lowObjectsDC,charge.crossTerrainDC,charge.combinedDC],[2,2,-2,2,25,15,35],'Invalid Charge constants');
+  assert.equal(charge.difficultTerrainAmbiguityId,'ambiguity:charge-difficult-terrain','Invalid Charge terrain ambiguity');
+  const chargeTerrain=p.rules.ambiguities.find(a=>a.id===charge.difficultTerrainAmbiguityId);
+  assert(chargeTerrain&&chargeTerrain.default==='normal-cost','Invalid Charge terrain default');
+  assert.deepEqual(chargeTerrain.options.map(o=>o.value),['normal-cost','nimble-check'],'Invalid Charge terrain options');
+  assert.deepEqual(chargeTerrain.sourceIds,['source:wiki-charge','source:wiki-acrobatics'],'Invalid Charge terrain sources');
+  assert.deepEqual(chargeTerrain.passages,[{ruleId:'rule:charge',fullText:true},{ruleId:'rule:acrobatics',fullText:true}],'Missing Charge terrain passages');
   assert.deepEqual(charge.powerful,{featId:'feat:powerful-charge',attackBonus:2,damagePerLevel:0.5},'Invalid Powerful Charge');
   assert.deepEqual(charge.improved,{featId:'feat:improved-charge',allowsTurning:true},'Invalid Improved Charge');
   assert.deepEqual(charge.sourceIds,['source:wiki-charge',ix.feats.get(charge.powerful.featId)?.sourceId,ix.feats.get(charge.improved.featId)?.sourceId,'source:wiki-acrobatics'],'Invalid Charge sources');
@@ -253,7 +259,7 @@ export function validatePack(p) {
   assert.deepEqual(followThrough.prerequisite,{kind:'all',requirements:[]},'Follow Through has no listed prerequisite');
   assert(!p.classes.some(c=>c.bonusFeats?.includes(followThrough.id)),'Follow Through is not a class bonus feat');
   const acrobaticsMovement=p.rules.acrobaticsMovement;
-  assert.deepEqual(acrobaticsMovement,{sourceIds:['source:wiki-acrobatics','source:wiki-move','source:wiki-attacks-of-opportunity','source:wiki-prone','source:wiki-encumbrance'],skillId:'skill:acrobatics',trainedOnly:true,dc:15,take10:false,take20:false,tumble:{action:'move-action',speedMultiplier:1,movementMultiplier:2,defaultCost:'multiply',protection:'tumbled-squares-only',occupiedSuccess:true,noAutomaticPassageOnFailure:true},prone:{drop:'swift-action',trainedDrop:'free-action',stand:'move-action',trainedStand:'swift-action'}},'Invalid Acrobatics movement mapping');
+  assert.deepEqual(acrobaticsMovement,{sourceIds:['source:wiki-acrobatics','source:wiki-move','source:wiki-attacks-of-opportunity','source:wiki-prone','source:wiki-encumbrance'],skillId:'skill:acrobatics',trainedOnly:true,dc:15,take10:false,take20:false,tumble:{action:'move-action',speedMultiplier:1,movementMultiplier:2,defaultCost:'multiply',protection:'tumbled-squares-only',occupiedSuccess:true,noAutomaticPassageOnFailure:true},prone:{drop:'swift-action',trainedDrop:'free-action',stand:'move-action',trainedStand:'swift-action'},crossTerrain:{dc:15,trainedOnly:true,action:'move-action',ignores:'difficult-terrain-only',preserves:['diagonal','low-objects','tumble'],combinedTumbleChecks:'separate',failure:'normal-terrain-cost',noAutomaticShortening:true}},'Invalid Acrobatics movement mapping');
   requireRef('skills',acrobaticsMovement.skillId);
   assert(acrobaticsMovement.sourceIds.every(id=>sources.has(id))&&['acrobatics','move','attacks-of-opportunity','prone','encumbrance'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&acrobaticsMovement.sourceIds.includes(r.sourceId))),'Missing Acrobatics movement passage');
   const combatMovement=p.rules.combatMovement;
