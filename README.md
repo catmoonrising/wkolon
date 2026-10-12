@@ -8,7 +8,8 @@ skills, select feats and talents, buy and equip gear, and advance through levels
 The sheet calculates ability modifiers, defenses, damage threshold, HP, skills,
 BAB and weapon attacks. DR/SR layers apply damage through shields and reduction;
 XP, Force Points and Dark Side Score have editable bars. Offensive Routines roll
-configured attack sequences and show damage by Reflex Defense. Every defense,
+configured attack sequences and show damage by Reflex Defense. Step resolves
+attacks individually, allowing Cleave and Follow Through between them. Every defense,
 skill and attack shows its calculation.
 Build validation identifies missing choices and rejects choices whose
 prerequisites were not met at the level when they were taken.

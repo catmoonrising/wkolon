@@ -734,3 +734,26 @@ deterministic offline import/rebuild and the full Chromium browser suite pass.
 Focused Chromium/Firefox checks cover path and terrain limits, native speeds,
 Aim timing, ammunition, conditional Reflex, exact articles, saved paths, Saga
 printing, expanded mobile terrain controls and complete offline reload.
+
+## Cleave, Great Cleave and Follow Through
+
+Reviewed Cleave18032 and Great Cleave18223, and imported Follow Through20419
+(Jedi Academy Training Manual), Fighting Space26700 and Melee Attacks18359.
+All are official source passages; no Homebrew was added. Reach/Threatened Area
+redirect to Fighting Space. Larger creatures are not assigned an invented
+fixed reach; the extra target's reach is confirmed by the player/GM.
+
+Cleave's effect does not restrict its triggering attack to melee, although its
+extra attack must be melee with the identical weapon. Follow Through alone
+explicitly requires a melee trigger. The user chose the default only for Cleave:
+copy the full triggering modifier, including Charge and target-specific bonuses.
+No recalculation alternative is added to Ambiguities. Great Cleave chains and
+Follow Through's separate round/turn timing use explicit named HP-zero triggers.
+Routine stepping permits immediate follow-ups between attacks.
+
+Validation: 280 JavaScript tests and 19 Python importer tests pass, with rules
+validation and deterministic offline import/rebuild. The complete Chromium
+suite and focused Firefox checks pass, covering exact inherited modifiers,
+Great Cleave chains, duplicate-victim prevention, native movement/terrain,
+independent turn/round limits, Swift/free reload timing, routine interleaving,
+resume/edit/import/duplication, verbatim rules, mobile themes and offline reload.

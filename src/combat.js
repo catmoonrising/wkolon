@@ -5,6 +5,8 @@ import {validateDefensiveCombat} from './defensive-combat.js';
 import {planCharge,validateCharge} from './charge.js';
 import {validateCombatMovement} from './combat-movement.js';
 import {validateOpportunity} from './opportunity.js';
+import {validateFollowUps} from './attack-follow-ups.js';
+import {validateRoutineProgress} from './routine-progress.js';
 import {validateAttackTarget} from './attack-targets.js';
 
 const uuid=id=>typeof id==='string'&&/^[a-f0-9-]{36}$/.test(id);
@@ -21,6 +23,7 @@ export function validateCombatState(c,bad){
  validateAttackTarget(c,bad);
  validateOpportunity(c,bad);
  validateCombatMovement(c,bad);
+ validateFollowUps(c,bad);
  if(c.fullAttackPenalties!==undefined){
   const p=c.fullAttackPenalties;
   if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['twoWeapons','doubleAttack','tripleAttack'].includes(k))||
@@ -33,7 +36,7 @@ export function validateCombatState(c,bad){
   const p=c.protection;
   if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['dr','drBypass','sr','srMax'].includes(k))||!['dr','sr','srMax'].every(k=>integer(p[k],0,100000))||p.sr>p.srMax||typeof p.drBypass!=='string'||p.drBypass.length>2000)bad('DR or SR');
  }
- if(c.routines===undefined)return;
+ if(c.routines===undefined){validateRoutineProgress(c,bad);return;}
  if(!Array.isArray(c.routines)||c.routines.length>20)bad('routines');
  const ids=new Set();
  for(const r of c.routines){
@@ -48,6 +51,7 @@ export function validateCombatState(c,bad){
   if(r.kind==='fullAttack'&&(r.steps.filter(s=>s.source==='base').length!==1||new Set(r.steps.map(s=>s.source)).size!==r.steps.length))bad('Full Attack sources');
   if(count>100)bad('maximum 100 attacks per routine');
  }
+ validateRoutineProgress(c,bad);
 }
 export function protectedDamage(protection,amount,rules,ignoreDR=false){
  if(!integer(amount,0,1000000000))throw new Error('Enter valid damage');
@@ -139,7 +143,7 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Refle
    damage=Math.max(rules.minimumDamage*(critical?multiplier:1),damageRoll.value);
    damageRoll={...damageRoll,value:damage};
   }
-  results.push({name:a.name,total:attackRoll.value,damage,naturalHit,naturalMiss,failedArea,critical,areaType:a.areaType,aimed:!!a.aimed,braced:!!a.braced,mightySwing:!!a.mightySwing,ignoresDarkness:!!a.ignoresDarkness,coverBonus:a.coverBonus||0,targetCover:!!a.targetCover,attackRoll,damageRoll});
+  results.push({uid:a.uid,weaponId:a.id,mode:a.mode,attackBonus:a.attack+s.attackMod,name:a.name,total:attackRoll.value,damage,naturalHit,naturalMiss,failedArea,critical,areaType:a.areaType,aimed:!!a.aimed,braced:!!a.braced,mightySwing:!!a.mightySwing,ignoresDarkness:!!a.ignoresDarkness,coverBonus:a.coverBonus||0,targetCover:!!a.targetCover,attackRoll,damageRoll});
  }
  const rows=defenseRangeRows(results),range=r=>r.lo===null?(r.hi===null?'Any':`≤ ${r.hi}`):r.hi===null?`${r.lo}+`:r.lo===r.hi?String(r.lo):`${r.lo}–${r.hi}`;
  const area=results.some(r=>r.areaType),splash=results.some(r=>r.areaType==='splash'),defenseLabel=defense+(results.some(r=>r.coverBonus)?' (before cover)':'');

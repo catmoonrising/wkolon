@@ -71,6 +71,8 @@ export function createStore(pack, onStatus, storage = localStorage) {
 
 function replaceCharacterId(c){
  const previous=c.id;c.id=crypto.randomUUID();
+ delete c.routineProgress;
+ if(c.followUp)Object.assign(c.followUp,{tickets:[],selected:null,dropped:false,immediate:false,inReach:false});
  // The permanent unarmed attack uses the character's ID; physical item IDs stay intact.
  for(const r of c.routines||[])for(const s of r.steps)if(s.attackId===previous)s.attackId=c.id;
 }

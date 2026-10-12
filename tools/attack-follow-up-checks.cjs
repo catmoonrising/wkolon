@@ -1,0 +1,35 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+module.exports=async(browser,base,root)=>{
+ const {newCharacter,derive,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
+ const c=newCharacter(pack);c.name='Follow-ups';c.abilityMethod='manual';c.abilities={str:16,dex:14,con:10,int:14,wis:10,cha:10};
+ c.levels=Array.from({length:4},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:i===0?[{id:'feat:power-attack'},{id:'feat:cleave'}]:i===1?[{id:'feat:mighty-swing'}]:i===2?[{id:'feat:follow-through'}]:[{id:'feat:great-cleave'}],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
+ c.inventory=['knife','blaster-pistol'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...(id==='knife'?{}:{shotsRemaining:20})}));
+ const r={id:crypto.randomUUID(),name:'Cuts',steps:[{id:crypto.randomUUID(),attackId:c.inventory[0].uid,count:2,attackMod:3,damageMod:0}]};c.routines=[r];validateCharacter(c,pack);assert(derive(c,pack).ctx.feats.some(f=>f.id==='feat:great-cleave'));assert(derive(c,pack).ctx.feats.some(f=>f.id==='feat:follow-through'));
+ const context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);
+ try{
+  await context.addInitScript(roster=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster));},{schemaVersion:1,activeId:c.id,characters:[c]});
+  // Deterministic 12 on all d20 rolls, including offline checks. IDs use crypto.
+  await context.addInitScript(()=>Math.random=()=>.55);await page.goto(base);
+  const attacks=page.locator('#module-attacks'),follow=attacks.locator('#attack-follow-ups'),routines=page.locator('#module-routines'),routine=routines.locator(`[data-routine="${r.id}"]`).first(),step=routine.locator('[data-combat="step"]'),cleave=follow.locator('[data-combat="cleave"]'),move=follow.locator('[data-combat="follow-through"]');
+  const field=key=>follow.locator(`[data-follow-up="${key}"]`),set=async(key,value)=>{await field(key).fill(value);await field(key).press('Tab');},saved=()=>page.waitForFunction(()=>document.querySelector('#save-status').textContent==='Saved');
+  const confirm=async(opponent,next)=>{await set('opponent',opponent);await field('dropped').check();await field('immediate').check();await set('nextOpponent',next);await field('inReach').check();};
+  await attacks.waitFor();await follow.locator(':scope > summary').click();assert(await cleave.isDisabled());assert(await move.isDisabled());
+  await step.click();assert((await step.innerText()).includes('2'));await confirm('Guard A','Guard B');assert(!await cleave.isDisabled());assert(!await move.isDisabled());
+  await set('path.squares','7');assert(await move.isDisabled());await set('path.squares','6');assert(!await move.isDisabled());await field('moveBefore').check();assert(!await cleave.isDisabled());
+  await cleave.click();assert((await follow.innerText()).includes('1/∞ round'));assert((await follow.innerText()).includes('1/1 turn'));assert((await step.innerText()).includes('2'));assert((await page.locator('#dicelog').innerText()).includes('Follow Through'));
+  await confirm('Guard B','Guard C');assert(!await cleave.isDisabled());assert(await move.isDisabled());await cleave.click();assert((await follow.innerText()).includes('2/∞ round'));
+  await field('selected').selectOption({index:0});await confirm('Guard A','Guard D');assert(await cleave.isDisabled());assert((await cleave.getAttribute('title')).includes('Already cleaved'));
+  await step.click();assert.equal(await routine.locator('[data-combat="restart"]').count(),0);await confirm('Guard D','Guard E');assert(!await cleave.isDisabled());
+  await follow.locator('[data-combat="next-round"]').click();assert((await follow.innerText()).includes('0/∞ round'));assert((await follow.innerText()).includes('1/1 turn'));await follow.locator('[data-combat="other-turn"]').click();assert((await follow.innerText()).includes('0/1 turn'));assert(await cleave.isDisabled());
+  // Stepping can be resumed after reload, but editing a routine cancels its snapshot.
+  await step.click();await saved();await page.reload();assert((await step.innerText()).includes('2'));await routine.locator('details > summary').click();await routine.locator('[data-routine-field="attackMod"]').fill('4');await routine.locator('[data-routine-field="attackMod"]').press('Tab');assert.equal(await routine.locator('[data-combat="restart"]').count(),0);
+  await follow.locator(':scope > summary').click();await attacks.locator('[data-combat="attack"]').first().click();await confirm('<script>alert(1)</script>','Guard F');assert.equal(await follow.locator('script').count(),0);
+  await follow.locator('[data-rule-page="rule:follow-through"]').click();assert((await page.locator('#rule-detail-body').innerText()).includes('once per turn'));await page.locator('#rule-detail-close').click();await follow.locator('[data-rule-page="rule:great-cleave"]').click();assert((await page.locator('#rule-detail-body').innerText()).includes('no limit'));await page.locator('#rule-detail-close').click();
+  await saved();const roster=await page.evaluate(()=>JSON.parse(localStorage.getItem('wkolon-roster-v1')));validateRoster(roster,pack);assert.equal(roster.characters[0].followUp.opponent,'<script>alert(1)</script>');
+  await page.locator('#theme-select').selectOption({label:'Dracula Dark'});await page.setViewportSize({width:390,height:844});await page.locator('#roll-mirror-close').click();await follow.locator('#follow-through-terrain > summary').click();await follow.scrollIntoViewIfNeeded();assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await attacks.screenshot({path:path.join(root,'.build/follow-ups-mobile.png')});
+  await page.evaluate(async()=>{await navigator.serviceWorker.register('sw.js',{scope:'./'});await navigator.serviceWorker.ready;});await page.waitForFunction(()=>navigator.serviceWorker.controller);
+  assert(await page.evaluate(async()=>{const keys=await caches.keys(),assets=(await Promise.all(keys.filter(k=>k.startsWith('wkolon-')).map(async k=>(await (await caches.open(k)).keys()).map(r=>r.url)))).flat();return ['attack-follow-ups.js','attack-follow-up-actions.js','attack-follow-up-ui.js','routine-steps.js','routine-progress.js'].every(file=>assets.some(u=>u.endsWith('/src/'+file)));}));
+  await context.setOffline(true);await page.reload();await follow.locator(':scope > summary').click();assert(!await cleave.isDisabled());await cleave.click();assert((await follow.innerText()).includes('1/∞ round'));assert.deepEqual(errors,[]);
+ }finally{await context.close();}
+ console.log('Browser: Cleave copied bonus, chains/replay guard, Follow Through costs/turn/round, Step interleaving/resume/edit, saved triggers, verbatim rules, mobile and offline passed');
+};

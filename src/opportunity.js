@@ -1,3 +1,4 @@
+import {nextFollowUpRound} from './attack-follow-ups.js';
 import {ambiguityValue} from './house-rules.js';
 import {attackTarget,targetConcealment} from './attack-targets.js';
 
@@ -37,6 +38,7 @@ export function planOpportunity(c,d,pack,uid){
  return {attack,spent:{opponent:p.opponent.trim(),action:p.action.trim()},previous:structuredClone(p.used)};
 }
 export function startNextRound(c){
+ nextFollowUpRound(c);
  if(c.opportunity){c.opportunity.used=[];c.opportunity.provoked=false;c.opportunity.action='';}
  if(c.mightySwing!==undefined)c.mightySwing=false;
 }

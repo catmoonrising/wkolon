@@ -218,3 +218,41 @@ during the action. Mobility adds +5 only when movement provoked that attack.
 The combined +6 does not count the designated-opponent Dodge bonus again.
 Losing the Dexterity bonus removes both Dodge and Mobility; all are conditional
 rows, never a general persistent defense increase. Printing uses the same rows.
+
+Cleave, Great Cleave and Follow Through appear in Attacks when owned and
+eligible. A resolved weapon attack records its actual attack bonus. Confirm
+that it reduced the named opponent to 0 HP and that the follow-up is immediate;
+the sheet does not infer enemy HP from rolled damage. Cleave requires another
+opponent within reach and the identical weapon ready for a melee attack. Its
+bonus is copied in full, including Charge, Full Attack, routine and target
+modifiers. Its damage uses the current weapon profile; consumed Mighty Swing,
+Aim and Brace benefits do not recur. No alternate bonus interpretation is added.
+
+Cleave permits one use per round; Great Cleave removes that limit. Each new
+extra attack can trigger another Cleave when it drops a new opponent. Selecting
+an earlier attack permits multiple victims of an area attack to be confirmed,
+while the same victim cannot be claimed twice from that attack. The effect does
+not restrict the triggering attack to melee, but always requires the extra
+attack to be melee with the same weapon. A ranged weapon without a reviewed
+melee profile does not gain an invented melee attack.
+
+Follow Through alone requires a melee trigger and permits movement up to the
+selected native Speed once per turn. With Cleave it can supply movement before
+the extra attack. Terrain costs follow the existing disjoint movement counts;
+movement clears Aim and Brace. Other turn resets Follow Through and pending
+triggers without clearing the character's ongoing penalties or round quota.
+Next turn also expires the character's own turn-limited effects. Next round
+resets Cleave and pending triggers while retaining Follow Through's current
+turn use. New encounter/day and rest reset both. Reload, Withdraw, unrelated
+weapon attacks and other implemented actions clear the pending immediate trigger.
+
+Offensive Routines → Step resolves one attack at a time so immediate follow-ups
+can occur between attacks. Each step preflights every remaining attack and its
+ammunition before rolling. Cleave and Follow Through preserve the next step;
+ordinary attacks, routine edits, Restart and turn/round transitions cancel that
+execution. Swift actions and free-action reloads retain the next routine step;
+Move Action reloads and Withdraw cancel it. Full Attack penalties remain until the next turn and are not charged
+again on resume. A bulk Run exposes only its final attack as an immediate
+trigger. Pending execution survives an ordinary reload of the website; importing
+or duplicating a character clears execution and trigger snapshots, preserving
+its spent counters and the stored routine definitions.

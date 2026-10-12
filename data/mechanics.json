@@ -4414,6 +4414,36 @@
       "sha256": "ccaa2ef9cf30f0a2ede0eccb4cd1147f933e1d282c52ed73308949df7c9b78c5",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18374",
       "history": "https://swse.miraheze.org/w/index.php?title=Move&action=history"
+    },
+    {
+      "id": "source:wiki-follow-through",
+      "title": "Follow Through",
+      "section": null,
+      "revision": 20419,
+      "timestamp": "2024-08-25T23:48:29Z",
+      "sha256": "261dbb5d50e46e97fe13acabc4936514ea13ce8c6910c527faa5c5b9834cac34",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20419",
+      "history": "https://swse.miraheze.org/w/index.php?title=Follow_Through&action=history"
+    },
+    {
+      "id": "source:wiki-fighting-space",
+      "title": "Fighting Space",
+      "section": null,
+      "revision": 26700,
+      "timestamp": "2025-06-05T01:22:41Z",
+      "sha256": "cdba7cb0e2ce65c7c9bab858282e4b8c437a8608969adcd87a205b7bc07a1f4c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26700",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fighting_Space&action=history"
+    },
+    {
+      "id": "source:wiki-melee-attacks",
+      "title": "Melee Attacks",
+      "section": null,
+      "revision": 18359,
+      "timestamp": "2024-08-25T20:00:59Z",
+      "sha256": "ad2870b83e1e255e935fc5610d88ab6ff71a484398da5614be2f66721d4e3354",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18359",
+      "history": "https://swse.miraheze.org/w/index.php?title=Melee_Attacks&action=history"
     }
   ],
   "species": [
@@ -7229,6 +7259,18 @@
       "repeat": "never",
       "reminder": "",
       "effects": []
+    },
+    {
+      "id": "feat:follow-through",
+      "name": "Follow Through",
+      "sourceId": "source:wiki-follow-through",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
     }
   ],
   "talents": [
@@ -11907,6 +11949,31 @@
         "dodgeScope": "opportunity-during-running-attack"
       },
       "strainMovementAction": "full-round-action"
+    },
+    "cleave": {
+      "sourceIds": [
+        "source:wiki-cleave",
+        "source:wiki-great-cleave",
+        "source:wiki-follow-through",
+        "source:wiki-fighting-space",
+        "source:wiki-melee-attacks"
+      ],
+      "featId": "feat:cleave",
+      "greatFeatId": "feat:great-cleave",
+      "perRound": 1,
+      "trigger": "opponent-to-zero-hp",
+      "attackMode": "melee",
+      "sameWeapon": true,
+      "attackBonus": "same-as-trigger",
+      "anotherOpponent": true,
+      "withinReach": true,
+      "followThrough": {
+        "featId": "feat:follow-through",
+        "perTurn": 1,
+        "trigger": "melee-opponent-to-zero-hp",
+        "speedMultiplier": 1,
+        "beforeCleave": true
+      }
     }
   },
   "heroicTraits": {

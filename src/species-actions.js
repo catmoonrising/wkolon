@@ -1,3 +1,4 @@
+import {clearFollowUps} from './attack-follow-ups.js';
 import {ambiguityValue} from './house-rules.js';
 import {rollRoutine} from './combat.js';
 import {evalExpr} from './dice.js';
@@ -19,6 +20,7 @@ export function rollBellow(c,d,pack,extraDice=0,manualDamage=null,roller=evalExp
  if(b.manual&&(!Number.isSafeInteger(manualDamage)||manualDamage<b.dice||manualDamage>b.dice*6))throw new Error(`Enter ${b.damage} damage (${b.dice}–${Math.min(Number.MAX_SAFE_INTEGER,b.dice*6)})`);
  const attack={uid:c.id,name:'Bellow',attack:b.attack,damage:b.manual?String(manualDamage):b.damage,damageDisplay:b.manual?String(manualDamage):b.damage,areaType:'burst'};
  const result=rollRoutine({name:`Bellow (${b.damage}${b.manual?'; entered damage':''})`,steps:[{attackId:c.id,count:1,attackMod:0,damageMod:0}]},[attack],pack.rules.combat,roller,'Fortitude');
+ clearFollowUps(c);delete c.routineProgress;
  c.condition=Math.min(5,c.condition+b.cost);
  clearBracing(c);
  if(c.condition===5)recordKnockout(c);

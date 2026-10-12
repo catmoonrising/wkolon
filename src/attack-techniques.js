@@ -1,3 +1,4 @@
+import {clearFollowUps,nextCombatantTurn} from './attack-follow-ups.js';
 import {resolveEquipment} from './equipment.js';
 import {ambiguityValue} from './house-rules.js';
 
@@ -25,6 +26,7 @@ export function declarePowerAttack(c,d,amount){
 }
 
 export function startNextTurn(c){
+ nextCombatantTurn(c);
  clearBracing(c);
  if(c.defenseStance!==undefined)c.defenseStance='none';
  if(c.meleeDefense!==undefined)c.meleeDefense=0;
@@ -67,6 +69,7 @@ export function declareBracing(c,pack,uid,on){
  if(!entry||typeof on!=='boolean')throw new Error('Weapon unavailable');
  const state=bracingState(resolveEquipment(entry,pack,c),entry,pack,c);
  if(on&&(!state.available||c.condition===5||c.currentHP===0||c.recovery?.dead))throw new Error(state.reason||'Bracing unavailable');
+ if(on)clearFollowUps(c);
  clearBracing(c);entry.braced=on;
  if(on)for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;
 }

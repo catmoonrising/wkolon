@@ -1,3 +1,4 @@
+import {clearFollowUps} from './attack-follow-ups.js';
 import {startNextRound} from './opportunity.js';
 import {counselingEnabled,ambiguityValue} from './house-rules.js';
 import {evalExpr} from './dice.js';
@@ -30,7 +31,7 @@ export function catchSecondWind(c,d,pack,roll=evalExpr){
  const forceRoll=wind.forceDice?roll(`${wind.forceDice}d${pack.rules.secondWind.forceRecovery.die}`):null;
  const extra=forceRoll?.value??0;
  if(!Number.isFinite(extra)||extra<0)throw new Error('Invalid Force Recovery roll');
- clearBracing(c);
+ clearFollowUps(c);clearBracing(c);
  const before=c.currentHP??d.hp,r=state(c);
  c.currentHP=Math.min(d.hp,before+wind.healing+extra);r.secondWindsSpent++;r.secondWindEncounter=true;
  if(wind.exhaustion)persistent(c,'second-wind');
@@ -39,7 +40,7 @@ export function catchSecondWind(c,d,pack,roll=evalExpr){
 export function startRage(c,d){
  const rage=d.recovery.rage;
  if(!rage||rage.active||!rage.remaining||d.incapacitated)throw new Error('Rage unavailable');
- clearBracing(c);
+ clearFollowUps(c);clearBracing(c);
  const r=state(c);r.ragesSpent++;r.rageRounds=rage.duration;
 }
 export function endRage(c){
@@ -53,7 +54,7 @@ export function advanceRage(c){
 }
 export function recoverCondition(c,d){
  if(!d.recovery.recoverable)throw new Error('Recover unavailable');
- clearBracing(c);
+ clearFollowUps(c);clearBracing(c);
  c.condition--;
 }
 export function removePersistent(c,cause){
@@ -114,7 +115,7 @@ export function checkConsciousness(c,d,pack,roller=evalExpr){
  return {rolled,success,dead};
 }
 export function recordKnockout(c,type='normal'){
- clearBracing(c);
+ clearFollowUps(c);delete c.routineProgress;clearBracing(c);
  if(c.recovery===undefined&&type!=='stun')return;
  const r=state(c);r.stunUnconscious=type==='stun';r.unconsciousRetry=false;
 }

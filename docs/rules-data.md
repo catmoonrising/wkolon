@@ -661,3 +661,21 @@ to at most `squares`. Import validation rejects unknown fields, negative or
 fractional counts, overcounted terrain and malformed mode identifiers. The
 planner rejects modes without a current native Speed. Independent calculation
 views retain attack timing without changing ordinary saved range or declarations.
+
+`rules.cleave` is a closed, source-pinned mapping for Cleave, Great Cleave,
+Follow Through, Fighting Space/Reach and Melee Attacks. It specifies the HP-zero
+trigger, same-weapon/current-melee requirements, exact copied attack bonus,
+another opponent within reach, one-per-round Cleave and one-per-turn full-Speed
+Follow Through. Follow Through has no printed prerequisites and is a general
+feat, without an invented class bonus list. Its full pinned article is bundled.
+
+Optional character `followUp` stores validated attack snapshots (`tickets`),
+a selected ticket, named previous/next opponents, HP-zero/immediacy/reach
+confirmations, consumed victim claims, round/turn counters and a movement segment.
+Snapshot IDs, weapon IDs, integer modifiers/damage, booleans and unique normalized
+victim claims are validated; text is escaped in controls. Optional
+`routineProgress` identifies the next flattened attack with a routine signature.
+Changing routine structure invalidates that signature. Applying a rolled result
+checks that its trigger/execution state and ammunition still match before any
+resource is consumed. Importing or duplicating resets transient snapshots because
+unarmed IDs and the execution context change, retaining spent limits.

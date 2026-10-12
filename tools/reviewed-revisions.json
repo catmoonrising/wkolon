@@ -335,5 +335,8 @@
   "Bonuses and Penalties": 16336,
   "Attacks of Opportunity": 16012,
   "Withdraw": 18615,
-  "Move": 18374
+  "Move": 18374,
+  "Follow Through": 20419,
+  "Fighting Space": 26700,
+  "Melee Attacks": 18359
 }

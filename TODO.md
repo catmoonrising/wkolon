@@ -43,7 +43,9 @@
   - [x] Cover/concealment, prone targets and target-side Helpless melee modifiers; +5/+10 ambiguity, Precise Shot and vision/scope exceptions.
   - [x] Attacks of opportunity and Combat Reflexes: round quotas, weapon eligibility, cover/vision and approved three-way limits.
   - [x] Withdraw and Running Attack: movement/terrain budgets, native speeds, Aim/Brace timing and combined Dodge/Mobility defenses.
-  - [ ] Cleave, Great Cleave, Tumble and other movement/skill action controls.
+  - [x] Cleave, Great Cleave and Follow Through: exact copied attack bonus, same weapon, named HP-zero triggers, round/turn limits and movement.
+  - [x] Routine stepping for immediate follow-ups between attacks, one-use benefits and resumable execution.
+  - [ ] Tumble and other movement/skill action controls.
   - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 

@@ -1355,6 +1355,68 @@
               "const": "full-round-action"
             }
           }
+        },
+        "cleave": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "featId",
+            "greatFeatId",
+            "perRound",
+            "trigger",
+            "attackMode",
+            "sameWeapon",
+            "attackBonus",
+            "anotherOpponent",
+            "withinReach",
+            "followThrough"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "featId": {
+              "const": "feat:cleave"
+            },
+            "greatFeatId": {
+              "const": "feat:great-cleave"
+            },
+            "perRound": {
+              "const": 1
+            },
+            "trigger": {
+              "const": "opponent-to-zero-hp"
+            },
+            "attackMode": {
+              "const": "melee"
+            },
+            "sameWeapon": {
+              "const": true
+            },
+            "attackBonus": {
+              "const": "same-as-trigger"
+            },
+            "anotherOpponent": {
+              "const": true
+            },
+            "withinReach": {
+              "const": true
+            },
+            "followThrough": {
+              "const": {
+                "featId": "feat:follow-through",
+                "perTurn": 1,
+                "trigger": "melee-opponent-to-zero-hp",
+                "speedMultiplier": 1,
+                "beforeCleave": true
+              }
+            }
+          }
         }
       },
       "required": [

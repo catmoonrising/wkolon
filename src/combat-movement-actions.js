@@ -1,3 +1,4 @@
+import {clearFollowUps} from './attack-follow-ups.js';
 import {derive} from './rules.js';
 import {rollRoutine,routinePlan} from './combat.js';
 import {clearBracing} from './attack-techniques.js';
@@ -23,6 +24,6 @@ export function rollRunningAttack(c,pack,uid,roller){
   text:result.text+'; '+note,html:result.html+'<div>'+escape(note)+'</div>',movement:{before:p.before,after:p.after,cost:p.cost,maximum:p.maximum,mode:p.path.mode}};
 }
 export function withdraw(c,d,pack){
- const p=planWithdraw(c,d,pack);clearBracing(c);for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;
+ const p=planWithdraw(c,d,pack);clearFollowUps(c);delete c.routineProgress;clearBracing(c);for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;
  return {...p,text:`Withdraw: ${p.path.path.squares} squares (${p.cost}/${p.maximum} movement); only the first square is protected`};
 }

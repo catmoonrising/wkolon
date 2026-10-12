@@ -1,3 +1,4 @@
+import {clearFollowUps} from './attack-follow-ups.js';
 import {clearBracing} from './attack-techniques.js';
 
 export function defensiveCombatState(c,pack,ctx,dexDenied=false){
@@ -30,6 +31,7 @@ export function conditionalDefenseLabel(row){
 export function declareDefenseStance(c,d,stance){
  if(!['fight','total'].includes(stance)||d.incapacitated)throw new Error('Defensive action unavailable');
  if(d.defensiveCombat.stance==='total'&&stance!=='total')throw new Error('Total Defense lasts until your next turn');
+ clearFollowUps(c);delete c.routineProgress;
  c.defenseStance=stance;
  if(stance==='total'){
   clearBracing(c);for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;

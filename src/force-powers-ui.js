@@ -1,3 +1,4 @@
+import {clearFollowUps} from './attack-follow-ups.js';
 import {articleText,renderArticle,escapeHTML as escape} from './wiki-content.js';
 import {usePower,recoverPower,recoverSuite,powerCopy} from './force-powers.js';
 const title=s=>s.replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase());
@@ -21,10 +22,10 @@ export function createForcePowers(pack,{current,derived,changed,log,roll,error})
    if(el.dataset.learnPower){const level=Number(el.dataset.powerLevel),row=d.rows[level];if((c.levels[level].forcePowers||[]).length>=(row.powerChoices||0))return true;c.levels[level].forcePowers??=[];c.levels[level].forcePowers.push({id:crypto.randomUUID(),powerId:el.dataset.learnPower,spent:false});}
    else if(el.dataset.removePower){for(const l of c.levels)if(l.forcePowers)l.forcePowers=l.forcePowers.filter(p=>p.id!==el.dataset.removePower);}
    else if(el.dataset.powerFold){el.closest('[data-power-library]').querySelectorAll('details').forEach(r=>r.open=el.dataset.powerFold==='unfold');return true;}
-   else if(el.dataset.usePower){const r=roll(d.skills.find(s=>s.id==='skill:use-the-force').total),p=usePower(c,d,pack,el.dataset.usePower,r.natural);log('roll',`${p.name}: ${r.text}`,`${escape(p.name)}: ${r.html}`);}
+   else if(el.dataset.usePower){const r=roll(d.skills.find(s=>s.id==='skill:use-the-force').total),p=usePower(c,d,pack,el.dataset.usePower,r.natural);clearFollowUps(c);if(['standard-action','move-action','full-round-action'].includes(p.action))delete c.routineProgress;log('roll',`${p.name}: ${r.text}`,`${escape(p.name)}: ${r.html}`);}
    else if(el.dataset.recoverPower){const p=recoverPower(c,d,pack,el.dataset.recoverPower);log('resource',`${p.name} recovered; Force Points −1`);}
-   else if(el.hasAttribute('data-power-rest')){recoverSuite(c,d);log('rest','Force powers recovered (1 minute after combat)');}
-   else if(el.hasAttribute('data-power-end-turn')){recoverSuite(c,d,{endTurn:true});log('resource','Force powers recovered (natural 20, end of turn)');}
+   else if(el.hasAttribute('data-power-rest')){recoverSuite(c,d);clearFollowUps(c);delete c.routineProgress;log('rest','Force powers recovered (1 minute after combat)');}
+   else if(el.hasAttribute('data-power-end-turn')){recoverSuite(c,d,{endTurn:true});clearFollowUps(c);delete c.routineProgress;log('resource','Force powers recovered (natural 20, end of turn)');}
    else return false;
    changed();return true;
   }catch(e){error(e.message);return true;}}
