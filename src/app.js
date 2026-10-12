@@ -604,7 +604,7 @@ function events() {
     }
 
     if(el.hasAttribute('data-unarmed-technique')){if(!['normal','rapid-strike'].includes(el.value))return;c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers.attackTechnique=el.value;changed();return;}
-    if(el.hasAttribute('data-charge-path')){const path=chargePath(c),key=el.dataset.chargePath;path[key]=el.type==='checkbox'?el.checked:el.value===''&&key==='acrobatics'?null:Number(el.value);try{validateCharge({...c,chargePath:path},reason=>{throw new Error('Invalid '+reason);});c.chargePath=path;}catch(err){notify(err.message);}changed();return;}
+    if(el.hasAttribute('data-charge-path')){if(el.hasAttribute('data-math'))commitMath(el);const path=chargePath(c),key=el.dataset.chargePath;path[key]=el.type==='checkbox'?el.checked:key==='mode'?el.value:el.value===''&&key==='acrobatics'?null:Number(el.value);if(['lowObjectSquares','diagonalLowObjectSquares'].includes(key))path.lowObjects=false;try{validateCharge({...c,chargePath:path},reason=>{throw new Error('Invalid '+reason);});c.chargePath=path;}catch(err){notify(err.message);}changed();return;}
     if(el.hasAttribute('data-attack-target')){const target=attackTarget(c);target[el.dataset.attackTarget]=el.type==='checkbox'?el.checked:el.value;try{validateAttackTarget({...c,attackTarget:target},reason=>{throw new Error('Invalid '+reason);});c.attackTarget=target;if(!canAimAtTarget(c,ix.species.get(c.species)))for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;}catch(err){notify(err.message);}changed();return;}
     if(el.hasAttribute('data-prone')){c.prone=el.checked;changed();return;}
     if(el.hasAttribute('data-power-attack')){try{declarePowerAttack(c,derived,Number(el.value));}catch(err){notify(err.message);}changed();return;}

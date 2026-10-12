@@ -1118,7 +1118,8 @@
             "acrobatics",
             "powerful",
             "improved",
-            "difficultTerrainAmbiguityId"
+            "difficultTerrainAmbiguityId",
+            "movementCostRule"
           ],
           "properties": {
             "sourceIds": {
@@ -1179,6 +1180,9 @@
             },
             "difficultTerrainAmbiguityId": {
               "const": "ambiguity:charge-difficult-terrain"
+            },
+            "movementCostRule": {
+              "const": "combatMovement"
             }
           }
         },

@@ -326,3 +326,28 @@ terrain, or DC 35 when also using Cross Difficult Terrain. Failure prevents the
 attack even when the ordinary path cost fits. DC 25 alone still retains terrain
 costs; Improved Charge only changes turning and does not remove the requirement.
 The choice is saved per character and does not affect ordinary Move.
+
+
+## Charge terrain and native movement
+
+Charge uses the same disjoint square counts as ordinary movement: normal,
+diagonal, difficult/low-object, and diagonal difficult/low-object. The two
+low-object fields are subsets of the latter two counts. Diagonals cost 2,
+difficult or low-object squares cost 2, and their diagonal combinations cost 4.
+Nimble Charge permits low objects but does not waive their movement cost.
+
+Successful Cross Difficult Terrain removes only the difficult-terrain
+surcharge, retaining diagonal and low-object costs. Failed checks restore
+ordinary costs. Charge makes no attack if the actual cost exceeds the chosen
+movement speed; a failed required Nimble Charge also prevents the attack even
+when the route fits. An impossible route is rejected before dice or resource
+changes. Charge logs include the resolved cost and speed.
+
+The movement selector uses the current walking or native movement speed,
+including Condition Track and other existing speed adjustments. Straining
+under an excessive load requires full-round movement and cannot use Charge.
+
+Old paths without the new counts retain their ordinary defaults. An old
+`lowObjects: true` flag survives import but requires explicit low-object square
+counts before resolving. Editing either low-object count clears that legacy
+flag. No square count or shorter path is guessed from an obstacle checkbox.

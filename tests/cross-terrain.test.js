@@ -80,7 +80,7 @@ test('alternative terrain Charge combined with Cross Difficult Terrain uses the 
 });
 test('terrain Charge alternative UI shows its check; disabling restores the no-check default and retains low-object rules',()=>{
  const c=hero();c.chargePath={squares:3,difficultSquares:2};assert(!chargeControls(c,derive(c,pack),pack,c.id).includes('Acrobatics (DC'));c.houseRules={ambiguities:{'ambiguity:charge-difficult-terrain':'nimble-check'}};assert(chargeControls(c,derive(c,pack),pack,c.id).includes('Acrobatics (DC 25)'));
- c.houseRules.ambiguities['ambiguity:charge-difficult-terrain']='normal-cost';assert.equal(planCharge(c,derive(c,pack),pack,c.id).dc,null);c.chargePath.lowObjects=true;assert.equal(planCharge(c,derive(c,pack),pack,c.id).dc,25);c.chargePath.crossTerrain=true;assert.equal(planCharge(c,derive(c,pack),pack,c.id).dc,35);
+ c.houseRules.ambiguities['ambiguity:charge-difficult-terrain']='normal-cost';assert.equal(planCharge(c,derive(c,pack),pack,c.id).dc,null);c.chargePath.lowObjectSquares=1;assert.equal(planCharge(c,derive(c,pack),pack,c.id).dc,25);c.chargePath.crossTerrain=true;assert.equal(planCharge(c,derive(c,pack),pack,c.id).dc,35);
 });
 test('Charge ambiguity retains both exact conflicting passages and rejects unknown mappings or saved values',()=>{
  const charge=articleText(pack.rulePages.find(p=>p.id==='rule:charge').article),acrobatics=articleText(pack.rulePages.find(p=>p.id==='rule:acrobatics').article);assert(charge.includes('Charging through Difficult Terrain costs twice'));assert(acrobatics.includes('Charge through Low Objects and Difficult Terrain'));

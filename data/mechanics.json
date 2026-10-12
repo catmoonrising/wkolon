@@ -11879,7 +11879,8 @@
         "source:wiki-charge",
         "source:wiki-powerful-charge",
         "source:wiki-improved-charge",
-        "source:wiki-acrobatics"
+        "source:wiki-acrobatics",
+        "source:wiki-move"
       ],
       "action": "standard-action",
       "minimumSquares": 2,
@@ -11902,7 +11903,8 @@
         "featId": "feat:improved-charge",
         "allowsTurning": true
       },
-      "difficultTerrainAmbiguityId": "ambiguity:charge-difficult-terrain"
+      "difficultTerrainAmbiguityId": "ambiguity:charge-difficult-terrain",
+      "movementCostRule": "combatMovement"
     },
     "attackTargets": {
       "sourceIds": [

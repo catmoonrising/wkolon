@@ -231,10 +231,12 @@ export function validatePack(p) {
   assert.deepEqual(defense.sourceIds,['source:wiki-fight-defensively','source:wiki-fight-defensively-total-defense',ix.feats.get(defense.meleeDefense.featId)?.sourceId,ix.feats.get(defense.dodge.featId)?.sourceId,ix.feats.get(defense.mobility.featId)?.sourceId,'source:wiki-defenses-helpless'],'Invalid defensive combat sources');
   assert(defense.sourceIds.every(id=>sources.has(id))&&['fight-defensively','total-defense','helpless'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&defense.sourceIds.includes(r.sourceId))),'Missing defensive combat passage');
   const charge=p.rules.charge;
-  assert(charge&&Object.keys(charge).every(k=>['sourceIds','action','minimumSquares','attackBonus','attackBonusType','reflexPenalty','duration','endsTurn','difficultTerrainCost','lowObjectsDC','crossTerrainDC','combinedDC','acrobatics','powerful','improved','difficultTerrainAmbiguityId'].includes(k)),'Invalid Charge mapping');
+  assert(charge&&Object.keys(charge).every(k=>['sourceIds','action','minimumSquares','attackBonus','attackBonusType','reflexPenalty','duration','endsTurn','difficultTerrainCost','lowObjectsDC','crossTerrainDC','combinedDC','acrobatics','powerful','improved','difficultTerrainAmbiguityId','movementCostRule'].includes(k)),'Invalid Charge mapping');
   assert(charge.action==='standard-action'&&charge.duration==='until-next-turn'&&charge.endsTurn===true&&charge.attackBonusType==='competence'&&charge.acrobatics==='skill:acrobatics','Unsupported Charge rule');
   assert.deepEqual([charge.minimumSquares,charge.attackBonus,charge.reflexPenalty,charge.difficultTerrainCost,charge.lowObjectsDC,charge.crossTerrainDC,charge.combinedDC],[2,2,-2,2,25,15,35],'Invalid Charge constants');
   assert.equal(charge.difficultTerrainAmbiguityId,'ambiguity:charge-difficult-terrain','Invalid Charge terrain ambiguity');
+  assert.equal(charge.movementCostRule,'combatMovement','Invalid Charge movement mapping');
+  assert.equal(charge.difficultTerrainCost,p.rules[charge.movementCostRule]?.difficultCost,'Inconsistent Charge terrain cost');
   const chargeTerrain=p.rules.ambiguities.find(a=>a.id===charge.difficultTerrainAmbiguityId);
   assert(chargeTerrain&&chargeTerrain.default==='normal-cost','Invalid Charge terrain default');
   assert.deepEqual(chargeTerrain.options.map(o=>o.value),['normal-cost','nimble-check'],'Invalid Charge terrain options');
@@ -242,8 +244,8 @@ export function validatePack(p) {
   assert.deepEqual(chargeTerrain.passages,[{ruleId:'rule:charge',fullText:true},{ruleId:'rule:acrobatics',fullText:true}],'Missing Charge terrain passages');
   assert.deepEqual(charge.powerful,{featId:'feat:powerful-charge',attackBonus:2,damagePerLevel:0.5},'Invalid Powerful Charge');
   assert.deepEqual(charge.improved,{featId:'feat:improved-charge',allowsTurning:true},'Invalid Improved Charge');
-  assert.deepEqual(charge.sourceIds,['source:wiki-charge',ix.feats.get(charge.powerful.featId)?.sourceId,ix.feats.get(charge.improved.featId)?.sourceId,'source:wiki-acrobatics'],'Invalid Charge sources');
-  assert(charge.sourceIds.every(id=>sources.has(id))&&['charge','acrobatics'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&charge.sourceIds.includes(r.sourceId))),'Missing Charge passage');
+  assert.deepEqual(charge.sourceIds,['source:wiki-charge',ix.feats.get(charge.powerful.featId)?.sourceId,ix.feats.get(charge.improved.featId)?.sourceId,'source:wiki-acrobatics','source:wiki-move'],'Invalid Charge sources');
+  assert(charge.sourceIds.every(id=>sources.has(id))&&['charge','acrobatics','move'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&charge.sourceIds.includes(r.sourceId))),'Missing Charge passage');
   const target=p.rules.attackTargets;
   assert(target&&Object.keys(target).every(k=>['sourceIds','coverBonus','improvedCoverBonus','concealmentPenalty','totalConcealmentPenalty','prone','helplessMeleeBonus','intoMeleePenalty','preciseShot','coverDefense','areaMissWithCover','aimAreaBenefit','scopeIgnoresTotalDarkness'].includes(k)),'Invalid attack target mapping');
   assert.deepEqual([target.coverBonus,target.improvedCoverBonus,target.concealmentPenalty,target.totalConcealmentPenalty,target.helplessMeleeBonus,target.intoMeleePenalty],[5,10,-2,-5,5,-5],'Invalid target modifiers');

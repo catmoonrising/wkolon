@@ -96,9 +96,9 @@ export function rollCharge(c,d,pack,uid,roller=evalExpr){
  const plan=planCharge(c,d,pack,uid),r={name:'Charge',steps:[{attackId:uid,count:1,attackMod:0,damageMod:0}]};
  routinePlan(r,[plan.attack]);
  const check=plan.dc===null?null:plan.path.acrobatics===null?roller('1d20'+signed(plan.skill.total)):{value:plan.path.acrobatics,display:String(plan.path.acrobatics)};
- const success=!check||check.value>=plan.dc,movementCost=plan.path.crossTerrain&&success?plan.path.squares:plan.normalCost;
- const stopped=plan.nimbleRequired&&!success||movementCost>d.speed;
- const checkText=check?`Acrobatics ${check.value} / DC ${plan.dc}; `:'',note=`${checkText}${plan.path.squares} squares; no further actions this turn`;
+ const success=!check||check.value>=plan.dc,movementCost=success?plan.successfulCost:plan.normalCost;
+ const stopped=plan.nimbleRequired&&!success||movementCost>plan.maximum;
+ const checkText=check?`Acrobatics ${check.value} / DC ${plan.dc}; `:'',note=`${checkText}${plan.path.squares} squares (${movementCost}/${plan.maximum} movement); no further actions this turn`;
  const result=stopped?{text:'Charge: '+note+'; no attack',html:'<b>Charge</b>: '+escape(note)+'; no attack',results:[],ammunitionSpent:[]}:
   rollRoutine(r,[plan.attack],pack.rules.combat,roller);
  return {...result,text:stopped?result.text:result.text+'; '+note,html:stopped?result.html:result.html+'<div>'+escape(note)+'</div>',chargeReflexPenalty:plan.reflexPenalty,

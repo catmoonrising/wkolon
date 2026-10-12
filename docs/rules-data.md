@@ -572,8 +572,9 @@ melee attack, and −2 Reflex until next turn. Powerful Charge adds another +2
 attack and floor(half heroic level) damage. Improved Charge allows changes of
 direction; it does not waive the Reflex penalty or terrain costs.
 
-Optional `chargePath` saves `squares`, `difficultSquares`, `turns`, `lowObjects`,
-`crossTerrain` and `acrobatics`. Defaults are 2/0/false/false/false/null. The
+Optional `chargePath` saves `squares`, disjoint terrain counts, low-object
+subsets, a movement mode, `turns`, `crossTerrain` and `acrobatics`. Missing
+counts default to zero, the mode to normal, and the distance to 2. The
 Acrobatics value is an entered check total; null rolls the derived skill. Low
 objects require training and DC25; Cross Difficult Terrain uses DC15 alone or
 DC35 in combination. A failed low-object check makes no attack. A failed terrain
@@ -722,3 +723,22 @@ Nimble Charge stops the attack independently of the route's cost. Its normal
 success permits passage without ignoring cost; only successful Cross Difficult
 Terrain removes that cost. The existing low-object and Improved Charge turning
 rules remain. No character migration is required.
+
+
+### Charge path costs
+
+The closed Charge mapping references `rules.combatMovement` through
+`movementCostRule` and includes the pinned Move source. Schema and validator
+reject another cost mapping or a mismatch with the action’s double terrain cost.
+The shared terrain-cost function serves both ordinary Move and Charge.
+
+Optional character `chargePath` adds `mode`, `diagonalSquares`,
+`diagonalDifficultSquares`, `lowObjectSquares` and
+`diagonalLowObjectSquares`. `squares` remains total traversed squares;
+`diagonalSquares`, `difficultSquares`, and `diagonalDifficultSquares` are
+disjoint counts. Low objects are subsets of the latter two counts. Missing
+counts default to zero and the mode defaults to normal. Structural validation
+keeps incomplete drafts importable; action preflight rejects inconsistent
+subsets and routes. The old `lowObjects` boolean remains an importable legacy
+permission flag and prevents action resolution until counts are supplied or
+the flag is explicitly cleared by editing a low-object count.

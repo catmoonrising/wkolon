@@ -5,6 +5,9 @@ export function movementCost(p,rule){
  // Terrain counts are disjoint: Both squares are counted only in Both.
  return p.squares+p.diagonal*(rule.diagonalCost-1)+p.difficult*(rule.difficultCost-1)+p.diagonalDifficult*(rule.diagonalDifficultCost-1);
 }
+export function terrainMovementCost(p,rule,crossTerrain=false){
+ return movementCost(p,rule)-(crossTerrain?(p.difficult-(p.lowObjects||0))*(rule.difficultCost-1)+(p.diagonalDifficult-(p.diagonalLowObjects||0))*(rule.diagonalDifficultCost-rule.diagonalCost):0);
+}
 export function validateSegment(segment,bad){
  const p=movementSegment(segment),keys=['squares','diagonal','difficult','diagonalDifficult'];
  if(!segment||typeof segment!=='object'||Array.isArray(segment)||Object.keys(segment).some(k=>!keys.includes(k))||keys.some(k=>!Number.isInteger(p[k])||p[k]<0||p[k]>100000))bad('movement segment');

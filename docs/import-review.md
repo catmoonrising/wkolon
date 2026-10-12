@@ -839,9 +839,6 @@ Acrobatics checks, and no extrapolation of droid armor slowdown), so they can be
 revisited later.
 
 
-Charge's existing path model still has a low-object permission flag rather than
-explicit low-object/diagonal cost counts. Completing those path counts remains
-on the TODO; the new ordinary Move calculation already distinguishes them.
 
 
 Validation: 309 JavaScript tests and 19 Python importer tests pass. The full
@@ -849,3 +846,33 @@ Chromium browser suite and focused Chromium/Firefox checks cover separate
 terrain/Tumble checks, restored failure costs, low-object/diagonal subsets,
 Charge defaults and saved alternatives, full source passages, reloads, mobile
 Dracula layout, and offline use. Offline import and compilation are deterministic.
+
+
+## Charge diagonal and low-object movement costs
+
+Rechecked Charge revision 18026, Acrobatics revision 27350 and Move revision
+18374 through the API. They match the pinned articles. Move doubles diagonal
+cost and doubles it again through low objects or difficult terrain. Charge
+retains its explicit double terrain cost and Nimble Charge permissions; neither
+Nimble Charge nor Improved Charge removes the underlying low-object surcharge.
+Cross Difficult Terrain removes the terrain surcharge only.
+
+Charge now uses the reviewed movement-cost mapping and explicit disjoint
+terrain counts, including low-object subsets. Costs use the selected native
+movement speed and existing speed adjustments. Failure restores ordinary costs
+and blocks the attack when the route exceeds that speed; no shorter route is
+automatically substituted. Excess-load straining is unavailable as a Charge.
+
+The old low-object checkbox does not provide a count, so legacy true flags
+remain importable drafts that require explicit counts before action resolution.
+Editing either low-object count clears the legacy flag, including entering zero
+to remove it. Existing difficult-square paths keep their original defaults.
+
+Charge math fields now evaluate arithmetic before saving the declaration;
+previously this early change handler tried to save the raw expression.
+
+Validation: 321 JavaScript tests and 19 Python importer tests pass. The full
+Chromium browser suite and focused Chromium/Firefox checks cover explicit
+diagonal and low-object costs, native speeds, failed checks, legacy drafts,
+arithmetic fields, persistence, full rule passages, Dracula mobile layout and
+offline use. Offline import and compilation produce identical data hashes.

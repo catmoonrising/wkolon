@@ -51,7 +51,7 @@
   - [x] Hutt Supreme Stability prevents forced knockdown, while voluntary Prone and its normal penalties remain available.
   - [x] Cross Difficult Terrain during Move: independent trained DC15 checks, low-object/diagonal costs, failure budgets and Tumble interactions.
   - [ ] Tumble during feat-granted movement, Balance, Escape Bonds, falling and other skill actions.
-  - [ ] Complete explicit Charge diagonal and low-object square counts; its current obstacle flag records check permission.
+  - [x] Charge diagonal/low-object square counts, native movement speeds, preserved obstacle costs and legacy path review.
   - [x] Charge/Acrobatics difficult-terrain conflict: ordinary double cost by default; saved DC25/DC35 alternative.
   - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.

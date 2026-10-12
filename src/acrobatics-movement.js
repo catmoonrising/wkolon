@@ -1,4 +1,4 @@
-import {movementSegment,movementCost,movementSpeed,validateSegment} from './combat-movement.js';
+import {movementSegment,terrainMovementCost,movementSpeed,validateSegment} from './combat-movement.js';
 
 export const acrobaticsSegment=p=>movementSegment({lowObjects:0,diagonalLowObjects:0,...p});
 export const acrobaticsPath=c=>({mode:'normal',tumble:false,crossTerrain:false,occupied:0,check:null,terrainCheck:null,...c.acrobaticsMovement,path:acrobaticsSegment({squares:1,...c.acrobaticsMovement?.path}),tumbled:acrobaticsSegment({squares:1,...c.acrobaticsMovement?.tumbled})});
@@ -18,8 +18,7 @@ export function validateAcrobaticsMovement(c,bad){
  }
 }
 export function acrobaticsTerrainCost(segment,pack,crossTerrain=false){
- const p=acrobaticsSegment(segment),rule=pack.rules.combatMovement;
- return movementCost(p,rule)-(crossTerrain?(p.difficult-p.lowObjects)*(rule.difficultCost-1)+(p.diagonalDifficult-p.diagonalLowObjects)*(rule.diagonalDifficultCost-rule.diagonalCost):0);
+ return terrainMovementCost(acrobaticsSegment(segment),pack.rules.combatMovement,crossTerrain);
 }
 export function acrobaticsMoveCost(c,pack,crossTerrain=acrobaticsPath(c).crossTerrain){
  const p=acrobaticsPath(c),base=acrobaticsTerrainCost(p.path,pack,crossTerrain);

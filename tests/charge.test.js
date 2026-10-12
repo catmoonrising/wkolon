@@ -48,7 +48,7 @@ test('Improved Charge permits turns but retains difficult terrain costs and the 
 });
 
 test('low objects use trained Acrobatics DC25; failure makes no attack and retains the turn penalty',()=>{
- const c=hero(),uid=c.inventory[0].uid;c.chargePath={squares:3,lowObjects:true};c.levels[4].feats=[{id:'feat:mighty-swing'}];c.mightySwing=true;c.inventory[1].aimed=true;c.inventory[1].braced=true;const d=derive(c,pack),calls=[];
+ const c=hero(),uid=c.inventory[0].uid;c.chargePath={squares:3,difficultSquares:1,lowObjectSquares:1};c.levels[4].feats=[{id:'feat:mighty-swing'}];c.mightySwing=true;c.inventory[1].aimed=true;c.inventory[1].braced=true;const d=derive(c,pack),calls=[];
  const failed=rollCharge(c,d,pack,uid,roller(calls,12,24));assert.equal(calls.length,1);assert(failed.charge.stopped);assert.equal(failed.charge.dc,25);assert.equal(failed.results.length,0);
  spendAttackResources(c,failed);assert.equal(c.chargeReflexPenalty,-2);assert.equal(c.inventory[1].shotsRemaining,10);assert(!c.inventory[1].braced);assert(!c.inventory[1].aimed);assert(c.mightySwing,'no melee attack consumed the swing');
  c.chargePath.acrobatics=25;const success=rollCharge(c,derive(c,pack),pack,uid,roller([],12,null));assert.equal(success.results.length,1);assert(!success.charge.stopped);spendAttackResources(c,success);assert(!c.mightySwing);assert.equal(c.chargePath.acrobatics,null,'entered checks apply to one attempt');
@@ -57,7 +57,7 @@ test('low objects use trained Acrobatics DC25; failure makes no attack and retai
 
 test('Cross Difficult Terrain uses DC15 alone, DC35 with low objects, and normal costs on failure',()=>{
  const c=hero(),uid=c.inventory[0].uid;c.chargePath={squares:6,difficultSquares:6,crossTerrain:true,acrobatics:15};let result=rollCharge(c,derive(c,pack),pack,uid,roller([],12,null));assert.equal(result.charge.dc,15);assert.equal(result.charge.movementCost,6);assert.equal(result.results.length,1);
- c.chargePath.lowObjects=true;c.chargePath.acrobatics=34;result=rollCharge(c,derive(c,pack),pack,uid,noDice);assert.equal(result.charge.dc,35);assert(result.charge.stopped);assert.equal(result.results.length,0);
+ c.chargePath.squares=5;c.chargePath.difficultSquares=5;c.chargePath.lowObjectSquares=1;c.chargePath.acrobatics=34;result=rollCharge(c,derive(c,pack),pack,uid,noDice);assert.equal(result.charge.dc,35);assert(result.charge.stopped);assert.equal(result.results.length,0);
  c.chargePath.acrobatics=35;assert.equal(rollCharge(c,derive(c,pack),pack,uid,roller([],12,null)).results.length,1);
  c.chargePath={squares:3,difficultSquares:2,crossTerrain:true,acrobatics:14};result=rollCharge(c,derive(c,pack),pack,uid,roller([],12,null));assert.equal(result.charge.movementCost,5);assert(!result.charge.stopped,'a failed DC15 check still permits a path within normal movement costs');
 });
