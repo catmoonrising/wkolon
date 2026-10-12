@@ -693,3 +693,18 @@ offline import/rebuild, and the full Chromium browser suite pass. Focused
 Chromium/Firefox checks cover single-attack bonuses, failed checks, terrain,
 turns, Reflex expiry, attack blocking, entered-total consumption, saves, stat
 blocks, mobile layout and complete offline reload.
+
+
+Reviewed Attacks of Opportunity (16012), Withdraw (18615), and Move (18374)
+against their official wiki revisions, retaining full rendered text and links.
+Combat Reflexes (26021) says one opportunity per opponent; Attacks of
+Opportunity says one per provoking action. The user approved enforcing both
+by default, with either limit alone in Ambiguities. The opportunity mechanism
+uses the pinned Combat Reflexes, Martial Arts I and Line of Sight text; movement
+action automation remains pending. No Homebrew pages were admitted.
+
+Validation: 254 JavaScript tests, 19 Python importer tests, deterministic offline
+import/rebuild, rules validation and the full Chromium browser suite pass.
+Focused Chromium/Firefox checks cover both independent limits, interpretation
+changes, quotas, ammunition, turn/round separation, exact source text, saves,
+Dracula mobile layout and complete offline reload.

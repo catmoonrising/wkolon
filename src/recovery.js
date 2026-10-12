@@ -1,3 +1,4 @@
+import {startNextRound} from './opportunity.js';
 import {counselingEnabled,ambiguityValue} from './house-rules.js';
 import {evalExpr} from './dice.js';
 import {clearBracing,startNextTurn} from './attack-techniques.js';
@@ -58,9 +59,9 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){startNextTurn(c);state(c).secondWindEncounter=false;}
+export function newEncounter(c){startNextTurn(c);startNextRound(c);state(c).secondWindEncounter=false;}
 export function newDay(c,pack){
- startNextTurn(c);
+ startNextTurn(c);startNextRound(c);
  const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.naturalHealingUsed=false;
  const regrown=[];
  if(pack?.species.find(s=>s.id===c.species)?.limbRegeneration&&!r.dead){
@@ -88,7 +89,7 @@ export function receiveHealing(c,d,pack,amount){
 }
 export function restEightHours(c,d,pack){
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
- startNextTurn(c);
+ startNextTurn(c);startNextRound(c);
  if(recoveryState(c).rageRounds)endRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;
  r.persistent=r.persistent.filter(p=>!rule.removablePersistent.includes(p));

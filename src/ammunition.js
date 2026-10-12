@@ -34,11 +34,13 @@ export function reloadWeapon(c,pack,uid){
 
 export function spendAttackResources(c,result){
  // Check all references and quantities before making any change.
+ if(result.opportunitySpent&&JSON.stringify(c.opportunity?.used||[])!==JSON.stringify(result.opportunityPrevious))throw new Error('Opportunity history changed; roll again.');
  const spending=(result.ammunitionSpent||[]).map(({uid,shots,reloadShots=0})=>{
   const entry=c.inventory.find(e=>e.uid===uid);
   if(!entry||!Number.isInteger(shots)||shots<0||!Number.isInteger(reloadShots)||reloadShots<0||!Number.isInteger(entry.shotsRemaining)||entry.shotsRemaining+reloadShots<shots||reloadShots&&(entry.freeReloads!==true||c.flatFooted||reloadShots!==Math.max(0,shots-entry.shotsRemaining)))throw new Error('Ammunition changed; roll again.');
   return {entry,shots,reloadShots};
  });
+ if(result.opportunitySpent){c.opportunity??={};c.opportunity.used??=[];c.opportunity.used.push({...result.opportunitySpent});c.opportunity.provoked=false;}
  for(const {entry,shots,reloadShots} of spending)entry.shotsRemaining+=reloadShots-shots;
  for(const uid of result.aimConsumed||[]){const entry=c.inventory.find(e=>e.uid===uid);if(entry)entry.aimed=false;}
  if(result.mightySwingConsumed)c.mightySwing=false;

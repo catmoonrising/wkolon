@@ -332,5 +332,8 @@
   "Acrobatics": 27350,
   "Prone": 18420,
   "Line of Sight": 24330,
-  "Bonuses and Penalties": 16336
+  "Bonuses and Penalties": 16336,
+  "Attacks of Opportunity": 16012,
+  "Withdraw": 18615,
+  "Move": 18374
 }

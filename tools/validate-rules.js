@@ -245,6 +245,13 @@ export function validatePack(p) {
   assert(target.preciseShot==='feat:precise-shot'&&target.coverDefense==='reflex'&&target.areaMissWithCover==='no-damage'&&target.aimAreaBenefit===false&&target.scopeIgnoresTotalDarkness===false,'Unsupported attack target rule');
   assert.deepEqual(target.sourceIds,['source:wiki-prone','source:wiki-defenses-helpless','source:wiki-bonuses-and-penalties','source:wiki-line-of-sight','source:wiki-ranged-attacks','source:wiki-precise-shot','source:wiki-aim','source:wiki-targeting-scope'],'Invalid target sources');
   assert(target.sourceIds.every(id=>sources.has(id))&&['prone','helpless','bonuses-and-penalties','line-of-sight','ranged-attacks','precise-shot','aim','targeting-scope'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&target.sourceIds.includes(r.sourceId))),'Missing target passage');
+  const opportunity=p.rules.opportunity;
+  assert.deepEqual(opportunity,{sourceIds:['source:wiki-attacks-of-opportunity','source:wiki-combat-reflexes','source:wiki-martial-arts-i','source:wiki-line-of-sight'],basePerRound:1,reflexes:'feat:combat-reflexes',reflexesAdditional:'dexterity-modifier',flatFootedRequires:'feat:combat-reflexes',unarmedRequires:'feat:martial-arts-i',groups:['pistols'],foldedStock:true,defaultLimit:'both',coverPrevents:true,totalConcealmentPrevents:true},'Invalid opportunity mapping');
+  for(const id of [opportunity.reflexes,opportunity.unarmedRequires])requireRef('feats',id);
+  assert(opportunity.sourceIds.every(id=>sources.has(id))&&['attacks-of-opportunity','combat-reflexes','martial-arts-i','line-of-sight'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&opportunity.sourceIds.includes(r.sourceId))),'Missing opportunity passage');
+  const opportunityLimit=p.rules.ambiguities.find(r=>r.id==='ambiguity:opportunity-limit');
+  assert(opportunityLimit?.default==='both','Invalid opportunity default');
+  assert.deepEqual(opportunityLimit.options,[{value:'both',name:'Opponent + provoking action'},{value:'opponent',name:'Opponent only'},{value:'action',name:'Provoking action only'}],'Invalid opportunity alternatives');
   const settings=p.rules.weaponSettings;
   assert(settings&&Object.keys(settings).every(k=>['sourceId','mutuallyExclusive','autofireOnlyStun'].includes(k))&&sources.has(settings.sourceId)&&settings.autofireOnlyStun===true,'Invalid weapon settings');
   assert.deepEqual(settings.mutuallyExclusive,['autofire','stun'],'Invalid alternate settings');

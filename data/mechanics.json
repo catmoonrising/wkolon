@@ -4387,6 +4387,33 @@
       "sha256": "0519b0bc385c46affa04fa18699854cc686ee6cc4020a5c26e824595e35cfa20",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18433",
       "history": "https://swse.miraheze.org/w/index.php?title=Ranged_Attacks&action=history"
+    },
+    {
+      "id": "source:wiki-attacks-of-opportunity",
+      "title": "Attacks of Opportunity",
+      "revision": 16012,
+      "timestamp": "2024-08-18T00:53:31Z",
+      "sha256": "6bb97912efc7f5fdcd990fd65204dc340563a99cd5663d47764e3311560ce9e1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16012",
+      "history": "https://swse.miraheze.org/w/index.php?title=Attacks_of_Opportunity&action=history"
+    },
+    {
+      "id": "source:wiki-withdraw",
+      "title": "Withdraw",
+      "revision": 18615,
+      "timestamp": "2024-08-25T20:25:21Z",
+      "sha256": "217ca53077d42dd8e2d3070cc987c70bf0ff850204ec4cd534255962033cf02e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18615",
+      "history": "https://swse.miraheze.org/w/index.php?title=Withdraw&action=history"
+    },
+    {
+      "id": "source:wiki-move",
+      "title": "Move",
+      "revision": 18374,
+      "timestamp": "2024-08-25T20:02:09Z",
+      "sha256": "ccaa2ef9cf30f0a2ede0eccb4cd1147f933e1d282c52ed73308949df7c9b78c5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18374",
+      "history": "https://swse.miraheze.org/w/index.php?title=Move&action=history"
     }
   ],
   "species": [
@@ -11382,6 +11409,39 @@
             "name": "Do not stack (+5 melee)"
           }
         ]
+      },
+      {
+        "id": "ambiguity:opportunity-limit",
+        "name": "Combat Reflexes limits",
+        "sourceIds": [
+          "source:wiki-attacks-of-opportunity",
+          "source:wiki-combat-reflexes"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:attacks-of-opportunity",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:combat-reflexes",
+            "fullText": true
+          }
+        ],
+        "default": "both",
+        "options": [
+          {
+            "value": "both",
+            "name": "Opponent + provoking action"
+          },
+          {
+            "value": "opponent",
+            "name": "Opponent only"
+          },
+          {
+            "value": "action",
+            "name": "Provoking action only"
+          }
+        ]
       }
     ],
     "forceTalentAccess": {
@@ -11799,6 +11859,26 @@
       "areaMissWithCover": "no-damage",
       "aimAreaBenefit": false,
       "scopeIgnoresTotalDarkness": false
+    },
+    "opportunity": {
+      "sourceIds": [
+        "source:wiki-attacks-of-opportunity",
+        "source:wiki-combat-reflexes",
+        "source:wiki-martial-arts-i",
+        "source:wiki-line-of-sight"
+      ],
+      "basePerRound": 1,
+      "reflexes": "feat:combat-reflexes",
+      "reflexesAdditional": "dexterity-modifier",
+      "flatFootedRequires": "feat:combat-reflexes",
+      "unarmedRequires": "feat:martial-arts-i",
+      "groups": [
+        "pistols"
+      ],
+      "foldedStock": true,
+      "defaultLimit": "both",
+      "coverPrevents": true,
+      "totalConcealmentPrevents": true
     }
   },
   "heroicTraits": {

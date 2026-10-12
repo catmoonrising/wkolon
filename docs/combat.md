@@ -164,3 +164,26 @@ and does not consume Mighty Swing. Improved Charge retains the Reflex penalty.
 Entered Charge Acrobatics totals are consumed by one attempted check and cleared
 on Next turn; movement/path preferences persist. Reloading before the attempt
 retains the pending entered total, without reusing it after the action.
+
+
+Attacks of Opportunity has a separate round counter. Combat Reflexes increases
+its maximum by the current positive Dexterity modifier and allows flat-footed
+opportunities. Melee weapons, pistols and weapons with folded retractable stocks
+qualify; Unarmed Attack requires Martial Arts I. The separate Squares field
+sets the opportunity attack's range without changing the weapon's ordinary range.
+Cover prevents the attack even with Aim; Total Concealment prevents it even
+when attacking a known square, subject to species vision. Existing attack and
+ammunition modifiers still apply. Failed preflight consumes nothing; a miss
+consumes the attack and its ammunition.
+
+The player names the opponent and the particular provoking action, then
+confirms that it occurs inside their threatened area. Names identify distinct
+opponents/events; case and surrounding spaces do not distinguish identities.
+This is a declaration, not a grid simulation or automatic opponent action log.
+Moving several squares is a single provoking action. Both the per-opponent and
+per-action limits apply by default; Ambiguities also offers either limit alone.
+Changing interpretation never replenishes the spent round quota. Next round
+resets the history and same-round Mighty Swing, preserving until-next-turn
+penalties. Next turn does not reset opportunities. New encounter/day and an
+eight-hour rest reset the counter. Withdraw and Running Attack currently retain
+reviewed reference text; their action controls remain on the implementation list.

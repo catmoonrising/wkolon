@@ -3,6 +3,7 @@ import {escapeHTML as escape} from './wiki-content.js';
 import {FULL_ATTACK_SOURCES,planFullAttack} from './full-attacks.js';
 import {validateDefensiveCombat} from './defensive-combat.js';
 import {planCharge,validateCharge} from './charge.js';
+import {validateOpportunity} from './opportunity.js';
 import {validateAttackTarget} from './attack-targets.js';
 
 const uuid=id=>typeof id==='string'&&/^[a-f0-9-]{36}$/.test(id);
@@ -17,6 +18,7 @@ export function validateCombatState(c,bad){
  validateDefensiveCombat(c,bad);
  validateCharge(c,bad);
  validateAttackTarget(c,bad);
+ validateOpportunity(c,bad);
  if(c.fullAttackPenalties!==undefined){
   const p=c.fullAttackPenalties;
   if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['twoWeapons','doubleAttack','tripleAttack'].includes(k))||

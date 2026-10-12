@@ -1,3 +1,5 @@
+import {rollOpportunity,opportunityIssue} from './opportunity-actions.js';
+import {opportunityContext,validateOpportunity,startNextRound} from './opportunity.js';
 import {escapeHTML as escape} from './wiki-content.js';
 import {rollCombatRoutine,rollCharge,routineIssue} from './combat.js';
 import {reloadWeapon,spendAttackResources} from './ammunition.js';
@@ -20,6 +22,14 @@ export function xpBar(c,d,rules){
  return `<div class="xp-bar xp-group"><div class="xp-meter" role="progressbar" aria-label="XP progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(fill)}"><div class="resource-fill" style="width:${fill}%"></div></div><label>XP ${input('xp',c.xp,'Experience points',1000000000)}${next===null?'':`<span>/</span><span>${next.toLocaleString()}</span>`}</label></div>`;
 }
 export function createCombatControls(pack,{current,derived,changed,save,log,error}){
+ function editOpportunity(el,report=false){
+  const c=current(),p=opportunityContext(c),key=el.dataset.opportunity;
+  p[key]=el.type==='checkbox'?el.checked:el.type==='number'?Number(el.value):el.value;
+  try{validateOpportunity({...c,opportunity:p},message=>{throw new Error('Invalid '+message);});c.opportunity=p;save();
+   for(const button of document.querySelectorAll('[data-combat="opportunity"]')){const issue=opportunityIssue(c,pack,button.dataset.attackId);button.disabled=!!issue;button.title=issue||'Single free attack';}
+   return true;
+  }catch(e){if(report){error(e.message);changed();}return false;}
+ }
  function run(routine){
   if(derived().incapacitated)return;
   try{
@@ -55,8 +65,9 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   step[key]=value;changed();return true;
  }
  return {renderRoutines,
-  input(event){if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
+  input(event){if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
   change(el){
+   if(el.hasAttribute('data-opportunity')){if(editOpportunity(el,true)&&el.type==='checkbox')changed();return true;}
    if(el.hasAttribute('data-combat-cybernetic')){current().cybernetic=el.checked;changed();return true;}
    if(el.hasAttribute('data-full-source')){
     const r=current().routines.find(r=>r.id===el.closest('[data-routine]').dataset.routine),d=derived(),source=el.value;
@@ -70,6 +81,8 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   },
   click(el){
    const action=el?.dataset.combat;if(!action)return false;
+   if(action==='next-round'){startNextRound(current());changed();return true;}
+   if(action==='opportunity'){try{const result=rollOpportunity(current(),pack,el.dataset.attackId);spendAttackResources(current(),result);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='charge'){
     try{const result=rollCharge(current(),derived(),pack,el.dataset.attackId);spendAttackResources(current(),result);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;
    }

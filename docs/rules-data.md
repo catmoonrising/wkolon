@@ -636,3 +636,14 @@ profiles without the selected opponent's context, retaining the PC's own state.
 Ithorian Bellow's separate Fortitude routine remains outside this weapon-target
 mapping; its special interaction with the Reflex-specific cover passage has
 not been mechanically inferred.
+
+
+`rules.opportunity` records pinned source IDs, the base per-round quota,
+Combat Reflexes Dexterity/flat-footed exceptions, allowed ranged groups,
+folded-stock and Martial Arts I requirements, and cover/concealment exclusions.
+Its default limit is `both`; `ambiguity:opportunity-limit` offers `opponent`
+or `action` separately. The full conflicting passages remain bundled.
+Optional character `opportunity` stores opponent/action event names, distance,
+provocation confirmation and the spent `{opponent, action}` history. Import
+validation rejects unknown fields, invalid distances and duplicate normalized
+pairs. The history is independent of turn-limited attack penalties.

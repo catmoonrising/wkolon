@@ -1245,6 +1245,64 @@
               "const": false
             }
           }
+        },
+        "opportunity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "basePerRound",
+            "reflexes",
+            "reflexesAdditional",
+            "flatFootedRequires",
+            "unarmedRequires",
+            "groups",
+            "foldedStock",
+            "defaultLimit",
+            "coverPrevents",
+            "totalConcealmentPrevents"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1
+            },
+            "basePerRound": {
+              "const": 1
+            },
+            "reflexes": {
+              "const": "feat:combat-reflexes"
+            },
+            "reflexesAdditional": {
+              "const": "dexterity-modifier"
+            },
+            "flatFootedRequires": {
+              "const": "feat:combat-reflexes"
+            },
+            "unarmedRequires": {
+              "const": "feat:martial-arts-i"
+            },
+            "groups": {
+              "const": [
+                "pistols"
+              ]
+            },
+            "foldedStock": {
+              "const": true
+            },
+            "defaultLimit": {
+              "const": "both"
+            },
+            "coverPrevents": {
+              "const": true
+            },
+            "totalConcealmentPrevents": {
+              "const": true
+            }
+          }
         }
       },
       "required": [
