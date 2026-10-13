@@ -27,6 +27,11 @@ module.exports=async function checkTrees(browser,base,root){
    for(const edge of canvas.querySelectorAll('.feature-edge'))for(let l=1;l<edge.getTotalLength();l+=3){const p=edge.getPointAtLength(l),card=cards.find(c=>p.x>c.x+.5&&p.x<c.x+c.width-.5&&p.y>c.y+.5&&p.y<c.y+c.height-.5);if(card){blocked.push(card.name);break;}}
    return blocked;
   });assert.deepEqual(blocked,[]);
+  const steep=await body.locator('.feature-tree-arrows .feature-edge').evaluateAll(edges=>edges.filter(edge=>{
+   const length=edge.getTotalLength();let prior=edge.getPointAtLength(0);
+   for(let l=3;l<length+3;l+=3){const next=edge.getPointAtLength(Math.min(l,length));if(Math.abs(next.y-prior.y)>next.x-prior.x+.01)return true;prior=next;}
+   return false;
+  }).length);assert.equal(steep,0);
   await page.screenshot({path:path.join(root,'.build/feat-tree-folded.png')});
   await choose(page,'feat','feat:force-sensitivity|');await step(3);assert(!(await body.locator('[data-trained="skill:use-the-force"]').isDisabled()));
   await body.locator('[data-trained="skill:use-the-force"]').check();

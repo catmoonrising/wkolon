@@ -55,6 +55,25 @@ test('long prerequisite routes reserve intermediate rows and avoid all interveni
  }
 });
 
+test('ranged feat joins center on their prerequisites and keep every curve within 45 degrees',()=>{
+ const node=(key,rank,parents=[])=>({key,rank,parents:parents.map(key=>({key}))});
+ const nodes=[node('BAB 2',0),node('Point-Blank Shot',0),node('Careful Shot',1,['BAB 2','Point-Blank Shot']),node('Far Shot',1,['Point-Blank Shot']),node('Precise Shot',1,['Point-Blank Shot']),node('Deadeye BAB 4',1),node('Sniper BAB 4',1),node('Deadeye',2,['Careful Shot','Point-Blank Shot','Deadeye BAB 4']),node('Sniper',2,['Precise Shot','Point-Blank Shot','Sniper BAB 4'])];
+ const sizes=new Map(nodes.map(n=>[n.key,{width:n.key.includes('BAB')?130:n.key==='Point-Blank Shot'?225:180,height:n.key.includes('BAB')?38:54}]));
+ const graph=layoutFeatureGraph(nodes,sizes);
+ assert(graph.positions.get('Deadeye').y>20);
+ assert(graph.positions.get('Sniper').center>graph.positions.get('Precise Shot').center);
+ for(const edge of graph.edges){
+  const path=featureEdgePath(graph.positions.get(edge.from),graph.positions.get(edge.to),edge.via);
+  for(let i=1;i<path.points.length;i++){
+   const a=path.points[i-1],b=path.points[i];
+   assert(b.x>=a.x,`${edge.from}→${edge.to} doubles back`);
+   assert(Math.abs(b.y-a.y)<=b.x-a.x+1e-8,`${edge.from}→${edge.to} exceeds 45 degrees`);
+  }
+ }
+ // Layout does not change the source data or depend on prior render/zoom state.
+ assert.deepEqual(layoutFeatureGraph(nodes,sizes),graph);
+});
+
 test('curved crossings get one underpass; shared branches, joins and separated paths stay intact',()=>{
  const pos=(x,center)=>({x,width:40,center,exitX:x+48});
  const edge=(from,to,a,b)=>({from,to,path:featureEdgePath(a,b)});

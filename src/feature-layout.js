@@ -56,28 +56,56 @@ export function layoutFeatureGraph(nodes, sizes) {
  }
  components.sort((a,b)=>(b.keys.length>1)-(a.keys.length>1));
  for(const [rank,keys] of columns)columns.set(rank,components.flatMap(c=>keys.filter(key=>componentOf.get(key)===c.id)));
- const pad=20,gap=72,rowGap=24,positions=new Map();let x=pad,width=pad,height=pad;
+ const pad=20,gap=72,rowGap=24,positions=new Map();let width=pad,height=pad;
  const rowHeight=Math.max(0,...[...sizes.values()].map(s=>s.height));
- const bands=new Map();let cursor=pad;
- for(const component of components){
-  const rows=Math.max(...ranks.map(rank=>columns.get(rank).filter(key=>componentOf.get(key)===component.id).length));
-  bands.set(component.id,cursor);cursor+=rows*(rowHeight+rowGap);
+ // Fit each column toward its neighbours, preserving the crossing-minimizing
+ // order and minimum row separation. Pooling conflicting targets avoids simply
+ // pushing all later cards downward when two prerequisites want the same row.
+ const centers=new Map(),stride=rowHeight+rowGap;
+ for(const keys of columns.values())for(const component of components){
+  keys.filter(key=>componentOf.get(key)===component.id).forEach((key,i)=>centers.set(key,i*stride));
  }
- // Each independent branch uses its own widths. A long label in one branch
- // must not push every other branch into the same distant column.
+ function align(keys){
+  const pools=[];
+  keys.forEach((key,i)=>{
+   const adjacent=[...neighbours(key,true),...neighbours(key,false)];
+   const target=adjacent.length?(centers.get(key)+adjacent.reduce((sum,k)=>sum+centers.get(k),0)/adjacent.length)/2:centers.get(key);
+   pools.push({start:i,end:i,sum:target-i*stride,count:1});
+   while(pools.length>1){
+    const a=pools.at(-2),b=pools.at(-1);if(a.sum/a.count<=b.sum/b.count)break;
+    pools.splice(-2,2,{start:a.start,end:b.end,sum:a.sum+b.sum,count:a.count+b.count});
+   }
+  });
+  for(const pool of pools)for(let i=pool.start;i<=pool.end;i++)centers.set(keys[i],pool.sum/pool.count+i*stride);
+ }
+ for(let pass=0;pass<32;pass++)for(const rank of pass%2?ranks:[...ranks].reverse())for(const component of components){
+  align(columns.get(rank).filter(key=>componentOf.get(key)===component.id));
+ }
+ // Pack independent branches after alignment. Each uses its own widths and
+ // horizontal gaps; a distant prerequisite must not distort every other branch.
+ let cursor=pad;
  for(const component of components){
-  x=pad;
+  const top=Math.min(...component.keys.map(key=>centers.get(key)-sizes.get(key).height/2));
+  for(const key of component.keys){const size=sizes.get(key),center=centers.get(key)-top+cursor;positions.set(key,{y:center-size.height/2,width:size.width,height:size.height,center});}
+  let x=pad,previous=[];
   for(const rank of ranks){
    const keys=columns.get(rank).filter(key=>componentOf.get(key)===component.id);if(!keys.length)continue;
+   if(previous.length){
+    const right=Math.max(...previous.map(key=>positions.get(key).exitX));let run=gap-12;
+    for(const key of keys)for(const parent of byKey.get(key).parents){
+     const from=positions.get(parent.key),to=positions.get(key);
+     // A horizontal-tangent cubic's steepest slope is twice rise/run.
+     // Allow at least twice the rise, keeping even smoothed lines within 45°.
+     run=Math.max(run,2*Math.abs(to.center-from.center));
+    }
+    x=right+run+4;
+   }
    const columnWidth=Math.max(...keys.map(key=>sizes.get(key).width));
-   keys.forEach((key,i)=>{const size=sizes.get(key),y=bands.get(component.id)+i*(rowHeight+rowGap)+(rowHeight-size.height)/2;positions.set(key,{x,y,width:size.width,height:size.height,center:y+size.height/2,exitX:x+columnWidth+8});height=Math.max(height,y+size.height+pad);});
-   x+=columnWidth+gap;width=Math.max(width,x-gap+pad);
+   for(const key of keys){const p=positions.get(key);p.x=x;p.exitX=x+columnWidth+8;}
+   width=Math.max(width,x+columnWidth+pad);previous=keys;
   }
- }
- // Single-node columns can align with their children without disturbing ordering.
- for(const rank of [...ranks].reverse())if(columns.get(rank).length===1){
-  const key=columns.get(rank)[0],children=neighbours(key,false);if(!children.length)continue;
-  const p=positions.get(key);p.center=children.reduce((sum,k)=>sum+positions.get(k).center,0)/children.length;p.y=p.center-p.height/2;height=Math.max(height,p.y+p.height+pad);
+  cursor=Math.max(...component.keys.map(key=>positions.get(key).y+positions.get(key).height))+rowGap;
+  height=Math.max(height,cursor-rowGap+pad);
  }
  const actualPositions=new Map(original.map(n=>[n.key,positions.get(n.key)]));
  const actualEdges=original.flatMap(n=>n.parents.filter(p=>byOriginal.has(p.key)).map(p=>({from:p.key,to:n.key,alternative:p.alternative,via:routes.get(JSON.stringify([p.key,n.key])).map(key=>{const q=positions.get(key);return {...q,width:q.exitX-q.x-8};})})));

@@ -23,6 +23,11 @@ feat and talent prerequisites within the selection remain shared connections, in
 and alternatives. Disconnected branches occupy separate vertical bands, using
 their own horizontal spacing and card widths. Long connections reserve invisible
 rows through intervening columns, so curves do not cut through other cards.
+Cards and waypoints align vertically toward their neighbours while preserving
+their ordering and separation. Joins therefore sit among their prerequisites,
+rather than automatically at the top of a column. Each branch's horizontal gaps
+grow with the vertical distance its connections travel. The run is at least twice
+the rise, limiting both the unsmoothed segments and the smoothed curves to 45°.
 Arrows exit their branch's source column before bending.
 Remaining curve intersections use overpasses: SVG masks cut a short gap in the
 underpassing line while retaining the overpassing curve and its dash pattern.
@@ -57,8 +62,10 @@ Force Sensitivity adds the closed `nonDroid` prerequisite, evaluated against the
 species' `isDroid` flag. It prevents the feat (and its class-skill access) from being
 granted to a droid; it does not implement droid construction.
 
-Validation: 323 JavaScript tests, the full Chromium browser suite and focused
+Validation: 337 JavaScript tests, the full Chromium browser suite and focused
 Chromium/Firefox feature checks pass. The dense real feat graph is checked for
-connections passing through cards. Checks also cover local requirements, retained
+connections passing through cards and curves exceeding 45°. A ranged-feat
+regression covers the Careful Shot/Deadeye and Precise Shot/Sniper joins.
+Checks also cover local requirements, retained
 feat chains, arrow tips, crossing gaps, stable rule dialogs, zoom, mobile themes,
 selection replay and persistence.
