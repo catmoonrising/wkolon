@@ -5,6 +5,7 @@ import {validateDefensiveCombat} from './defensive-combat.js';
 import {planCharge,validateCharge} from './charge.js';
 import {validateAcrobaticsMovement} from './acrobatics-movement.js';
 import {validateBalance} from './balance.js';
+import {validateEscapeBonds} from './escape-bonds.js';
 import {validateCombatMovement} from './combat-movement.js';
 import {validateOpportunity} from './opportunity.js';
 import {validateFollowUps} from './attack-follow-ups.js';
@@ -27,6 +28,7 @@ export function validateCombatState(c,bad){
  validateCombatMovement(c,bad);
  validateAcrobaticsMovement(c,bad);
  validateBalance(c,bad);
+ validateEscapeBonds(c,bad);
  validateFollowUps(c,bad);
  if(c.fullAttackPenalties!==undefined){
   const p=c.fullAttackPenalties;

@@ -45,6 +45,12 @@ default-only decision remains here even though it adds no switch to the sheet.
 | --- | --- | --- |
 | Tumble movement cost | Multiply Tumble with diagonal/difficult-terrain movement costs. | Every tumbled square costs a flat 2 regardless of terrain/diagonals. |
 
+## Source gaps requiring an encounter declaration
+
+| Topic | Source gap | Implemented behavior |
+| --- | --- | --- |
+| Escape Bonds: Manacles | Acrobatics revision 27350 gives one minute/five rounds but omits a DC from its restraint table. | Require a manual DC; do not copy Binder Cuffs' DC25. No alternative was requested or invented. |
+
 Exact supporting wiki passages remain in House Rules → Ambiguities and
 [the import review](import-review.md). Implemented defaults and alternatives
 also have calculation/action tests; this register preserves decisions to

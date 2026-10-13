@@ -892,3 +892,26 @@ Chromium browser suite and focused Chromium/Firefox checks cover half-speed
 routes, training/manual flat-footed separation, original-DC damage rechecks,
 catch/fall results, resource preparation, exact articles, arithmetic, persistence,
 Dracula mobile layout and offline use. Offline import/compilation are deterministic.
+
+## Acrobatics Escape Bonds
+
+Rechecked Acrobatics revision 27350, Binder Cuffs revision 16217, Net revision
+18383, Grab revision 18219 and Grapple revision 18220 through the API. The
+Acrobatics pin is unchanged. Mapped its explicit escape DCs and durations before
+calculations: ropes use the opponent's Dexterity check +10; nets DC15; cuffs DC25;
+grapples the opposing Grapple check; tight space DC20 and one square on success.
+Trained faster attempts add +10 DC and use the printed reduced duration.
+
+Manacles are mentioned in both duration paragraphs but omitted from the DC
+table. The wiki also has no separate Manacles article. A declared DC is required;
+Binder Cuffs' Acrobatics DC25, Strength break DC30 and Mechanics removal DC25
+are not conflated. This batch implements the Acrobatics escape application,
+not Strength/Mechanics removal or persistent Grab/Pin state. Exact article text
+and wiki links remain available offline.
+
+Validation: 348 JavaScript tests and 19 Python importer tests pass. The full
+Chromium suite and focused Chromium/Firefox checks cover DCs, all durations,
+trained faster attempts, distinct opponent totals, manual manacles DC, tight
+spaces, failed attempts, arithmetic, dice, saved drafts, unavailable actions,
+Dracula mobile layout and offline checks/rules. Offline import and compilation
+are deterministic.

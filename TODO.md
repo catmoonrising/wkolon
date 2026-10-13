@@ -50,7 +50,8 @@
   - [x] Aim ends after actual recovery/Force actions as well as movement and prone actions.
   - [x] Hutt Supreme Stability prevents forced knockdown, while voluntary Prone and its normal penalties remain available.
   - [x] Cross Difficult Terrain during Move: independent trained DC15 checks, low-object/diagonal costs, failure budgets and Tumble interactions.
-  - [ ] Tumble during feat-granted movement, Escape Bonds, falling and other skill actions.
+  - [ ] Tumble during feat-granted movement, falling and other skill actions.
+  - [x] Escape Bonds: restraint DCs and times, trained faster attempts, tight spaces and required manual manacles DC.
   - [x] Balance: half-speed routes, printed DCs, training/flat-footed effects, catch checks and immediate damage rechecks.
   - [x] Charge diagonal/low-object square counts, native movement speeds, preserved obstacle costs and legacy path review.
   - [x] Charge/Acrobatics difficult-terrain conflict: ordinary double cost by default; saved DC25/DC35 alternative.

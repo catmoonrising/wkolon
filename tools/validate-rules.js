@@ -265,6 +265,10 @@ export function validatePack(p) {
   requireRef('skills',acrobaticsMovement.skillId);
   assert(acrobaticsMovement.sourceIds.every(id=>sources.has(id))&&['acrobatics','move','attacks-of-opportunity','prone','encumbrance'].every(id=>p.rulePages.some(r=>r.id==='rule:'+id&&acrobaticsMovement.sourceIds.includes(r.sourceId))),'Missing Acrobatics movement passage');
   const combatMovement=p.rules.combatMovement;
+  const escapeBonds=p.rules.escapeBonds;
+  assert.deepEqual(escapeBonds,{"sourceIds":["source:wiki-acrobatics"],"skillId":"skill:acrobatics","trainedOnly":false,"take10":false,"take20":false,"fast":{"trainedOnly":true,"dcIncrease":10},"restraints":{"ropes":{"dc":{"kind":"opponent-check","check":"dexterity","increase":10},"duration":"1-minute","fastDuration":"5-rounds"},"net":{"dc":{"kind":"fixed","value":15},"duration":"full-round-action","fastDuration":"standard-action"},"binder-cuffs":{"dc":{"kind":"fixed","value":25},"duration":"1-minute","fastDuration":"5-rounds"},"grapple":{"dc":{"kind":"opponent-check","check":"grapple","increase":0},"duration":"standard-action","fastDuration":"move-action"},"tight-space":{"dc":{"kind":"fixed","value":20},"duration":"full-round-action","fastDuration":"standard-action","movementSquares":1},"manacles":{"dc":{"kind":"declared"},"duration":"1-minute","fastDuration":"5-rounds"}}},'Invalid Escape Bonds mapping');
+  requireRef('skills',escapeBonds.skillId);
+  assert(escapeBonds.sourceIds.every(id=>sources.has(id))&&p.rulePages.some(r=>r.id==='rule:acrobatics'&&escapeBonds.sourceIds.includes(r.sourceId)),'Missing Escape Bonds passage');
   const balance=p.rules.balance;
   assert.deepEqual(balance,{sourceIds:['source:wiki-acrobatics','source:wiki-move'],skillId:'skill:acrobatics',trainedOnly:false,widthDCs:{'8-15':10,'4-7':15,'under-4':20},unstableDCIncrease:5,speedMultiplier:.5,take10:false,take20:false,flatFootedUnlessTrained:true,damageRecheck:'same-dc',failure:'prone-then-catch',catchDC:15,movementCostRule:'combatMovement'},'Invalid Balance mapping');
   requireRef('skills',balance.skillId);

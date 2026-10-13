@@ -757,3 +757,22 @@ use that saved DC, even if the next movement draft changes. Failed checks cause
 Prone followed by the DC15 catch check; a failed catch records a fall without
 inventing a height, landing position or damage. Manual HP edits do not establish
 that damage occurred; the incoming-damage action triggers the immediate recheck.
+
+## Escape Bonds
+
+`rules.escapeBonds` maps the Core Escape Bonds section of Acrobatics revision
+27350. The closed mapping defines the skill, Take 10/20 restrictions, trained
+faster-attempt adjustment, and each restraint's DC source and two durations.
+Fixed DCs, an opponent's Dexterity check +10, an opponent's Grapple check, and a
+declared DC remain distinct. Tight space explicitly grants one square on success.
+Manacles have a printed duration but no printed DC; their mapping therefore
+requires a declared DC instead of assuming the Binder Cuffs value.
+
+Optional character `escapeBonds` is a closed draft with `restraint`, `fast`,
+`dexterityCheck`, `grappleCheck`, `dc`, and `check`. Checks/DC are entered integer
+totals or null. The two opponent checks have separate saved fields, so changing
+restraint does not reuse a Dexterity total as a Grapple total. The planner checks
+availability, training for the faster option, and a required opponent/declared
+DC before rolling or consuming preparations. Ordinary attempts are untrained.
+The entered Acrobatics total is consumed once. This is an action calculator;
+it does not infer a persistent grapple/pin or unspecified restraint penalties.

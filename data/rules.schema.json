@@ -1566,6 +1566,98 @@
               "const": "combatMovement"
             }
           }
+        },
+        "escapeBonds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "skillId",
+            "trainedOnly",
+            "take10",
+            "take20",
+            "fast",
+            "restraints"
+          ],
+          "properties": {
+            "sourceIds": {
+              "const": [
+                "source:wiki-acrobatics"
+              ]
+            },
+            "skillId": {
+              "const": "skill:acrobatics"
+            },
+            "trainedOnly": {
+              "const": false
+            },
+            "take10": {
+              "const": false
+            },
+            "take20": {
+              "const": false
+            },
+            "fast": {
+              "const": {
+                "trainedOnly": true,
+                "dcIncrease": 10
+              }
+            },
+            "restraints": {
+              "const": {
+                "ropes": {
+                  "dc": {
+                    "kind": "opponent-check",
+                    "check": "dexterity",
+                    "increase": 10
+                  },
+                  "duration": "1-minute",
+                  "fastDuration": "5-rounds"
+                },
+                "net": {
+                  "dc": {
+                    "kind": "fixed",
+                    "value": 15
+                  },
+                  "duration": "full-round-action",
+                  "fastDuration": "standard-action"
+                },
+                "binder-cuffs": {
+                  "dc": {
+                    "kind": "fixed",
+                    "value": 25
+                  },
+                  "duration": "1-minute",
+                  "fastDuration": "5-rounds"
+                },
+                "grapple": {
+                  "dc": {
+                    "kind": "opponent-check",
+                    "check": "grapple",
+                    "increase": 0
+                  },
+                  "duration": "standard-action",
+                  "fastDuration": "move-action"
+                },
+                "tight-space": {
+                  "dc": {
+                    "kind": "fixed",
+                    "value": 20
+                  },
+                  "duration": "full-round-action",
+                  "fastDuration": "standard-action",
+                  "movementSquares": 1
+                },
+                "manacles": {
+                  "dc": {
+                    "kind": "declared"
+                  },
+                  "duration": "1-minute",
+                  "fastDuration": "5-rounds"
+                }
+              }
+            }
+          }
         }
       },
       "required": [
@@ -1573,7 +1665,8 @@
         "resources",
         "sizeStealth",
         "armorMovement",
-        "balance"
+        "balance",
+        "escapeBonds"
       ]
     },
     "species": {

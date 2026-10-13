@@ -12071,6 +12071,71 @@
       "failure": "prone-then-catch",
       "catchDC": 15,
       "movementCostRule": "combatMovement"
+    },
+    "escapeBonds": {
+      "sourceIds": [
+        "source:wiki-acrobatics"
+      ],
+      "skillId": "skill:acrobatics",
+      "trainedOnly": false,
+      "take10": false,
+      "take20": false,
+      "fast": {
+        "trainedOnly": true,
+        "dcIncrease": 10
+      },
+      "restraints": {
+        "ropes": {
+          "dc": {
+            "kind": "opponent-check",
+            "check": "dexterity",
+            "increase": 10
+          },
+          "duration": "1-minute",
+          "fastDuration": "5-rounds"
+        },
+        "net": {
+          "dc": {
+            "kind": "fixed",
+            "value": 15
+          },
+          "duration": "full-round-action",
+          "fastDuration": "standard-action"
+        },
+        "binder-cuffs": {
+          "dc": {
+            "kind": "fixed",
+            "value": 25
+          },
+          "duration": "1-minute",
+          "fastDuration": "5-rounds"
+        },
+        "grapple": {
+          "dc": {
+            "kind": "opponent-check",
+            "check": "grapple",
+            "increase": 0
+          },
+          "duration": "standard-action",
+          "fastDuration": "move-action"
+        },
+        "tight-space": {
+          "dc": {
+            "kind": "fixed",
+            "value": 20
+          },
+          "duration": "full-round-action",
+          "fastDuration": "standard-action",
+          "movementSquares": 1
+        },
+        "manacles": {
+          "dc": {
+            "kind": "declared"
+          },
+          "duration": "1-minute",
+          "fastDuration": "5-rounds"
+        }
+      }
     }
   },
   "heroicTraits": {

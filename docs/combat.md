@@ -374,3 +374,26 @@ catch records Fall without inventing its height or damage. Incapacitated or
 otherwise unavailable Acrobatics cannot maintain balance. A movement attempt
 clears Aim, Bracing, immediate follow-ups and routine progress; a successful
 mandatory recheck does not spend a movement action.
+
+## Escape Bonds
+
+The folded Escape Bonds controls in Speed resolve one complete Acrobatics
+attempt. Ropes use the opponent's Dexterity check +10, Net uses DC15, Binder
+Cuffs DC25, Grapple the opponent's Grapple check, and tight space DC20. Missing
+opponent checks block resolution. Manacles require a manual DC because the
+source supplies only their duration. Dexterity, Grapple, and manual-DC drafts
+are saved independently.
+
+Ordinary durations are Standard Action for Grapple, Full-Round Action for Net
+or one square of tight space, and one minute for ropes/cuffs/manacles. Trained
+Acrobatics permits +10 DC for Move Action, Standard Action, or five rounds,
+respectively. Losing training does not silently enable the faster attempt;
+the retained checkbox can still be unchecked to use the ordinary duration.
+No Take 10/20 or automatic natural-1/20 skill outcome is added.
+
+Success/failure and the complete duration are logged. Tight-space success
+records exactly one square; failure records no movement. Attempts clear Aim,
+Brace, immediate follow-ups and interrupted routine progress, without consuming
+ammunition, HP or Force Points. Longer attempts resolve after the listed time;
+they do not automatically advance everyone's turn/round. No persistent grapple,
+Pin, bound limbs or net penalties are inferred from selecting a check type.

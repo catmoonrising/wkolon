@@ -8,6 +8,7 @@ import {opportunityView} from './opportunity-actions.js';
 import {runningAttackControls,withdrawControls} from './combat-movement-ui.js';
 import {acrobaticsMoveControls,proneActionControls} from './acrobatics-movement-ui.js';
 import {balanceControls} from './balance-ui.js';
+import {escapeBondsControls} from './escape-bonds-ui.js';
 import {followUpControls} from './attack-follow-up-ui.js';
 import {opportunityControls,opportunityButton} from './opportunity-ui.js';
 import {attackTargetControls} from './attack-targets-ui.js';
@@ -399,7 +400,7 @@ function sheet() {
     + moduleHTML('abilities','Ability Scores',abilities) + moduleHTML('defenses','Defenses',defenses)
     + moduleHTML('hp','HP',hp) + moduleHTML('threshold','Damage Threshold',`<div class="stat-big">${derived.threshold}</div>`,'small')
     + moduleHTML('bab','Base Attack',`<div class="stat-big">${signed(derived.bab)}</div>`,'small')
-    + moduleHTML('speed','Speed',`<div class="stat-big">${derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armor&&derived.armor.category!=='light'?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,'small')
+    + moduleHTML('speed','Speed',`<div class="stat-big">${derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armor&&derived.armor.category!=='light'?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${escapeBondsControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,'small')
     + moduleHTML('force','Force Points',statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${species.forceImmune?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`)
     + moduleHTML('dark-side','Dark Side Score',statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'))
     + moduleHTML('condition','Condition Track',conditionTrack()+recoveryControls.condition()) + moduleHTML('skills','Skills',skillTable())
@@ -419,7 +420,7 @@ function fitBarInput(el) {
 function numericFields(root) {
   root.querySelectorAll('input[type=number]:not([data-generation-manual])').forEach(el=>{
     el.dataset.number='true'; el.dataset.math=''; el.dataset.prev=el.value;
-    if(['check','catchCheck'].includes(el.dataset.balance)||el.dataset.chargePath==='acrobatics'||['check','terrainCheck'].includes(el.dataset.acrobaticsMovement)||['distance','weightOverride','shotsRemaining'].includes(el.dataset.inventory))el.dataset.allowEmpty='';
+    if(['dexterityCheck','grappleCheck','dc','check'].includes(el.dataset.escapeBonds)||['check','catchCheck'].includes(el.dataset.balance)||el.dataset.chargePath==='acrobatics'||['check','terrainCheck'].includes(el.dataset.acrobaticsMovement)||['distance','weightOverride','shotsRemaining'].includes(el.dataset.inventory))el.dataset.allowEmpty='';
     if(el.step&&Number(el.step)<1)el.dataset.decimal='';
     if(el.hasAttribute('min')) el.dataset.min=el.min;
     if(el.hasAttribute('max')) el.dataset.max=el.max;
