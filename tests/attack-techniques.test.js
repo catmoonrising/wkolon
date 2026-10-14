@@ -18,7 +18,7 @@ const routine=(...steps)=>({name:'Techniques',steps:steps.map(([attackId,count=1
 const roll=(expressions=[],natural=12)=>expr=>{expressions.push(expr);return {value:expr.startsWith('1d20')?natural:10,d20:expr.startsWith('1d20')?[natural]:[],display:expr,coeffs:[1]};};
 
 test('reviewed technique mappings are pinned and closed, while invalid saved actions fail validation',()=>{
- validatePack(pack);assert.deepEqual(pack.rules.attackTechniques.map(t=>[t.id,t.shots]),[['burst-fire',5],['rapid-shot',2],['rapid-strike',0]]);
+ validatePack(pack);assert.deepEqual(pack.rules.attackTechniques.map(t=>[t.id,t.shots]),[['burst-fire',5],['rapid-shot',2],['rapid-strike',0],['improved-rapid-strike',0]]);
  const c=hero();c.inventory=[item('blaster-rifle',{attackTechnique:'rapid-shot'})];c.unarmedModifiers={attackMod:0,damageMod:0,attackTechnique:'rapid-strike'};c.mightySwing=true;validateCharacter(c,pack);validateCharacter(JSON.parse(JSON.stringify(c)),pack);
  for(const mutate of [c=>c.inventory[0].attackTechnique='invented',c=>c.inventory[0].id='equipment:utility-belt-empty',c=>c.unarmedModifiers.attackTechnique='rapid-shot',c=>c.mightySwing='yes']){const bad=structuredClone(c);mutate(bad);assert.throws(()=>validateCharacter(bad,pack),/technique|Mighty/);}
  const bad=structuredClone(pack);bad.rules.attackTechniques[0].shots=1;assert.throws(()=>validatePack(bad),/technique/);

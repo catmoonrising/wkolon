@@ -18,8 +18,8 @@ function soldier(level=7){
 function weapon(c,id,extra={}){const e={id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,distance:1,...extra};c.inventory.push(e);return e;}
 const declarations=cls=>Object.fromEntries((cls.entrySpecials||[]).map(s=>[s.id,true]));
 test('all ten prerequisite feats retain source articles and the correct heroic bonus lists',()=>{
- assert.equal(pack.feats.length,80);
- const newFeats=pack.feats.slice(70);assert.equal(newFeats.length,10);newFeats.forEach(r=>assert(r.article.blocks.length));
+ assert(pack.feats.length>=80);
+ const newFeats=pack.feats.slice(70,80);assert.equal(newFeats.length,10);newFeats.forEach(r=>assert(r.article.blocks.length));
  for(const id of ['jedi','noble','soldier'])assert(ix.classes.get('class:'+id).bonusFeats.includes('feat:flurry'));
  for(const id of ['noble','scoundrel'])assert(ix.classes.get('class:'+id).bonusFeats.includes('feat:biotech-specialist'));
  for(const c of pack.classes)assert(!c.bonusFeats.includes('feat:echani-training'));

@@ -88,7 +88,7 @@ export function attackTechnique(w,entry,pack,has,{proficient,scores,light}){
   const owned=has(t.featId.slice(5));
   if(!owned&&t.id!==selected)return [];
   const name=pack.feats.find(f=>f.id===t.featId).name;
-  const reason=!owned?`Requires ${name}`:t.mode!==w.mode?`${name} requires a ${t.mode} weapon`:!proficient?`${name} requires proficiency`:!w.damage?`${name} requires weapon damage`:t.requiresAutofire&&!w.autofire?`${name} requires autofire`:t.requiresAutofire&&weaponSettingIssue(w,entry,pack,true)?weaponSettingIssue(w,entry,pack,true):!t.requiresAutofire&&(w.areaType||w.autofireOnly)?`${name} requires a single-target attack`:'';
+  const reason=!owned?`Requires ${name}`:t.mode!==w.mode?`${name} requires a ${t.mode} weapon`:!proficient?`${name} requires proficiency`:!w.damage?`${name} requires weapon damage`:t.requiresLightOrLightsaber&&!light&&w.group!=='lightsabers'?`${name} requires a Light Melee Weapon or Lightsaber`:t.requiresAutofire&&!w.autofire?`${name} requires autofire`:t.requiresAutofire&&weaponSettingIssue(w,entry,pack,true)?weaponSettingIssue(w,entry,pack,true):!t.requiresAutofire&&(w.areaType||w.autofireOnly)?`${name} requires a single-target attack`:'';
   return [{...t,name,available:!reason,reason,ruleId:'rule:'+t.id}];
  });
  const technique=choices.find(t=>t.id===selected);

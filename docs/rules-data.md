@@ -1058,3 +1058,20 @@ sourcebook name and `--limit` bounds the batch. Each candidate includes its sour
 full article and printed prerequisite/effect/special passages. Missing labeled
 passages require review; they do not imply absent prerequisites or repeat limits.
 The command never adds options or modifies mechanics.
+
+### Knights of the Old Republic feat contract
+
+`droid` prerequisites use the species' droid state. `weaponFocusMode` with
+`value: melee` requires Weapon Focus covering an actual melee weapon (including
+unarmed Simple Weapons); it respects the existing weapon-familiarity switch.
+`weaponProficiencyMode` with `value: ranged` and
+`excludedGroups: [heavy-weapons]` requires an eligible ranged proficiency.
+Withdrawal Strike uses its three melee-capable weapon groups and
+`choiceExoticMode: melee` to exclude ranged exotic choices. Its choice is saved
+through the existing secondary selector.
+
+Improved Rapid Strike extends `attackTechniques` with two additional damage dice,
+−5 attack (−10 below Dexterity 13), zero additional shots and
+`requiresLightOrLightsaber: true`. Light is relative to the wielder's size.
+The original Rapid Strike low-Dexterity Light-weapon exception does not apply.
+Damage dice use the existing nonstacking technique/Mighty Swing calculation.

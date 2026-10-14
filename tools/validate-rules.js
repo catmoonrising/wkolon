@@ -26,10 +26,12 @@ export function validatePack(p) {
   function requireRef(collection, id) { assert(ix[collection].has(id), `Unknown ${collection} reference: ${id}`); }
   function prerequisite(r) {
     if (['all','any'].includes(r.kind)) { assert(Array.isArray(r.requirements)); r.requirements.forEach(prerequisite); return; }
-    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid','trait','size','species'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid','trait','size','species','droid','weaponFocusMode','weaponProficiencyMode'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
     if(r.kind==='featChoice')requireRef('feats',r.value);
     if(r.kind==='trait')assert.equal(r.value,'rage');
     if(r.kind==='size')assert(p.rules.weaponSizeOrder.includes(r.value));
+    if(r.kind==='weaponFocusMode')assert.equal(r.value,'melee');
+    if(r.kind==='weaponProficiencyMode')assert(r.value==='ranged'&&r.excludedGroups?.length===1&&r.excludedGroups[0]==='heavy-weapons');
     if(r.kind==='species')assert(p.species.some(s=>s.name.replace(/ \([^)]*\)$/,'')===r.value),'Unknown prerequisite species');
     if(r.kind==='power'&&r.value!=='$choice')requireRef('forcePowers',r.value);
     if(r.kind==='talentChoice'){requireRef('talents',r.value);assert(r.choice==='$choice'||GROUPS.includes(r.choice),'Unsupported talent choice prerequisite');}
@@ -130,6 +132,7 @@ export function validatePack(p) {
       if(r.weaponGroup!==undefined)assert(GROUPS.includes(r.weaponGroup),'Unknown weapon group');
       if(r.choiceType) assert(['skill','weaponGroup','weapon','power'].includes(r.choiceType));
       if(r.choiceGroups)assert(r.choiceType==='weaponGroup'&&Array.isArray(r.choiceGroups)&&r.choiceGroups.length&&new Set(r.choiceGroups).size===r.choiceGroups.length&&r.choiceGroups.every(g=>GROUPS.includes(g)),'Unsupported weapon choices');
+      if(r.choiceExoticMode)assert(r.choiceType==='weaponGroup'&&r.choiceExoticMode==='melee','Unsupported exotic weapon mode');
       if(r.choiceScope)assert(r.choiceType==='weapon'&&r.choiceScope==='exotic');
       assert(Array.isArray(r.effects) && typeof r.reminder==='string');
       const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};
@@ -226,12 +229,13 @@ export function validatePack(p) {
   }
   const access=p.rules.forceTalentAccess,recovery=p.rules.forcePowerRecovery;
   const techniques=p.rules.attackTechniques;
-  assert(Array.isArray(techniques)&&techniques.length===3&&new Set(techniques.map(t=>t.id)).size===3,'Invalid attack techniques');
-  const techniqueValues={'burst-fire':['ranged',true,'str',13,-5,-10,2,5,false],'rapid-shot':['ranged',false,'str',13,-2,-5,1,2,false],'rapid-strike':['melee',false,'dex',13,-2,-5,1,0,true]};
+  assert(Array.isArray(techniques)&&techniques.length===4&&new Set(techniques.map(t=>t.id)).size===4,'Invalid attack techniques');
+  const techniqueValues={'burst-fire':['ranged',true,'str',13,-5,-10,2,5,false],'rapid-shot':['ranged',false,'str',13,-2,-5,1,2,false],'rapid-strike':['melee',false,'dex',13,-2,-5,1,0,true],'improved-rapid-strike':['melee',false,'dex',13,-5,-10,2,0,false]};
   for(const t of techniques){
-    assert(Object.keys(t).every(k=>['id','featId','sourceId','mode','requiresAutofire','ability','minimum','penalty','lowAbilityPenalty','extraDice','shots','lightException'].includes(k)),'Unsupported attack technique');
+    assert(Object.keys(t).every(k=>['id','featId','sourceId','mode','requiresAutofire','ability','minimum','penalty','lowAbilityPenalty','extraDice','shots','lightException','requiresLightOrLightsaber'].includes(k)),'Unsupported attack technique');
     assert(t.featId==='feat:'+t.id&&sources.has(t.sourceId)&&ix.feats.get(t.featId)?.sourceId===t.sourceId,'Missing technique source');
-    assert.deepEqual([t.mode,t.requiresAutofire,t.ability,t.minimum,t.penalty,t.lowAbilityPenalty,t.extraDice,t.shots,!!t.lightException],techniqueValues[t.id],'Unsupported Core attack technique');
+    assert.deepEqual([t.mode,t.requiresAutofire,t.ability,t.minimum,t.penalty,t.lowAbilityPenalty,t.extraDice,t.shots,!!t.lightException],techniqueValues[t.id],'Unsupported attack technique');
+    assert.equal(!!t.requiresLightOrLightsaber,t.id==='improved-rapid-strike','Invalid Light Weapon restriction');
   }
   const swing=p.rules.mightySwing;assert(swing&&Object.keys(swing).every(k=>['sourceId','featId','extraDice','swiftActions'].includes(k))&&swing.featId==='feat:mighty-swing'&&swing.sourceId===ix.feats.get(swing.featId)?.sourceId&&swing.extraDice===1&&swing.swiftActions===2,'Invalid Mighty Swing');
   const brace=p.rules.bracing;assert(brace&&Object.keys(brace).every(k=>['sourceId','penalty','swiftActions','groups','pistolRequiresExtendedStock','autofireOnly'].includes(k))&&sources.has(brace.sourceId)&&brace.penalty===-2&&brace.swiftActions===2&&brace.pistolRequiresExtendedStock===true&&brace.autofireOnly===true,'Invalid bracing');

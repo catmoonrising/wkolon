@@ -141,6 +141,9 @@ export function prerequisite(p, ctx, ix, choice) {
     case 'classSkill': return classSkills(ctx, ix).has(value);
     case 'bab': return ctx.bab >= p.min;
     case 'nonDroid': return !ctx.isDroid;
+    case 'droid': return !!ctx.isDroid;
+    case 'weaponFocusMode': return ctx.feats.some(f=>f.id===F('weapon-focus')&&[{id:UNARMED_ID,kind:'weapon',mode:'melee',group:'simple-weapons',unarmed:true},...ix.equipment.values()].some(w=>w.kind==='weapon'&&w.mode===value&&weaponEffectGroup(w,ctx)===f.choice));
+    case 'weaponProficiencyMode': return [...ix.equipment.values()].some(w=>w.kind==='weapon'&&w.mode===value&&!p.excludedGroups.includes(w.group)&&weaponProficient(w,ctx,ix));
     case 'proficientChoice': return value===UNARMED_ID?weaponProficient({id:value,group:'simple-weapons',unarmed:true},ctx,ix):ix.equipment.has(value)?weaponProficient(ix.equipment.get(value),ctx,ix):ctx.feats.some(f=>ix.feats.get(f.id)?.weaponGroup===value)||counselingEnabled(ctx,'jc:112-weapon-focus-proficiency')&&[...ix.equipment.values()].some(w=>w.kind==='weapon'&&weaponEffectGroup(w,ctx)===value&&weaponProficient(w,ctx,ix));
     case 'focusChoice': return ctx.feats.some(f => f.id === F('weapon-focus') && f.choice === value);
     default: throw new Error(`Unsupported prerequisite: ${p.kind}`);

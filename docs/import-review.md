@@ -1186,3 +1186,33 @@ Validation: 430 JavaScript tests and 27 Python importer tests, offline import an
 rebuild, full Chromium regression checks and focused Chromium/Firefox checks for
 Flurry switches, saved Ambiguities, expiry, prerequisite graphs, class bonus lists,
 source popups, critical dice and Dracula mobile layout.
+
+## Knights of the Old Republic feats
+
+Enabled 18 remaining feat pages with their complete pinned articles, explicit
+prerequisites and reviewed heroic bonus-feat lists. The feat catalog now has 98
+options. Bonus access was checked against both the page's category and the full
+class bonus table; military and droid feats remain general selections.
+
+Critical Strike requires melee Weapon Focus, Sniper Shot's prerequisite excludes
+Heavy Weapons and both Logic Upgrades require a droid. Withdrawal Strike presents
+a single primary choice with secondary melee groups/exotics, requiring matching
+proficiency. It does not expose ranged exotic options.
+
+Improved Rapid Strike has an attack-mode selector, size-relative Light-weapon or
+Lightsaber restriction, two extra damage dice, −5/−10 Dexterity penalties, normal
+critical multiplication and existing Mighty Swing nonstacking/consumption.
+The feat's low-Dexterity penalty has no Light-weapon exception.
+
+Implant Training remains an embedded reference until implant equipment and its
+Condition Track interaction are supported. A general cybernetic-state checkbox
+does not establish possession of an implant. Remaining actions and passive effects
+of these 18 feats are not yet automated, including Power Blast, Sniper Shot's
+declaration, Conditioning, Increased Agility and Withdrawal Strike's target-side
+movement restriction. Source availability is separate from action automation.
+
+Validation: 437 JavaScript tests, 27 Python importer tests, exact bonus-list checks,
+byte-identical offline import/rebuild, full Chromium regression checks and focused
+Firefox/Chromium checks for new selectors, full
+source text, feat prerequisites, Improved Rapid Strike damage/penalties, saved
+choices and Dracula mobile layout.

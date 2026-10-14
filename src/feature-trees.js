@@ -36,6 +36,9 @@ export function featureGraph(pack,options) {
   else if(p.kind==='ability')name=p.value.toUpperCase()+' '+p.min;
   else if(p.kind==='bab')name='Base attack +'+p.min;
   else if(p.kind==='nonDroid')name='Not a droid';
+  else if(p.kind==='droid')name='Droid';
+  else if(p.kind==='weaponFocusMode'){record=ix.feats.get('feat:weapon-focus');name='Weapon Focus (Melee)';}
+  else if(p.kind==='weaponProficiencyMode')name='Ranged Weapon Proficiency (except Heavy Weapons)';
   else if(p.kind==='trait')name=title(p.value);
   else if(p.kind==='species'){record=pack.species.find(r=>r.name.replace(/ \([^)]*\)$/,'')===p.value);name=p.value;}
   else if(p.kind==='size')name=title(p.value)+' or larger';

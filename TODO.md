@@ -20,6 +20,9 @@
   - [x] Ten missing prestige prerequisite feats, species/skill requirements and reviewed heroic bonus-feat lists.
   - [x] Flurry activation, melee/Reflex modifiers and expiry; Tae-Jitsu critical dice, Charge stacking and Mighty Swing consumption.
   - [x] Flurry weapon-change ambiguity: eligible weapons by default, retained bonus alternative; both keep the Reflex penalty.
+  - [x] 18 Knights of the Old Republic feat options, explicit prerequisites, melee secondary choices and reviewed class bonus lists.
+  - [x] Improved Rapid Strike: Light/Lightsaber restriction, printed Dexterity penalties, critical dice and Mighty Swing nonstacking.
+  - [ ] Implant equipment and Implant Training; remaining KOTOR feat effects/actions.
   - [ ] Biotech modification projects and remaining martial-style actions, triggers and encounter limits.
   - [ ] Remaining prestige-class talents and prerequisite feats, Force Tradition access, activated class features and technique/secret effects beyond Power Mastery.
   - [ ] Reactive armor, integrated weapons, medical systems, life-support timers and armor upgrades.

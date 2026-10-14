@@ -761,8 +761,8 @@
         },
         "attackTechniques": {
           "type": "array",
-          "minItems": 3,
-          "maxItems": 3,
+          "minItems": 4,
+          "maxItems": 4,
           "items": {
             "type": "object",
             "additionalProperties": false,
@@ -784,7 +784,8 @@
                 "enum": [
                   "burst-fire",
                   "rapid-shot",
-                  "rapid-strike"
+                  "rapid-strike",
+                  "improved-rapid-strike"
                 ]
               },
               "featId": {
@@ -829,6 +830,9 @@
                 "minimum": 0
               },
               "lightException": {
+                "const": true
+              },
+              "requiresLightOrLightsaber": {
                 "const": true
               }
             }
@@ -2984,6 +2988,9 @@
               "simple-weapons"
             ]
           }
+        },
+        "choiceExoticMode": {
+          "const": "melee"
         }
       }
     },

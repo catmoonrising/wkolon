@@ -7504,6 +7504,196 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=27412",
       "history": "https://swse.miraheze.org/w/index.php?title=Soldier%20Bonus%20Feats&action=history",
       "section": null
+    },
+    {
+      "id": "source:wiki-accelerated-strike",
+      "title": "Accelerated Strike",
+      "revision": 15660,
+      "timestamp": "2024-08-18T00:53:01Z",
+      "sha256": "36891f2753a23dcb55d7eec35919bd46bef58070c8efec3d6f07940bba9cce43",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15660",
+      "history": "https://swse.miraheze.org/w/index.php?title=Accelerated%20Strike&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-conditioning",
+      "title": "Conditioning",
+      "revision": 19078,
+      "timestamp": "2024-08-25T21:16:26Z",
+      "sha256": "9435c190ed742d1ceb1babc5e4a7436aec9c37ab90c4a8ffa23d618e11e46d3b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19078",
+      "history": "https://swse.miraheze.org/w/index.php?title=Conditioning&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-critical-strike",
+      "title": "Critical Strike",
+      "revision": 19085,
+      "timestamp": "2024-08-25T21:17:08Z",
+      "sha256": "b5172feaa1ff85cc03045ca569b8041eef1eff0a1a133aea37d7a9cd974598c1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19085",
+      "history": "https://swse.miraheze.org/w/index.php?title=Critical%20Strike&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-readiness",
+      "title": "Force Readiness",
+      "revision": 19136,
+      "timestamp": "2024-08-25T21:23:14Z",
+      "sha256": "ad122be14324445b12f4ac5bd4f8745377659a40b9171a75fbdf6cc22b829263",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19136",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Readiness&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gearhead",
+      "title": "Gearhead",
+      "revision": 19146,
+      "timestamp": "2024-08-25T21:24:20Z",
+      "sha256": "e28cfc0b3e7e0510c9e264e9d828d83480094ea59ef6d5fa347732f3ef7ff689",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19146",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gearhead&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-rapid-strike",
+      "title": "Improved Rapid Strike",
+      "revision": 19173,
+      "timestamp": "2024-08-25T21:27:34Z",
+      "sha256": "04c3936558ae2a6435795262fa7a91c90e13e614834cdcb3df3b2cd879c6ebc4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19173",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Rapid%20Strike&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-increased-agility",
+      "title": "Increased Agility",
+      "revision": 19177,
+      "timestamp": "2024-08-25T21:28:02Z",
+      "sha256": "f103b2007f5d896d25c077281eeaa64eae3ab1b401cddb036bc7760b173cf558",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19177",
+      "history": "https://swse.miraheze.org/w/index.php?title=Increased%20Agility&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-logic-upgrade-self-defense",
+      "title": "Logic Upgrade: Self-Defense",
+      "revision": 19226,
+      "timestamp": "2024-08-25T21:33:31Z",
+      "sha256": "3acf32933e22ac11ec749f7cd0aada2521b8e5ebe233bf1453fd0097a50b3607",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19226",
+      "history": "https://swse.miraheze.org/w/index.php?title=Logic%20Upgrade%3A%20Self-Defense&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-logic-upgrade-tactician",
+      "title": "Logic Upgrade: Tactician",
+      "revision": 19227,
+      "timestamp": "2024-08-25T21:33:36Z",
+      "sha256": "2c8ff90628393f06975f896defe330597588c2cfa963857ce0c625bfae065005",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19227",
+      "history": "https://swse.miraheze.org/w/index.php?title=Logic%20Upgrade%3A%20Tactician&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mandalorian-training",
+      "title": "Mandalorian Training",
+      "revision": 19242,
+      "timestamp": "2024-08-25T21:35:10Z",
+      "sha256": "1a5da653af09c23facec6e02d3015f6950889c03650b36ba658c22aacff4870a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19242",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mandalorian%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-poison-resistance",
+      "title": "Poison Resistance",
+      "revision": 19285,
+      "timestamp": "2024-08-25T21:39:51Z",
+      "sha256": "67786604d39a17f10ed264f50a2e16d24814111fb5bda4da960ed59e8e2f4546",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19285",
+      "history": "https://swse.miraheze.org/w/index.php?title=Poison%20Resistance&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-power-blast",
+      "title": "Power Blast",
+      "revision": 19286,
+      "timestamp": "2024-08-25T21:39:58Z",
+      "sha256": "c6d1bb4d7db0c052ba31d118ce00ecb1d2a6205b0daa05d5892a0aad9b9e1b4d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19286",
+      "history": "https://swse.miraheze.org/w/index.php?title=Power%20Blast&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-quick-skill",
+      "title": "Quick Skill",
+      "revision": 19294,
+      "timestamp": "2024-08-25T21:40:46Z",
+      "sha256": "12a8a33dc6cf77425e7823778d8d58bb6109c80530bb5ca4776590c82373a613",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19294",
+      "history": "https://swse.miraheze.org/w/index.php?title=Quick%20Skill&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-republic-military-training",
+      "title": "Republic Military Training",
+      "revision": 19307,
+      "timestamp": "2024-08-25T21:42:19Z",
+      "sha256": "7477a1e02ea36f944f133ad407cd5706d24434ab7cca5a86d4426d39b5c11e07",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19307",
+      "history": "https://swse.miraheze.org/w/index.php?title=Republic%20Military%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sith-military-training",
+      "title": "Sith Military Training",
+      "revision": 19331,
+      "timestamp": "2024-08-25T21:45:20Z",
+      "sha256": "555152f2ef18dd7a20e908ecf3d365489a12c7e42897d9f125ca85bda1aa4712",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19331",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Military%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sniper-shot",
+      "title": "Sniper Shot",
+      "revision": 27394,
+      "timestamp": "2026-05-09T10:45:21Z",
+      "sha256": "4b3b0674577c32ababe795d0f004555a1a24eeac3225c001ce7c68c4b164ddf6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27394",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sniper%20Shot&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-tumble-defense",
+      "title": "Tumble Defense",
+      "revision": 19363,
+      "timestamp": "2024-08-25T21:48:52Z",
+      "sha256": "b2a0ff3a90777fbae2d7e1192d1f1c98febd940afae2e07f30d41bbf85fba680",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19363",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tumble%20Defense&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-withdrawal-strike",
+      "title": "Withdrawal Strike",
+      "revision": 19374,
+      "timestamp": "2024-08-25T21:50:20Z",
+      "sha256": "15d1730adc693d5c76b0335231b900bde36a0f122499de874717fba1a148c50e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19374",
+      "history": "https://swse.miraheze.org/w/index.php?title=Withdrawal%20Strike&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-scout-bonus-feats",
+      "title": "Scout Bonus Feats",
+      "revision": 25023,
+      "timestamp": "2024-11-10T20:31:48Z",
+      "sha256": "c64a2e60f9aea1cd3554d8ae9b05ed21218a6eb2336d2fa2e7744858a4a3d9a3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25023",
+      "history": "https://swse.miraheze.org/w/index.php?title=Scout%20Bonus%20Feats&action=history",
+      "section": null
     }
   ],
   "species": [
@@ -8330,7 +8520,13 @@
         "feat:weapon-focus",
         "feat:weapon-proficiency-lightsabers",
         "feat:weapon-proficiency-simple-weapons",
-        "feat:flurry"
+        "feat:flurry",
+        "feat:accelerated-strike",
+        "feat:critical-strike",
+        "feat:force-readiness",
+        "feat:improved-rapid-strike",
+        "feat:tumble-defense",
+        "feat:withdrawal-strike"
       ],
       "talentTrees": [
         "tree:jedi-consular",
@@ -8434,7 +8630,8 @@
         "feat:weapon-proficiency-rifles",
         "feat:weapon-proficiency-simple-weapons",
         "feat:biotech-specialist",
-        "feat:flurry"
+        "feat:flurry",
+        "feat:quick-skill"
       ],
       "talentTrees": [
         "tree:influence",
@@ -8527,7 +8724,11 @@
         "feat:weapon-proficiency-advanced-melee-weapons",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-simple-weapons",
-        "feat:biotech-specialist"
+        "feat:biotech-specialist",
+        "feat:gearhead",
+        "feat:poison-resistance",
+        "feat:quick-skill",
+        "feat:sniper-shot"
       ],
       "talentTrees": [
         "tree:fortune",
@@ -8628,7 +8829,11 @@
         "feat:weapon-proficiency-advanced-melee-weapons",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
-        "feat:weapon-proficiency-simple-weapons"
+        "feat:weapon-proficiency-simple-weapons",
+        "feat:conditioning",
+        "feat:gearhead",
+        "feat:increased-agility",
+        "feat:poison-resistance"
       ],
       "talentTrees": [
         "tree:awareness",
@@ -8643,7 +8848,10 @@
       },
       "bonusRestrictions": {},
       "bonusSourceId": "source:scout-bonus-feats",
-      "talentAccessSourceId": "source:wiki-scout-talent-trees"
+      "talentAccessSourceId": "source:wiki-scout-talent-trees",
+      "bonusFeatSourceIds": [
+        "source:wiki-scout-bonus-feats"
+      ]
     },
     {
       "id": "class:soldier",
@@ -8748,7 +8956,16 @@
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
         "feat:weapon-proficiency-simple-weapons",
-        "feat:flurry"
+        "feat:flurry",
+        "feat:accelerated-strike",
+        "feat:conditioning",
+        "feat:critical-strike",
+        "feat:improved-rapid-strike",
+        "feat:increased-agility",
+        "feat:power-blast",
+        "feat:sniper-shot",
+        "feat:tumble-defense",
+        "feat:withdrawal-strike"
       ],
       "talentTrees": [
         "tree:armor-specialist",
@@ -13832,6 +14049,304 @@
       "repeat": "never",
       "effects": [],
       "reminder": ""
+    },
+    {
+      "id": "feat:accelerated-strike",
+      "name": "Accelerated Strike",
+      "sourceId": "source:wiki-accelerated-strike",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 6
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:conditioning",
+      "name": "Conditioning",
+      "sourceId": "source:wiki-conditioning",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "str",
+            "min": 13
+          },
+          {
+            "kind": "ability",
+            "value": "con",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:critical-strike",
+      "name": "Critical Strike",
+      "sourceId": "source:wiki-critical-strike",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 9
+          },
+          {
+            "kind": "weaponFocusMode",
+            "value": "melee"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:force-readiness",
+      "name": "Force Readiness",
+      "sourceId": "source:wiki-force-readiness",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:gearhead",
+      "name": "Gearhead",
+      "sourceId": "source:wiki-gearhead",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:improved-rapid-strike",
+      "name": "Improved Rapid Strike",
+      "sourceId": "source:wiki-improved-rapid-strike",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:rapid-strike"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:increased-agility",
+      "name": "Increased Agility",
+      "sourceId": "source:wiki-increased-agility",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:conditioning"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:logic-upgrade-self-defense",
+      "name": "Logic Upgrade: Self-Defense",
+      "sourceId": "source:wiki-logic-upgrade-self-defense",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "droid"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:logic-upgrade-tactician",
+      "name": "Logic Upgrade: Tactician",
+      "sourceId": "source:wiki-logic-upgrade-tactician",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "droid"
+          },
+          {
+            "kind": "bab",
+            "min": 4
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:mandalorian-training",
+      "name": "Mandalorian Training",
+      "sourceId": "source:wiki-mandalorian-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:charging-fire"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:poison-resistance",
+      "name": "Poison Resistance",
+      "sourceId": "source:wiki-poison-resistance",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "con",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:power-blast",
+      "name": "Power Blast",
+      "sourceId": "source:wiki-power-blast",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:quick-skill",
+      "name": "Quick Skill",
+      "sourceId": "source:wiki-quick-skill",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:republic-military-training",
+      "name": "Republic Military Training",
+      "sourceId": "source:wiki-republic-military-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:sith-military-training",
+      "name": "Sith Military Training",
+      "sourceId": "source:wiki-sith-military-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:sniper-shot",
+      "name": "Sniper Shot",
+      "sourceId": "source:wiki-sniper-shot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "weaponProficiencyMode",
+            "value": "ranged",
+            "excludedGroups": [
+              "heavy-weapons"
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:tumble-defense",
+      "name": "Tumble Defense",
+      "sourceId": "source:wiki-tumble-defense",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:withdrawal-strike",
+      "name": "Withdrawal Strike",
+      "sourceId": "source:wiki-withdrawal-strike",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 5
+          },
+          {
+            "kind": "proficientChoice",
+            "value": "$choice"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "choiceType": "weaponGroup",
+      "choiceGroups": [
+        "advanced-melee-weapons",
+        "lightsabers",
+        "simple-weapons"
+      ],
+      "choiceExoticMode": "melee"
     }
   ],
   "talents": [
@@ -21135,6 +21650,20 @@
         "extraDice": 1,
         "shots": 0,
         "lightException": true
+      },
+      {
+        "id": "improved-rapid-strike",
+        "featId": "feat:improved-rapid-strike",
+        "sourceId": "source:wiki-improved-rapid-strike",
+        "mode": "melee",
+        "requiresAutofire": false,
+        "requiresLightOrLightsaber": true,
+        "ability": "dex",
+        "minimum": 13,
+        "penalty": -5,
+        "lowAbilityPenalty": -10,
+        "extraDice": 2,
+        "shots": 0
       }
     ],
     "mightySwing": {
