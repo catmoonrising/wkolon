@@ -915,3 +915,32 @@ trained faster attempts, distinct opponent totals, manual manacles DC, tight
 spaces, failed attempts, arithmetic, dice, saved drafts, unavailable actions,
 Dracula mobile layout and offline checks/rules. Offline import and compilation
 are deterministic.
+
+## Falling and Jump Down
+
+Rechecked and pinned Falling Damage revision 18166, Acrobatics revision 27350,
+Jump revision 18311, Attacks revision 27406 and Skills revision 26694. Falling
+Damage and Skills are now embedded rule pages, including their complete source
+text. Acrobatics and Jump now also have mechanical pins, so future text refreshes
+cannot change these calculations without source review.
+
+Falling Damage specifies a +20 attack against Fortitude, complete three-metre d6
+increments, half damage on misses, a 20d6 base cap, and Prone landing. It is not
+an area attack, so the normal natural-1/20 and critical rules apply. Successful
+reduction checks use DC15 and three-metre increments per ten over the DC; falls
+over 60 metres cap before reduction. Normal SR/DR and incoming-damage rules apply.
+
+The user approved untrained intentional Jump Down by default, with a trained-only
+alternative for Falling Damage's more general wording. The user also approved
+combining independently successful Acrobatics and Jump Down reductions by default,
+with a mutually exclusive alternative. Both settings have source passages and
+affect the planner, not just the archive. Skills' Take10 restrictions and Jump's
+safe-retry Take20 permission are explicit context declarations. No automatic
+Take10/20 is inferred for Acrobatics or a substituted Jump skill.
+
+Validation: 367 JavaScript tests and 19 Python importer tests pass. Full Chromium
+and focused Chromium/Firefox checks cover damage and caps, combined reductions,
+both settings, Take10/20, landing, protections, Force Point survival, one-use
+inputs, arithmetic, exact mechanics, persistence, Dracula mobile and offline use.
+Offline import and compilation produce identical data hashes. Falling objects,
+guided descent and vehicle descent timing remain pending separate applications.

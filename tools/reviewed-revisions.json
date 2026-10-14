@@ -338,5 +338,7 @@
   "Move": 18374,
   "Follow Through": 20419,
   "Fighting Space": 26700,
-  "Melee Attacks": 18359
+  "Melee Attacks": 18359,
+  "Jump": 18311,
+  "Falling Damage": 18166
 }

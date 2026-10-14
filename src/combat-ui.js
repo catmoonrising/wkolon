@@ -19,6 +19,8 @@ import {balanceState,validateBalance,balanceDC,balance,balanceAfterDamage,stopBa
 import {balanceIssue,balanceCostLabel} from './balance-ui.js';
 import {escapeBondsState,validateEscapeBonds,escapeBonds} from './escape-bonds.js';
 import {escapeBondsIssue,escapeBondsDCLabel} from './escape-bonds-ui.js';
+import {fallingState,validateFalling,resolveFalling} from './falling.js';
+import {fallingIssue,fallingDiceLabel} from './falling-ui.js';
 import {planFullAttack,FULL_ATTACK_NAMES} from './full-attacks.js';
 
 const input=(key,value,label,max=100000)=>`<input type="number" min="0" max="${max}" data-field="${key}" value="${value}" aria-label="${label}">`;
@@ -37,6 +39,17 @@ export function xpBar(c,d,rules){
  return `<div class="xp-bar xp-group"><div class="xp-meter" role="progressbar" aria-label="XP progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(fill)}"><div class="resource-fill" style="width:${fill}%"></div></div><label>XP ${input('xp',c.xp,'Experience points',1000000000)}${next===null?'':`<span>/</span><span>${next.toLocaleString()}</span>`}</label></div>`;
 }
 export function createCombatControls(pack,{current,derived,changed,save,log,error}){
+ function editFalling(el,report=false){
+  const c=current(),p=fallingState(c),key=el.dataset.falling;
+  p[key]=el.type==='checkbox'?el.checked:['kind','reduction','jumpMode'].includes(key)?el.value:el.value===''&&key!=='meters'?null:Number(el.value);
+  if(key==='kind'&&p.kind==='fall'&&['jump','both'].includes(p.reduction))p.reduction=p.reduction==='both'?'acrobatics':'none';
+  try{validateFalling({...c,falling:p},message=>{throw new Error('Invalid '+message);});c.falling=p;save();
+   const d=derived(),issue=fallingIssue(c,d,pack);
+   for(const button of document.querySelectorAll('[data-combat="falling"]')){button.disabled=!!issue;button.title=issue;}
+   for(const label of document.querySelectorAll('[data-falling-dice]'))label.textContent=fallingDiceLabel(c,d,pack);
+   return true;
+  }catch(e){for(const button of document.querySelectorAll('[data-combat="falling"]')){button.disabled=true;button.title=e.message;}if(report){error(e.message);changed();}return false;}
+ }
  function editEscapeBonds(el,report=false){
   const c=current(),p=escapeBondsState(c),key=el.dataset.escapeBonds;
   p[key]=el.type==='checkbox'?el.checked:key==='restraint'?el.value:el.value===''?null:Number(el.value);
@@ -140,8 +153,9 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   interruptRoutine(current(),r);step[key]=value;changed();return true;
  }
  return {renderRoutines,
-  input(event){if(event.target.hasAttribute('data-escape-bonds')&&event.target.type!=='checkbox'){editEscapeBonds(event.target);return true;}if(event.target.hasAttribute('data-balance')&&event.target.type!=='checkbox'){editBalance(event.target);return true;}if(event.target.hasAttribute('data-acrobatics-movement')&&event.target.type!=='checkbox'){editAcrobaticsMovement(event.target);return true;}if(event.target.hasAttribute('data-follow-up')&&event.target.type!=='checkbox'){editFollowUp(event.target);return true;}if(event.target.hasAttribute('data-movement')&&event.target.type==='number'){editMovement(event.target);return true;}if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
+  input(event){if(event.target.hasAttribute('data-falling')&&event.target.type!=='checkbox'){editFalling(event.target);return true;}if(event.target.hasAttribute('data-escape-bonds')&&event.target.type!=='checkbox'){editEscapeBonds(event.target);return true;}if(event.target.hasAttribute('data-balance')&&event.target.type!=='checkbox'){editBalance(event.target);return true;}if(event.target.hasAttribute('data-acrobatics-movement')&&event.target.type!=='checkbox'){editAcrobaticsMovement(event.target);return true;}if(event.target.hasAttribute('data-follow-up')&&event.target.type!=='checkbox'){editFollowUp(event.target);return true;}if(event.target.hasAttribute('data-movement')&&event.target.type==='number'){editMovement(event.target);return true;}if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
   change(el){
+   if(el.hasAttribute('data-falling')){if(editFalling(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-escape-bonds')){if(editEscapeBonds(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-balance')){if(editBalance(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-acrobatics-movement')){if(editAcrobaticsMovement(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
@@ -161,6 +175,7 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   },
   click(el){
    const action=el?.dataset.combat;if(!action)return false;
+   if(action==='falling'){try{const result=resolveFalling(current(),derived(),pack);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='escape-bonds'){try{const result=escapeBonds(current(),derived(),pack);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='balance-stop'){stopBalancing(current());changed();return true;}
    if(action==='balance'||action==='balance-recheck'){try{const result=balance(current(),derived(),pack,action==='balance-recheck');log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}

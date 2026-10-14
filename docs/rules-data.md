@@ -776,3 +776,37 @@ availability, training for the faster option, and a required opponent/declared
 DC before rolling or consuming preparations. Ordinary attempts are untrained.
 The entered Acrobatics total is consumed once. This is an action calculator;
 it does not infer a persistent grapple/pin or unspecified restraint penalties.
+
+## Falling and Jump Down
+
+`rules.falling` maps Falling Damage revision 18166, Acrobatics revision 27350,
+Jump revision 18311, Attacks revision 27406 and Skills revision 26694 before
+calculation. All five mechanical sources are revision-pinned. The closed mapping
+defines the Fortitude attack, complete three-metre damage increments, 20d6 cap,
+critical/miss rules, DC15 reductions, three metres per ten-point margin, the
+60-metre cap before reductions, landing condition, and existing damage pipeline.
+
+Jump Down means an intentional jump. Its untrained permission defaults to the
+specific Jump application, with the approved `jump-down-training` alternative
+requiring trained Jump. Acrobatics always requires training. The approved
+`fall-reductions` setting permits both checks by default; the alternative makes
+them mutually exclusive. Combined checks resolve independently and sum only
+successful reductions. Landing on feet requires at least one successful
+reduction and no damage after SR/DR. Neither reduction invents a natural-1/20
+skill outcome.
+
+Optional closed character `falling` stores `kind`, decimal `meters`, `reduction`,
+entered `check`/`jumpCheck`, `jumpMode`, `calm`/`safe` declarations, optional
+attack-die `natural`, base `damage`, `ignoreDR` and `survive`. Structural validation
+permits unfinished drafts. The planner rejects unavailable skills, disallowed
+combined checks, required training, inappropriate Take10/20 contexts and manual
+damage outside the reduced dice range. Entered base damage requires known
+reduction totals; it is never used as a post-critical or post-protection amount.
+Consumed totals/faces/damage are cleared once, while unused drafts remain.
+
+Jump Take10 follows Skills' training and pressure restrictions, retaining any
+explicit native species permission. Take20 requires declared safe retries and
+plenty of time, and records twentyfold time. Acrobatics offers neither mode.
+The landing is checked before damage state mutates; invalid survival declarations
+cannot partially end Balance or spend resources. Falling objects, vehicle descent
+rounds, and guided descent remain separate pending applications.

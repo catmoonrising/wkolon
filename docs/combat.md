@@ -397,3 +397,38 @@ Brace, immediate follow-ups and interrupted routine progress, without consuming
 ammunition, HP or Force Points. Longer attempts resolve after the listed time;
 they do not automatically advance everyone's turn/round. No persistent grapple,
 Pin, bound limbs or net penalties are inferred from selecting a check type.
+
+## Falling and Jump Down
+
+The folded Falling controls in Speed apply a fall to the active character. Enter
+metres, choose an accidental fall or intentional Jump Down, and choose reduction
+checks. Rolls defaults to rolled attack/damage, with optional entered natural d20
+and base damage. The +20 attack targets current Fortitude; natural 1 misses,
+natural 20 hits and doubles damage, and ordinary misses halve damage before SR/DR.
+Every complete three metres adds one d6, with a base maximum of 20d6. No Heroic
+Level, weapon damage bonuses or Evasion reduction apply to this non-area hazard.
+
+Acrobatics requires training. Intentional Jump Down permits untrained Jump by
+default; House Rules → Ambiguities offers the approved trained-only alternative.
+Both checks may apply by default, with an approved mutually exclusive alternative.
+Each checks DC15 independently and removes three metres, plus three per ten points
+above DC15. Falls over 60 metres use 60 before subtracting reductions. Unavailable
+or disallowed retained drafts must be changed before resolution.
+
+Jump Take10 requires trained Jump and a declared lack of pressure, unless an
+explicit native species permission applies. Take20 requires safe retries and
+plenty of time; the log retains its twentyfold time. Neither is offered for
+Acrobatics. Entered damage is the base roll after distance reduction, before
+critical/miss and protection. Its legal range is checked before rolling; unknown
+reduction totals must first be declared when entering damage manually.
+
+Damage uses the same SR loss, DR, HP, Condition Track, knockout/death and optional
+Force Point survival as incoming damage. A resolved fall ends Balance without
+checking Balance again on impact. The character lands Prone unless a reduction
+check succeeded and actual damage was zero, including protection preventing it.
+Intentional jumping clears Aim/Brace, immediate follow-ups and routine progress.
+Accidental falls do not invent an action or loss of sight; those declarations are
+not automatically cleared. Encounter context can still invalidate them normally.
+
+This covers the active character's falling/Jump Down damage. Falling-object area
+attacks, trapping/lifting, guided descent and vehicle descent rounds remain pending.

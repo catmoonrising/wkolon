@@ -1658,6 +1658,109 @@
               }
             }
           }
+        },
+        "falling": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "attackBonus",
+            "defense",
+            "metersPerDie",
+            "damageDie",
+            "maximumDice",
+            "maximumReductionDistance",
+            "missDivisor",
+            "criticalMultiplier",
+            "naturalMiss",
+            "naturalHit",
+            "reductionMeters",
+            "extraReductionMargin",
+            "reductionDC",
+            "landing",
+            "damageRule",
+            "reduction",
+            "combinationAmbiguityId"
+          ],
+          "properties": {
+            "sourceIds": {
+              "const": [
+                "source:wiki-falling-damage",
+                "source:wiki-acrobatics",
+                "source:wiki-jump",
+                "source:wiki-attacks",
+                "source:wiki-skills"
+              ]
+            },
+            "attackBonus": {
+              "const": 20
+            },
+            "defense": {
+              "const": "fortitude"
+            },
+            "metersPerDie": {
+              "const": 3
+            },
+            "damageDie": {
+              "const": 6
+            },
+            "maximumDice": {
+              "const": 20
+            },
+            "maximumReductionDistance": {
+              "const": 60
+            },
+            "missDivisor": {
+              "const": 2
+            },
+            "criticalMultiplier": {
+              "const": 2
+            },
+            "naturalMiss": {
+              "const": 1
+            },
+            "naturalHit": {
+              "const": 20
+            },
+            "reductionMeters": {
+              "const": 3
+            },
+            "extraReductionMargin": {
+              "const": 10
+            },
+            "reductionDC": {
+              "const": 15
+            },
+            "landing": {
+              "const": "prone-unless-successful-reduction-and-no-damage"
+            },
+            "damageRule": {
+              "const": "incomingDamage"
+            },
+            "reduction": {
+              "const": {
+                "acrobatics": {
+                  "skillId": "skill:acrobatics",
+                  "trainedOnly": true,
+                  "take10": false,
+                  "take20": false
+                },
+                "jump": {
+                  "skillId": "skill:jump",
+                  "trainingAmbiguityId": "ambiguity:jump-down-training",
+                  "intentionalOnly": true,
+                  "take10RequiresTraining": true,
+                  "take10RequiresCalm": true,
+                  "speciesTake10": true,
+                  "take20RequiresSafeRetries": true,
+                  "take20TimeMultiplier": 20
+                }
+              }
+            },
+            "combinationAmbiguityId": {
+              "const": "ambiguity:fall-reductions"
+            }
+          }
         }
       },
       "required": [
@@ -1666,7 +1769,8 @@
         "sizeStealth",
         "armorMovement",
         "balance",
-        "escapeBonds"
+        "escapeBonds",
+        "falling"
       ]
     },
     "species": {

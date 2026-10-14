@@ -4444,6 +4444,46 @@
       "sha256": "ad2870b83e1e255e935fc5610d88ab6ff71a484398da5614be2f66721d4e3354",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18359",
       "history": "https://swse.miraheze.org/w/index.php?title=Melee_Attacks&action=history"
+    },
+    {
+      "id": "source:wiki-acrobatics",
+      "title": "Acrobatics",
+      "section": null,
+      "revision": 27350,
+      "timestamp": "2025-09-04T12:03:52Z",
+      "sha256": "452cc45d073a76ff969bfb73b01f97e15e023ee8cfc8dc1aa85b86f29a564ace",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27350",
+      "history": "https://swse.miraheze.org/w/index.php?title=Acrobatics&action=history"
+    },
+    {
+      "id": "source:wiki-jump",
+      "title": "Jump",
+      "section": null,
+      "revision": 18311,
+      "timestamp": "2024-08-25T19:56:29Z",
+      "sha256": "677a6419c1d1a24e013453548f99a12f66b010a0131af8ea1164cad73583a6dd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18311",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jump&action=history"
+    },
+    {
+      "id": "source:wiki-falling-damage",
+      "title": "Falling Damage",
+      "section": null,
+      "revision": 18166,
+      "timestamp": "2024-08-25T19:41:56Z",
+      "sha256": "209955366b1ac2d0bc185779b1f2393512a62930707214da0219d326b8a92704",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18166",
+      "history": "https://swse.miraheze.org/w/index.php?title=Falling%20Damage&action=history"
+    },
+    {
+      "id": "source:wiki-skills",
+      "title": "Skills",
+      "section": null,
+      "revision": 26694,
+      "timestamp": "2025-06-05T01:17:09Z",
+      "sha256": "c1c4bac71ea6cfc3e2c3b1431c263e2f096a599dd740b84320430376439986c2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26694",
+      "history": "https://swse.miraheze.org/w/index.php?title=Skills&action=history"
     }
   ],
   "species": [
@@ -11513,6 +11553,69 @@
             "name": "Nimble Charge check (DC 25)"
           }
         ]
+      },
+      {
+        "id": "ambiguity:jump-down-training",
+        "name": "Jump Down training",
+        "sourceIds": [
+          "source:wiki-jump",
+          "source:wiki-falling-damage"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:jump",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:falling-damage",
+            "paragraphCount": 3
+          }
+        ],
+        "default": "untrained",
+        "options": [
+          {
+            "value": "untrained",
+            "name": "Untrained allowed"
+          },
+          {
+            "value": "trained",
+            "name": "Trained only"
+          }
+        ]
+      },
+      {
+        "id": "ambiguity:fall-reductions",
+        "name": "Acrobatics + Jump Down",
+        "sourceIds": [
+          "source:wiki-falling-damage",
+          "source:wiki-acrobatics",
+          "source:wiki-jump"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:falling-damage",
+            "paragraphCount": 3
+          },
+          {
+            "ruleId": "rule:acrobatics",
+            "fullText": true
+          },
+          {
+            "ruleId": "rule:jump",
+            "fullText": true
+          }
+        ],
+        "default": "both",
+        "options": [
+          {
+            "value": "both",
+            "name": "Combine reductions"
+          },
+          {
+            "value": "single",
+            "name": "One reduction"
+          }
+        ]
       }
     ],
     "forceTalentAccess": {
@@ -12136,6 +12239,49 @@
           "fastDuration": "5-rounds"
         }
       }
+    },
+    "falling": {
+      "sourceIds": [
+        "source:wiki-falling-damage",
+        "source:wiki-acrobatics",
+        "source:wiki-jump",
+        "source:wiki-attacks",
+        "source:wiki-skills"
+      ],
+      "attackBonus": 20,
+      "defense": "fortitude",
+      "metersPerDie": 3,
+      "damageDie": 6,
+      "maximumDice": 20,
+      "maximumReductionDistance": 60,
+      "missDivisor": 2,
+      "criticalMultiplier": 2,
+      "naturalMiss": 1,
+      "naturalHit": 20,
+      "reductionMeters": 3,
+      "extraReductionMargin": 10,
+      "reductionDC": 15,
+      "landing": "prone-unless-successful-reduction-and-no-damage",
+      "damageRule": "incomingDamage",
+      "reduction": {
+        "acrobatics": {
+          "skillId": "skill:acrobatics",
+          "trainedOnly": true,
+          "take10": false,
+          "take20": false
+        },
+        "jump": {
+          "skillId": "skill:jump",
+          "trainingAmbiguityId": "ambiguity:jump-down-training",
+          "intentionalOnly": true,
+          "take10RequiresTraining": true,
+          "take10RequiresCalm": true,
+          "speciesTake10": true,
+          "take20RequiresSafeRetries": true,
+          "take20TimeMultiplier": 20
+        }
+      },
+      "combinationAmbiguityId": "ambiguity:fall-reductions"
     }
   },
   "heroicTraits": {
