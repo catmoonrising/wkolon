@@ -4484,6 +4484,606 @@
       "sha256": "c1c4bac71ea6cfc3e2c3b1431c263e2f096a599dd740b84320430376439986c2",
       "url": "https://swse.miraheze.org/w/index.php?oldid=26694",
       "history": "https://swse.miraheze.org/w/index.php?title=Skills&action=history"
+    },
+    {
+      "id": "source:wiki-av-1c-combat-armor",
+      "title": "AV-1C Combat Armor",
+      "revision": 15645,
+      "timestamp": "2024-08-18T00:52:59Z",
+      "sha256": "57d380e98aabe55772047e44e921661c2bcb84d8173ae166c2ec1af156091b95",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15645",
+      "history": "https://swse.miraheze.org/w/index.php?title=AV-1C%20Combat%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-av-1s-scout-armor",
+      "title": "AV-1S Scout Armor",
+      "revision": 25281,
+      "timestamp": "2024-11-15T13:17:21Z",
+      "sha256": "528fed5d157222e423a70e753134c225d9e3dbd46b66df0982053cb04cfab466",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25281",
+      "history": "https://swse.miraheze.org/w/index.php?title=AV-1S%20Scout%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-biohazard-suit",
+      "title": "Biohazard Suit",
+      "revision": 16222,
+      "timestamp": "2024-08-18T00:56:32Z",
+      "sha256": "3cf5869e86e50eb799088c762d9195a2c18788e84f2f9df75d536116b84154db",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16222",
+      "history": "https://swse.miraheze.org/w/index.php?title=Biohazard%20Suit&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-blast-helmet-and-vest",
+      "title": "Blast Helmet and Vest",
+      "section": null,
+      "revision": 16261,
+      "timestamp": "2024-08-18T00:56:35Z",
+      "sha256": "aab48e56d0e08d7fb09d8b5c65b720198bb34a38a4c827b9c9d659c865523be1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16261",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blast%20Helmet%20and%20Vest&action=history"
+    },
+    {
+      "id": "source:wiki-blinding-helmet",
+      "title": "Blinding Helmet",
+      "revision": 16294,
+      "timestamp": "2024-08-18T00:56:37Z",
+      "sha256": "a71fe2c8ad4f609ba368c8be8f86d768dc21f830f3636e18a8b9749f8ca2ca63",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16294",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blinding%20Helmet&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-boba-fett-s-mandalorian-armor",
+      "title": "Boba Fett's Mandalorian Armor",
+      "revision": 16312,
+      "timestamp": "2024-08-18T00:56:40Z",
+      "sha256": "1ab5b8c6a9d37e422598c4bcf10093474a2e280d7a3185f803a583a85af3fdaa",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16312",
+      "history": "https://swse.miraheze.org/w/index.php?title=Boba%20Fett%27s%20Mandalorian%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-camo-armor",
+      "title": "Camo Armor",
+      "revision": 19834,
+      "timestamp": "2024-08-25T22:42:09Z",
+      "sha256": "2ff266cbddf68e69c67f2e2b5156a60bc15407d95f25124129f4703b48a22ac9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19834",
+      "history": "https://swse.miraheze.org/w/index.php?title=Camo%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-camo-scout-armor",
+      "title": "Camo Scout Armor",
+      "revision": 20841,
+      "timestamp": "2024-08-26T00:37:46Z",
+      "sha256": "953e6266ed3ee45c56cbf5bdfa5b2d5ed5c7b27953af57a712e794a55a237932",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20841",
+      "history": "https://swse.miraheze.org/w/index.php?title=Camo%20Scout%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-combat-jumpsuit",
+      "title": "Combat Jumpsuit",
+      "section": null,
+      "revision": 18046,
+      "timestamp": "2024-08-25T19:30:01Z",
+      "sha256": "f2df9ac77be0c6570a06dfa670c58981b22c225823db80d7929049bd087a0e42",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18046",
+      "history": "https://swse.miraheze.org/w/index.php?title=Combat%20Jumpsuit&action=history"
+    },
+    {
+      "id": "source:wiki-dark-armor",
+      "title": "Dark Armor",
+      "revision": 20389,
+      "timestamp": "2024-08-25T23:45:28Z",
+      "sha256": "efbc93d6202310ca1cc32a853c471647967940f36e104e8ef32088e333e87351",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20389",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-darth-revan-s-armor",
+      "title": "Darth Revan's Armor",
+      "revision": 21546,
+      "timestamp": "2024-08-26T02:00:23Z",
+      "sha256": "fe32b5ff8a4787dafbcc3fc7867b641a0d24dfb85943bb890d3a390fd4a29a2d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21546",
+      "history": "https://swse.miraheze.org/w/index.php?title=Darth%20Revan%27s%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-fiber-armor",
+      "title": "Fiber Armor",
+      "revision": 19132,
+      "timestamp": "2024-08-25T21:22:49Z",
+      "sha256": "6c1afccb7d6d9d15c371e0d1b049b2b8bb51e641b7860b2503d6a8e27d2f2b87",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19132",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fiber%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-galactic-alliance-armor",
+      "title": "Galactic Alliance Armor",
+      "revision": 20163,
+      "timestamp": "2024-08-25T23:20:04Z",
+      "sha256": "f657587b98c640728eb0009fc352b48fe6e4be6fa1f4ad2f33bced1ed85770b6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20163",
+      "history": "https://swse.miraheze.org/w/index.php?title=Galactic%20Alliance%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-half-vest",
+      "title": "Half-Vest",
+      "revision": 19676,
+      "timestamp": "2024-08-25T22:24:05Z",
+      "sha256": "06116ce14af5b1d71c875088afb1a44d8016f2f9b62818a888bf118d5fd334a5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19676",
+      "history": "https://swse.miraheze.org/w/index.php?title=Half-Vest&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-heavy-beskar-gam",
+      "title": "Heavy Beskar'gam",
+      "revision": 19679,
+      "timestamp": "2024-08-25T22:24:23Z",
+      "sha256": "e165e2cf89877111e17830a3ce276ad558f445348a36c26c780f7a341cd2196f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19679",
+      "history": "https://swse.miraheze.org/w/index.php?title=Heavy%20Beskar%27gam&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-heavy-dark-armor",
+      "title": "Heavy Dark Armor",
+      "revision": 20433,
+      "timestamp": "2024-08-25T23:50:25Z",
+      "sha256": "f410dc7395f054c459364a497d9c8c675462a4c47e0ac4436b7e594fbaa8dcc7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20433",
+      "history": "https://swse.miraheze.org/w/index.php?title=Heavy%20Dark%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-heavy-powered-battle-armor",
+      "title": "Heavy Powered Battle Armor",
+      "revision": 19157,
+      "timestamp": "2024-08-25T21:25:43Z",
+      "sha256": "1aea58993aba62fcff4d2be26aa3443baaf7b9d1022946eb30a91698b86c5c28",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19157",
+      "history": "https://swse.miraheze.org/w/index.php?title=Heavy%20Powered%20Battle%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-heavy-pressure-suit",
+      "title": "Heavy Pressure Suit",
+      "revision": 21609,
+      "timestamp": "2024-08-26T02:08:09Z",
+      "sha256": "e8f927c2e42c20935ff1e35d85c97bf73218c2d3bf8b9a4d58188624ada15fe5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21609",
+      "history": "https://swse.miraheze.org/w/index.php?title=Heavy%20Pressure%20Suit&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-imperial-knight-armor",
+      "title": "Imperial Knight Armor",
+      "revision": 20199,
+      "timestamp": "2024-08-25T23:23:52Z",
+      "sha256": "051dc03e80b64f4a2206a669d37f5f922eab9e64066af39cdebcbb2664fcbbdb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20199",
+      "history": "https://swse.miraheze.org/w/index.php?title=Imperial%20Knight%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jedi-battle-armor",
+      "title": "Jedi Battle Armor",
+      "revision": 20457,
+      "timestamp": "2024-08-25T23:53:09Z",
+      "sha256": "5db24abd88046f09a4d0b609a9825880ab48794145d33e533d93aa8e868fbb3a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20457",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Battle%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-kzz-riot-armor",
+      "title": "KZZ Riot Armor",
+      "revision": 20690,
+      "timestamp": "2024-08-26T00:20:04Z",
+      "sha256": "f0e0ac8cf8c87d532cf2c3c01932f88ab5f52dcfbe3dbd62ee39c60f290a6caf",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20690",
+      "history": "https://swse.miraheze.org/w/index.php?title=KZZ%20Riot%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-katarn-class-commando-armor",
+      "title": "Katarn-Class Commando Armor",
+      "revision": 20888,
+      "timestamp": "2024-08-26T00:43:19Z",
+      "sha256": "650e3fa87d650f122c691e7ac572d7689582d05ed8c4e416679d3296f95159fa",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20888",
+      "history": "https://swse.miraheze.org/w/index.php?title=Katarn-Class%20Commando%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-knighthunter-armor",
+      "title": "Knighthunter Armor",
+      "revision": 20230,
+      "timestamp": "2024-08-25T23:27:05Z",
+      "sha256": "e42ff91c6ef05def831759b444883a984563fee6d775c6b9328b006b96e3a98f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20230",
+      "history": "https://swse.miraheze.org/w/index.php?title=Knighthunter%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-light-battle-armor",
+      "title": "Light Battle Armor",
+      "revision": 19224,
+      "timestamp": "2024-08-25T21:33:20Z",
+      "sha256": "bb4ea6dd6305de84eaceca24491afc6d53e2bb0e9341ac9ab3abbda333e44f46",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19224",
+      "history": "https://swse.miraheze.org/w/index.php?title=Light%20Battle%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-light-beskar-gam",
+      "title": "Light Beskar'gam",
+      "revision": 19704,
+      "timestamp": "2024-08-25T22:27:32Z",
+      "sha256": "42a60fad8bec33649f60b65acf1806dc8cd5e2f4bf06a24337159f07c8d6c176",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19704",
+      "history": "https://swse.miraheze.org/w/index.php?title=Light%20Beskar%27gam&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-light-dark-armor",
+      "title": "Light Dark Armor",
+      "revision": 20472,
+      "timestamp": "2024-08-25T23:54:57Z",
+      "sha256": "72068eae3edee7cb76dae0c5487b63d5b3313b6924e1dca59b4de66a99398fde",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20472",
+      "history": "https://swse.miraheze.org/w/index.php?title=Light%20Dark%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-light-jedi-battle-armor",
+      "title": "Light Jedi Battle Armor",
+      "revision": 20473,
+      "timestamp": "2024-08-25T23:55:05Z",
+      "sha256": "61071b2d747200201d440ff9b4c2e6aa8137e215ca8597ab09b3f01d4ac566ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20473",
+      "history": "https://swse.miraheze.org/w/index.php?title=Light%20Jedi%20Battle%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-light-powered-battle-armor",
+      "title": "Light Powered Battle Armor",
+      "revision": 19225,
+      "timestamp": "2024-08-25T21:33:25Z",
+      "sha256": "1eb1c2448f8d2d55d57df9c8524ae95bd1b876c824ca5d27a5762c35c909934c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19225",
+      "history": "https://swse.miraheze.org/w/index.php?title=Light%20Powered%20Battle%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-light-pressure-suit",
+      "title": "Light Pressure Suit",
+      "revision": 21663,
+      "timestamp": "2024-08-26T02:14:31Z",
+      "sha256": "60b54dcc66d9689b8eea5c8e0c96406c8ed87cc9e2d60ddc957edbc236048402",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21663",
+      "history": "https://swse.miraheze.org/w/index.php?title=Light%20Pressure%20Suit&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-m1-10-stalker-armor",
+      "title": "M1-10 Stalker Armor",
+      "revision": 20894,
+      "timestamp": "2024-08-26T00:44:18Z",
+      "sha256": "5aaa372a66ab95d10e95d42749dc6d711713b9fc0e87b79565103fcde3bfaf10",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20894",
+      "history": "https://swse.miraheze.org/w/index.php?title=M1-10%20Stalker%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mandalorian-battle-armor",
+      "title": "Mandalorian Battle Armor",
+      "revision": 27411,
+      "timestamp": "2026-06-11T09:21:48Z",
+      "sha256": "d0c26c23245e5034225fcebe5d2945427a5aef9ea04aceeb8b585fe6b1cd0792",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27411",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mandalorian%20Battle%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mandalorian-combat-suit",
+      "title": "Mandalorian Combat Suit",
+      "revision": 19237,
+      "timestamp": "2024-08-25T21:34:40Z",
+      "sha256": "252d3c17f61657060b1c6577424ef3b5ce61ce8326df7556e25d665147db70b2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19237",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mandalorian%20Combat%20Suit&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-marine-armor",
+      "title": "Marine Armor",
+      "revision": 20897,
+      "timestamp": "2024-08-26T00:44:46Z",
+      "sha256": "d7a81d0cd6d2d39b4a1e028649878267c9119e2936c82d794f74e5f39ec2132a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20897",
+      "history": "https://swse.miraheze.org/w/index.php?title=Marine%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-matrix-armor",
+      "title": "Matrix Armor",
+      "revision": 19248,
+      "timestamp": "2024-08-25T21:35:44Z",
+      "sha256": "1fcd102c52483363dac4852b8b4dc92da7881c0139dc62102fc72e384eb03b24",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19248",
+      "history": "https://swse.miraheze.org/w/index.php?title=Matrix%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-medium-beskar-gam",
+      "title": "Medium Beskar'gam",
+      "revision": 19708,
+      "timestamp": "2024-08-25T22:27:56Z",
+      "sha256": "a4a2595ecefd4444472aee64628375cd79bc96090a3e4021cc09809250709256",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19708",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medium%20Beskar%27gam&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-medium-pressure-suit",
+      "title": "Medium Pressure Suit",
+      "revision": 21674,
+      "timestamp": "2024-08-26T02:15:44Z",
+      "sha256": "93b14ed7c300b808ac903429aff3bd60314d2a9ecf5ea4d16d75e693388cebd0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21674",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medium%20Pressure%20Suit&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mesh-armor",
+      "title": "Mesh Armor",
+      "revision": 19255,
+      "timestamp": "2024-08-25T21:36:26Z",
+      "sha256": "851c9e69c1d19ee0ecd90ca66e8129439867edb0319c1a078d21cb1ca384d64f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19255",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mesh%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-microbe-armor",
+      "title": "Microbe Armor",
+      "revision": 20902,
+      "timestamp": "2024-08-26T00:45:29Z",
+      "sha256": "d050124c5ea2fcb00320e6a338ceb1474721f7475a884174c63d5da63d896e17",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20902",
+      "history": "https://swse.miraheze.org/w/index.php?title=Microbe%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-model-210-personal-armor",
+      "title": "Model 210 Personal Armor",
+      "revision": 19715,
+      "timestamp": "2024-08-25T22:28:47Z",
+      "sha256": "d90997b79f5e1d2e530f94545ad9685e7f7d3dfca0cdfaa58581762dc6c4c46f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19715",
+      "history": "https://swse.miraheze.org/w/index.php?title=Model%20210%20Personal%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-neo-crusader-assault-armor",
+      "title": "Neo-Crusader Assault Armor",
+      "revision": 19264,
+      "timestamp": "2024-08-25T21:37:36Z",
+      "sha256": "0a11f8ac57a9fc8714de13adc8751ade662dcd7cad34b38c8978186220b8d8f0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19264",
+      "history": "https://swse.miraheze.org/w/index.php?title=Neo-Crusader%20Assault%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-neo-crusader-light-armor",
+      "title": "Neo-Crusader Light Armor",
+      "revision": 19265,
+      "timestamp": "2024-08-25T21:37:41Z",
+      "sha256": "ec9a97fa74710f21070fb30e1f4f8a0c044ca11c73ed3cfd31cf8674149d0452",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19265",
+      "history": "https://swse.miraheze.org/w/index.php?title=Neo-Crusader%20Light%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-orbalisk-armor-jedi-academy-training-manual",
+      "title": "Orbalisk Armor",
+      "revision": 18988,
+      "timestamp": "2024-08-25T21:05:36Z",
+      "sha256": "3a0282c17d1d7616103a1c48c7f3e5ee3628035e9fb8da0a5c871461e7855204",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18988#Jedi_Academy_Training_Manual",
+      "history": "https://swse.miraheze.org/w/index.php?title=Orbalisk%20Armor&action=history",
+      "section": "Jedi Academy Training Manual"
+    },
+    {
+      "id": "source:wiki-powered-battle-armor",
+      "title": "Powered Battle Armor",
+      "revision": 19287,
+      "timestamp": "2024-08-25T21:40:03Z",
+      "sha256": "cf9d7f57bc419cee86a660f663ed482792392ceb1be4c56079f53d3e9a97a5ee",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19287",
+      "history": "https://swse.miraheze.org/w/index.php?title=Powered%20Battle%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-republic-combat-armor",
+      "title": "Republic Combat Armor",
+      "revision": 19304,
+      "timestamp": "2024-08-25T21:41:50Z",
+      "sha256": "7e452c31f5959879532c35fe1c87d2bdccd3610685447a568fe69920b3507992",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19304",
+      "history": "https://swse.miraheze.org/w/index.php?title=Republic%20Combat%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-republic-heavy-armor",
+      "title": "Republic Heavy Armor",
+      "revision": 19305,
+      "timestamp": "2024-08-25T21:41:56Z",
+      "sha256": "9c1af1daaebd0200ef37e937f92113c82f2797affcaa5a4d869f67c0a32a148d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19305",
+      "history": "https://swse.miraheze.org/w/index.php?title=Republic%20Heavy%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-republic-light-armor",
+      "title": "Republic Light Armor",
+      "revision": 19306,
+      "timestamp": "2024-08-25T21:42:04Z",
+      "sha256": "dcb5a9bb5237193195947095c58c6a0df4c5a5681300f14b26a2d460d28e4758",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19306",
+      "history": "https://swse.miraheze.org/w/index.php?title=Republic%20Light%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-seatrooper-armor",
+      "title": "Seatrooper Armor",
+      "revision": 20764,
+      "timestamp": "2024-08-26T00:28:24Z",
+      "sha256": "266b7d42504edad8a017293fff563db2cc4015abc4def1d1a7358a78cc7aa92c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20764",
+      "history": "https://swse.miraheze.org/w/index.php?title=Seatrooper%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-shadowsuit",
+      "title": "Shadowsuit",
+      "revision": 19765,
+      "timestamp": "2024-08-25T22:34:17Z",
+      "sha256": "a586c1bb95503c42be518b32644c41010979ca93d248a9b8194c3a6ec66f70ee",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19765",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shadowsuit&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-shield-gauntlet",
+      "title": "Shield Gauntlet",
+      "revision": 20768,
+      "timestamp": "2024-08-26T00:28:46Z",
+      "sha256": "8cd64c5d5537cc7fefe1afcf646e92611658bb252ccf9b4f558ee0e870b25f96",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20768",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shield%20Gauntlet&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-stormtrooper-armor",
+      "title": "Stormtrooper Armor",
+      "section": null,
+      "revision": 18529,
+      "timestamp": "2024-08-25T20:16:09Z",
+      "sha256": "76802db7e0310c5fb59d63e13e60bf33cc2ba7bfb751dacb3c46e02f03e7244c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18529",
+      "history": "https://swse.miraheze.org/w/index.php?title=Stormtrooper%20Armor&action=history"
+    },
+    {
+      "id": "source:wiki-stun-cloak",
+      "title": "Stun Cloak",
+      "revision": 20961,
+      "timestamp": "2024-08-26T00:53:03Z",
+      "sha256": "42548a7bf63bbe6ef5a1af739c94148d8a02941a39560afa6acfcbca06731744",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20961",
+      "history": "https://swse.miraheze.org/w/index.php?title=Stun%20Cloak&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-thinsuit",
+      "title": "Thinsuit",
+      "revision": 20070,
+      "timestamp": "2024-08-25T23:08:54Z",
+      "sha256": "38c87c0abaa781a72965299a0ff9325df0636c6f5659ecd7202748e18e6d0022",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20070",
+      "history": "https://swse.miraheze.org/w/index.php?title=Thinsuit&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-tracker-utility-vest",
+      "title": "Tracker Utility Vest",
+      "revision": 20071,
+      "timestamp": "2024-08-25T23:09:04Z",
+      "sha256": "0f72b2e5d44aacea64bbf119e675220a1de4ac69ba633f93f0a31c32ef53af46",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20071",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tracker%20Utility%20Vest&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-vacuum-pod",
+      "title": "Vacuum Pod",
+      "revision": 20086,
+      "timestamp": "2024-08-25T23:10:43Z",
+      "sha256": "1b458fed9876bf71e86259de35f4cbc27ebab3a6fbe4fdb0e49e910159babebc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20086",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vacuum%20Pod&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-venom-assault-armor",
+      "title": "Venom Assault Armor",
+      "revision": 20340,
+      "timestamp": "2024-08-25T23:39:54Z",
+      "sha256": "42816de43b2ccfdef79db7eb628650e56830da76d512e713e9adbc4bd8d9b4e3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20340",
+      "history": "https://swse.miraheze.org/w/index.php?title=Venom%20Assault%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-weave-armor",
+      "title": "Weave Armor",
+      "revision": 19373,
+      "timestamp": "2024-08-25T21:50:15Z",
+      "sha256": "b914bdc5f058680e3219595fb74034a91354d988c269cb65daa9057f88646750",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19373",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weave%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-zero-gravity-stormtrooper-armor",
+      "title": "Zero-Gravity Stormtrooper Armor",
+      "revision": 20834,
+      "timestamp": "2024-08-26T00:36:33Z",
+      "sha256": "a4e2637c21fa13f4e176777b7073c800a1b6fee12fd532b64012650a41e7adcd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20834",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zero-Gravity%20Stormtrooper%20Armor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-category-armor",
+      "title": "Category:Armor",
+      "section": null,
+      "revision": 1406,
+      "timestamp": "2024-03-14T21:23:08Z",
+      "sha256": "54dfb3f7302b82dbcf8c21634926e28f684d4bdf89c0fb58df45b9c1b12877e3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=1406",
+      "history": "https://swse.miraheze.org/w/index.php?title=Category:Armor&action=history"
+    },
+    {
+      "id": "source:wiki-category-tandem-armor",
+      "title": "Category:Tandem Armor",
+      "section": null,
+      "revision": 6256,
+      "timestamp": "2024-04-12T15:28:00Z",
+      "sha256": "0ac275985644331b8572f38f64ece69ee1b5287b48306037c094ccd0661e40fa",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=6256",
+      "history": "https://swse.miraheze.org/w/index.php?title=Category:Tandem%20Armor&action=history"
+    },
+    {
+      "id": "source:wiki-helmet-package",
+      "title": "Helmet Package",
+      "section": null,
+      "revision": 18248,
+      "timestamp": "2024-08-25T19:50:44Z",
+      "sha256": "bdaad2f6fc0cb3ac2d4bad951560d521883ff01fa5c562acf4d680caa42f8c85",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18248",
+      "history": "https://swse.miraheze.org/w/index.php?title=Helmet%20Package&action=history"
     }
   ],
   "species": [
@@ -9417,7 +10017,9 @@
       "availability": [
         "military",
         "rare"
-      ]
+      ],
+      "vision": "low-light",
+      "visionProficiency": "light"
     },
     {
       "id": "equipment:utility-belt-standard",
@@ -11072,6 +11674,1092 @@
       "availability": [],
       "family": "Missiles",
       "variant": "Magazine of 4"
+    },
+    {
+      "id": "equipment:av-1c-combat-armor",
+      "name": "AV-1C Combat Armor",
+      "sourceId": "source:wiki-av-1c-combat-armor",
+      "kind": "armor",
+      "cost": 25000,
+      "weight": 25,
+      "category": "heavy",
+      "armorBonus": 9,
+      "fortitudeBonus": 4,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "restricted",
+        "rare"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:perception",
+          "amount": 2,
+          "when": "always"
+        }
+      ],
+      "vision": "low-light"
+    },
+    {
+      "id": "equipment:av-1s-scout-armor",
+      "name": "AV-1S Scout Armor",
+      "sourceId": "source:wiki-av-1s-scout-armor",
+      "kind": "armor",
+      "cost": 15000,
+      "weight": 18,
+      "category": "medium",
+      "armorBonus": 7,
+      "fortitudeBonus": 2,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:perception",
+          "amount": 2,
+          "when": "always"
+        }
+      ],
+      "vision": "low-light"
+    },
+    {
+      "id": "equipment:biohazard-suit",
+      "name": "Biohazard Suit",
+      "sourceId": "source:wiki-biohazard-suit",
+      "kind": "armor",
+      "cost": 4000,
+      "weight": 9,
+      "category": "medium",
+      "armorBonus": 0,
+      "fortitudeBonus": 3,
+      "maxDex": 0,
+      "skillBonuses": {},
+      "availability": [
+        "licensed"
+      ]
+    },
+    {
+      "id": "equipment:blinding-helmet",
+      "name": "Blinding Helmet",
+      "sourceId": "source:wiki-blinding-helmet",
+      "kind": "armor",
+      "cost": 200,
+      "weight": 2,
+      "category": "light",
+      "armorBonus": 0,
+      "fortitudeBonus": 0,
+      "maxDex": null,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ],
+      "armorSlot": "tandem",
+      "blinds": true
+    },
+    {
+      "id": "equipment:boba-fett-s-mandalorian-armor",
+      "name": "Boba Fett's Mandalorian Armor",
+      "sourceId": "source:wiki-boba-fett-s-mandalorian-armor",
+      "kind": "armor",
+      "cost": null,
+      "weight": 16,
+      "category": "medium",
+      "armorBonus": 9,
+      "fortitudeBonus": 2,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": []
+    },
+    {
+      "id": "equipment:camo-armor",
+      "name": "Camo Armor",
+      "sourceId": "source:wiki-camo-armor",
+      "kind": "armor",
+      "cost": 6000,
+      "weight": 6,
+      "category": "medium",
+      "armorBonus": 5,
+      "fortitudeBonus": 0,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "restricted"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:stealth",
+          "amount": 10,
+          "when": "hiding"
+        }
+      ]
+    },
+    {
+      "id": "equipment:camo-scout-armor",
+      "name": "Camo Scout Armor",
+      "sourceId": "source:wiki-camo-scout-armor",
+      "kind": "armor",
+      "cost": 6000,
+      "weight": 13,
+      "category": "medium",
+      "armorBonus": 6,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "licensed"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:stealth",
+          "amount": 5,
+          "when": "always"
+        }
+      ]
+    },
+    {
+      "id": "equipment:dark-armor",
+      "name": "Dark Armor",
+      "sourceId": "source:wiki-dark-armor",
+      "kind": "armor",
+      "cost": 15000,
+      "weight": 16,
+      "category": "medium",
+      "armorBonus": 7,
+      "fortitudeBonus": 4,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ]
+    },
+    {
+      "id": "equipment:darth-revan-s-armor",
+      "name": "Darth Revan's Armor",
+      "sourceId": "source:wiki-darth-revan-s-armor",
+      "kind": "armor",
+      "cost": null,
+      "weight": 5,
+      "category": "light",
+      "armorBonus": 7,
+      "fortitudeBonus": 2,
+      "maxDex": null,
+      "skillBonuses": {},
+      "availability": []
+    },
+    {
+      "id": "equipment:fiber-armor",
+      "name": "Fiber Armor",
+      "sourceId": "source:wiki-fiber-armor",
+      "kind": "armor",
+      "cost": 3000,
+      "weight": 10,
+      "category": "light",
+      "armorBonus": 4,
+      "fortitudeBonus": 1,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "licensed"
+      ]
+    },
+    {
+      "id": "equipment:galactic-alliance-armor",
+      "name": "Galactic Alliance Armor",
+      "sourceId": "source:wiki-galactic-alliance-armor",
+      "kind": "armor",
+      "cost": 6000,
+      "weight": 9,
+      "category": "light",
+      "armorBonus": 4,
+      "fortitudeBonus": 1,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ]
+    },
+    {
+      "id": "equipment:half-vest",
+      "name": "Half-Vest",
+      "sourceId": "source:wiki-half-vest",
+      "kind": "armor",
+      "cost": 250,
+      "weight": 2,
+      "category": "light",
+      "armorBonus": 1,
+      "fortitudeBonus": 0,
+      "maxDex": 5,
+      "skillBonuses": {},
+      "availability": [
+        "restricted"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:stealth",
+          "amount": 5,
+          "when": "concealArmor"
+        }
+      ]
+    },
+    {
+      "id": "equipment:heavy-beskar-gam",
+      "name": "Heavy Beskar'gam",
+      "sourceId": "source:wiki-heavy-beskar-gam",
+      "kind": "armor",
+      "cost": 45000,
+      "weight": 32,
+      "category": "heavy",
+      "armorBonus": 10,
+      "fortitudeBonus": 4,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "restricted",
+        "rare"
+      ],
+      "allowsLightsaberDR": true,
+      "intimidateCircumstance": 2
+    },
+    {
+      "id": "equipment:heavy-dark-armor",
+      "name": "Heavy Dark Armor",
+      "sourceId": "source:wiki-heavy-dark-armor",
+      "kind": "armor",
+      "cost": 25000,
+      "weight": 30,
+      "category": "heavy",
+      "armorBonus": 8,
+      "fortitudeBonus": 5,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ]
+    },
+    {
+      "id": "equipment:heavy-powered-battle-armor",
+      "name": "Heavy Powered Battle Armor",
+      "sourceId": "source:wiki-heavy-powered-battle-armor",
+      "kind": "armor",
+      "cost": 19000,
+      "weight": 32,
+      "category": "heavy",
+      "armorBonus": 9,
+      "fortitudeBonus": 4,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:perception",
+          "amount": 2,
+          "when": "always"
+        }
+      ],
+      "vision": "low-light"
+    },
+    {
+      "id": "equipment:heavy-pressure-suit",
+      "name": "Heavy Pressure Suit",
+      "sourceId": "source:wiki-heavy-pressure-suit",
+      "kind": "armor",
+      "cost": 12000,
+      "weight": 35,
+      "category": "heavy",
+      "armorBonus": 9,
+      "fortitudeBonus": 3,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "restricted"
+      ],
+      "speedPenalty": 1
+    },
+    {
+      "id": "equipment:imperial-knight-armor",
+      "name": "Imperial Knight Armor",
+      "sourceId": "source:wiki-imperial-knight-armor",
+      "kind": "armor",
+      "cost": 7000,
+      "weight": 16,
+      "category": "medium",
+      "armorBonus": 8,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ],
+      "allowsLightsaberDR": true
+    },
+    {
+      "id": "equipment:jedi-battle-armor",
+      "name": "Jedi Battle Armor",
+      "sourceId": "source:wiki-jedi-battle-armor",
+      "kind": "armor",
+      "cost": 6000,
+      "weight": 12,
+      "category": "medium",
+      "armorBonus": 5,
+      "fortitudeBonus": 5,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ]
+    },
+    {
+      "id": "equipment:kzz-riot-armor",
+      "name": "KZZ Riot Armor",
+      "sourceId": "source:wiki-kzz-riot-armor",
+      "kind": "armor",
+      "cost": 2500,
+      "weight": 6,
+      "category": "light",
+      "armorBonus": 2,
+      "fortitudeBonus": 2,
+      "maxDex": 5,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ]
+    },
+    {
+      "id": "equipment:katarn-class-commando-armor",
+      "name": "Katarn-Class Commando Armor",
+      "sourceId": "source:wiki-katarn-class-commando-armor",
+      "kind": "armor",
+      "cost": 30000,
+      "weight": 20,
+      "category": "medium",
+      "armorBonus": 9,
+      "fortitudeBonus": 4,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:perception",
+          "amount": 2,
+          "when": "always",
+          "proficiency": "heavy"
+        }
+      ],
+      "vision": "low-light",
+      "visionProficiency": "heavy"
+    },
+    {
+      "id": "equipment:knighthunter-armor",
+      "name": "Knighthunter Armor",
+      "sourceId": "source:wiki-knighthunter-armor",
+      "kind": "armor",
+      "cost": 6000,
+      "weight": 13,
+      "category": "medium",
+      "armorBonus": 7,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "conditionalDefenses": [
+        {
+          "defense": "will",
+          "against": "use-the-force",
+          "amount": 5,
+          "type": "equipment"
+        }
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:perception",
+          "amount": 2,
+          "when": "always"
+        }
+      ],
+      "vision": "low-light"
+    },
+    {
+      "id": "equipment:light-battle-armor",
+      "name": "Light Battle Armor",
+      "sourceId": "source:wiki-light-battle-armor",
+      "kind": "armor",
+      "cost": 3500,
+      "weight": 10,
+      "category": "light",
+      "armorBonus": 5,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ]
+    },
+    {
+      "id": "equipment:light-beskar-gam",
+      "name": "Light Beskar'gam",
+      "sourceId": "source:wiki-light-beskar-gam",
+      "kind": "armor",
+      "cost": 33500,
+      "weight": 10,
+      "category": "light",
+      "armorBonus": 5,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "licensed",
+        "rare"
+      ],
+      "allowsLightsaberDR": true,
+      "intimidateCircumstance": 2
+    },
+    {
+      "id": "equipment:light-dark-armor",
+      "name": "Light Dark Armor",
+      "sourceId": "source:wiki-light-dark-armor",
+      "kind": "armor",
+      "cost": 10000,
+      "weight": 10,
+      "category": "light",
+      "armorBonus": 4,
+      "fortitudeBonus": 3,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ]
+    },
+    {
+      "id": "equipment:light-jedi-battle-armor",
+      "name": "Light Jedi Battle Armor",
+      "sourceId": "source:wiki-light-jedi-battle-armor",
+      "kind": "armor",
+      "cost": 4000,
+      "weight": 6,
+      "category": "light",
+      "armorBonus": 3,
+      "fortitudeBonus": 3,
+      "maxDex": 4,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ]
+    },
+    {
+      "id": "equipment:light-powered-battle-armor",
+      "name": "Light Powered Battle Armor",
+      "sourceId": "source:wiki-light-powered-battle-armor",
+      "kind": "armor",
+      "cost": 6500,
+      "weight": 12,
+      "category": "light",
+      "armorBonus": 4,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:perception",
+          "amount": 2,
+          "when": "always"
+        }
+      ],
+      "vision": "low-light"
+    },
+    {
+      "id": "equipment:light-pressure-suit",
+      "name": "Light Pressure Suit",
+      "sourceId": "source:wiki-light-pressure-suit",
+      "kind": "armor",
+      "cost": 4000,
+      "weight": 10,
+      "category": "light",
+      "armorBonus": 5,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "licensed"
+      ],
+      "speedPenalty": 2
+    },
+    {
+      "id": "equipment:m1-10-stalker-armor",
+      "name": "M1-10 Stalker Armor",
+      "sourceId": "source:wiki-m1-10-stalker-armor",
+      "kind": "armor",
+      "cost": 7500,
+      "weight": 10,
+      "category": "medium",
+      "armorBonus": 7,
+      "fortitudeBonus": 0,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "licensed"
+      ]
+    },
+    {
+      "id": "equipment:mandalorian-battle-armor",
+      "name": "Mandalorian Battle Armor",
+      "sourceId": "source:wiki-mandalorian-battle-armor",
+      "kind": "armor",
+      "cost": null,
+      "weight": 18,
+      "category": "medium",
+      "armorBonus": 8,
+      "fortitudeBonus": 2,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ],
+      "vision": "low-light",
+      "visionProficiency": "light"
+    },
+    {
+      "id": "equipment:mandalorian-combat-suit",
+      "name": "Mandalorian Combat Suit",
+      "sourceId": "source:wiki-mandalorian-combat-suit",
+      "kind": "armor",
+      "cost": null,
+      "weight": 8,
+      "category": "light",
+      "armorBonus": 4,
+      "fortitudeBonus": 1,
+      "maxDex": 5,
+      "skillBonuses": {},
+      "availability": [
+        "military",
+        "rare"
+      ],
+      "vision": "low-light",
+      "visionProficiency": "light"
+    },
+    {
+      "id": "equipment:marine-armor",
+      "name": "Marine Armor",
+      "sourceId": "source:wiki-marine-armor",
+      "kind": "armor",
+      "cost": 5000,
+      "weight": 12,
+      "category": "light",
+      "armorBonus": 5,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "restricted"
+      ],
+      "magneticSolesPenalty": 2
+    },
+    {
+      "id": "equipment:matrix-armor",
+      "name": "Matrix Armor",
+      "sourceId": "source:wiki-matrix-armor",
+      "kind": "armor",
+      "cost": 9000,
+      "weight": 25,
+      "category": "heavy",
+      "armorBonus": 9,
+      "fortitudeBonus": 3,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "restricted"
+      ]
+    },
+    {
+      "id": "equipment:medium-beskar-gam",
+      "name": "Medium Beskar'gam",
+      "sourceId": "source:wiki-medium-beskar-gam",
+      "kind": "armor",
+      "cost": 37000,
+      "weight": 17,
+      "category": "medium",
+      "armorBonus": 8,
+      "fortitudeBonus": 2,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "restricted",
+        "rare"
+      ],
+      "allowsLightsaberDR": true,
+      "intimidateCircumstance": 2
+    },
+    {
+      "id": "equipment:medium-pressure-suit",
+      "name": "Medium Pressure Suit",
+      "sourceId": "source:wiki-medium-pressure-suit",
+      "kind": "armor",
+      "cost": 7000,
+      "weight": 16,
+      "category": "medium",
+      "armorBonus": 8,
+      "fortitudeBonus": 2,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "speedPenalty": 1
+    },
+    {
+      "id": "equipment:mesh-armor",
+      "name": "Mesh Armor",
+      "sourceId": "source:wiki-mesh-armor",
+      "kind": "armor",
+      "cost": 6000,
+      "weight": 13,
+      "category": "medium",
+      "armorBonus": 6,
+      "fortitudeBonus": 2,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "restricted"
+      ]
+    },
+    {
+      "id": "equipment:microbe-armor",
+      "name": "Microbe Armor",
+      "sourceId": "source:wiki-microbe-armor",
+      "kind": "armor",
+      "cost": 4000,
+      "weight": 6,
+      "category": "light",
+      "armorBonus": 2,
+      "fortitudeBonus": 0,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "licensed"
+      ],
+      "armorDR": {
+        "amount": 2,
+        "damageTypes": [
+          "energy",
+          "fire"
+        ],
+        "lightsaber": false
+      }
+    },
+    {
+      "id": "equipment:model-210-personal-armor",
+      "name": "Model 210 Personal Armor",
+      "sourceId": "source:wiki-model-210-personal-armor",
+      "kind": "armor",
+      "cost": 16300,
+      "weight": 17,
+      "category": "medium",
+      "armorBonus": 7,
+      "fortitudeBonus": 1,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:perception",
+          "amount": 2,
+          "when": "always"
+        }
+      ],
+      "vision": "low-light",
+      "strengthCheckBonus": 2
+    },
+    {
+      "id": "equipment:neo-crusader-assault-armor",
+      "name": "Neo-Crusader Assault Armor",
+      "sourceId": "source:wiki-neo-crusader-assault-armor",
+      "kind": "armor",
+      "cost": null,
+      "weight": 65,
+      "category": "heavy",
+      "armorBonus": 10,
+      "fortitudeBonus": 4,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "military",
+        "rare"
+      ],
+      "vision": "low-light",
+      "visionProficiency": "heavy"
+    },
+    {
+      "id": "equipment:neo-crusader-light-armor-kotor",
+      "name": "Neo-Crusader Light Armor (Knights of the Old Republic Campaign Guide)",
+      "sourceId": "source:wiki-neo-crusader-light-armor",
+      "kind": "armor",
+      "cost": null,
+      "weight": 42,
+      "category": "light",
+      "armorBonus": 6,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ],
+      "family": "Neo-Crusader Light Armor",
+      "variant": "Knights of the Old Republic Campaign Guide",
+      "vision": "low-light",
+      "visionProficiency": "light"
+    },
+    {
+      "id": "equipment:neo-crusader-light-armor-web-enhancements",
+      "name": "Neo-Crusader Light Armor (Web Enhancements)",
+      "sourceId": "source:wiki-neo-crusader-light-armor",
+      "kind": "armor",
+      "cost": 3000,
+      "weight": 42,
+      "category": "light",
+      "armorBonus": 6,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "military",
+        "rare"
+      ],
+      "family": "Neo-Crusader Light Armor",
+      "variant": "Web Enhancements",
+      "vision": "low-light",
+      "visionProficiency": "light"
+    },
+    {
+      "id": "equipment:orbalisk-armor",
+      "name": "Orbalisk Armor",
+      "sourceId": "source:wiki-orbalisk-armor-jedi-academy-training-manual",
+      "kind": "armor",
+      "cost": null,
+      "weight": 26,
+      "category": "heavy",
+      "armorBonus": 10,
+      "fortitudeBonus": 2,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ],
+      "skillPenaltyExempt": true,
+      "armorDR": {
+        "amount": 10,
+        "damageTypes": [
+          "all"
+        ],
+        "lightsaber": true
+      }
+    },
+    {
+      "id": "equipment:powered-battle-armor",
+      "name": "Powered Battle Armor",
+      "sourceId": "source:wiki-powered-battle-armor",
+      "kind": "armor",
+      "cost": 11000,
+      "weight": 17,
+      "category": "medium",
+      "armorBonus": 7,
+      "fortitudeBonus": 2,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:perception",
+          "amount": 2,
+          "when": "always"
+        }
+      ],
+      "vision": "low-light"
+    },
+    {
+      "id": "equipment:republic-combat-armor",
+      "name": "Republic Combat Armor",
+      "sourceId": "source:wiki-republic-combat-armor",
+      "kind": "armor",
+      "cost": null,
+      "weight": 14,
+      "category": "medium",
+      "armorBonus": 6,
+      "fortitudeBonus": 2,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "vision": "low-light",
+      "visionProficiency": "medium"
+    },
+    {
+      "id": "equipment:republic-heavy-armor",
+      "name": "Republic Heavy Armor",
+      "sourceId": "source:wiki-republic-heavy-armor",
+      "kind": "armor",
+      "cost": null,
+      "weight": 26,
+      "category": "heavy",
+      "armorBonus": 8,
+      "fortitudeBonus": 3,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "armorDR": {
+        "amount": 2,
+        "damageTypes": [
+          "energy"
+        ],
+        "lightsaber": false
+      },
+      "vision": "low-light",
+      "visionProficiency": "heavy"
+    },
+    {
+      "id": "equipment:republic-light-armor",
+      "name": "Republic Light Armor",
+      "sourceId": "source:wiki-republic-light-armor",
+      "kind": "armor",
+      "cost": null,
+      "weight": 7,
+      "category": "light",
+      "armorBonus": 4,
+      "fortitudeBonus": 1,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ]
+    },
+    {
+      "id": "equipment:seatrooper-armor",
+      "name": "Seatrooper Armor",
+      "sourceId": "source:wiki-seatrooper-armor",
+      "kind": "armor",
+      "cost": 6750,
+      "weight": 14,
+      "category": "light",
+      "armorBonus": 4,
+      "fortitudeBonus": 2,
+      "maxDex": 2,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:swim",
+          "amount": 2,
+          "when": "always"
+        },
+        {
+          "skillId": "skill:perception",
+          "amount": 2,
+          "when": "always",
+          "proficiency": "light"
+        }
+      ],
+      "vision": "low-light",
+      "visionProficiency": "light"
+    },
+    {
+      "id": "equipment:shadowsuit",
+      "name": "Shadowsuit",
+      "sourceId": "source:wiki-shadowsuit",
+      "kind": "armor",
+      "cost": 600,
+      "weight": 2,
+      "category": "light",
+      "armorBonus": 1,
+      "fortitudeBonus": 1,
+      "maxDex": 5,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "skillEffects": [
+        {
+          "skillId": "skill:stealth",
+          "amount": 5,
+          "when": "darkness"
+        }
+      ]
+    },
+    {
+      "id": "equipment:shield-gauntlet",
+      "name": "Shield Gauntlet",
+      "sourceId": "source:wiki-shield-gauntlet",
+      "kind": "armor",
+      "cost": 1500,
+      "weight": 1,
+      "category": "light",
+      "armorBonus": 0,
+      "fortitudeBonus": 0,
+      "maxDex": null,
+      "skillBonuses": {},
+      "availability": [
+        "rare"
+      ],
+      "armorSlot": "tandem"
+    },
+    {
+      "id": "equipment:stun-cloak",
+      "name": "Stun Cloak",
+      "sourceId": "source:wiki-stun-cloak",
+      "kind": "armor",
+      "cost": 3500,
+      "weight": 2,
+      "category": "light",
+      "armorBonus": 1,
+      "fortitudeBonus": 0,
+      "maxDex": 5,
+      "skillBonuses": {},
+      "availability": [
+        "licensed"
+      ]
+    },
+    {
+      "id": "equipment:thinsuit",
+      "name": "Thinsuit",
+      "sourceId": "source:wiki-thinsuit",
+      "kind": "armor",
+      "cost": 900,
+      "weight": 1,
+      "category": "light",
+      "armorBonus": 0,
+      "fortitudeBonus": 0,
+      "maxDex": 6,
+      "skillBonuses": {},
+      "availability": [],
+      "armorSlot": "tandem",
+      "conditionalDefenses": [
+        {
+          "defense": "fortitude",
+          "against": "extreme-temperatures",
+          "amount": 5,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "id": "equipment:tracker-utility-vest",
+      "name": "Tracker Utility Vest",
+      "sourceId": "source:wiki-tracker-utility-vest",
+      "kind": "armor",
+      "cost": 300,
+      "weight": 0.5,
+      "category": "light",
+      "armorBonus": 1,
+      "fortitudeBonus": 0,
+      "maxDex": 5,
+      "skillBonuses": {},
+      "availability": []
+    },
+    {
+      "id": "equipment:vacuum-pod",
+      "name": "Vacuum Pod",
+      "sourceId": "source:wiki-vacuum-pod",
+      "kind": "armor",
+      "cost": 15000,
+      "weight": 35,
+      "category": "heavy",
+      "armorBonus": 4,
+      "fortitudeBonus": 1,
+      "maxDex": 0,
+      "skillBonuses": {},
+      "availability": [],
+      "abilityBonuses": {
+        "str": 4
+      },
+      "skillEffects": [
+        {
+          "skillId": "skill:mechanics",
+          "amount": 2,
+          "when": "always",
+          "proficiency": "heavy"
+        }
+      ],
+      "noncombatPenaltyDivisor": 2
+    },
+    {
+      "id": "equipment:venom-assault-armor",
+      "name": "Venom Assault Armor",
+      "sourceId": "source:wiki-venom-assault-armor",
+      "kind": "armor",
+      "cost": 17000,
+      "weight": 38,
+      "category": "heavy",
+      "armorBonus": 10,
+      "fortitudeBonus": 4,
+      "maxDex": 1,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "abilityBonuses": {
+        "str": 2
+      }
+    },
+    {
+      "id": "equipment:weave-armor",
+      "name": "Weave Armor",
+      "sourceId": "source:wiki-weave-armor",
+      "kind": "armor",
+      "cost": 5000,
+      "weight": 15,
+      "category": "medium",
+      "armorBonus": 6,
+      "fortitudeBonus": 2,
+      "maxDex": 3,
+      "skillBonuses": {},
+      "availability": [
+        "restricted"
+      ]
+    },
+    {
+      "id": "equipment:zero-gravity-stormtrooper-armor",
+      "name": "Zero-Gravity Stormtrooper Armor",
+      "sourceId": "source:wiki-zero-gravity-stormtrooper-armor",
+      "kind": "armor",
+      "cost": 21000,
+      "weight": 38,
+      "category": "heavy",
+      "armorBonus": 9,
+      "fortitudeBonus": 3,
+      "maxDex": 0,
+      "skillBonuses": {},
+      "availability": [
+        "military"
+      ],
+      "vision": "low-light",
+      "visionProficiency": "light",
+      "skillEffects": [
+        {
+          "skillId": "skill:perception",
+          "amount": 2,
+          "when": "always",
+          "proficiency": "light"
+        }
+      ],
+      "wearerSize": "medium",
+      "sizeOverride": "large"
     }
   ],
   "rules": {
@@ -12282,6 +13970,16 @@
         }
       },
       "combinationAmbiguityId": "ambiguity:fall-reductions"
+    },
+    "armorEquipment": {
+      "sourceIds": [
+        "source:wiki-category-armor",
+        "source:wiki-category-tandem-armor",
+        "source:wiki-attacks",
+        "source:wiki-bonuses-and-penalties",
+        "source:wiki-helmet-package",
+        "source:wiki-skills"
+      ]
     }
   },
   "heroicTraits": {

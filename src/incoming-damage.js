@@ -1,15 +1,16 @@
+import {armorProtection} from './armor.js';
 import {protectedDamage} from './combat.js';
 import {recoveryState,setDead,recordKnockout} from './recovery.js';
 import {ambiguityValue} from './house-rules.js';
 
-export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spendForcePoint=false}={}){
+export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spendForcePoint=false,energy=false,fire=false,lightsaber=false}={}){
  if(!['normal','stun','ion'].includes(type))throw new Error('Unknown damage type');
  if(recoveryState(c).dead)throw new Error('Character is dead or destroyed');
  const rule=pack.rules.incomingDamage,isDroid=!!pack.species.find(s=>s.id===c.species)?.isDroid;
  const immunity=type==='stun'&&isDroid;
  // General attack protection is resolved before the HP-only halving. The
  // threshold comparison retains penetrating damage before that halving.
- const protection=protectedDamage(c.protection,amount,pack.rules.combat,ignoreDR);
+ const protection=protectedDamage(armorProtection(c,d,{energy,fire,lightsaber,ignoreDR}),amount,pack.rules.combat,ignoreDR);
  if(immunity)return {type,immune:true,hpDamage:0,srBlocked:0,drBlocked:0,srAfter:c.protection.sr,beforeHP:c.currentHP??d.hp,afterHP:c.currentHP??d.hp,conditionAfter:c.condition,conditionSteps:0,dead:false,forcePointSpent:0,canSurvive:false,knockout:false};
  const penetrating=protection.hpDamage,hpDamage=type==='normal'?penetrating:Math.floor(penetrating/rule[type].hpDivisor);
  const beforeHP=c.currentHP??d.hp,afterDamage=Math.max(0,beforeHP-hpDamage);

@@ -843,3 +843,59 @@ Imports exclude the recursive Homebrew category tree, redirected Homebrew pages
 explicit Homebrew book declarations, and marked Homebrew sections on mixed pages. Missing pages and failed captures remain
 in `pending`. Coverage reports distinguish imported text from partially mapped
 mechanics and never count a mechanical mapping alone as an embedded article.
+
+## Supplemental armor contract
+
+Before supplemental calculations, ordinary armor keeps its existing numeric
+fields and adds an optional `armorSlot` (`body` by default, or `tandem`). Body
+armor replaces other body armor; explicitly tandem items coexist. `maxDex: null`
+means no printed Dexterity cap; it never becomes a zero cap. Unlisted prices and
+weights remain `null`, with Add owned and weight overrides rather than invented
+prices or mass. Explicit book-specific prices/availability use distinct variants.
+
+Optional `skillEffects` records contain `skillId`, `amount`, `when` and an optional
+`proficiency` category. `when` is `always`, `hiding`, `darkness`, `concealArmor`
+or `noncombat`. Armor Equipment bonuses require proficiency in the worn item’s category; an explicit `proficiency` field adds its printed requirement. Bonuses of the same type use the highest, while armor
+penalties stack. Conditional declarations live in optional closed character
+`armorChecks` boolean fields. Existing armor skill bonuses retain their original
+proficiency condition. `conditionalDefenses` uses the same sourced conditional
+defense structure as species, with equipment bonus typing.
+
+`speedPenalty` is an additional armor movement reduction; `magneticSolesPenalty`
+applies to normal movement only while magnetic soles are declared active.
+Juggernaut ignores armor movement limits. `skillPenaltyExempt` removes only
+armor skill penalties, preserving attack penalties and other armor restrictions.
+`abilityBonuses` remains a proficiency-dependent equipment Strength bonus.
+
+`armorDR: {amount, damageTypes, lightsaber}` supports all damage or explicitly
+Energy/Fire damage; `lightsaber` states whether that item's DR survives Lightsaber
+bypass. `allowsLightsaberDR` permits other personal DR against Lightsabers.
+Incoming damage declares Energy, Fire and Lightsaber separately from Normal,
+Stun and Ion. Existing Ignore DR remains an explicit override. These passives
+never fabricate recharge pools, elapsed life support, upgrades, reactive uses,
+container assignments or a completed medical procedure.
+
+Personal energy shields, reactive armor, integrated weapons and medical systems
+need their own typed state/actions before being automated. Complete rules remain
+embedded while those systems are implemented. Basic catalog availability is not
+a claim that every feature of an item is automated.
+
+`blinds` applies the Blinding Helmet’s Total Concealment to outgoing attacks,
+including its Aim restriction and Attack square declaration. It does not pretend
+that all Perception applications require sight. The original target declaration
+remains saved separately from this equipment-imposed effect.
+
+`vision` is a Low-Light Vision capability; `visionProficiency` records an explicit
+printed requirement. Vision is not itself an Equipment bonus. Stock Zero-Gravity
+Stormtrooper Armor declares `wearerSize: medium` and `sizeOverride: large`.
+Only the printed stock size is sold; owned gear that does not fit contributes no
+worn effects and produces an unresolved choice. The wearer’s effective size
+changes defense, threshold, Stealth, carrying limits and weapon handling while
+base species size and fitted armor weight remain unchanged.
+
+`strengthCheckBonus` applies only to declared lifting/dragging/pulling Strength
+ability checks and requires armor proficiency; it changes no ability score.
+`intimidateCircumstance` applies to declared Intimidate checks, including when
+the modifier comes from a supported substitute skill. `armorChecks` additionally
+permits `lifting` and `intimidating`. Favorable circumstances use the Skills
+page’s +2 circumstance modifier. Identical armor circumstances do not multiply.

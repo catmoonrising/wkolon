@@ -7,11 +7,11 @@ export function targetConcealment(target,vision,scope=false){
  return target.concealment;
 }
 export function canAimAtTarget(c,species){
- const target=attackTarget(c);
+ const target={...attackTarget(c),...(species.blind?{concealment:'total',darkness:false}:{})};
  return target.cover!=='total'&&targetConcealment(target,species.vision)!=='total';
 }
 export function targetModifiers(c,pack,ctx,species,a){
- const rule=pack.rules.attackTargets,target=attackTarget(c),melee=a.mode==='melee',ranged=a.mode==='ranged';
+ const rule=pack.rules.attackTargets,target={...attackTarget(c),...(species.blind?{concealment:'total',darkness:false}:{})},melee=a.mode==='melee',ranged=a.mode==='ranged';
  const concealment=targetConcealment(target,species.vision,a.ignoresDarkness);
  let prone=melee&&target.prone?rule.prone.targetMeleeBonus:ranged&&target.prone?rule.prone.targetRangedPenalty:0;
  const helpless=melee&&target.helpless?rule.helplessMeleeBonus:0;

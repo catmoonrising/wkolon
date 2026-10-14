@@ -22,7 +22,7 @@ export function renderStatBlock(c,d,pack){
  const skill=id=>d.skills.find(s=>s.id==='skill:'+id);
  const languages=[...species.languages,backgroundLanguage(c,pack),c.languages].filter(Boolean).map(escape).join(', ');
  const points=[c.story?.kind==='destiny'?`<b>Destiny Points:</b> ${c.story.points}`:'',`<b>Force Points:</b> ${d.forceCurrent??c.forcePoints}`,`<b>Dark Side Score:</b> ${c.darkSideScore||0}`].filter(Boolean).join('; ');
- const protection=c.protection||{dr:0,sr:0,srMax:0,drBypass:''};
+ const protection=d.normalProtection||c.protection||{dr:0,sr:0,srMax:0,drBypass:''};
  const condition=c.condition===5?`Helpless (${species.isDroid?'Disabled':'Unconscious'})`:c.condition?`${signed(pack.rules.conditionPenalties[c.condition])} Penalty${c.condition===4?'; Move at Half Speed':''}`:'';
  const defenseTotal=key=>d.defenses[key]+(d.conditionalDefenses||[]).filter(e=>e.defense===key).map(e=>` (${e.total} ${escape(conditionalDefenseLabel(e))})`).join('');
  const defensiveOptions=[d.defensiveCombat.stance==='fight'?'Fight Defensively':d.defensiveCombat.stance==='total'?'Total Defense':'',d.defensiveCombat.melee?'Melee Defense '+d.defensiveCombat.melee:'',c.chargeReflexPenalty?'Charge':''].filter(Boolean).join('; ');
@@ -37,7 +37,7 @@ export function renderStatBlock(c,d,pack){
  const story=c.story?.kind!=='none'&&ix[c.story?.kind==='destiny'?'destinies':'backgrounds']?.get(c.story?.id);
  const traits=TRAIT_FIELDS.filter(([key])=>c.heroicTraits?.[key]).map(([key,label])=>textLine(label,c.heroicTraits[key])).join('');
  return `<article class="stat-block"><h1>${escape(c.name||'Unnamed hero')} <span>(CL ${d.level})</span></h1>
- <p>${escape(species.size.replace(/^./,ch=>ch.toUpperCase()))} ${escape(species.name)} ${classes}</p>
+ <p>${escape((d.size||species.size).replace(/^./,ch=>ch.toUpperCase()))} ${escape(species.name)} ${classes}</p>
  <p>${points}</p>${line('Initiative',signed(skill('initiative').total)+'; <b>Senses:</b> Perception '+signed(skill('perception').total)+[species.vision==='darkvision'?'Darkvision':species.vision==='low-light'?'Low-Light Vision':'',species.scentRange?'Scent '+species.scentRange+' Squares':''].filter(Boolean).map(s=>', '+s).join(''))}${line('Languages',languages)}
  <h2>Defenses</h2><p><b>Reflex Defense:</b> ${defenseTotal('reflex')}, <b>Fortitude Defense:</b> ${defenseTotal('fortitude')}, <b>Will Defense:</b> ${defenseTotal('will')}</p>${textLine('Defensive Abilities',defensiveOptions)}
  <p><b>Hit Points:</b> ${c.currentHP??d.hp}/${d.hp}; <b>Damage Threshold:</b> ${d.threshold}${protection.dr?`; <b>DR:</b> ${protection.dr}${protection.drBypass?' ('+escape(protection.drBypass)+')':''}`:''}${protection.srMax?`; <b>SR:</b> ${protection.sr}/${protection.srMax}`:''}</p>

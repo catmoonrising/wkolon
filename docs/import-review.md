@@ -991,3 +991,38 @@ reload and unread-page retry. Firefox's focused check uses an actual connection
 outage through a local rejecting proxy, since its simulated offline switch left
 service-worker network requests running in this environment. Reproduce with
 `node tools/reference-live-checks.cjs firefox` (or `chromium`).
+
+## Supplemental armor
+
+Added 55 reviewed armor records, bringing armor to 66 and total equipment to 136.
+The importer reads numeric fields from pinned captures, requires an approved
+revision, and preserves unlisted prices/weights as null. Neo-Crusader Light Armor
+has separate book variants because its price and availability differ. Orbalisk
+statistics use the Jedi Academy Training Manual tab. Unique armor with no price
+is Add owned only. Ordinary purchases include fitted sizes and licensing.
+
+Calculations support explicitly tandem equipment, uncapped Dexterity, conditional
+skill and defense bonuses, helmet vision, Blinding Helmet targeting, pressure-suit
+and magnetic-sole movement, equipment Strength bonuses, lifting checks and Beskar
+Intimidate circumstances. Armor Equipment bonuses require proficiency; identically
+typed bonuses use the highest and armor penalties stack. Katarn remains Medium,
+but its Perception/vision features retain the printed Heavy proficiency requirement.
+Stock Spacetrooper armor fits Medium creatures and changes their effective size
+to Large for defenses, threshold, Stealth, carrying and weapon handling.
+
+Incoming damage supports applicable armor DR, Energy/Fire declarations and
+Lightsaber bypass/exceptions without overwriting manually entered DR. Orbalisk
+exempts skill penalties, not attack penalties. Light Pressure Suits reduce Speed
+by two; Medium and Heavy suits reduce it by one in addition to normal armor limits.
+No new House Rules or unrequested ambiguity alternatives were added.
+
+Personal energy shields remain reference-only pending activation, charge and
+Energy-only SR state. Reactive armor, integrated weapons, medical systems,
+environment timers, containers and upgrade actions retain complete text but
+still need automation. Catalog availability is not complete item automation.
+
+Validation: 386 JavaScript tests, 25 Python importer tests, deterministic offline
+rebuild, full Chromium regression suite and focused Firefox checks. Browser
+coverage includes purchases/licensing, tandem gear, conditional bonuses, vision,
+blind targeting, incoming DR, movement, stock sizes, persistence, stat blocks
+and Dracula mobile layout.

@@ -1761,6 +1761,23 @@
               "const": "ambiguity:fall-reductions"
             }
           }
+        },
+        "armorEquipment": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         }
       },
       "required": [
@@ -2258,6 +2275,9 @@
       "allOf": [
         {
           "$ref": "#/$defs/record"
+        },
+        {
+          "$ref": "#/$defs/supplementalArmor"
         }
       ],
       "properties": {
@@ -3063,6 +3083,177 @@
       "properties": {
         "startingEquipment": {
           "$ref": "#/$defs/startingEquipment"
+        }
+      }
+    },
+    "armorSkillEffect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "skillId",
+        "amount",
+        "when"
+      ],
+      "properties": {
+        "skillId": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "when": {
+          "enum": [
+            "always",
+            "hiding",
+            "darkness",
+            "concealArmor",
+            "noncombat"
+          ]
+        },
+        "proficiency": {
+          "enum": [
+            "light",
+            "medium",
+            "heavy"
+          ]
+        }
+      }
+    },
+    "armorDR": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "amount",
+        "damageTypes",
+        "lightsaber"
+      ],
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "damageTypes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "all",
+              "energy",
+              "fire"
+            ]
+          }
+        },
+        "lightsaber": {
+          "type": "boolean"
+        }
+      }
+    },
+    "supplementalArmor": {
+      "type": "object",
+      "properties": {
+        "armorSlot": {
+          "enum": [
+            "body",
+            "tandem"
+          ]
+        },
+        "maxDex": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "skillEffects": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/armorSkillEffect"
+          }
+        },
+        "speedPenalty": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "magneticSolesPenalty": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "skillPenaltyExempt": {
+          "type": "boolean"
+        },
+        "noncombatPenaltyDivisor": {
+          "const": 2
+        },
+        "armorDR": {
+          "$ref": "#/$defs/armorDR"
+        },
+        "allowsLightsaberDR": {
+          "type": "boolean"
+        },
+        "vision": {
+          "const": "low-light"
+        },
+        "visionProficiency": {
+          "enum": [
+            "light",
+            "medium",
+            "heavy"
+          ]
+        },
+        "blinds": {
+          "type": "boolean"
+        },
+        "wearerSize": {
+          "const": "medium"
+        },
+        "sizeOverride": {
+          "const": "large"
+        },
+        "strengthCheckBonus": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "intimidateCircumstance": {
+          "const": 2
+        },
+        "conditionalDefenses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "defense",
+              "against",
+              "amount",
+              "type"
+            ],
+            "properties": {
+              "defense": {
+                "enum": [
+                  "will",
+                  "fortitude"
+                ]
+              },
+              "against": {
+                "enum": [
+                  "use-the-force",
+                  "extreme-temperatures"
+                ]
+              },
+              "amount": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "type": {
+                "enum": [
+                  "untyped",
+                  "equipment"
+                ]
+              }
+            }
+          }
         }
       }
     }

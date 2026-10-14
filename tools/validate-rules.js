@@ -192,7 +192,21 @@ export function validatePack(p) {
       for(const key of ['biotech','mechanical'])if(r[key]!==undefined)assert.equal(typeof r[key],'boolean');
       if(r.family!==undefined)assert(typeof r.family==='string'&&typeof r.variant==='string');
       if(r.upgrades!==undefined){assert(Array.isArray(r.upgrades)&&new Set(r.upgrades.map(u=>u.id)).size===r.upgrades.length);for(const u of r.upgrades){assert(Object.keys(u).every(k=>['id','name','costMultiplier','changesWeight'].includes(k)));assert(/^[a-z-]+$/.test(u.id)&&typeof u.name==='string'&&Number.isFinite(u.costMultiplier)&&u.costMultiplier>=1);if(u.changesWeight!==undefined)assert.equal(typeof u.changesWeight,'boolean');}}
-      if(r.kind==='armor') { assert(p.rules.armorPenalties[r.category]!==undefined); for(const k of ['armorBonus','fortitudeBonus','maxDex']) assert(Number.isInteger(r[k])); for(const id of Object.keys(r.skillBonuses)) requireRef('skills',id); }
+      if(r.kind==='armor') {
+        assert(p.rules.armorPenalties[r.category]!==undefined);for(const k of ['armorBonus','fortitudeBonus'])assert(Number.isInteger(r[k]));assert(r.maxDex===null||Number.isInteger(r.maxDex)&&r.maxDex>=0);for(const id of Object.keys(r.skillBonuses))requireRef('skills',id);
+        if(r.armorSlot!==undefined)assert(['body','tandem'].includes(r.armorSlot));
+        for(const key of ['speedPenalty','magneticSolesPenalty','strengthCheckBonus','intimidateCircumstance'])if(r[key]!==undefined)assert(Number.isInteger(r[key])&&r[key]>=0&&r[key]<=10);
+        for(const key of ['skillPenaltyExempt','allowsLightsaberDR','blinds'])if(r[key]!==undefined)assert.equal(typeof r[key],'boolean');
+        if(r.noncombatPenaltyDivisor!==undefined)assert.equal(r.noncombatPenaltyDivisor,2);
+        if(r.wearerSize!==undefined)assert(r.wearerSize==='medium'&&r.sizeOverride==='large','Unsupported stock armor size');
+        if(r.sizeOverride!==undefined)assert(r.wearerSize==='medium'&&r.sizeOverride==='large','Missing stock armor size');
+        if(r.vision!==undefined)assert.equal(r.vision,'low-light');
+        if(r.visionProficiency!==undefined)assert(r.vision&&['light','medium','heavy'].includes(r.visionProficiency));
+        for(const e of r.skillEffects||[]){assert(Object.keys(e).every(k=>['skillId','amount','when','proficiency'].includes(k)));requireRef('skills',e.skillId);assert(Number.isInteger(e.amount)&&e.amount>0&&['always','hiding','darkness','concealArmor','noncombat'].includes(e.when));if(e.proficiency)assert(['light','medium','heavy'].includes(e.proficiency));}
+        for(const e of r.conditionalDefenses||[]){assert.deepEqual(Object.keys(e).sort(),['against','amount','defense','type']);assert(['will','fortitude'].includes(e.defense)&&['use-the-force','extreme-temperatures'].includes(e.against)&&['untyped','equipment'].includes(e.type)&&Number.isInteger(e.amount)&&e.amount>0);}
+        if(r.armorDR){const e=r.armorDR;assert.deepEqual(Object.keys(e).sort(),['amount','damageTypes','lightsaber']);assert(Number.isInteger(e.amount)&&e.amount>0&&Array.isArray(e.damageTypes)&&e.damageTypes.length&&new Set(e.damageTypes).size===e.damageTypes.length&&e.damageTypes.every(t=>['all','energy','fire'].includes(t))&&typeof e.lightsaber==='boolean');}
+      }
+      if(r.kind!=='armor')assert(['armorSlot','skillEffects','conditionalDefenses','speedPenalty','magneticSolesPenalty','skillPenaltyExempt','noncombatPenaltyDivisor','armorDR','allowsLightsaberDR','vision','visionProficiency','blinds','wearerSize','sizeOverride','strengthCheckBonus','intimidateCircumstance'].every(key=>r[key]===undefined),'Armor trait on other equipment');
       if(r.abilityBonuses!==undefined){assert(r.kind==='armor'&&r.abilityBonuses&&Object.keys(r.abilityBonuses).every(k=>k==='str'),'Unsupported equipment ability bonus');assert(Object.values(r.abilityBonuses).every(n=>Number.isInteger(n)&&n>0),'Invalid equipment ability bonus');}
     }
   }
@@ -332,6 +346,7 @@ export function validatePack(p) {
     assert.deepEqual(Object.keys(l.ratings).sort(),['illegal','licensed','military','restricted']);
     for(const r of Object.values(l.ratings)){assert.deepEqual(Object.keys(r).sort(),['blackMarket','days','dc','percent']);assert(Object.values(r).every(n=>Number.isInteger(n)&&n>0));}
   }
+  assert(p.rules.armorEquipment&&Object.keys(p.rules.armorEquipment).length===1&&p.rules.armorEquipment.sourceIds.every(id=>sources.has(id)),'Missing supplemental armor sources');
   const movement=p.rules.armorMovement;
   if(p.rules.ambiguities!==undefined){
     assert(Array.isArray(p.rules.ambiguities),'Invalid ambiguities');const ambiguityIds=new Set();

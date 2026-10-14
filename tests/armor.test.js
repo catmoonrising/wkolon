@@ -14,7 +14,8 @@ function hero(cls='soldier'){
 }
 
 test('all eleven Core armor entries have reviewed selectable mechanics and complete articles',()=>{
- const armor=pack.catalog.records.filter(r=>r.kind==='armor');assert.equal(armor.length,11);
+ const core=new Set(['Armored Flight Suit','Armored Space Suit','Battle Armor','Blast Helmet and Vest','Ceremonial Armor','Combat Jumpsuit','Corellian Powersuit','Heavy Battle Armor','Padded Flight Suit','Stormtrooper Armor','Vonduun Crabshell']);
+ const armor=pack.catalog.records.filter(r=>r.kind==='armor'&&core.has(r.name));assert.equal(armor.length,11);
  assert(armor.every(r=>r.status==='available'&&r.mechanicsIds.length===1));
  assert(pack.equipment.filter(r=>r.kind==='armor').every(r=>r.article.blocks.length));
  validatePack(pack);

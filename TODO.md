@@ -10,6 +10,8 @@
   - [x] Group equipment variants and Comlink functionality; include licensing prices and owned-only armor.
   - [x] Jedi Counseling switches, default on, with embedded wording and supported/manual status.
   - [x] All eleven Core armor entries, Heavy proficiency, armor speed/run limits and Powersuit Strength.
+  - [x] Add 55 reviewed supplemental armor entries: tandem equipment, uncapped Dexterity, conditional bonuses, pressure suits, applicable DR, helmet vision, blindness and stock Spacetrooper size.
+  - [ ] Personal energy shields, reactive armor, integrated weapons, medical systems, life-support timers and armor upgrades.
   - [x] Ten additional Core combat feats, reviewed prerequisites and class bonus lists; conditional actions retain full rules text.
   - [x] All Core Scout/Soldier class talents and tree access; automate Armor Mastery, Juggernaut, Second Skin, Long Stride and Melee Smash.
   - [x] Sprint running calculation and per-character Ambiguities tab for its heavy-armor interaction.
