@@ -15,6 +15,8 @@
   - [x] All 32 official prestige-class entry requirements, printed progression tables, maximum levels, HP/Force Point rules, talent schedules and special entry declarations.
   - [x] Prestige feature-choice slots: 57 Force Techniques, 15 Force Secrets and seven Medical Secrets, with the shared prerequisite browser and embedded source text.
   - [x] Gunslinger pistol damage, Elite Trooper DR, Power Mastery Take 10, Sith feature loss and Master Privateer's persistent advancement restriction.
+  - [x] 83 Core prestige talents across 14 trees, with explicit prerequisites, matching weapon/power choices, repeat policies and source popups.
+  - [x] Ataru, Niman, Greater Weapon Focus/Specialization, Exotic Weapon Mastery, Multiattack Proficiency, Controlled Burst, Trigger Work, Vaapad, Sokan, Force skill substitutions and Force Power Adept's paired-check activation.
   - [ ] Remaining prestige-class talents and prerequisite feats, Force Tradition access, activated class features and technique/secret effects beyond Power Mastery.
   - [ ] Reactive armor, integrated weapons, medical systems, life-support timers and armor upgrades.
   - [x] Ten additional Core combat feats, reviewed prerequisites and class bonus lists; conditional actions retain full rules text.

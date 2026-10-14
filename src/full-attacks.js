@@ -18,7 +18,7 @@ export function fullAttackGrip(w,entry,pack,speciesSize){
   double:!!w.double&&size<=1&&w.mode==='melee'};
 }
 
-const matching=(choices,a)=>choices.includes(a.group)||choices.includes(a.id);
+const matching=(choices,a)=>choices.includes(a.effectGroup||a.group)||choices.includes(a.id);
 const withPenalty=(a,delta)=>({...a,attack:a.attack+delta,...Object.fromEntries(['unAimed','unBraced'].filter(k=>a[k]).map(k=>[k,{...a[k],attack:a[k].attack+delta}]))});
 
 // A source grants one extra attack, even if the feat was chosen for several
@@ -54,6 +54,6 @@ export function planFullAttack(routine,d,pack){
  }
  if(dual)for(const a of [double,triple].filter(Boolean))if(!a.fullAttackGrip.oneHanded&&!(base.uid===dual.uid&&a.uid===base.uid&&a.fullAttackGrip.double))throw new Error('Extra attack requires a wielded one-handed weapon or the same double weapon');
  for(const key of Object.keys(penalties))penalties[key]=Math.min(penalties[key],state.penalties[key]);
- const penalty=Object.values(penalties).reduce((a,b)=>a+b,0),delta=penalty-state.penalty;
- return {routine,attacks:d.attacks.map(a=>withPenalty(a,delta)),penalties,penalty};
+ const penalty=Object.values(penalties).reduce((a,b)=>a+b,0);
+ return {routine,attacks:d.attacks.map(a=>{const reduction=a.multiattackReduction||0,actual=Math.min(0,penalty+reduction),prior=Math.min(0,state.penalty+reduction);return {...withPenalty(a,actual-prior),fullAttackPenalty:actual};}),penalties,penalty};
 }

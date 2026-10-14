@@ -28,7 +28,7 @@ export function renderStatBlock(c,d,pack){
  const condition=c.condition===5?`Helpless (${species.isDroid?'Disabled':'Unconscious'})`:c.condition?`${signed(pack.rules.conditionPenalties[c.condition])} Penalty${c.condition===4?'; Move at Half Speed':''}`:'';
  const defenseTotal=key=>d.defenses[key]+(d.conditionalDefenses||[]).filter(e=>e.defense===key).map(e=>` (${e.total} ${escape(conditionalDefenseLabel(e))})`).join('');
  const defensiveOptions=[d.defensiveCombat.stance==='fight'?'Fight Defensively':d.defensiveCombat.stance==='total'?'Total Defense':'',d.defensiveCombat.melee?'Melee Defense '+d.defensiveCombat.melee:'',c.chargeReflexPenalty?'Charge':''].filter(Boolean).join('; ');
- const attackText=(a,attackMod=0,damageMod=0)=>`${escape(a.name)} ${signed(a.attack+attackMod)} (${escape(a.damageDisplay)}${damageMod?signed(damageMod):''}${a.criticalMultiplier>2&&!a.areaType?`; ×${a.criticalMultiplier} critical`:''})`;
+ const attackText=(a,attackMod=0,damageMod=0)=>`${escape(a.name)} ${signed(a.attack+attackMod)} (${escape(a.damageDisplay)}${damageMod?signed(damageMod):''}${a.criticalThreat<20&&!a.areaType?'; '+a.criticalThreat+'–20 critical':''}${a.criticalMultiplier>2&&!a.areaType?`; ×${a.criticalMultiplier} critical`:''})`;
  const attacks=d.attacks.map(a=>line(a.mode==='melee'?'Melee':'Ranged',attackText(a))).join('');
  const routines=(c.routines||[]).filter(r=>r.steps.length).map(r=>{
   let plan;try{plan=planFullAttack(r,d,pack);}catch(e){return line(escape(r.name||'Routine'),escape(e.message));}

@@ -4,7 +4,7 @@ export function featureChoices(r,pack){
  if(r.choiceType==='power')return (pack.forcePowers||[]).map(p=>p.id);
  if(r.choiceType==='skill')return pack.skills.map(s=>s.id);
  const weapons=pack.equipment.filter(w=>w.kind==='weapon'&&!w.unarmed);
- if(r.choiceType==='weaponGroup')return [...WEAPON_GROUPS,...weapons.filter(w=>w.group.startsWith('exotic-')).map(w=>w.id)];
+ if(r.choiceType==='weaponGroup')return [...(r.choiceGroups||WEAPON_GROUPS),...weapons.filter(w=>w.group.startsWith('exotic-')).map(w=>w.id)];
  if(r.choiceType==='weapon')return r.choiceScope==='exotic'?weapons.filter(w=>w.group.startsWith('exotic-')).map(w=>w.id):[UNARMED_ID,...weapons.map(w=>w.id)];
  return [null];
 }

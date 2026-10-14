@@ -18,9 +18,10 @@ export function acrobaticsMove(c,d,pack,roller=evalExpr){
  const plan=planAcrobaticsMove(c,d,pack),p=plan.path;
  // Independent applications: only Nimble Charge has a printed combined DC.
  const terrainRoll=p.crossTerrain?check({...plan,dc:pack.rules.acrobaticsMovement.crossTerrain.dc},p.terrainCheck,roller):null;
- const tumbleRoll=p.tumble?check(plan,p.check,roller):null;
+ const tumbleRoll=p.tumble?check(plan,p.checkMode==='take10'?10+plan.skill.total:p.check,roller):null;
+ if(tumbleRoll&&p.checkMode==='take10')tumbleRoll.display='10 + '+plan.skill.total+' (Take 10)';
  const crossSucceeded=terrainRoll?.success??false,tumbleSucceeded=tumbleRoll?.success??true;
- const cost=acrobaticsMoveCost(c,pack,crossSucceeded),success=(terrainRoll?.success??true)&&tumbleSucceeded;
+ const cost=acrobaticsMoveCost(c,pack,crossSucceeded,d),success=(terrainRoll?.success??true)&&tumbleSucceeded;
  const movementComplete=cost<=plan.maximum&&tumbleSucceeded;
  const qualifiedSquares=tumbleRoll?.success?p.tumbled.squares:0,protectedSquares=movementComplete?qualifiedSquares:0;
  const protectionUnconfirmed=qualifiedSquares>0&&!movementComplete,rolled=tumbleRoll||terrainRoll;

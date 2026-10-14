@@ -27,9 +27,9 @@ export function featureGraph(pack,options) {
   // globally joins unrelated branches into one large, tangled component.
   const key='condition:'+JSON.stringify(p)+':for:'+owner;if(nodes.has(key))return key;
   const choice=p.value==='$choice';let name,record;
-  if(['feat','featChoice','talent'].includes(p.kind)){record=ix[p.kind==='talent'?'talents':'feats'].get(p.value);name=record.name+(p.kind==='featChoice'?' (same weapon)':'');}
+  if(['feat','featChoice','talent','talentChoice'].includes(p.kind)){record=ix[p.kind.startsWith('talent')?'talents':'feats'].get(p.value);name=record.name+(p.kind==='featChoice'||p.kind==='talentChoice'&&p.choice==='$choice'?' (same weapon)':p.kind==='talentChoice'?' ('+title(p.choice)+')':'');}
   else if(p.kind==='trained')name='Trained in '+(choice?'a skill':ix.skills.get(p.value).name);
-  else if(p.kind==='power'){record=ix.forcePowers.get(p.value);name=record.name;}
+  else if(p.kind==='power'){record=ix.forcePowers.get(p.value);name=choice?'Known Force Power':record.name;}
   else if(p.kind==='darkSideScore')name='DSS '+p.min;
   else if(p.kind==='untrained')name='Untrained in '+(choice?'chosen skill':ix.skills.get(p.value).name);
   else if(p.kind==='classSkill')name=choice?'Class skill':ix.skills.get(p.value).name+' class skill';
@@ -40,13 +40,13 @@ export function featureGraph(pack,options) {
   else if(p.kind==='size')name=title(p.value)+' or larger';
   else if(p.kind==='proficientChoice')name='Weapon Proficiency';
   else if(p.kind==='focusChoice')name='Weapon Focus'+(choice?'':` (${title(p.value)})`);
-  const choices=p.kind==='featChoice'?featureChoices(record,pack):choice?(p.kind==='proficientChoice'||p.kind==='focusChoice'?[...GROUPS,...pack.equipment.filter(w=>w.kind==='weapon').map(w=>w.id),'attack:unarmed']:pack.skills.map(s=>s.id)):[null];
+  const choices=p.kind==='featChoice'||p.kind==='talentChoice'&&p.choice==='$choice'?featureChoices(record,pack):choice?(p.kind==='power'?pack.forcePowers.map(r=>r.id):p.kind==='proficientChoice'||p.kind==='focusChoice'?[...GROUPS,...pack.equipment.filter(w=>w.kind==='weapon').map(w=>w.id),'attack:unarmed']:pack.skills.map(s=>s.id)):[null];
   const owned=choices.some(value=>prerequisite(p,ctx,ix,value));
   nodes.set(key,{key,name,group:null,records:record?[record]:[],parents:[],main:false,owned,available:owned,selected:false});return key;
  }
  function parents(p,out,owner,alternative=false) {
   if(p.kind==='all'||p.kind==='any'){p.requirements.forEach(r=>parents(r,out,owner,alternative||p.kind==='any'));return;}
-  const key=['feat','featChoice','talent'].includes(p.kind)&&byId.has(p.value)?byId.get(p.value):condition(p,owner);
+  const key=['feat','featChoice','talent','talentChoice'].includes(p.kind)&&byId.has(p.value)?byId.get(p.value):condition(p,owner);
   if(!out.some(edge=>edge.key===key))out.push({key,alternative});
  }
  for(const node of [...nodes.values()])if(node.main) {

@@ -307,6 +307,9 @@ def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=(),
         'talent':'talents', 'weapon':'equipment', 'armor':'equipment', 'gear':'equipment', 'forcePower':'forcePowers'}
     old_sources = {s['id']:s for s in baseline['sources']}
     for item in records.values():
+        if item['kind'] == 'talent':
+            item['classIds'] = [c['id'] for c in baseline['classes']
+                                if item['tree'] in c.get('talentTrees', [])]
         item['mechanicsIds'] = []
         for r in baseline.get(collections.get(item['kind'], ''), []):
             same_name = r['name'] == item['name']

@@ -1,12 +1,13 @@
 import {movementSegment,terrainMovementCost,movementSpeed,validateSegment} from './combat-movement.js';
 
 export const acrobaticsSegment=p=>movementSegment({lowObjects:0,diagonalLowObjects:0,...p});
-export const acrobaticsPath=c=>({mode:'normal',tumble:false,crossTerrain:false,occupied:0,check:null,terrainCheck:null,...c.acrobaticsMovement,path:acrobaticsSegment({squares:1,...c.acrobaticsMovement?.path}),tumbled:acrobaticsSegment({squares:1,...c.acrobaticsMovement?.tumbled})});
+export const acrobaticsPath=c=>({mode:'normal',tumble:false,crossTerrain:false,occupied:0,check:null,checkMode:'roll',terrainCheck:null,...c.acrobaticsMovement,path:acrobaticsSegment({squares:1,...c.acrobaticsMovement?.path}),tumbled:acrobaticsSegment({squares:1,...c.acrobaticsMovement?.tumbled})});
 const regular=p=>p.squares-p.diagonal-p.difficult-p.diagonalDifficult;
 export function validateAcrobaticsMovement(c,bad){
  if(c.acrobaticsMovement===undefined)return;
  const p=c.acrobaticsMovement;
- if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['mode','tumble','crossTerrain','occupied','check','terrainCheck','path','tumbled'].includes(k)))bad('Acrobatics movement');
+ if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['mode','tumble','crossTerrain','occupied','check','checkMode','terrainCheck','path','tumbled'].includes(k)))bad('Acrobatics movement');
+ if(p.checkMode!==undefined&&!['roll','take10'].includes(p.checkMode))bad('Tumble check mode');
  if(p.mode!==undefined&&(typeof p.mode!=='string'||!/^[a-z][a-z-]{0,29}$/.test(p.mode)))bad('Acrobatics movement mode');
  for(const key of ['tumble','crossTerrain'])if(p[key]!==undefined&&typeof p[key]!=='boolean')bad(key+' declaration');
  if(p.occupied!==undefined&&(!Number.isInteger(p.occupied)||p.occupied<0||p.occupied>100000))bad('occupied Tumble squares');
@@ -20,8 +21,9 @@ export function validateAcrobaticsMovement(c,bad){
 export function acrobaticsTerrainCost(segment,pack,crossTerrain=false){
  return terrainMovementCost(acrobaticsSegment(segment),pack.rules.combatMovement,crossTerrain);
 }
-export function acrobaticsMoveCost(c,pack,crossTerrain=acrobaticsPath(c).crossTerrain){
+export function acrobaticsMoveCost(c,pack,crossTerrain=acrobaticsPath(c).crossTerrain,d=null){
  const p=acrobaticsPath(c),base=acrobaticsTerrainCost(p.path,pack,crossTerrain);
+ if(p.tumble&&d?.tumbleSokan)return base-acrobaticsTerrainCost(p.tumbled,pack,crossTerrain)+p.tumbled.squares;
  return base+(p.tumble?acrobaticsTerrainCost(p.tumbled,pack,crossTerrain)*(pack.rules.acrobaticsMovement.tumble.movementMultiplier-1):0);
 }
 const categories=p=>[regular(p),p.diagonal,p.difficult-p.lowObjects,p.diagonalDifficult-p.diagonalLowObjects,p.lowObjects,p.diagonalLowObjects];
@@ -32,7 +34,8 @@ export function acrobaticsMovementSkill(d,pack){
 }
 export function planAcrobaticsMove(c,d,pack){
  validateAcrobaticsMovement(c,message=>{throw new Error('Invalid '+message);});
- const path=acrobaticsPath(c),cost=acrobaticsMoveCost(c,pack),maximum=movementSpeed(d,path.mode)*pack.rules.acrobaticsMovement.tumble.speedMultiplier;
+ const path=acrobaticsPath(c),cost=acrobaticsMoveCost(c,pack,undefined,d),maximum=movementSpeed(d,path.mode)*pack.rules.acrobaticsMovement.tumble.speedMultiplier;
+ if(path.tumble&&path.checkMode==='take10'&&!d.tumbleSokan)throw new Error('Tumble Take 10 requires Sokan');
  if(d.incapacitated||d.helpless)throw new Error('Movement unavailable');
  if(d.load?.overloaded)throw new Error('Straining requires full-round movement');
  if(!path.path.squares)throw new Error('Choose movement squares');

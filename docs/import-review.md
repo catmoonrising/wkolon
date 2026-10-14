@@ -1112,3 +1112,50 @@ of all 32 printed Base Attack Bonus/Force Point tables and talent-access lists;
 byte-identical offline rebuild; full Chromium regression checks and focused
 Chromium/Firefox checks for prerequisites, declarations, advancement, class
 choices, Power Mastery, DR, persistence, stat blocks and Dracula mobile layout.
+
+## Core prestige talents
+
+Enabled 83 reviewed Core talent sections across 14 prestige trees, bringing the
+selectable talent catalog to 194. Sources retain their pinned tree revisions and
+complete section articles. Prerequisites are explicit, including matching weapon
+choices and known powers; repeatable minions, power selections and Multiattack
+Proficiency preserve their printed policies. Class access comes from the reviewed
+class records, not availability of a downloaded page. The eight remaining Core
+tradition talents await tradition membership/access support.
+
+Connected Ataru's optional Dexterity damage and two-handed bonus, Niman's wielded
+Lightsaber defenses, Greater Weapon Focus/Specialization and Exotic Weapon Mastery.
+Greater specialization's generic list excludes Lightsabers; the Duelist form
+retains its fixed Lightsaber choice. Canonical repeat groups prevent obtaining the
+same specialization twice through generic and fixed forms.
+
+Multiattack Proficiency adds its reductions per matching weapon and caps the
+resulting Full Attack penalty at zero. Mixed weapon routines retain each weapon's
+own modifier, including when the routine resumes with saved turn penalties.
+Weapon familiarity follows the existing Jedi Counseling switch for both these
+benefits and Double/Triple Attack group matching. Controlled Burst handles normal
+autofire, low-Strength Burst Fire and Bracing; Trigger Work removes Rapid Shot's
+attack penalty without granting the feat or bypassing its attack restrictions.
+
+Vaapad extends Lightsaber criticals to natural 19 while preserving the requirement
+that 19 hit the target. Routine damage tables still show zero against a defense the
+roll misses, and stat blocks show the expanded critical range. Area attacks retain
+their existing no-critical rule.
+
+Sokan gives Tumble an explicit Take 10 option and one-square costs for its selected
+threatened/occupied squares. Other terrain retains its ordinary costs, and Cross
+Difficult Terrain still resolves its independent check. Force Treatment and Force
+Deception grant their skill substitutions and conditional training. Inactive Sith
+class talents remove training they alone supplied, while ordinary training remains.
+
+Force Power Adept selects a known power and exposes its paired-check activation:
+one Force Point, two Use the Force rolls, higher result and one spent suite copy.
+Natural-20 recovery and descriptor DSS use the kept roll once. Combined Take 10
+variants, general Force Point round restrictions and the remaining activated talent
+effects still need work. Vehicle talents and minion mechanics also remain pending;
+selectable source text does not imply complete automation.
+
+Validation: 420 JavaScript tests, 27 Python importer tests, byte-identical offline
+import/rebuild, unchanged existing rules records, full Chromium regression checks
+and focused Firefox/Chromium checks for talent choices, source popups, Ataru grips,
+Sokan, Force Power Adept, Trigger Work, saves and Dracula mobile layout.

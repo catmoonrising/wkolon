@@ -2935,11 +2935,27 @@
           "enum": [
             "skill",
             "weaponGroup",
-            "weapon"
+            "weapon",
+            "power"
           ]
         },
         "choiceScope": {
           "const": "exotic"
+        },
+        "choiceGroups": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "advanced-melee-weapons",
+              "heavy-weapons",
+              "lightsabers",
+              "pistols",
+              "rifles",
+              "simple-weapons"
+            ]
+          }
         }
       }
     },
@@ -2981,7 +2997,16 @@
                 "forcePointDie",
                 "rageBonus",
                 "reflexDodge",
-                "unarmedDieSteps"
+                "unarmedDieSteps",
+                "lightsaberDexDamage",
+                "exoticProficiency",
+                "multiattackReduction",
+                "controlledBurst",
+                "rapidShotPenalty",
+                "lightsaberReflex",
+                "lightsaberWill",
+                "criticalThreat",
+                "tumbleSokan"
               ]
             },
             "amount": {

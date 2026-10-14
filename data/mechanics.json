@@ -6534,6 +6534,836 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=19521#Personal_Physician",
       "history": "https://swse.miraheze.org/w/index.php?title=Medical%20Secrets&action=history",
       "section": "Personal Physician"
+    },
+    {
+      "id": "source:wiki-military-tactics-talent-tree-assault-tactics",
+      "title": "Military Tactics Talent Tree",
+      "section": "Assault Tactics",
+      "revision": 18365,
+      "timestamp": "2024-08-25T20:01:27Z",
+      "sha256": "ce273ae49a68749a9243193bfc00735bda19b1a49cf7b2b7a28723cbc2a6f634",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18365#Assault_Tactics",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Tactics%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-ataru",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Ataru",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Ataru",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-mastermind-talent-tree-attract-minion",
+      "title": "Mastermind Talent Tree",
+      "section": "Attract Minion",
+      "revision": 23268,
+      "timestamp": "2024-09-21T12:58:26Z",
+      "sha256": "9219120a6fab8b19d98f8f0aa688c1868692de849afadc15481019a918ce5e5b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=23268#Attract_Minion",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mastermind%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-force-item-talent-tree-attune-weapon",
+      "title": "Force Item Talent Tree",
+      "section": "Attune Weapon",
+      "revision": 18215,
+      "timestamp": "2024-08-25T19:47:59Z",
+      "sha256": "0c75a45bb411e0c76fece42b41e372afa99ce320faf8e0d41c99f83e9f03b989",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18215#Attune_Weapon",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Item%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-dark-side-devotee-talent-tree-channel-aggression",
+      "title": "Dark Side Devotee Talent Tree",
+      "section": "Channel Aggression",
+      "revision": 18082,
+      "timestamp": "2024-08-25T19:33:39Z",
+      "sha256": "80188c4d7448098e8090febcf0ce24202458ef22ef5aafffae000af2a5bb669c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18082#Channel_Aggression",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Side%20Devotee%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-dark-side-devotee-talent-tree-channel-anger",
+      "title": "Dark Side Devotee Talent Tree",
+      "section": "Channel Anger",
+      "revision": 18082,
+      "timestamp": "2024-08-25T19:33:39Z",
+      "sha256": "80188c4d7448098e8090febcf0ce24202458ef22ef5aafffae000af2a5bb669c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18082#Channel_Anger",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Side%20Devotee%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-master-talent-tree-controlled-burst",
+      "title": "Weapon Master Talent Tree",
+      "section": "Controlled Burst",
+      "revision": 18609,
+      "timestamp": "2024-08-25T20:24:42Z",
+      "sha256": "dc876e0bc6e778986efebd7bf3bb77020d1d63e76c1352f59a0234660198720a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18609#Controlled_Burst",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Master%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-dark-side-devotee-talent-tree-crippling-strike",
+      "title": "Dark Side Devotee Talent Tree",
+      "section": "Crippling Strike",
+      "revision": 18082,
+      "timestamp": "2024-08-25T19:33:39Z",
+      "sha256": "80188c4d7448098e8090febcf0ce24202458ef22ef5aafffae000af2a5bb669c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18082#Crippling_Strike",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Side%20Devotee%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sith-talent-tree-dark-healing",
+      "title": "Sith Talent Tree",
+      "section": "Dark Healing",
+      "revision": 18499,
+      "timestamp": "2024-08-25T20:13:03Z",
+      "sha256": "9a76ccd0bae0cad3d54d57b61a79944668c054fbae5c61f506951d36c32794fe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18499#Dark_Healing",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sith-talent-tree-dark-scourge",
+      "title": "Sith Talent Tree",
+      "section": "Dark Scourge",
+      "revision": 18499,
+      "timestamp": "2024-08-25T20:13:03Z",
+      "sha256": "9a76ccd0bae0cad3d54d57b61a79944668c054fbae5c61f506951d36c32794fe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18499#Dark_Scourge",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sith-talent-tree-dark-side-adept",
+      "title": "Sith Talent Tree",
+      "section": "Dark Side Adept",
+      "revision": 18499,
+      "timestamp": "2024-08-25T20:13:03Z",
+      "sha256": "9a76ccd0bae0cad3d54d57b61a79944668c054fbae5c61f506951d36c32794fe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18499#Dark_Side_Adept",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sith-talent-tree-dark-side-master",
+      "title": "Sith Talent Tree",
+      "section": "Dark Side Master",
+      "revision": 18499,
+      "timestamp": "2024-08-25T20:13:03Z",
+      "sha256": "9a76ccd0bae0cad3d54d57b61a79944668c054fbae5c61f506951d36c32794fe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18499#Dark_Side_Master",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunslinger-talent-tree-debilitating-shot",
+      "title": "Gunslinger Talent Tree",
+      "section": "Debilitating Shot",
+      "revision": 18231,
+      "timestamp": "2024-08-25T19:49:17Z",
+      "sha256": "49b524bd5005d1a6fbcde0091dcefef9a47d6eda900d5a7bb339a1d74850d2ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18231#Debilitating_Shot",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunslinger%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunslinger-talent-tree-deceptive-shot",
+      "title": "Gunslinger Talent Tree",
+      "section": "Deceptive Shot",
+      "revision": 18231,
+      "timestamp": "2024-08-25T19:49:17Z",
+      "sha256": "49b524bd5005d1a6fbcde0091dcefef9a47d6eda900d5a7bb339a1d74850d2ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18231#Deceptive_Shot",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunslinger%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-military-tactics-talent-tree-deployment-tactics",
+      "title": "Military Tactics Talent Tree",
+      "section": "Deployment Tactics",
+      "revision": 18365,
+      "timestamp": "2024-08-25T20:01:27Z",
+      "sha256": "ce273ae49a68749a9243193bfc00735bda19b1a49cf7b2b7a28723cbc2a6f634",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18365#Deployment_Tactics",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Tactics%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-djem-so",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Djem So",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Djem_So",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunner-talent-tree-dogfight-gunner",
+      "title": "Gunner Talent Tree",
+      "section": "Dogfight Gunner",
+      "revision": 18229,
+      "timestamp": "2024-08-25T19:49:07Z",
+      "sha256": "a7706e406ed3f89799e6708985cfdf6fb309e007cb77521129d34a5164e56941",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18229#Dogfight_Gunner",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunner%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-expert-pilot-talent-tree-elusive-dogfighter",
+      "title": "Expert Pilot Talent Tree",
+      "section": "Elusive Dogfighter",
+      "revision": 18160,
+      "timestamp": "2024-08-25T19:41:14Z",
+      "sha256": "9721cd2d8afca078d41fe5242ef907e5ea905f42109adc1c83d45e372c40e902",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18160#Elusive_Dogfighter",
+      "history": "https://swse.miraheze.org/w/index.php?title=Expert%20Pilot%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-dark-side-devotee-talent-tree-embrace-the-dark-side",
+      "title": "Dark Side Devotee Talent Tree",
+      "section": "Embrace the Dark Side",
+      "revision": 18082,
+      "timestamp": "2024-08-25T19:33:39Z",
+      "sha256": "80188c4d7448098e8090febcf0ce24202458ef22ef5aafffae000af2a5bb669c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18082#Embrace_the_Dark_Side",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Side%20Devotee%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-force-item-talent-tree-empower-weapon",
+      "title": "Force Item Talent Tree",
+      "section": "Empower Weapon",
+      "revision": 18215,
+      "timestamp": "2024-08-25T19:47:59Z",
+      "sha256": "0c75a45bb411e0c76fece42b41e372afa99ce320faf8e0d41c99f83e9f03b989",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18215#Empower_Weapon",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Item%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-master-talent-tree-exotic-weapon-mastery",
+      "title": "Weapon Master Talent Tree",
+      "section": "Exotic Weapon Mastery",
+      "revision": 18609,
+      "timestamp": "2024-08-25T20:24:42Z",
+      "sha256": "dc876e0bc6e778986efebd7bf3bb77020d1d63e76c1352f59a0234660198720a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18609#Exotic_Weapon_Mastery",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Master%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunner-talent-tree-expert-gunner",
+      "title": "Gunner Talent Tree",
+      "section": "Expert Gunner",
+      "revision": 18229,
+      "timestamp": "2024-08-25T19:49:07Z",
+      "sha256": "a7706e406ed3f89799e6708985cfdf6fb309e007cb77521129d34a5164e56941",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18229#Expert_Gunner",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunner%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-military-tactics-talent-tree-field-tactics",
+      "title": "Military Tactics Talent Tree",
+      "section": "Field Tactics",
+      "revision": 18365,
+      "timestamp": "2024-08-25T20:01:27Z",
+      "sha256": "ce273ae49a68749a9243193bfc00735bda19b1a49cf7b2b7a28723cbc2a6f634",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18365#Field_Tactics",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Tactics%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sith-talent-tree-force-deception",
+      "title": "Sith Talent Tree",
+      "section": "Force Deception",
+      "revision": 18499,
+      "timestamp": "2024-08-25T20:13:03Z",
+      "sha256": "9a76ccd0bae0cad3d54d57b61a79944668c054fbae5c61f506951d36c32794fe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18499#Force_Deception",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-duelist-talent-tree-force-fortification",
+      "title": "Duelist Talent Tree",
+      "section": "Force Fortification",
+      "revision": 24974,
+      "timestamp": "2024-11-10T16:33:15Z",
+      "sha256": "a0e8c13bfc093d44407b53853b173652f15e1b896e738c0ddbfa0b3a6ceec705",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24974#Force_Fortification",
+      "history": "https://swse.miraheze.org/w/index.php?title=Duelist%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-force-adept-talent-tree-force-power-adept",
+      "title": "Force Adept Talent Tree",
+      "section": "Force Power Adept",
+      "revision": 18180,
+      "timestamp": "2024-08-25T19:43:31Z",
+      "sha256": "3a9b1f535709e34ab49e1b033f7daa1d116ee966ec24ed6c9b044cc3542c92ad",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18180#Force_Power_Adept",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Adept%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-force-item-talent-tree-force-talisman",
+      "title": "Force Item Talent Tree",
+      "section": "Force Talisman",
+      "revision": 18215,
+      "timestamp": "2024-08-25T19:47:59Z",
+      "sha256": "0c75a45bb411e0c76fece42b41e372afa99ce320faf8e0d41c99f83e9f03b989",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18215#Force_Talisman",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Item%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-force-adept-talent-tree-force-treatment",
+      "title": "Force Adept Talent Tree",
+      "section": "Force Treatment",
+      "revision": 18180,
+      "timestamp": "2024-08-25T19:43:31Z",
+      "sha256": "3a9b1f535709e34ab49e1b033f7daa1d116ee966ec24ed6c9b044cc3542c92ad",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18180#Force_Treatment",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Adept%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-force-adept-talent-tree-fortified-body",
+      "title": "Force Adept Talent Tree",
+      "section": "Fortified Body",
+      "revision": 18180,
+      "timestamp": "2024-08-25T19:43:31Z",
+      "sha256": "3a9b1f535709e34ab49e1b033f7daa1d116ee966ec24ed6c9b044cc3542c92ad",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18180#Fortified_Body",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Adept%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-expert-pilot-talent-tree-full-throttle",
+      "title": "Expert Pilot Talent Tree",
+      "section": "Full Throttle",
+      "revision": 18160,
+      "timestamp": "2024-08-25T19:41:14Z",
+      "sha256": "9721cd2d8afca078d41fe5242ef907e5ea905f42109adc1c83d45e372c40e902",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18160#Full_Throttle",
+      "history": "https://swse.miraheze.org/w/index.php?title=Expert%20Pilot%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-master-talent-tree-greater-devastating-attack",
+      "title": "Weapon Master Talent Tree",
+      "section": "Greater Devastating Attack",
+      "revision": 18609,
+      "timestamp": "2024-08-25T20:24:42Z",
+      "sha256": "dc876e0bc6e778986efebd7bf3bb77020d1d63e76c1352f59a0234660198720a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18609#Greater_Devastating_Attack",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Master%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-force-item-talent-tree-greater-force-talisman",
+      "title": "Force Item Talent Tree",
+      "section": "Greater Force Talisman",
+      "revision": 18215,
+      "timestamp": "2024-08-25T19:47:59Z",
+      "sha256": "0c75a45bb411e0c76fece42b41e372afa99ce320faf8e0d41c99f83e9f03b989",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18215#Greater_Force_Talisman",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Item%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-master-talent-tree-greater-penetrating-attack",
+      "title": "Weapon Master Talent Tree",
+      "section": "Greater Penetrating Attack",
+      "revision": 18609,
+      "timestamp": "2024-08-25T20:24:42Z",
+      "sha256": "dc876e0bc6e778986efebd7bf3bb77020d1d63e76c1352f59a0234660198720a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18609#Greater_Penetrating_Attack",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Master%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-master-talent-tree-greater-weapon-focus",
+      "title": "Weapon Master Talent Tree",
+      "section": "Greater Weapon Focus",
+      "revision": 18609,
+      "timestamp": "2024-08-25T20:24:42Z",
+      "sha256": "dc876e0bc6e778986efebd7bf3bb77020d1d63e76c1352f59a0234660198720a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18609#Greater_Weapon_Focus",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Master%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-duelist-talent-tree-greater-weapon-focus-lightsabers",
+      "title": "Duelist Talent Tree",
+      "section": "Greater Weapon Focus (Lightsabers)",
+      "revision": 24974,
+      "timestamp": "2024-11-10T16:33:15Z",
+      "sha256": "a0e8c13bfc093d44407b53853b173652f15e1b896e738c0ddbfa0b3a6ceec705",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24974#Greater_Weapon_Focus_%28Lightsabers%29",
+      "history": "https://swse.miraheze.org/w/index.php?title=Duelist%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-master-talent-tree-greater-weapon-specialization",
+      "title": "Weapon Master Talent Tree",
+      "section": "Greater Weapon Specialization",
+      "revision": 18609,
+      "timestamp": "2024-08-25T20:24:42Z",
+      "sha256": "dc876e0bc6e778986efebd7bf3bb77020d1d63e76c1352f59a0234660198720a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18609#Greater_Weapon_Specialization",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Master%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-duelist-talent-tree-greater-weapon-specialization-lightsabers",
+      "title": "Duelist Talent Tree",
+      "section": "Greater Weapon Specialization (Lightsabers)",
+      "revision": 24974,
+      "timestamp": "2024-11-10T16:33:15Z",
+      "sha256": "a0e8c13bfc093d44407b53853b173652f15e1b896e738c0ddbfa0b3a6ceec705",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24974#Greater_Weapon_Specialization_%28Lightsabers%29",
+      "history": "https://swse.miraheze.org/w/index.php?title=Duelist%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-bounty-hunter-talent-tree-hunter-s-mark",
+      "title": "Bounty Hunter Talent Tree",
+      "section": "Hunter's Mark",
+      "revision": 16359,
+      "timestamp": "2024-08-18T00:56:45Z",
+      "sha256": "d11ec16c8b5a92b7fab5847a3af73d62a57a44c2f4032bfdc3045592249612e0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16359#Hunter%27s_Mark",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bounty%20Hunter%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-bounty-hunter-talent-tree-hunter-s-target",
+      "title": "Bounty Hunter Talent Tree",
+      "section": "Hunter's Target",
+      "revision": 16359,
+      "timestamp": "2024-08-18T00:56:45Z",
+      "sha256": "d11ec16c8b5a92b7fab5847a3af73d62a57a44c2f4032bfdc3045592249612e0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16359#Hunter%27s_Target",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bounty%20Hunter%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-mastermind-talent-tree-impel-ally-i",
+      "title": "Mastermind Talent Tree",
+      "section": "Impel Ally I",
+      "revision": 23268,
+      "timestamp": "2024-09-21T12:58:26Z",
+      "sha256": "9219120a6fab8b19d98f8f0aa688c1868692de849afadc15481019a918ce5e5b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=23268#Impel_Ally_I",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mastermind%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-mastermind-talent-tree-impel-ally-ii",
+      "title": "Mastermind Talent Tree",
+      "section": "Impel Ally II",
+      "revision": 23268,
+      "timestamp": "2024-09-21T12:58:26Z",
+      "sha256": "9219120a6fab8b19d98f8f0aa688c1868692de849afadc15481019a918ce5e5b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=23268#Impel_Ally_II",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mastermind%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sith-talent-tree-improved-dark-healing",
+      "title": "Sith Talent Tree",
+      "section": "Improved Dark Healing",
+      "revision": 18499,
+      "timestamp": "2024-08-25T20:13:03Z",
+      "sha256": "9a76ccd0bae0cad3d54d57b61a79944668c054fbae5c61f506951d36c32794fe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18499#Improved_Dark_Healing",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunslinger-talent-tree-improved-quick-draw",
+      "title": "Gunslinger Talent Tree",
+      "section": "Improved Quick Draw",
+      "revision": 18231,
+      "timestamp": "2024-08-25T19:49:17Z",
+      "sha256": "49b524bd5005d1a6fbcde0091dcefef9a47d6eda900d5a7bb339a1d74850d2ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18231#Improved_Quick_Draw",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunslinger%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-infamy-talent-tree-inspire-fear-i",
+      "title": "Infamy Talent Tree",
+      "section": "Inspire Fear I",
+      "revision": 18279,
+      "timestamp": "2024-08-25T19:53:40Z",
+      "sha256": "85381f38ac2b5bbbe7627cf9f76da6321a6f3263b925c837bac1d86c082a65f9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18279#Inspire_Fear_I",
+      "history": "https://swse.miraheze.org/w/index.php?title=Infamy%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-infamy-talent-tree-inspire-fear-ii",
+      "title": "Infamy Talent Tree",
+      "section": "Inspire Fear II",
+      "revision": 18279,
+      "timestamp": "2024-08-25T19:53:40Z",
+      "sha256": "85381f38ac2b5bbbe7627cf9f76da6321a6f3263b925c837bac1d86c082a65f9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18279#Inspire_Fear_II",
+      "history": "https://swse.miraheze.org/w/index.php?title=Infamy%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-infamy-talent-tree-inspire-fear-iii",
+      "title": "Infamy Talent Tree",
+      "section": "Inspire Fear III",
+      "revision": 18279,
+      "timestamp": "2024-08-25T19:53:40Z",
+      "sha256": "85381f38ac2b5bbbe7627cf9f76da6321a6f3263b925c837bac1d86c082a65f9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18279#Inspire_Fear_III",
+      "history": "https://swse.miraheze.org/w/index.php?title=Infamy%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-jar-kai",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Jar'Kai",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Jar%27Kai",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-expert-pilot-talent-tree-juke",
+      "title": "Expert Pilot Talent Tree",
+      "section": "Juke",
+      "revision": 18160,
+      "timestamp": "2024-08-25T19:41:14Z",
+      "sha256": "9721cd2d8afca078d41fe5242ef907e5ea905f42109adc1c83d45e372c40e902",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18160#Juke",
+      "history": "https://swse.miraheze.org/w/index.php?title=Expert%20Pilot%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-juyo",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Juyo",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Juyo",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-expert-pilot-talent-tree-keep-it-together",
+      "title": "Expert Pilot Talent Tree",
+      "section": "Keep it Together",
+      "revision": 18160,
+      "timestamp": "2024-08-25T19:41:14Z",
+      "sha256": "9721cd2d8afca078d41fe5242ef907e5ea905f42109adc1c83d45e372c40e902",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18160#Keep_it_Together",
+      "history": "https://swse.miraheze.org/w/index.php?title=Expert%20Pilot%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunslinger-talent-tree-knockdown-shot",
+      "title": "Gunslinger Talent Tree",
+      "section": "Knockdown Shot",
+      "revision": 18231,
+      "timestamp": "2024-08-25T19:49:17Z",
+      "sha256": "49b524bd5005d1a6fbcde0091dcefef9a47d6eda900d5a7bb339a1d74850d2ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18231#Knockdown_Shot",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunslinger%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-makashi",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Makashi",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Makashi",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-master-talent-tree-multiattack-proficiency-heavy-weapons",
+      "title": "Weapon Master Talent Tree",
+      "section": "Multiattack Proficiency (Heavy Weapons)",
+      "revision": 18609,
+      "timestamp": "2024-08-25T20:24:42Z",
+      "sha256": "dc876e0bc6e778986efebd7bf3bb77020d1d63e76c1352f59a0234660198720a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18609#Multiattack_Proficiency_%28Heavy_Weapons%29",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Master%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-duelist-talent-tree-multiattack-proficiency-lightsabers",
+      "title": "Duelist Talent Tree",
+      "section": "Multiattack Proficiency (Lightsabers)",
+      "revision": 24974,
+      "timestamp": "2024-11-10T16:33:15Z",
+      "sha256": "a0e8c13bfc093d44407b53853b173652f15e1b896e738c0ddbfa0b3a6ceec705",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24974#Multiattack_Proficiency_%28Lightsabers%29",
+      "history": "https://swse.miraheze.org/w/index.php?title=Duelist%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunslinger-talent-tree-multiattack-proficiency-pistols",
+      "title": "Gunslinger Talent Tree",
+      "section": "Multiattack Proficiency (Pistols)",
+      "revision": 18231,
+      "timestamp": "2024-08-25T19:49:17Z",
+      "sha256": "49b524bd5005d1a6fbcde0091dcefef9a47d6eda900d5a7bb339a1d74850d2ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18231#Multiattack_Proficiency_%28Pistols%29",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunslinger%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-weapon-master-talent-tree-multiattack-proficiency-rifles",
+      "title": "Weapon Master Talent Tree",
+      "section": "Multiattack Proficiency (Rifles)",
+      "revision": 18609,
+      "timestamp": "2024-08-25T20:24:42Z",
+      "sha256": "dc876e0bc6e778986efebd7bf3bb77020d1d63e76c1352f59a0234660198720a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18609#Multiattack_Proficiency_%28Rifles%29",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weapon%20Master%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-niman",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Niman",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Niman",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-bounty-hunter-talent-tree-notorious",
+      "title": "Bounty Hunter Talent Tree",
+      "section": "Notorious",
+      "revision": 16359,
+      "timestamp": "2024-08-18T00:56:45Z",
+      "sha256": "d11ec16c8b5a92b7fab5847a3af73d62a57a44c2f4032bfdc3045592249612e0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16359#Notorious",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bounty%20Hunter%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-infamy-talent-tree-notorious-crime-lord",
+      "title": "Infamy Talent Tree",
+      "section": "Notorious Crime Lord",
+      "revision": 18279,
+      "timestamp": "2024-08-25T19:53:40Z",
+      "sha256": "85381f38ac2b5bbbe7627cf9f76da6321a6f3263b925c837bac1d86c082a65f9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18279#Notorious_Crime_Lord",
+      "history": "https://swse.miraheze.org/w/index.php?title=Infamy%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-bounty-hunter-talent-tree-nowhere-to-hide",
+      "title": "Bounty Hunter Talent Tree",
+      "section": "Nowhere to Hide",
+      "revision": 16359,
+      "timestamp": "2024-08-18T00:56:45Z",
+      "sha256": "d11ec16c8b5a92b7fab5847a3af73d62a57a44c2f4032bfdc3045592249612e0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16359#Nowhere_to_Hide",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bounty%20Hunter%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-military-tactics-talent-tree-one-for-the-team",
+      "title": "Military Tactics Talent Tree",
+      "section": "One for the Team",
+      "revision": 18365,
+      "timestamp": "2024-08-25T20:01:27Z",
+      "sha256": "ce273ae49a68749a9243193bfc00735bda19b1a49cf7b2b7a28723cbc2a6f634",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18365#One_for_the_Team",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Tactics%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-military-tactics-talent-tree-outmaneuver",
+      "title": "Military Tactics Talent Tree",
+      "section": "Outmaneuver",
+      "revision": 18365,
+      "timestamp": "2024-08-25T20:01:27Z",
+      "sha256": "ce273ae49a68749a9243193bfc00735bda19b1a49cf7b2b7a28723cbc2a6f634",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18365#Outmaneuver",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Tactics%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunner-talent-tree-quick-trigger",
+      "title": "Gunner Talent Tree",
+      "section": "Quick Trigger",
+      "revision": 18229,
+      "timestamp": "2024-08-25T19:49:07Z",
+      "sha256": "a7706e406ed3f89799e6708985cfdf6fb309e007cb77521129d34a5164e56941",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18229#Quick_Trigger",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunner%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunslinger-talent-tree-ranged-disarm",
+      "title": "Gunslinger Talent Tree",
+      "section": "Ranged Disarm",
+      "revision": 18231,
+      "timestamp": "2024-08-25T19:49:17Z",
+      "sha256": "49b524bd5005d1a6fbcde0091dcefef9a47d6eda900d5a7bb339a1d74850d2ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18231#Ranged_Disarm",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunslinger%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-bounty-hunter-talent-tree-relentless",
+      "title": "Bounty Hunter Talent Tree",
+      "section": "Relentless",
+      "revision": 16359,
+      "timestamp": "2024-08-18T00:56:45Z",
+      "sha256": "d11ec16c8b5a92b7fab5847a3af73d62a57a44c2f4032bfdc3045592249612e0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16359#Relentless",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bounty%20Hunter%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-expert-pilot-talent-tree-relentless-pursuit",
+      "title": "Expert Pilot Talent Tree",
+      "section": "Relentless Pursuit",
+      "revision": 18160,
+      "timestamp": "2024-08-25T19:41:14Z",
+      "sha256": "9721cd2d8afca078d41fe5242ef907e5ea905f42109adc1c83d45e372c40e902",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18160#Relentless_Pursuit",
+      "history": "https://swse.miraheze.org/w/index.php?title=Expert%20Pilot%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-bounty-hunter-talent-tree-ruthless-negotiator",
+      "title": "Bounty Hunter Talent Tree",
+      "section": "Ruthless Negotiator",
+      "revision": 16359,
+      "timestamp": "2024-08-18T00:56:45Z",
+      "sha256": "d11ec16c8b5a92b7fab5847a3af73d62a57a44c2f4032bfdc3045592249612e0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16359#Ruthless_Negotiator",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bounty%20Hunter%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-duelist-talent-tree-severing-strike",
+      "title": "Duelist Talent Tree",
+      "section": "Severing Strike",
+      "revision": 24974,
+      "timestamp": "2024-11-10T16:33:15Z",
+      "sha256": "a0e8c13bfc093d44407b53853b173652f15e1b896e738c0ddbfa0b3a6ceec705",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24974#Severing_Strike",
+      "history": "https://swse.miraheze.org/w/index.php?title=Duelist%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-infamy-talent-tree-shared-notoriety",
+      "title": "Infamy Talent Tree",
+      "section": "Shared Notoriety",
+      "revision": 18279,
+      "timestamp": "2024-08-25T19:53:40Z",
+      "sha256": "85381f38ac2b5bbbe7627cf9f76da6321a6f3263b925c837bac1d86c082a65f9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18279#Shared_Notoriety",
+      "history": "https://swse.miraheze.org/w/index.php?title=Infamy%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-shien",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Shien",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Shien",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-military-tactics-talent-tree-shift-defense-i",
+      "title": "Military Tactics Talent Tree",
+      "section": "Shift Defense I",
+      "revision": 18365,
+      "timestamp": "2024-08-25T20:01:27Z",
+      "sha256": "ce273ae49a68749a9243193bfc00735bda19b1a49cf7b2b7a28723cbc2a6f634",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18365#Shift_Defense_I",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Tactics%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-military-tactics-talent-tree-shift-defense-ii",
+      "title": "Military Tactics Talent Tree",
+      "section": "Shift Defense II",
+      "revision": 18365,
+      "timestamp": "2024-08-25T20:01:27Z",
+      "sha256": "ce273ae49a68749a9243193bfc00735bda19b1a49cf7b2b7a28723cbc2a6f634",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18365#Shift_Defense_II",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Tactics%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-military-tactics-talent-tree-shift-defense-iii",
+      "title": "Military Tactics Talent Tree",
+      "section": "Shift Defense III",
+      "revision": 18365,
+      "timestamp": "2024-08-25T20:01:27Z",
+      "sha256": "ce273ae49a68749a9243193bfc00735bda19b1a49cf7b2b7a28723cbc2a6f634",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18365#Shift_Defense_III",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Tactics%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-shii-cho",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Shii-Cho",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Shii-Cho",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-sokan",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Sokan",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Sokan",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-soresu",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Soresu",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Soresu",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunner-talent-tree-system-hit",
+      "title": "Gunner Talent Tree",
+      "section": "System Hit",
+      "revision": 18229,
+      "timestamp": "2024-08-25T19:49:07Z",
+      "sha256": "a7706e406ed3f89799e6708985cfdf6fb309e007cb77521129d34a5164e56941",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18229#System_Hit",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunner%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-military-tactics-talent-tree-tactical-edge",
+      "title": "Military Tactics Talent Tree",
+      "section": "Tactical Edge",
+      "revision": 18365,
+      "timestamp": "2024-08-25T20:01:27Z",
+      "sha256": "ce273ae49a68749a9243193bfc00735bda19b1a49cf7b2b7a28723cbc2a6f634",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18365#Tactical_Edge",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Tactics%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-trakata",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Trakata",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Trakata",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-gunslinger-talent-tree-trigger-work",
+      "title": "Gunslinger Talent Tree",
+      "section": "Trigger Work",
+      "revision": 18231,
+      "timestamp": "2024-08-25T19:49:17Z",
+      "sha256": "49b524bd5005d1a6fbcde0091dcefef9a47d6eda900d5a7bb339a1d74850d2ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18231#Trigger_Work",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunslinger%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-lightsaber-forms-talent-tree-vaapad",
+      "title": "Lightsaber Forms Talent Tree",
+      "section": "Vaapad",
+      "revision": 24952,
+      "timestamp": "2024-11-10T16:03:09Z",
+      "sha256": "3eed7689fe2c13a52a33bf657debe5ab5e36f06f84fe3a4289dd89e9687d6e04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24952#Vaapad",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightsaber%20Forms%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-expert-pilot-talent-tree-vehicular-evasion",
+      "title": "Expert Pilot Talent Tree",
+      "section": "Vehicular Evasion",
+      "revision": 18160,
+      "timestamp": "2024-08-25T19:41:14Z",
+      "sha256": "9721cd2d8afca078d41fe5242ef907e5ea905f42109adc1c83d45e372c40e902",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18160#Vehicular_Evasion",
+      "history": "https://swse.miraheze.org/w/index.php?title=Expert%20Pilot%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-sith-talent-tree-wicked-strike",
+      "title": "Sith Talent Tree",
+      "section": "Wicked Strike",
+      "revision": 18499,
+      "timestamp": "2024-08-25T20:13:03Z",
+      "sha256": "9a76ccd0bae0cad3d54d57b61a79944668c054fbae5c61f506951d36c32794fe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18499#Wicked_Strike",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Talent%20Tree&action=history"
     }
   ],
   "species": [
@@ -14524,6 +15354,1516 @@
       "repeat": "never",
       "reminder": "",
       "effects": []
+    },
+    {
+      "id": "talent:assault-tactics",
+      "name": "Assault Tactics",
+      "sourceId": "source:wiki-military-tactics-talent-tree-assault-tactics",
+      "tree": "tree:military-tactics",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:ataru",
+      "name": "Ataru",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-ataru",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "lightsaberDexDamage",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:attract-minion",
+      "name": "Attract Minion",
+      "sourceId": "source:wiki-mastermind-talent-tree-attract-minion",
+      "tree": "tree:mastermind",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "stack",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:attune-weapon",
+      "name": "Attune Weapon",
+      "sourceId": "source:wiki-force-item-talent-tree-attune-weapon",
+      "tree": "tree:force-item",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:channel-aggression",
+      "name": "Channel Aggression",
+      "sourceId": "source:wiki-dark-side-devotee-talent-tree-channel-aggression",
+      "tree": "tree:dark-side-devotee",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:channel-anger",
+      "name": "Channel Anger",
+      "sourceId": "source:wiki-dark-side-devotee-talent-tree-channel-anger",
+      "tree": "tree:dark-side-devotee",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:channel-aggression"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:controlled-burst",
+      "name": "Controlled Burst",
+      "sourceId": "source:wiki-weapon-master-talent-tree-controlled-burst",
+      "tree": "tree:weapon-master",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "controlledBurst",
+          "amount": -2,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:crippling-strike",
+      "name": "Crippling Strike",
+      "sourceId": "source:wiki-dark-side-devotee-talent-tree-crippling-strike",
+      "tree": "tree:dark-side-devotee",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:channel-aggression"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:dark-healing",
+      "name": "Dark Healing",
+      "sourceId": "source:wiki-sith-talent-tree-dark-healing",
+      "tree": "tree:sith",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:dark-scourge",
+      "name": "Dark Scourge",
+      "sourceId": "source:wiki-sith-talent-tree-dark-scourge",
+      "tree": "tree:sith",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:dark-side-adept",
+      "name": "Dark Side Adept",
+      "sourceId": "source:wiki-sith-talent-tree-dark-side-adept",
+      "tree": "tree:sith",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:dark-side-master",
+      "name": "Dark Side Master",
+      "sourceId": "source:wiki-sith-talent-tree-dark-side-master",
+      "tree": "tree:sith",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:dark-side-adept"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:debilitating-shot",
+      "name": "Debilitating Shot",
+      "sourceId": "source:wiki-gunslinger-talent-tree-debilitating-shot",
+      "tree": "tree:gunslinger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:deceptive-shot",
+      "name": "Deceptive Shot",
+      "sourceId": "source:wiki-gunslinger-talent-tree-deceptive-shot",
+      "tree": "tree:gunslinger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:deployment-tactics",
+      "name": "Deployment Tactics",
+      "sourceId": "source:wiki-military-tactics-talent-tree-deployment-tactics",
+      "tree": "tree:military-tactics",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:djem-so",
+      "name": "Djem So",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-djem-so",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:dogfight-gunner",
+      "name": "Dogfight Gunner",
+      "sourceId": "source:wiki-gunner-talent-tree-dogfight-gunner",
+      "tree": "tree:gunner",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:expert-gunner"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:elusive-dogfighter",
+      "name": "Elusive Dogfighter",
+      "sourceId": "source:wiki-expert-pilot-talent-tree-elusive-dogfighter",
+      "tree": "tree:expert-pilot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:embrace-the-dark-side",
+      "name": "Embrace the Dark Side",
+      "sourceId": "source:wiki-dark-side-devotee-talent-tree-embrace-the-dark-side",
+      "tree": "tree:dark-side-devotee",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:channel-anger"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:empower-weapon",
+      "name": "Empower Weapon",
+      "sourceId": "source:wiki-force-item-talent-tree-empower-weapon",
+      "tree": "tree:force-item",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:exotic-weapon-mastery",
+      "name": "Exotic Weapon Mastery",
+      "sourceId": "source:wiki-weapon-master-talent-tree-exotic-weapon-mastery",
+      "tree": "tree:weapon-master",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "exoticProficiency",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:expert-gunner",
+      "name": "Expert Gunner",
+      "sourceId": "source:wiki-gunner-talent-tree-expert-gunner",
+      "tree": "tree:gunner",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:field-tactics",
+      "name": "Field Tactics",
+      "sourceId": "source:wiki-military-tactics-talent-tree-field-tactics",
+      "tree": "tree:military-tactics",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:deployment-tactics"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:force-deception",
+      "name": "Force Deception",
+      "sourceId": "source:wiki-sith-talent-tree-force-deception",
+      "tree": "tree:sith",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "skillSubstitution",
+          "skill": "skill:deception",
+          "replacement": "skill:use-the-force",
+          "grantsTraining": true
+        }
+      ],
+      "reminder": "",
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:force-fortification",
+      "name": "Force Fortification",
+      "sourceId": "source:wiki-duelist-talent-tree-force-fortification",
+      "tree": "tree:duelist",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:force-power-adept",
+      "name": "Force Power Adept",
+      "sourceId": "source:wiki-force-adept-talent-tree-force-power-adept",
+      "tree": "tree:force-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "power",
+            "value": "$choice"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "effects": [],
+      "reminder": "",
+      "choiceType": "power",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:force-talisman",
+      "name": "Force Talisman",
+      "sourceId": "source:wiki-force-item-talent-tree-force-talisman",
+      "tree": "tree:force-item",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:force-treatment",
+      "name": "Force Treatment",
+      "sourceId": "source:wiki-force-adept-talent-tree-force-treatment",
+      "tree": "tree:force-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "skillSubstitution",
+          "skill": "skill:treat-injury",
+          "replacement": "skill:use-the-force",
+          "grantsTraining": true
+        }
+      ],
+      "reminder": "",
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:fortified-body",
+      "name": "Fortified Body",
+      "sourceId": "source:wiki-force-adept-talent-tree-fortified-body",
+      "tree": "tree:force-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:equilibrium"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:full-throttle",
+      "name": "Full Throttle",
+      "sourceId": "source:wiki-expert-pilot-talent-tree-full-throttle",
+      "tree": "tree:expert-pilot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:greater-devastating-attack",
+      "name": "Greater Devastating Attack",
+      "sourceId": "source:wiki-weapon-master-talent-tree-greater-devastating-attack",
+      "tree": "tree:weapon-master",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talentChoice",
+            "value": "talent:greater-weapon-focus",
+            "choice": "$choice"
+          },
+          {
+            "kind": "talentChoice",
+            "value": "talent:devastating-attack",
+            "choice": "$choice"
+          },
+          {
+            "kind": "proficientChoice",
+            "value": "$choice"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "effects": [],
+      "reminder": "",
+      "choiceType": "weaponGroup"
+    },
+    {
+      "id": "talent:greater-force-talisman",
+      "name": "Greater Force Talisman",
+      "sourceId": "source:wiki-force-item-talent-tree-greater-force-talisman",
+      "tree": "tree:force-item",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:force-talisman"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:greater-penetrating-attack",
+      "name": "Greater Penetrating Attack",
+      "sourceId": "source:wiki-weapon-master-talent-tree-greater-penetrating-attack",
+      "tree": "tree:weapon-master",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talentChoice",
+            "value": "talent:greater-weapon-focus",
+            "choice": "$choice"
+          },
+          {
+            "kind": "talentChoice",
+            "value": "talent:penetrating-attack",
+            "choice": "$choice"
+          },
+          {
+            "kind": "proficientChoice",
+            "value": "$choice"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "effects": [],
+      "reminder": "",
+      "choiceType": "weaponGroup"
+    },
+    {
+      "id": "talent:greater-weapon-focus",
+      "name": "Greater Weapon Focus",
+      "sourceId": "source:wiki-weapon-master-talent-tree-greater-weapon-focus",
+      "tree": "tree:weapon-master",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "focusChoice",
+            "value": "$choice"
+          },
+          {
+            "kind": "proficientChoice",
+            "value": "$choice"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "effects": [
+        {
+          "target": "weaponFocus",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": "",
+      "choiceType": "weaponGroup",
+      "repeatGroup": "talent:greater-weapon-focus"
+    },
+    {
+      "id": "talent:greater-weapon-focus-lightsabers",
+      "name": "Greater Weapon Focus (Lightsabers)",
+      "sourceId": "source:wiki-duelist-talent-tree-greater-weapon-focus-lightsabers",
+      "tree": "tree:duelist",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "focusChoice",
+            "value": "lightsabers"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "effects": [
+        {
+          "target": "weaponFocus",
+          "amount": 1,
+          "type": "untyped",
+          "weaponGroup": "lightsabers",
+          "when": "meleeAttack"
+        }
+      ],
+      "reminder": "",
+      "repeatGroup": "talent:greater-weapon-focus",
+      "weaponGroup": "lightsabers"
+    },
+    {
+      "id": "talent:greater-weapon-specialization",
+      "name": "Greater Weapon Specialization",
+      "sourceId": "source:wiki-weapon-master-talent-tree-greater-weapon-specialization",
+      "tree": "tree:weapon-master",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talentChoice",
+            "value": "talent:greater-weapon-focus",
+            "choice": "$choice"
+          },
+          {
+            "kind": "talentChoice",
+            "value": "talent:weapon-specialization",
+            "choice": "$choice"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "effects": [
+        {
+          "target": "weaponSpecialization",
+          "amount": 2,
+          "type": "untyped"
+        }
+      ],
+      "reminder": "",
+      "choiceType": "weaponGroup",
+      "choiceGroups": [
+        "advanced-melee-weapons",
+        "heavy-weapons",
+        "pistols",
+        "rifles",
+        "simple-weapons"
+      ],
+      "repeatGroup": "talent:greater-weapon-specialization"
+    },
+    {
+      "id": "talent:greater-weapon-specialization-lightsabers",
+      "name": "Greater Weapon Specialization (Lightsabers)",
+      "sourceId": "source:wiki-duelist-talent-tree-greater-weapon-specialization-lightsabers",
+      "tree": "tree:duelist",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talentChoice",
+            "value": "talent:weapon-specialization",
+            "choice": "lightsabers"
+          },
+          {
+            "kind": "talentChoice",
+            "value": "talent:greater-weapon-focus",
+            "choice": "lightsabers"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "effects": [
+        {
+          "target": "weaponSpecialization",
+          "amount": 2,
+          "type": "untyped",
+          "weaponGroup": "lightsabers",
+          "when": "meleeAttack"
+        }
+      ],
+      "reminder": "",
+      "repeatGroup": "talent:greater-weapon-specialization",
+      "weaponGroup": "lightsabers"
+    },
+    {
+      "id": "talent:hunter-s-mark",
+      "name": "Hunter's Mark",
+      "sourceId": "source:wiki-bounty-hunter-talent-tree-hunter-s-mark",
+      "tree": "tree:bounty-hunter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:hunter-s-target",
+      "name": "Hunter's Target",
+      "sourceId": "source:wiki-bounty-hunter-talent-tree-hunter-s-target",
+      "tree": "tree:bounty-hunter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:hunter-s-mark"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:impel-ally-i",
+      "name": "Impel Ally I",
+      "sourceId": "source:wiki-mastermind-talent-tree-impel-ally-i",
+      "tree": "tree:mastermind",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:impel-ally-ii",
+      "name": "Impel Ally II",
+      "sourceId": "source:wiki-mastermind-talent-tree-impel-ally-ii",
+      "tree": "tree:mastermind",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:impel-ally-i"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:improved-dark-healing",
+      "name": "Improved Dark Healing",
+      "sourceId": "source:wiki-sith-talent-tree-improved-dark-healing",
+      "tree": "tree:sith",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:dark-healing"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:improved-quick-draw",
+      "name": "Improved Quick Draw",
+      "sourceId": "source:wiki-gunslinger-talent-tree-improved-quick-draw",
+      "tree": "tree:gunslinger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:inspire-fear-i",
+      "name": "Inspire Fear I",
+      "sourceId": "source:wiki-infamy-talent-tree-inspire-fear-i",
+      "tree": "tree:infamy",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:inspire-fear-ii",
+      "name": "Inspire Fear II",
+      "sourceId": "source:wiki-infamy-talent-tree-inspire-fear-ii",
+      "tree": "tree:infamy",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:inspire-fear-i"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:inspire-fear-iii",
+      "name": "Inspire Fear III",
+      "sourceId": "source:wiki-infamy-talent-tree-inspire-fear-iii",
+      "tree": "tree:infamy",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:inspire-fear-ii"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:jar-kai",
+      "name": "Jar'Kai",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-jar-kai",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:lightsaber-defense"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:niman"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:juke",
+      "name": "Juke",
+      "sourceId": "source:wiki-expert-pilot-talent-tree-juke",
+      "tree": "tree:expert-pilot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:vehicular-evasion"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:juyo",
+      "name": "Juyo",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-juyo",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 10
+          },
+          {
+            "kind": "focusChoice",
+            "value": "lightsabers"
+          },
+          {
+            "kind": "talentChoice",
+            "value": "talent:weapon-specialization",
+            "choice": "lightsabers"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
+    },
+    {
+      "id": "talent:keep-it-together",
+      "name": "Keep it Together",
+      "sourceId": "source:wiki-expert-pilot-talent-tree-keep-it-together",
+      "tree": "tree:expert-pilot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:knockdown-shot",
+      "name": "Knockdown Shot",
+      "sourceId": "source:wiki-gunslinger-talent-tree-knockdown-shot",
+      "tree": "tree:gunslinger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:makashi",
+      "name": "Makashi",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-makashi",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:lightsaber-defense"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:multiattack-proficiency-heavy-weapons",
+      "name": "Multiattack Proficiency (Heavy Weapons)",
+      "sourceId": "source:wiki-weapon-master-talent-tree-multiattack-proficiency-heavy-weapons",
+      "tree": "tree:weapon-master",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "stack",
+      "effects": [
+        {
+          "target": "multiattackReduction",
+          "amount": 2,
+          "type": "untyped",
+          "weaponGroup": "heavy-weapons"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:multiattack-proficiency-lightsabers",
+      "name": "Multiattack Proficiency (Lightsabers)",
+      "sourceId": "source:wiki-duelist-talent-tree-multiattack-proficiency-lightsabers",
+      "tree": "tree:duelist",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "stack",
+      "effects": [
+        {
+          "target": "multiattackReduction",
+          "amount": 2,
+          "type": "untyped",
+          "weaponGroup": "lightsabers"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:multiattack-proficiency-pistols",
+      "name": "Multiattack Proficiency (Pistols)",
+      "sourceId": "source:wiki-gunslinger-talent-tree-multiattack-proficiency-pistols",
+      "tree": "tree:gunslinger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "stack",
+      "effects": [
+        {
+          "target": "multiattackReduction",
+          "amount": 2,
+          "type": "untyped",
+          "weaponGroup": "pistols"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:multiattack-proficiency-rifles",
+      "name": "Multiattack Proficiency (Rifles)",
+      "sourceId": "source:wiki-weapon-master-talent-tree-multiattack-proficiency-rifles",
+      "tree": "tree:weapon-master",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "stack",
+      "effects": [
+        {
+          "target": "multiattackReduction",
+          "amount": 2,
+          "type": "untyped",
+          "weaponGroup": "rifles"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:niman",
+      "name": "Niman",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-niman",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "lightsaberReflex",
+          "amount": 1,
+          "type": "untyped"
+        },
+        {
+          "target": "lightsaberWill",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:notorious",
+      "name": "Notorious",
+      "sourceId": "source:wiki-bounty-hunter-talent-tree-notorious",
+      "tree": "tree:bounty-hunter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:notorious-crime-lord",
+      "name": "Notorious Crime Lord",
+      "sourceId": "source:wiki-infamy-talent-tree-notorious-crime-lord",
+      "tree": "tree:infamy",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:nowhere-to-hide",
+      "name": "Nowhere to Hide",
+      "sourceId": "source:wiki-bounty-hunter-talent-tree-nowhere-to-hide",
+      "tree": "tree:bounty-hunter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:one-for-the-team",
+      "name": "One for the Team",
+      "sourceId": "source:wiki-military-tactics-talent-tree-one-for-the-team",
+      "tree": "tree:military-tactics",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:deployment-tactics"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:outmaneuver",
+      "name": "Outmaneuver",
+      "sourceId": "source:wiki-military-tactics-talent-tree-outmaneuver",
+      "tree": "tree:military-tactics",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:field-tactics"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:quick-trigger",
+      "name": "Quick Trigger",
+      "sourceId": "source:wiki-gunner-talent-tree-quick-trigger",
+      "tree": "tree:gunner",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:expert-gunner"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:ranged-disarm",
+      "name": "Ranged Disarm",
+      "sourceId": "source:wiki-gunslinger-talent-tree-ranged-disarm",
+      "tree": "tree:gunslinger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:relentless",
+      "name": "Relentless",
+      "sourceId": "source:wiki-bounty-hunter-talent-tree-relentless",
+      "tree": "tree:bounty-hunter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:hunter-s-target"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:relentless-pursuit",
+      "name": "Relentless Pursuit",
+      "sourceId": "source:wiki-expert-pilot-talent-tree-relentless-pursuit",
+      "tree": "tree:expert-pilot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:ruthless-negotiator",
+      "name": "Ruthless Negotiator",
+      "sourceId": "source:wiki-bounty-hunter-talent-tree-ruthless-negotiator",
+      "tree": "tree:bounty-hunter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:notorious"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:severing-strike",
+      "name": "Severing Strike",
+      "sourceId": "source:wiki-duelist-talent-tree-severing-strike",
+      "tree": "tree:duelist",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:shared-notoriety",
+      "name": "Shared Notoriety",
+      "sourceId": "source:wiki-infamy-talent-tree-shared-notoriety",
+      "tree": "tree:infamy",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:notorious-crime-lord"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:shien",
+      "name": "Shien",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-shien",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:redirect-shot"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:shift-defense-i",
+      "name": "Shift Defense I",
+      "sourceId": "source:wiki-military-tactics-talent-tree-shift-defense-i",
+      "tree": "tree:military-tactics",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:shift-defense-ii",
+      "name": "Shift Defense II",
+      "sourceId": "source:wiki-military-tactics-talent-tree-shift-defense-ii",
+      "tree": "tree:military-tactics",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:shift-defense-i"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:shift-defense-iii",
+      "name": "Shift Defense III",
+      "sourceId": "source:wiki-military-tactics-talent-tree-shift-defense-iii",
+      "tree": "tree:military-tactics",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:shift-defense-ii"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:shii-cho",
+      "name": "Shii-Cho",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-shii-cho",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:block"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:deflect"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:sokan",
+      "name": "Sokan",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-sokan",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:acrobatic-recovery"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "tumbleSokan",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:soresu",
+      "name": "Soresu",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-soresu",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:block"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:deflect"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "check"
+    },
+    {
+      "id": "talent:system-hit",
+      "name": "System Hit",
+      "sourceId": "source:wiki-gunner-talent-tree-system-hit",
+      "tree": "tree:gunner",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "talent",
+            "value": "talent:expert-gunner"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:tactical-edge",
+      "name": "Tactical Edge",
+      "sourceId": "source:wiki-military-tactics-talent-tree-tactical-edge",
+      "tree": "tree:military-tactics",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:trakata",
+      "name": "Trakata",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-trakata",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 12
+          },
+          {
+            "kind": "focusChoice",
+            "value": "lightsabers"
+          },
+          {
+            "kind": "talentChoice",
+            "value": "talent:weapon-specialization",
+            "choice": "lightsabers"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:trigger-work",
+      "name": "Trigger Work",
+      "sourceId": "source:wiki-gunslinger-talent-tree-trigger-work",
+      "tree": "tree:gunslinger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "rapidShotPenalty",
+          "amount": 0,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:vaapad",
+      "name": "Vaapad",
+      "sourceId": "source:wiki-lightsaber-forms-talent-tree-vaapad",
+      "tree": "tree:lightsaber-forms",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 12
+          },
+          {
+            "kind": "talent",
+            "value": "talent:juyo"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "criticalThreat",
+          "amount": 19,
+          "type": "untyped",
+          "weaponGroup": "lightsabers"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "talent:vehicular-evasion",
+      "name": "Vehicular Evasion",
+      "sourceId": "source:wiki-expert-pilot-talent-tree-vehicular-evasion",
+      "tree": "tree:expert-pilot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "talent:wicked-strike",
+      "name": "Wicked Strike",
+      "sourceId": "source:wiki-sith-talent-tree-wicked-strike",
+      "tree": "tree:sith",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "focusChoice",
+            "value": "lightsabers"
+          },
+          {
+            "kind": "talentChoice",
+            "value": "talent:weapon-specialization",
+            "choice": "lightsabers"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "forceActivation": "forcePoint"
     }
   ],
   "equipment": [

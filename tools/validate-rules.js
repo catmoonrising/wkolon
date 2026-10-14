@@ -26,11 +26,12 @@ export function validatePack(p) {
   function requireRef(collection, id) { assert(ix[collection].has(id), `Unknown ${collection} reference: ${id}`); }
   function prerequisite(r) {
     if (['all','any'].includes(r.kind)) { assert(Array.isArray(r.requirements)); r.requirements.forEach(prerequisite); return; }
-    assert(['ability','feat','featChoice','talent','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid','trait','size'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid','trait','size'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
     if(r.kind==='featChoice')requireRef('feats',r.value);
     if(r.kind==='trait')assert.equal(r.value,'rage');
     if(r.kind==='size')assert(p.rules.weaponSizeOrder.includes(r.value));
-    if(r.kind==='power')requireRef('forcePowers',r.value);
+    if(r.kind==='power'&&r.value!=='$choice')requireRef('forcePowers',r.value);
+    if(r.kind==='talentChoice'){requireRef('talents',r.value);assert(r.choice==='$choice'||GROUPS.includes(r.choice),'Unsupported talent choice prerequisite');}
     if(r.kind==='darkSideScore')assert.equal(r.min,1);
     if (r.kind === 'ability') { assert(ABILITIES.includes(r.value)); assert(Number.isInteger(r.min)); }
     if (r.kind === 'bab') assert(Number.isInteger(r.min));
@@ -125,7 +126,8 @@ export function validatePack(p) {
       if(r.maxSelections!==undefined)assert(r.repeat==='stack'&&Number.isInteger(r.maxSelections)&&r.maxSelections>=1&&r.maxSelections<=20,'Invalid repeat limit');
       if(r.repeatGroup!==undefined){requireRef(key,r.repeatGroup);assert.equal(r.repeat,'choice');}
       if(r.weaponGroup!==undefined)assert(GROUPS.includes(r.weaponGroup),'Unknown weapon group');
-      if(r.choiceType) assert(['skill','weaponGroup','weapon'].includes(r.choiceType));
+      if(r.choiceType) assert(['skill','weaponGroup','weapon','power'].includes(r.choiceType));
+      if(r.choiceGroups)assert(r.choiceType==='weaponGroup'&&Array.isArray(r.choiceGroups)&&r.choiceGroups.length&&new Set(r.choiceGroups).size===r.choiceGroups.length&&r.choiceGroups.every(g=>GROUPS.includes(g)),'Unsupported weapon choices');
       if(r.choiceScope)assert(r.choiceType==='weapon'&&r.choiceScope==='exotic');
       assert(Array.isArray(r.effects) && typeof r.reminder==='string');
       const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};
@@ -139,7 +141,7 @@ export function validatePack(p) {
           continue;
         }
         assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when','weaponGroup','ability','minimum'].includes(k)),'Unsupported effect field');
-        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots','forcePoints','rageUses','secondWinds','weaponFinesse','criticalMultiplier','forcePointDie','rageBonus','reflexDodge','unarmedDieSteps',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
+        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots','forcePoints','rageUses','secondWinds','weaponFinesse','criticalMultiplier','forcePointDie','rageBonus','reflexDodge','unarmedDieSteps','lightsaberDexDamage','exoticProficiency','multiattackReduction','controlledBurst','rapidShotPenalty','lightsaberReflex','lightsaberWill','criticalThreat','tumbleSokan',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
         if(e.target==='forcePowerSlots')assert(e.amount===1&&e.ability==='wis'&&e.minimum===1&&e.type==='untyped'&&!e.perLevel,'Unsupported Force power capacity');
         else assert(e.ability===undefined&&e.minimum===undefined,'Unsupported effect ability');
         assert(Number.isFinite(e.amount));assert(['untyped','competence','dodge'].includes(e.type));
@@ -148,9 +150,13 @@ export function validatePack(p) {
         if(e.type==='dodge')assert(e.target==='reflexDodge'&&e.amount===1&&!e.perLevel);
         if(e.perLevel!==undefined)assert.equal(typeof e.perLevel,'boolean');
         if(e.target in passiveConditions){assert.equal(e.when,passiveConditions[e.target],'Missing passive condition');assert(e.type==='untyped'&&Number.isInteger(e.amount)&&e.amount>0&&!e.perLevel,'Unsupported passive effect');if(e.target==='armorMovement')assert.equal(e.amount,1);}
-        else if(e.target==='weaponSpecialization'&&e.weaponGroup)assert.equal(e.when,'meleeAttack');
+        else if(['weaponSpecialization','weaponFocus'].includes(e.target)&&e.weaponGroup)assert.equal(e.when,'meleeAttack');
         else assert(e.when===undefined,'Unsupported effect condition');
-        if(e.weaponGroup!==undefined)assert(e.target==='weaponSpecialization'&&GROUPS.includes(e.weaponGroup),'Unsupported fixed specialization');
+        if(e.weaponGroup!==undefined)assert(['weaponSpecialization','weaponFocus','multiattackReduction','criticalThreat'].includes(e.target)&&GROUPS.includes(e.weaponGroup),'Unsupported fixed weapon effect');
+        const prestigeEffects={lightsaberDexDamage:1,exoticProficiency:1,multiattackReduction:2,controlledBurst:-2,rapidShotPenalty:0,lightsaberReflex:1,lightsaberWill:1,criticalThreat:19,tumbleSokan:1};
+        if(e.target in prestigeEffects)assert(e.amount===prestigeEffects[e.target]&&e.type==='untyped'&&!e.perLevel,'Invalid prestige passive');
+        if(e.target==='multiattackReduction')assert(['heavy-weapons','lightsabers','pistols','rifles'].includes(e.weaponGroup),'Invalid multiattack group');
+        if(e.target==='criticalThreat')assert(e.weaponGroup==='lightsabers','Invalid critical threat group');
         if(e.target==='runMultiplier')assert(Number.isInteger(e.amount)&&e.amount>=4&&e.amount<=10&&e.type==='untyped'&&!e.perLevel,'Invalid running multiplier');
         if(['licenseAllowance','blackMarketReduction'].includes(e.target))assert(e.type==='untyped'&&Number.isInteger(e.amount)&&e.amount>0&&!!e.perLevel===(e.target==='licenseAllowance'),'Unsupported purchase effect');
       }

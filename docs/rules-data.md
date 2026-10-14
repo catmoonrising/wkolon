@@ -987,3 +987,33 @@ DR sources use the highest applicable value and normal Lightsaber bypass. Sith
 entry checks full DSS at acquisition; the printed ongoing restriction disables
 class defenses, talents and choice effects when current DSS is below Wisdom.
 Already acquired HP/BAB and Force Points are not retrospectively removed.
+
+### Core prestige talents
+
+Prestige talents retain the normal feature record, full source article and explicit
+repeat policy. `choiceType: power` restricts Force Power Adept to known powers.
+`choiceGroups` optionally narrows weapon-group choices while retaining individual
+Exotic Weapons. `talentChoice` prerequisites use a talent ID plus a `choice` of
+`$choice` or a fixed weapon group; matching includes the record's `repeatGroup`
+and fixed `weaponGroup`. This lets the generic and Lightsaber specialization
+forms satisfy the same prerequisite without granting duplicate selections.
+
+Reviewed passive effect targets add `lightsaberDexDamage`, `exoticProficiency`,
+`multiattackReduction`, `controlledBurst`, `rapidShotPenalty`, `lightsaberReflex`,
+`lightsaberWill`, `criticalThreat` and `tumbleSokan`. Fixed weapon effects can carry
+`weaponGroup`; conditional focus/specialization uses `when: meleeAttack`.
+Multiattack reductions add per matching weapon, cap the resulting penalty at zero
+and apply during Full Attack planning as well as the saved turn penalties.
+A 19-point critical threat still requires the attack to hit; it is not an automatic
+hit. Source-specific threshold/DR reductions and activated talent actions remain
+separate from these passive modifiers.
+
+Sokan exposes Tumble's optional checkMode: take10 without affecting the separate
+Cross Difficult Terrain roll. Its threatened/occupied squares cost one movement
+square each; non-Tumbled terrain keeps its ordinary cost. Missing legacy modes
+continue to mean roll.
+
+Force Power Adept's activation makes two natural d20 checks against the same
+current Use the Force modifier, keeps the higher result, spends one Force Point
+and spends one suite copy. Only the selected known power and active talent grant
+this action; natural-20 recovery and descriptor DSS apply once to the kept roll.
