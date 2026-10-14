@@ -10,6 +10,38 @@ VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'met
 BLOCKED = {'figure', 'figcaption', 'img', 'script', 'style', 'iframe', 'object', 'embed', 'audio', 'video', 'nav'}
 
 
+def official_blocks(blocks):
+    """Remove explicitly marked Homebrew sections, including standalone tab notices.
+
+    Ordinary uses of the word (such as homebrew intoxicants) are official prose.
+    A section heading determines its extent. A bare PartialHomebrew notice marks
+    the remainder of its current section/tab until another heading, not the next
+    official tab. Never turn an unofficial clarification into a mechanical fact.
+    """
+    def text(n):
+        return n if isinstance(n, str) else ''.join(text(c) for c in n['children'])
+    def notice(n):
+        if isinstance(n, str):
+            return False
+        return (n['tag'] == 'a' and '/wiki/Homebrew_Content' in n.get('href', '')) or any(notice(c) for c in n['children'])
+    result, skip_rank = [], None
+    for block in blocks:
+        rank = int(block['tag'][1]) if isinstance(block, dict) and re.fullmatch(r'h[2-5]', block['tag']) else None
+        if rank and re.search(r'\bhomebrew\b', text(block), re.I):
+            skip_rank = rank
+            continue
+        if skip_rank is not None:
+            if rank and rank <= skip_rank:
+                skip_rank = None
+            else:
+                continue
+        if isinstance(block, dict) and block['tag'] == 'table' and notice(block):
+            skip_rank = 6
+            continue
+        result.append(block)
+    return result
+
+
 class Tree(HTMLParser):
     def __init__(self, text):
         super().__init__(convert_charrefs=True)
@@ -58,11 +90,11 @@ def tab_contents(node):
     return result
 
 
-def article(root, title, pages, source, feat_ids, variant=None, tab=None):
+def article(root, title, pages, source, feat_ids, variant=None, tab=None, parse_path=None):
     page = pages[title]
     rev = page['revisions'][0]['revid']
     slug = re.sub(r'[^a-z0-9]+', '-', title.lower()).strip('-')
-    parsed = json.loads((root / '.build' / ('article-' + slug + '-parse.json')).read_text())
+    parsed = json.loads((parse_path or root / '.build' / ('article-' + slug + '-parse.json')).read_text())
     assert parsed['title'] == title and parsed['revision'] == rev
     assert parsed['result']['parse']['revid'] == rev
     selected_variant = False
@@ -119,7 +151,7 @@ def article(root, title, pages, source, feat_ids, variant=None, tab=None):
         tree = find(tree)
         if tree is None:
             raise ValueError('Missing wiki tab: ' + tab)
-    blocks = clean(tree)
+    blocks = official_blocks(clean(tree))
     if variant and not selected_variant:
         raise ValueError('Missing wiki variant: ' + variant)
     return dict(sourceId=source(title), blocks=blocks)

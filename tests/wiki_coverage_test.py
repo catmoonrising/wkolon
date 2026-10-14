@@ -70,3 +70,12 @@ class WikiCoverageTests(unittest.TestCase):
         pack['rules'] = {'fixture':{'sourceIds':['source:mapped']}}
         result = coverage.coverage(dict(capturedAt='fixture', categories=self.fixture()), pack)
         self.assertEqual(result['books'][1]['pages'][0]['status'], 'mapped')
+        self.assertEqual(result['uniqueImportedPages'], 1)
+        self.assertEqual(result['uniqueMappedPages'], 1)
+
+    def test_external_references_and_redirect_aliases_count_as_text_without_mechanics(self):
+        reference = {'records':[{'name':'Canonical missing','aliases':['Missing']}]}
+        result = coverage.coverage(dict(capturedAt='fixture', categories=self.fixture()), self.pack(), reference)
+        self.assertEqual(result['uniqueImportedPages'], 2)
+        self.assertEqual(result['uniqueMappedPages'], 1)
+        self.assertEqual(next(p['status'] for p in result['books'][0]['pages'] if p['title']=='Missing'), 'reference')

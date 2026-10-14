@@ -336,5 +336,6 @@ const server=http.createServer((req,res)=>{
   await require('./balance-checks.cjs')(browser,base,root);
   await require('./escape-bonds-checks.cjs')(browser,base,root);
   await require('./falling-checks.cjs')(browser,base,root);
+  await require('./reference-library-checks.cjs')(browser,base,root);
  }finally{if(browser)await browser.close();server.close();}
 })().catch(error=>{console.error(error);process.exitCode=1;server.close();});

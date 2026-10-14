@@ -60,7 +60,7 @@ def compile_pack(mechanics, catalog, reviewed):
         record['status'] = 'available' if record['mechanicsIds'] else 'reference'
     pack['catalog'] = dict(schemaVersion=1, book=catalog['book'], records=records)
     pack['license']['attribution'] = 'Adapted from Star Wars Saga Edition wiki contributors. Source revisions and contributor histories are retained.'
-    pack['license']['changes'] = 'Wiki wording and formatting retained in a closed presentation tree. Images, executable markup, comments, and site navigation omitted. Reviewed mechanical mappings are separate from imported reference text.'
+    pack['license']['changes'] = 'Wiki wording and formatting retained in a closed presentation tree. Marked Homebrew sections, images, executable markup, comments, and site navigation omitted. Reviewed mechanical mappings are separate from imported reference text.'
     return pack
 
 

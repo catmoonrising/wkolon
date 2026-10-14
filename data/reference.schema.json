@@ -1,0 +1,309 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pinned official SWSE reference library",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "capturedAt",
+        "license",
+        "records",
+        "pending",
+        "excluded",
+        "candidates"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "capturedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "license": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "url",
+            "attribution",
+            "changes"
+          ],
+          "properties": {
+            "name": {
+              "const": "CC BY-SA 4.0"
+            },
+            "url": {
+              "const": "https://creativecommons.org/licenses/by-sa/4.0/"
+            },
+            "attribution": {
+              "type": "string"
+            },
+            "changes": {
+              "type": "string"
+            }
+          }
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "aliases",
+              "kind",
+              "books",
+              "source",
+              "path",
+              "searchText"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^reference:[a-f0-9]{16}$"
+              },
+              "name": {
+                "type": "string"
+              },
+              "aliases": {
+                "type": "array",
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "kind": {
+                "enum": [
+                  "reference",
+                  "species",
+                  "feat",
+                  "talentTree",
+                  "weapon",
+                  "armor",
+                  "gear",
+                  "forcePower",
+                  "prestigeClass",
+                  "skill"
+                ]
+              },
+              "books": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "source": {
+                "$ref": "#/$defs/source"
+              },
+              "path": {
+                "type": "string",
+                "pattern": "^data/reference/[a-f0-9]{64}\\.json$"
+              },
+              "searchText": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "pending": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "title",
+              "error"
+            ],
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "error": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "excluded": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "candidates": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schemaVersion",
+        "id",
+        "name",
+        "source",
+        "article"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^reference:[a-f0-9]{16}$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/source"
+        },
+        "article": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceId",
+            "blocks"
+          ],
+          "properties": {
+            "sourceId": {
+              "type": "string"
+            },
+            "blocks": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/node"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "revision",
+        "timestamp",
+        "sha256",
+        "url",
+        "history"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^source:reference-[a-f0-9]{16}$"
+        },
+        "title": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "history": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "node": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "tag",
+            "children"
+          ],
+          "properties": {
+            "tag": {
+              "enum": [
+                "p",
+                "b",
+                "i",
+                "strong",
+                "em",
+                "ul",
+                "ol",
+                "li",
+                "dl",
+                "dt",
+                "dd",
+                "table",
+                "thead",
+                "tbody",
+                "tr",
+                "th",
+                "td",
+                "caption",
+                "h2",
+                "h3",
+                "h4",
+                "h5",
+                "br",
+                "sub",
+                "sup",
+                "blockquote",
+                "hr",
+                "a"
+              ]
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/node"
+              }
+            },
+            "href": {
+              "type": "string",
+              "format": "uri"
+            },
+            "referenceId": {
+              "type": "string",
+              "pattern": "^reference:[a-f0-9]{16}$"
+            },
+            "colspan": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30
+            },
+            "rowspan": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 30
+            }
+          }
+        }
+      ]
+    }
+  }
+}

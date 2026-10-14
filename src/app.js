@@ -21,6 +21,7 @@ import {equipmentFamilies,resolveEquipment,purchaseQuote,startingEquipmentGrants
 import {createFeatureTrees} from './feature-trees.js';
 import {createSpeciesBrowser} from './species-browser.js';
 import {createRulesCatalog} from './rules-catalog.js';
+import {createReferenceLibrary} from './reference-library.js';
 import {renderArticle} from './wiki-content.js';
 import {ABILITIES, GROUPS, signed, indexPack, derive, progression, eligible, classSkills,talentTrees} from './rules.js';
 import {createStore, downloadJSON} from './persistence.js';
@@ -49,6 +50,34 @@ const SECTIONS = ['overview','creation','skills','features','equipment','advance
 let section = SECTIONS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
 let pack, ix, store, derived, speciesBrowser, featureTrees, combatControls, rulesCatalog,speciesChecks,recoveryControls;
 let treeTarget=null, houseRules, creationOptions,forcePowersUI,powerManageLevel=0;
+const referenceLibrary=createReferenceLibrary();
+let referenceRequest=0;
+function repaintRulesCatalog(){
+ const root=$('rules-catalog-body');if(!root)return;
+ const active=document.activeElement?.id;
+ root.innerHTML=rulesCatalog.render();
+ if(active&&$(active))$(active).focus();
+}
+async function loadReferences(){
+ rulesCatalog.referenceState('loading');repaintRulesCatalog();
+ try{rulesCatalog.setReferences(await referenceLibrary.load());}
+ catch{rulesCatalog.referenceState('error');}
+ repaintRulesCatalog();
+}
+async function openReference(id){
+ const request=++referenceRequest,modal=$('rule-detail-modal');
+ $('rule-detail-title').textContent=referenceLibrary.record(id)?.name||'Rules';
+ $('rule-detail-body').textContent='Loading…';
+ if(!modal.open)modal.showModal();
+ try{
+  const page=await referenceLibrary.article(id);
+  if(request!==referenceRequest||!modal.open)return;
+  $('rule-detail-title').textContent=page.name;
+  $('rule-detail-body').innerHTML=renderArticle(page.article)+`<p><a href="${escape(page.source.url)}" target="_blank" rel="noopener">Revision ${page.source.revision}</a> · <a href="${escape(page.source.history)}" target="_blank" rel="noopener">Contributors ↗</a></p>`;
+ }catch{
+  if(request===referenceRequest&&modal.open)$('rule-detail-body').innerHTML=`<p role="alert">Reference unavailable. Connect and retry.</p><button data-rule-reference="${escape(id)}">Retry</button>`;
+ }
+}
 const equipmentDrafts=new Map();
 const weightText=(weight)=>weight===null?'? kg':`${Number(weight.toFixed(2))} kg`;
 const totalWeight=()=>`${derived.weight.toFixed(1)}${derived.weightUnknown?' + ?':''} kg`;
@@ -375,7 +404,7 @@ function advancement() {
     ${c.levels.map((l,i)=>`<section class="panel"><div class="panel-heading"><h2>Level ${i+1}</h2><span class="badge">${escape(derived.rows[i].cls.name)} ${derived.rows[i].classLevel}</span></div>${i?`<label>Class<select data-class="${i}">${choices(pack.classes,l.classId)}</select></label>`:''}${levelEditor(i)}</section>`).join('')}`;
 }
 function rules() {
-  return `${panel('Rules catalog',rulesCatalog.render()+`<p><a href="./docs/import-review.md">Rules review</a> | <a href="./docs/rules-data.md">Data format</a> | <a href="./data/core.json">Rules pack</a></p>`)}
+  return `${panel('Rules catalog',`<div id="rules-catalog-body">${rulesCatalog.render()}</div><p><a href="./docs/import-review.md">Rules review</a> | <a href="./docs/rules-data.md">Data format</a> | <a href="./data/core.json">Rules pack</a></p>`)}
     ${panel('Mechanics', ['species','classes','skills','feats','talents','equipment','destinies','backgrounds'].map(key=>`<details><summary>${escape(title(key))}</summary>${pack[key].map(r=>ruleReference(r,r.name,null,'rules')).join('')}</details>`).join(''))}
     ${panel('Data attribution',`<p>${escape(pack.license.attribution)}</p><p>${escape(pack.license.changes)}</p><a href="${escape(pack.license.url)}" target="_blank" rel="noopener">${escape(pack.license.name)} ↗</a>`)}
     ${panel('Source revisions',`<div class="table-scroll"><table><thead><tr><th>Source</th><th>Revision</th><th>Updated</th><th>History</th></tr></thead><tbody>${pack.sources.map(s=>`<tr><td><a href="${escape(s.url)}" target="_blank" rel="noopener">${escape(s.title)}${s.section?` / ${escape(s.section)}`:''}</a></td><td>${s.revision}</td><td>${escape(s.timestamp.slice(0,10))}</td><td><a href="${escape(s.history)}" target="_blank" rel="noopener">Contributors ↗</a></td></tr>`).join('')}</tbody></table></div>`)}`;
@@ -500,7 +529,10 @@ function focusModule(key) {
 function route() {
   const key = location.hash.slice(1);
   section = SECTIONS.includes(key) ? key : 'overview';
-  if (['creation','advancement','rules'].includes(section)) openEditor(section);
+  if (['creation','advancement','rules'].includes(section)) {
+    openEditor(section);
+    if(section==='rules')loadReferences();
+  }
   else {
     if ($('creator-modal').open) closeEditor();
     if (section !== 'overview') focusModule({equipment:'inventory',features:'features',skills:'skills'}[section]);
@@ -547,6 +579,7 @@ function events() {
   $('feature-tree-close').addEventListener('click',()=>$('feature-tree-modal').close());
   $('feature-tree-modal').addEventListener('close',()=>{featureTrees.remember();const t=treeTarget;treeTarget=null;$('feature-tree-body').replaceChildren();if(t)$('cr-body').querySelector(`[data-open-tree="${t.kind}:${t.level}:${t.slotIndex}"]`)?.focus({preventScroll:true});});
   $('rule-detail-close').addEventListener('click',()=> $('rule-detail-modal').close());
+  $('rule-detail-modal').addEventListener('close',()=>{referenceRequest++;});
   document.addEventListener('input',event=>{
     const el=event.target;
     if(el.hasAttribute('data-counseling-search')){houseRules.search(el.value);const root=$('module-house-rules');root.querySelector('.counseling-topics').outerHTML=new DOMParser().parseFromString(houseRules.render(current()),'text/html').querySelector('.counseling-topics').outerHTML;return;}
@@ -584,6 +617,7 @@ function events() {
   });
   document.addEventListener('change',event=>{
     const el=event.target, c=current();
+    if(el.id==='rules-book'){rulesCatalog.source(el.value);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(el.id==='rules-kind'||el.id==='rules-builder-only'){rulesCatalog.filter($('rules-kind').value,$('rules-builder-only').checked);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(featureTrees.change(event)||el.disabled)return;
     if(forcePowersUI.change(el))return;
@@ -725,6 +759,10 @@ function events() {
   });
   document.addEventListener('submit',event=>{if(['recovery-healing','recovery-limb'].includes(event.target.id)){event.preventDefault();recoveryControls.submit(event.target);return;}if(event.target.id==='bellow-controls'){event.preventDefault();recoveryControls.bellow(event.target);return;}if(event.target.id==='apply-damage'){event.preventDefault();const el=event.target.querySelector('[data-incoming-damage]');commitMath(el);combatControls.damage(event.target);return;}if(event.target.matches('form[data-equipment-scope]')){event.preventDefault();purchase(true,event.target);}});
   document.addEventListener('click',event=>{
+    if(event.target.closest('[data-reference-retry]')){loadReferences();return;}
+    const rulesPage=event.target.closest('[data-rules-page]');if(rulesPage){rulesCatalog.page(rulesPage.dataset.rulesPage);$('rules-results').innerHTML=rulesCatalog.results();return;}
+    const referenceLink=event.target.closest('[data-rule-reference]');
+    if(referenceLink&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();openReference(referenceLink.dataset.ruleReference);return;}
     if(event.target.closest('[data-next-turn]')){startNextTurn(current());changed();return;}
     const stance=event.target.closest('[data-defense-stance]');if(stance){try{declareDefenseStance(current(),derived,stance.dataset.defenseStance);}catch(err){notify(err.message);}changed();return;}
     const houseTab=event.target.closest('[data-house-tab]');if(houseTab){houseRules.setTab(houseTab.dataset.houseTab);render();return;}
@@ -738,7 +776,7 @@ function events() {
     const ruleLink=event.target.closest('[data-rule-page]');
     if(ruleLink && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
       const rule=pack.rulePages.find(r=>r.id===ruleLink.dataset.rulePage);
-      if(rule){event.preventDefault();$('rule-detail-title').textContent=rule.name;$('rule-detail-body').innerHTML=renderArticle(rule.article);if(!$('rule-detail-modal').open)$('rule-detail-modal').showModal();return;}
+      if(rule){referenceRequest++;event.preventDefault();$('rule-detail-title').textContent=rule.name;$('rule-detail-body').innerHTML=renderArticle(rule.article);if(!$('rule-detail-modal').open)$('rule-detail-modal').showModal();return;}
     }
     const speciesLink=event.target.closest('[data-species-detail]');
     if(speciesLink){event.preventDefault();speciesBrowser.toggle(speciesLink.dataset.speciesDetail);$('species-results').innerHTML=speciesBrowser.results(current().species);document.querySelector(`[data-species-detail="${speciesLink.dataset.speciesDetail}"]`).focus();return;}

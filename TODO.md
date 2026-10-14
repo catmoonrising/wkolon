@@ -1,6 +1,7 @@
 # Todo
 
 - [x] Import the Core Rulebook reference library with pinned revisions, verbatim articles and offline search.
+- [x] Import all 4,400 inventoried official sourcebook pages as pinned references; lazy full-text search, article popups, source filters and opened-page offline caching. Exclude marked Homebrew sections on mixed pages.
 - [x] Separate imported presentation from declarative reviewed mechanics.
 - [x] Inventory all 16 official source categories and recursively exclude Homebrew; publish the coverage queue in docs/wiki-coverage.md.
 - [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.

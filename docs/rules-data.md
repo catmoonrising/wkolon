@@ -810,3 +810,36 @@ plenty of time, and records twentyfold time. Acrobatics offers neither mode.
 The landing is checked before damage state mutates; invalid survival declarations
 cannot partially end Balance or spend resources. Falling objects, vehicle descent
 rounds, and guided descent remain separate pending applications.
+
+## Sourcebook reference library
+
+`data/reference-index.json` and `data/reference/<content-sha256>.json` are separate
+from reviewed mechanics. `tools/import-reference-library.py` resumes captures from
+all official sourcebook categories and compiles pinned presentation with
+`--offline`. It never creates character options or executable effects.
+
+Index version 1 contains `capturedAt`, `license`, `candidates`, `records`, `pending`
+and `excluded`. Each record has a stable `reference:<title-sha256-prefix>` ID,
+canonical `name`, redirect `aliases`, sourcebook `books`, category-derived `kind`,
+complete `searchText`, immutable article `path` and a `source` record. Sources
+retain the wiki title, revision ID, timestamp, original wikitext checksum,
+permanent revision URL and contributor history. Ambiguous category types remain
+`reference`; no prose classification is invented. Aliases share the target's pin.
+
+Article version 1 contains `id`, `name`, `source` and `article: {sourceId, blocks}`.
+Blocks use the existing closed presentation tree. Wiki anchors may additionally
+carry a `referenceId` that resolves to another imported page. External wiki URLs
+remain available, including with Ctrl/Cmd-click. Runtime validation rejects
+unrecognized markup, missing references, changed text or mismatched revisions.
+`tools/validate-reference-library.js` additionally checks every file's content hash.
+
+The index loads when Rules opens; individual articles load on demand. Successful
+requests are cached by the hosted service worker for later offline reading.
+Unread references require a connection; failures have a retry control. Optional
+reference downloads never delay installation of the complete reviewed sheet.
+Mechanics and their source approvals remain in `data/core.json`.
+
+Imports exclude the recursive Homebrew category tree, redirected Homebrew pages
+explicit Homebrew book declarations, and marked Homebrew sections on mixed pages. Missing pages and failed captures remain
+in `pending`. Coverage reports distinguish imported text from partially mapped
+mechanics and never count a mechanical mapping alone as an embedded article.

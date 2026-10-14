@@ -15,8 +15,15 @@ and effect fields, numeric tables, and concise original reminders.
 
 Adapted wiki content is distributed under CC BY-SA 4.0. The wiki license
 statement does not by itself establish ownership of underlying publisher text.
-This repository does not distribute full rulebook prose or publisher artwork.
+This repository does not distribute rulebook files or publisher artwork.
 Star Wars and Saga Edition belong to their respective owners. This project is
 an unofficial fan tool and is not endorsed by Lucasfilm or Wizards of the Coast.
 
 The user-supplied favicon is separate from the rules data and application license.
+
+The optional sourcebook library in `data/reference-index.json` and
+`data/reference/` retains wiki contributions verbatim in a closed document tree,
+with source revisions, wikitext checksums and contributor-history links. Images,
+executable markup, comments and site navigation are omitted. This imported wiki
+presentation is also distributed under CC BY-SA 4.0; it is kept separate from
+reviewed, executable mechanical mappings.

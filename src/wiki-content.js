@@ -17,6 +17,7 @@ export function renderArticle(article) {
     if(node.tag==='a') {
       const url=wikiURL(node.href);if(!url)return body;
       attrs=` href="${escapeHTML(url)}" target="_blank" rel="noopener"`;
+      if(/^reference:[a-f0-9]{16}$/.test(node.referenceId||''))attrs+=` data-rule-reference="${escapeHTML(node.referenceId)}"`;
       if(/^rule:[a-z0-9-]+$/.test(node.ruleId||''))attrs+=` data-rule-page="${escapeHTML(node.ruleId)}"`;
     }
     for(const key of ['colspan','rowspan'])if(['th','td'].includes(node.tag) && Number.isInteger(node[key]) && node[key]>=1 && node[key]<=30)attrs+=` ${key}="${node[key]}"`;

@@ -68,7 +68,7 @@ def capture_categories(fetch):
     return categories
 
 
-def coverage(snapshot, pack):
+def coverage(snapshot, pack, reference=None):
     categories = snapshot['categories']
     excluded, excluded_categories = descendants(categories, HOMEBREW_ROOT)
     books = sorted(m['title'] for m in categories[BOOK_ROOT] if m['ns'] == 14)
@@ -76,6 +76,10 @@ def coverage(snapshot, pack):
         raise ValueError('No sourcebook categories found')
     sources = {s['id']: s['title'] for s in pack['sources']}
     imported = {sources[r['sourceId']] for r in pack['rulePages']}
+    for record in (reference or {}).get('records', []):
+        imported.add(record['name'])
+        imported.update(record.get('aliases', []))
+    excluded.update((reference or {}).get('excluded', []))
     mapped = {sources[s] for key in COLLECTIONS for record in pack.get(key, [])
               for s in mapped_sources(record)}
     mapped.update(sources[s] for s in mapped_sources(pack['rules']))
@@ -94,7 +98,8 @@ def coverage(snapshot, pack):
     return dict(schemaVersion=1, capturedAt=snapshot['capturedAt'],
                 bookRoot=BOOK_ROOT, homebrewRoot=HOMEBREW_ROOT,
                 excludedCategories=sorted(excluded_categories),
-                excludedPages=sorted(excluded), uniquePages=len(unique), books=result)
+                excludedPages=sorted(excluded), uniquePages=len(unique),
+                uniqueImportedPages=len(unique & imported), uniqueMappedPages=len(unique & mapped), books=result)
 
 
 def markdown(result):
@@ -105,6 +110,9 @@ def markdown(result):
         '**Mapped** means at least one reviewed mechanic uses the page; it does not mean every rule on that page is automated. '
         '**Reference** means embedded text without a reviewed mechanical mapping. '
         '**Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.', '',
+        f"Embedded text: **{result['uniqueImportedPages']:,} / {result['uniquePages']:,} pages ({result['uniqueImportedPages']/result['uniquePages']:.1%})**. "
+        f"At least one mapped mechanic: **{result['uniqueMappedPages']:,} / {result['uniquePages']:,} pages ({result['uniqueMappedPages']/result['uniquePages']:.1%})**. "
+        'A mechanical mapping alone does not count as embedded text.', '',
         '| Source | Pages | Mapped | Reference | Unimported | Excluded |',
         '| --- | ---: | ---: | ---: | ---: | ---: |']
     for book in result['books']:
@@ -150,7 +158,9 @@ def main():
         snapshot = refresh()
         args.snapshot.parent.mkdir(parents=True, exist_ok=True)
         args.snapshot.write_text(json.dumps(snapshot, ensure_ascii=False, indent=2) + '\n')
-    result = coverage(snapshot, json.loads((ROOT / 'data/core.json').read_text()))
+    reference_path = ROOT / 'data/reference-index.json'
+    reference = json.loads(reference_path.read_text()) if reference_path.exists() else None
+    result = coverage(snapshot, json.loads((ROOT / 'data/core.json').read_text()), reference)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
     args.report.write_text(markdown(result))

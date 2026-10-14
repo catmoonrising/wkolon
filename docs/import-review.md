@@ -944,3 +944,44 @@ both settings, Take10/20, landing, protections, Force Point survival, one-use
 inputs, arithmetic, exact mechanics, persistence, Dracula mobile and offline use.
 Offline import and compilation produce identical data hashes. Falling objects,
 guided descent and vehicle descent timing remain pending separate applications.
+
+## All-source reference import
+
+The 2026-10-14 category capture contains 4,400 distinct candidate pages across
+16 official Reference Books categories, excluding 367 pages in the recursive
+Homebrew category tree. All 4,400 candidates now have complete pinned reference
+articles; no fetch failures or pending titles remain. The initial bulk fetch and
+parse took 403 seconds, plus the 11-second 100-page benchmark. Recompilation from
+captured revisions is deterministic and does not request the wiki.
+
+The reference index loads only when Rules opens. Its full-text search covers
+names, sourcebooks, redirect aliases and complete official descriptions. Source
+filters and 100-row pagination keep the library usable. Each article retains
+formatted wiki wording, local links to imported articles, external wiki links,
+its permanent source revision and contributor history. Successful reads remain
+cached offline, including reads begun before the first service-worker claim;
+unopened articles require a connection and have a retry control.
+
+Official category membership does not make every section official. Nine candidate
+pages append marked Homebrew: Cryokinesis, Followers, Saberdart Launcher,
+Felucian Shaman, Mandalorian Warrior, Order of Shasa, Survivor and Zeison Sha
+Warrior talent trees, and The Yuuzhan Vong Empire. These sections are removed by
+heading extent or the bare PartialHomebrew notice's section/tab extent. The
+Yuuzhan Vong page retains its official Vehicles tab after omitting the unofficial
+NPC table. Survivor's existing Core reference is corrected too. Ordinary official
+prose about “Homebrew intoxicants” in the Trianii Rangers is retained.
+
+This import enables reading, not automatic mechanics or character choices. The
+reviewed pack still has 23 species, 5 classes, 25 skills, 70 feats, 111 talents,
+81 equipment entries and 16 Force powers. Those mappings, source approvals and
+saved character rules remain unchanged. Per-page review and typed mechanical
+implementation continue separately; 299 sourcebook pages have at least one
+reviewed mapping, which does not mean the whole page is implemented.
+
+Validation: every article's content hash, source pin, text, links and closed
+presentation tree; 371 JavaScript tests and 25 Python tests; deterministic offline
+rebuild; full Chromium browser suite and focused Firefox checks. Browser checks
+cover lazy loading, full-text search, pagination, source filters, local links,
+attribution, character-state preservation and Dracula mobile layout. Hosted
+validation additionally checks offline reload of opened references and retrying
+an unread article after reconnecting.

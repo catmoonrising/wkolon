@@ -9,9 +9,10 @@ const SW_BUILD = "__BUILD__";
 const CACHE = "wkolon-" + SW_BUILD;
 
 const SHELL_HTML = "index.html";
+const REFERENCE_PATH=/\/data\/(?:reference-index\.json|reference\/[a-f0-9]{64}\.json)$/;
 // ES module dependencies and bundled reviewed Saga data are part of the same snapshot.
 const EXTRA = ["./", "src/rules.js", "src/weapon-rules.js", "src/ammunition.js", "src/attack-techniques.js", "src/incoming-damage.js", "src/species-rules.js", "src/recovery.js", "src/recovery-ui.js", "src/species-actions.js", "src/feature-choices.js", "src/force-powers.js", "src/force-powers-ui.js", "src/creation-options.js", "src/house-rules.js", "src/equipment.js", "src/persistence.js", "src/math-fields.js", "src/dice.js", "src/ability-generation.js", "src/creation-steps.js", "src/rules-reference.js", "src/heroic-traits.js", "src/wiki-content.js", "src/list-sort.js", "src/species-browser.js", "src/feature-trees.js",
-  "src/feature-layout.js", "src/rules-catalog.js", "src/roll-anim.js", "src/combat.js", "src/combat-ui.js", "src/full-attacks.js", "src/defensive-combat.js", "src/defensive-combat-ui.js", "src/charge.js", "src/charge-ui.js", "src/attack-targets.js", "src/attack-targets-ui.js", "src/opportunity.js", "src/opportunity-actions.js", "src/opportunity-ui.js", "src/combat-movement.js", "src/combat-movement-actions.js", "src/combat-movement-ui.js", "src/acrobatics-movement.js", "src/acrobatics-movement-actions.js", "src/acrobatics-movement-ui.js", "src/balance.js", "src/balance-ui.js", "src/escape-bonds.js", "src/escape-bonds-ui.js", "src/falling.js", "src/falling-ui.js", "src/attack-follow-ups.js", "src/attack-follow-up-actions.js", "src/attack-follow-up-ui.js", "src/routine-steps.js", "src/routine-progress.js", "src/stat-block.js", "src/stat-block-ui.js", "data/core.json", "data/rules.schema.json", "docs/rules-data.md", "docs/import-review.md", "docs/combat.md", "css/themes/index.json"];
+  "src/feature-layout.js", "src/rules-catalog.js", "src/reference-library.js", "src/roll-anim.js", "src/combat.js", "src/combat-ui.js", "src/full-attacks.js", "src/defensive-combat.js", "src/defensive-combat-ui.js", "src/charge.js", "src/charge-ui.js", "src/attack-targets.js", "src/attack-targets-ui.js", "src/opportunity.js", "src/opportunity-actions.js", "src/opportunity-ui.js", "src/combat-movement.js", "src/combat-movement-actions.js", "src/combat-movement-ui.js", "src/acrobatics-movement.js", "src/acrobatics-movement-actions.js", "src/acrobatics-movement-ui.js", "src/balance.js", "src/balance-ui.js", "src/escape-bonds.js", "src/escape-bonds-ui.js", "src/falling.js", "src/falling-ui.js", "src/attack-follow-ups.js", "src/attack-follow-up-actions.js", "src/attack-follow-up-ui.js", "src/routine-steps.js", "src/routine-progress.js", "src/stat-block.js", "src/stat-block-ui.js", "data/core.json", "data/rules.schema.json", "docs/rules-data.md", "docs/import-review.md", "docs/combat.md", "css/themes/index.json"];
 
 /* Pulls every src="…"/href="…" out of the page. Deliberately a regex and not DOMParser: a service
    worker has no DOM. The page is ours and its tags are plain, so this is a fair trade - and the
@@ -77,6 +78,15 @@ self.addEventListener("activate", e => {
    the swap can only ever happen because somebody clicked it. */
 self.addEventListener("message", e => {
   if (e.data && e.data.type === "skip-waiting") self.skipWaiting();
+  if(e.data?.type==='cache-reference'&&typeof e.data.path==='string'){
+    const url=new URL(e.data.path,self.registration.scope);
+    if(url.href.startsWith(self.registration.scope)&&REFERENCE_PATH.test(url.pathname))e.waitUntil((async()=>{
+      const cache=await caches.open(CACHE);
+      if(await cache.match(url.href))return;
+      const response=await fetch(url.href);
+      if(response.ok)await cache.put(url.href,response);
+    })().catch(()=>{}));
+  }
 });
 
 self.addEventListener("fetch", e => {
@@ -91,7 +101,12 @@ self.addEventListener("fetch", e => {
     const cache = await caches.open(CACHE);
     const cached = await cache.match(req, { ignoreSearch: true });
     if (cached) return cached;
-    try { return await fetch(req); }
+    try {
+      const response=await fetch(req);
+      // Optional references download when opened; successful reads remain available offline.
+      if(response.ok && REFERENCE_PATH.test(url.pathname))await cache.put(req,response.clone()).catch(()=>{});
+      return response;
+    }
     catch (err) {
       /* Offline and not in the cache. For a navigation that means a deep link or a stale bookmark;
          hand back the shell, which is the whole app anyway. For anything else, be honest. */

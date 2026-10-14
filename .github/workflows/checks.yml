@@ -19,6 +19,7 @@ jobs:
           python3 tools/compile-core.py
           git diff --exit-code -- data/core.json
       - run: npm run validate
+      - run: node tools/validate-reference-library.js
       - run: npm test
       - run: python3 -m unittest discover -s tests -p '*test.py'
       - run: npx playwright install --with-deps chromium
