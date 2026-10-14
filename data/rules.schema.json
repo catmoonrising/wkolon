@@ -1778,6 +1778,35 @@
               }
             }
           }
+        },
+        "energyShields": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "activationAction",
+            "oncePerEncounter",
+            "unproficientReflexPenalty"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "activationAction": {
+              "const": "swift-action"
+            },
+            "oncePerEncounter": {
+              "const": true
+            },
+            "unproficientReflexPenalty": {
+              "const": -5
+            }
+          }
         }
       },
       "required": [
@@ -3252,6 +3281,29 @@
                   "equipment"
                 ]
               }
+            }
+          }
+        },
+        "energyShield": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "rating",
+            "charges"
+          ],
+          "properties": {
+            "rating": {
+              "enum": [
+                5,
+                10,
+                15,
+                20,
+                25,
+                30
+              ]
+            },
+            "charges": {
+              "const": 5
             }
           }
         }

@@ -14,7 +14,7 @@ function hero(cls='soldier'){const c=newCharacter(pack);c.abilityMethod='manual'
 const skill=(d,id)=>d.skills.find(s=>s.id==='skill:'+id).total;
 
 test('supplemental armor has reviewed stats, source articles and unlisted prices stay owned-only',()=>{
- assert.equal(pack.equipment.filter(r=>r.kind==='armor').length,66);
+ assert.equal(pack.equipment.filter(r=>r.kind==='armor'&&!r.energyShield).length,66);
  for(const name of ['AV-1C Combat Armor','Katarn-Class Commando Armor','Dark Armor','Orbalisk Armor','Darth Revan\'s Armor']){
   const r=pack.equipment.find(r=>r.name===name);assert(r?.article?.blocks.length);assert(pack.sources.some(s=>s.id===r.sourceId));
  }
@@ -50,7 +50,7 @@ test('Equipment skill bonuses require proficiency and conditional checks remain 
 
 test('Katarn perception and vision preserve the printed Heavy requirement for a Medium suit',()=>{
  const c=hero();c.inventory=[item('katarn-class-commando-armor')];let d=derive(c,pack);assert.equal(skill(d,'perception'),0);assert.notEqual(d.vision,'low-light');
- c.levels[0].feats=[feat('armor-proficiency-heavy')];d=derive(c,pack);assert.equal(skill(d,'perception'),2);assert.equal(d.vision,'low-light');
+ c.levels[0].feats=[feat('armor-proficiency-heavy')];d=derive(c,pack);assert.equal(skill(d,'perception'),2);assert.equal(d.vision,'low-light');assert(renderStatBlock(c,d,pack).includes('Low-Light Vision'));
  c.attackTarget={darkness:true,concealment:'concealment'};c.inventory.push(item('blaster-pistol'));const lit=derive(c,pack).attacks[0].attack;c.attackTarget.darkness=false;c.attackTarget.concealment='none';assert.equal(derive(c,pack).attacks[0].attack,lit);
 });
 

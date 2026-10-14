@@ -899,3 +899,40 @@ ability checks and requires armor proficiency; it changes no ability score.
 the modifier comes from a supported substitute skill. `armorChecks` additionally
 permits `lifting` and `intimidating`. Favorable circumstances use the Skills
 page’s +2 circumstance modifier. Identical armor circumstances do not multiply.
+
+## Personal energy shield contract
+
+Six armor records share the purchase family `Energy Shield` and use the printed
+SR as their variant. `energyShield: {rating, charges}` records the printed rating
+and five-charge capacity. These are tandem devices, with no armor/level substitution,
+Fortitude bonus, fitted-size scaling or Speed reduction. Weight and availability
+are unlisted, not fabricated. Armor templates and accessories need separate review.
+
+Each owned generator stores optional closed `shield: {charges, sr, active, used}`
+state. An untouched generator has five charges and is inert. Activation requires
+a carried, equipped generator and an able wearer, consumes one charge and the
+printed Swift Action, and creates its shield at normal SR. It cannot reactivate
+that encounter. New encounter ends active shields and clears used status without
+restoring charges. Unequipping suspends the worn benefit without ending the activation or clearing
+its use; re-equipping during that encounter resumes the remaining SR.
+Separate purchased generators have separate entries and state.
+
+An active generator always adds its category’s Armor Check Penalty, even with
+proficiency. Its printed Dexterity cap applies while active. Missing proficiency
+also denies positive Dexterity and dodge benefits to Reflex and applies −5 Reflex.
+The always-on Armor Check Penalty applies to attack rolls and the listed skill
+checks. It creates no armor Speed reduction or zero armor replacement for heroic
+level. Active Heavy shields retain the normal Heavy running limit, including the
+existing Sprint alternative and Juggernaut exemption.
+
+Incoming damage declares `energy` and `otherDamage`; Lightsaber and Fire imply
+other damage for personal shield bypass. Pure Energy uses the highest applicable
+manual/device SR, never their sum. Only the selected source loses SR when exceeded;
+ineligible generators retain their SR. Manual SR retains its existing behavior.
+The HP bar shows active device SR separately from manual SR editing.
+
+Recharge uses the printed three Swift Actions and DC20 Mechanics check, increasing
+current device SR by five to its maximum without restoring activation charges or
+clearing its encounter use. A charge-count editor records externally obtained
+charges without inventing a purchase price or refill action. No automatic rest,
+day or encounter recharge is inferred.

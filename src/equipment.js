@@ -12,7 +12,7 @@ export function resolveEquipment(e,pack,c={}){
  const r=pack.equipment.find(r=>r.id===e.id);
  if(!r)throw new Error('Unknown equipment');
  const options=(r.upgrades||[]).filter(u=>(e.options||[]).includes(u.id));
- const scale=r.kind==='armor'?armorScale(r.wearerSize||e.armorSize):1;
+ const scale=r.kind==='armor'&&!r.energyShield?armorScale(r.wearerSize||e.armorSize):1;
  const base=r.cost===null?null:(r.retractableStock&&e.stockPosition==='none'?r.retractableStock.withoutCost:r.cost)*scale;
  let cost=base;
  if(cost!==null){
@@ -26,7 +26,7 @@ export function resolveEquipment(e,pack,c={}){
  }
  const unknownWeight=options.some(u=>u.changesWeight);
  const weight=e.weightOverride??(unknownWeight||r.weight===null?null:r.weight*scale);
- const tags=[r.variant,...options.map(u=>u.name),...(r.kind==='armor'&&(r.wearerSize||e.armorSize)&&(r.wearerSize||e.armorSize)!=='medium'?[(r.wearerSize||e.armorSize).replace(/^./,s=>s.toUpperCase())]:[])].filter(Boolean);
+ const tags=[r.variant,...options.map(u=>u.name),...(r.kind==='armor'&&!r.energyShield&&(r.wearerSize||e.armorSize)&&(r.wearerSize||e.armorSize)!=='medium'?[(r.wearerSize||e.armorSize).replace(/^./,s=>s.toUpperCase())]:[])].filter(Boolean);
  const mode=r.modes?.find(m=>m.id===(e.weaponMode||r.modes[0].id));
  const launcher=r.launchers?.find(l=>l.id===(e.launcher||r.launchers[0].id));
  const ammunition=r.ammunition&&pack.equipment.find(w=>w.id===e.ammunitionId);
@@ -55,7 +55,7 @@ export function purchaseQuote(e,quantity,pack,c,{license=true,market='normal',be
 export function validateInventoryOptions(e,pack,bad){
  const r=pack.equipment.find(r=>r.id===e.id);
  if(e.options!==undefined&&(!Array.isArray(e.options)||new Set(e.options).size!==e.options.length||e.options.some(id=>!r.upgrades?.some(u=>u.id===id))))bad('equipment options');
- if(e.armorSize!==undefined&&(r.kind!=='armor'||!['small','medium','large'].includes(e.armorSize)))bad('armor size');
+ if(e.armorSize!==undefined&&(r.kind!=='armor'||r.energyShield||!['small','medium','large'].includes(e.armorSize)))bad('armor size');
  if(r.wearerSize&&e.armorSize!==undefined&&e.armorSize!==r.wearerSize)bad('stock armor size');
  if(e.weightOverride!==undefined&&(!Number.isFinite(e.weightOverride)||e.weightOverride<0||e.weightOverride>1000000))bad('equipment weight');
  if(e.licenseStatus!==undefined&&!['none','pending','approved','denied'].includes(e.licenseStatus))bad('license status');

@@ -6,7 +6,7 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 
 **Mapped** means at least one reviewed mechanic uses the page; it does not mean every rule on that page is automated. **Reference** means embedded text without a reviewed mechanical mapping. **Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.
 
-Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **354 / 4,400 pages (8.0%)**. A mechanical mapping alone does not count as embedded text.
+Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **355 / 4,400 pages (8.1%)**. A mechanical mapping alone does not count as embedded text.
 
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -17,7 +17,7 @@ Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: *
 | Galaxy at War | 274 | 20 | 254 | 0 | 0 |
 | Galaxy of Intrigue | 229 | 4 | 225 | 0 | 0 |
 | Jedi Academy Training Manual | 301 | 22 | 279 | 0 | 0 |
-| Knights of the Old Republic Campaign Guide | 512 | 50 | 462 | 0 | 0 |
+| Knights of the Old Republic Campaign Guide | 512 | 51 | 461 | 0 | 0 |
 | Legacy Era Campaign Guide | 413 | 32 | 381 | 0 | 1 |
 | Rebellion Era Campaign Guide | 344 | 76 | 268 | 0 | 0 |
 | Scavenger's Guide to Droids | 211 | 1 | 210 | 0 | 0 |

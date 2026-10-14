@@ -1,3 +1,4 @@
+import {activeShields,shieldRestrictions,validateEnergyShield} from './energy-shields.js';
 import {wornArmor,armorProficient,armorSkillBonus,armorPenalty as armorCheckPenalty,armorVision,armorConditionalDefenses,armorStrengthCheck,armorCircumstance,combineArmorDefenses,validateArmorChecks,armorProtection} from './armor.js';
 import {emptyTraits, emptyStory, activeBackground, validateFinishing} from './heroic-traits.js';
 import {emptyProtection,validateCombatState} from './combat.js';
@@ -93,6 +94,7 @@ export function validateCharacter(c, pack) {
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
   c.inventory.forEach(e=>validateAmmunition(e,pack,bad));
+  c.inventory.forEach(e=>validateEnergyShield(e,ix.equipment.get(e.id),bad));
   c.inventory.forEach(e=>validateAttackTechnique(e,pack,bad));
   validateBracing(c,pack,bad);
   validateStartingEquipment(c,pack,bad);
@@ -282,6 +284,7 @@ export function derive(c, pack) {
     }
   }
   const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.filter(s=>!ctx.inactiveTalents.has(s.id)).map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
+  const energyShields=activeShields(c,pack),shieldLimits=shieldRestrictions(energyShields,ctx,pack);
   const allDeclaredArmor=wornArmor(c,pack);
   for(const r of allDeclaredArmor)if(r.wearerSize&&r.wearerSize!==species.size)issues.push(r.name+' fits '+r.wearerSize+' creatures');
   const declaredArmor=allDeclaredArmor.filter(r=>!r.wearerSize||r.wearerSize===species.size),bodyArmor=declaredArmor.filter(r=>(r.armorSlot||'body')==='body');
@@ -302,17 +305,17 @@ export function derive(c, pack) {
   const carried=c.inventory.filter(e=>e.carried!==false);
   const weight=carried.reduce((n,e)=>n+(resolveEquipment(e,pack,c).weight||0)*e.quantity,0);
   const load=carryingLimits(scores.str,effectiveSize,weight,pack.rules.encumbrance);
-  const armorPenalty=armorCheckPenalty(armorItems,ctx,pack,c.armorChecks),armorSkillPenalty=armorCheckPenalty(armorItems,ctx,pack,c.armorChecks,true);
+  const armorPenalty=armorCheckPenalty(armorItems,ctx,pack,c.armorChecks,false,shieldLimits.checkPenalty),armorSkillPenalty=armorCheckPenalty(armorItems,ctx,pack,c.armorChecks,true,shieldLimits.checkPenalty);
   const armorBonus = armor ? armor.armorBonus + total('armorBonus') : 0;
   const dexImprovement=effects.filter(e=>e.target==='armorMaxDex').reduce((n,e)=>n+e.amount,0);
-  const caps=armorItems.filter(r=>r.maxDex!==null).map(r=>r.maxDex+(armorProficient(r,ctx)?dexImprovement:0));
+  const caps=[...energyShields.map(r=>r.maxDex+(armorProficient(r,ctx)?dexImprovement:0)),...armorItems.filter(r=>r.maxDex!==null).map(r=>r.maxDex+(armorProficient(r,ctx)?dexImprovement:0))];
   const armorMaxDex=caps.length?Math.min(...caps):null;
   let reflexBase = armor ? armorBonus : level;
   if (armor && proficientArmor && has('improved-armored-defense')) reflexBase = Math.max(armorBonus, level + Math.floor(armorBonus / 2));
   else if (armor && proficientArmor && has('armored-defense')) reflexBase = Math.max(level, armorBonus);
   const helpless=!!c.helpless||c.condition===5||c.currentHP===0||recoveryState(c).dead;
   const balancingFlatFooted=balanceFlatFooted(c,ctx),flatFooted=!!c.flatFooted||balancingFlatFooted;
-  const dexDenied=helpless||flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
+  const dexDenied=!!shieldLimits.unproficient||helpless||flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
   const dex = helpless?pack.rules.defensiveCombat.helplessDexterityModifier:dexDenied?Math.min(0,mods.dex):armorMaxDex!==null ? Math.min(mods.dex, armorMaxDex) : mods.dex;
   const defensiveCombat=defensiveCombatState(c,pack,ctx,dexDenied);
   const condition = pack.rules.conditionPenalties[c.condition];
@@ -327,8 +330,9 @@ export function derive(c, pack) {
     const naturalArmor = key === 'reflex' ? species.naturalArmor || 0 : 0;
     const dodge=key==='reflex'&&!dexDenied?total('reflexDodge')+defensiveCombat.dodgeBonus:0;
     const charge=key==='reflex'?c.chargeReflexPenalty||0:0;
-    defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + total('defenses') + dodge + condition + c.modifiers[key] + charge;
-    breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${total('defenses')} feats + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc${charge?' + '+charge+' Charge':''}`;
+    const shieldPenalty=key==='reflex'?shieldLimits.unproficient*pack.rules.energyShields.unproficientReflexPenalty:0;
+    defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + total('defenses') + dodge + condition + c.modifiers[key] + charge + shieldPenalty;
+    breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${total('defenses')} feats + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc${charge?' + '+charge+' Charge':''}${shieldPenalty?' + '+shieldPenalty+' energy shield':''}`;
   }
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
   const threshold = defenses.fortitude + pack.rules.sizeThreshold[effectiveSize] + total('threshold') + c.modifiers.threshold;
@@ -422,14 +426,15 @@ export function derive(c, pack) {
   const magneticPenalty=unrestrictedArmor||!c.armorChecks?.magneticSoles?0:armorItems.reduce((n,r)=>n+(r.magneticSolesPenalty||0),0);
   const move=(n,normal=false)=>load.tooHeavy?0:load.overloaded?1:Math.floor(Math.max(0,Math.floor((n + stride) * Math.min(armorSpeedMultiplier(n),loadMultiplier))-flatArmorPenalty-(normal?magneticPenalty:0)) / (c.condition >= 4 ? 2 : 1));
   const speed = move(species.speed,true);
-  const armorRunMultiplier = armor && !unrestrictedArmor ? movement.runMultipliers[armor.category] : movement.runMultipliers.light;
-  const sprintAllowed = !armor || armor.category!=='heavy' || unrestrictedArmor || ambiguityValue(c,pack,'ambiguity:sprint-heavy-armor')==='sprint-limit';
+  const restrictedRunningArmor=[...(unrestrictedArmor?[]:armorItems),...energyShields.filter(r=>!effects.some(e=>e.target==='armorMovement'&&(applies(e)||e.when==='proficientArmor'&&armorProficient(r,ctx))))];
+  const armorRunMultiplier=Math.min(movement.runMultipliers.light,...restrictedRunningArmor.map(r=>movement.runMultipliers[r.category]));
+  const sprintAllowed = !restrictedRunningArmor.some(r=>r.category==='heavy') || ambiguityValue(c,pack,'ambiguity:sprint-heavy-armor')==='sprint-limit';
   const talentRunMultiplier = Math.max(0,...effects.filter(e=>e.target==='runMultiplier'&&applies(e)).map(e=>e.amount));
   const runWithArmor = sprintAllowed ? Math.max(armorRunMultiplier,talentRunMultiplier) : armorRunMultiplier;
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
-  return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,size:effectiveSize,vision,blind,normalProtection:armorProtection(c,{armorItems}), mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+  return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,size:effectiveSize,vision,blind,normalProtection:armorProtection(c,{armorItems}), mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
     forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,spent:p.spent,level:p.level})),powerSlots:ctx.powerSlots,

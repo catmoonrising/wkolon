@@ -1026,3 +1026,45 @@ rebuild, full Chromium regression suite and focused Firefox checks. Browser
 coverage includes purchases/licensing, tandem gear, conditional bonuses, vision,
 blind targeting, incoming DR, movement, stock sizes, persistence, stat blocks
 and Dracula mobile layout.
+
+## Personal energy shields
+
+Enabled the six printed shield ratings from Energy Shields revision 19121,
+raising equipment to 142 records. The purchase family is Energy Shield; inventory
+names include the rating. Multiple purchased generators become separate entries
+with independent charge, current SR, activation and encounter-use state. Unlisted
+weight and availability remain unlisted, and device costs are not fitted-size
+armor prices. Full source wording stays embedded.
+
+Activation consumes one of five charges and a Swift Action; a generator can only
+activate once per encounter. New encounter expires the effect and clears its use,
+without adding charges. Recharge follows Attacks revision 27406: three Swift
+Actions, DC20 Mechanics, five SR on success, capped at the normal rating. Failed
+checks consume the action without granting SR. Charges are tracked separately.
+
+An active shield always applies the category's Armor Check Penalty to attacks and
+listed skills. Proficiency avoids the additional −5 Reflex and Dexterity denial,
+but does not remove that check penalty. Printed Dexterity caps apply while active;
+inert devices impose no shield effects. Shields do not lower Speed or replace
+heroic level with a nonexistent armor bonus. Active Heavy shields retain the
+general Heavy running restriction; existing Sprint rulings and proficient
+Juggernaut apply. No new interpretation switch was added.
+
+Pure Energy damage uses applicable personal SR. Physical or mixed damage bypasses
+it, including Lightsabers, as Energy Shields explicitly requires. The general
+Mixed Damage Types passage does not override that specific exclusion. Manual SR
+and device SR are separate sources: the highest applicable current rating is used,
+not added; only that source degrades when exceeded. Shield effects, DR and incoming
+HP/threshold handling keep their existing order. The HP module shows device SR in
+an Energy-labeled bar, preserving manual SR separately. Stat blocks include the
+conditional rating. Armor templates and integrated accessory choices remain pending.
+
+Focused coverage verifies prices, separate purchases, activation limits, mixed
+damage bypass, source-specific SR spending, proficiency, Heavy running, recharge
+success/failure, encounter expiry, closed import validation and stat blocks.
+
+Validation: 397 JavaScript tests, 25 Python importer tests, byte-identical offline
+rebuild, full Chromium regression suite and focused Firefox/Chromium checks. The
+focused checks cover purchase quantities, charge/SR edits, worn-state suspension,
+activation, recharge, damage, encounter expiry, saving, stat blocks, panel state
+and Dracula mobile layout. Armor-granted vision also prints in stat blocks.

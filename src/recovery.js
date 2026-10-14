@@ -1,3 +1,4 @@
+import {endShieldEncounter} from './energy-shields.js';
 import {clearFollowUps} from './attack-follow-ups.js';
 import {startNextRound} from './opportunity.js';
 import {counselingEnabled,ambiguityValue} from './house-rules.js';
@@ -60,7 +61,7 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){startNextTurn(c);startNextRound(c);state(c).secondWindEncounter=false;}
+export function newEncounter(c){endShieldEncounter(c);startNextTurn(c);startNextRound(c);state(c).secondWindEncounter=false;}
 export function newDay(c,pack){
  startNextTurn(c);startNextRound(c);
  const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.naturalHealingUsed=false;
