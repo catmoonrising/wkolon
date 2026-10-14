@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const path=require('node:path');
+const path=require('node:path'),fs=require('node:fs');
 module.exports=async function checkSpecies(browser,base,root){
  const context=await browser.newContext({viewport:{width:1100,height:900},acceptDownloads:true});
  try {
@@ -7,7 +7,7 @@ module.exports=async function checkSpecies(browser,base,root){
   await page.goto(base+'#creation');await page.locator('[data-step="1"]').click();
   const results=page.locator('#species-results'),search=page.locator('#species-search');
   const names=()=>results.locator('.sp-name-link').allTextContents();
-  const initial=await names();assert.equal(initial.length,23);assert.deepEqual(initial,[...initial].sort((a,b)=>a.localeCompare(b)));
+  const initial=await names(),expected=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))).species.map(r=>r.name).sort((a,b)=>a.localeCompare(b));assert.deepEqual(initial,expected);
   assert.equal(await results.locator('[data-sort="name"]').innerText(),'Species ▼');
   await results.locator('[data-sort="name"]').click();assert.deepEqual(await names(),[...initial].reverse());assert.equal(await results.locator('[data-sort="name"]').innerText(),'Species ▲');
   await results.locator('[data-sort="name"]').press('Enter');assert.deepEqual(await names(),initial);

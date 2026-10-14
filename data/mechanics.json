@@ -7694,6 +7694,226 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=25023",
       "history": "https://swse.miraheze.org/w/index.php?title=Scout%20Bonus%20Feats&action=history",
       "section": null
+    },
+    {
+      "id": "source:wiki-nelvaanian",
+      "title": "Nelvaanian",
+      "revision": 20003,
+      "timestamp": "2024-08-25T23:00:51Z",
+      "sha256": "edcfbd6b2f867fe99e09000c004d17ad106b51c003b3fffe3197b964b981d382",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20003",
+      "history": "https://swse.miraheze.org/w/index.php?title=Nelvaanian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-anointed-hunter",
+      "title": "Anointed Hunter",
+      "revision": 15836,
+      "timestamp": "2024-08-18T00:53:17Z",
+      "sha256": "4a64ee3bd1a9e8b618b0d751e0fd7397049aaa0807d73f648d3776967f6a1426",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15836",
+      "history": "https://swse.miraheze.org/w/index.php?title=Anointed%20Hunter&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-artillery-shot",
+      "title": "Artillery Shot",
+      "revision": 15929,
+      "timestamp": "2024-08-18T00:53:25Z",
+      "sha256": "7e66872ce9537559ee3cb22415186bb2b5a1eb67e9115dec9dd3e35e5356ca00",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15929",
+      "history": "https://swse.miraheze.org/w/index.php?title=Artillery%20Shot&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-coordinated-barrage",
+      "title": "Coordinated Barrage",
+      "revision": 19861,
+      "timestamp": "2024-08-25T22:45:02Z",
+      "sha256": "26248c9c3f41f5782f653855afd154cf5c08c4d17b6c4462d787e360af3a1b7c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19861",
+      "history": "https://swse.miraheze.org/w/index.php?title=Coordinated%20Barrage&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-droid-hunter",
+      "title": "Droid Hunter",
+      "revision": 19882,
+      "timestamp": "2024-08-25T22:47:25Z",
+      "sha256": "8f1a4915d2c6b17fff78ae4ba645c6d72761d817e5a70ba830f8e4e2baf517ed",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19882",
+      "history": "https://swse.miraheze.org/w/index.php?title=Droid%20Hunter&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-droidcraft",
+      "title": "Droidcraft",
+      "revision": 19883,
+      "timestamp": "2024-08-25T22:47:30Z",
+      "sha256": "c6efd7435ef89b11526a8e64eb63e884419a342e31508d0d5742be50f22f6250",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19883",
+      "history": "https://swse.miraheze.org/w/index.php?title=Droidcraft&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-experienced-medic",
+      "title": "Experienced Medic",
+      "revision": 19894,
+      "timestamp": "2024-08-25T22:49:04Z",
+      "sha256": "4d10e21c07eb21662c434f3d5b73251c9ec3a58aa90d2f860d8379828e014b33",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19894",
+      "history": "https://swse.miraheze.org/w/index.php?title=Experienced%20Medic&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-expert-droid-repair",
+      "title": "Expert Droid Repair",
+      "revision": 19895,
+      "timestamp": "2024-08-25T22:49:10Z",
+      "sha256": "075fe9a4b938cb4ac9443ecfffaec7a5fed2823639720800ed5d40c1759db8fd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19895",
+      "history": "https://swse.miraheze.org/w/index.php?title=Expert%20Droid%20Repair&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-flash-and-clear",
+      "title": "Flash and Clear",
+      "revision": 19904,
+      "timestamp": "2024-08-25T22:50:05Z",
+      "sha256": "bfaa83a7921fb040631b1db03b203e0cd370998799e97ef6652b6a6b0e11545b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19904",
+      "history": "https://swse.miraheze.org/w/index.php?title=Flash%20and%20Clear&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-flood-of-fire",
+      "title": "Flood of Fire",
+      "revision": 19905,
+      "timestamp": "2024-08-25T22:50:10Z",
+      "sha256": "7d8883f12cdfc275df713b127b7561082cb2e8c36402ab61c9e9e730fcb65c07",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19905",
+      "history": "https://swse.miraheze.org/w/index.php?title=Flood%20of%20Fire&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-grand-army-of-the-republic-training",
+      "title": "Grand Army of the Republic Training",
+      "revision": 19924,
+      "timestamp": "2024-08-25T22:52:16Z",
+      "sha256": "580ffaadfdb5b36d776f0f78c223269fa32436d52673f5f9eb815b4d51463fd1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19924",
+      "history": "https://swse.miraheze.org/w/index.php?title=Grand%20Army%20of%20the%20Republic%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gunnery-specialist",
+      "title": "Gunnery Specialist",
+      "revision": 19926,
+      "timestamp": "2024-08-25T22:52:28Z",
+      "sha256": "bc92f6118ba4c6a198a0bd26b480156055f9a211a01d7fa1ae52cf0977c1bea3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19926",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunnery%20Specialist&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jedi-familiarity",
+      "title": "Jedi Familiarity",
+      "revision": 19949,
+      "timestamp": "2024-08-25T22:54:49Z",
+      "sha256": "c962601bc01d2161a5bec587143189119fc37fcb6cacd1c6d42ea13a9f17c94a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19949",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Familiarity&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-leader-of-droids",
+      "title": "Leader of Droids",
+      "revision": 19966,
+      "timestamp": "2024-08-25T22:56:48Z",
+      "sha256": "23f616471d01d86d5e30699a9c0b2641fe70e301c103139ad60d05bb399b4de5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19966",
+      "history": "https://swse.miraheze.org/w/index.php?title=Leader%20of%20Droids&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-overwhelming-attack",
+      "title": "Overwhelming Attack",
+      "revision": 20014,
+      "timestamp": "2024-08-25T23:02:03Z",
+      "sha256": "192fc009bd14064412f8cb67213dcfb2331b6a42caad12aeb52dde353d0c5af6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20014",
+      "history": "https://swse.miraheze.org/w/index.php?title=Overwhelming%20Attack&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-pall-of-the-dark-side",
+      "title": "Pall of the Dark Side",
+      "revision": 20017,
+      "timestamp": "2024-08-25T23:02:20Z",
+      "sha256": "c39c3965a2d4f634550fb4f327642eeabc2cd73d663bed4e887a135fd6b23e50",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20017",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pall%20of%20the%20Dark%20Side&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-separatist-military-training",
+      "title": "Separatist Military Training",
+      "revision": 20047,
+      "timestamp": "2024-08-25T23:05:55Z",
+      "sha256": "772d9f5cf3f51cb44552d685037ce6c1409b632ad1ed26990f377ad902518f9b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20047",
+      "history": "https://swse.miraheze.org/w/index.php?title=Separatist%20Military%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-spray-shot",
+      "title": "Spray Shot",
+      "revision": 20059,
+      "timestamp": "2024-08-25T23:07:27Z",
+      "sha256": "fbdfc25e05a26af46b5540b825586dc91a7a9a3143d3d676c7b668facdd88353",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20059",
+      "history": "https://swse.miraheze.org/w/index.php?title=Spray%20Shot&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-trench-warrior",
+      "title": "Trench Warrior",
+      "revision": 20074,
+      "timestamp": "2024-08-25T23:09:29Z",
+      "sha256": "f12c9b77047523ed5dbc7ce7677b6eac08a982de3285050f2754c366baa4d819",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20074",
+      "history": "https://swse.miraheze.org/w/index.php?title=Trench%20Warrior&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-unstoppable-force",
+      "title": "Unstoppable Force",
+      "revision": 20081,
+      "timestamp": "2024-08-25T23:10:10Z",
+      "sha256": "1c0ff339fa3e65b1954c9123ffe8b4fe79de6827bf5abc3292d46f562e3f5f6d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20081",
+      "history": "https://swse.miraheze.org/w/index.php?title=Unstoppable%20Force&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-unwavering-resolve",
+      "title": "Unwavering Resolve",
+      "revision": 20082,
+      "timestamp": "2024-08-25T23:10:20Z",
+      "sha256": "6fc32cfbb077698baff4f99e3a0cd3d3d907f82aab230d81f7f8075b89aea2e7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20082",
+      "history": "https://swse.miraheze.org/w/index.php?title=Unwavering%20Resolve&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-wary-defender",
+      "title": "Wary Defender",
+      "revision": 20094,
+      "timestamp": "2024-08-25T23:11:41Z",
+      "sha256": "bbb91722e9d69952748daf6c589d101849eca44fcf7f589c4f11002405a07c75",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20094",
+      "history": "https://swse.miraheze.org/w/index.php?title=Wary%20Defender&action=history",
+      "section": null
     }
   ],
   "species": [
@@ -8430,6 +8650,32 @@
           "keep": "replace"
         }
       ]
+    },
+    {
+      "id": "species:nelvaanian",
+      "name": "Nelvaanian",
+      "sourceId": "source:wiki-nelvaanian",
+      "abilityAdjustments": {
+        "wis": 2,
+        "int": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Nelvaanese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "vision": "low-light",
+      "scentRange": 10,
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ]
     }
   ],
   "classes": [
@@ -8526,7 +8772,10 @@
         "feat:force-readiness",
         "feat:improved-rapid-strike",
         "feat:tumble-defense",
-        "feat:withdrawal-strike"
+        "feat:withdrawal-strike",
+        "feat:unstoppable-force",
+        "feat:unwavering-resolve",
+        "feat:wary-defender"
       ],
       "talentTrees": [
         "tree:jedi-consular",
@@ -8631,7 +8880,11 @@
         "feat:weapon-proficiency-simple-weapons",
         "feat:biotech-specialist",
         "feat:flurry",
-        "feat:quick-skill"
+        "feat:quick-skill",
+        "feat:experienced-medic",
+        "feat:leader-of-droids",
+        "feat:unwavering-resolve",
+        "feat:wary-defender"
       ],
       "talentTrees": [
         "tree:influence",
@@ -8728,7 +8981,11 @@
         "feat:gearhead",
         "feat:poison-resistance",
         "feat:quick-skill",
-        "feat:sniper-shot"
+        "feat:sniper-shot",
+        "feat:droid-hunter",
+        "feat:droidcraft",
+        "feat:expert-droid-repair",
+        "feat:overwhelming-attack"
       ],
       "talentTrees": [
         "tree:fortune",
@@ -8833,7 +9090,11 @@
         "feat:conditioning",
         "feat:gearhead",
         "feat:increased-agility",
-        "feat:poison-resistance"
+        "feat:poison-resistance",
+        "feat:droid-hunter",
+        "feat:droidcraft",
+        "feat:expert-droid-repair",
+        "feat:flash-and-clear"
       ],
       "talentTrees": [
         "tree:awareness",
@@ -8965,7 +9226,20 @@
         "feat:power-blast",
         "feat:sniper-shot",
         "feat:tumble-defense",
-        "feat:withdrawal-strike"
+        "feat:withdrawal-strike",
+        "feat:artillery-shot",
+        "feat:coordinated-barrage",
+        "feat:droid-hunter",
+        "feat:experienced-medic",
+        "feat:flash-and-clear",
+        "feat:flood-of-fire",
+        "feat:grand-army-of-the-republic-training",
+        "feat:gunnery-specialist",
+        "feat:overwhelming-attack",
+        "feat:separatist-military-training",
+        "feat:trench-warrior",
+        "feat:unstoppable-force",
+        "feat:wary-defender"
       ],
       "talentTrees": [
         "tree:armor-specialist",
@@ -14347,6 +14621,352 @@
         "simple-weapons"
       ],
       "choiceExoticMode": "melee"
+    },
+    {
+      "id": "feat:anointed-hunter",
+      "name": "Anointed Hunter",
+      "sourceId": "source:wiki-anointed-hunter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Nelvaanian"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:artillery-shot",
+      "name": "Artillery Shot",
+      "sourceId": "source:wiki-artillery-shot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:coordinated-barrage",
+      "name": "Coordinated Barrage",
+      "sourceId": "source:wiki-coordinated-barrage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 5
+          },
+          {
+            "kind": "feat",
+            "value": "feat:coordinated-attack"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:droid-hunter",
+      "name": "Droid Hunter",
+      "sourceId": "source:wiki-droid-hunter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:droidcraft",
+      "name": "Droidcraft",
+      "sourceId": "source:wiki-droidcraft",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:mechanics"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:experienced-medic",
+      "name": "Experienced Medic",
+      "sourceId": "source:wiki-experienced-medic",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:treat-injury"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:expert-droid-repair",
+      "name": "Expert Droid Repair",
+      "sourceId": "source:wiki-expert-droid-repair",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:mechanics"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:flash-and-clear",
+      "name": "Flash and Clear",
+      "sourceId": "source:wiki-flash-and-clear",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:flood-of-fire",
+      "name": "Flood of Fire",
+      "sourceId": "source:wiki-flood-of-fire",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:grand-army-of-the-republic-training",
+      "name": "Grand Army of the Republic Training",
+      "sourceId": "source:wiki-grand-army-of-the-republic-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:armor-proficiency-light"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "armorFortitudeToWill",
+          "amount": 1,
+          "type": "untyped",
+          "when": "proficientArmor"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:gunnery-specialist",
+      "name": "Gunnery Specialist",
+      "sourceId": "source:wiki-gunnery-specialist",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:jedi-familiarity",
+      "name": "Jedi Familiarity",
+      "sourceId": "source:wiki-jedi-familiarity",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:leader-of-droids",
+      "name": "Leader of Droids",
+      "sourceId": "source:wiki-leader-of-droids",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:overwhelming-attack",
+      "name": "Overwhelming Attack",
+      "sourceId": "source:wiki-overwhelming-attack",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:pall-of-the-dark-side",
+      "name": "Pall of the Dark Side",
+      "sourceId": "source:wiki-pall-of-the-dark-side",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "darkSideScore",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:separatist-military-training",
+      "name": "Separatist Military Training",
+      "sourceId": "source:wiki-separatist-military-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:spray-shot",
+      "name": "Spray Shot",
+      "sourceId": "source:wiki-spray-shot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:trench-warrior",
+      "name": "Trench Warrior",
+      "sourceId": "source:wiki-trench-warrior",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:unstoppable-force",
+      "name": "Unstoppable Force",
+      "sourceId": "source:wiki-unstoppable-force",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "conditionalDefense",
+          "defense": "fortitude",
+          "against": "use-the-force",
+          "amount": 5,
+          "type": "insight"
+        },
+        {
+          "target": "conditionalDefense",
+          "defense": "will",
+          "against": "use-the-force",
+          "amount": 5,
+          "type": "insight"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:unwavering-resolve",
+      "name": "Unwavering Resolve",
+      "sourceId": "source:wiki-unwavering-resolve",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:perception"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "conditionalDefense",
+          "defense": "will",
+          "against": "deception-or-persuasion",
+          "amount": 5,
+          "type": "insight"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:wary-defender",
+      "name": "Wary Defender",
+      "sourceId": "source:wiki-wary-defender",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "defenseBonus",
+          "defense": "fortitude",
+          "when": "fightDefensively",
+          "amount": 2,
+          "type": "competence"
+        },
+        {
+          "target": "defenseBonus",
+          "defense": "will",
+          "when": "fightDefensively",
+          "amount": 2,
+          "type": "competence"
+        }
+      ],
+      "reminder": ""
     }
   ],
   "talents": [

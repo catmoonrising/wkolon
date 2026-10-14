@@ -3042,7 +3042,8 @@
                 "lightsaberWill",
                 "criticalThreat",
                 "tumbleSokan",
-                "unarmedCriticalDieStep"
+                "unarmedCriticalDieStep",
+                "armorFortitudeToWill"
               ]
             },
             "amount": {
@@ -3113,6 +3114,71 @@
                 "computerNetwork",
                 "perceptionApplications"
               ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "defense",
+            "against",
+            "amount",
+            "type"
+          ],
+          "properties": {
+            "target": {
+              "const": "conditionalDefense"
+            },
+            "defense": {
+              "enum": [
+                "fortitude",
+                "will"
+              ]
+            },
+            "against": {
+              "enum": [
+                "use-the-force",
+                "deception-or-persuasion"
+              ]
+            },
+            "amount": {
+              "const": 5
+            },
+            "type": {
+              "const": "insight"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "defense",
+            "when",
+            "amount",
+            "type"
+          ],
+          "properties": {
+            "target": {
+              "const": "defenseBonus"
+            },
+            "defense": {
+              "enum": [
+                "fortitude",
+                "will"
+              ]
+            },
+            "when": {
+              "const": "fightDefensively"
+            },
+            "amount": {
+              "const": 2
+            },
+            "type": {
+              "const": "competence"
             }
           }
         }

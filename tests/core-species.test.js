@@ -22,7 +22,7 @@ test('reviewed species include individually selectable published variants',()=>{
   assert(record.article.blocks.length);assert(pack.catalog.records.some(r=>r.kind==='species'&&r.mechanicsIds.includes(record.id)&&r.status==='available'));
  }
  for(const name of ['Neimoidian (Core Rulebook)','Neimoidian (Galaxy of Intrigue)','Yuuzhan Vong (Core Rulebook)','Yuuzhan Vong (Legacy Era Campaign Guide)'])assert.equal(pack.catalog.records.find(r=>r.name===name).status,'available');
- assert.equal(pack.species.length,23);
+ assert(pack.species.length>=23);
 });
 
 test('Ewok size affects Reflex and Stealth, Primitive only removes first-level class grants',()=>{

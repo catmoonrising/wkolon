@@ -135,8 +135,10 @@ export function validatePack(p) {
       if(r.choiceExoticMode)assert(r.choiceType==='weaponGroup'&&r.choiceExoticMode==='melee','Unsupported exotic weapon mode');
       if(r.choiceScope)assert(r.choiceType==='weapon'&&r.choiceScope==='exotic');
       assert(Array.isArray(r.effects) && typeof r.reminder==='string');
-      const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};
+      const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorFortitudeToWill:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};
       for(const e of r.effects) {
+        if(e.target==='conditionalDefense'){assert.deepEqual(Object.keys(e).sort(),['against','amount','defense','target','type']);assert(['fortitude','will'].includes(e.defense)&&['use-the-force','deception-or-persuasion'].includes(e.against)&&e.type==='insight'&&e.amount===5&&(e.against!=='deception-or-persuasion'||e.defense==='will'),'Unsupported conditional defense effect');continue;}
+        if(e.target==='defenseBonus'){assert.deepEqual(Object.keys(e).sort(),['amount','defense','target','type','when']);assert(['fortitude','will'].includes(e.defense)&&e.when==='fightDefensively'&&e.amount===2&&e.type==='competence','Unsupported defensive stance effect');continue;}
         if(e.target==='skillSubstitution'){
           assert(Object.keys(e).every(k=>['target','skill','replacement','grantsTraining','when'].includes(k)),'Unsupported substitution field');
           requireRef('skills',e.skill);requireRef('skills',e.replacement);assert.notEqual(e.skill,e.replacement);assert.equal(typeof e.grantsTraining,'boolean');
@@ -150,6 +152,7 @@ export function validatePack(p) {
         if(e.target==='forcePowerSlots')assert(e.amount===1&&e.ability==='wis'&&e.minimum===1&&e.type==='untyped'&&!e.perLevel,'Unsupported Force power capacity');
         else assert(e.ability===undefined&&e.minimum===undefined,'Unsupported effect ability');
         assert(Number.isFinite(e.amount));assert(['untyped','competence','dodge'].includes(e.type));
+        if(e.target==='armorFortitudeToWill')assert(e.amount===1&&e.type==='untyped'&&!e.perLevel,'Unsupported armor defense copy');
         const fixedEffects={forcePoints:3,rageUses:1,secondWinds:1,weaponFinesse:1,criticalMultiplier:3,forcePointDie:8,rageBonus:3,reflexDodge:1,unarmedDieSteps:1,unarmedCriticalDieStep:1};
         if(e.target in fixedEffects)assert(e.amount===fixedEffects[e.target]&&e.type===(e.target==='reflexDodge'?'dodge':'untyped')&&!e.perLevel,'Unsupported Core feat effect');
         if(e.type==='dodge')assert(e.target==='reflexDodge'&&e.amount===1&&!e.perLevel);

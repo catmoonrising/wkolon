@@ -1216,3 +1216,38 @@ byte-identical offline import/rebuild, full Chromium regression checks and focus
 Firefox/Chromium checks for new selectors, full
 source text, feat prerequisites, Improved Rapid Strike damage/penalties, saved
 choices and Dracula mobile layout.
+
+## Clone Wars feats and Nelvaanian
+
+Enabled all 21 remaining Clone Wars feat pages with pinned complete articles,
+explicit prerequisites and reviewed class bonus lists. Nelvaanian adds +2 Wisdom,
+−2 Intelligence, Medium size, Speed 6, Nelvaanese, Low-Light Vision, Scent 10 and
+the printed first-level Primitive exclusions. Anointed Hunter requires the species
+family. Scent's situational checks and Shadow Swiftness's target-specific movement
+exception still need encounter declarations; their full text remains available.
+
+Unstoppable Force supplies +5 insight to conditional Fortitude/Will against Use
+the Force; Unwavering Resolve supplies +5 insight to Will against Deception or
+Persuasion. These do not change ordinary defenses. Wary Defender adds +2 competence
+to Fortitude/Will for Fight Defensively, including its no-attacks Total Defense
+form, and expires through the existing next-turn control.
+
+Grand Army of the Republic Training copies proficient armor's Equipment Fortitude
+bonus into Will, including Second Skin. A conditional Equipment bonus replaces
+the ordinary Equipment bonus if larger, rather than stacking; different bonus
+types still combine. Damage Threshold shows its conditional values in the sheet
+and stat block. Incoming damage can declare that the attack requires Use the
+Force to apply the corresponding conditional Fortitude bonus to threshold.
+
+The Nelvaanian species-feat table gives Anointed Hunter a different duration from
+the full feat. Both texts are preserved, and the full feat's end-of-current-turn
+wording will control its pending action. The remaining feat actions, damage
+modifiers, target declarations, movement triggers and encounter limits still need
+automation; imported options do not imply those effects are complete.
+
+Validation: 445 JavaScript tests, 27 Python importer tests, byte-identical offline
+import/rebuild, unchanged existing mechanical records, reviewed bonus-list
+extensions, full Chromium regression checks and focused Chromium/Firefox checks
+for conditional defenses, typed
+Equipment stacking, Wary Defender modes/expiry, Force-attack threshold, Nelvaanian
+creation, full source popups, save/reload and Dracula mobile layout.

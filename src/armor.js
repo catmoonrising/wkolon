@@ -44,10 +44,10 @@ export function armorProtection(c,d,{energy=false,fire=false,lightsaber=false,ig
  return {...protection,dr:ignoreDR?0:Math.max(manual,...sources.map(r=>r.armorDR.amount))};
 }
 
-export function combineArmorDefenses(species,armor,defenses){
+export function combineArmorDefenses(species,armor,defenses,equipmentBonuses={}){
  const groups=new Map();
  for(const row of [...species,...armor]){const key=row.defense+'|'+row.against;const group=groups.get(key)||{...row,types:{}};group.types[row.type]=row.type==='untyped'?(group.types[row.type]||0)+row.amount:Math.max(group.types[row.type]||0,row.amount);groups.set(key,group);}
- return [...groups.values()].map(({types,...row})=>{const amount=Object.values(types).reduce((n,v)=>n+v,0);return {...row,amount,total:defenses[row.defense]+amount};});
+ return [...groups.values()].map(({types,...row})=>{if(types.equipment!==undefined)types.equipment=Math.max(0,types.equipment-(equipmentBonuses[row.defense]||0));const amount=Object.values(types).reduce((n,v)=>n+v,0);return {...row,amount,total:defenses[row.defense]+amount};});
 }
 
 export function armorStrengthCheck(items,ctx,checks){return checks?.lifting?Math.max(0,...items.filter(item=>armorProficient(item,ctx)).map(item=>item.strengthCheckBonus||0)):0;}

@@ -4,6 +4,7 @@
 - [x] Import all 4,400 inventoried official sourcebook pages as pinned references; lazy full-text search, article popups, source filters and opened-page offline caching. Exclude marked Homebrew sections on mixed pages.
 - [x] Separate imported presentation from declarative reviewed mechanics.
 - [x] Inventory all 16 official source categories and recursively exclude Homebrew; publish the coverage queue in docs/wiki-coverage.md.
+- [ ] Audit uncategorized official rules reached through article links; the 4,400 sourcebook-category candidates are not proof of whole-wiki completeness.
 - [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.
   - [x] Enable the nine remaining unambiguous Core species, size and conditional defense calculations, and all six weapon-proficiency groups.
   - [x] Separate species book variants, Ithorese, and Core/Legacy Yuuzhan Vong restrictions.
@@ -22,6 +23,9 @@
   - [x] Flurry weapon-change ambiguity: eligible weapons by default, retained bonus alternative; both keep the Reflex penalty.
   - [x] 18 Knights of the Old Republic feat options, explicit prerequisites, melee secondary choices and reviewed class bonus lists.
   - [x] Improved Rapid Strike: Light/Lightsaber restriction, printed Dexterity penalties, critical dice and Mighty Swing nonstacking.
+  - [x] All 21 Clone Wars feat selections, Nelvaanian traits/prerequisites and reviewed heroic bonus access.
+  - [x] Unstoppable Force, Unwavering Resolve, Wary Defender and Grand Army training defense calculations; conditional Force-attack Damage Threshold.
+  - [ ] Remaining Clone Wars feat actions, Scent/Shadow Swiftness target declarations and movement interactions.
   - [ ] Implant equipment and Implant Training; remaining KOTOR feat effects/actions.
   - [ ] Biotech modification projects and remaining martial-style actions, triggers and encounter limits.
   - [ ] Remaining prestige-class talents and prerequisite feats, Force Tradition access, activated class features and technique/secret effects beyond Power Mastery.

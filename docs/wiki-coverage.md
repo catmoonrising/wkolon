@@ -6,11 +6,11 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 
 **Mapped** means at least one reviewed mechanic uses the page; it does not mean every rule on that page is automated. **Reference** means embedded text without a reviewed mechanical mapping. **Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.
 
-Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **502 / 4,400 pages (11.4%)**. A mechanical mapping alone does not count as embedded text.
+Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **524 / 4,400 pages (11.9%)**. A mechanical mapping alone does not count as embedded text.
 
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Clone Wars Campaign Guide | 571 | 48 | 523 | 0 | 1 |
+| Clone Wars Campaign Guide | 571 | 70 | 501 | 0 | 1 |
 | Core Rulebook | 654 | 285 | 369 | 0 | 1 |
 | Dawn of Defiance | 244 | 2 | 242 | 0 | 0 |
 | Force Unleashed Campaign Guide | 356 | 49 | 307 | 0 | 0 |

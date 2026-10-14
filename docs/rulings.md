@@ -49,10 +49,11 @@ default-only decision remains here even though it adds no switch to the sheet.
 | Tumble movement cost | Multiply Tumble with diagonal/difficult-terrain movement costs. | Every tumbled square costs a flat 2 regardless of terrain/diagonals. |
 | Tough as Durasteel | Full reference text; activated action still pending. | Body class-level amount versus the table’s last even-level amount. |
 
-## Source gaps requiring an encounter declaration
+## Source gaps and discrepancies
 
 | Topic | Source gap | Implemented behavior |
 | --- | --- | --- |
+| Anointed Hunter duration | Nelvaanian’s species-feat table says the end of the next turn; the full feat says the end of the current turn. | Retain both articles; use the full feat body when its action is implemented. |
 | Escape Bonds: Manacles | Acrobatics revision 27350 gives one minute/five rounds but omits a DC from its restraint table. | Require a manual DC; do not copy Binder Cuffs' DC25. No alternative was requested or invented. |
 
 Exact supporting wiki passages remain in House Rules → Ambiguities and

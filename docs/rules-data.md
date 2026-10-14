@@ -1075,3 +1075,24 @@ Improved Rapid Strike extends `attackTechniques` with two additional damage dice
 `requiresLightOrLightsaber: true`. Light is relative to the wielder's size.
 The original Rapid Strike low-Dexterity Light-weapon exception does not apply.
 Damage dice use the existing nonstacking technique/Mighty Swing calculation.
+
+### Clone Wars defense effects
+
+`conditionalDefense` carries `defense`, `against`, `amount` and `type`: insight
+bonuses apply to Use the Force attacks or Deception/Persuasion checks without
+changing ordinary defenses. `defenseBonus` with `when: fightDefensively` carries
+a +2 competence bonus to Fortitude or Will through the existing next-turn stance
+expiry; Total Defense is the no-attacks form of Fight Defensively.
+`armorFortitudeToWill` copies a proficient armor's Equipment bonus to Fortitude
+into Will as an Equipment bonus. Conditional Equipment bonuses replace a weaker
+ordinary Equipment bonus rather than stacking with it.
+
+Nelvaanian uses the existing ability, size, speed, language, Low-Light Vision,
+Primitive starting-feat exclusions and Scent range fields. Shadow Swiftness needs
+an encounter-specific target declaration before its movement exception is
+automated. Full articles remain the authority for unimplemented trait actions.
+
+Incoming damage can declare `requiresUseTheForce` to apply the matching
+conditional Fortitude bonus to Damage Threshold. The declaration is per damage
+application, like Energy/Fire, and is shown only when it changes the result.
+Jedi Counseling 114 confirms the Fortitude-to-threshold relationship.

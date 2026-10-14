@@ -343,21 +343,26 @@ export function derive(c, pack) {
   const flurry=flurryState(c,pack,ctx,effectiveSize,helpless);
   const wieldingLightsaber=c.inventory.some(e=>e.equipped&&e.carried!==false&&ix.equipment.get(e.id).group==='lightsabers');
   const condition = pack.rules.conditionPenalties[c.condition];
-  const defenses = {}, breakdowns = {};
+  const defenses = {}, breakdowns = {},equipmentDefenseBonuses={};
   for (const key of ['reflex', 'fortitude', 'will']) {
     const clsBonus = Math.max(0, ...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id => ix.classes.get(id).defenses[key] || 0));
     const base = key === 'reflex' ? reflexBase : level;
     const ability = key === 'reflex' ? dex : key === 'fortitude' ? mods.con : mods.wis;
     const sp = species.defenses[key] || 0;
-    const equipment = key === 'fortitude' && proficientArmor ? armor.fortitudeBonus + total('armorFortitude') : 0;
+    const armorFortitude=proficientArmor?armor.fortitudeBonus+total('armorFortitude'):0;
+    const equipment=key==='fortitude'?armorFortitude:key==='will'&&total('armorFortitudeToWill')?armorFortitude:0;
+    const featTypes=new Map();let featPenalties=0;
+    for(const e of effects.filter(e=>(e.target==='defenses'||e.target==='defenseBonus'&&e.defense===key)&&(e.when==='fightDefensively'?defensiveCombat.stance!=='none':applies(e)))){const amount=e.amount*(e.perLevel?level:1);if(amount<0)featPenalties+=amount;else featTypes.set(e.type,['untyped','dodge','circumstance'].includes(e.type)?(featTypes.get(e.type)||0)+amount:Math.max(featTypes.get(e.type)||0,amount));}
+    const featDefense=featPenalties+[...featTypes.values()].reduce((n,v)=>n+v,0);
+    equipmentDefenseBonuses[key]=equipment;
     const size = key === 'reflex' ? pack.rules.sizeReflex[effectiveSize] : 0;
     const naturalArmor = key === 'reflex' ? species.naturalArmor || 0 : 0;
     const dodge=key==='reflex'&&!dexDenied?total('reflexDodge')+defensiveCombat.dodgeBonus:0;
     const lightsaberBonus=wieldingLightsaber?key==='reflex'?total('lightsaberReflex'):key==='will'?total('lightsaberWill'):0:0;
     const charge=key==='reflex'?c.chargeReflexPenalty||0:0;
     const shieldPenalty=key==='reflex'?shieldLimits.unproficient*pack.rules.energyShields.unproficientReflexPenalty:0;
-    defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + total('defenses') + lightsaberBonus + dodge + condition + c.modifiers[key] + charge + shieldPenalty + (key==='reflex'?flurry.reflexPenalty:0);
-    breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${total('defenses')} feats + ${lightsaberBonus} Lightsaber + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc${charge?' + '+charge+' Charge':''}${shieldPenalty?' + '+shieldPenalty+' energy shield':''}${key==='reflex'&&flurry.reflexPenalty?' + '+flurry.reflexPenalty+' Flurry':''}`;
+    defenses[key] = 10 + base + ability + clsBonus + sp + equipment + size + naturalArmor + featDefense + lightsaberBonus + dodge + condition + c.modifiers[key] + charge + shieldPenalty + (key==='reflex'?flurry.reflexPenalty:0);
+    breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${featDefense} feats + ${lightsaberBonus} Lightsaber + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc${charge?' + '+charge+' Charge':''}${shieldPenalty?' + '+shieldPenalty+' energy shield':''}${key==='reflex'&&flurry.reflexPenalty?' + '+flurry.reflexPenalty+' Flurry':''}`;
   }
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
   const threshold = defenses.fortitude + pack.rules.sizeThreshold[effectiveSize] + total('threshold') + c.modifiers.threshold;
@@ -467,12 +472,13 @@ export function derive(c, pack) {
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
+  const conditionalDefenses=[...combineArmorDefenses([...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='conditionalDefense')],armorConditionalDefenses(armorItems,ctx,defenses),defenses,equipmentDefenseBonuses),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)];
   return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,normalProtection:armorProtection(c,{armorItems,classDR}), mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
     forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId),adept:ctx.talents.some(t=>t.id==='talent:force-power-adept'&&t.choice===p.powerId&&!ctx.inactiveTalents.has(t.id))})),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
-    conditionalDefenses: [...combineArmorDefenses(species.conditionalDefenses||[],armorConditionalDefenses(armorItems,ctx,defenses),defenses),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)],
+    conditionalDefenses,conditionalThresholds:conditionalDefenses.filter(r=>r.defense==='fortitude'&&r.amount>0).map(r=>({...r,total:threshold+r.amount})),
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n)])),
     incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forceMaximum: species.forceImmune||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
