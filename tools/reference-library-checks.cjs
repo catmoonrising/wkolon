@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
-module.exports=async(browser,base,root)=>{
+module.exports=async(browser,base,root,transport={})=>{
  const index=JSON.parse(fs.readFileSync(path.join(root,'data/reference-index.json')));
  const record=index.records.find(r=>r.name==='Acclamator II-Class Assault Ship');
  assert(record,'Official starship reference must be imported');
@@ -50,7 +50,7 @@ module.exports=async(browser,base,root)=>{
   if(base.startsWith('https:')){
    await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>navigator.serviceWorker.controller);
    await page.waitForFunction(async()=>{const names=await caches.keys();return (await Promise.all(names.filter(n=>n.startsWith('wkolon-')).map(async n=>Boolean(await (await caches.open(n)).match(new URL('data/reference-index.json',location.href)))))).some(Boolean);});
-   await context.setOffline(true);await page.reload();await page.locator('#rules-book').waitFor();
+   await context.setOffline(true);await transport.offline?.();await page.reload();await page.locator('#rules-book').waitFor();
    await page.locator('#rules-search').fill(record.name);
    await page.locator(`[data-rule-reference="${record.id}"]`).click();await page.locator('#rule-detail-body .wiki-article').waitFor();
    assert.equal(await page.locator('#rule-detail-title').innerText(),record.name);
@@ -60,9 +60,9 @@ module.exports=async(browser,base,root)=>{
    await page.locator(`[data-rule-reference="${unopened.id}"]`).first().click();
    await page.locator('#rule-detail-body [role="alert"]').waitFor();
    assert((await page.locator('#rule-detail-body').innerText()).includes('retry'));
-   await context.setOffline(false);await page.locator('#rule-detail-body button').click();await page.locator('#rule-detail-body .wiki-article').waitFor();
+   await transport.online?.();await context.setOffline(false);await page.locator('#rule-detail-body button').click();await page.locator('#rule-detail-body .wiki-article').waitFor();
   }
   assert.deepEqual(errors,[]);
   console.log('Browser: lazy official reference imports, full-text search, pagination, source filters, local wiki links, revision attribution, read-only character state, Dracula mobile'+(base.startsWith('https:')?', offline opened pages and retry':'')+' passed');
- }finally{await context.close();}
+ }catch(error){console.error('Reference browser state:',await page.locator('#rule-detail-title').innerText().catch(()=>''),(await page.locator('#rule-detail-body').innerText().catch(()=>'')).slice(0,1000));throw error;}finally{await context.close();}
 };

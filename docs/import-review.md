@@ -985,3 +985,9 @@ cover lazy loading, full-text search, pagination, source filters, local links,
 attribution, character-state preservation and Dracula mobile layout. Hosted
 validation additionally checks offline reload of opened references and retrying
 an unread article after reconnecting.
+
+Hosted Chromium and Firefox checks both pass, including opened-page offline
+reload and unread-page retry. Firefox's focused check uses an actual connection
+outage through a local rejecting proxy, since its simulated offline switch left
+service-worker network requests running in this environment. Reproduce with
+`node tools/reference-live-checks.cjs firefox` (or `chromium`).
