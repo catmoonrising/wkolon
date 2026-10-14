@@ -16,7 +16,7 @@ test('every class and skill resolves to a complete imported article without chan
 });
 
 test('class previews retain source nodes and complete Class Features; full articles retain progression and flavor',()=>{
- for(const record of pack.classes){
+ for(const record of pack.classes.filter(r=>r.classType!=='prestige')){
   const page=optionArticle(pack,record.name),preview=optionPreview(page,'class').preview;
   assert(preview.blocks.every(n=>page.article.blocks.includes(n)));
   const text=articleText(preview);assert(text.includes('Starting Feats')&&text.includes('Bonus Feats'));

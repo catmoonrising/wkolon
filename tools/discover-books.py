@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BOOK_ROOT = 'Category:Reference Books'
 HOMEBREW_ROOT = 'Category:Homebrew Content'
 COLLECTIONS = ['species', 'classes', 'skills', 'feats', 'talents', 'equipment',
-               'destinies', 'backgrounds', 'forcePowers']
+               'destinies', 'backgrounds', 'forcePowers', 'classChoices']
 
 
 def descendants(categories, root):

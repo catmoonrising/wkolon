@@ -121,6 +121,11 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .rules-ref-body dt { font-weight: bold; margin-top: .3rem; }
 .rules-ref-body dd { margin: .1rem 0 .2rem .8rem; }
 .choice-field { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .75rem; }
+.class-feature-choice { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem .75rem; margin: .5rem 0; }
+.class-feature-choice label { flex-wrap: wrap; }
+.class-feature-choice select { min-width: 0; max-width: 100%; }
+.class-entry .checkbox { align-items: start; }
+.class-entry .checkbox input { flex-shrink: 0; }
 #cr-body .choice-field label { display: inline-flex; }
 .species-traits { display: flex; align-items: baseline; gap: .75rem; }
 .feature-list > article > div { display: flex; align-items: baseline; gap: .5rem; }

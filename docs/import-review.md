@@ -1068,3 +1068,47 @@ rebuild, full Chromium regression suite and focused Firefox/Chromium checks. The
 focused checks cover purchase quantities, charge/SR edits, worn-state suspension,
 activation, recharge, damage, encounter expiry, saving, stat blocks, panel state
 and Dracula mobile layout. Armor-granted vision also prints in stat blocks.
+
+## Prestige-class advancement
+
+Added all 32 official prestige-class records, keeping their complete pinned
+articles and talent-access pages. Entry requirements are evaluated before the
+first level in that class, including the general seven-prior-level requirement
+from Heroic Classes revision 22558. Requirements for unmapped feats or talents
+remain unmet; importing a class does not grant those missing abilities.
+Story, membership and other nonnumeric requirements retain the printed wording
+as explicit declarations. Character creation still begins with a heroic class.
+
+Progression uses each printed Base Attack Bonus table, hit die, maximum class
+level, talent schedule and Force Point allowance. Prestige classes grant neither
+first-level heroic starting benefits nor the heroic even-level bonus-feat schedule.
+Crime Lord's every-level talents, five-level class caps, d12 classes, the three
+seven-base Force Point classes and Shaper's lack of Force Points are explicit.
+Independent Droid and Droid Commander retain their printed HP rules.
+
+Added 79 earned class-feature choices: 57 Force Techniques, 15 Force Secrets and
+seven Medical Secrets. Choices use the existing searchable graph and source
+popups, with secondary power selection after Power Mastery. Power Mastery permits
+Take 10 on the chosen owned power, spends its copy normally and does not trigger
+natural-20 recovery. Other techniques and secrets remain selectable and readable;
+their activated effects still need automation.
+
+Gunslinger's Trusty Sidearm adds completed two-level increments to pistol damage.
+Elite Trooper DR participates in incoming damage, including Lightsaber bypass.
+Class features and acquired choices print in gain order and stat blocks.
+Sith entry records acquisition DSS; a later fall below Wisdom disables the
+affected class's defenses, talents and feature effects without removing earned
+HP, Base Attack Bonus or Force Points. Master Privateer's fall records a persistent
+advancement ceiling, including after atonement; existing earned levels remain.
+
+This is the prestige-class progression foundation, not complete automation of
+all 32 classes. Many class-specific talents, supplemental prerequisite feats,
+Force Tradition access and activated class effects remain pending. Tough as
+Durasteel's prose/table conflict is awaiting the user's ruling before its action
+is implemented.
+
+Validation: 407 JavaScript tests and 27 Python importer tests; exact comparisons
+of all 32 printed Base Attack Bonus/Force Point tables and talent-access lists;
+byte-identical offline rebuild; full Chromium regression checks and focused
+Chromium/Firefox checks for prerequisites, declarations, advancement, class
+choices, Power Mastery, DR, persistence, stat blocks and Dracula mobile layout.

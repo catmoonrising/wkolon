@@ -27,3 +27,8 @@ export function recoverSuite(c,d,{endTurn=false}={}){
  for(const l of c.levels)for(const p of l.forcePowers||[])if(ids.has(p.id))p.spent=false;
  c.forcePowerRecoveryPending=false;
 }
+
+export function take10Power(c,d,pack,id){
+ const power=d.forcePowers.find(p=>p.copyId===id);if(!power?.take10)throw new Error('Power Mastery required');
+ return usePower(c,d,pack,id,10);
+}

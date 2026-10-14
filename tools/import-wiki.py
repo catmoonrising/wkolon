@@ -284,8 +284,8 @@ def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=(),
             continue
         src = next(s for s in baseline['sources'] if s['id'] == old['sourceId'])
         add_page(old['name'], src['title'], src.get('section'), old['id'], src['id'])
-    for kind in ['species', 'feats', 'talents', 'equipment', 'classes']:
-        for r in baseline[kind]:
+    for kind in ['species', 'feats', 'talents', 'equipment', 'classes', 'classChoices']:
+        for r in baseline.get(kind, []):
             rule_id = 'rule:' + slug(r['name'])
             if rule_id in rule_pages:
                 continue
@@ -303,7 +303,7 @@ def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=(),
             continue
         rid, sid = add_page(old['name'], src['title'], src.get('section'), old['ruleId'], src['id'])
         records[old['id']] = dict(old, ruleId=rid, sourceId=sid)
-    collections = {'species':'species', 'class':'classes', 'skill':'skills', 'feat':'feats',
+    collections = {'species':'species', 'class':'classes', 'prestigeClass':'classes', 'classFeature':'classChoices', 'skill':'skills', 'feat':'feats',
         'talent':'talents', 'weapon':'equipment', 'armor':'equipment', 'gear':'equipment', 'forcePower':'forcePowers'}
     old_sources = {s['id']:s for s in baseline['sources']}
     for item in records.values():

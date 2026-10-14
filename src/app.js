@@ -1,3 +1,5 @@
+import {classEntry,hasClassTalent,recordPrivateerFall} from './class-advancement.js';
+import {classOptions,classDeclarations,classChoiceControls,classKindLabel} from './class-advancement-ui.js';
 import {energyShieldDetails,activateEnergyShield,rechargeEnergyShield} from './energy-shields.js';
 import {energyShieldControls} from './energy-shields-ui.js';
 import {armorExclusive,ARMOR_CHECKS} from './armor.js';
@@ -26,7 +28,7 @@ import {createSpeciesBrowser} from './species-browser.js';
 import {createRulesCatalog} from './rules-catalog.js';
 import {createReferenceLibrary} from './reference-library.js';
 import {renderArticle} from './wiki-content.js';
-import {ABILITIES, GROUPS, signed, indexPack, derive, progression, eligible, classSkills,talentTrees} from './rules.js';
+import {ABILITIES, GROUPS, signed, indexPack, derive, progression, eligible, classSkills,talentTrees,levelSlots} from './rules.js';
 import {createStore, downloadJSON} from './persistence.js';
 import {commitMath} from './math-fields.js';
 import {evalExpr, totalHtml} from './dice.js';
@@ -105,7 +107,7 @@ function ruleReference(r, label=r.name, selection=null, scope='ref') {
 }
 const panel = (heading, body, className='') => `<section class="panel ${className}">${heading ? `<div class="panel-heading"><h2>${heading}</h2></div>` : ''}${body}</section>`;
 const metric = (label, value, detail='') => `<div class="metric"><span>${label}</span><strong>${value}</strong>${detail ? `<small>${detail}</small>` : ''}</div>`;
-const entryLabel = s => { const r = ix.feats.get(s.id) || ix.talents.get(s.id); return r.name + (s.choice ? ` (${choiceName(s.choice,pack)})` : ''); };
+const entryLabel = s => { const r = ix.feats.get(s.id) || ix.talents.get(s.id)||ix.classChoices.get(s.id); return r.name + (s.choice ? ` (${choiceName(s.choice,pack)})` : ''); };
 function selectionValue(s) { return s ? `${s.id}|${s.choice || ''}` : ''; }
 function parseSelection(value) { if (!value) return null; const [id,choice] = value.split('|'); return choice ? {id,choice} : {id}; }
 function variants(r) {
@@ -121,13 +123,15 @@ function selectorContext(levelIndex, kind, slotIndex=0) {
   if (kind === 'startingFeat') { l.startingFeat = null; l.feats = []; l.talent = null; }
   if (kind === 'feat') { l.feats = l.feats.slice(0,slotIndex); l.talent = null; }
   if (kind === 'talent') l.talent = null;
+  if(kind==='classChoice')l.classChoices=(l.classChoices||[]).slice(0,slotIndex);
   return progression(draft,pack).ctx;
 }
 function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=false) {
-  const type = kind === 'talent' ? 'talents' : 'feats';
+  const type = kind==='classChoice'?'classChoices':kind === 'talent' ? 'talents' : 'feats';
   const l = current().levels[levelIndex], cls = ix.classes.get(l.classId);
   const ctx = selectorContext(levelIndex,kind,slotIndex);
   let records = pack[type];
+  if(kind==='classChoice')records=records.filter(r=>r.kind===slot.kind);
   if (kind === 'talent') records = records.filter(r => talentTrees(cls,ctx,pack).includes(r.tree));
   if (kind === 'startingFeat') records = records.filter(r => cls.startingFeats.includes(r.id));
   if (slot?.kind === 'bonus') records = records.filter(r => cls.bonusFeats.includes(r.id) || cls.startingFeats.includes(r.id));
@@ -152,7 +156,7 @@ function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=f
     const options=group.records.flatMap(r=>available(r).map(s=>({value:selectionValue(s),name:group.value.startsWith('family:')?r.name.match(/\((.*)\)$/)[1]:choiceName(s.choice,pack)})));
     const value=!selected?.pending && (selected?.choice || group.value.startsWith('family:')) ? selectionValue(selected) : '';
     if(value && !options.some(o=>o.value===value)) options.unshift({value,name:`${entryLabel(selected)} (ineligible)`});
-    const secondaryLabel=group.value.startsWith('family:')?'Type':record.choiceType==='skill'?'Skill':record.choiceType==='weapon'?'Weapon':'Weapon group';
+    const secondaryLabel=group.value.startsWith('family:')?'Type':record.choiceType==='skill'?'Skill':record.choiceType==='weapon'?'Weapon':record.choiceType==='power'?'Power':'Weapon group';
     secondaryHTML=`<label>${secondaryLabel}<select ${attrs} data-secondary>${option('','Choose…',value)}${options.sort((a,b)=>a.name.localeCompare(b.name)).map(o=>option(o.value,o.name,value)).join('')}</select></label>`;
   }
   return `<div class="choice-field">${hidePrimary?'':`<label>${escape(label)}<button type="button" ${attrs} data-primary data-open-tree="${kind}:${levelIndex}:${slotIndex}" ${editorMode==='creation'&&kind==='feat'?`aria-pressed="${(activeFeatSlots.get(current().id)||0)===slotIndex}"`: ''}>${escape(record?(family(record)||entryLabel(selected)):'Choose…')}</button></label>`}${secondaryHTML}</div>`;
@@ -160,12 +164,12 @@ function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=f
 }
 function treeOptions(level,kind,slotIndex=0) {
   const c=current(),l=c.levels[level],cls=ix.classes.get(l.classId),row=derived.rows[level];
-  const slot=kind==='feat'?row.slots[slotIndex]:null;
-  const type=kind==='talent'?'talents':'feats';
+  const slot=kind==='classChoice'?row.choiceSlots[slotIndex]:kind==='feat'?row.slots[slotIndex]:null;
+  const type=kind==='classChoice'?'classChoices':kind==='talent'?'talents':'feats';
   const ctx=selectorContext(level,kind,slotIndex);
-  const allowedIds=pack[type].filter(r=>kind==='talent'?talentTrees(cls,ctx,pack).includes(r.tree):kind==='startingFeat'?cls.startingFeats.includes(r.id):slot.kind!=='bonus'||cls.bonusFeats.includes(r.id)||cls.startingFeats.includes(r.id)).map(r=>r.id);
+  const allowedIds=pack[type].filter(r=>kind==='classChoice'?r.kind===slot.kind:kind==='talent'?talentTrees(cls,ctx,pack).includes(r.tree):kind==='startingFeat'?cls.startingFeats.includes(r.id):slot.kind!=='bonus'||cls.bonusFeats.includes(r.id)||cls.startingFeats.includes(r.id)).map(r=>r.id);
   return {key:c.id+':'+level+':'+kind+':'+slotIndex,type,kind,level,slotIndex,
-    selected:kind==='feat'?l.feats[slotIndex]:l[kind],ctx,
+    selected:kind==='classChoice'?l.classChoices?.[slotIndex]:kind==='feat'?l.feats[slotIndex]:l[kind],ctx,
     allowedIds,restrictions:slot?.kind==='bonus'?cls.bonusRestrictions:null};
 }
 function choiceScreen(kind) {
@@ -177,16 +181,17 @@ function choiceScreen(kind) {
 function renderTreeDialog() {
   if(!treeTarget || !$('feature-tree-modal').open)return;
   const {level,kind,slotIndex}=treeTarget,options=treeOptions(level,kind,slotIndex);
-  $('feature-tree-title').textContent=kind==='talent'?'Select a Talent':'Select Feats';
-  const slot=kind==='feat'?derived.rows[level].slots[slotIndex]:null;
+  $('feature-tree-title').textContent=kind==='classChoice'?'Select a '+classKindLabel[derived.rows[level].choiceSlots[slotIndex].kind]:kind==='talent'?'Select a Talent':'Select Feats';
+  const slot=kind==='classChoice'?{...derived.rows[level].choiceSlots[slotIndex],label:classKindLabel[derived.rows[level].choiceSlots[slotIndex].kind]}:kind==='feat'?derived.rows[level].slots[slotIndex]:null;
   $('feature-tree-body').innerHTML=selectChoice(level,kind,slotIndex,slot,options.selected,true)+featureTrees.render(options);
 }
 function levelEditor(i) {
   const l = current().levels[i], row = derived.rows[i], cls = row.cls;
   return `<div class="level-editor">${i ? `<div class="form-grid">${field(`HP roll (d${cls.hitDie})`,'hpRoll',l.hpRoll,'number',`min="1" max="${cls.hitDie}" data-level="${i}"`)}</div>` : ''}
     ${pack.rules.abilityLevels.includes(i+1) ? `<div class="form-grid">${[0,1].map(j => `<label>Ability increase ${j+1}<select data-increase="${j}" data-level="${i}">${option('','Choose…',l.abilityIncreases[j] || '')}${ABILITIES.map(a => option(a,a.toUpperCase(),l.abilityIncreases[j])).join('')}</select></label>`).join('')}</div>` : ''}
-    ${i && row.classLevel === 1 ? selectChoice(i,'startingFeat',0,null,l.startingFeat) : ''}
-    <div class="form-grid">${row.slots.map((slot,j) => selectChoice(i,'feat',j,slot,l.feats[j])).join('')}${row.classLevel % 2 ? selectChoice(i,'talent',0,null,l.talent) : ''}</div>
+    ${i && row.classLevel === 1 &&cls.startingFeats.length? selectChoice(i,'startingFeat',0,null,l.startingFeat) : ''}
+    <div class="form-grid">${row.slots.map((slot,j) => selectChoice(i,'feat',j,slot,l.feats[j])).join('')}${row.valid!==false&&hasClassTalent(cls,row.classLevel) ? selectChoice(i,'talent',0,null,l.talent) : ''}</div>
+    ${cls.classType==='prestige'&&row.classLevel<=1?classDeclarations(cls,l,i):''}${cls.continuousDarkSide&&row.classLevel<=1?`<label>Acquisition DSS <input type="number" min="0" max="1000" data-class-dss="${i}" value="${l.acquisitionDSS??current().darkSideScore}"></label>`:''}${cls.advanceRestrictions?.length&&row.classLevel===1?`<label><input type="checkbox" data-class-ban="${cls.id}" ${current().classBans?.some(b=>b.classId===cls.id)?'checked':''}>Known pirate</label>`:''}${classChoiceControls(pack,row,l,i,selectChoice)}
     ${trainingAfterIncrease(i)}
     ${forcePowersUI.library(i)}
   </div>`;
@@ -370,8 +375,11 @@ function languageCount() {
 }
 function featureList() {
   const species = ix.species.get(current().species);
-  const features = derived.ctx.features.map(({type,selection:s})=>({s,r:ix[type].get(s.id),prefix:type==='feats'?'(F)':'(T)'}));
-  return panel('Features',`<div class="feature-list"><article>${ruleReference(species,species.name,null,'features-species')}</article>${features.map(({s,r,prefix},i)=>`<article class="${derived.ctx.inactiveTalents.has(r.id)?'feature-inactive':''}"><div>${derived.ctx.inactiveTalents.has(r.id)?'<span class="badge" title="DSS 0">Inactive</span> ':''}${ruleReference(r,`${prefix} ${entryLabel(s)}`,s,`feature-${i}`)}${s.automatic?'':`<span class="badge">Level ${s.level}</span>`}</div></article>`).join('')}</div>`);
+  const features = derived.ctx.features.map(({type,selection:s})=>({s,r:ix[type].get(s.id),prefix:type==='feats'?'(F)':'(T)',label:entryLabel(s),inactive:derived.ctx.inactiveTalents.has(s.id)}));
+  for(const f of derived.ctx.classFeatures){const cls=ix.classes.get(f.classId);features.push({s:{level:f.level,automatic:true},r:cls,prefix:'',label:f.name,inactive:derived.ctx.inactiveClasses.has(cls.id)});}
+  for(const choice of derived.ctx.classChoices){const r=ix.classChoices.get(choice.id);features.push({s:choice,r,prefix:'',label:r.name+(choice.choice?' ('+choiceName(choice.choice,pack)+')':''),inactive:derived.ctx.inactiveClasses.has(choice.classId)});}
+  features.sort((a,b)=>a.s.level-b.s.level);
+  return panel('Features',`<div class="feature-list"><article>${ruleReference(species,species.name,null,'features-species')}</article>${features.map(({s,r,prefix,label,inactive},i)=>`<article class="${inactive?'feature-inactive':''}"><div>${inactive?'<span class="badge">Inactive</span> ':''}${ruleReference(r,`${prefix?prefix+' ':''}${label}`,s,`feature-${i}`)}${s.automatic?'':`<span class="badge">Level ${s.level}</span>`}</div></article>`).join('')}</div>`);
 }
 function shopDraft(scope){
  const key=current().id+':'+scope;
@@ -408,10 +416,12 @@ function armorChecksUI(r,e,i,prefix){
  const labels={hiding:'Hiding',darkness:'Darkness concealment',concealArmor:'Conceal armor',noncombat:'Noncombat',magneticSoles:'Magnetic soles',lifting:'Lift / drag / pull',intimidating:'Intimidate'};
  return used.size?`<details id="${prefix}armor-checks-${i}"><summary>Checks</summary>${[...used].map(key=>`<label class="checkbox"><input type="checkbox" data-armor-check="${key}" ${current().armorChecks?.[key]?'checked':''}>${labels[key]}</label>`).join('')}</details>`:'';
 }
+const advancementDrafts=new Map();
+function nextClassDraft(){const c=current();if(!advancementDrafts.has(c.id))advancementDrafts.set(c.id,{classId:c.levels.at(-1).classId,entryDeclarations:{},acquisitionDSS:c.darkSideScore});return advancementDrafts.get(c.id);}
 function advancement() {
-  const c=current();
-  return `${panel('',`<div class="actions"><label>Class<select id="next-class">${choices(pack.classes,c.levels.at(-1).classId)}</select></label><button class="primary" data-action="add-level" ${c.levels.length>=20?'disabled':''}>Add level ${c.levels.length+1}</button><button data-action="undo-level" ${c.levels.length===1?'disabled':''}>Remove last level</button></div>`)}
-    ${c.levels.map((l,i)=>`<section class="panel"><div class="panel-heading"><h2>Level ${i+1}</h2><span class="badge">${escape(derived.rows[i].cls.name)} ${derived.rows[i].classLevel}</span></div>${i?`<label>Class<select data-class="${i}">${choices(pack.classes,l.classId)}</select></label>`:''}${levelEditor(i)}</section>`).join('')}`;
+  const c=current(),draft=nextClassDraft(),cls=ix.classes.get(draft.classId),entry=classEntry(cls,derived.ctx,ix,{...draft,acquisitionDSS:c.darkSideScore});
+  return `${panel('',`<div class="actions"><label>Class<select id="next-class">${classOptions(pack,derived.ctx,ix,draft.classId)}</select></label><button class="primary" data-action="add-level" ${c.levels.length>=20||!entry.available?'disabled':''} title="${escape(entry.reason)}">Add level ${c.levels.length+1}</button><button data-action="undo-level" ${c.levels.length===1?'disabled':''}>Remove last level</button>${ruleReference(cls,'ⓘ',null,'next-class-rules')}</div>${classDeclarations(cls,draft,'next')}`)}
+    ${c.levels.map((l,i)=>`<section class="panel"><div class="panel-heading"><h2>Level ${i+1}</h2><span class="badge">${escape(derived.rows[i].cls.name)} ${derived.rows[i].classLevel}</span></div>${i?`<label>Class<select data-class="${i}">${classOptions(pack,progression(c,pack,i).ctx,ix,l.classId,l)}</select></label>`:''}${levelEditor(i)}</section>`).join('')}`;
 }
 function rules() {
   return `${panel('Rules catalog',`<div id="rules-catalog-body">${rulesCatalog.render()}</div><p><a href="./docs/import-review.md">Rules review</a> | <a href="./docs/rules-data.md">Data format</a> | <a href="./data/core.json">Rules pack</a></p>`)}
@@ -563,7 +573,7 @@ function render() {
   numericFields($('main'));window.__layout.refresh();paintLogs();renderEditor();
   window.scrollTo({top:scroll});
 }
-function changed() { const next=derive(current(),pack);if(derived&&next.forceMaximum!==derived.forceMaximum){const bonus=3*(Number(next.ctx.feats.some(f=>f.id==='feat:force-boon'))-Number(derived.ctx.feats.some(f=>f.id==='feat:force-boon')));if(bonus>0)current().forcePoints+=bonus;else current().forcePoints=Math.min(current().forcePoints,next.forceMaximum);}store.schedule(); queueMicrotask(render); }
+function changed() { const next=derive(current(),pack);recordPrivateerFall(current(),next);if(derived&&next.forceMaximum!==derived.forceMaximum){const bonus=3*(Number(next.ctx.feats.some(f=>f.id==='feat:force-boon'))-Number(derived.ctx.feats.some(f=>f.id==='feat:force-boon')));if(bonus>0)current().forcePoints+=bonus;else current().forcePoints=Math.min(current().forcePoints,next.forceMaximum);}store.schedule(); queueMicrotask(render); }
 function d(sides) { const a=new Uint32Array(1); const ceiling=Math.floor(2**32/sides)*sides; do { crypto.getRandomValues(a); } while(a[0]>=ceiling); return a[0]%sides+1; }
 function addInventory(id,quantity=1,options={}) {
   current().inventory.filter(e=>armorExclusive(ix.equipment.get(id),ix.equipment.get(e.id))).forEach(e=>e.equipped=false);
@@ -631,6 +641,11 @@ function events() {
     if(el.id==='rules-book'){rulesCatalog.source(el.value);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(el.id==='rules-kind'||el.id==='rules-builder-only'){rulesCatalog.filter($('rules-kind').value,$('rules-builder-only').checked);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(featureTrees.change(event)||el.disabled)return;
+    if(el.id==='next-class'){advancementDrafts.set(c.id,{classId:el.value,entryDeclarations:{}});renderEditor();return;}
+    if(el.hasAttribute('data-class-ban')){if(el.checked){c.classBans??=[];if(!c.classBans.some(b=>b.classId===el.dataset.classBan))c.classBans.push({classId:el.dataset.classBan,throughLevel:derived.ctx.classLevels.get(el.dataset.classBan)||1});}else c.classBans=(c.classBans||[]).filter(b=>b.classId!==el.dataset.classBan);changed();return;}
+    if(el.hasAttribute('data-class-dss')){const n=Number(el.value);if(Number.isInteger(n)&&n>=0&&n<=1000)c.levels[Number(el.dataset.classDss)].acquisitionDSS=n;changed();return;}
+    if(el.hasAttribute('data-class-entry')){const target=el.dataset.classEntry==='next'?nextClassDraft():c.levels[Number(el.dataset.classEntry)];target.entryDeclarations??={};target.entryDeclarations[el.dataset.entryId]=el.checked;if(el.dataset.classEntry==='next')renderEditor();else changed();return;}
+    if(el.hasAttribute('data-class-choice')||el.hasAttribute('data-class-choice-power')){const l=c.levels[Number(el.dataset.classChoice??el.dataset.classChoicePower)],slot=Number(el.dataset.classSlot);l.classChoices??=[];if(el.hasAttribute('data-class-choice'))l.classChoices[slot]=el.value?{id:el.value}:null;else if(l.classChoices[slot]){if(el.value)l.classChoices[slot].choice=el.value;else delete l.classChoices[slot].choice;}changed();return;}
     if(forcePowersUI.change(el))return;
     if(el.hasAttribute('data-power-manage-level')){powerManageLevel=Number(el.value);renderEditor();return;}
     if(el.hasAttribute('data-generation-manual')) return;
@@ -714,7 +729,7 @@ function events() {
       const value=Number(el.value); if(!Number.isInteger(value)||value<3||value>30) {notify('Base abilities must be whole numbers from 3 to 30.');render();return;}
       c.abilities[el.dataset.ability]=value;delete c.abilityGeneration;
     } else if(el.dataset.class) {
-      const l=c.levels[Number(el.dataset.class)]; l.classId=el.value;
+      const index=Number(el.dataset.class),l=c.levels[index];l.classId=el.value;const cls=ix.classes.get(el.value),cl=(progression(c,pack,index).ctx.classLevels.get(cls.id)||0)+1;l.feats=l.feats.slice(0,levelSlots(index+1,cl,ix.species.get(c.species),cls,pack).length);if(!hasClassTalent(cls,cl))l.talent=null;if(!cls.startingFeats.includes(l.startingFeat?.id))l.startingFeat=null;delete l.entryDeclarations;delete l.classChoices;if(ix.classes.get(el.value).classType==='prestige')l.acquisitionDSS=c.darkSideScore;else delete l.acquisitionDSS;
       if(Number(el.dataset.class)>0) l.hpRoll=Math.floor(ix.classes.get(el.value).hitDie/2)+1;
     } else if(el.dataset.knowledgeGroup) {
       const scope=el.dataset.knowledgeGroup, list=trainingList(scope);
@@ -736,9 +751,9 @@ function events() {
       const familyName=el.value.startsWith('family:')?el.value.slice(7):null;
       const representative=familyName && pack.feats.find(r=>r.name.startsWith(familyName+' ('));
       let s=familyName?{id:representative.id,pending:true}:parseSelection(el.value);
-      if(el.hasAttribute('data-secondary') && !s){const old=el.dataset.choice==='feat'?l.feats[Number(el.dataset.slot)]:l[el.dataset.choice];s=old?{id:old.id,...(/^(Weapon Proficiency|Armor Proficiency) \(/.test(ix.feats.get(old.id)?.name||'')?{pending:true}:{})}:null;}
+      if(el.hasAttribute('data-secondary') && !s){const old=el.dataset.choice==='classChoice'?l.classChoices?.[Number(el.dataset.slot)]:el.dataset.choice==='feat'?l.feats[Number(el.dataset.slot)]:l[el.dataset.choice];s=old?{id:old.id,...(/^(Weapon Proficiency|Armor Proficiency) \(/.test(ix.feats.get(old.id)?.name||'')?{pending:true}:{})}:null;}
       if(el.dataset.choice==='talent'&&s&&ix.talents.get(s.id).requiresDarkSide)s.darkSideScore=c.darkSideScore;
-      if(el.dataset.choice==='feat') l.feats[Number(el.dataset.slot)]=s; else l[el.dataset.choice]=s;
+      if(el.dataset.choice==='classChoice'){l.classChoices??=[];l.classChoices[Number(el.dataset.slot)]=s;}else if(el.dataset.choice==='feat') l.feats[Number(el.dataset.slot)]=s; else l[el.dataset.choice]=s;
     } else if(el.dataset.increase) {
       const l=c.levels[Number(el.dataset.level)]; l.abilityIncreases[Number(el.dataset.increase)]=el.value;
       l.abilityIncreases=l.abilityIncreases.map(v=>v||'');
@@ -785,7 +800,7 @@ function events() {
     const classPick=event.target.closest('[data-select-class]');
     if(classPick){const id=classPick.dataset.selectClass;if(!classPick.disabled&&ix.classes.has(id)&&!(ix.species.get(current().species).forbiddenClasses||[]).includes(id)){current().levels[0].classId=id;changed();}return;}
     const treeClick=featureTrees.click(event);
-    if(treeClick){if(treeClick.detail){$('rule-detail-title').textContent=treeClick.detail.title;$('rule-detail-body').innerHTML=treeClick.detail.html;$('rule-detail-modal').showModal();}if('selection' in treeClick){const o=treeClick.options,l=current().levels[o.level],s=treeClick.selection;if(o.kind==='talent'&&s&&ix.talents.get(s.id).requiresDarkSide)s.darkSideScore=current().darkSideScore;if(o.kind==='feat')l.feats[o.slotIndex]=s;else l[o.kind]=s;changed();}return;}
+    if(treeClick){if(treeClick.detail){$('rule-detail-title').textContent=treeClick.detail.title;$('rule-detail-body').innerHTML=treeClick.detail.html;$('rule-detail-modal').showModal();}if('selection' in treeClick){const o=treeClick.options,l=current().levels[o.level],s=treeClick.selection;if(o.kind==='talent'&&s&&ix.talents.get(s.id).requiresDarkSide)s.darkSideScore=current().darkSideScore;if(o.kind==='classChoice'){l.classChoices??=[];l.classChoices[o.slotIndex]=s;}else if(o.kind==='feat')l.feats[o.slotIndex]=s;else l[o.kind]=s;changed();}return;}
     const mechanicsFold=event.target.closest('[data-mechanics-fold]');
     if(mechanicsFold){$('rule-detail-body').querySelectorAll('.feature-mechanics').forEach(el=>el.open=mechanicsFold.dataset.mechanicsFold==='unfold');return;}
     const ruleLink=event.target.closest('[data-rule-page]');
@@ -841,7 +856,7 @@ function events() {
       case 'starting-credits': {if(!canRollStartingCredits(c))return;const r=ix.classes.get(c.levels[0].classId).credits;const rolls=Array.from({length:r.dice},()=>d(r.sides));c.credits=rolls.reduce((a,b)=>a+b)*r.multiplier;c.startingCreditsRolled=true;logEvent('roll',`${rolls.join(' + ')} × ${r.multiplier} = ${c.credits} credits`,`${rolls.map(value=>dieHTML(value,r.sides)).join(' + ')} × ${r.multiplier} = ${totalHtml({value:c.credits,coeffs:[r.multiplier]})} credits`);break;}
       case 'add-gear': purchase(false,el.closest('form'));return;
       case 'force-point-roll': {if(derived.forceCurrent<=0||derived.incapacitated)return;const expr=`${derived.forcePointDice}d${derived.forcePointDie}kh1`,r=evalExpr(expr);c.forcePoints--;logEvent('roll',`Force Point: ${expr} = ${r.value}`,`Force Point: ${r.display} = ${totalHtml(r)}`);break;}
-      case 'add-level': {const cls=ix.classes.get($('next-class').value); c.levels.push({classId:cls.id,hpRoll:Math.floor(cls.hitDie/2)+1,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});c.forcePoints=ix.species.get(c.species).forceImmune?0:derive(c,pack).forceMaximum;if(c.story?.kind==='destiny')c.story.points=Math.min(c.levels.length,c.story.points+1);break;}
+      case 'add-level': {const draft=nextClassDraft(),cls=ix.classes.get(draft.classId);if(!classEntry(cls,derived.ctx,ix,{...draft,acquisitionDSS:c.darkSideScore}).available){notify('Class prerequisites are not met');return;} c.levels.push({classId:cls.id,...(cls.classType==='prestige'?{entryDeclarations:{...draft.entryDeclarations},acquisitionDSS:c.darkSideScore}:{}),hpRoll:Math.floor(cls.hitDie/2)+1,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});advancementDrafts.delete(c.id);c.forcePoints=ix.species.get(c.species).forceImmune?0:derive(c,pack).forceMaximum;if(c.story?.kind==='destiny')c.story.points=Math.min(c.levels.length,c.story.points+1);break;}
       case 'undo-level': confirmDelete('Remove last level?',`Remove level ${c.levels.length} and its choices.`,()=>{c.levels.pop();if(c.story?.kind==='destiny')c.story.points=Math.min(c.story.points,c.levels.length);changed();});return;
       default:return;
     }

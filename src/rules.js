@@ -1,3 +1,4 @@
+import {isPrestige,classMaximum,hasClassTalent,hasClassBonusFeat,classEntry,validateClassAcquisition,advancementForceBase,validateClassBans} from './class-advancement.js';
 import {activeShields,shieldRestrictions,validateEnergyShield} from './energy-shields.js';
 import {wornArmor,armorProficient,armorSkillBonus,armorPenalty as armorCheckPenalty,armorVision,armorConditionalDefenses,armorStrengthCheck,armorCircumstance,combineArmorDefenses,validateArmorChecks,armorProtection} from './armor.js';
 import {emptyTraits, emptyStory, activeBackground, validateFinishing} from './heroic-traits.js';
@@ -23,7 +24,7 @@ export const selectionKey = s => `${s.id}:${s.choice || ''}`;
 const F = name => `feat:${name}`;
 
 export function indexPack(pack) {
-  return Object.fromEntries(['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds','forcePowers'].map(key => [key, new Map((pack[key]||[]).map(r => [r.id, r]))]));
+  return Object.fromEntries(['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds','forcePowers','classChoices'].map(key => [key, new Map((pack[key]||[]).map(r => [r.id, r]))]));
 }
 
 export function newCharacter(pack) {
@@ -67,9 +68,12 @@ export function validateCharacter(c, pack) {
   const skillList = v => Array.isArray(v) && v.length <= pack.skills.length && new Set(v).size === v.length && v.every(id => ix.skills.has(id));
   if (!skillList(c.trainedSkills)) bad('trained skills');
   const choice = (s, type) => s === null || (obj(s) && ix[type].has(s.id) && (!('choice' in s) || typeof s.choice === 'string') && (!('pending' in s) || typeof s.pending === 'boolean'));
+  validateClassBans(c,ix,bad);
   if (!Array.isArray(c.levels) || c.levels.length < 1 || c.levels.length > 20) bad('levels');
   for (const [i, l] of c.levels.entries()) {
     if (!obj(l) || !ix.classes.has(l.classId) || (i && !num(l.hpRoll, 1, ix.classes.get(l.classId).hitDie))) bad('class or HP roll');
+    validateClassAcquisition(l,ix.classes.get(l.classId),bad,ix);
+    if(!i&&isPrestige(ix.classes.get(l.classId)))bad('prestige starting class');
     if (!Array.isArray(l.feats) || l.feats.length > 4 || !l.feats.every(s => choice(s, 'feats')) || !choice(l.talent, 'talents') || !choice(l.startingFeat, 'feats')) bad('level choices');
     if (!Array.isArray(l.abilityIncreases) || l.abilityIncreases.length > 2 || !l.abilityIncreases.every(a => a === '' || ABILITIES.includes(a)) || !skillList(l.trainedSkills)) bad('level ability/skill choices');
     if(l.talent?.darkSideScore!==undefined&&!num(l.talent.darkSideScore,1,1000))bad('talent acquisition DSS');
@@ -146,7 +150,7 @@ export function eligible(record, selection, ctx, ix, type) {
   if(ctx.forceImmune&&record.id===F('force-sensitivity'))return false;
   if(record.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing')&&!ctx.feats.some(f=>f.id===F('force-sensitivity')))return false;
   if (record.choiceType === 'skill' && !ix.skills.has(selection.choice)) return false;
-  if (record.choiceType && !featureChoices(record,{skills:[...ix.skills.values()],equipment:[...ix.equipment.values()]}).includes(selection.choice)) return false;
+  if (record.choiceType && !featureChoices(record,{skills:[...ix.skills.values()],equipment:[...ix.equipment.values()],forcePowers:[...ix.forcePowers.values()]}).includes(selection.choice)) return false;
   if(record.choiceType==='weaponGroup'&&ix.equipment.has(selection.choice)&&weaponEffectGroup(ix.equipment.get(selection.choice),ctx)!==selection.choice)return false;
   const existing = ctx[type];
   if(record.maxSelections&&existing.filter(s=>s.id===record.id).length>=record.maxSelections)return false;
@@ -175,7 +179,7 @@ export function levelSlots(levelNumber, classLevel, species, cls, pack) {
   const slots = [];
   if (pack.rules.generalFeatLevels.includes(levelNumber)) slots.push({kind: 'general', label: 'Heroic feat'});
   if (levelNumber === 1) for (let i = 0; i < species.bonusFeats; i++) slots.push({kind: 'general', label: 'Species feat'});
-  if (classLevel % 2 === 0) slots.push({kind: 'bonus', label: `${cls.name} bonus feat`, classId: cls.id});
+  if (hasClassBonusFeat(cls,classLevel)) slots.push({kind: 'bonus', label: `${cls.name} bonus feat`, classId: cls.id});
   return slots;
 }
 
@@ -184,11 +188,11 @@ export function progression(c, pack, through = c.levels.length) {
   const ix = indexPack(pack), species = ix.species.get(c.species);
   const background=activeBackground(c,pack);
   const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, c.abilities[a] + (species.abilityAdjustments[a] || 0)])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
-  Object.assign(ctx,{forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
+  Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
   Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0});
   const issues = [], rows = [];
   function recordFeature(selection,type,level) {
-    const s={...selection,level};
+    const s={...selection,level,classId:c.levels[level-1]?.classId};
     ctx[type].push(s);ctx.features.push({type,selection:s});
   }
   function conditionalFocus() {
@@ -212,8 +216,10 @@ export function progression(c, pack, through = c.levels.length) {
   for (const [i, l] of c.levels.slice(0, through).entries()) {
     if((species.forbiddenClasses||[]).includes(l.classId)){issue(i,`${species.name} cannot be ${ix.classes.get(l.classId).name}`);rows.push({number:i+1,classLevel:0,cls:ix.classes.get(l.classId),slots:[],scores:{...ctx.scores},ctx:{...ctx}});continue;}
     const cls = ix.classes.get(l.classId), n = i + 1;
+    const entry=classEntry(cls,ctx,ix,l);
+    if(!entry.available||rows.some(r=>r.valid===false)){issue(i,entry.reason||'Resolve earlier class entry');rows.push({number:n,classLevel:ctx.classLevels.get(cls.id)||0,cls,slots:[],valid:false,scores:{...ctx.scores},ctx:{...ctx}});continue;}
     const cl = (ctx.classLevels.get(cls.id) || 0) + 1;
-    ctx.classLevels.set(cls.id, cl);
+    ctx.classLevels.set(cls.id, cl);ctx.characterLevel++;
     ctx.bab = [...ctx.classLevels].reduce((sum, [id, level]) => sum + ix.classes.get(id).bab[level - 1], 0);
     const priorInt = modifier(ctx.scores.int),priorWis=modifier(ctx.scores.wis);
     if (pack.rules.abilityLevels.includes(n)) {
@@ -256,10 +262,16 @@ export function progression(c, pack, through = c.levels.length) {
     const powerChoices=Math.max(0,ctx.powerSlots-ctx.forcePowers.length),chosenPowers=l.forcePowers||[];
     if(chosenPowers.length!==powerChoices)issue(i,`choose ${powerChoices} Force powers (${chosenPowers.length} selected)`);
     for(const p of chosenPowers.slice(0,powerChoices))if(ix.forcePowers.has(p.powerId))ctx.forcePowers.push({...p,level:n});
-    if (cl % 2) grant(l.talent, 'talents', i, 'a talent', r => talentTrees(cls,ctx,pack).includes(r?.tree));
+    if (hasClassTalent(cls,cl)) grant(l.talent, 'talents', i, 'a talent', r => talentTrees(cls,ctx,pack).includes(r?.tree));
     else if (l.talent) issue(i, 'a talent is not available at this class level');
-    rows.push({number: n, classLevel: cl, cls, slots,powerChoices, scores: {...ctx.scores}, ctx: {...ctx, classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers]}});
+    for(const feature of cls.classFeatures||[])if(feature.level===cl)ctx.classFeatures.push({...feature,classId:cls.id,level:n});
+    const choiceSlots=(cls.classFeatureChoices||[]).filter(s=>s.level===cl);
+    for(const [j,slot]of choiceSlots.entries()){const selection=l.classChoices?.[j],r=selection&&ix.classChoices.get(selection.id);const duplicate=r&&ctx.classChoices.some(s=>s.id===r.id&&(r.repeat==='never'||s.choice===selection.choice));if(!r||selection.pending||r.kind!==slot.kind||duplicate||r.choiceType==='power'&&!ix.forcePowers.has(selection.choice)){issue(i,'choose '+slot.kind.replace(/([A-Z])/g,' $1'));continue;}ctx.classChoices.push({...selection,kind:r.kind,classId:cls.id,level:n});}
+    if((l.classChoices||[]).slice(choiceSlots.length).some(Boolean))issue(i,'extra class feature choices are not available');
+    rows.push({number: n, classLevel: cl, cls, slots,powerChoices,valid:true,choiceSlots, scores: {...ctx.scores}, ctx: {...ctx,classChoices:[...ctx.classChoices],classFeatures:[...ctx.classFeatures], classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers]}});
   }
+  ctx.inactiveClasses=new Set([...ctx.classLevels.keys()].filter(id=>ix.classes.get(id).continuousDarkSide&&ctx.darkSideScore<ctx.scores.wis));
+  for(const t of ctx.talents)if(ctx.inactiveClasses.has(t.classId))ctx.inactiveTalents.add(t.id);
   // Conditional Skill Focus is a competence bonus, granted only while trained.
   conditionalFocus();
   if (ctx.trained.has('skill:use-the-force') && !ctx.feats.some(f => f.id === F('force-sensitivity'))) {
@@ -272,7 +284,7 @@ export function progression(c, pack, through = c.levels.length) {
 export function derive(c, pack) {
   const ix = indexPack(pack), species = ix.species.get(c.species);
   const {ctx, rows, issues} = progression(c, pack);
-  const level = c.levels.length, half = Math.floor(level / 2), background=activeBackground(c,pack);
+  const level = ctx.characterLevel, half = Math.floor(level / 2), background=activeBackground(c,pack);
   const story=c.story;
   if(story?.kind==='destiny' && !story.id)issues.push('Choose a Destiny');
   if(story?.kind==='background') {
@@ -283,6 +295,9 @@ export function derive(c, pack) {
       if(background.bonusLanguages.length>1 && !background.bonusLanguages.includes(story.language))issues.push('Choose a Background language');
     }
   }
+  const classPassives=[...ctx.classLevels].filter(([id])=>!ctx.inactiveClasses.has(id)).flatMap(([id,n])=>(ix.classes.get(id).passives||[]).map(e=>({...e,amount:Math.floor(n/e.step)*e.amount})));
+  const classChoiceEffects=ctx.classChoices.filter(s=>!ctx.inactiveClasses.has(s.classId)).flatMap(s=>ix.classChoices.get(s.id).effects.map(e=>({...e,choice:s.choice})));
+  const classDR=Math.max(0,...classPassives.filter(e=>e.target==='dr').map(e=>e.amount));
   const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.filter(s=>!ctx.inactiveTalents.has(s.id)).map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
   const energyShields=activeShields(c,pack),shieldLimits=shieldRestrictions(energyShields,ctx,pack);
   const allDeclaredArmor=wornArmor(c,pack);
@@ -321,7 +336,7 @@ export function derive(c, pack) {
   const condition = pack.rules.conditionPenalties[c.condition];
   const defenses = {}, breakdowns = {};
   for (const key of ['reflex', 'fortitude', 'will']) {
-    const clsBonus = Math.max(0, ...[...ctx.classLevels.keys()].map(id => ix.classes.get(id).defenses[key] || 0));
+    const clsBonus = Math.max(0, ...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id => ix.classes.get(id).defenses[key] || 0));
     const base = key === 'reflex' ? reflexBase : level;
     const ability = key === 'reflex' ? dex : key === 'fortitude' ? mods.con : mods.wis;
     const sp = species.defenses[key] || 0;
@@ -336,7 +351,7 @@ export function derive(c, pack) {
   }
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
   const threshold = defenses.fortitude + pack.rules.sizeThreshold[effectiveSize] + total('threshold') + c.modifiers.threshold;
-  const hp = ix.classes.get(c.levels[0].classId).startingHP + mods.con + c.levels.slice(1).reduce((n, l) => n + Math.max(1, l.hpRoll + mods.con), 0) + total('hp') + c.modifiers.hp;
+  const hp = ix.classes.get(c.levels[0].classId).startingHP + mods.con + c.levels.slice(1).reduce((n, l,i) => n + (rows[i+1].valid===false?0:Math.max(1, l.hpRoll + (ix.classes.get(l.classId).hpConstitution===false?0:mods.con))), 0) + total('hp') + c.modifiers.hp;
   const nativeSkills = pack.skills.map(s => {
     const trained = ctx.trained.has(s.id);
     const focus = Math.max(0, ...effects.filter(e => e.target === 'skillFocus' && e.selection.choice === s.id && trained).map(e => e.amount));
@@ -395,7 +410,7 @@ export function derive(c, pack) {
     const criticalMultiplier=Math.max(pack.rules.combat.criticalMultiplier,...effects.filter(f=>f.target==='criticalMultiplier'&&f.selection.choice===w.id).map(f=>f.amount));
     const meleeBonus = total('meleeDamage',w);
     const rage=w.mode==='melee'?rageBonus:0;
-    const damageBonus = half + strength + specialization + meleeBonus + pointBlank + rage + c.modifiers.damage + e.damageMod + power.damage;
+    const damageBonus = half + (w.group==='pistols'?classPassives.filter(e=>e.target==='pistolDamage').reduce((n,e)=>n+e.amount,0):0) + strength + specialization + meleeBonus + pointBlank + rage + c.modifiers.damage + e.damageMod + power.damage;
     const mightySwingAvailable=w.mode==='melee'&&featHas('mighty-swing'),mightySwing=mightySwingAvailable&&!!c.mightySwing;
     const diceBonus=Math.max(technique.extraDice,aimed&&featHas('deadeye')?accessories.deadeyeDice:0,mightySwing?pack.rules.mightySwing.extraDice:0);
     const damage=extraDamageDice(w.damage,diceBonus);
@@ -434,15 +449,15 @@ export function derive(c, pack) {
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
-  return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,size:effectiveSize,vision,blind,normalProtection:armorProtection(c,{armorItems}), mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+  return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,size:effectiveSize,vision,blind,classDR,normalProtection:armorProtection(c,{armorItems,classDR}), mods, bab: ctx.bab, defenses, breakdowns, threshold, hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
-    recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
-    forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,spent:p.spent,level:p.level})),powerSlots:ctx.powerSlots,
+    recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
+    forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId)})),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses: [...combineArmorDefenses(species.conditionalDefenses||[],armorConditionalDefenses(armorItems,ctx,defenses),defenses),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)],
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n)])),
-    incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forceMaximum: species.forceImmune?0:pack.rules.resources.forcePointBase + half + total('forcePoints'), forceCurrent:species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
+    incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forceMaximum: species.forceImmune||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
     weightUnknown:carried.some(e=>resolveEquipment(e,pack,c).weight===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};
 }

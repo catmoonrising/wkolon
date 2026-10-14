@@ -5094,6 +5094,1446 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=19121",
       "history": "https://swse.miraheze.org/w/index.php?title=Energy%20Shields&action=history",
       "section": null
+    },
+    {
+      "id": "source:wiki-ace-pilot",
+      "title": "Ace Pilot",
+      "revision": 25252,
+      "timestamp": "2024-11-13T20:23:45Z",
+      "sha256": "5ca253b9c14e49ce7c4acb5044ee39d8f4c1bbbd11b725e600c2e18ab8bd9223",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25252",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ace%20Pilot&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-ace-pilot-talent-trees",
+      "title": "Ace Pilot Talent Trees",
+      "revision": 15675,
+      "timestamp": "2024-08-18T00:53:02Z",
+      "sha256": "d4771470ff821316540e371876fd770fbff259fafde26c9e0f355d2639bc9311",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15675",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ace%20Pilot%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-assassin",
+      "title": "Assassin",
+      "revision": 25197,
+      "timestamp": "2024-11-13T19:56:30Z",
+      "sha256": "85a1eb18caf2031f695184d3b675301738dc30fe07b89bcfb7094f8ea956e129",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25197",
+      "history": "https://swse.miraheze.org/w/index.php?title=Assassin&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-assassin-talent-trees",
+      "title": "Assassin Talent Trees",
+      "revision": 15945,
+      "timestamp": "2024-08-18T00:53:28Z",
+      "sha256": "498888c6b605826803ddf541dc233aef76957e6882ca37f24cbcdabe9ca7bcf8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15945",
+      "history": "https://swse.miraheze.org/w/index.php?title=Assassin%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-bounty-hunter",
+      "title": "Bounty Hunter",
+      "revision": 25187,
+      "timestamp": "2024-11-13T19:52:42Z",
+      "sha256": "73d5f874a212f8599c6dcfcdbb58445176014d5f6f6c26a1462c94d444e54d90",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25187",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bounty%20Hunter&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-bounty-hunter-talent-trees",
+      "title": "Bounty Hunter Talent Trees",
+      "revision": 16360,
+      "timestamp": "2024-08-18T00:56:45Z",
+      "sha256": "f4d88918c774bc6cdbf03dcc9260e6ae3e2031bb1668f22f5af7fdddb112991c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16360",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bounty%20Hunter%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-charlatan",
+      "title": "Charlatan",
+      "revision": 25231,
+      "timestamp": "2024-11-13T20:13:36Z",
+      "sha256": "d9ad86aa11d75b5a3411b5f463aeb2d057eb6250dcdd8781821f1d9069ab926e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25231",
+      "history": "https://swse.miraheze.org/w/index.php?title=Charlatan&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-charlatan-talent-trees",
+      "title": "Charlatan Talent Trees",
+      "revision": 18028,
+      "timestamp": "2024-08-25T19:28:08Z",
+      "sha256": "287c7df3e89a8be7d77eb6fe7d041be14b3505333523bdc0c2ed5e015afdd5b6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18028",
+      "history": "https://swse.miraheze.org/w/index.php?title=Charlatan%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-corporate-agent",
+      "title": "Corporate Agent",
+      "revision": 27382,
+      "timestamp": "2026-01-28T14:24:17Z",
+      "sha256": "1367202e183cfb5c44ca526c08aaf676eabd31ab06674c77ff6944d98592255b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27382",
+      "history": "https://swse.miraheze.org/w/index.php?title=Corporate%20Agent&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-corporate-agent-talent-trees",
+      "title": "Corporate Agent Talent Trees",
+      "revision": 18058,
+      "timestamp": "2024-08-25T19:31:12Z",
+      "sha256": "002a3edf651084072386d558e7c99795d4319c75192c0bdf896df386b32aa5b1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18058",
+      "history": "https://swse.miraheze.org/w/index.php?title=Corporate%20Agent%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-crime-lord",
+      "title": "Crime Lord",
+      "revision": 25190,
+      "timestamp": "2024-11-13T19:53:55Z",
+      "sha256": "578b185c1ca2609608ac8e3acac7c35bb2a14dcb28095a06ac467c90bc17f228",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25190",
+      "history": "https://swse.miraheze.org/w/index.php?title=Crime%20Lord&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-crime-lord-talent-trees",
+      "title": "Crime Lord Talent Trees",
+      "revision": 18072,
+      "timestamp": "2024-08-25T19:32:48Z",
+      "sha256": "8c2f130f3b4d22cb3a2b4586f4415c04553281fee044fe665a3c2bb4ae415ed7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18072",
+      "history": "https://swse.miraheze.org/w/index.php?title=Crime%20Lord%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-droid-commander",
+      "title": "Droid Commander",
+      "revision": 19880,
+      "timestamp": "2024-08-25T22:47:06Z",
+      "sha256": "c87ebb2a2a47607be73ccc4f561f5c40874594c7c82a383c349b1669f960f748",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19880",
+      "history": "https://swse.miraheze.org/w/index.php?title=Droid%20Commander&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-droid-commander-talent-trees",
+      "title": "Droid Commander Talent Trees",
+      "revision": 18116,
+      "timestamp": "2024-08-25T19:36:48Z",
+      "sha256": "38a50d2d6f91f6682f2272c8fb0a6fa633efc0cf2612cee98251d2cfa6b7336d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18116",
+      "history": "https://swse.miraheze.org/w/index.php?title=Droid%20Commander%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-elite-trooper",
+      "title": "Elite Trooper",
+      "revision": 25875,
+      "timestamp": "2024-12-26T12:19:01Z",
+      "sha256": "757b61e30e65bd8dd8939c4e05cd5dbd4f065b6bf5bee48de219b2d4cd34a96c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25875",
+      "history": "https://swse.miraheze.org/w/index.php?title=Elite%20Trooper&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-elite-trooper-talent-trees",
+      "title": "Elite Trooper Talent Trees",
+      "revision": 18143,
+      "timestamp": "2024-08-25T19:39:31Z",
+      "sha256": "72220a456ece27634711eff9a023f6f7f355e81fd1eadd3a0f6354520bbe357a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18143",
+      "history": "https://swse.miraheze.org/w/index.php?title=Elite%20Trooper%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-enforcer",
+      "title": "Enforcer",
+      "revision": 25235,
+      "timestamp": "2024-11-13T20:15:24Z",
+      "sha256": "4668d79886367753125b7adbcc2bc7e7fe97e70c9e5cf5ee9e343d0aee2dbf5f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25235",
+      "history": "https://swse.miraheze.org/w/index.php?title=Enforcer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-enforcer-talent-trees",
+      "title": "Enforcer Talent Trees",
+      "revision": 18149,
+      "timestamp": "2024-08-25T19:40:12Z",
+      "sha256": "dfa46b116cf868b68451cb68503601e046b240a3dcf5cd00cfcfb3d9ee989f33",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18149",
+      "history": "https://swse.miraheze.org/w/index.php?title=Enforcer%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-adept",
+      "title": "Force Adept",
+      "revision": 25238,
+      "timestamp": "2024-11-13T20:17:37Z",
+      "sha256": "f1facdb6ee3ed3c01c82230d2f4ad5c6820055ff3224262c8d16d448d6b44122",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25238",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Adept&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-adept-talent-trees",
+      "title": "Force Adept Talent Trees",
+      "revision": 18181,
+      "timestamp": "2024-08-25T19:43:37Z",
+      "sha256": "d072ffd8466e23979a4fddb1df15947e7d9e2a7bebd0a4eed75573c9762cc71e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18181",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Adept%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-disciple",
+      "title": "Force Disciple",
+      "revision": 24986,
+      "timestamp": "2024-11-10T16:46:04Z",
+      "sha256": "4cd09ddcb0299e1bc049a6a31d7f7ef1608f30b0cb35cd7f8db0bdf4bcb56d31",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24986",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Disciple&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-disciple-talent-trees",
+      "title": "Force Disciple Talent Trees",
+      "revision": 18185,
+      "timestamp": "2024-08-25T19:43:58Z",
+      "sha256": "bb0ca2705e86e4ed95f3d528984752cf21875bfb5ff22b2d86c97f161e5cb8f7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18185",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Disciple%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gladiator",
+      "title": "Gladiator",
+      "revision": 19151,
+      "timestamp": "2024-08-25T21:25:03Z",
+      "sha256": "18d54d50a591cb41745cb5eb0b74fdebf6a08b00836fdfb277e2c53c350031ef",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19151",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gladiator&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gladiator-talent-trees",
+      "title": "Gladiator Talent Trees",
+      "revision": 18217,
+      "timestamp": "2024-08-25T19:48:10Z",
+      "sha256": "01a260c0aeb74cdf8472d9b796a781400344a66345a988d35218ae8141005b3c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18217",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gladiator%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gunslinger",
+      "title": "Gunslinger",
+      "revision": 18230,
+      "timestamp": "2024-08-25T19:49:12Z",
+      "sha256": "1c9e050f1764322d327a18b3d8f1219c9ba83eed588abfdf876532267f4529ab",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18230",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunslinger&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gunslinger-talent-trees",
+      "title": "Gunslinger Talent Trees",
+      "revision": 18232,
+      "timestamp": "2024-08-25T19:49:22Z",
+      "sha256": "8762d07b6a1efaca86981fa88eb7fe08daf1b84dfa2998b18852373209f773f5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18232",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gunslinger%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-imperial-knight",
+      "title": "Imperial Knight",
+      "revision": 25226,
+      "timestamp": "2024-11-13T20:11:10Z",
+      "sha256": "99c04f91a735a41fda922f825da8b0861eeced16383b518549f37e5f87cee473",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25226",
+      "history": "https://swse.miraheze.org/w/index.php?title=Imperial%20Knight&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-imperial-knight-talent-trees",
+      "title": "Imperial Knight Talent Trees",
+      "revision": 18263,
+      "timestamp": "2024-08-25T19:52:08Z",
+      "sha256": "9168c08c1520e2a3eba9011237bce1c0bd7c56c461495cf09ba6c8a5207ec650",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18263",
+      "history": "https://swse.miraheze.org/w/index.php?title=Imperial%20Knight%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improviser",
+      "title": "Improviser",
+      "revision": 20671,
+      "timestamp": "2024-08-26T00:17:18Z",
+      "sha256": "0ae675037211a8406f722ecf6bbfecf10e3858550c59624ef87040e1526bf33c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20671",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improviser&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improviser-talent-trees",
+      "title": "Improviser Talent Trees",
+      "revision": 18277,
+      "timestamp": "2024-08-25T19:53:28Z",
+      "sha256": "403187242a5f0951fe2f16462600e7f67d6bf6de1632505fc38eb59fbd8baf51",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18277",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improviser%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-independent-droid",
+      "title": "Independent Droid",
+      "revision": 19489,
+      "timestamp": "2024-08-25T22:03:59Z",
+      "sha256": "07a277860a9efe45a39cdd18cbb92f5fe0e695d3d275da2a4bb2be0e06f842f2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19489",
+      "history": "https://swse.miraheze.org/w/index.php?title=Independent%20Droid&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-independent-droid-talent-trees",
+      "title": "Independent Droid Talent Trees",
+      "revision": 19490,
+      "timestamp": "2024-08-25T22:04:04Z",
+      "sha256": "dd6c626059aa33fd689c8b55c530ab5a59eb7197de72fa5ec37aefe2cf3daee6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19490",
+      "history": "https://swse.miraheze.org/w/index.php?title=Independent%20Droid%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-infiltrator",
+      "title": "Infiltrator",
+      "revision": 25246,
+      "timestamp": "2024-11-13T20:20:59Z",
+      "sha256": "73539c5e743a4f58de78999c986c5b573354c95c9bae5df47bf2a0219119f329",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25246",
+      "history": "https://swse.miraheze.org/w/index.php?title=Infiltrator&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-infiltrator-talent-trees",
+      "title": "Infiltrator Talent Trees",
+      "revision": 18280,
+      "timestamp": "2024-08-25T19:53:45Z",
+      "sha256": "1e2257b86962cba1ee7b23db65274b1add974f63d56344eaf099ba3955bb2e25",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18280",
+      "history": "https://swse.miraheze.org/w/index.php?title=Infiltrator%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jedi-knight",
+      "title": "Jedi Knight",
+      "revision": 25209,
+      "timestamp": "2024-11-13T20:02:32Z",
+      "sha256": "9f8d885f4453f41738efa4d1e51389f2ae96a4a5349eeb67f5476a3fa9a42e79",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25209",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Knight&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jedi-knight-talent-trees",
+      "title": "Jedi Knight Talent Trees",
+      "revision": 26665,
+      "timestamp": "2025-05-28T19:10:55Z",
+      "sha256": "949ec376a56b2ed7456b793963cf58e6342e5a99a9dc6c4d5ab67e0850991184",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26665",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Knight%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jedi-master",
+      "title": "Jedi Master",
+      "revision": 25214,
+      "timestamp": "2024-11-13T20:04:11Z",
+      "sha256": "50c40c6156e380e5a87e889880545575e46746ee89c3bb6b9407d941a64a9da1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25214",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Master&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jedi-master-talent-trees",
+      "title": "Jedi Master Talent Trees",
+      "revision": 18304,
+      "timestamp": "2024-08-25T19:55:56Z",
+      "sha256": "a0d5d15fbc1de0f017fe5b66653b58f85fdec2a8389a6fc4da257f083b366e27",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18304",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Master%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-martial-arts-master",
+      "title": "Martial Arts Master",
+      "revision": 20899,
+      "timestamp": "2024-08-26T00:45:07Z",
+      "sha256": "747afbb17459439a824595484a52ab8b215824f2fde5d94be4b82772accf7c31",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20899",
+      "history": "https://swse.miraheze.org/w/index.php?title=Martial%20Arts%20Master&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-martial-arts-master-talent-trees",
+      "title": "Martial Arts Master Talent Trees",
+      "revision": 18350,
+      "timestamp": "2024-08-25T19:59:56Z",
+      "sha256": "294b715eccaacf2f9e5068d937f0b8e5aeb807b05b047fcd6a4719b44fd6ec7e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18350",
+      "history": "https://swse.miraheze.org/w/index.php?title=Martial%20Arts%20Master%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-master-privateer",
+      "title": "Master Privateer",
+      "revision": 19518,
+      "timestamp": "2024-08-25T22:07:00Z",
+      "sha256": "34a610715fc771feabfd8ce9cc27999309aa928fb09027a2c6a1799a94986d43",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19518",
+      "history": "https://swse.miraheze.org/w/index.php?title=Master%20Privateer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-master-privateer-talent-trees",
+      "title": "Master Privateer Talent Trees",
+      "revision": 18351,
+      "timestamp": "2024-08-25T20:00:03Z",
+      "sha256": "aaf8ebbe339bb074c2f436687a6e12be4a500f06a0fd3443a31db44696350162",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18351",
+      "history": "https://swse.miraheze.org/w/index.php?title=Master%20Privateer%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-medic",
+      "title": "Medic",
+      "revision": 25242,
+      "timestamp": "2024-11-13T20:19:03Z",
+      "sha256": "c5f1a0916b60391d00bb80fd30904b5c0e4d7df33ed374d0a29e98f181aff26f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25242",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medic&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-medic-talent-trees",
+      "title": "Medic Talent Trees",
+      "revision": 18355,
+      "timestamp": "2024-08-25T20:00:30Z",
+      "sha256": "9fc8555add8f7249bb1999ba4ef938bcd9b2ad173e6ab44139072fca66ab1765",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18355",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medic%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-melee-duelist",
+      "title": "Melee Duelist",
+      "revision": 19252,
+      "timestamp": "2024-08-25T21:36:09Z",
+      "sha256": "84ea7455902e60438e6aee3f906a3aaba9f5adf298f26c3a3f4b5adaf1b2accc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19252",
+      "history": "https://swse.miraheze.org/w/index.php?title=Melee%20Duelist&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-melee-duelist-talent-trees",
+      "title": "Melee Duelist Talent Trees",
+      "revision": 18362,
+      "timestamp": "2024-08-25T20:01:10Z",
+      "sha256": "43d71cbd1ef293fd3de2185825a53c9cb836a02acb0fb2a6509a7499dc37800c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18362",
+      "history": "https://swse.miraheze.org/w/index.php?title=Melee%20Duelist%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-military-engineer",
+      "title": "Military Engineer",
+      "revision": 19989,
+      "timestamp": "2024-08-25T22:59:17Z",
+      "sha256": "24e14ae90ff13b4c18ca5e726962091db8695452fb2b0693979c78c7b0dbdd77",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19989",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Engineer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-military-engineer-talent-trees",
+      "title": "Military Engineer Talent Trees",
+      "revision": 18753,
+      "timestamp": "2024-08-25T20:40:29Z",
+      "sha256": "c0d846829b3421ba053464fbeaf73a6a048fd68fdb3e2468c5d6d0eb2b93493d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18753",
+      "history": "https://swse.miraheze.org/w/index.php?title=Military%20Engineer%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-officer",
+      "title": "Officer",
+      "revision": 26202,
+      "timestamp": "2025-02-16T02:18:33Z",
+      "sha256": "58449adfb179bf6757204cda7b017c611b11e30bd1579c620b02c0b0e0b2d4f1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26202",
+      "history": "https://swse.miraheze.org/w/index.php?title=Officer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-officer-talent-trees",
+      "title": "Officer Talent Trees",
+      "revision": 18393,
+      "timestamp": "2024-08-25T20:03:52Z",
+      "sha256": "3d647f420baa022d161220ceddbbfce78b3d94f765a115e7c12b2473f3c271a1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18393",
+      "history": "https://swse.miraheze.org/w/index.php?title=Officer%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-outlaw",
+      "title": "Outlaw",
+      "revision": 25265,
+      "timestamp": "2024-11-13T20:30:04Z",
+      "sha256": "3268fe38a656f086f87ec5299eb56f214b02c5df1f7dfafbf9155262865bff0b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25265",
+      "history": "https://swse.miraheze.org/w/index.php?title=Outlaw&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-outlaw-talent-trees",
+      "title": "Outlaw Talent Trees",
+      "revision": 18394,
+      "timestamp": "2024-08-25T20:03:56Z",
+      "sha256": "70a3fef4d7c867efeb60448eac85639282e800b2fdcf2741efea9f5ed0be6d5d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18394",
+      "history": "https://swse.miraheze.org/w/index.php?title=Outlaw%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-pathfinder",
+      "title": "Pathfinder",
+      "revision": 20720,
+      "timestamp": "2024-08-26T00:23:28Z",
+      "sha256": "c99109916301fbe773e7c66049254a0ba6ccbfbad735673243d12dec9fae2259",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20720",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pathfinder&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-pathfinder-talent-trees",
+      "title": "Pathfinder Talent Trees",
+      "revision": 18399,
+      "timestamp": "2024-08-25T20:04:26Z",
+      "sha256": "55f56040fb00d3f028aabaa2ea3fd58ef33049f0e95c6034454fcbc0e29c5724",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18399",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pathfinder%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-saboteur",
+      "title": "Saboteur",
+      "revision": 25256,
+      "timestamp": "2024-11-13T20:25:31Z",
+      "sha256": "ab3f7aa773ae29b6d0e156b05e3d5c37c941f33a94b4c1622f77660dd3e9f269",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25256",
+      "history": "https://swse.miraheze.org/w/index.php?title=Saboteur&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-saboteur-talent-trees",
+      "title": "Saboteur Talent Trees",
+      "revision": 18464,
+      "timestamp": "2024-08-25T20:10:24Z",
+      "sha256": "80d14646275ae0259416186f6e4e4c062a91556e3a920cc0a0b4d11a4778b952",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18464",
+      "history": "https://swse.miraheze.org/w/index.php?title=Saboteur%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-shaper",
+      "title": "Shaper",
+      "revision": 20302,
+      "timestamp": "2024-08-25T23:35:54Z",
+      "sha256": "844024d439144a888588140302dcaa98ce3ae050c7c5ac926f4e39063679ecf3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20302",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shaper&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-shaper-talent-trees",
+      "title": "Shaper Talent Trees",
+      "revision": 19575,
+      "timestamp": "2024-08-25T22:13:10Z",
+      "sha256": "7fb3ea1c71a7e99a1019004483cc4e54ce30e6b07a0fcd4e55a3428bbd054266",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19575",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shaper%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sith-apprentice",
+      "title": "Sith Apprentice",
+      "revision": 25183,
+      "timestamp": "2024-11-13T19:50:33Z",
+      "sha256": "54162d0abfd641949db7783347cb383d9f9fa6696099dacbb13ebf9cf16785e9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25183",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Apprentice&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sith-apprentice-talent-trees",
+      "title": "Sith Apprentice Talent Trees",
+      "revision": 18496,
+      "timestamp": "2024-08-25T20:12:47Z",
+      "sha256": "098945a679420c6ec9087a7c6e7370ce660080337a6956799dcd785b1c9d934a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18496",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Apprentice%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sith-lord",
+      "title": "Sith Lord",
+      "revision": 25205,
+      "timestamp": "2024-11-13T20:00:48Z",
+      "sha256": "f70624cc47e79bdf7522d26c3e310ded9ad6b004eda1f632fb61e949772be5ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25205",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Lord&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sith-lord-talent-trees",
+      "title": "Sith Lord Talent Trees",
+      "revision": 18498,
+      "timestamp": "2024-08-25T20:12:58Z",
+      "sha256": "2eaebf90551ef0d800c613b89c848b03f1d01ce8cd5b8bdfcfcc4a6517ca86f9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18498",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Lord%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-vanguard",
+      "title": "Vanguard",
+      "revision": 20087,
+      "timestamp": "2024-08-25T23:10:49Z",
+      "sha256": "b4707bc01c9325840fb6c3914d3485fed62bc3a0d0182c54ad907982ea396ec7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20087",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vanguard&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-vanguard-talent-trees",
+      "title": "Vanguard Talent Trees",
+      "revision": 18586,
+      "timestamp": "2024-08-25T20:22:04Z",
+      "sha256": "b916e75ab73fd073d99ef0494128052fccaab18f7fc0903fa2e705071506d5a9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18586",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vanguard%20Talent%20Trees&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-heroic-classes",
+      "title": "Heroic Classes",
+      "revision": 22558,
+      "timestamp": "2024-09-05T12:27:29Z",
+      "section": "Prestige Classes",
+      "sha256": "7c1d6f51f822573370016b6862a111312382a9002f150cbd80d39f69a0faddd4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=22558#Prestige_Classes",
+      "history": "https://swse.miraheze.org/w/index.php?title=Heroic_Classes&action=history"
+    },
+    {
+      "id": "source:wiki-advanced-vital-transfer",
+      "title": "Advanced Vital Transfer",
+      "revision": 15736,
+      "timestamp": "2024-08-18T00:53:06Z",
+      "sha256": "cb5cc2665795211c4092981205d9f263c20b7f2372f73d9670bc8fc51b5b6b9f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15736",
+      "history": "https://swse.miraheze.org/w/index.php?title=Advanced%20Vital%20Transfer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-corrupted-power",
+      "title": "Corrupted Power",
+      "revision": 19408,
+      "timestamp": "2024-08-25T21:55:00Z",
+      "sha256": "a0c56eb2d3f19c3567527717b2ecfda254698f6fc6e33975b29694a09fe20d67",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19408",
+      "history": "https://swse.miraheze.org/w/index.php?title=Corrupted%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-cure-disease",
+      "title": "Cure Disease",
+      "revision": 20385,
+      "timestamp": "2024-08-25T23:45:04Z",
+      "sha256": "cb6cedd5d82959e59b9e836ed0a0f6e4a9f53e196c27540b23bd916fdd9f2c9e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20385",
+      "history": "https://swse.miraheze.org/w/index.php?title=Cure%20Disease&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-debilitating-power",
+      "title": "Debilitating Power",
+      "revision": 19419,
+      "timestamp": "2024-08-25T21:56:16Z",
+      "sha256": "f2996f529144426e54ffce0716a212480520ae1aea00dff376167f010833b9bd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19419",
+      "history": "https://swse.miraheze.org/w/index.php?title=Debilitating%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-detoxify-poison",
+      "title": "Detoxify Poison",
+      "revision": 20140,
+      "timestamp": "2024-08-25T23:17:30Z",
+      "sha256": "86ac08b3008e065d409a8cd3a351bd3ccaf352f70e7c1925a2691041bec4b7d2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20140",
+      "history": "https://swse.miraheze.org/w/index.php?title=Detoxify%20Poison&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-devastating-power",
+      "title": "Devastating Power",
+      "revision": 18101,
+      "timestamp": "2024-08-25T19:35:29Z",
+      "sha256": "d6caa780bfd3f2ec5a4342eef8e850994a2f3013d0095fd14f78c1b57e9118f5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18101",
+      "history": "https://swse.miraheze.org/w/index.php?title=Devastating%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-distant-power",
+      "title": "Distant Power",
+      "revision": 18107,
+      "timestamp": "2024-08-25T19:36:01Z",
+      "sha256": "dc14fd2a74e771ad728e8c61e23922850402cef5e0176498bd4c65ee3418958a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18107",
+      "history": "https://swse.miraheze.org/w/index.php?title=Distant%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-dominate-mind",
+      "title": "Dominate Mind",
+      "revision": 19109,
+      "timestamp": "2024-08-25T21:20:06Z",
+      "sha256": "ec07e1537c6d000532264685051a006e5d37d01388f374245b3aa36ac39656f1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19109",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dominate%20Mind&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-enlarged-power",
+      "title": "Enlarged Power",
+      "revision": 19432,
+      "timestamp": "2024-08-25T21:57:51Z",
+      "sha256": "e0d1c47b1404f497a30af6786861d8b94d3606c3c280a52f04a6fa47d8edbdd5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19432",
+      "history": "https://swse.miraheze.org/w/index.php?title=Enlarged%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-extend-power",
+      "title": "Extend Power",
+      "revision": 19898,
+      "timestamp": "2024-08-25T22:49:29Z",
+      "sha256": "062b1881fb135086678565335d10b94ce48fdc62cffa094d836d62976c0a33a3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19898",
+      "history": "https://swse.miraheze.org/w/index.php?title=Extend%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-extended-blind",
+      "title": "Extended Blind",
+      "revision": 20405,
+      "timestamp": "2024-08-25T23:47:10Z",
+      "sha256": "3f1f453a1a6a098721e21491f509e60fbc1a47122653920b35f368e2882790e6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20405",
+      "history": "https://swse.miraheze.org/w/index.php?title=Extended%20Blind&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-extended-force-disarm",
+      "title": "Extended Force Disarm",
+      "revision": 20406,
+      "timestamp": "2024-08-25T23:47:15Z",
+      "sha256": "1ef9dd807ddbb547b39419e6efa60e9e1e05eec706084e95ec92a10a394ff726",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20406",
+      "history": "https://swse.miraheze.org/w/index.php?title=Extended%20Force%20Disarm&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-extended-force-grip",
+      "title": "Extended Force Grip",
+      "revision": 20408,
+      "timestamp": "2024-08-25T23:47:22Z",
+      "sha256": "473eeba75c888e3eb17bea80989306924361a99863b3310e4f81d5e20d597bca",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20408",
+      "history": "https://swse.miraheze.org/w/index.php?title=Extended%20Force%20Grip&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-extended-force-thrust",
+      "title": "Extended Force Thrust",
+      "revision": 20409,
+      "timestamp": "2024-08-25T23:47:28Z",
+      "sha256": "12146a4525c2b955b9918446e81e9ebe275d4f82189c9efced461f4d23f14b1f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20409",
+      "history": "https://swse.miraheze.org/w/index.php?title=Extended%20Force%20Thrust&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-extended-move-object",
+      "title": "Extended Move Object",
+      "revision": 20410,
+      "timestamp": "2024-08-25T23:47:34Z",
+      "sha256": "f3eb95a05f666eca72680ba9e8e343455413bc94d47b82e4d551711ab3444009",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20410",
+      "history": "https://swse.miraheze.org/w/index.php?title=Extended%20Move%20Object&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-point-recovery",
+      "title": "Force Point Recovery",
+      "revision": 24973,
+      "timestamp": "2024-11-10T16:32:31Z",
+      "sha256": "2ad9c3f247fef01347fe00c5ab42ba6129875841a6f096310a8735dd2f2e7b95",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24973",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Point%20Recovery&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-power-mastery",
+      "title": "Force Power Mastery",
+      "revision": 18191,
+      "timestamp": "2024-08-25T19:44:31Z",
+      "sha256": "2de30d38d39c673189603f6529801fe8828b7fcc3a60b824ac70e6f1576a3e7f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18191",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Power%20Mastery&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-holocron-loremaster",
+      "title": "Holocron Loremaster",
+      "revision": 20437,
+      "timestamp": "2024-08-25T23:50:45Z",
+      "sha256": "f9403494c83b882968156be0cec80b97d0e0b7ede3d5d1a0fce8535afa9d97f0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20437",
+      "history": "https://swse.miraheze.org/w/index.php?title=Holocron%20Loremaster&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-ballistakinesis",
+      "title": "Improved Ballistakinesis",
+      "revision": 20205,
+      "timestamp": "2024-08-25T23:24:28Z",
+      "sha256": "ff9f08ce4c3f7ac71a97eba35f4bd861582f3d04ec47dcbccb13107627245976",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20205",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Ballistakinesis&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-battle-strike",
+      "title": "Improved Battle Strike",
+      "revision": 19479,
+      "timestamp": "2024-08-25T22:03:04Z",
+      "sha256": "01056fb5a2301c682368de45ec9a5c33c21f8f676215cafa2c71e668e385cec0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19479",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Battle%20Strike&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-cloak",
+      "title": "Improved Cloak",
+      "revision": 19937,
+      "timestamp": "2024-08-25T22:53:42Z",
+      "sha256": "edd28601662d0c41f13680f5bb4554d4f07d71908587c8091e7c704ddf566da3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19937",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Cloak&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-convection",
+      "title": "Improved Convection",
+      "revision": 20443,
+      "timestamp": "2024-08-25T23:51:18Z",
+      "sha256": "0aa9c2fee8250fd6de94a6d3fbaf5d61e8071c90253ea7afb0038a658eafea7a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20443",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Convection&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-crucitorn",
+      "title": "Improved Crucitorn",
+      "revision": 20444,
+      "timestamp": "2024-08-25T23:51:28Z",
+      "sha256": "e08c4df2871647f9c87d57db0565744533a28c85789da26b3323ed96940a6d24",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20444",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Crucitorn&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-cryokinesis",
+      "title": "Improved Cryokinesis",
+      "revision": 20445,
+      "timestamp": "2024-08-25T23:51:34Z",
+      "sha256": "d385af8ff1589b4d9440b1814f591a60aa6d08faf4647c36c663b4e5f7d08a06",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20445",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Cryokinesis&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-dark-rage",
+      "title": "Improved Dark Rage",
+      "revision": 19480,
+      "timestamp": "2024-08-25T22:03:11Z",
+      "sha256": "d8f15c0a8f37ee68d4988fc61efb4aaeb583ed50e24011df9529e14f48dbb5c7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19480",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Dark%20Rage&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-dark-transfer",
+      "title": "Improved Dark Transfer",
+      "revision": 20206,
+      "timestamp": "2024-08-25T23:24:33Z",
+      "sha256": "55f30108f2ad10b223b62e8819860d41aaf64f50ac634e25e53536dd2f8d2fd7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20206",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Dark%20Transfer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-detonate",
+      "title": "Improved Detonate",
+      "revision": 20207,
+      "timestamp": "2024-08-25T23:24:39Z",
+      "sha256": "ec2f7e6ccc0a2bdec9e406429862c666a14d99dd19c13e9d04ed863ef18d2074",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20207",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Detonate&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-energy-resistance",
+      "title": "Improved Energy Resistance",
+      "revision": 19168,
+      "timestamp": "2024-08-25T21:27:08Z",
+      "sha256": "d39bc867e7000811de4d30f7f40c2a5b0c0331e366df0d078915546817cf9921",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19168",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Energy%20Resistance&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-enlighten",
+      "title": "Improved Enlighten",
+      "revision": 20208,
+      "timestamp": "2024-08-25T23:24:44Z",
+      "sha256": "a13c866414a71fecc2ecfdde37632fe9db9ad6ba99275dedd755a312c96aacf0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20208",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Enlighten&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-fold-space",
+      "title": "Improved Fold Space",
+      "revision": 20446,
+      "timestamp": "2024-08-25T23:51:40Z",
+      "sha256": "e832e638ba61193eee61cdb95fbfdba3409a5f73f5be1c25cd57eeaf3570f380",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20446",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Fold%20Space&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-force-disarm",
+      "title": "Improved Force Disarm",
+      "revision": 19481,
+      "timestamp": "2024-08-25T22:03:17Z",
+      "sha256": "9eb4e3e005cc83da8eb69484d349d0fad279fc59b494f988ef213776810cdbe7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19481",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Force%20Disarm&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-force-grip",
+      "title": "Improved Force Grip",
+      "revision": 19482,
+      "timestamp": "2024-08-25T22:03:22Z",
+      "sha256": "1d1c7d539228a4e2406b24fc60162b873541feb29397348ab51e42f1bc19857f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19482",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Force%20Grip&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-force-light",
+      "title": "Improved Force Light",
+      "revision": 20447,
+      "timestamp": "2024-08-25T23:51:50Z",
+      "sha256": "f688bb92c2b31a14be113bb55a0d60758fd8054786ba376ff374d01d94db442f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20447",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Force%20Light&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-force-lightning",
+      "title": "Improved Force Lightning",
+      "revision": 19483,
+      "timestamp": "2024-08-25T22:03:27Z",
+      "sha256": "f4a826af0308ea31b1ed6d8ed4e447999d14fab917f306f9d8808962c1bc6336",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19483",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Force%20Lightning&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-force-shield",
+      "title": "Improved Force Shield",
+      "revision": 20209,
+      "timestamp": "2024-08-25T23:24:49Z",
+      "sha256": "c89c2316c88d0a41e6bfe1c914473125c5f47532ccbbf9e0c8ff0922b3e5e104",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20209",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Force%20Shield&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-force-slam",
+      "title": "Improved Force Slam",
+      "revision": 19169,
+      "timestamp": "2024-08-25T21:27:13Z",
+      "sha256": "8fe48e7bb2a48c33eab49d8c5261493a8397d8cf28c9e00b996f4a04fbced2a8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19169",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Force%20Slam&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-force-storm",
+      "title": "Improved Force Storm",
+      "revision": 20448,
+      "timestamp": "2024-08-25T23:51:56Z",
+      "sha256": "9bc49fa9f28a186bc860a55526d81dff16daabacc3b8a52cbbd029fa5a9f7fee",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20448",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Force%20Storm&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-force-stun",
+      "title": "Improved Force Stun",
+      "revision": 19170,
+      "timestamp": "2024-08-25T21:27:18Z",
+      "sha256": "4271f4e7cb7cd87c233cef501e06856fcd04ce120e7c777e72071556a143dc4e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19170",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Force%20Stun&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-force-thrust",
+      "title": "Improved Force Thrust",
+      "revision": 19484,
+      "timestamp": "2024-08-25T22:03:33Z",
+      "sha256": "334b6c7772a7a03168cc1b5e813df232bcb86b804744819bb0d66e720291e886",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19484",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Force%20Thrust&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-force-trance",
+      "title": "Improved Force Trance",
+      "revision": 18271,
+      "timestamp": "2024-08-25T19:52:53Z",
+      "sha256": "95aece2b1e2dd16c2bcd56eadce990b636eae14eb9502448f442d425d6727470",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18271",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Force%20Trance&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-ionize",
+      "title": "Improved Ionize",
+      "revision": 19171,
+      "timestamp": "2024-08-25T21:27:23Z",
+      "sha256": "aef6e767b71ebd579757a12fe2c0e58e274160226e9dd2caf3c2b5e06f04ba0e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19171",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Ionize&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-kinetic-combat",
+      "title": "Improved Kinetic Combat",
+      "revision": 19172,
+      "timestamp": "2024-08-25T21:27:28Z",
+      "sha256": "a25d2f5fd14483848510421ce981f09d916fc192440fc751ad83a05cb5c63d7a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19172",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Kinetic%20Combat&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-levitate",
+      "title": "Improved Levitate",
+      "revision": 19938,
+      "timestamp": "2024-08-25T22:53:48Z",
+      "sha256": "54c867f01b0f4fecb2378341f1e9a1b33987b1419afea6ba28fed4ee5fbbc70c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19938",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Levitate&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-lightning-burst",
+      "title": "Improved Lightning Burst",
+      "revision": 20210,
+      "timestamp": "2024-08-25T23:24:54Z",
+      "sha256": "142123536386e53f5d00b33c0823ad92c994b67f1761596292ccb163a9155c0f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20210",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Lightning%20Burst&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-malacia",
+      "title": "Improved Malacia",
+      "revision": 19939,
+      "timestamp": "2024-08-25T22:53:53Z",
+      "sha256": "cf1ed43556c58c2f7e61a57679bb6aa8497aad713416eee4543f3d9474db27cd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19939",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Malacia&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-mind-trick",
+      "title": "Improved Mind Trick",
+      "revision": 19485,
+      "timestamp": "2024-08-25T22:03:39Z",
+      "sha256": "0075b6fbbbbd75973794399f46c91875534b9511b2830f685dba862aa77709ba",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19485",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Mind%20Trick&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-move-light-object",
+      "title": "Improved Move Light Object",
+      "revision": 18272,
+      "timestamp": "2024-08-25T19:53:00Z",
+      "sha256": "f84a1fc01235c3c9da97b51f1a1d6136ef450e5555267a29a0cd82e1823c56bd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18272",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Move%20Light%20Object&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-obscure",
+      "title": "Improved Obscure",
+      "revision": 20211,
+      "timestamp": "2024-08-25T23:24:59Z",
+      "sha256": "6a7699eb1ab80482ee91017aac5a3a7c9fae7fa789c19852c4cf59152d9dfdc1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20211",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Obscure&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-phase",
+      "title": "Improved Phase",
+      "revision": 19940,
+      "timestamp": "2024-08-25T22:53:58Z",
+      "sha256": "cfebebbe669c3cdf221b215e3b9fd8bd4b2494c525bd701a53ee319db164615b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19940",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Phase&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-plant-surge",
+      "title": "Improved Plant Surge",
+      "revision": 20449,
+      "timestamp": "2024-08-25T23:52:02Z",
+      "sha256": "b084d5ef9ebcb678dc5e47e6d2ca6b0e1ed4510e6de8b94eb1156d5fbfc66491",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20449",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Plant%20Surge&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-rebuke",
+      "title": "Improved Rebuke",
+      "revision": 19486,
+      "timestamp": "2024-08-25T22:03:44Z",
+      "sha256": "cf1005cbd5133667e07c81ee9c9639b7c4ff76e8bd5807c38c62c06337aadcc6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19486",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Rebuke&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-rend",
+      "title": "Improved Rend",
+      "revision": 19941,
+      "timestamp": "2024-08-25T22:54:03Z",
+      "sha256": "a6ed84bddb10fbe60be59125a4fee87cae3c7de815912eecef123d8d0dad6e47",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19941",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Rend&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-repulse",
+      "title": "Improved Repulse",
+      "revision": 19487,
+      "timestamp": "2024-08-25T22:03:49Z",
+      "sha256": "562b9e7480e890fd58ef286d7952562bfa59651f942ee4dad8287a4a1cd621ad",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19487",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Repulse&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-resist-force",
+      "title": "Improved Resist Force",
+      "revision": 19174,
+      "timestamp": "2024-08-25T21:27:46Z",
+      "sha256": "3d527fdfe2c398a6f7841605b026b2f6f3b67f6f9e4401a58a203ebcf748e592",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19174",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Resist%20Force&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-sense-force",
+      "title": "Improved Sense Force",
+      "revision": 18273,
+      "timestamp": "2024-08-25T19:53:06Z",
+      "sha256": "6d020f4e16bce5ce21893c84edc16515cd5071e94e0677c34888170c309a5428",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18273",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Sense%20Force&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-sense-surroundings",
+      "title": "Improved Sense Surroundings",
+      "revision": 24331,
+      "timestamp": "2024-10-30T14:50:46Z",
+      "sha256": "aad617c94cbfe11d4c0ed2edbf296161977a411bf1e8ac04926300c59157221e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24331",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Sense%20Surroundings&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-shatterpoint",
+      "title": "Improved Shatterpoint",
+      "revision": 19942,
+      "timestamp": "2024-08-25T22:54:08Z",
+      "sha256": "06d93455e965a32b2e463c1b0deb1cfc899e3222d032abac20716100a962978c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19942",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Shatterpoint&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-stagger",
+      "title": "Improved Stagger",
+      "revision": 20212,
+      "timestamp": "2024-08-25T23:25:13Z",
+      "sha256": "d302c48068b891f0e626360d73fdcc4839ea674595b5596efa487d3b36ad52e5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20212",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Stagger&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-technometry",
+      "title": "Improved Technometry",
+      "revision": 19943,
+      "timestamp": "2024-08-25T22:54:13Z",
+      "sha256": "67078a3ce9319be89b1299af17d353d681608346aa9fa46a205edf147daaff4c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19943",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Technometry&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-telepathy",
+      "title": "Improved Telepathy",
+      "revision": 18276,
+      "timestamp": "2024-08-25T19:53:24Z",
+      "sha256": "51dadffbc12a1a8878cd34976228d42357ddafd2019c598cf36a9c1eb4e7dfd2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18276",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Telepathy&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-thought-bomb",
+      "title": "Improved Thought Bomb",
+      "revision": 20450,
+      "timestamp": "2024-08-25T23:52:13Z",
+      "sha256": "630fa6906750bd34360a8466dd4779b3efe5cedc34bd37ea43d850aba51eb5f3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20450",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Thought%20Bomb&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-valor",
+      "title": "Improved Valor",
+      "revision": 19175,
+      "timestamp": "2024-08-25T21:27:52Z",
+      "sha256": "059b95fcb4eddc92a518986f6235dd90491c0e41e9fab09575da1cce29377419",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19175",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Valor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-improved-vital-transfer",
+      "title": "Improved Vital Transfer",
+      "revision": 19176,
+      "timestamp": "2024-08-25T21:27:57Z",
+      "sha256": "44b25bb3fc50fbf5e276adb673a5e4f14d7b39aaea42b54be468f986324d60ab",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19176",
+      "history": "https://swse.miraheze.org/w/index.php?title=Improved%20Vital%20Transfer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-language-absorption",
+      "title": "Language Absorption",
+      "revision": 19221,
+      "timestamp": "2024-08-25T21:33:01Z",
+      "sha256": "10e20356877858ecf6b3eb4b255f3df9550a64ba1ab9be581b140102716dc6ff",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19221",
+      "history": "https://swse.miraheze.org/w/index.php?title=Language%20Absorption&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-linked-power",
+      "title": "Linked Power",
+      "revision": 19969,
+      "timestamp": "2024-08-25T22:57:11Z",
+      "sha256": "81341416296fccb7fdc2b0fc1f698186cf48424fd287d11193463b4da4f4791f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19969",
+      "history": "https://swse.miraheze.org/w/index.php?title=Linked%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mentor",
+      "title": "Mentor",
+      "revision": 20484,
+      "timestamp": "2024-08-25T23:56:24Z",
+      "sha256": "3350be1f6c82abe660e1a36caad0c9324ec21c9572f097dd140beb6d36202d71",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20484",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mentor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-multitarget-power",
+      "title": "Multitarget Power",
+      "revision": 18377,
+      "timestamp": "2024-08-25T20:02:21Z",
+      "sha256": "34ef3e78d3f05686bc3d1a52e0e251ca4b058aecdc5810396ab3bbc863af490c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18377",
+      "history": "https://swse.miraheze.org/w/index.php?title=Multitarget%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-pure-power",
+      "title": "Pure Power",
+      "revision": 19546,
+      "timestamp": "2024-08-25T22:10:07Z",
+      "sha256": "fbe2aceaf30533ffc9c33fb7ce79431cb0d2b6ed5c8474028dfffb1afa196a4a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19546",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pure%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-quicken-power",
+      "title": "Quicken Power",
+      "revision": 18425,
+      "timestamp": "2024-08-25T20:06:46Z",
+      "sha256": "1435cc4fc142211c46e60b46fe84b100d2f147b0f6fed729790e9392fec55574",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18425",
+      "history": "https://swse.miraheze.org/w/index.php?title=Quicken%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-remote-power",
+      "title": "Remote Power",
+      "revision": 19560,
+      "timestamp": "2024-08-25T22:11:31Z",
+      "sha256": "c2469ca423b20b611e9ea996b42ae054075ec1f13df8c67ba90d91e5436970a6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19560",
+      "history": "https://swse.miraheze.org/w/index.php?title=Remote%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-shaped-power",
+      "title": "Shaped Power",
+      "revision": 18487,
+      "timestamp": "2024-08-25T20:12:10Z",
+      "sha256": "fcfc76778217aa794e91e49f27dc1c90dfd13a01b9438a26ccacdef677317b24",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18487",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shaped%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-unconditional-power",
+      "title": "Unconditional Power",
+      "revision": 20080,
+      "timestamp": "2024-08-25T23:10:04Z",
+      "sha256": "92323739b60ca58f3088c2a396a06a188dff3376a018c20a658d1eec8eecbcd3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20080",
+      "history": "https://swse.miraheze.org/w/index.php?title=Unconditional%20Power&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-medical-secrets-improved-first-aid",
+      "title": "Medical Secrets",
+      "revision": 19521,
+      "timestamp": "2024-08-25T22:07:19Z",
+      "sha256": "418e0e8af61be4684063e4c8bdb9d0e60747596a4fbb6ecd180bab63b7e5ad0f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19521#Improved_First_Aid",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medical%20Secrets&action=history",
+      "section": "Improved First Aid"
+    },
+    {
+      "id": "source:wiki-medical-secrets-improved-heal-damage",
+      "title": "Medical Secrets",
+      "revision": 19521,
+      "timestamp": "2024-08-25T22:07:19Z",
+      "sha256": "418e0e8af61be4684063e4c8bdb9d0e60747596a4fbb6ecd180bab63b7e5ad0f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19521#Improved_Heal_Damage",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medical%20Secrets&action=history",
+      "section": "Improved Heal Damage"
+    },
+    {
+      "id": "source:wiki-medical-secrets-improved-long-term-care",
+      "title": "Medical Secrets",
+      "revision": 19521,
+      "timestamp": "2024-08-25T22:07:19Z",
+      "sha256": "418e0e8af61be4684063e4c8bdb9d0e60747596a4fbb6ecd180bab63b7e5ad0f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19521#Improved_Long-Term_Care",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medical%20Secrets&action=history",
+      "section": "Improved Long-Term Care"
+    },
+    {
+      "id": "source:wiki-medical-secrets-improved-perform-surgery",
+      "title": "Medical Secrets",
+      "revision": 19521,
+      "timestamp": "2024-08-25T22:07:19Z",
+      "sha256": "418e0e8af61be4684063e4c8bdb9d0e60747596a4fbb6ecd180bab63b7e5ad0f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19521#Improved_Perform_Surgery",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medical%20Secrets&action=history",
+      "section": "Improved Perform Surgery"
+    },
+    {
+      "id": "source:wiki-medical-secrets-improved-revivify",
+      "title": "Medical Secrets",
+      "revision": 19521,
+      "timestamp": "2024-08-25T22:07:19Z",
+      "sha256": "418e0e8af61be4684063e4c8bdb9d0e60747596a4fbb6ecd180bab63b7e5ad0f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19521#Improved_Revivify",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medical%20Secrets&action=history",
+      "section": "Improved Revivify"
+    },
+    {
+      "id": "source:wiki-medical-secrets-improved-treatment",
+      "title": "Medical Secrets",
+      "revision": 19521,
+      "timestamp": "2024-08-25T22:07:19Z",
+      "sha256": "418e0e8af61be4684063e4c8bdb9d0e60747596a4fbb6ecd180bab63b7e5ad0f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19521#Improved_Treatment",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medical%20Secrets&action=history",
+      "section": "Improved Treatment"
+    },
+    {
+      "id": "source:wiki-medical-secrets-personal-physician",
+      "title": "Medical Secrets",
+      "revision": 19521,
+      "timestamp": "2024-08-25T22:07:19Z",
+      "sha256": "418e0e8af61be4684063e4c8bdb9d0e60747596a4fbb6ecd180bab63b7e5ad0f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19521#Personal_Physician",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medical%20Secrets&action=history",
+      "section": "Personal Physician"
     }
   ],
   "species": [
@@ -6340,6 +7780,3270 @@
       "bonusRestrictions": {},
       "bonusSourceId": "source:soldier-bonus-feats",
       "talentAccessSourceId": "source:wiki-soldier-talent-trees"
+    },
+    {
+      "id": "class:ace-pilot",
+      "name": "Ace Pilot",
+      "sourceId": "source:wiki-ace-pilot",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 4,
+        "fortitude": 2,
+        "will": 0
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:expert-pilot",
+        "tree:gunner",
+        "tree:spacer",
+        "tree:squadron-leader",
+        "tree:blockade-runner",
+        "tree:wingman"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:pilot"
+        },
+        {
+          "kind": "feat",
+          "name": "Vehicular Combat"
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Vehicle Dodge +1"
+        },
+        {
+          "level": 4,
+          "name": "Vehicle Dodge +2"
+        },
+        {
+          "level": 6,
+          "name": "Vehicle Dodge +3"
+        },
+        {
+          "level": 8,
+          "name": "Vehicle Dodge +4"
+        },
+        {
+          "level": 10,
+          "name": "Vehicle Dodge +5"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-ace-pilot-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:assassin",
+      "name": "Assassin",
+      "sourceId": "source:wiki-assassin",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 4,
+        "fortitude": 2,
+        "will": 0
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:misfortune",
+        "tree:malkite-poisoner",
+        "tree:assassin",
+        "tree:genoharadan"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:stealth"
+        },
+        {
+          "kind": "feat",
+          "name": "Sniper"
+        },
+        {
+          "kind": "talent",
+          "name": "Dastardly Strike"
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Mark (+1)"
+        },
+        {
+          "level": 4,
+          "name": "Mark (+2)"
+        },
+        {
+          "level": 6,
+          "name": "Mark (+3)"
+        },
+        {
+          "level": 8,
+          "name": "Mark (+4)"
+        },
+        {
+          "level": 10,
+          "name": "Mark (+5)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-assassin-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:bounty-hunter",
+      "name": "Bounty Hunter",
+      "sourceId": "source:wiki-bounty-hunter",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 4,
+        "fortitude": 2,
+        "will": 0
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:awareness",
+        "tree:bounty-hunter",
+        "tree:misfortune",
+        "tree:gand-findsman",
+        "tree:force-hunter"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:survival"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:awareness"
+          ],
+          "min": 2
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Familiar Foe +1"
+        },
+        {
+          "level": 4,
+          "name": "Familiar Foe +2"
+        },
+        {
+          "level": 6,
+          "name": "Familiar Foe +3"
+        },
+        {
+          "level": 8,
+          "name": "Familiar Foe +4"
+        },
+        {
+          "level": 10,
+          "name": "Familiar Foe +5"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-bounty-hunter-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:charlatan",
+      "name": "Charlatan",
+      "sourceId": "source:wiki-charlatan",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 0,
+        "will": 4
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:fortune",
+        "tree:disgrace",
+        "tree:trickery",
+        "tree:provocateur"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:deception"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:persuasion"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:disgrace",
+            "tree:influence",
+            "tree:lineage"
+          ],
+          "min": 1
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Score"
+        },
+        {
+          "level": 4,
+          "name": "Swindle"
+        },
+        {
+          "level": 6,
+          "name": "Swindle (+1)"
+        },
+        {
+          "level": 8,
+          "name": "Swindle (+2)"
+        },
+        {
+          "level": 10,
+          "name": "Swindle (+5)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-charlatan-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:corporate-agent",
+      "name": "Corporate Agent",
+      "sourceId": "source:wiki-corporate-agent",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 0,
+        "will": 4
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:leadership",
+        "tree:lineage",
+        "tree:corporate-power"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:gather-information"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:knowledge-bureaucracy"
+        },
+        {
+          "kind": "feat",
+          "name": "Skill Focus",
+          "choice": "skill:knowledge-bureaucracy"
+        },
+        {
+          "kind": "declaration",
+          "value": "corporate-agent-e90edbd760"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "corporate-agent-e90edbd760",
+          "label": "Must be employed by a major interstellar corporation"
+        }
+      ],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Executive Leadership (1/Encounter)"
+        },
+        {
+          "level": 4,
+          "name": "Executive Leadership (2/Encounter)"
+        },
+        {
+          "level": 6,
+          "name": "Executive Leadership (3/Encounter)"
+        },
+        {
+          "level": 8,
+          "name": "Executive Leadership (4/Encounter)"
+        },
+        {
+          "level": 10,
+          "name": "Executive Leadership (5/Encounter)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-corporate-agent-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:crime-lord",
+      "name": "Crime Lord",
+      "sourceId": "source:wiki-crime-lord",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 0,
+        "will": 4
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:infamy",
+        "tree:influence",
+        "tree:mastermind"
+      ],
+      "talentLevels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:deception"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:persuasion"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:fortune",
+            "tree:lineage",
+            "tree:misfortune"
+          ],
+          "min": 1
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Command Cover +1"
+        },
+        {
+          "level": 4,
+          "name": "Command Cover +2"
+        },
+        {
+          "level": 6,
+          "name": "Command Cover +3"
+        },
+        {
+          "level": 8,
+          "name": "Command Cover +4"
+        },
+        {
+          "level": 10,
+          "name": "Command Cover +5"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-crime-lord-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:droid-commander",
+      "name": "Droid Commander",
+      "sourceId": "source:wiki-droid-commander",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": false,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 2,
+        "will": 2
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:inspiration",
+        "tree:leadership",
+        "tree:droid-commander",
+        "tree:override"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:knowledge-tactics"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-computer"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:leadership",
+            "tree:commando"
+          ],
+          "min": 1
+        },
+        {
+          "kind": "droid"
+        },
+        {
+          "kind": "declaration",
+          "value": "droid-commander-ccd3beda08"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "droid-commander-ccd3beda08",
+          "label": "Must be a Droid"
+        }
+      ],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Networked Mind (1 Droid Ally)"
+        },
+        {
+          "level": 4,
+          "name": "Networked Mind (2 Droid Allies)"
+        },
+        {
+          "level": 6,
+          "name": "Networked Mind (3 Droid Allies)"
+        },
+        {
+          "level": 8,
+          "name": "Networked Mind (4 Droid Allies)"
+        },
+        {
+          "level": 10,
+          "name": "Networked Mind (5 Droid Allies)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-droid-commander-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:elite-trooper",
+      "name": "Elite Trooper",
+      "sourceId": "source:wiki-elite-trooper",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 12,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 4,
+        "will": 0
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:camouflage",
+        "tree:commando",
+        "tree:weapon-master",
+        "tree:master-of-ter-s-k-si",
+        "tree:mandalorian-warrior",
+        "tree:critical-master",
+        "tree:melee-specialist",
+        "tree:republic-commando",
+        "tree:protection",
+        "tree:squad-leadership"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "bab",
+          "min": 7
+        },
+        {
+          "kind": "feat",
+          "name": "Armor Proficiency (Light)"
+        },
+        {
+          "kind": "feat",
+          "name": "Armor Proficiency (Medium)"
+        },
+        {
+          "kind": "feat",
+          "name": "Martial Arts I"
+        },
+        {
+          "kind": "any",
+          "requirements": [
+            {
+              "kind": "feat",
+              "name": "Point-Blank Shot"
+            },
+            {
+              "kind": "feat",
+              "name": "Flurry"
+            }
+          ]
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:armor-specialist",
+            "tree:commando",
+            "tree:mercenary",
+            "tree:weapon-specialist"
+          ],
+          "min": 1
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 1,
+          "name": "Delay Damage"
+        },
+        {
+          "level": 2,
+          "name": "Damage Reduction 1"
+        },
+        {
+          "level": 4,
+          "name": "Damage Reduction 2"
+        },
+        {
+          "level": 6,
+          "name": "Damage Reduction 3"
+        },
+        {
+          "level": 8,
+          "name": "Damage Reduction 4"
+        },
+        {
+          "level": 10,
+          "name": "Damage Reduction 5"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-elite-trooper-talent-trees",
+      "continuousDarkSide": false,
+      "passives": [
+        {
+          "target": "dr",
+          "amount": 1,
+          "step": 2
+        }
+      ]
+    },
+    {
+      "id": "class:enforcer",
+      "name": "Enforcer",
+      "sourceId": "source:wiki-enforcer",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 4,
+        "fortitude": 0,
+        "will": 2
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:survivor",
+        "tree:enforcement"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:gather-information"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:perception"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:survivor"
+          ],
+          "min": 1
+        },
+        {
+          "kind": "declaration",
+          "value": "enforcer-db9ca9e169"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "enforcer-db9ca9e169",
+          "label": "Must belong to a law enforcement or similar security organization"
+        }
+      ],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 1,
+          "name": "Resources"
+        },
+        {
+          "level": 2,
+          "name": "Targeted Suspect (+1)"
+        },
+        {
+          "level": 4,
+          "name": "Targeted Suspect (+2)"
+        },
+        {
+          "level": 6,
+          "name": "Targeted Suspect (+3)"
+        },
+        {
+          "level": 8,
+          "name": "Targeted Suspect (+4)"
+        },
+        {
+          "level": 10,
+          "name": "Targeted Suspect (+5)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-enforcer-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:force-adept",
+      "name": "Force Adept",
+      "sourceId": "source:wiki-force-adept",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 2,
+        "will": 4
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:dark-side-devotee",
+        "tree:force-adept",
+        "tree:force-item",
+        "tree:imperial-inquisitor",
+        "tree:beastwarden",
+        "tree:mystic",
+        "tree:telepath"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-the-force"
+        },
+        {
+          "kind": "feat",
+          "name": "Force Sensitivity"
+        },
+        {
+          "kind": "forceTalents",
+          "min": 3
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [
+        {
+          "level": 2,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 4,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 6,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 8,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 10,
+          "kind": "forceTechnique"
+        }
+      ],
+      "classFeatures": [],
+      "talentAccessSourceId": "source:wiki-force-adept-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:force-disciple",
+      "name": "Force Disciple",
+      "sourceId": "source:wiki-force-disciple",
+      "classType": "prestige",
+      "maxLevel": 5,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3
+      ],
+      "defenses": {
+        "reflex": 3,
+        "fortitude": 3,
+        "will": 6
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:force-adept"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 7,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 12
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-the-force"
+        },
+        {
+          "kind": "feat",
+          "name": "Force Sensitivity"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:dark-side-devotee",
+            "tree:force-adept",
+            "tree:force-item"
+          ],
+          "min": 2
+        },
+        {
+          "kind": "power",
+          "name": "Farseeing"
+        },
+        {
+          "kind": "techniques",
+          "min": 1
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [
+        {
+          "level": 2,
+          "kind": "forceSecret"
+        },
+        {
+          "level": 3,
+          "kind": "forceSecret"
+        },
+        {
+          "level": 4,
+          "kind": "forceSecret"
+        },
+        {
+          "level": 5,
+          "kind": "forceSecret"
+        }
+      ],
+      "classFeatures": [
+        {
+          "level": 1,
+          "name": "Indomitable"
+        },
+        {
+          "level": 1,
+          "name": "Prophet"
+        },
+        {
+          "level": 2,
+          "name": "Prophet"
+        },
+        {
+          "level": 3,
+          "name": "Prophet"
+        },
+        {
+          "level": 4,
+          "name": "Prophet"
+        },
+        {
+          "level": 5,
+          "name": "Prophet"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-force-disciple-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:gladiator",
+      "name": "Gladiator",
+      "sourceId": "source:wiki-gladiator",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 4,
+        "fortitude": 2,
+        "will": 0
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:armor-specialist",
+        "tree:awareness",
+        "tree:gladiatorial-combat"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "bab",
+          "min": 7
+        },
+        {
+          "kind": "feat",
+          "name": "Improved Damage Threshold"
+        },
+        {
+          "kind": "feat",
+          "name": "Weapon Proficiency (Advanced Melee Weapons)"
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Unflinching (1/Encounter)"
+        },
+        {
+          "level": 4,
+          "name": "Unflinching (2/Encounter)"
+        },
+        {
+          "level": 6,
+          "name": "Unflinching (3/Encounter)"
+        },
+        {
+          "level": 8,
+          "name": "Unflinching (4/Encounter)"
+        },
+        {
+          "level": 10,
+          "name": "Unflinching (5/Encounter)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-gladiator-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:gunslinger",
+      "name": "Gunslinger",
+      "sourceId": "source:wiki-gunslinger",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 4,
+        "fortitude": 0,
+        "will": 2
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:awareness",
+        "tree:fortune",
+        "tree:gunslinger",
+        "tree:pistoleer",
+        "tree:carbineer",
+        "tree:sharpshooter"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "feat",
+          "name": "Point-Blank Shot"
+        },
+        {
+          "kind": "feat",
+          "name": "Precise Shot"
+        },
+        {
+          "kind": "feat",
+          "name": "Quick Draw"
+        },
+        {
+          "kind": "feat",
+          "name": "Weapon Proficiency (Pistols)"
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Trusty Sidearm +1"
+        },
+        {
+          "level": 4,
+          "name": "Trusty Sidearm +2"
+        },
+        {
+          "level": 6,
+          "name": "Trusty Sidearm +3"
+        },
+        {
+          "level": 8,
+          "name": "Trusty Sidearm +4"
+        },
+        {
+          "level": 10,
+          "name": "Trusty Sidearm +5"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-gunslinger-talent-trees",
+      "continuousDarkSide": false,
+      "passives": [
+        {
+          "target": "pistolDamage",
+          "amount": 1,
+          "step": 2
+        }
+      ]
+    },
+    {
+      "id": "class:imperial-knight",
+      "name": "Imperial Knight",
+      "sourceId": "source:wiki-imperial-knight",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 2,
+        "will": 2
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:armor-specialist",
+        "tree:duelist",
+        "tree:lightsaber-combat",
+        "tree:knight-s-armor",
+        "tree:knight-s-resolve"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "bab",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-the-force"
+        },
+        {
+          "kind": "feat",
+          "name": "Armor Proficiency (Light)"
+        },
+        {
+          "kind": "feat",
+          "name": "Armor Proficiency (Medium)"
+        },
+        {
+          "kind": "feat",
+          "name": "Force Sensitivity"
+        },
+        {
+          "kind": "feat",
+          "name": "Weapon Proficiency (Lightsabers)"
+        },
+        {
+          "kind": "declaration",
+          "value": "imperial-knight-0db707ee58"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "imperial-knight-0db707ee58",
+          "label": "Must be a sworn defender of Emperor Roan Fel."
+        }
+      ],
+      "classFeatureChoices": [
+        {
+          "level": 2,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 4,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 6,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 8,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 10,
+          "kind": "forceTechnique"
+        }
+      ],
+      "classFeatures": [],
+      "talentAccessSourceId": "source:wiki-imperial-knight-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:improviser",
+      "name": "Improviser",
+      "sourceId": "source:wiki-improviser",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 0,
+        "will": 4
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:slicer",
+        "tree:outlaw-tech",
+        "tree:improviser",
+        "tree:procurement"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:mechanics"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-computer"
+        },
+        {
+          "kind": "feat",
+          "name": "Skill Focus",
+          "choice": "skill:mechanics"
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 1,
+          "name": "No Tools Required"
+        },
+        {
+          "level": 2,
+          "name": "Contraband (2"
+        },
+        {
+          "level": 2,
+          "name": "000 credits)"
+        },
+        {
+          "level": 4,
+          "name": "Contraband (4"
+        },
+        {
+          "level": 4,
+          "name": "000 credits)"
+        },
+        {
+          "level": 6,
+          "name": "Contraband (6"
+        },
+        {
+          "level": 6,
+          "name": "000 credits)"
+        },
+        {
+          "level": 8,
+          "name": "Contraband (8"
+        },
+        {
+          "level": 8,
+          "name": "000 credits)"
+        },
+        {
+          "level": 10,
+          "name": "Contraband (10"
+        },
+        {
+          "level": 10,
+          "name": "000 credits)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-improviser-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:independent-droid",
+      "name": "Independent Droid",
+      "sourceId": "source:wiki-independent-droid",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 12,
+      "startingHP": null,
+      "hpConstitution": false,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 0,
+        "will": 4
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:autonomy",
+        "tree:specialized-droid",
+        "tree:elite-droid"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 3
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-computer"
+        },
+        {
+          "kind": "droid"
+        },
+        {
+          "kind": "declaration",
+          "value": "independent-droid-0c5e1a4817"
+        },
+        {
+          "kind": "declaration",
+          "value": "independent-droid-ccd3beda08"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "independent-droid-0c5e1a4817",
+          "label": "Heuristic Processor"
+        },
+        {
+          "id": "independent-droid-ccd3beda08",
+          "label": "Must be a Droid"
+        }
+      ],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 1,
+          "name": "Sapience"
+        },
+        {
+          "level": 2,
+          "name": "Independent Spirit (+1)"
+        },
+        {
+          "level": 4,
+          "name": "Independent Spirit (+2)"
+        },
+        {
+          "level": 6,
+          "name": "Independent Spirit (+3)"
+        },
+        {
+          "level": 8,
+          "name": "Independent Spirit (+4)"
+        },
+        {
+          "level": 10,
+          "name": "Independent Spirit (+5)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-independent-droid-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:infiltrator",
+      "name": "Infiltrator",
+      "sourceId": "source:wiki-infiltrator",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 4,
+        "fortitude": 0,
+        "will": 2
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:camouflage",
+        "tree:bothan-spynet",
+        "tree:infiltration",
+        "tree:spy"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:perception"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:stealth"
+        },
+        {
+          "kind": "feat",
+          "name": "Skill Focus",
+          "choice": "skill:stealth"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:camouflage",
+            "tree:spy"
+          ],
+          "min": 2
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Unarmed Stun (+1d_)"
+        },
+        {
+          "level": 4,
+          "name": "Lead Infiltrator"
+        },
+        {
+          "level": 6,
+          "name": "Unarmed Stun (+2d_)"
+        },
+        {
+          "level": 8,
+          "name": "Lead Infiltrator (x2)"
+        },
+        {
+          "level": 10,
+          "name": "Unarmed Stun (+3d_)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-infiltrator-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:jedi-knight",
+      "name": "Jedi Knight",
+      "sourceId": "source:wiki-jedi-knight",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 2,
+        "will": 2
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:armor-specialist",
+        "tree:duelist",
+        "tree:lightsaber-combat",
+        "tree:lightsaber-forms",
+        "tree:jedi-battlemaster",
+        "tree:jedi-shadow",
+        "tree:jedi-watchman",
+        "tree:jedi-archivist",
+        "tree:jedi-healer",
+        "tree:jedi-refugee",
+        "tree:jedi-artisan",
+        "tree:jedi-instructor",
+        "tree:jedi-investigator",
+        "tree:jedi-weapon-master"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "bab",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-the-force"
+        },
+        {
+          "kind": "feat",
+          "name": "Force Sensitivity"
+        },
+        {
+          "kind": "feat",
+          "name": "Weapon Proficiency (Lightsabers)"
+        },
+        {
+          "kind": "declaration",
+          "value": "jedi-knight-d8016c50c1"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "jedi-knight-d8016c50c1",
+          "label": "Must be a member of The Jedi and have completed Lightsaber Construction"
+        }
+      ],
+      "classFeatureChoices": [
+        {
+          "level": 2,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 4,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 6,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 8,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 10,
+          "kind": "forceTechnique"
+        }
+      ],
+      "classFeatures": [],
+      "talentAccessSourceId": "source:wiki-jedi-knight-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:jedi-master",
+      "name": "Jedi Master",
+      "sourceId": "source:wiki-jedi-master",
+      "classType": "prestige",
+      "maxLevel": 5,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "defenses": {
+        "reflex": 3,
+        "fortitude": 3,
+        "will": 3
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:duelist"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 7,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 12
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-the-force"
+        },
+        {
+          "kind": "feat",
+          "name": "Force Sensitivity"
+        },
+        {
+          "kind": "feat",
+          "name": "Weapon Proficiency (Lightsabers)"
+        },
+        {
+          "kind": "techniques",
+          "min": 1
+        },
+        {
+          "kind": "declaration",
+          "value": "jedi-master-29cfd0b463"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "jedi-master-29cfd0b463",
+          "label": "Must be a member of The Jedi"
+        }
+      ],
+      "classFeatureChoices": [
+        {
+          "level": 2,
+          "kind": "forceSecret"
+        },
+        {
+          "level": 3,
+          "kind": "forceSecret"
+        },
+        {
+          "level": 4,
+          "kind": "forceSecret"
+        },
+        {
+          "level": 5,
+          "kind": "forceSecret"
+        }
+      ],
+      "classFeatures": [
+        {
+          "level": 1,
+          "name": "Fearless"
+        },
+        {
+          "level": 1,
+          "name": "Serenity"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-jedi-master-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:martial-arts-master",
+      "name": "Martial Arts Master",
+      "sourceId": "source:wiki-martial-arts-master",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 4,
+        "will": 0
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:awareness",
+        "tree:master-of-ter-s-k-si",
+        "tree:martial-arts-forms",
+        "tree:unarmed-mastery"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "bab",
+          "min": 7
+        },
+        {
+          "kind": "feat",
+          "name": "Martial Arts I"
+        },
+        {
+          "kind": "feat",
+          "name": "Martial Arts II"
+        },
+        {
+          "kind": "feat",
+          "name": "Melee Defense"
+        },
+        {
+          "kind": "any",
+          "requirements": [
+            {
+              "kind": "feat",
+              "name": "Echani Training"
+            },
+            {
+              "kind": "feat",
+              "name": "Hijkata Training"
+            },
+            {
+              "kind": "feat",
+              "name": "K'tara Training"
+            },
+            {
+              "kind": "feat",
+              "name": "K'thri Training"
+            },
+            {
+              "kind": "feat",
+              "name": "Stava Training"
+            },
+            {
+              "kind": "feat",
+              "name": "Tae-Jitsu Training"
+            },
+            {
+              "kind": "feat",
+              "name": "Teräs Käsi Training"
+            },
+            {
+              "kind": "feat",
+              "name": "Wrruushi Training"
+            }
+          ]
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:brawler",
+            "tree:survivor"
+          ],
+          "min": 1
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Tough as Durasteel (2 Bonus Hit Points)"
+        },
+        {
+          "level": 4,
+          "name": "Tough as Durasteel (4 Bonus Hit Points)"
+        },
+        {
+          "level": 6,
+          "name": "Tough as Durasteel (6 Bonus Hit Points)"
+        },
+        {
+          "level": 8,
+          "name": "Tough as Durasteel (8 Bonus Hit Points)"
+        },
+        {
+          "level": 10,
+          "name": "Tough as Durasteel (10 Bonus Hit Points)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-martial-arts-master-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:master-privateer",
+      "name": "Master Privateer",
+      "sourceId": "source:wiki-master-privateer",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 0,
+        "will": 4
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:infamy",
+        "tree:spacer",
+        "tree:privateer",
+        "tree:piracy"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:deception"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:pilot"
+        },
+        {
+          "kind": "feat",
+          "name": "Vehicular Combat"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:misfortune",
+            "tree:smuggling",
+            "tree:spacer"
+          ],
+          "min": 2
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 1,
+          "name": "Lure of Piracy"
+        },
+        {
+          "level": 2,
+          "name": "Veteran Privateer (1/Encounter)"
+        },
+        {
+          "level": 4,
+          "name": "Veteran Privateer (2/Encounter)"
+        },
+        {
+          "level": 6,
+          "name": "Veteran Privateer (3/Encounter)"
+        },
+        {
+          "level": 8,
+          "name": "Veteran Privateer (4/Encounter)"
+        },
+        {
+          "level": 10,
+          "name": "Veteran Privateer (5/Encounter)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-master-privateer-talent-trees",
+      "continuousDarkSide": false,
+      "advanceRestrictions": [
+        "lostToDarkSide"
+      ]
+    },
+    {
+      "id": "class:medic",
+      "name": "Medic",
+      "sourceId": "source:wiki-medic",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 0,
+        "fortitude": 4,
+        "will": 2
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:survivor",
+        "tree:advanced-medicine"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:knowledge-life-sciences"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:treat-injury"
+        },
+        {
+          "kind": "feat",
+          "name": "Surgical Expertise"
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [
+        {
+          "level": 2,
+          "kind": "medicalSecret"
+        },
+        {
+          "level": 4,
+          "kind": "medicalSecret"
+        },
+        {
+          "level": 6,
+          "kind": "medicalSecret"
+        },
+        {
+          "level": 8,
+          "kind": "medicalSecret"
+        },
+        {
+          "level": 10,
+          "kind": "medicalSecret"
+        }
+      ],
+      "classFeatures": [],
+      "talentAccessSourceId": "source:wiki-medic-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:melee-duelist",
+      "name": "Melee Duelist",
+      "sourceId": "source:wiki-melee-duelist",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 4,
+        "fortitude": 0,
+        "will": 2
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:brawler",
+        "tree:weapon-specialist",
+        "tree:melee-duelist"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "bab",
+          "min": 7
+        },
+        {
+          "kind": "feat",
+          "name": "Melee Defense"
+        },
+        {
+          "kind": "feat",
+          "name": "Rapid Strike"
+        },
+        {
+          "kind": "meleeFocus"
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Master of Movement (1/Encounter)"
+        },
+        {
+          "level": 4,
+          "name": "Master of Movement (2/Encounter)"
+        },
+        {
+          "level": 6,
+          "name": "Master of Movement (3/Encounter)"
+        },
+        {
+          "level": 8,
+          "name": "Master of Movement (4/Encounter)"
+        },
+        {
+          "level": 10,
+          "name": "Master of Movement (5/Encounter)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-melee-duelist-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:military-engineer",
+      "name": "Military Engineer",
+      "sourceId": "source:wiki-military-engineer",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 2,
+        "will": 2
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:outlaw-tech",
+        "tree:military-engineer"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "bab",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:mechanics"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-computer"
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Field-Created Weapon (+1)"
+        },
+        {
+          "level": 4,
+          "name": "Field-Created Weapon (+2)"
+        },
+        {
+          "level": 6,
+          "name": "Field-Created Weapon (+3)"
+        },
+        {
+          "level": 8,
+          "name": "Field-Created Weapon (+4)"
+        },
+        {
+          "level": 10,
+          "name": "Field-Created Weapon (+5)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-military-engineer-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:officer",
+      "name": "Officer",
+      "sourceId": "source:wiki-officer",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 0,
+        "will": 4
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:commando",
+        "tree:leadership",
+        "tree:military-tactics",
+        "tree:naval-officer",
+        "tree:fugitive-commander",
+        "tree:rebel-recruiter"
+      ],
+      "talentLevels": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:knowledge-tactics"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:leadership",
+            "tree:commando",
+            "tree:veteran"
+          ],
+          "min": 1
+        },
+        {
+          "kind": "declaration",
+          "value": "officer-8d85ccec41"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "officer-8d85ccec41",
+          "label": "Must belong to an organization with a military or paramilitary division (examples include The Trade Federation, The Galactic Empire, The Rebel Alliance, and The New Republic)"
+        }
+      ],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Command Cover +1"
+        },
+        {
+          "level": 4,
+          "name": "Command Cover +2"
+        },
+        {
+          "level": 6,
+          "name": "Command Cover +3"
+        },
+        {
+          "level": 8,
+          "name": "Command Cover +4"
+        },
+        {
+          "level": 10,
+          "name": "Command Cover +5"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-officer-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:outlaw",
+      "name": "Outlaw",
+      "sourceId": "source:wiki-outlaw",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 4,
+        "fortitude": 2,
+        "will": 0
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:fringer",
+        "tree:slicer",
+        "tree:survivor",
+        "tree:outlaw"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:stealth"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:survival"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:disgrace",
+            "tree:misfortune"
+          ],
+          "min": 1
+        },
+        {
+          "kind": "declaration",
+          "value": "outlaw-fe4f1b6018"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "outlaw-fe4f1b6018",
+          "label": "You must be wanted by the authorities in at least one star system"
+        }
+      ],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Fugitive (+1)"
+        },
+        {
+          "level": 4,
+          "name": "Fugitive (+2)"
+        },
+        {
+          "level": 6,
+          "name": "Fugitive (+3)"
+        },
+        {
+          "level": 8,
+          "name": "Fugitive (+4)"
+        },
+        {
+          "level": 10,
+          "name": "Fugitive (+5)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-outlaw-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:pathfinder",
+      "name": "Pathfinder",
+      "sourceId": "source:wiki-pathfinder",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 4,
+        "will": 0
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:awareness",
+        "tree:survivor",
+        "tree:pathfinder"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:perception"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:survival"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:awareness",
+            "tree:camouflage",
+            "tree:survivor"
+          ],
+          "min": 2
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Create Cover (1 Square)"
+        },
+        {
+          "level": 4,
+          "name": "Create Cover (2 Squares)"
+        },
+        {
+          "level": 6,
+          "name": "Create Cover (3 Squares)"
+        },
+        {
+          "level": 8,
+          "name": "Create Cover (4 Squares)"
+        },
+        {
+          "level": 10,
+          "name": "Create Cover (5 Squares)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-pathfinder-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:saboteur",
+      "name": "Saboteur",
+      "sourceId": "source:wiki-saboteur",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 0,
+        "will": 4
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:misfortune",
+        "tree:slicer",
+        "tree:sabotage",
+        "tree:turret"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:deception"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:mechanics"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-computer"
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 1,
+          "name": "Unexpected Results"
+        },
+        {
+          "level": 2,
+          "name": "Destructive"
+        },
+        {
+          "level": 4,
+          "name": "Quick Sabotage (Simple Devices)"
+        },
+        {
+          "level": 6,
+          "name": "Quick Sabotage (Tricky Devices)"
+        },
+        {
+          "level": 8,
+          "name": "Quick Sabotage (Complex Devices)"
+        },
+        {
+          "level": 10,
+          "name": "Master Saboteur"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-saboteur-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:shaper",
+      "name": "Shaper",
+      "sourceId": "source:wiki-shaper",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 8,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        0,
+        1,
+        2,
+        3,
+        3,
+        4,
+        5,
+        6,
+        6,
+        7
+      ],
+      "defenses": {
+        "reflex": 0,
+        "fortitude": 2,
+        "will": 4
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:advanced-medicine",
+        "tree:implant",
+        "tree:shaper"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": null,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "species",
+          "name": "Yuuzhan Vong"
+        },
+        {
+          "kind": "feat",
+          "name": "Biotech Specialist"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:knowledge-life-sciences"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:treat-injury"
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Shaper Lore (+1)"
+        },
+        {
+          "level": 4,
+          "name": "Shaper Lore (+2)"
+        },
+        {
+          "level": 6,
+          "name": "Shaper Lore (+3)"
+        },
+        {
+          "level": 6,
+          "name": "Shaper Hand"
+        },
+        {
+          "level": 8,
+          "name": "Shaper Lore (+4)"
+        },
+        {
+          "level": 10,
+          "name": "Shaper Lore (+5)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-shaper-talent-trees",
+      "continuousDarkSide": false
+    },
+    {
+      "id": "class:sith-apprentice",
+      "name": "Sith Apprentice",
+      "sourceId": "source:wiki-sith-apprentice",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 2,
+        "will": 2
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:armor-specialist",
+        "tree:duelist",
+        "tree:lightsaber-combat",
+        "tree:sith",
+        "tree:sith-commander",
+        "tree:sith-alchemy"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-the-force"
+        },
+        {
+          "kind": "feat",
+          "name": "Force Sensitivity"
+        },
+        {
+          "kind": "feat",
+          "name": "Weapon Proficiency (Lightsabers)"
+        },
+        {
+          "kind": "fullDarkSide"
+        },
+        {
+          "kind": "declaration",
+          "value": "sith-apprentice-d8453d31b5"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "sith-apprentice-d8453d31b5",
+          "label": "Must be a member of The Sith"
+        }
+      ],
+      "classFeatureChoices": [
+        {
+          "level": 2,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 4,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 6,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 8,
+          "kind": "forceTechnique"
+        },
+        {
+          "level": 10,
+          "kind": "forceTechnique"
+        }
+      ],
+      "classFeatures": [],
+      "talentAccessSourceId": "source:wiki-sith-apprentice-talent-trees",
+      "continuousDarkSide": true
+    },
+    {
+      "id": "class:sith-lord",
+      "name": "Sith Lord",
+      "sourceId": "source:wiki-sith-lord",
+      "classType": "prestige",
+      "maxLevel": 5,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "defenses": {
+        "reflex": 3,
+        "fortitude": 3,
+        "will": 3
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:sith"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 7,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 12
+        },
+        {
+          "kind": "trained",
+          "value": "skill:use-the-force"
+        },
+        {
+          "kind": "feat",
+          "name": "Force Sensitivity"
+        },
+        {
+          "kind": "feat",
+          "name": "Weapon Proficiency (Lightsabers)"
+        },
+        {
+          "kind": "techniques",
+          "min": 1
+        },
+        {
+          "kind": "fullDarkSide"
+        },
+        {
+          "kind": "declaration",
+          "value": "sith-lord-d8453d31b5"
+        }
+      ],
+      "entrySpecials": [
+        {
+          "id": "sith-lord-d8453d31b5",
+          "label": "Must be a member of The Sith"
+        }
+      ],
+      "classFeatureChoices": [
+        {
+          "level": 2,
+          "kind": "forceSecret"
+        },
+        {
+          "level": 3,
+          "kind": "forceSecret"
+        },
+        {
+          "level": 4,
+          "kind": "forceSecret"
+        },
+        {
+          "level": 5,
+          "kind": "forceSecret"
+        }
+      ],
+      "classFeatures": [
+        {
+          "level": 1,
+          "name": "Fearless"
+        },
+        {
+          "level": 1,
+          "name": "Temptation"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-sith-lord-talent-trees",
+      "continuousDarkSide": true
+    },
+    {
+      "id": "class:vanguard",
+      "name": "Vanguard",
+      "sourceId": "source:wiki-vanguard",
+      "classType": "prestige",
+      "maxLevel": 10,
+      "hitDie": 10,
+      "startingHP": null,
+      "hpConstitution": true,
+      "trainedSkills": 0,
+      "bab": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "defenses": {
+        "reflex": 2,
+        "fortitude": 4,
+        "will": 0
+      },
+      "skills": [],
+      "startingFeats": [],
+      "bonusFeats": [],
+      "bonusRestrictions": {},
+      "talentTrees": [
+        "tree:awareness",
+        "tree:survivor",
+        "tree:vanguard"
+      ],
+      "talentLevels": [
+        1,
+        3,
+        5,
+        7,
+        9
+      ],
+      "bonusFeatLevels": [],
+      "forcePointBase": 6,
+      "entryRequirements": [
+        {
+          "kind": "level",
+          "min": 7
+        },
+        {
+          "kind": "trained",
+          "value": "skill:perception"
+        },
+        {
+          "kind": "trained",
+          "value": "skill:stealth"
+        },
+        {
+          "kind": "talentTrees",
+          "values": [
+            "tree:camouflage",
+            "tree:commando"
+          ],
+          "min": 2
+        }
+      ],
+      "entrySpecials": [],
+      "classFeatureChoices": [],
+      "classFeatures": [
+        {
+          "level": 2,
+          "name": "Surprise Attack (+1)"
+        },
+        {
+          "level": 4,
+          "name": "Surprise Attack (+2)"
+        },
+        {
+          "level": 6,
+          "name": "Surprise Attack (+3)"
+        },
+        {
+          "level": 8,
+          "name": "Surprise Attack (+4)"
+        },
+        {
+          "level": 10,
+          "name": "Surprise Attack (+5)"
+        }
+      ],
+      "talentAccessSourceId": "source:wiki-vanguard-talent-trees",
+      "continuousDarkSide": false
     }
   ],
   "skills": [
@@ -14125,6 +18829,12 @@
       "activationAction": "swift-action",
       "oncePerEncounter": true,
       "unproficientReflexPenalty": -5
+    },
+    "prestigeClasses": {
+      "sourceIds": [
+        "source:wiki-heroic-classes"
+      ],
+      "entryBeforeLevel": true
     }
   },
   "heroicTraits": {
@@ -15683,6 +20393,961 @@
       "descriptors": [
         "light-side"
       ]
+    }
+  ],
+  "classChoices": [
+    {
+      "id": "classchoice:advanced-vital-transfer",
+      "name": "Advanced Vital Transfer",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-advanced-vital-transfer",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:corrupted-power",
+      "name": "Corrupted Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-corrupted-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:cure-disease",
+      "name": "Cure Disease",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-cure-disease",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:debilitating-power",
+      "name": "Debilitating Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-debilitating-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:detoxify-poison",
+      "name": "Detoxify Poison",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-detoxify-poison",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:devastating-power",
+      "name": "Devastating Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-devastating-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:distant-power",
+      "name": "Distant Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-distant-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:dominate-mind",
+      "name": "Dominate Mind",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-dominate-mind",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:enlarged-power",
+      "name": "Enlarged Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-enlarged-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:extend-power",
+      "name": "Extend Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-extend-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:extended-blind",
+      "name": "Extended Blind",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-extended-blind",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:extended-force-disarm",
+      "name": "Extended Force Disarm",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-extended-force-disarm",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:extended-force-grip",
+      "name": "Extended Force Grip",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-extended-force-grip",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:extended-force-thrust",
+      "name": "Extended Force Thrust",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-extended-force-thrust",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:extended-move-object",
+      "name": "Extended Move Object",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-extended-move-object",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:force-point-recovery",
+      "name": "Force Point Recovery",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-force-point-recovery",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:force-power-mastery",
+      "name": "Force Power Mastery",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-force-power-mastery",
+      "repeat": "choice",
+      "choiceType": "power",
+      "effects": [
+        {
+          "target": "powerTake10"
+        }
+      ],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:holocron-loremaster",
+      "name": "Holocron Loremaster",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-holocron-loremaster",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-ballistakinesis",
+      "name": "Improved Ballistakinesis",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-ballistakinesis",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-battle-strike",
+      "name": "Improved Battle Strike",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-battle-strike",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-cloak",
+      "name": "Improved Cloak",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-cloak",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-convection",
+      "name": "Improved Convection",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-convection",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-crucitorn",
+      "name": "Improved Crucitorn",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-crucitorn",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-cryokinesis",
+      "name": "Improved Cryokinesis",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-cryokinesis",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-dark-rage",
+      "name": "Improved Dark Rage",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-dark-rage",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-dark-transfer",
+      "name": "Improved Dark Transfer",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-dark-transfer",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-detonate",
+      "name": "Improved Detonate",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-detonate",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-energy-resistance",
+      "name": "Improved Energy Resistance",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-energy-resistance",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-enlighten",
+      "name": "Improved Enlighten",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-enlighten",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-fold-space",
+      "name": "Improved Fold Space",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-fold-space",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-force-disarm",
+      "name": "Improved Force Disarm",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-force-disarm",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-force-grip",
+      "name": "Improved Force Grip",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-force-grip",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-force-light",
+      "name": "Improved Force Light",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-force-light",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-force-lightning",
+      "name": "Improved Force Lightning",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-force-lightning",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-force-shield",
+      "name": "Improved Force Shield",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-force-shield",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-force-slam",
+      "name": "Improved Force Slam",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-force-slam",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-force-storm",
+      "name": "Improved Force Storm",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-force-storm",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-force-stun",
+      "name": "Improved Force Stun",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-force-stun",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-force-thrust",
+      "name": "Improved Force Thrust",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-force-thrust",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-force-trance",
+      "name": "Improved Force Trance",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-force-trance",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-ionize",
+      "name": "Improved Ionize",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-ionize",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-kinetic-combat",
+      "name": "Improved Kinetic Combat",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-kinetic-combat",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-levitate",
+      "name": "Improved Levitate",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-levitate",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-lightning-burst",
+      "name": "Improved Lightning Burst",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-lightning-burst",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-malacia",
+      "name": "Improved Malacia",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-malacia",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-mind-trick",
+      "name": "Improved Mind Trick",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-mind-trick",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-move-light-object",
+      "name": "Improved Move Light Object",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-move-light-object",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-obscure",
+      "name": "Improved Obscure",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-obscure",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-phase",
+      "name": "Improved Phase",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-phase",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-plant-surge",
+      "name": "Improved Plant Surge",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-plant-surge",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-rebuke",
+      "name": "Improved Rebuke",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-rebuke",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-rend",
+      "name": "Improved Rend",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-rend",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-repulse",
+      "name": "Improved Repulse",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-repulse",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-resist-force",
+      "name": "Improved Resist Force",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-resist-force",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-sense-force",
+      "name": "Improved Sense Force",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-sense-force",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-sense-surroundings",
+      "name": "Improved Sense Surroundings",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-sense-surroundings",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-shatterpoint",
+      "name": "Improved Shatterpoint",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-shatterpoint",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-stagger",
+      "name": "Improved Stagger",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-stagger",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-technometry",
+      "name": "Improved Technometry",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-technometry",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-telepathy",
+      "name": "Improved Telepathy",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-telepathy",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-thought-bomb",
+      "name": "Improved Thought Bomb",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-thought-bomb",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-valor",
+      "name": "Improved Valor",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-valor",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-vital-transfer",
+      "name": "Improved Vital Transfer",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-improved-vital-transfer",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:language-absorption",
+      "name": "Language Absorption",
+      "kind": "forceTechnique",
+      "sourceId": "source:wiki-language-absorption",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:linked-power",
+      "name": "Linked Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-linked-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:mentor",
+      "name": "Mentor",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-mentor",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:multitarget-power",
+      "name": "Multitarget Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-multitarget-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:pure-power",
+      "name": "Pure Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-pure-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:quicken-power",
+      "name": "Quicken Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-quicken-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:remote-power",
+      "name": "Remote Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-remote-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:shaped-power",
+      "name": "Shaped Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-shaped-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:unconditional-power",
+      "name": "Unconditional Power",
+      "kind": "forceSecret",
+      "sourceId": "source:wiki-unconditional-power",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-first-aid",
+      "name": "Improved First Aid",
+      "kind": "medicalSecret",
+      "sourceId": "source:wiki-medical-secrets-improved-first-aid",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-heal-damage",
+      "name": "Improved Heal Damage",
+      "kind": "medicalSecret",
+      "sourceId": "source:wiki-medical-secrets-improved-heal-damage",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-long-term-care",
+      "name": "Improved Long-Term Care",
+      "kind": "medicalSecret",
+      "sourceId": "source:wiki-medical-secrets-improved-long-term-care",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-perform-surgery",
+      "name": "Improved Perform Surgery",
+      "kind": "medicalSecret",
+      "sourceId": "source:wiki-medical-secrets-improved-perform-surgery",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-revivify",
+      "name": "Improved Revivify",
+      "kind": "medicalSecret",
+      "sourceId": "source:wiki-medical-secrets-improved-revivify",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:improved-treatment",
+      "name": "Improved Treatment",
+      "kind": "medicalSecret",
+      "sourceId": "source:wiki-medical-secrets-improved-treatment",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
+    },
+    {
+      "id": "classchoice:personal-physician",
+      "name": "Personal Physician",
+      "kind": "medicalSecret",
+      "sourceId": "source:wiki-medical-secrets-personal-physician",
+      "repeat": "never",
+      "effects": [],
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      }
     }
   ]
 }

@@ -1,6 +1,6 @@
 import {articleText,escapeHTML as escape} from './wiki-content.js';
 
-export const CATALOG_KINDS={species:'Species',class:'Classes',prestigeClass:'Prestige classes',skill:'Skills',feat:'Feats',talent:'Talents',talentTree:'Talent trees',weapon:'Weapons',armor:'Armor',gear:'Equipment',forcePower:'Force powers',reference:'Rules'};
+export const CATALOG_KINDS={species:'Species',class:'Classes',prestigeClass:'Prestige classes',classFeature:'Class features',skill:'Skills',feat:'Feats',talent:'Talents',talentTree:'Talent trees',weapon:'Weapons',armor:'Armor',gear:'Equipment',forcePower:'Force powers',reference:'Rules'};
 
 export function createRulesCatalog(pack) {
  const pages=new Map(pack.rulePages.map(r=>[r.id,r]));

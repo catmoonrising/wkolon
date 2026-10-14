@@ -39,7 +39,7 @@ export function validatePack(p) {
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
     if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
-  for (const key of ['species','classes','skills','feats','talents','equipment','destinies','backgrounds','forcePowers','rulePages']) for (const r of p[key]||[]) {
+  for (const key of ['species','classes','skills','feats','talents','equipment','destinies','backgrounds','forcePowers','classChoices','rulePages']) for (const r of p[key]||[]) {
     assert(!ids.has(r.id), `Duplicate ID ${r.id}`); ids.add(r.id);
     assert(/^[a-z]+:[a-z0-9-]+$/.test(r.id)); assert.equal(typeof r.name,'string'); assert(sources.has(r.sourceId), `Missing source ${r.id}`);
     if(r.article !== undefined) {
@@ -105,13 +105,17 @@ export function validatePack(p) {
       for(const e of g.items){assert.deepEqual(Object.keys(e).sort(),['equipmentId','quantity']);requireRef('equipment',e.equipmentId);assert(Number.isInteger(e.quantity)&&e.quantity>=1&&e.quantity<=999,'Invalid starting equipment quantity');}
     }
     if (key === 'classes') {
-      assert.equal(r.bab.length,20); assert(r.bab.every(Number.isInteger)); assert([6,8,10].includes(r.hitDie));
-      assert.equal(r.startingHP,r.hitDie*3); assert(Number.isInteger(r.trainedSkills));
+      assert.equal(r.bab.length,r.maxLevel??20); assert(r.bab.every(Number.isInteger)); assert([6,8,10,12].includes(r.hitDie));
+      assert.equal(r.startingHP,r.classType==='prestige'?null:r.hitDie*3);
+      if(r.advanceRestrictions!==undefined)assert(r.id==='class:master-privateer'&&r.advanceRestrictions.length===1&&r.advanceRestrictions[0]==='lostToDarkSide');
+      if(r.classType==='prestige'){assert([5,10].includes(r.maxLevel)&&r.skills.length===0&&r.startingFeats.length===0&&r.bonusFeats.length===0&&r.bonusFeatLevels.length===0);assert([null,6,7].includes(r.forcePointBase));assert(Array.isArray(r.entryRequirements)&&Array.isArray(r.entrySpecials)&&Array.isArray(r.classFeatures)&&Array.isArray(r.classFeatureChoices));for(const e of r.entryRequirements){const check=p=>{assert(['any','level','bab','trained','feat','talent','talentTrees','forceTalents','power','techniques','droid','species','fullDarkSide','declaration','meleeFocus'].includes(p.kind));if(p.kind==='any')p.requirements.forEach(check);if(p.kind==='trained')requireRef('skills',p.value);if(p.kind==='declaration')assert(r.entrySpecials.some(s=>s.id===p.value));};check(e);}for(const n of r.talentLevels)assert(Number.isInteger(n)&&n>=1&&n<=r.maxLevel);assert.equal(typeof r.hpConstitution,'boolean');for(const e of r.passives||[]){assert.deepEqual(Object.keys(e).sort(),['amount','step','target']);assert(['pistolDamage','dr'].includes(e.target)&&Number.isInteger(e.amount)&&e.amount>0&&Number.isInteger(e.step)&&e.step>0&&e.step<=r.maxLevel);}}
+       assert(Number.isInteger(r.trainedSkills));
       r.skills.forEach(id=>requireRef('skills',id));
       [...r.startingFeats,...r.bonusFeats].forEach(id=>requireRef('feats',id));
       assert(r.talentTrees.length > 0);
       if(r.talentAccessSourceId!==undefined)assert(sources.has(r.talentAccessSourceId),'Missing talent access source');
     }
+    if(key==='classChoices'){prerequisite(r.prerequisite);assert(Array.isArray(r.effects));for(const e of r.effects)assert(Object.keys(e).length===1&&e.target==='powerTake10'&&r.choiceType==='power'&&r.id==='classchoice:force-power-mastery');assert(['forceTechnique','forceSecret','medicalSecret'].includes(r.kind)&&['never','choice'].includes(r.repeat));if(r.choiceType!==undefined)assert(r.choiceType==='power'&&r.repeat==='choice');}
     if (key === 'skills') assert(ABILITIES.includes(r.ability) && typeof r.trainedOnly==='boolean' && typeof r.armorCheck==='boolean');
     if(key==='forcePowers'){assert(['standard-action','swift-action','full-round-action','free-action','reaction'].includes(r.action));assert(Array.isArray(r.descriptors)&&new Set(r.descriptors).size===r.descriptors.length&&r.descriptors.every(d=>['dark-side','light-side','mind-affecting','telekinetic'].includes(d)));}
     if (['feats','talents'].includes(key)) {
@@ -379,7 +383,7 @@ export function validatePack(p) {
     assert.equal(p.catalog.schemaVersion,1);
     assert.equal(p.catalog.book,'Core Rulebook');
     assert(Array.isArray(p.catalog.records));
-    const kinds=['species','class','prestigeClass','skill','feat','talent','talentTree','weapon','armor','gear','forcePower'];
+    const kinds=['species','class','prestigeClass','classFeature','skill','feat','talent','talentTree','weapon','armor','gear','forcePower'];
     const catalogIds=new Set(), pages=new Map(p.rulePages.map(r=>[r.id,r]));
     for(const r of p.catalog.records) {
       assert(/^catalog:[a-z0-9-]+$/.test(r.id)&&!catalogIds.has(r.id),'Invalid catalog ID');catalogIds.add(r.id);
@@ -389,7 +393,7 @@ export function validatePack(p) {
       assert.equal(pages.get(r.ruleId).sourceId,r.sourceId,'Catalog source mismatch');
       assert(Array.isArray(r.books)&&r.books.every(b=>typeof b==='string'));
       assert(Array.isArray(r.mechanicsIds)&&new Set(r.mechanicsIds).size===r.mechanicsIds.length,'Invalid catalog mechanics');
-      const collection={species:'species',class:'classes',skill:'skills',feat:'feats',talent:'talents',weapon:'equipment',armor:'equipment',gear:'equipment',forcePower:'forcePowers'}[r.kind];
+      const collection={species:'species',class:'classes',prestigeClass:'classes',classFeature:'classChoices',skill:'skills',feat:'feats',talent:'talents',weapon:'equipment',armor:'equipment',gear:'equipment',forcePower:'forcePowers'}[r.kind];
       r.mechanicsIds.forEach(id=>{assert(collection,'Unsupported catalog mechanics');requireRef(collection,id);});
       assert.equal(r.status,r.mechanicsIds.length?'available':'reference','Unreviewed catalog entry enabled');
       if(r.classIds){assert(Array.isArray(r.classIds));r.classIds.forEach(id=>requireRef('classes',id));}

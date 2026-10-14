@@ -1807,6 +1807,26 @@
               "const": -5
             }
           }
+        },
+        "prestigeClasses": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "entryBeforeLevel"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "entryBeforeLevel": {
+              "const": true
+            }
+          }
         }
       },
       "required": [
@@ -1990,6 +2010,71 @@
                 "mind-affecting",
                 "telekinetic"
               ]
+            }
+          }
+        }
+      }
+    },
+    "classChoices": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/record"
+          }
+        ],
+        "required": [
+          "kind",
+          "repeat",
+          "effects"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "forceTechnique",
+              "forceSecret",
+              "medicalSecret"
+            ]
+          },
+          "repeat": {
+            "enum": [
+              "never",
+              "choice"
+            ]
+          },
+          "choiceType": {
+            "const": "power"
+          },
+          "effects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "target"
+              ],
+              "properties": {
+                "target": {
+                  "const": "powerTake10"
+                }
+              }
+            }
+          },
+          "prerequisite": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "requirements"
+            ],
+            "properties": {
+              "kind": {
+                "const": "all"
+              },
+              "requirements": {
+                "type": "array",
+                "maxItems": 0
+              }
             }
           }
         }
@@ -2232,7 +2317,8 @@
             "weapon",
             "armor",
             "gear",
-            "forcePower"
+            "forcePower",
+            "classFeature"
           ]
         },
         "sourceId": {
@@ -3112,6 +3198,157 @@
       "properties": {
         "startingEquipment": {
           "$ref": "#/$defs/startingEquipment"
+        },
+        "classType": {
+          "enum": [
+            "heroic",
+            "prestige"
+          ]
+        },
+        "maxLevel": {
+          "enum": [
+            5,
+            10,
+            20
+          ]
+        },
+        "talentLevels": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          }
+        },
+        "bonusFeatLevels": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          }
+        },
+        "forcePointBase": {
+          "enum": [
+            null,
+            5,
+            6,
+            7
+          ]
+        },
+        "hpConstitution": {
+          "type": "boolean"
+        },
+        "continuousDarkSide": {
+          "type": "boolean"
+        },
+        "entryRequirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/classEntryRequirement"
+          }
+        },
+        "entrySpecials": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "classFeatures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "level",
+              "name"
+            ],
+            "properties": {
+              "level": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "classFeatureChoices": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "level",
+              "kind"
+            ],
+            "properties": {
+              "level": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10
+              },
+              "kind": {
+                "enum": [
+                  "forceTechnique",
+                  "forceSecret",
+                  "medicalSecret"
+                ]
+              }
+            }
+          }
+        },
+        "passives": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "target",
+              "amount",
+              "step"
+            ],
+            "properties": {
+              "target": {
+                "enum": [
+                  "pistolDamage",
+                  "dr"
+                ]
+              },
+              "amount": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "step": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        },
+        "advanceRestrictions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "const": "lostToDarkSide"
+          }
         }
       }
     },
@@ -3305,6 +3542,58 @@
             "charges": {
               "const": 5
             }
+          }
+        }
+      }
+    },
+    "classEntryRequirement": {
+      "type": "object",
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "any",
+            "level",
+            "bab",
+            "trained",
+            "feat",
+            "talent",
+            "talentTrees",
+            "forceTalents",
+            "power",
+            "techniques",
+            "droid",
+            "species",
+            "fullDarkSide",
+            "declaration",
+            "meleeFocus"
+          ]
+        },
+        "min": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "value": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "choice": {
+          "type": "string"
+        },
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/classEntryRequirement"
           }
         }
       }

@@ -936,3 +936,54 @@ current device SR by five to its maximum without restoring activation charges or
 clearing its encounter use. A charge-count editor records externally obtained
 charges without inventing a purchase price or refill action. No automatic rest,
 day or encounter recharge is inferred.
+
+## Prestige class contract
+
+Classes may declare `classType: prestige`, `maxLevel`, explicit `talentLevels`
+and `bonusFeatLevels`, `forcePointBase`, and `entryRequirements`. Their printed BAB
+array has exactly maxLevel entries; startingHP is null and starting skill/feat
+grants are empty. Starting characters must use a heroic class. Five-level classes
+remain five-level classes; prestige classes do not inherit heroic bonus-feat rules.
+Requirements are checked against the character before taking the first class level,
+not against abilities, BAB, talents or feats that the new level would grant.
+
+The entry tree supports level/BAB, trained skills, named feats with secondary
+choices, named talents, counts from listed trees, Force talents/powers/techniques,
+droid/species and full DSS. Named prerequisites match actual earned selections;
+unmapped feats/talents remain unmet rather than assumed. In-game membership,
+training and hardware clauses use their exact source wording and explicit saved
+`entryDeclarations` at acquisition. Sith acquisition DSS is saved independently
+from current DSS. Current DSS controls ongoing Sith class-feature access.
+
+Printed per-level class features are separate grants, each with a pinned rule
+section. Force Techniques, Force Secrets and Medical Secrets use independent,
+earned choice slots and source-backed records. Imported wording does not infer
+actions or calculations. Unsupported actions remain in the implementation queue.
+Automatic effects need explicit reviewed mappings and retain their source grant.
+
+Advancement uses the printed Force Point base of the class actually advanced,
+not the largest base among past classes. Existing acquired HP/BAB and choices
+are replayed; invalid class entry or levels above its maximum grant no benefits.
+Changing earlier levels rechecks later entries. Old heroic characters retain
+their existing schedules, hit dice, starting grants and persistence format.
+
+`classBans: [{classId, throughLevel}]` records Master Privateer's printed permanent
+advancement restriction after falling to the Dark Side. Existing levels up to the
+recorded class level remain earned; later levels are blocked even after DSS drops.
+The Known pirate checkbox corrects that recorded history. Class-specific talents
+and activated feature effects remain distinct from the base progression model.
+
+Class choice records use `id`, `kind`, `repeat`, `prerequisite`, `effects` and an
+optional `choiceType: power`. Earned `level.classChoices` entries contain `id`,
+optional `choice`, and optional `pending`; null entries preserve unfinished slots.
+Power Mastery's reviewed `powerTake10` effect applies only to its selected power.
+All other imported choice effects remain explicit pending mappings, not inferred
+from the article. The shared option browser searches full source descriptions
+and opens folded mechanics independently of graph layout.
+
+Class `passives` use `{target, amount, step}` and scale by completed class-level
+steps. Current mappings are Gunslinger's Pistol damage and Elite Trooper DR.
+DR sources use the highest applicable value and normal Lightsaber bypass. Sith
+entry checks full DSS at acquisition; the printed ongoing restriction disables
+class defenses, talents and choice effects when current DSS is below Wisdom.
+Already acquired HP/BAB and Force Points are not retrospectively removed.

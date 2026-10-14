@@ -309,6 +309,7 @@ const server=http.createServer((req,res)=>{
   await require('./armor-browser-checks.cjs')(browser,base,root);
   await require('./supplemental-armor-checks.cjs')(browser,base,root);
   await require('./energy-shields-checks.cjs')(browser,base,root);
+  await require('./prestige-classes-checks.cjs')(browser,base,root);
   await require('./creation-options-checks.cjs')(browser,base,root);
   await require('./scout-soldier-talents-checks.cjs')(browser,base,root);
   await require('./ambiguities-checks.cjs')(browser,base,root);

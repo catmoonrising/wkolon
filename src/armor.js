@@ -39,7 +39,7 @@ export function armorProtection(c,d,{energy=false,fire=false,lightsaber=false,ig
  if([energy,fire,lightsaber,ignoreDR].some(value=>typeof value!=='boolean'))throw new Error('Invalid armor damage declaration');
  const items=d.armorItems||[],allows=items.some(r=>r.allowsLightsaberDR);
  const protection=c.protection||{sr:0,srMax:0,dr:0,drBypass:''};
- const manual=lightsaber&&!allows?0:protection.dr;
+ const manual=lightsaber&&!allows?0:Math.max(protection.dr,d.classDR||0);
  const sources=items.filter(r=>r.armorDR&&(!lightsaber||r.armorDR.lightsaber||allows)&&(r.armorDR.damageTypes.includes('all')||energy&&r.armorDR.damageTypes.includes('energy')||fire&&r.armorDR.damageTypes.includes('fire')));
  return {...protection,dr:ignoreDR?0:Math.max(manual,...sources.map(r=>r.armorDR.amount))};
 }

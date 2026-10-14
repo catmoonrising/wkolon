@@ -29,7 +29,7 @@ test('all four Core Force trees and sixteen powers have reviewed articles, with 
 });
 
 test('Force Sensitivity opens Force trees on every heroic class without granting extra talent slots',()=>{
- for(const cls of pack.classes){const c=hero(cls.id.slice(6));c.levels[0].feats=[feat('force-sensitivity'),feat('toughness')];c.levels[0].forcePowers=[];
+ for(const cls of pack.classes.filter(r=>r.classType!=='prestige')){const c=hero(cls.id.slice(6));c.levels[0].feats=[feat('force-sensitivity'),feat('toughness')];c.levels[0].forcePowers=[];
   const d=derive(c,pack);assert(d.ctx.talents.some(t=>t.id==='talent:force-perception'),cls.name);assert.equal(talentTrees(cls,d.ctx,pack).length,cls.talentTrees.length+4);
   add(c,{t:talent('force-pilot')});assert(derive(c,pack).issues.some(s=>s.includes('talent is not available')));
   if(cls.id!=='class:jedi'){c.levels[0].feats=[];c.houseRules={jediCounseling:{'jc:106-jedi-multiclassing':false}};const noForce=derive(c,pack);assert(!noForce.ctx.talents.length);assert.deepEqual(talentTrees(cls,noForce.ctx,pack),cls.talentTrees);}

@@ -12,6 +12,10 @@
   - [x] All eleven Core armor entries, Heavy proficiency, armor speed/run limits and Powersuit Strength.
   - [x] Add 55 reviewed supplemental armor entries: tandem equipment, uncapped Dexterity, conditional bonuses, pressure suits, applicable DR, helmet vision, blindness and stock Spacetrooper size.
   - [x] Six personal energy shield variants, individual charges, activation, encounter expiry, pure-Energy SR, proficiency/check penalties and Mechanics recharge.
+  - [x] All 32 official prestige-class entry requirements, printed progression tables, maximum levels, HP/Force Point rules, talent schedules and special entry declarations.
+  - [x] Prestige feature-choice slots: 57 Force Techniques, 15 Force Secrets and seven Medical Secrets, with the shared prerequisite browser and embedded source text.
+  - [x] Gunslinger pistol damage, Elite Trooper DR, Power Mastery Take 10, Sith feature loss and Master Privateer's persistent advancement restriction.
+  - [ ] Remaining prestige-class talents and prerequisite feats, Force Tradition access, activated class features and technique/secret effects beyond Power Mastery.
   - [ ] Reactive armor, integrated weapons, medical systems, life-support timers and armor upgrades.
   - [x] Ten additional Core combat feats, reviewed prerequisites and class bonus lists; conditional actions retain full rules text.
   - [x] All Core Scout/Soldier class talents and tree access; automate Armor Mastery, Juggernaut, Second Skin, Long Stride and Melee Smash.

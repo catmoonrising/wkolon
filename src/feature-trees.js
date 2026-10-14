@@ -78,14 +78,14 @@ export function createFeatureTrees(pack) {
   for(const n of nodes)if(!n.main)n.rank=Math.max(n.rank,Math.min(...nodes.filter(child=>child.parents.some(p=>p.key===n.key)).map(child=>child.rank-1)));
   return {...model,nodes};
  }
- function tabs(options) {if(options.type==='feats')return '';const model=featureGraph(pack,options),s=state(options.key);return ['all',...model.groups].map(group=>`<button type="button" data-tree-group="${escape(group)}" aria-pressed="${s.group===group}">${escape(group==='all'?'All':title(group))}</button>`).join('');}
+ function tabs(options) {if(options.type!=='talents')return '';const model=featureGraph(pack,options),s=state(options.key);return ['all',...model.groups].map(group=>`<button type="button" data-tree-group="${escape(group)}" aria-pressed="${s.group===group}">${escape(group==='all'?'All':title(group))}</button>`).join('');}
  function mechanics(node) {
   const articles=[...new Map(node.records.filter(r=>r.article).map(r=>[JSON.stringify(r.article.blocks),r])).values()];
   return articles.map(r=>articles.length>1?`<h3>${escape(r.name)}</h3>${renderArticle(r.article)}`:renderArticle(r.article)).join('');
  }
  function results(options) {
   const model=visible(options);
-  return `<div class="feature-tree-scroll" tabindex="0" aria-label="${options.type==='feats'?'Feat':'Talent'} prerequisites" data-tree-scroll="${escape(options.key)}"><div class="feature-tree-stage"><div class="feature-tree-canvas"><svg class="feature-tree-arrows" aria-hidden="true"><g></g></svg>${model.nodes.map(n=>{
+  return `<div class="feature-tree-scroll" tabindex="0" aria-label="${options.type==='feats'?'Feat':options.type==='talents'?'Talent':'Class feature'} prerequisites" data-tree-scroll="${escape(options.key)}"><div class="feature-tree-stage"><div class="feature-tree-canvas"><svg class="feature-tree-arrows" aria-hidden="true"><g></g></svg>${model.nodes.map(n=>{
    const hasText=n.records.some(r=>r.article);
    return `<article class="feature-tree-node ${n.owned?'owned':!n.available?'unavailable':''} ${n.selected?'selected':''} ${n.main?'':'prerequisite-node'}" data-tree-node="${escape(n.key)}" data-tree-rank="${n.rank}"><div class="feature-tree-node-head">${hasText?`<button type="button" class="feature-fold" data-tree-fold="${escape(n.key)}" aria-haspopup="dialog" aria-label="Read ${escape(n.name)}">▶</button>`:''}${n.main?`<button type="button" class="feature-pick" data-tree-pick="${escape(n.key)}" aria-pressed="${n.selected}" aria-label="${escape(n.name)}${n.owned?' (possessed)':''}" ${n.available||n.selected?'':`disabled title="${n.owned?'Already possessed':'Prerequisites or class access not met'}"`}>${escape(n.name)}</button>`:`<span>${escape(n.name)}</span>`}</div></article>`;
   }).join('')}</div></div>${model.nodes.length?'':'<p role="status">No matches</p>'}</div>`;
