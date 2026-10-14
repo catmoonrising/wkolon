@@ -20,6 +20,7 @@ default-only decision remains here even though it adds no switch to the sheet.
 | Charge through Difficult Terrain | Ordinary double movement cost | Nimble Charge DC 25; DC 35 with Cross Difficult Terrain |
 | Jump Down training | Untrained intentional Jump Down allowed under the specific application | Require trained Jump under Falling Damage's general wording |
 | Acrobatics + Jump Down | Resolve both checks independently and combine successful reductions | Make the two reductions mutually exclusive |
+| Flurry weapon change | +2 melee only while eligible weapons remain wielded; −5 Reflex until the next turn | Keep the attack bonus after switching weapons; the declaration still requires eligible weapons |
 
 ## Default-only choices
 
@@ -46,6 +47,7 @@ default-only decision remains here even though it adds no switch to the sheet.
 | Topic | Current behavior | Unanswered alternative |
 | --- | --- | --- |
 | Tumble movement cost | Multiply Tumble with diagonal/difficult-terrain movement costs. | Every tumbled square costs a flat 2 regardless of terrain/diagonals. |
+| Tough as Durasteel | Full reference text; activated action still pending. | Body class-level amount versus the table’s last even-level amount. |
 
 ## Source gaps requiring an encounter declaration
 

@@ -5,7 +5,7 @@ import {energyShieldControls} from './energy-shields-ui.js';
 import {armorExclusive,ARMOR_CHECKS} from './armor.js';
 import {createCreationOptions} from './creation-options.js';
 import {declareBracing,clearBracing,declarePowerAttack,startNextTurn,changeWeaponSetting} from './attack-techniques.js';
-import {conditionalDefenseLabel,declareDefenseStance,declareMeleeDefense,designateDodgeOpponent} from './defensive-combat.js';
+import {conditionalDefenseLabel,declareDefenseStance,declareFlurry,declareMeleeDefense,designateDodgeOpponent} from './defensive-combat.js';
 import {defensiveCombatControls} from './defensive-combat-ui.js';
 import {chargeControls} from './charge-ui.js';
 import {runningAttackView} from './combat-movement-actions.js';
@@ -259,7 +259,7 @@ function attackTable(scope='') {
   const rangeNames=['Point-Blank','Short','Medium','Long'];
   const opportunity=opportunityView(current(),pack),running=derived.ctx.feats.some(f=>f.id===pack.rules.combatMovement.running.featId)?runningAttackView(current(),pack):null;
   const power=derived.powerAttack;
-  const controls=power.owned||power.selected||derived.fullAttack.penalty||derived.defensiveCombat.stance!=='none'||derived.defensiveCombat.selected||current().chargeReflexPenalty||current().mightySwing||current().inventory.some(e=>e.braced)?`<div class="actions">${power.owned||power.selected?`<label title="Until the start of your next turn">Power Attack<input type="number" min="0" max="${power.maximum}" data-power-attack value="${power.selected}" ${derived.incapacitated?'disabled':''}></label>${ruleReference(ix.feats.get('feat:power-attack'),'ⓘ',null,scope+'power-attack')}`:''}<button data-next-turn>Next turn</button></div>`:'';
+  const controls=power.owned||power.selected||derived.fullAttack.penalty||derived.defensiveCombat.stance!=='none'||derived.defensiveCombat.selected||current().chargeReflexPenalty||current().flurry||current().mightySwing||current().inventory.some(e=>e.braced)?`<div class="actions">${power.owned||power.selected?`<label title="Until the start of your next turn">Power Attack<input type="number" min="0" max="${power.maximum}" data-power-attack value="${power.selected}" ${derived.incapacitated?'disabled':''}></label>${ruleReference(ix.feats.get('feat:power-attack'),'ⓘ',null,scope+'power-attack')}`:''}<button data-next-turn>Next turn</button></div>`:'';
   return controls+opportunityControls(current(),derived,pack,scope)+followUpControls(current(),derived,pack,scope)+attackTargetControls(current(),(id,key)=>{const r=pack.rulePages.find(r=>r.id===id);return `<a id="${key}" href="${escape(pack.sources.find(s=>s.id===r.sourceId).url)}" data-rule-page="${id}" aria-label="${escape(r.name)} mechanics" title="${escape(r.name)}">ⓘ</a>`;},scope,derived.blind)+`<div class="table-scroll"><table><thead><tr><th>Weapon</th><th>Attack</th><th>Damage</th></tr></thead><tbody>${derived.attacks.map((a,i)=>{
     const index=current().inventory.findIndex(e=>e.uid===a.uid),e=current().inventory[index];
     const range=a.range.limits?`<details id="${scope}attack-range-${i}"><summary>Range${a.range.band===null?'':a.range.available?' · '+rangeNames[a.range.band]:' · Out of range'}</summary><label>Squares<input type="number" min="0" max="100000" data-inventory="distance" data-index="${index}" value="${e.distance??''}" aria-label="${escape(a.name)} distance in squares" placeholder="—"></label><dl>${a.range.limits.map((limit,j)=>j&&limit===a.range.limits[j-1]?'':`<dt>${rangeNames[j]}</dt><dd>${j?a.range.limits[j-1]+1:0}–${limit}</dd>`).join('')}</dl>${canAim(a,e)?`<label class="checkbox"><input type="checkbox" data-inventory="aimed" data-index="${index}" ${a.aimed?'checked':''} ${!a.canAimTarget?'disabled':''}>Aim</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:aim'),'ⓘ',null,scope+'aim-'+i)}`:''}</details>`:'';
@@ -794,6 +794,7 @@ function events() {
     const referenceLink=event.target.closest('[data-rule-reference]');
     if(referenceLink&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();openReference(referenceLink.dataset.ruleReference);return;}
     if(event.target.closest('[data-next-turn]')){startNextTurn(current());changed();return;}
+    if(event.target.closest('[data-flurry]')){try{declareFlurry(current(),derived);}catch(err){notify(err.message);}changed();return;}
     const stance=event.target.closest('[data-defense-stance]');if(stance){try{declareDefenseStance(current(),derived,stance.dataset.defenseStance);}catch(err){notify(err.message);}changed();return;}
     const houseTab=event.target.closest('[data-house-tab]');if(houseTab){houseRules.setTab(houseTab.dataset.houseTab);render();return;}
     if(creationOptions.click(event))return;

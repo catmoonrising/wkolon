@@ -37,6 +37,7 @@ export function featureGraph(pack,options) {
   else if(p.kind==='bab')name='Base attack +'+p.min;
   else if(p.kind==='nonDroid')name='Not a droid';
   else if(p.kind==='trait')name=title(p.value);
+  else if(p.kind==='species'){record=pack.species.find(r=>r.name.replace(/ \([^)]*\)$/,'')===p.value);name=p.value;}
   else if(p.kind==='size')name=title(p.value)+' or larger';
   else if(p.kind==='proficientChoice')name='Weapon Proficiency';
   else if(p.kind==='focusChoice')name='Weapon Focus'+(choice?'':` (${title(p.value)})`);

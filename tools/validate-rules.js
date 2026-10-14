@@ -26,10 +26,11 @@ export function validatePack(p) {
   function requireRef(collection, id) { assert(ix[collection].has(id), `Unknown ${collection} reference: ${id}`); }
   function prerequisite(r) {
     if (['all','any'].includes(r.kind)) { assert(Array.isArray(r.requirements)); r.requirements.forEach(prerequisite); return; }
-    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid','trait','size'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid','trait','size','species'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
     if(r.kind==='featChoice')requireRef('feats',r.value);
     if(r.kind==='trait')assert.equal(r.value,'rage');
     if(r.kind==='size')assert(p.rules.weaponSizeOrder.includes(r.value));
+    if(r.kind==='species')assert(p.species.some(s=>s.name.replace(/ \([^)]*\)$/,'')===r.value),'Unknown prerequisite species');
     if(r.kind==='power'&&r.value!=='$choice')requireRef('forcePowers',r.value);
     if(r.kind==='talentChoice'){requireRef('talents',r.value);assert(r.choice==='$choice'||GROUPS.includes(r.choice),'Unsupported talent choice prerequisite');}
     if(r.kind==='darkSideScore')assert.equal(r.min,1);
@@ -115,6 +116,7 @@ export function validatePack(p) {
       [...r.startingFeats,...r.bonusFeats].forEach(id=>requireRef('feats',id));
       assert(r.talentTrees.length > 0);
       if(r.talentAccessSourceId!==undefined)assert(sources.has(r.talentAccessSourceId),'Missing talent access source');
+      if(r.bonusFeatSourceIds!==undefined)assert(Array.isArray(r.bonusFeatSourceIds)&&r.bonusFeatSourceIds.length&&r.bonusFeatSourceIds.every(id=>sources.has(id)),'Missing bonus feat source');
     }
     if(key==='classChoices'){prerequisite(r.prerequisite);assert(Array.isArray(r.effects));for(const e of r.effects)assert(Object.keys(e).length===1&&e.target==='powerTake10'&&r.choiceType==='power'&&r.id==='classchoice:force-power-mastery');assert(['forceTechnique','forceSecret','medicalSecret'].includes(r.kind)&&['never','choice'].includes(r.repeat));if(r.choiceType!==undefined)assert(r.choiceType==='power'&&r.repeat==='choice');}
     if (key === 'skills') assert(ABILITIES.includes(r.ability) && typeof r.trainedOnly==='boolean' && typeof r.armorCheck==='boolean');
@@ -141,11 +143,11 @@ export function validatePack(p) {
           continue;
         }
         assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when','weaponGroup','ability','minimum'].includes(k)),'Unsupported effect field');
-        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots','forcePoints','rageUses','secondWinds','weaponFinesse','criticalMultiplier','forcePointDie','rageBonus','reflexDodge','unarmedDieSteps','lightsaberDexDamage','exoticProficiency','multiattackReduction','controlledBurst','rapidShotPenalty','lightsaberReflex','lightsaberWill','criticalThreat','tumbleSokan',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
+        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots','forcePoints','rageUses','secondWinds','weaponFinesse','criticalMultiplier','forcePointDie','rageBonus','reflexDodge','unarmedDieSteps','unarmedCriticalDieStep','lightsaberDexDamage','exoticProficiency','multiattackReduction','controlledBurst','rapidShotPenalty','lightsaberReflex','lightsaberWill','criticalThreat','tumbleSokan',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
         if(e.target==='forcePowerSlots')assert(e.amount===1&&e.ability==='wis'&&e.minimum===1&&e.type==='untyped'&&!e.perLevel,'Unsupported Force power capacity');
         else assert(e.ability===undefined&&e.minimum===undefined,'Unsupported effect ability');
         assert(Number.isFinite(e.amount));assert(['untyped','competence','dodge'].includes(e.type));
-        const fixedEffects={forcePoints:3,rageUses:1,secondWinds:1,weaponFinesse:1,criticalMultiplier:3,forcePointDie:8,rageBonus:3,reflexDodge:1,unarmedDieSteps:1};
+        const fixedEffects={forcePoints:3,rageUses:1,secondWinds:1,weaponFinesse:1,criticalMultiplier:3,forcePointDie:8,rageBonus:3,reflexDodge:1,unarmedDieSteps:1,unarmedCriticalDieStep:1};
         if(e.target in fixedEffects)assert(e.amount===fixedEffects[e.target]&&e.type===(e.target==='reflexDodge'?'dodge':'untyped')&&!e.perLevel,'Unsupported Core feat effect');
         if(e.type==='dodge')assert(e.target==='reflexDodge'&&e.amount===1&&!e.perLevel);
         if(e.perLevel!==undefined)assert.equal(typeof e.perLevel,'boolean');
@@ -247,6 +249,7 @@ export function validatePack(p) {
   assert.deepEqual(full.mastery,[{featId:'feat:dual-weapon-mastery-i',penalty:-5},{featId:'feat:dual-weapon-mastery-ii',penalty:-2},{featId:'feat:dual-weapon-mastery-iii',penalty:0}],'Invalid Dual Weapon Mastery');
   assert.deepEqual(full.sourceIds,['source:wiki-full-attacks',ix.feats.get(full.doubleFeat)?.sourceId,ix.feats.get(full.tripleFeat)?.sourceId,...full.mastery.map(m=>ix.feats.get(m.featId)?.sourceId),'source:wiki-category-weapons-weapon-sizes'],'Invalid Full Attack sources');
   assert(full.sourceIds.every(id=>sources.has(id))&&p.rulePages.some(r=>r.id==='rule:full-attacks'&&r.sourceId===full.sourceIds[0]),'Missing Full Attacks passage');
+  const flurry=p.rules.flurry;assert(flurry&&Object.keys(flurry).sort().join() === 'attackBonus,featId,reflexPenalty,sourceIds'&&flurry.featId==='feat:flurry'&&flurry.attackBonus===2&&flurry.reflexPenalty===-5&&flurry.sourceIds.length===1&&sources.has(flurry.sourceIds[0]),'Invalid Flurry mapping');
   const defense=p.rules.defensiveCombat;
   assert(defense&&Object.keys(defense).every(k=>['sourceIds','action','duration','acrobatics','fightPenalty','fightDefense','trainedFightDefense','totalDefense','trainedTotalDefense','meleeDefense','dodge','mobility','dodgeLostWithDexterity','helplessDexterityModifier'].includes(k)),'Invalid defensive combat mapping');
   assert(defense.action==='standard-action'&&defense.duration==='until-next-turn'&&defense.acrobatics==='skill:acrobatics'&&defense.dodgeLostWithDexterity===true&&defense.helplessDexterityModifier===-5,'Unsupported defensive combat rule');

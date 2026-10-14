@@ -35,6 +35,7 @@ export function startNextTurn(c){
  if(c.fullAttackPenalties!==undefined)c.fullAttackPenalties={twoWeapons:0,doubleAttack:0,tripleAttack:0};
  if(c.mightySwing!==undefined)c.mightySwing=false;
  if(c.powerAttack!==undefined)c.powerAttack=0;
+ if(c.flurry!==undefined)c.flurry=false;
 }
 
 export function weaponSettingIssue(w,entry,pack,autofire){

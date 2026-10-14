@@ -1159,3 +1159,30 @@ Validation: 420 JavaScript tests, 27 Python importer tests, byte-identical offli
 import/rebuild, unchanged existing rules records, full Chromium regression checks
 and focused Firefox/Chromium checks for talent choices, source popups, Ataru grips,
 Sokan, Force Power Adept, Trigger Work, saves and Dracula mobile layout.
+
+## Prestige prerequisite feats and Flurry
+
+Enabled ten official prerequisite feats: Biotech Specialist, Flurry and the eight
+martial-style Training feats. Each retains its pinned full article and explicit
+ability, skill, feat or species prerequisites. Wrruushi matches the Wookiee
+species family, including separate book variants. Heroic bonus-feat additions
+were checked against both the feat categories and the printed class bonus lists:
+Flurry for Jedi/Noble/Soldier; Biotech Specialist for Noble/Scoundrel. The martial
+styles remain general feats. These selections unblock relevant prestige entries.
+
+Flurry has a saved declaration, +2 melee attack, −5 Reflex and next-turn expiry.
+Declaration requires only size-relative Light Weapons or Lightsabers. Switching
+to ineligible weapons removes the attack bonus by default while retaining the
+Reflex penalty. The accepted Ambiguities alternative keeps the attack bonus until
+the next turn; it never bypasses declaration eligibility.
+
+Tae-Jitsu advances unarmed critical damage dice before multiplication, capped at
+d12. Normal damage is unchanged. Charge additions and one-use Mighty Swing
+benefits propagate through the alternate critical expression. Biotech projects,
+remaining martial-style actions, Tae-Jitsu's second Dodge opponent and encounter
+limits remain pending; selectable source articles do not automate these effects.
+
+Validation: 430 JavaScript tests and 27 Python importer tests, offline import and
+rebuild, full Chromium regression checks and focused Chromium/Firefox checks for
+Flurry switches, saved Ambiguities, expiry, prerequisite graphs, class bonus lists,
+source popups, critical dice and Dracula mobile layout.

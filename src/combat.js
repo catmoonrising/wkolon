@@ -146,7 +146,7 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Refle
   const critical=!naturalMiss&&die>=(a.criticalThreat||rules.naturalHit)&&!a.areaType,multiplier=a.criticalMultiplier||rules.criticalMultiplier;
   let damageRoll=null,damage=0;
   if(!failedArea&&(!naturalMiss||a.areaType)){
-   const expr=a.damageDisplay+(s.damageMod?signed(s.damageMod):'');
+   const expr=(critical?(a.criticalDamageDisplay||a.damageDisplay):a.damageDisplay)+(s.damageMod?signed(s.damageMod):'');
    damageRoll=roller(critical?`(${expr})*${multiplier}`:expr);
    damage=Math.max(rules.minimumDamage*(critical?multiplier:1),damageRoll.value);
    damageRoll={...damageRoll,value:damage};

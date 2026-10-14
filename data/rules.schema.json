@@ -1827,6 +1827,34 @@
               "const": true
             }
           }
+        },
+        "flurry": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "featId",
+            "attackBonus",
+            "reflexPenalty"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "featId": {
+              "const": "feat:flurry"
+            },
+            "attackBonus": {
+              "const": 2
+            },
+            "reflexPenalty": {
+              "const": -5
+            }
+          }
         }
       },
       "required": [
@@ -3006,7 +3034,8 @@
                 "lightsaberReflex",
                 "lightsaberWill",
                 "criticalThreat",
-                "tumbleSokan"
+                "tumbleSokan",
+                "unarmedCriticalDieStep"
               ]
             },
             "amount": {
@@ -3373,6 +3402,13 @@
           "uniqueItems": true,
           "items": {
             "const": "lostToDarkSide"
+          }
+        },
+        "bonusFeatSourceIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
           }
         }
       }

@@ -30,7 +30,7 @@ export function planCharge(c,d,pack,uid){
  if(successfulCost>maximum)throw new Error('Charge exceeds Speed');
  const dc=chargeAcrobaticsDC(c,pack,path);
  const attackBonus=rule.attackBonus+(powerful?rule.powerful.attackBonus:0),damageBonus=powerful?Math.floor(d.level*rule.powerful.damagePerLevel):0;
- return {path,nimbleRequired,attack:{...attack,attack:attack.attack+attackBonus,damageBonus:attack.damageBonus+damageBonus,damageDisplay:attack.damageDisplay+(damageBonus?'+'+damageBonus:'')},attackBonus,damageBonus,normalCost,successfulCost,maximum,dc,skill,improved,powerful,reflexPenalty:rule.reflexPenalty};
+ return {path,nimbleRequired,attack:{...attack,attack:attack.attack+attackBonus,damageBonus:attack.damageBonus+damageBonus,damageDisplay:attack.damageDisplay+(damageBonus?'+'+damageBonus:''),...(attack.criticalDamageDisplay?{criticalDamageDisplay:attack.criticalDamageDisplay+(damageBonus?'+'+damageBonus:'')}:{})},attackBonus,damageBonus,normalCost,successfulCost,maximum,dc,skill,improved,powerful,reflexPenalty:rule.reflexPenalty};
 }
 
 export function validateCharge(c,bad){

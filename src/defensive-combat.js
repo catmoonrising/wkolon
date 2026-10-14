@@ -1,5 +1,20 @@
 import {clearFollowUps} from './attack-follow-ups.js';
 import {clearBracing} from './attack-techniques.js';
+import {resolveEquipment} from './equipment.js';
+import {counselingEnabled,ambiguityValue} from './house-rules.js';
+
+export function flurryState(c,pack,ctx,size,helpless=false){
+ const rule=pack.rules.flurry,owned=ctx.feats.some(f=>f.id===rule.featId),selected=!!c.flurry;
+ const weapons=c.inventory.filter(e=>e.equipped&&e.carried!==false).map(e=>resolveEquipment(e,pack,c)).filter(w=>w.kind==='weapon'&&!w.unarmed);
+ const light=w=>w.group==='lightsabers'||pack.rules.weaponSizeOrder.indexOf(w.size)<pack.rules.weaponSizeOrder.indexOf(size);
+ const onlyLight=weapons.length?weapons.every(light):counselingEnabled(c,'jc:112-unarmed-attacks-and-weapon-finesse');
+ const reason=!owned?'Requires Flurry':helpless?'Attack unavailable':selected?'Used this turn':!onlyLight?'Requires only Light Weapons or Lightsabers':'';
+ return {owned,selected,onlyLight,reason,available:!reason,attackBonus:selected&&owned&&(onlyLight||ambiguityValue(c,pack,'ambiguity:flurry-weapon-change')==='retain-bonus')?rule.attackBonus:0,reflexPenalty:selected?rule.reflexPenalty:0};
+}
+export function declareFlurry(c,d){
+ if(!d.flurry.available||d.defensiveCombat.attacksBlocked)throw new Error(d.flurry.reason||'Attack unavailable');
+ c.flurry=true;
+}
 
 export function defensiveCombatState(c,pack,ctx,dexDenied=false){
  const rule=pack.rules.defensiveCombat,has=id=>ctx.feats.some(f=>f.id===id);
@@ -52,6 +67,7 @@ export function designateDodgeOpponent(c,d,name){
 }
 
 export function validateDefensiveCombat(c,bad){
+ if(c.flurry!==undefined&&typeof c.flurry!=='boolean')bad('Flurry declaration');
  if(c.helpless!==undefined&&typeof c.helpless!=='boolean')bad('helpless state');
  if(c.defenseStance!==undefined&&!['none','fight','total'].includes(c.defenseStance))bad('defense stance');
  if(c.meleeDefense!==undefined&&(!Number.isInteger(c.meleeDefense)||c.meleeDefense<0||c.meleeDefense>5))bad('Melee Defense');

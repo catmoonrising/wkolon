@@ -1017,3 +1017,35 @@ Force Power Adept's activation makes two natural d20 checks against the same
 current Use the Force modifier, keeps the higher result, spends one Force Point
 and spends one suite copy. Only the selected known power and active talent grant
 this action; natural-20 recovery and descriptor DSS apply once to the kept roll.
+
+### Prestige prerequisite feats
+
+The remaining prerequisite feats use the standard feature record and full pinned
+article. A species prerequisite carries a species-family name in value, matched
+against the character's named species with its book suffix removed. Wrruushi
+Training explicitly requires Wookiee, Constitution 13 and Martial Arts I.
+
+Flurry's reviewed rules contain its feat ID, melee attack bonus, Reflex penalty
+and source. Character state stores a boolean flurry declaration. Entry requires
+an able character with the feat and only Light Weapons or Lightsabers wielded;
+its attack bonus and defense penalty last until the next turn. These modifiers
+remain separate from defensive stances, Charge and Full Attack penalties.
+
+Tae-Jitsu's passive unarmedCriticalDieStep effect carries one die step, capped at
+d12. Derived attacks supply a separate criticalDamageDisplay. Routine critical
+rolls use that expression before the ordinary critical multiplier; normal damage
+and non-Unarmed attacks retain their usual dice.
+
+Flurry's Reflex penalty persists after a weapon change; by default its attack
+bonus applies only while the wielded weapons remain eligible. The alternate
+reading of the printed duration is awaiting a ruling. Unarmed Light Weapon
+classification follows the existing Jedi Counseling 112 switch.
+
+Heroic class bonusFeatSourceIds pins the full class-specific bonus-feat tables.
+Only reviewed, enabled feats enter bonusFeats; catalog text never grants an
+unmapped feat. The new martial training styles retain general-feat access.
+
+Flurry weapon changes use `ambiguity:flurry-weapon-change`: `eligible-weapons`
+is the default; `retain-bonus` keeps the declared attack bonus until the next
+turn. Both modes retain the Reflex penalty and require eligible weapons when
+declaring Flurry.

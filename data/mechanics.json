@@ -7364,6 +7364,146 @@
       "sha256": "9a76ccd0bae0cad3d54d57b61a79944668c054fbae5c61f506951d36c32794fe",
       "url": "https://swse.miraheze.org/w/index.php?oldid=18499#Wicked_Strike",
       "history": "https://swse.miraheze.org/w/index.php?title=Sith%20Talent%20Tree&action=history"
+    },
+    {
+      "id": "source:wiki-biotech-specialist",
+      "title": "Biotech Specialist",
+      "revision": 16232,
+      "timestamp": "2024-08-18T00:56:32Z",
+      "sha256": "0f65dd3e90fe2e8cefee0a12e3f8ac2061f2de2f67a6dd52f431d0c20a19b7d6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16232",
+      "history": "https://swse.miraheze.org/w/index.php?title=Biotech%20Specialist&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-flurry",
+      "title": "Flurry",
+      "revision": 19134,
+      "timestamp": "2024-08-25T21:23:00Z",
+      "sha256": "e04a003ca46dac073b27d1cbc9affcf70c70ba2ad27911c25fc7c301e9c99e2a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19134",
+      "history": "https://swse.miraheze.org/w/index.php?title=Flurry&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-echani-training",
+      "title": "Echani Training",
+      "revision": 19116,
+      "timestamp": "2024-08-25T21:20:56Z",
+      "sha256": "1f861b8f3f985c0c5c0432b132f1d1ab11e834bf908f3c7ef0d71d7feb5274d5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19116",
+      "history": "https://swse.miraheze.org/w/index.php?title=Echani%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-hijkata-training",
+      "title": "Hijkata Training",
+      "revision": 20880,
+      "timestamp": "2024-08-26T00:42:13Z",
+      "sha256": "fc311c619f62a87b2427a77da5cafc1ba3641b9f137b6bdfbeedcc4a75b20d08",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20880",
+      "history": "https://swse.miraheze.org/w/index.php?title=Hijkata%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-k-tara-training",
+      "title": "K'tara Training",
+      "revision": 20886,
+      "timestamp": "2024-08-26T00:43:04Z",
+      "sha256": "869c49e2b920dd1946b88dc057e82f78446cd2ae70ae24ee73bc8da6c6ada71e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20886",
+      "history": "https://swse.miraheze.org/w/index.php?title=K%27tara%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-k-thri-training",
+      "title": "K'thri Training",
+      "revision": 20887,
+      "timestamp": "2024-08-26T00:43:12Z",
+      "sha256": "79f1b7f42d58568d62c8ab1d3037508c3c96d595a948e2cb38589bd3f16c7c08",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20887",
+      "history": "https://swse.miraheze.org/w/index.php?title=K%27thri%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-stava-training",
+      "title": "Stava Training",
+      "revision": 20959,
+      "timestamp": "2024-08-26T00:52:51Z",
+      "sha256": "b636841abc5c027120f9ec0831a9036989c8654d4a3fc35a62a9ae3700527e0e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20959",
+      "history": "https://swse.miraheze.org/w/index.php?title=Stava%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-tae-jitsu-training",
+      "title": "Tae-Jitsu Training",
+      "revision": 20966,
+      "timestamp": "2024-08-26T00:53:32Z",
+      "sha256": "6a23082ce8ee468999851e71e3ebbbb5dafa39a74d8170dd89c8089f86c78748",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20966",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tae-Jitsu%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-ter-s-k-si-training",
+      "title": "Teräs Käsi Training",
+      "revision": 20973,
+      "timestamp": "2024-08-26T00:54:13Z",
+      "sha256": "a1505b1591f6c4c7ad9c904e7b4995f80863e0d3adf0c746808bc4dd320abcb5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20973",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ter%C3%A4s%20K%C3%A4si%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-wrruushi-training",
+      "title": "Wrruushi Training",
+      "revision": 20998,
+      "timestamp": "2024-08-26T00:57:58Z",
+      "sha256": "f44d4b0f70efc5cdf4148ce321b0c18e7682b11801388f0f4fcc775e1be9d036",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20998",
+      "history": "https://swse.miraheze.org/w/index.php?title=Wrruushi%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jedi-bonus-feats",
+      "title": "Jedi Bonus Feats",
+      "revision": 26751,
+      "timestamp": "2025-07-16T19:14:33Z",
+      "sha256": "81ca0c01a1d0b21bcdce65973ea1739e935b3936e5d233315b0bd9fbca514742",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26751",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Bonus%20Feats&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-noble-bonus-feats",
+      "title": "Noble Bonus Feats",
+      "revision": 27366,
+      "timestamp": "2025-12-26T01:35:31Z",
+      "sha256": "f2fedd4ff3ad79df845bf2bc78bb5077b3453d63b19e763c08043f0bce3ff9c4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27366",
+      "history": "https://swse.miraheze.org/w/index.php?title=Noble%20Bonus%20Feats&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-scoundrel-bonus-feats",
+      "title": "Scoundrel Bonus Feats",
+      "revision": 27400,
+      "timestamp": "2026-05-09T10:47:22Z",
+      "sha256": "2d0b2bfe12e02c79378acadc0b02326cdf782ce9ad8ffb5bf1bdc992f1d50e0f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27400",
+      "history": "https://swse.miraheze.org/w/index.php?title=Scoundrel%20Bonus%20Feats&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-soldier-bonus-feats",
+      "title": "Soldier Bonus Feats",
+      "revision": 27412,
+      "timestamp": "2026-06-11T09:25:55Z",
+      "sha256": "dd149302da9daa274181b59a136f7791d053d585c13969f8f870ebec28cae6ff",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27412",
+      "history": "https://swse.miraheze.org/w/index.php?title=Soldier%20Bonus%20Feats&action=history",
+      "section": null
     }
   ],
   "species": [
@@ -8189,7 +8329,8 @@
         "feat:weapon-finesse",
         "feat:weapon-focus",
         "feat:weapon-proficiency-lightsabers",
-        "feat:weapon-proficiency-simple-weapons"
+        "feat:weapon-proficiency-simple-weapons",
+        "feat:flurry"
       ],
       "talentTrees": [
         "tree:jedi-consular",
@@ -8217,7 +8358,10 @@
             "quantity": 1
           }
         ]
-      }
+      },
+      "bonusFeatSourceIds": [
+        "source:wiki-jedi-bonus-feats"
+      ]
     },
     {
       "id": "class:noble",
@@ -8288,7 +8432,9 @@
         "feat:weapon-proficiency-advanced-melee-weapons",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
-        "feat:weapon-proficiency-simple-weapons"
+        "feat:weapon-proficiency-simple-weapons",
+        "feat:biotech-specialist",
+        "feat:flurry"
       ],
       "talentTrees": [
         "tree:influence",
@@ -8303,7 +8449,10 @@
       },
       "bonusRestrictions": {},
       "bonusSourceId": "source:noble-bonus-feats",
-      "talentAccessSourceId": "source:wiki-noble-talent-trees"
+      "talentAccessSourceId": "source:wiki-noble-talent-trees",
+      "bonusFeatSourceIds": [
+        "source:wiki-noble-bonus-feats"
+      ]
     },
     {
       "id": "class:scoundrel",
@@ -8377,7 +8526,8 @@
         "feat:vehicular-combat",
         "feat:weapon-proficiency-advanced-melee-weapons",
         "feat:weapon-proficiency-pistols",
-        "feat:weapon-proficiency-simple-weapons"
+        "feat:weapon-proficiency-simple-weapons",
+        "feat:biotech-specialist"
       ],
       "talentTrees": [
         "tree:fortune",
@@ -8392,7 +8542,10 @@
       },
       "bonusRestrictions": {},
       "bonusSourceId": "source:scoundrel-bonus-feats",
-      "talentAccessSourceId": "source:wiki-scoundrel-talent-trees"
+      "talentAccessSourceId": "source:wiki-scoundrel-talent-trees",
+      "bonusFeatSourceIds": [
+        "source:wiki-scoundrel-bonus-feats"
+      ]
     },
     {
       "id": "class:scout",
@@ -8594,7 +8747,8 @@
         "feat:weapon-proficiency-heavy-weapons",
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles",
-        "feat:weapon-proficiency-simple-weapons"
+        "feat:weapon-proficiency-simple-weapons",
+        "feat:flurry"
       ],
       "talentTrees": [
         "tree:armor-specialist",
@@ -8609,7 +8763,10 @@
       },
       "bonusRestrictions": {},
       "bonusSourceId": "source:soldier-bonus-feats",
-      "talentAccessSourceId": "source:wiki-soldier-talent-trees"
+      "talentAccessSourceId": "source:wiki-soldier-talent-trees",
+      "bonusFeatSourceIds": [
+        "source:wiki-soldier-bonus-feats"
+      ]
     },
     {
       "id": "class:ace-pilot",
@@ -13451,6 +13608,226 @@
       "prerequisite": {
         "kind": "all",
         "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:biotech-specialist",
+      "name": "Biotech Specialist",
+      "sourceId": "source:wiki-biotech-specialist",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:mechanics"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:flurry",
+      "name": "Flurry",
+      "sourceId": "source:wiki-flurry",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "dex",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:echani-training",
+      "name": "Echani Training",
+      "sourceId": "source:wiki-echani-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "dex",
+            "min": 13
+          },
+          {
+            "kind": "feat",
+            "value": "feat:martial-arts-i"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:hijkata-training",
+      "name": "Hijkata Training",
+      "sourceId": "source:wiki-hijkata-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:combat-reflexes"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:martial-arts-i"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:k-tara-training",
+      "name": "K'tara Training",
+      "sourceId": "source:wiki-k-tara-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:stealth"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:martial-arts-i"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:k-thri-training",
+      "name": "K'thri Training",
+      "sourceId": "source:wiki-k-thri-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:dual-weapon-mastery-i"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:martial-arts-i"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:stava-training",
+      "name": "Stava Training",
+      "sourceId": "source:wiki-stava-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:martial-arts-i"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:running-attack"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:tae-jitsu-training",
+      "name": "Tae-Jitsu Training",
+      "sourceId": "source:wiki-tae-jitsu-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:initiative"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:dodge"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:martial-arts-i"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "unarmedCriticalDieStep",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:ter-s-k-si-training",
+      "name": "Teräs Käsi Training",
+      "sourceId": "source:wiki-ter-s-k-si-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "str",
+            "min": 13
+          },
+          {
+            "kind": "feat",
+            "value": "feat:martial-arts-i"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:wrruushi-training",
+      "name": "Wrruushi Training",
+      "sourceId": "source:wiki-wrruushi-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Wookiee"
+          },
+          {
+            "kind": "ability",
+            "value": "con",
+            "min": 13
+          },
+          {
+            "kind": "feat",
+            "value": "feat:martial-arts-i"
+          }
+        ]
       },
       "repeat": "never",
       "effects": [],
@@ -20484,6 +20861,30 @@
             "name": "One reduction"
           }
         ]
+      },
+      {
+        "id": "ambiguity:flurry-weapon-change",
+        "name": "Flurry: weapon change",
+        "sourceIds": [
+          "source:wiki-flurry"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:flurry",
+            "fullText": true
+          }
+        ],
+        "default": "eligible-weapons",
+        "options": [
+          {
+            "value": "eligible-weapons",
+            "name": "Eligible weapons only"
+          },
+          {
+            "value": "retain-bonus",
+            "name": "Keep until next turn"
+          }
+        ]
       }
     ],
     "forceTalentAccess": {
@@ -21175,6 +21576,14 @@
         "source:wiki-heroic-classes"
       ],
       "entryBeforeLevel": true
+    },
+    "flurry": {
+      "sourceIds": [
+        "source:wiki-flurry"
+      ],
+      "featId": "feat:flurry",
+      "attackBonus": 2,
+      "reflexPenalty": -5
     }
   },
   "heroicTraits": {
