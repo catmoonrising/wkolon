@@ -1049,3 +1049,12 @@ Flurry weapon changes use `ambiguity:flurry-weapon-change`: `eligible-weapons`
 is the default; `retain-bonus` keeps the declared attack bonus until the next
 turn. Both modes retain the Reflex penalty and require eligible weapons when
 declaring Flurry.
+
+### Preparing feat batches
+
+`python3 tools/prepare-feat-review.py` writes the remaining official feat review
+queue under `.build/`, using the pinned reference index. `--book` selects an exact
+sourcebook name and `--limit` bounds the batch. Each candidate includes its source,
+full article and printed prerequisite/effect/special passages. Missing labeled
+passages require review; they do not imply absent prerequisites or repeat limits.
+The command never adds options or modifies mechanics.
