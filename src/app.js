@@ -564,7 +564,7 @@ function render() {
   derived = derive(current(),pack);
   const scroll = window.scrollY;
   const openDetails = [...document.querySelectorAll('.modules details[open][id]')].map(el=>el.id);
-  $('roster').innerHTML = store.roster.characters.map(c=>`<div class="char-tab ${c.id===store.roster.activeId?'active':''}"><button data-character="${escape(c.id)}" aria-pressed="${c.id===store.roster.activeId}">${escape(c.name||'Unnamed hero')}</button>${store.roster.characters.length>1?`<button type="button" class="char-tab-x" data-delid="${escape(c.id)}" aria-label="Delete ${escape(c.name||'Unnamed hero')}">×</button>`:''}</div>`).join('');
+  $('roster').innerHTML = store.roster.characters.map(c=>`<div class="char-tab ${c.id===store.roster.activeId?'active':''}"><button data-character="${escape(c.id)}" aria-pressed="${c.id===store.roster.activeId}">${escape(c.name||'unnamed')}</button>${store.roster.characters.length>1?`<button type="button" class="char-tab-x" data-delid="${escape(c.id)}" aria-label="Delete ${escape(c.name||'unnamed')}">×</button>`:''}</div>`).join('');
   $('recovery').hidden=!store.recovery;
   $('replace-storage').hidden = !store.recovery || !recoveryExported;
   const c=current();
@@ -635,7 +635,7 @@ function events() {
     if(el.dataset.field==='pointBudget' && el.closest('#cr-body')){const value=Number(el.value);if(el.value!=='' && Number.isInteger(value) && value>=0 && value<=100){current().pointBudget=value;store.schedule();refreshPointBudget();}return;}
     if (el.dataset.field && ['name','player','notes','languages'].includes(el.dataset.field)) {
       current()[el.dataset.field]=el.value; store.schedule();
-      if(el.dataset.field==='name') { document.querySelectorAll('[data-field="name"]').forEach(input=>{if(input!==el)input.value=el.value;}); document.querySelector(`[data-character="${current().id}"]`).textContent=el.value||'Unnamed hero'; }
+      if(el.dataset.field==='name') { document.querySelectorAll('[data-field="name"]').forEach(input=>{if(input!==el)input.value=el.value;}); document.querySelector(`[data-character="${current().id}"]`).textContent=el.value||'unnamed'; }
     }
   });
   document.addEventListener('change',event=>{
@@ -870,7 +870,7 @@ function events() {
   });
   $('roster').addEventListener('click',event=>{
     const del=event.target.closest('[data-delid]');
-    if(del){const id=del.dataset.delid,c=store.roster.characters.find(c=>c.id===id);if(c&&store.roster.characters.length>1)confirmDelete('Delete character?',c.name||'Unnamed hero',()=>{store.remove(id);render();});return;}
+    if(del){const id=del.dataset.delid,c=store.roster.characters.find(c=>c.id===id);if(c&&store.roster.characters.length>1)confirmDelete('Delete character?',c.name||'unnamed',()=>{store.remove(id);render();});return;}
     const el=event.target.closest('[data-character]');if(el){store.switch(el.dataset.character);render();}
   });
   $('new-character').onclick=()=>{store.add();creatorStep=0;render();location.hash='creation';openEditor('creation');};

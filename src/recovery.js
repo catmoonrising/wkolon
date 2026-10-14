@@ -5,7 +5,7 @@ import {counselingEnabled,ambiguityValue} from './house-rules.js';
 import {evalExpr} from './dice.js';
 import {clearAiming,clearBracing,startNextTurn} from './attack-techniques.js';
 
-const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,ragesSpent:0,rageRounds:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
+const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,strongBellowUsed:false,ragesSpent:0,rageRounds:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
 export const recoveryState=c=>({...empty(),...c.recovery});
 const state=c=>{c.recovery??={};Object.assign(c.recovery,recoveryState(c));return c.recovery;};
 const causes=Object.freeze({'rage':'Rage','second-wind':'Second Wind','injury':'Injury','limb-loss':'Lost limb','other':'Other'});
@@ -13,18 +13,20 @@ export const persistentName=p=>Object.hasOwn(causes,p)?causes[p]:undefined;
 export function validateRecovery(c,bad){
  if(c.recovery===undefined)return;
  const r=c.recovery,integer=n=>Number.isInteger(n)&&n>=0&&n<=100000;
+ if(r?.strongBellowUsed!==undefined&&typeof r.strongBellowUsed!=='boolean')bad('recovery state');
  if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).some(k=>!Object.keys(empty()).includes(k))||!['secondWindsSpent','ragesSpent','rageRounds'].every(k=>integer(r[k]))||typeof r.secondWindEncounter!=='boolean'||!Array.isArray(r.persistent)||new Set(r.persistent).size!==r.persistent.length||r.persistent.some(p=>!persistentName(p))||['naturalHealingUsed','unconsciousRetry','stunUnconscious','dead'].some(k=>r[k]!==undefined&&typeof r[k]!=='boolean'))bad('recovery state');
  if(r.limbs!==undefined&&(!Array.isArray(r.limbs)||r.limbs.length>20||new Set(r.limbs.map(l=>l?.id)).size!==r.limbs.length||r.limbs.some(l=>!l||Object.keys(l).some(k=>!['id','name','days','persistent'].includes(k))||typeof l.id!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(l.id)||typeof l.name!=='string'||!l.name.trim()||l.name.length>100||typeof l.persistent!=='boolean'||!Number.isInteger(l.days)||l.days<1||l.days>10)))bad('limb regeneration');
 }
-export function recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude,extraSecondWinds,extraRages,rageBonus,forceRecovery}){
+export function recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude,extraSecondWinds,extraRages,rageBonus,forceRecovery,windBonuses={}}){
  const r=recoveryState(c),rule=pack.rules.secondWind;
  const base=counselingEnabled(c,rule.multipleUsesTopic)?Math.max(1,1+classFortitude+mods.con):rule.dailyUses;
  const daily=base*(1+extraSecondWinds),remaining=Math.max(0,daily-r.secondWindsSpent);
  const current=c.currentHP??hp,able=c.condition<5&&current>0&&!r.dead;
  const exhaustion=!remaining&&counselingEnabled(c,rule.exhaustionTopic);
- const windReason=species.isDroid?'Droids regain HP through repair':!able?'Cannot take a Swift Action':current>hp*rule.maximumHitPointFraction?'HP above half maximum':r.secondWindEncounter?'Used this encounter':!remaining&&!exhaustion?'No daily uses remaining':'';
+ const windReason=species.isDroid?'Droids regain HP through repair':!able?'Second Wind unavailable':!windBonuses.aboveHalf&&current>hp*rule.maximumHitPointFraction?'HP above half maximum':r.secondWindEncounter&&!windBonuses.multipleUses?'Used this encounter':!remaining&&!exhaustion?'No daily uses remaining':'';
  const rage=species.rage?{active:r.rageRounds>0,rounds:r.rageRounds,duration:Math.max(1,species.rage.durationBase+mods.con),bonus:species.rage.bonus+rageBonus,daily:species.rage.dailyUses+extraRages,remaining:Math.max(0,species.rage.dailyUses+extraRages-r.ragesSpent)}:null;
- return {secondWind:{daily,remaining,healing:Math.max(Math.floor(hp*rule.hitPointFraction),scores.con),forceDice:forceRecovery?Math.min(rule.forceRecovery.maxDice,c.forcePoints):0,exhaustion,reason:windReason,available:!windReason},rage,persistent:r.persistent,recoverable:able&&c.condition>0&&!r.persistent.length,naturalHealing:{amount:c.levels.length*(species.naturalHealingMultiplier||1),used:r.naturalHealingUsed,available:!species.isDroid&&!r.dead},unconscious:{available:!species.isDroid&&!r.dead&&(c.condition===5||current===0),retry:r.unconsciousRetry,modifier:mods.con},dead:r.dead,limbs:r.limbs};
+ const conHealing=windBonuses.constitution?Math.max(windBonuses.constitution,windBonuses.constitution*mods.con):0;
+ return {secondWind:{daily,remaining,healing:Math.max(Math.floor(hp*rule.hitPointFraction),scores.con)+conHealing,action:windBonuses.freeAction?'Free Action (on your turn)':'Swift Action',conditionRecovery:r.persistent.length?0:windBonuses.condition||0,forceDice:forceRecovery?Math.min(rule.forceRecovery.maxDice,c.forcePoints):0,exhaustion,reason:windReason,available:!windReason},rage,persistent:r.persistent,recoverable:able&&c.condition>0&&!r.persistent.length,naturalHealing:{amount:c.levels.length*(species.naturalHealingMultiplier||1),used:r.naturalHealingUsed,available:!species.isDroid&&!r.dead},unconscious:{available:!species.isDroid&&!r.dead&&(c.condition===5||current===0),retry:r.unconsciousRetry,modifier:mods.con},dead:r.dead,limbs:r.limbs};
 }
 const persistent=(c,cause)=>{const r=state(c);c.condition=Math.min(5,c.condition+1);if(!r.persistent.includes(cause))r.persistent.push(cause);};
 export function catchSecondWind(c,d,pack,roll=evalExpr){
@@ -35,8 +37,9 @@ export function catchSecondWind(c,d,pack,roll=evalExpr){
  clearFollowUps(c);clearAiming(c);clearBracing(c);
  const before=c.currentHP??d.hp,r=state(c);
  c.currentHP=Math.min(d.hp,before+wind.healing+extra);r.secondWindsSpent++;r.secondWindEncounter=true;
+ const conditionRecovery=Math.min(c.condition,wind.conditionRecovery||0);c.condition-=conditionRecovery;
  if(wind.exhaustion)persistent(c,'second-wind');
- return {healed:c.currentHP-before,forceRecovery:extra,forceRoll,exhaustion:wind.exhaustion};
+ return {healed:c.currentHP-before,conditionRecovery,forceRecovery:extra,forceRoll,exhaustion:wind.exhaustion};
 }
 export function startRage(c,d){
  const rage=d.recovery.rage;
@@ -61,7 +64,7 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){endShieldEncounter(c);startNextTurn(c);startNextRound(c);state(c).secondWindEncounter=false;}
+export function newEncounter(c){endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
  startNextTurn(c);startNextRound(c);
  const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.naturalHealingUsed=false;

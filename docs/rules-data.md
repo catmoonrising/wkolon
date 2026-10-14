@@ -1133,3 +1133,22 @@ Legacy equipped Lightsabers count as active. Inventory can save `activated` for
 Lightsabers; inactive Lightsabers cannot make ordinary Lightsaber attacks or
 provide the wielded-Lightsaber defense bonuses. Power effects, target resolution,
 sustaining and talent-specific return-to-suite exceptions remain separate work.
+
+### Rebellion Era feat contract
+
+Each feat retains its pinned complete article, printed species/skill/feat
+prerequisites and reviewed class bonus access. Selection and effect automation
+are tracked separately.
+
+Scalar effects `secondWindFreeAction`, `secondWindMultipleUses`,
+`secondWindAboveHalf` and `secondWindCondition` grant their named exceptions.
+`secondWindConstitution` adds twice the Constitution bonus, minimum 2, when its
+amount is 2. Recovering Surge cannot improve a persistent Condition Track.
+`swimSpeed` adds to native Swim Speed before movement restrictions.
+`bellowDice` increases base Bellow dice; `bellowConditionReduction` grants an
+optional once-per-encounter reduction, saved as `recovery.strongBellowUsed` and
+reset by New Encounter. Its reduction is included in the optional Helpless cap.
+
+`skillRerollBest` names a skill whose existing reroll keeps the better result;
+it grants no additional reroll. `vision` with `value: darkvision` grants Darkvision.
+Existing characters without new recovery state retain their previous behavior.

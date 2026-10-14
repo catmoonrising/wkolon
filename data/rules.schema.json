@@ -3100,7 +3100,15 @@
                 "tumbleSokan",
                 "unarmedCriticalDieStep",
                 "armorFortitudeToWill",
-                "rangedOpportunity"
+                "rangedOpportunity",
+                "secondWindFreeAction",
+                "secondWindMultipleUses",
+                "secondWindAboveHalf",
+                "secondWindCondition",
+                "secondWindConstitution",
+                "bellowDice",
+                "bellowConditionReduction",
+                "swimSpeed"
               ]
             },
             "amount": {
@@ -3316,6 +3324,38 @@
             },
             "radius": {
               "const": 12
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "value"
+          ],
+          "properties": {
+            "target": {
+              "const": "vision"
+            },
+            "value": {
+              "const": "darkvision"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "skill"
+          ],
+          "properties": {
+            "target": {
+              "const": "skillRerollBest"
+            },
+            "skill": {
+              "$ref": "#/$defs/id"
             }
           }
         }

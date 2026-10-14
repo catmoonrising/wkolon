@@ -50,7 +50,7 @@ export function createStore(pack, onStatus, storage = localStorage) {
     get roster() { return roster; }, get recovery() { return recovery; }, current, schedule, flush,
     switch(id) { pending(); roster.activeId = id; flush(); },
     add() { pending(); const c = newDraft(pack); roster.characters.push(c); roster.activeId = c.id; flush(); return c; },
-    duplicate() { const c = structuredClone(current()); replaceCharacterId(c); c.name = `${c.name || 'Unnamed'} copy`; roster.characters.push(c); roster.activeId = c.id; flush(); },
+    duplicate() { const c = structuredClone(current()); replaceCharacterId(c); c.name = `${c.name || 'unnamed'} copy`; roster.characters.push(c); roster.activeId = c.id; flush(); },
     remove(id=roster.activeId) {
       const index=roster.characters.findIndex(c=>c.id===id);if(index<0||roster.characters.length<2)return;
       if(roster.logs)delete roster.logs[id];roster.characters.splice(index,1);

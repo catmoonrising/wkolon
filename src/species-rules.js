@@ -26,7 +26,7 @@ export function createSpeciesChecks({current,derived,log},roller=evalExpr){
    if(el.dataset.skillRoll){const roll=roller(expression);checks.set(key(id),{source:s.checkSource,bonus:s.total,roll});log('roll',`${s.name}: ${expression} = ${roll.value}`,`${escape(s.name)}: ${roll.display} = ${totalHtml(roll)}`);return true;}
    const reroll=species.skillRerolls?.find(r=>r.skill===id),p=checks.get(key(id));
    if(el.dataset.speciesReroll&&reroll&&s.checkSource===id&&valid(s,p)){
-    const roll=roller(expression),kept=reroll.keep==='best'?Math.max(p.roll.value,roll.value):roll.value;
+    const roll=roller(expression),kept=reroll.keep==='best'||derived().skillRerollBest?.includes(id)?Math.max(p.roll.value,roll.value):roll.value;
     checks.delete(key(id));log('roll',`${s.name}: ${p.roll.value} → ${roll.value}; kept ${kept}`,`${escape(s.name)}: ${p.roll.value} → ${roll.display} = ${totalHtml(roll)}; kept <b>${kept}</b>`);return true;
    }
    if(el.dataset.speciesTake10&&s.checkSource===id&&species.take10Skills?.includes(id)){checks.delete(key(id));log('roll',`${s.name}: 10 ${s.total>=0?'+':'−'} ${Math.abs(s.total)} = ${10+s.total}`);return true;}

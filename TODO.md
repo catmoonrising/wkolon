@@ -42,6 +42,10 @@
   - [x] All 88 inventoried official Force-power pages: 90 choices, isolated book versions/mixed-page sections, complete articles, descriptors and activation times.
   - [x] Lightsaber Form power activation guards, saved Lightsaber activation and Enlighten's alternative action choices.
   - [ ] Individual Force-power effects, targets, sustain costs, mandatory power-specific costs, return-to-suite exceptions and Rebuke resolution.
+  - [x] All 60 Rebellion Era feat selections, exact articles, species/skill/feat prerequisites and reviewed heroic bonus lists.
+  - [x] Fast Surge, Unstoppable Combatant, Vitality Surge, Recovering Surge and Resurgent Vitality Second Wind effects.
+  - [x] Devastating/Strong Bellow, saved encounter use, optional activation and Helpless-cap interaction; Fast Swimmer, Deep Sight and five existing-reroll upgrades.
+  - [ ] Remaining Rebellion feat effects, target triggers, conditional defenses, temporary Force Points, Regenerative Healing, Jedi Heritage, natural claws, Bonus Hit Points and vehicle actions.
   - [x] All Core feat and weapon pages, specific weapon choices, prerequisites and class bonus lists.
   - [x] Unarmed attacks, Martial Arts, Finesse, Triple Crit, Force Boon, Strong in the Force, weapon ranges and area routines.
   - [x] Species native-check rerolls, threatened Take 10, senses and carrying/lifting limits.
@@ -108,10 +112,12 @@
 
 ## Implementation batches
 
-- Enable remaining official character options in sourcebook batches with exact
-  articles, explicit prerequisites and class access.
-- Add passive calculations and activated actions in separate reviewed batches;
-  track pending effects rather than treating readable text as automation.
+- Prioritize making all remaining official options selectable before expanding
+  automation, with exact articles, secondary choices and class access.
+- Mark manual and partial automation concisely; expose details on demand.
+  State explicitly when prerequisites need manual checking.
+- Add passive calculations and activated actions in related batches after option
+  coverage; track pending effects rather than treating readable text as automation.
 - Investigate ambiguities that affect the current calculation or action.
 - Use focused checks during development and a full browser regression before
   publishing each batch.

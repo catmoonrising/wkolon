@@ -1,0 +1,50 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {newCharacter,derive,indexPack,eligible,validateCharacter} from '../src/rules.js';
+import {catchSecondWind,newEncounter,recoveryState,setPersistent} from '../src/recovery.js';
+import {bellowDetails,rollBellow} from '../src/species-actions.js';
+import {createSpeciesChecks} from '../src/species-rules.js';
+import {renderStatBlock} from '../src/stat-block.js';
+import {articleText} from '../src/wiki-content.js';
+import {validatePack} from '../tools/validate-rules.js';
+const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),ix=indexPack(pack),f=id=>({id:'feat:'+id});
+function hero(species='human',count=1){const c=newCharacter(pack);c.species='species:'+species;c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:14,wis:14,cha:14};c.trainedSkills=['skill:endurance','skill:pilot','skill:stealth','skill:perception'];c.levels=Array.from({length:count},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:[],talent:null,startingFeat:null,abilityIncreases:[3,7,11,15,19].includes(i)?['str','dex']:[],trainedSkills:[]}));return c;}
+function windHero(){const c=hero('wookiee',9);c.currentHP=1;c.condition=3;for(const [i,id]of [[0,'extra-second-wind'],[1,'fast-surge'],[2,'unstoppable-combatant'],[3,'recovering-surge'],[5,'vitality-surge'],[8,'resurgent-vitality']])c.levels[i].feats=[f(id)];return c;}
+const roll=expr=>({value:expr.startsWith('1d20')?20:12,d20:expr.startsWith('1d20')?[10]:[],display:expr});
+test('all 60 Rebellion Era feat pages have selectable exact articles and printed class bonus access',()=>{
+ validatePack(pack);const index=JSON.parse(fs.readFileSync(new URL('../data/reference-index.json',import.meta.url))),names=index.records.filter(r=>r.kind==='feat'&&r.books.includes('Rebellion Era Campaign Guide')).map(r=>r.name);assert.equal(names.length,60);
+ for(const name of names){const feat=pack.feats.find(f=>f.name===name);assert(feat,name);assert(articleText(feat.article).includes('Effect:'),name);assert(pack.catalog.records.some(r=>r.mechanicsIds.includes(feat.id)&&r.status==='available'&&r.books.includes('Rebellion Era Campaign Guide')));}
+ const expected={jedi:['Assured Attack','Deft Charge','Fast Surge','Moving Target','Rapid Reaction','Recovering Surge'],noble:['Fast Surge','Rapid Reaction','Recovering Surge'],scoundrel:['Fast Surge','Moving Target','Prime Shot','Rapid Reaction','Recovering Surge','Vehicular Surge'],scout:['Deft Charge','Fast Surge','Moving Target','Prime Shot','Rapid Reaction','Rebel Military Training','Recovering Surge','Vehicular Surge'],soldier:['Assured Attack','Deft Charge','Fast Surge','Imperial Military Training','Prime Shot','Rapid Reaction','Rebel Military Training','Recovering Surge','Vehicular Surge']};
+ for(const [cls,list]of Object.entries(expected))assert.deepEqual(ix.classes.get('class:'+cls).bonusFeats.map(id=>ix.feats.get(id).name).filter(name=>names.includes(name)).sort(),list.sort());
+});
+test('Rebellion prerequisites enforce species, Force Sensitivity, training and prerequisite feats',()=>{
+ const c=hero(),ctx=derive(c,pack).ctx,can=id=>eligible(ix.feats.get('feat:'+id),f(id),ctx,ix,'feats');assert(!can('strong-bellow'));ctx.speciesName='Ithorian';assert(can('strong-bellow')&&can('devastating-bellow'));assert(!can('jedi-heritage'));ctx.speciesName="Twi'lek";assert(!can('jedi-heritage'));ctx.feats.push(f('force-sensitivity'));assert(can('jedi-heritage'));assert(!can('vitality-surge'));ctx.feats.push(f('extra-second-wind'));assert(can('vitality-surge')&&can('unstoppable-combatant'));ctx.trained.delete('skill:pilot');assert(!can('vehicular-surge'));ctx.trained.add('skill:pilot');assert(can('vehicular-surge'));assert(!can('moving-target'));ctx.feats.push(f('dodge'));assert(can('moving-target'));
+});
+test('Second Wind feats share normal daily accounting while changing action, HP gate, encounter limit and healing',()=>{
+ const c=windHero();let d=derive(c,pack);for(const id of ['extra-second-wind','fast-surge','unstoppable-combatant','recovering-surge','vitality-surge','resurgent-vitality'])assert(d.ctx.feats.some(f=>f.id==='feat:'+id),id);assert.equal(d.recovery.secondWind.action,'Free Action (on your turn)');assert.equal(d.recovery.secondWind.healing,Math.max(Math.floor(d.hp/4),d.scores.con)+Math.max(2,2*d.mods.con));assert.equal(catchSecondWind(c,d,pack).conditionRecovery,1);assert.equal(c.condition,2);c.currentHP=d.hp;d=derive(c,pack);assert(d.recovery.secondWind.available,'Vitality Surge allows above half, including full HP');catchSecondWind(c,d,pack);assert.equal(c.recovery.secondWindsSpent,2);assert.equal(c.condition,1);validateCharacter(c,pack);
+ c.levels[2].feats=[];assert.match(derive(c,pack).recovery.secondWind.reason,/encounter/);newEncounter(c);assert(derive(c,pack).recovery.secondWind.available);c.levels[5].feats=[];assert.match(derive(c,pack).recovery.secondWind.reason,/half/);
+});
+test('Resurgent Vitality has its printed minimum and Recovering Surge never bypasses persistent conditions or helplessness',()=>{
+ const c=windHero();c.abilities.con=3;let d=derive(c,pack);assert.equal(d.recovery.secondWind.healing,Math.max(Math.floor(d.hp/4),d.scores.con)+2);setPersistent(c,'injury',true);assert.equal(derive(c,pack).recovery.secondWind.conditionRecovery,0);catchSecondWind(c,derive(c,pack),pack);assert.equal(c.condition,3);c.currentHP=0;assert.throws(()=>catchSecondWind(c,derive(c,pack),pack),/unavailable/);c.currentHP=1;c.condition=5;assert.throws(()=>catchSecondWind(c,derive(c,pack),pack),/unavailable/);
+});
+test('unlimited encounter Second Winds still obey daily/Exhaustion choices and preserve legacy recovery saves',()=>{
+ const c=windHero();c.houseRules={jediCounseling:{[pack.rules.secondWind.multipleUsesTopic]:false,[pack.rules.secondWind.exhaustionTopic]:false}};for(let i=0;i<2;i++){c.currentHP=1;catchSecondWind(c,derive(c,pack),pack);}assert.match(derive(c,pack).recovery.secondWind.reason,/daily/);c.houseRules.jediCounseling[pack.rules.secondWind.exhaustionTopic]=true;c.currentHP=1;assert(catchSecondWind(c,derive(c,pack),pack).exhaustion);assert(c.recovery.persistent.includes('second-wind'));delete c.recovery.strongBellowUsed;validateCharacter(c,pack);c.recovery.strongBellowUsed='yes';assert.throws(()=>validateCharacter(c,pack),/recovery/);
+});
+test('Bellow feats add base dice and optionally reduce one use per encounter, including the accepted Helpless cap',()=>{
+ const c=hero('ithorian',3);c.levels[0].feats=[f('devastating-bellow')];c.levels[2].feats=[f('strong-bellow')];let d=derive(c,pack);assert.equal(bellowDetails(c,d,pack).damage,'4d6');assert(renderStatBlock(c,d,pack).includes('4d6 Sonic'));assert.equal(bellowDetails(c,d,pack,2,{strong:true}).cost,2);rollBellow(c,d,pack,2,null,roll,{strong:true});assert.equal(c.condition,2);assert(recoveryState(c).strongBellowUsed);assert(!bellowDetails(c,derive(c,pack),pack,0,{strong:true}).available);const before=structuredClone(c);assert.throws(()=>rollBellow(c,derive(c,pack),pack,0,null,roll,{strong:true}),/unavailable/);assert.deepEqual(c,before);validateCharacter(JSON.parse(JSON.stringify(c)),pack);
+ newEncounter(c);c.condition=4;c.houseRules={ambiguities:{'ambiguity:bellow-extra-dice':'track-limit'}};d=derive(c,pack);assert.equal(bellowDetails(c,d,pack).maxExtra,0);assert.equal(bellowDetails(c,d,pack,1,{strong:true}).maxExtra,1);assert(!bellowDetails(c,d,pack,2,{strong:true}).available);rollBellow(c,d,pack,1,null,roll,{strong:true});assert.equal(c.condition,5);assert(!bellowDetails(c,derive(c,pack),pack).available);
+});
+test('Bellow retains uncapped RAW pools, optional cost reduction and zero-cost basic use without granting absent feats',()=>{
+ const c=hero('ithorian',3);c.levels[0].feats=[f('devastating-bellow')];c.levels[2].feats=[f('strong-bellow')];let d=derive(c,pack);const huge=bellowDetails(c,d,pack,1000,{strong:true});assert.equal(huge.dice,1004);assert.equal(huge.cost,1000);assert.equal(huge.maxExtra,null);assert(huge.manual);rollBellow(c,d,pack,0,null,roll,{strong:true});assert.equal(c.condition,0);assert(recoveryState(c).strongBellowUsed);newEncounter(c);c.levels[2].feats=[];d=derive(c,pack);assert(!bellowDetails(c,d,pack,0,{strong:true}).available);assert.equal(bellowDetails(c,d,pack).cost,1);assert(!bellowDetails(c,d,pack,Number.MAX_SAFE_INTEGER).available);
+});
+test('five reroll feats improve existing rerolls without granting extra checks or rerolls',()=>{
+ for(const [species,feat,skill]of [['duros','flawless-pilot','pilot'],['ewok','forest-stalker','stealth'],['rodian','hunter-s-instincts','perception'],['cerean','perfect-intuition','initiative'],['gungan','perfect-swimmer','swim']]){
+  const c=hero(species);c.levels[0].feats=[f(feat)];const logs=[],rolls=[20,3];const checks=createSpeciesChecks({current:()=>c,derived:()=>derive(c,pack),log:(...args)=>logs.push(args)},expr=>({value:rolls.shift(),display:expr}));const id='skill:'+skill;checks.click({dataset:{skillRoll:id}},ix.species.get(c.species));checks.click({dataset:{speciesReroll:id}},ix.species.get(c.species));assert(logs[1][1].includes('kept 20'),feat);checks.click({dataset:{speciesReroll:id}},ix.species.get(c.species));assert.equal(logs.length,2);validateCharacter(c,pack);
+ }
+ const c=hero();c.levels[0].feats=[f('flawless-pilot')];assert(!derive(c,pack).skillRerollBest.includes('skill:pilot'),'Ineligible species feat grants no reroll benefit');
+});
+test('Fast Swimmer applies before condition movement and Deep Sight supplies Darkvision to targeting and print',()=>{
+ const c=hero('mon-calamari'),base=derive(c,pack);c.levels[0].feats=[f('fast-swimmer')];let d=derive(c,pack);assert.equal(d.speeds.swim,base.speeds.swim+2);assert.equal(d.speed,base.speed);c.condition=4;assert.equal(derive(c,pack).speeds.swim,Math.floor((base.speeds.swim+2)/2));
+ const q=hero('quarren');q.levels[0].feats=[f('deep-sight')];d=derive(q,pack);assert.equal(d.vision,'darkvision');assert(renderStatBlock(q,d,pack).includes('Darkvision'));validateCharacter(q,pack);
+});

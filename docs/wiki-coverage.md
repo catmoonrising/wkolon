@@ -6,7 +6,7 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 
 **Mapped** means at least one reviewed mechanic uses the page; it does not mean every rule on that page is automated. **Reference** means embedded text without a reviewed mechanical mapping. **Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.
 
-Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **629 / 4,400 pages (14.3%)**. A mechanical mapping alone does not count as embedded text.
+Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **689 / 4,400 pages (15.7%)**. A mechanical mapping alone does not count as embedded text.
 
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -19,7 +19,7 @@ Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: *
 | Jedi Academy Training Manual | 301 | 82 | 219 | 0 | 0 |
 | Knights of the Old Republic Campaign Guide | 512 | 99 | 413 | 0 | 0 |
 | Legacy Era Campaign Guide | 413 | 53 | 360 | 0 | 1 |
-| Rebellion Era Campaign Guide | 344 | 78 | 266 | 0 | 0 |
+| Rebellion Era Campaign Guide | 344 | 138 | 206 | 0 | 0 |
 | Scavenger's Guide to Droids | 211 | 1 | 210 | 0 | 0 |
 | Scum and Villainy | 317 | 39 | 278 | 0 | 0 |
 | Starships of the Galaxy | 253 | 19 | 234 | 0 | 0 |
@@ -28,5 +28,26 @@ Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: *
 | Web Enhancements | 519 | 41 | 478 | 0 | 0 |
 
 4,400 distinct candidate pages across 16 sources. Shared pages appear in more than one row. The exclusion tree contains 367 pages in 5 categories.
+
+## Selectable options
+
+These counts ignore effect automation. Entries include book variants; page coverage deduplicates their primary sources. Many talents and items share pages, so no overall selectable-content percentage is claimed. An em dash means the inventory does not provide a comparable denominator.
+
+| Content | Entries | Inventoried pages represented |
+| --- | ---: | ---: |
+| Species | 24 | 22 / 132 (16.7%) |
+| Heroic classes | 5 | — |
+| Prestige classes | 32 | 32 / 32 (100.0%) |
+| Skills (Knowledge fields separately) | 25 | — |
+| Feats | 214 | 207 / 351 (59.0%) |
+| Talents | 194 | — |
+| Equipment | 142 | — |
+| Armor (included above) | 72 | 66 / 66 (100.0%) |
+| Force powers | 90 | 88 / 88 (100.0%) |
+| Force Techniques | 57 | — |
+| Force Secrets | 15 | — |
+| Medical Secrets | 7 | — |
+| Destinies | 11 | — |
+| Backgrounds | 46 | — |
 
 Rebuild with `python tools/discover-books.py` or `--offline` after a captured refresh. The complete title/status queue and category snapshot are saved under `.build/`; this report adds no unreviewed options to the character sheet.

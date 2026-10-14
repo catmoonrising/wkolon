@@ -48,6 +48,36 @@ def mapped_sources(node):
             yield from mapped_sources(value)
 
 
+def selectable_options(pack, reference):
+    sources = {s['id']: s['title'] for s in pack['sources']}
+    rows = []
+    def add(label, records, kind=None):
+        row = dict(name=label, entries=len(records))
+        candidates = [r for r in (reference or {}).get('records', [])
+                      if kind and r.get('kind') == kind]
+        if candidates:
+            titles = {sources[r['sourceId']] for r in records}
+            row.update(pages=sum(r['name'] in titles for r in candidates),
+                       totalPages=len(candidates))
+        rows.append(row)
+    add('Species', pack.get('species', []), 'species')
+    classes = pack.get('classes', [])
+    add('Heroic classes', [r for r in classes if r.get('classType', 'heroic') == 'heroic'])
+    add('Prestige classes', [r for r in classes if r.get('classType') == 'prestige'], 'prestigeClass')
+    add('Skills (Knowledge fields separately)', pack.get('skills', []))
+    add('Feats', pack.get('feats', []), 'feat')
+    add('Talents', pack.get('talents', []))
+    equipment = pack.get('equipment', [])
+    add('Equipment', equipment)
+    add('Armor (included above)', [r for r in equipment if r.get('kind') == 'armor'], 'armor')
+    add('Force powers', pack.get('forcePowers', []), 'forcePower')
+    for kind, label in [('forceTechnique', 'Force Techniques'), ('forceSecret', 'Force Secrets'), ('medicalSecret', 'Medical Secrets')]:
+        add(label, [r for r in pack.get('classChoices', []) if r['kind'] == kind])
+    add('Destinies', pack.get('destinies', []))
+    add('Backgrounds', pack.get('backgrounds', []))
+    return rows
+
+
 def capture_categories(fetch):
     categories = {}
     def capture(title):
@@ -99,7 +129,8 @@ def coverage(snapshot, pack, reference=None):
                 bookRoot=BOOK_ROOT, homebrewRoot=HOMEBREW_ROOT,
                 excludedCategories=sorted(excluded_categories),
                 excludedPages=sorted(excluded), uniquePages=len(unique),
-                uniqueImportedPages=len(unique & imported), uniqueMappedPages=len(unique & mapped), books=result)
+                uniqueImportedPages=len(unique & imported), uniqueMappedPages=len(unique & mapped),
+                selectableOptions=selectable_options(pack, reference), books=result)
 
 
 def markdown(result):
@@ -120,7 +151,18 @@ def markdown(result):
                   for status in ['mapped', 'reference', 'unimported']}
         lines.append(f"| {book['book']} | {len(book['pages'])} | {counts['mapped']} | {counts['reference']} | {counts['unimported']} | {len(book['excluded'])} |")
     lines += ['', f"{result['uniquePages']:,} distinct candidate pages across {len(result['books'])} sources. Shared pages appear in more than one row. "
-        f"The exclusion tree contains {len(result['excludedPages']):,} pages in {len(result['excludedCategories'])} categories.", '',
+        f"The exclusion tree contains {len(result['excludedPages']):,} pages in {len(result['excludedCategories'])} categories.", '']
+    lines += ['## Selectable options', '',
+        'These counts ignore effect automation. Entries include book variants; page coverage deduplicates their primary sources. '
+        'Many talents and items share pages, so no overall selectable-content percentage is claimed. '
+        'An em dash means the inventory does not provide a comparable denominator.', '',
+        '| Content | Entries | Inventoried pages represented |',
+        '| --- | ---: | ---: |']
+    for row in result['selectableOptions']:
+        pages = (f"{row['pages']} / {row['totalPages']} ({row['pages']/row['totalPages']:.1%})"
+                 if row.get('totalPages') else '—')
+        lines.append(f"| {row['name']} | {row['entries']} | {pages} |")
+    lines += ['',
         'Rebuild with `python tools/discover-books.py` or `--offline` after a captured refresh. '
         'The complete title/status queue and category snapshot are saved under `.build/`; this report adds no unreviewed options to the character sheet.', '']
     return '\n'.join(lines)

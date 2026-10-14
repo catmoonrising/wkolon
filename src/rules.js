@@ -33,7 +33,7 @@ export function indexPack(pack) {
 export function newCharacter(pack) {
   return {
     schemaVersion: 1, ruleset: {id: pack.id, version: pack.version},
-    id: crypto.randomUUID(), name: '', player: '', species: 'species:human',
+    id: crypto.randomUUID(), name: 'unnamed', player: '', species: 'species:human',
     abilityMethod: 'standard', abilities: Object.fromEntries(ABILITIES.map((a, i) => [a, pack.rules.standardArray[i]])),
     pointBudget: 25, trainedSkills: [],
     levels: [{classId: 'class:scoundrel', hpRoll: null, feats: [], talent: null, startingFeat: null, abilityIncreases: [], trainedSkills: []}],
@@ -319,7 +319,7 @@ export function derive(c, pack) {
   const armorItems=[...bodyArmor.slice(0,1),...declaredArmor.filter(r=>r.armorSlot==='tandem')];
   const armor=bodyArmor[0]||armorItems.slice().sort((a,b)=>b.armorBonus-a.armorBonus)[0]||null;
   const effectiveSize=armor?.sizeOverride||species.size;ctx.size=effectiveSize;
-  const vision=armorVision(species,armorItems,ctx),blind=armorItems.some(r=>r.blinds),visionSpecies={...species,vision,blind};
+  const vision=armorVision({...species,...(effects.some(e=>e.target==='vision'&&e.value==='darkvision')?{vision:'darkvision'}:{})},armorItems,ctx),blind=armorItems.some(r=>r.blinds),visionSpecies={...species,vision,blind};
   const has = id => ctx.talents.some(t => !ctx.inactiveTalents.has(t.id)&& t.id === `talent:${id}`);
   const proficientArmor = armor && ctx.feats.some(f => f.id === F(`armor-proficiency-${armor.category}`));
   const applies = (e,attack) => !e.when || e.when==='proficientArmor'&&proficientArmor || e.when==='lightOrNoArmor'&&(!armor||armor.category==='light') || e.when==='meleeAttack'&&attack?.mode==='melee';
@@ -485,13 +485,14 @@ export function derive(c, pack) {
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
   return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,normalProtection:armorProtection(c,{armorItems,classDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+    bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
-    recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
+    recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
     forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,action:p.action||ix.forcePowers.get(p.powerId).action,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId),adept:ctx.talents.some(t=>t.id==='talent:force-power-adept'&&t.choice===p.powerId&&!ctx.inactiveTalents.has(t.id))})),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses,conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
-    speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n)])),
+    speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n+(type==='swim'?total('swimSpeed'):0))])),
     incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forceMaximum: species.forceImmune||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
     weightUnknown:carried.some(e=>resolveEquipment(e,pack,c).weight===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};

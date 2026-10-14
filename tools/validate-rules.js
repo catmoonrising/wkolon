@@ -138,6 +138,8 @@ export function validatePack(p) {
       assert(Array.isArray(r.effects) && typeof r.reminder==='string');
       const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorFortitudeToWill:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};
       for(const e of r.effects) {
+        if(e.target==='vision'){assert.deepEqual(e,{target:'vision',value:'darkvision'});continue;}
+        if(e.target==='skillRerollBest'){assert.deepEqual(Object.keys(e).sort(),['skill','target']);requireRef('skills',e.skill);continue;}
         if(e.target==='defenseAbility'){assert.deepEqual(Object.keys(e).sort(),['ability','defense','target']);assert(({reflex:'int',fortitude:'str',will:'cha'})[e.defense]===e.ability,'Unsupported defense ability');continue;}
         if(e.target==='thresholdDefense'){assert.deepEqual(e,{target:'thresholdDefense',defense:'will'});continue;}
         if(e.target==='teamSkill'){assert.deepEqual(Object.keys(e).sort(),['amount','maximum','perAlly','radius','skill','target','type']);requireRef('skills',e.skill);assert(e.amount===3&&e.perAlly===1&&e.maximum===7&&e.radius===12&&e.type==='competence','Unsupported team skill bonus');continue;}
@@ -152,12 +154,12 @@ export function validatePack(p) {
           continue;
         }
         assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when','weaponGroup','ability','minimum'].includes(k)),'Unsupported effect field');
-        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots','forcePoints','rageUses','secondWinds','weaponFinesse','criticalMultiplier','forcePointDie','rageBonus','reflexDodge','unarmedDieSteps','unarmedCriticalDieStep','rangedOpportunity','lightsaberDexDamage','exoticProficiency','multiattackReduction','controlledBurst','rapidShotPenalty','lightsaberReflex','lightsaberWill','criticalThreat','tumbleSokan',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
+        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots','forcePoints','rageUses','secondWinds','weaponFinesse','criticalMultiplier','forcePointDie','rageBonus','reflexDodge','unarmedDieSteps','unarmedCriticalDieStep','rangedOpportunity','secondWindFreeAction','secondWindMultipleUses','secondWindAboveHalf','secondWindCondition','secondWindConstitution','bellowDice','bellowConditionReduction','swimSpeed','lightsaberDexDamage','exoticProficiency','multiattackReduction','controlledBurst','rapidShotPenalty','lightsaberReflex','lightsaberWill','criticalThreat','tumbleSokan',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
         if(e.target==='forcePowerSlots')assert(e.amount===1&&e.ability==='wis'&&e.minimum===1&&e.type==='untyped'&&!e.perLevel,'Unsupported Force power capacity');
         else assert(e.ability===undefined&&e.minimum===undefined,'Unsupported effect ability');
         assert(Number.isFinite(e.amount));assert(['untyped','competence','dodge'].includes(e.type));
         if(e.target==='armorFortitudeToWill')assert(e.amount===1&&e.type==='untyped'&&!e.perLevel,'Unsupported armor defense copy');
-        const fixedEffects={forcePoints:3,rageUses:1,secondWinds:1,weaponFinesse:1,criticalMultiplier:3,forcePointDie:8,rageBonus:3,reflexDodge:1,unarmedDieSteps:1,unarmedCriticalDieStep:1,rangedOpportunity:2};
+        const fixedEffects={forcePoints:3,rageUses:1,secondWinds:1,weaponFinesse:1,criticalMultiplier:3,forcePointDie:8,rageBonus:3,reflexDodge:1,unarmedDieSteps:1,unarmedCriticalDieStep:1,rangedOpportunity:2,secondWindFreeAction:1,secondWindMultipleUses:1,secondWindAboveHalf:1,secondWindCondition:1,secondWindConstitution:2,bellowDice:1,bellowConditionReduction:1,swimSpeed:2};
         if(e.target in fixedEffects)assert(e.amount===fixedEffects[e.target]&&e.type===(e.target==='reflexDodge'?'dodge':'untyped')&&!e.perLevel,'Unsupported Core feat effect');
         if(e.type==='dodge')assert(e.target==='reflexDodge'&&e.amount===1&&!e.perLevel);
         if(e.perLevel!==undefined)assert.equal(typeof e.perLevel,'boolean');

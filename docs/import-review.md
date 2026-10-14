@@ -1324,3 +1324,47 @@ text search, active/inactive blade guards, action persistence, spent copies,
 Dark Side Score, Force Point recovery and Dracula mobile layout.
 The full Chromium regression passed, the offline import/rebuild is byte-identical,
 and all previously enabled mechanical records are preserved.
+
+## Rebellion Era feats
+
+Enabled all 60 inventoried Rebellion Era feat pages with pinned complete articles,
+explicit printed prerequisites and reviewed heroic class bonus lists. The feat
+catalog now contains 214 options. Species feats remain general selections unless
+the class's printed bonus list explicitly includes them; category and list
+membership agree for this batch.
+
+Fourteen feats connect to shared calculations and controls. Fast Surge changes
+Second Wind to a Free Action on the character's turn; Unstoppable Combatant removes
+the encounter limit while preserving daily/Exhaustion accounting. Vitality Surge
+removes the half-HP gate, Recovering Surge restores one Condition Track step unless
+a persistent condition prevents it, and Resurgent Vitality adds twice the
+Constitution bonus, minimum 2. Existing ordinary recovery behavior is preserved.
+
+Devastating Bellow adds a base damage die. Strong Bellow is optional and spends
+one use per encounter, including a zero-cost basic Bellow. Its saved use survives
+reload, New Encounter restores it, and the optional Helpless cap includes its
+cost reduction. The default still permits arbitrarily large extra-die purchases.
+
+Fast Swimmer increases native Swim Speed before movement restrictions; Deep Sight
+supplies Darkvision to the sheet, targeting and stat block. Flawless Pilot, Forest
+Stalker, Hunter's Instincts, Perfect Intuition and Perfect Swimmer change existing
+rerolls to keep the better result without granting another reroll.
+
+Remaining effects include target-specific triggers/defenses, temporary Force
+Points, Regenerative Healing, Jedi Heritage's power-slot adjustment, natural
+claws, Bonus Hit Points, conditional skill/vision benefits and vehicle actions.
+These options retain their full mechanics; selection does not imply their effects
+are automated.
+
+Validation: 474 JavaScript tests and 27 Python importer tests cover class lists,
+prerequisites, ordinary recovery regressions, daily/encounter accounting,
+minimum healing, persistent-condition restrictions, helpless guards, saved
+Bellow use/costs, unlimited pools/capped alternatives, reroll retention and senses.
+Focused Chromium/Firefox checks cover selection, exact source popups, recovery
+actions, saved encounter limits, rerolls and Dracula mobile layout. Browser
+validation now schedules independent feature checks with three workers; worker
+limits and draining after failures have dedicated regression checks.
+The full Chromium suite passed with three workers. Offline rebuilding preserves
+identical data, and existing mechanical records are unchanged apart from additive
+heroic bonus-feat lists. The coverage report now separates selectable entries from
+wiki-page mappings.

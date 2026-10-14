@@ -113,6 +113,9 @@ npm run test:browser
 ```
 
 Browser checks serve the site under `/wkolon/` to test Pages-relative paths.
+Independent feature checks run in three isolated contexts at a time. Set
+`WKOLON_BROWSER_JOBS=1` for serial execution, or choose 2–4 workers. All workers
+finish before failures are reported and the browser closes.
 Desktop/mobile previews are written to `.build/` and uploaded by CI.
 To preview locally, `python3 -m http.server 8931` is sufficient.
 

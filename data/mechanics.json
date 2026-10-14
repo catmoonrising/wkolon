@@ -9064,6 +9064,606 @@
       "sha256": "ff038a75363737a72bcc4188e20ce3b8623e2ef607f54b36d9c1bcf547a65535",
       "url": "https://swse.miraheze.org/w/index.php?oldid=20589",
       "history": "https://swse.miraheze.org/w/index.php?title=Category:Lightsaber%20Form%20Force%20Powers&action=history"
+    },
+    {
+      "id": "source:wiki-ample-foraging",
+      "title": "Ample Foraging",
+      "revision": 15820,
+      "timestamp": "2024-08-18T00:53:14Z",
+      "sha256": "6c3516d22bd7df1e8cfd362ce3b90242a5cbd36d044f96305d998d5b67c1a3c8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15820",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ample%20Foraging&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-assured-attack",
+      "title": "Assured Attack",
+      "revision": 15955,
+      "timestamp": "2024-08-18T00:53:29Z",
+      "sha256": "53936af9b059e449808ec60a19e59e99f041d03ea17537ffec4fad7de30e1598",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15955",
+      "history": "https://swse.miraheze.org/w/index.php?title=Assured%20Attack&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-binary-mind",
+      "title": "Binary Mind",
+      "revision": 16216,
+      "timestamp": "2024-08-18T00:56:31Z",
+      "sha256": "82d19b22939b0f93bb21cc55d4177a293942ae8ea081ea2849064b06e5294099",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16216",
+      "history": "https://swse.miraheze.org/w/index.php?title=Binary%20Mind&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-bothan-will",
+      "title": "Bothan Will",
+      "revision": 16347,
+      "timestamp": "2024-08-18T00:56:44Z",
+      "sha256": "a872df1fedaeeb5d4dc9546eacc78a2258542c97ebd48ae10f773f92f12246d6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16347",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bothan%20Will&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-bowcaster-marksman",
+      "title": "Bowcaster Marksman",
+      "revision": 16365,
+      "timestamp": "2024-08-18T00:56:46Z",
+      "sha256": "59864e037df095216b8f038bee7302844c3d6d326410902c1fc8f8b923fd89a4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16365",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bowcaster%20Marksman&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-clawed-subspecies",
+      "title": "Clawed Subspecies",
+      "revision": 20604,
+      "timestamp": "2024-08-26T00:10:17Z",
+      "sha256": "d5d3d9e48c3a5a4440448afd4b6a96ace2be3a93aa28bb398cd42dff6997febf",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20604",
+      "history": "https://swse.miraheze.org/w/index.php?title=Clawed%20Subspecies&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-confident-success",
+      "title": "Confident Success",
+      "revision": 20607,
+      "timestamp": "2024-08-26T00:10:38Z",
+      "sha256": "3d026fea366dc5a54852076070c94e83a2cb259a4e98408384339df22346bcf0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20607",
+      "history": "https://swse.miraheze.org/w/index.php?title=Confident%20Success&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-darkness-dweller",
+      "title": "Darkness Dweller",
+      "revision": 20620,
+      "timestamp": "2024-08-26T00:12:06Z",
+      "sha256": "5c4e39325473ace06ec17756a7668c9c80b8baae8bc479156cd13ad5cf08b56a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20620",
+      "history": "https://swse.miraheze.org/w/index.php?title=Darkness%20Dweller&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-deep-sight",
+      "title": "Deep Sight",
+      "revision": 20622,
+      "timestamp": "2024-08-26T00:12:17Z",
+      "sha256": "bf5741440c15c49b9ecdf426bed20f85a845920aab310ec96e9f4d25fa6fb3e8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20622",
+      "history": "https://swse.miraheze.org/w/index.php?title=Deep%20Sight&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-deft-charge",
+      "title": "Deft Charge",
+      "revision": 20623,
+      "timestamp": "2024-08-26T00:12:22Z",
+      "sha256": "567564d1e89b993feded147e06ece1e9b15f764742045b1311e47c28e915369f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20623",
+      "history": "https://swse.miraheze.org/w/index.php?title=Deft%20Charge&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-devastating-bellow",
+      "title": "Devastating Bellow",
+      "revision": 20626,
+      "timestamp": "2024-08-26T00:12:41Z",
+      "sha256": "971d3e57737710990376bbc881fd1719d92c5e589e71e8a799ab133540880500",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20626",
+      "history": "https://swse.miraheze.org/w/index.php?title=Devastating%20Bellow&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-disarming-charm",
+      "title": "Disarming Charm",
+      "revision": 20628,
+      "timestamp": "2024-08-26T00:12:52Z",
+      "sha256": "9eeb6d50d5d3913b1d9652d9de47570c0c893f1051279c67def945c08232ec91",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20628",
+      "history": "https://swse.miraheze.org/w/index.php?title=Disarming%20Charm&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-fast-surge",
+      "title": "Fast Surge",
+      "revision": 20639,
+      "timestamp": "2024-08-26T00:14:04Z",
+      "sha256": "ad8b85396534c37f508038f601c450bfc83d7fa412e342be53f3bd9b5e8a6c43",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20639",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fast%20Surge&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-fast-swimmer",
+      "title": "Fast Swimmer",
+      "revision": 20640,
+      "timestamp": "2024-08-26T00:14:10Z",
+      "sha256": "82f5b01a103ca19170503412e49e39e04fe89ec6c0b4d49af3a3459af75f766b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20640",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fast%20Swimmer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-flawless-pilot",
+      "title": "Flawless Pilot",
+      "revision": 20642,
+      "timestamp": "2024-08-26T00:14:17Z",
+      "sha256": "733f3fe4df2e7cc960f6af773a19b2e070dc3c1e8401565051cb60f272cea6d7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20642",
+      "history": "https://swse.miraheze.org/w/index.php?title=Flawless%20Pilot&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-forest-stalker",
+      "title": "Forest Stalker",
+      "revision": 20644,
+      "timestamp": "2024-08-26T00:14:27Z",
+      "sha256": "e3f753014c4b30755c15b02305448a90c67b68a02ae61c9ad874db64b1f9dcfe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20644",
+      "history": "https://swse.miraheze.org/w/index.php?title=Forest%20Stalker&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-fringe-benefits",
+      "title": "Fringe Benefits",
+      "revision": 20646,
+      "timestamp": "2024-08-26T00:14:39Z",
+      "sha256": "045e71f6185bd736b5d2996ea2b734d528a49a9b1948e7cfd2c2224a51b18cea",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20646",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fringe%20Benefits&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gungan-weapon-master",
+      "title": "Gungan Weapon Master",
+      "revision": 20657,
+      "timestamp": "2024-08-26T00:15:45Z",
+      "sha256": "b30d85749b6731c717d11b126708bfe7751a065eedca6df9d6ad11e66ccdb100",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20657",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gungan%20Weapon%20Master&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-hunter-s-instincts",
+      "title": "Hunter's Instincts",
+      "revision": 20660,
+      "timestamp": "2024-08-26T00:16:04Z",
+      "sha256": "1c7af4f7bcb90ab72588fdd47853077f0583b2c52b88bcd34dc8e4013982fa6c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20660",
+      "history": "https://swse.miraheze.org/w/index.php?title=Hunter%27s%20Instincts&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-imperceptible-liar",
+      "title": "Imperceptible Liar",
+      "revision": 20663,
+      "timestamp": "2024-08-26T00:16:27Z",
+      "sha256": "5847fef2186db05bdf8fe3b3a77654459efb8c6b9d44675abbc90c14e202fa7f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20663",
+      "history": "https://swse.miraheze.org/w/index.php?title=Imperceptible%20Liar&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-imperial-military-training",
+      "title": "Imperial Military Training",
+      "revision": 20669,
+      "timestamp": "2024-08-26T00:16:58Z",
+      "sha256": "cb44a54a47c88e2be2ab98154f62770718a0ec79c03ac78179f41c3943d367a8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20669",
+      "history": "https://swse.miraheze.org/w/index.php?title=Imperial%20Military%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-inborn-resilience",
+      "title": "Inborn Resilience",
+      "revision": 20673,
+      "timestamp": "2024-08-26T00:17:33Z",
+      "sha256": "dd7aa06ca502c8ad11453b710946c45aade6f9144ee1f1d99bfc00e15db69813",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20673",
+      "history": "https://swse.miraheze.org/w/index.php?title=Inborn%20Resilience&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-increased-resistance",
+      "title": "Increased Resistance",
+      "revision": 20674,
+      "timestamp": "2024-08-26T00:17:38Z",
+      "sha256": "f1854b40815f1fa2b04037f54ac4b8545492a3edff8e7b18f67c3db340b0bfe2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20674",
+      "history": "https://swse.miraheze.org/w/index.php?title=Increased%20Resistance&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-instinctive-perception",
+      "title": "Instinctive Perception",
+      "revision": 20675,
+      "timestamp": "2024-08-26T00:17:43Z",
+      "sha256": "2e82fc138982092466a2d13f5dc80000a8fd3a2c01258ce904cd7c2b7c3925b9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20675",
+      "history": "https://swse.miraheze.org/w/index.php?title=Instinctive%20Perception&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jedi-heritage",
+      "title": "Jedi Heritage",
+      "revision": 20683,
+      "timestamp": "2024-08-26T00:18:53Z",
+      "sha256": "9f529976ae1de177a27ea1a0a137e7e04634e3d5139e993de2b6632f7894d278",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20683",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jedi%20Heritage&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-justice-seeker",
+      "title": "Justice Seeker",
+      "revision": 20684,
+      "timestamp": "2024-08-26T00:19:02Z",
+      "sha256": "affab4fcb2d72b39558fd313371d160c90ff71f48260084a94189b8a997bccd2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20684",
+      "history": "https://swse.miraheze.org/w/index.php?title=Justice%20Seeker&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-keen-scent",
+      "title": "Keen Scent",
+      "revision": 20686,
+      "timestamp": "2024-08-26T00:19:25Z",
+      "sha256": "7d7cb90a97ca87d1ad754e825c289d98d10e7cc4a5a9da298a7440935ff92c13",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20686",
+      "history": "https://swse.miraheze.org/w/index.php?title=Keen%20Scent&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-lasting-influence",
+      "title": "Lasting Influence",
+      "revision": 20693,
+      "timestamp": "2024-08-26T00:20:22Z",
+      "sha256": "6138e694d2e0ce3f0baa3bd1152a6c43cb33594ad3e9f64a11cfaffae1b5fb27",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20693",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lasting%20Influence&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-master-tracker",
+      "title": "Master Tracker",
+      "revision": 20701,
+      "timestamp": "2024-08-26T00:21:31Z",
+      "sha256": "75b8343892d6498112f46c1a2c4ed56afc06d686590465b9babe2791aeac0b6c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20701",
+      "history": "https://swse.miraheze.org/w/index.php?title=Master%20Tracker&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mind-of-reason",
+      "title": "Mind of Reason",
+      "revision": 20706,
+      "timestamp": "2024-08-26T00:22:03Z",
+      "sha256": "af2c006ca857e26452f1647f4634b398b6370975695f058cd291aba891794f68",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20706",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mind%20of%20Reason&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mon-calamari-shipwright",
+      "title": "Mon Calamari Shipwright",
+      "revision": 25027,
+      "timestamp": "2024-11-10T20:33:03Z",
+      "sha256": "dac8c26f295159c0189f07793f9e525a254f8968b1204035de61c8d64a7d68e1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25027",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mon%20Calamari%20Shipwright&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-moving-target",
+      "title": "Moving Target",
+      "revision": 20710,
+      "timestamp": "2024-08-26T00:22:29Z",
+      "sha256": "333358cd22ada168b0d08d82f8210ddbf064850fcedd5f88e0b6a7217b8725a2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20710",
+      "history": "https://swse.miraheze.org/w/index.php?title=Moving%20Target&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-nature-specialist",
+      "title": "Nature Specialist",
+      "revision": 20714,
+      "timestamp": "2024-08-26T00:22:55Z",
+      "sha256": "751189828f2d521226ae2b29ebda128ab9e5b0820acbe9a4157a0da0d64ae861",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20714",
+      "history": "https://swse.miraheze.org/w/index.php?title=Nature%20Specialist&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-perfect-intuition",
+      "title": "Perfect Intuition",
+      "revision": 20722,
+      "timestamp": "2024-08-26T00:23:40Z",
+      "sha256": "04661441f8cc46fa0b6c8d14dca1cfe88d41fc2e36330560e9ff7fd6bb44b1af",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20722",
+      "history": "https://swse.miraheze.org/w/index.php?title=Perfect%20Intuition&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-perfect-swimmer",
+      "title": "Perfect Swimmer",
+      "revision": 20723,
+      "timestamp": "2024-08-26T00:23:46Z",
+      "sha256": "78e7d5d9aefd386b740217795847a99cde84917c9f2bc93cbca0b5fee6bb7f93",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20723",
+      "history": "https://swse.miraheze.org/w/index.php?title=Perfect%20Swimmer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-pitiless-warrior",
+      "title": "Pitiless Warrior",
+      "revision": 20729,
+      "timestamp": "2024-08-26T00:24:26Z",
+      "sha256": "e06ee97a38d849d5f760aca78d123487cb8096080dd6ac0ec58d6537c97b0ee8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20729",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pitiless%20Warrior&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-prime-shot",
+      "title": "Prime Shot",
+      "revision": 20733,
+      "timestamp": "2024-08-26T00:24:50Z",
+      "sha256": "fbe893b1b0f2ff0f719a085fec3dc908272f54348c90826e73faf6da0809d7da",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20733",
+      "history": "https://swse.miraheze.org/w/index.php?title=Prime%20Shot&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-primitive-warrior",
+      "title": "Primitive Warrior",
+      "revision": 20734,
+      "timestamp": "2024-08-26T00:24:56Z",
+      "sha256": "9989b24eee177ce67c5ad541054c2b5933166c3c2cb2b98209e5e72d788baf8a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20734",
+      "history": "https://swse.miraheze.org/w/index.php?title=Primitive%20Warrior&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-quick-comeback",
+      "title": "Quick Comeback",
+      "revision": 20737,
+      "timestamp": "2024-08-26T00:25:20Z",
+      "sha256": "0d2d048a37e73ce7dbda6d737a893492b289e918557493fc4f2d4371a23c3553",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20737",
+      "history": "https://swse.miraheze.org/w/index.php?title=Quick%20Comeback&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-rapid-reaction",
+      "title": "Rapid Reaction",
+      "revision": 20739,
+      "timestamp": "2024-08-26T00:25:34Z",
+      "sha256": "1acc2a8ad6c5ab8705f0d181371ef8fbe84265b1a54c1f4b49352d5af5183760",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20739",
+      "history": "https://swse.miraheze.org/w/index.php?title=Rapid%20Reaction&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-read-the-winds",
+      "title": "Read the Winds",
+      "revision": 20742,
+      "timestamp": "2024-08-26T00:25:45Z",
+      "sha256": "7c072ba5b578da3e9ccf0951f77968d7c6c7bb27c72b3e007ce4dde786ebbe4c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20742",
+      "history": "https://swse.miraheze.org/w/index.php?title=Read%20the%20Winds&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-rebel-military-training",
+      "title": "Rebel Military Training",
+      "revision": 20747,
+      "timestamp": "2024-08-26T00:26:15Z",
+      "sha256": "62dee57946e8d9ab1fd7517e40871e62f6ca7b9655d944a89abd24d02ca721a2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20747",
+      "history": "https://swse.miraheze.org/w/index.php?title=Rebel%20Military%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-recovering-surge",
+      "title": "Recovering Surge",
+      "revision": 20751,
+      "timestamp": "2024-08-26T00:26:32Z",
+      "sha256": "3553e930ab70843e8b98fc2a34a2f945f4af9493c81186e4353de79c5b911ca3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20751",
+      "history": "https://swse.miraheze.org/w/index.php?title=Recovering%20Surge&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-regenerative-healing",
+      "title": "Regenerative Healing",
+      "revision": 20752,
+      "timestamp": "2024-08-26T00:26:38Z",
+      "sha256": "a071bc07c57f2c41e9fd6c7da0d44a6c98d93a9fa6bd52d7184c758645228c87",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20752",
+      "history": "https://swse.miraheze.org/w/index.php?title=Regenerative%20Healing&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-resurgent-vitality",
+      "title": "Resurgent Vitality",
+      "revision": 20754,
+      "timestamp": "2024-08-26T00:26:53Z",
+      "sha256": "852b4fb8bcd62a7b104830d5504f4ac9af6e9d0e11f945c96ef7f20d7f437f68",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20754",
+      "history": "https://swse.miraheze.org/w/index.php?title=Resurgent%20Vitality&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-scion-of-dorin",
+      "title": "Scion of Dorin",
+      "revision": 20762,
+      "timestamp": "2024-08-26T00:28:09Z",
+      "sha256": "a3495e24758a54f09f09373590ffcc8b5b4cc24e6c7347f494a2f0c8db299537",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20762",
+      "history": "https://swse.miraheze.org/w/index.php?title=Scion%20of%20Dorin&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sharp-senses",
+      "title": "Sharp Senses",
+      "revision": 20766,
+      "timestamp": "2024-08-26T00:28:35Z",
+      "sha256": "d508a529ac5d35dc5b20b866a7e7a79c6c8dc1fa3411e16558cf8637f3a0f55b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20766",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sharp%20Senses&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-shrewd-bargainer",
+      "title": "Shrewd Bargainer",
+      "revision": 20769,
+      "timestamp": "2024-08-26T00:28:51Z",
+      "sha256": "0caa2edd9428703daaa231ae9537db1260c3b16a96562df13d2095c0cfb05265",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20769",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shrewd%20Bargainer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-spacer-s-surge",
+      "title": "Spacer's Surge",
+      "revision": 20773,
+      "timestamp": "2024-08-26T00:29:17Z",
+      "sha256": "0ae8ebe0e6ba3402417a776bd23e695bd2b12962b25265671e54e5ab1328fc1f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20773",
+      "history": "https://swse.miraheze.org/w/index.php?title=Spacer%27s%20Surge&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-strong-bellow",
+      "title": "Strong Bellow",
+      "revision": 20781,
+      "timestamp": "2024-08-26T00:30:28Z",
+      "sha256": "8b377a19b31d68cf825e1b93b040b20b0e277368d62c9541d3e88ce07e3fbe6c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20781",
+      "history": "https://swse.miraheze.org/w/index.php?title=Strong%20Bellow&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sure-climber",
+      "title": "Sure Climber",
+      "revision": 20785,
+      "timestamp": "2024-08-26T00:30:55Z",
+      "sha256": "008291370eae4fcffaa068cbfd1e2f1a27d88716d5fb3145de202d36663776a1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20785",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sure%20Climber&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-survivor-of-ryloth",
+      "title": "Survivor of Ryloth",
+      "revision": 20786,
+      "timestamp": "2024-08-26T00:31:02Z",
+      "sha256": "696933fff6f81a36ece0281876232c3ce2a73b44bfab78bc85723d30a3cf18f4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20786",
+      "history": "https://swse.miraheze.org/w/index.php?title=Survivor%20of%20Ryloth&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-thick-skin",
+      "title": "Thick Skin",
+      "revision": 20795,
+      "timestamp": "2024-08-26T00:32:10Z",
+      "sha256": "e544a0e3fff42818f585837a46b4f793a1f44f75a15349381503c7a6b07b28c6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20795",
+      "history": "https://swse.miraheze.org/w/index.php?title=Thick%20Skin&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-unstoppable-combatant",
+      "title": "Unstoppable Combatant",
+      "revision": 20811,
+      "timestamp": "2024-08-26T00:33:58Z",
+      "sha256": "fcc0b58084229301271c4854785cd6a1a9e0836e365877f412eff121cdd5ff78",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20811",
+      "history": "https://swse.miraheze.org/w/index.php?title=Unstoppable%20Combatant&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-unwavering-focus",
+      "title": "Unwavering Focus",
+      "revision": 20812,
+      "timestamp": "2024-08-26T00:34:04Z",
+      "sha256": "fd3fe1015904320a6d374dba5d0474b6cae71839a3015911440d7c319a0fdfba",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20812",
+      "history": "https://swse.miraheze.org/w/index.php?title=Unwavering%20Focus&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-vehicular-surge",
+      "title": "Vehicular Surge",
+      "revision": 20815,
+      "timestamp": "2024-08-26T00:34:27Z",
+      "sha256": "876a6cf019dae9c2324d7ae7da1046c520ba962b276bc73501df1343750e9e2e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20815",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vehicular%20Surge&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-veteran-spacer",
+      "title": "Veteran Spacer",
+      "revision": 20816,
+      "timestamp": "2024-08-26T00:34:33Z",
+      "sha256": "d9f42ca06460fbef488efd9e8aeb6ac4efca6ba36c97cf49e9310c2e2891b037",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20816",
+      "history": "https://swse.miraheze.org/w/index.php?title=Veteran%20Spacer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-vitality-surge",
+      "title": "Vitality Surge",
+      "revision": 20817,
+      "timestamp": "2024-08-26T00:34:39Z",
+      "sha256": "a27eb3f769483bc25cfb9935755bdc5c2d9fb412224c7a0b70493827d9658172",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20817",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vitality%20Surge&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-warrior-heritage",
+      "title": "Warrior Heritage",
+      "revision": 20819,
+      "timestamp": "2024-08-26T00:34:53Z",
+      "sha256": "6ea91cf01c09c0a49890ffb698bd9dcaa9a884fada3ecaaf6b034ba0f60403e3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20819",
+      "history": "https://swse.miraheze.org/w/index.php?title=Warrior%20Heritage&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-wroshyr-rage",
+      "title": "Wroshyr Rage",
+      "revision": 20829,
+      "timestamp": "2024-08-26T00:35:58Z",
+      "sha256": "256ac386bcb987365788b182f48b65fc9cdb9c41a6ef4508cb1e47071246abec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20829",
+      "history": "https://swse.miraheze.org/w/index.php?title=Wroshyr%20Rage&action=history",
+      "section": null
     }
   ],
   "species": [
@@ -9935,7 +10535,13 @@
         "feat:officer-candidacy-training",
         "feat:resilient-strength",
         "feat:risk-taker",
-        "feat:staggering-attack-galaxy-at-war"
+        "feat:staggering-attack-galaxy-at-war",
+        "feat:assured-attack",
+        "feat:deft-charge",
+        "feat:fast-surge",
+        "feat:moving-target",
+        "feat:rapid-reaction",
+        "feat:recovering-surge"
       ],
       "talentTrees": [
         "tree:jedi-consular",
@@ -10050,7 +10656,10 @@
         "feat:force-of-personality",
         "feat:mission-specialist",
         "feat:predictive-defense",
-        "feat:sport-hunter"
+        "feat:sport-hunter",
+        "feat:fast-surge",
+        "feat:rapid-reaction",
+        "feat:recovering-surge"
       ],
       "talentTrees": [
         "tree:influence",
@@ -10160,7 +10769,13 @@
         "feat:opportunistic-shooter",
         "feat:pistoleer",
         "feat:predictive-defense",
-        "feat:steadying-position"
+        "feat:steadying-position",
+        "feat:fast-surge",
+        "feat:moving-target",
+        "feat:prime-shot",
+        "feat:rapid-reaction",
+        "feat:recovering-surge",
+        "feat:vehicular-surge"
       ],
       "talentTrees": [
         "tree:fortune",
@@ -10283,7 +10898,15 @@
         "feat:riflemaster",
         "feat:risk-taker",
         "feat:sport-hunter",
-        "feat:steadying-position"
+        "feat:steadying-position",
+        "feat:deft-charge",
+        "feat:fast-surge",
+        "feat:moving-target",
+        "feat:prime-shot",
+        "feat:rapid-reaction",
+        "feat:rebel-military-training",
+        "feat:recovering-surge",
+        "feat:vehicular-surge"
       ],
       "talentTrees": [
         "tree:awareness",
@@ -10446,7 +11069,16 @@
         "feat:risk-taker",
         "feat:sport-hunter",
         "feat:steadying-position",
-        "feat:staggering-attack-galaxy-at-war"
+        "feat:staggering-attack-galaxy-at-war",
+        "feat:assured-attack",
+        "feat:deft-charge",
+        "feat:fast-surge",
+        "feat:imperial-military-training",
+        "feat:prime-shot",
+        "feat:rapid-reaction",
+        "feat:rebel-military-training",
+        "feat:recovering-surge",
+        "feat:vehicular-surge"
       ],
       "talentTrees": [
         "tree:armor-specialist",
@@ -16949,6 +17581,1078 @@
       "effects": [],
       "reminder": "",
       "exclusiveGroup": "staggering-attack"
+    },
+    {
+      "id": "feat:ample-foraging",
+      "name": "Ample Foraging",
+      "sourceId": "source:wiki-ample-foraging",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Ewok"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:assured-attack",
+      "name": "Assured Attack",
+      "sourceId": "source:wiki-assured-attack",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:binary-mind",
+      "name": "Binary Mind",
+      "sourceId": "source:wiki-binary-mind",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Cerean"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:bothan-will",
+      "name": "Bothan Will",
+      "sourceId": "source:wiki-bothan-will",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Bothan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:bowcaster-marksman",
+      "name": "Bowcaster Marksman",
+      "sourceId": "source:wiki-bowcaster-marksman",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Wookiee"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:clawed-subspecies",
+      "name": "Clawed Subspecies",
+      "sourceId": "source:wiki-clawed-subspecies",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Quarren"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:confident-success",
+      "name": "Confident Success",
+      "sourceId": "source:wiki-confident-success",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Bothan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:darkness-dweller",
+      "name": "Darkness Dweller",
+      "sourceId": "source:wiki-darkness-dweller",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Sullustan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:deep-sight",
+      "name": "Deep Sight",
+      "sourceId": "source:wiki-deep-sight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Quarren"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "vision",
+          "value": "darkvision"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:deft-charge",
+      "name": "Deft Charge",
+      "sourceId": "source:wiki-deft-charge",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:devastating-bellow",
+      "name": "Devastating Bellow",
+      "sourceId": "source:wiki-devastating-bellow",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Ithorian"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "bellowDice",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:disarming-charm",
+      "name": "Disarming Charm",
+      "sourceId": "source:wiki-disarming-charm",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Sullustan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:fast-surge",
+      "name": "Fast Surge",
+      "sourceId": "source:wiki-fast-surge",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "secondWindFreeAction",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:fast-swimmer",
+      "name": "Fast Swimmer",
+      "sourceId": "source:wiki-fast-swimmer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Mon Calamari"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "swimSpeed",
+          "amount": 2,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:flawless-pilot",
+      "name": "Flawless Pilot",
+      "sourceId": "source:wiki-flawless-pilot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Duros"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "skillRerollBest",
+          "skill": "skill:pilot"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:forest-stalker",
+      "name": "Forest Stalker",
+      "sourceId": "source:wiki-forest-stalker",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Ewok"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "skillRerollBest",
+          "skill": "skill:stealth"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:fringe-benefits",
+      "name": "Fringe Benefits",
+      "sourceId": "source:wiki-fringe-benefits",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Rodian"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:gungan-weapon-master",
+      "name": "Gungan Weapon Master",
+      "sourceId": "source:wiki-gungan-weapon-master",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Gungan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:hunter-s-instincts",
+      "name": "Hunter's Instincts",
+      "sourceId": "source:wiki-hunter-s-instincts",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Rodian"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "skillRerollBest",
+          "skill": "skill:perception"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:imperceptible-liar",
+      "name": "Imperceptible Liar",
+      "sourceId": "source:wiki-imperceptible-liar",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Twi'lek"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:imperial-military-training",
+      "name": "Imperial Military Training",
+      "sourceId": "source:wiki-imperial-military-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:inborn-resilience",
+      "name": "Inborn Resilience",
+      "sourceId": "source:wiki-inborn-resilience",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Zabrak"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:increased-resistance",
+      "name": "Increased Resistance",
+      "sourceId": "source:wiki-increased-resistance",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Gamorrean"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:instinctive-perception",
+      "name": "Instinctive Perception",
+      "sourceId": "source:wiki-instinctive-perception",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Zabrak"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:jedi-heritage",
+      "name": "Jedi Heritage",
+      "sourceId": "source:wiki-jedi-heritage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Twi'lek"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:justice-seeker",
+      "name": "Justice Seeker",
+      "sourceId": "source:wiki-justice-seeker",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Kel Dor"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:keen-scent",
+      "name": "Keen Scent",
+      "sourceId": "source:wiki-keen-scent",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Ewok"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:lasting-influence",
+      "name": "Lasting Influence",
+      "sourceId": "source:wiki-lasting-influence",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Bothan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:master-tracker",
+      "name": "Master Tracker",
+      "sourceId": "source:wiki-master-tracker",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Rodian"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:mind-of-reason",
+      "name": "Mind of Reason",
+      "sourceId": "source:wiki-mind-of-reason",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Cerean"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:mon-calamari-shipwright",
+      "name": "Mon Calamari Shipwright",
+      "sourceId": "source:wiki-mon-calamari-shipwright",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Mon Calamari"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:moving-target",
+      "name": "Moving Target",
+      "sourceId": "source:wiki-moving-target",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:dodge"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:nature-specialist",
+      "name": "Nature Specialist",
+      "sourceId": "source:wiki-nature-specialist",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Ithorian"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:perfect-intuition",
+      "name": "Perfect Intuition",
+      "sourceId": "source:wiki-perfect-intuition",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Cerean"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "skillRerollBest",
+          "skill": "skill:initiative"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:perfect-swimmer",
+      "name": "Perfect Swimmer",
+      "sourceId": "source:wiki-perfect-swimmer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Gungan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "skillRerollBest",
+          "skill": "skill:swim"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:pitiless-warrior",
+      "name": "Pitiless Warrior",
+      "sourceId": "source:wiki-pitiless-warrior",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Trandoshan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:prime-shot",
+      "name": "Prime Shot",
+      "sourceId": "source:wiki-prime-shot",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:point-blank-shot"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:primitive-warrior",
+      "name": "Primitive Warrior",
+      "sourceId": "source:wiki-primitive-warrior",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Gamorrean"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:quick-comeback",
+      "name": "Quick Comeback",
+      "sourceId": "source:wiki-quick-comeback",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Gamorrean"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:rapid-reaction",
+      "name": "Rapid Reaction",
+      "sourceId": "source:wiki-rapid-reaction",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:read-the-winds",
+      "name": "Read the Winds",
+      "sourceId": "source:wiki-read-the-winds",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Kel Dor"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:rebel-military-training",
+      "name": "Rebel Military Training",
+      "sourceId": "source:wiki-rebel-military-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:running-attack"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:recovering-surge",
+      "name": "Recovering Surge",
+      "sourceId": "source:wiki-recovering-surge",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "secondWindCondition",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:regenerative-healing",
+      "name": "Regenerative Healing",
+      "sourceId": "source:wiki-regenerative-healing",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Trandoshan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:resurgent-vitality",
+      "name": "Resurgent Vitality",
+      "sourceId": "source:wiki-resurgent-vitality",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Wookiee"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "secondWindConstitution",
+          "amount": 2,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:scion-of-dorin",
+      "name": "Scion of Dorin",
+      "sourceId": "source:wiki-scion-of-dorin",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Kel Dor"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:sharp-senses",
+      "name": "Sharp Senses",
+      "sourceId": "source:wiki-sharp-senses",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Mon Calamari"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:shrewd-bargainer",
+      "name": "Shrewd Bargainer",
+      "sourceId": "source:wiki-shrewd-bargainer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Quarren"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:spacer-s-surge",
+      "name": "Spacer's Surge",
+      "sourceId": "source:wiki-spacer-s-surge",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Duros"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:strong-bellow",
+      "name": "Strong Bellow",
+      "sourceId": "source:wiki-strong-bellow",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Ithorian"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "bellowConditionReduction",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:sure-climber",
+      "name": "Sure Climber",
+      "sourceId": "source:wiki-sure-climber",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Sullustan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:survivor-of-ryloth",
+      "name": "Survivor of Ryloth",
+      "sourceId": "source:wiki-survivor-of-ryloth",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Twi'lek"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:thick-skin",
+      "name": "Thick Skin",
+      "sourceId": "source:wiki-thick-skin",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Trandoshan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:unstoppable-combatant",
+      "name": "Unstoppable Combatant",
+      "sourceId": "source:wiki-unstoppable-combatant",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:extra-second-wind"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "secondWindMultipleUses",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:unwavering-focus",
+      "name": "Unwavering Focus",
+      "sourceId": "source:wiki-unwavering-focus",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Zabrak"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:vehicular-surge",
+      "name": "Vehicular Surge",
+      "sourceId": "source:wiki-vehicular-surge",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:pilot"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:veteran-spacer",
+      "name": "Veteran Spacer",
+      "sourceId": "source:wiki-veteran-spacer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Duros"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:vitality-surge",
+      "name": "Vitality Surge",
+      "sourceId": "source:wiki-vitality-surge",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:extra-second-wind"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "secondWindAboveHalf",
+          "amount": 1,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:warrior-heritage",
+      "name": "Warrior Heritage",
+      "sourceId": "source:wiki-warrior-heritage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Gungan"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:wroshyr-rage",
+      "name": "Wroshyr Rage",
+      "sourceId": "source:wiki-wroshyr-rage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "species",
+            "value": "Wookiee"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
     }
   ],
   "talents": [
