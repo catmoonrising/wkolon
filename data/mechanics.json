@@ -8274,6 +8274,796 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=19785",
       "history": "https://swse.miraheze.org/w/index.php?title=Staggering%20Attack&action=history",
       "section": "Scum and Villainy"
+    },
+    {
+      "id": "source:wiki-assured-strike",
+      "title": "Assured Strike",
+      "revision": 15982,
+      "timestamp": "2024-08-18T00:53:29Z",
+      "sha256": "44f6525e2d4014e6e38b93ca7848264ddc00ce748ac80802923a11f8eaff9f85",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15982",
+      "history": "https://swse.miraheze.org/w/index.php?title=Assured%20Strike&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-ballistakinesis",
+      "title": "Ballistakinesis",
+      "revision": 16120,
+      "timestamp": "2024-08-18T00:56:19Z",
+      "sha256": "2eeaa2e8536dfcd8da875a20884d288cc0f24e356d5e4d59794f78c4f908e97b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16120",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ballistakinesis&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-barrier-of-blades",
+      "title": "Barrier of Blades",
+      "revision": 16146,
+      "timestamp": "2024-08-18T00:56:23Z",
+      "sha256": "81db3d947a1504eda530465deb98651f7e726f04d6fadbade4b4aa9a28d3ab99",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16146",
+      "history": "https://swse.miraheze.org/w/index.php?title=Barrier%20of%20Blades&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-circle-of-shelter",
+      "title": "Circle of Shelter",
+      "revision": 20375,
+      "timestamp": "2024-08-25T23:43:51Z",
+      "sha256": "6e5b1c342768bb64dd0b4788121c6f5a0b263862de0837db879ff0f08a7a4378",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20375",
+      "history": "https://swse.miraheze.org/w/index.php?title=Circle%20of%20Shelter&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-cloak",
+      "title": "Cloak",
+      "revision": 19843,
+      "timestamp": "2024-08-25T22:43:08Z",
+      "sha256": "3d2ae0736446128417414480c216ce0f10a95dcf6e80472849a7c48f35a69ec3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19843",
+      "history": "https://swse.miraheze.org/w/index.php?title=Cloak&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-combustion",
+      "title": "Combustion",
+      "revision": 20117,
+      "timestamp": "2024-08-25T23:15:02Z",
+      "sha256": "36c3e4fd511e7322fcc864a1779c5403e7cbcb475866740f0d317de9323f7b6e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20117",
+      "history": "https://swse.miraheze.org/w/index.php?title=Combustion&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-contentious-opportunity",
+      "title": "Contentious Opportunity",
+      "revision": 20378,
+      "timestamp": "2024-08-25T23:44:07Z",
+      "sha256": "4398c3ad19cc3de0a99185f4a9fdeb2dc06f19cc6c9125b8b950be1c2aa1e40f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20378",
+      "history": "https://swse.miraheze.org/w/index.php?title=Contentious%20Opportunity&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-convection",
+      "title": "Convection",
+      "revision": 20379,
+      "timestamp": "2024-08-25T23:44:20Z",
+      "sha256": "2cfb2e9bc4bc4c428c4585fe548837d671b0fb068b751d32082d1dd27250a578",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20379",
+      "history": "https://swse.miraheze.org/w/index.php?title=Convection&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-corruption",
+      "title": "Corruption",
+      "section": null,
+      "revision": 18060,
+      "timestamp": "2024-08-25T19:31:23Z",
+      "sha256": "2a86057100694ead122b7a205bc464cc8efced554699339215802cd7c1b2d50b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18060",
+      "history": "https://swse.miraheze.org/w/index.php?title=Corruption&action=history"
+    },
+    {
+      "id": "source:wiki-corruption-force-power",
+      "title": "Corruption",
+      "section": "Force Power",
+      "revision": 18060,
+      "timestamp": "2024-08-25T19:31:23Z",
+      "sha256": "2a86057100694ead122b7a205bc464cc8efced554699339215802cd7c1b2d50b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18060#Force_Power",
+      "history": "https://swse.miraheze.org/w/index.php?title=Corruption&action=history"
+    },
+    {
+      "id": "source:wiki-crucitorn",
+      "title": "Crucitorn",
+      "revision": 20383,
+      "timestamp": "2024-08-25T23:44:51Z",
+      "sha256": "d5fd93f1b8b98b4e17f0e62712140e50787920e35338aa8d0db2e1a6454189b3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20383",
+      "history": "https://swse.miraheze.org/w/index.php?title=Crucitorn&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-cryokinesis",
+      "title": "Cryokinesis",
+      "revision": 20384,
+      "timestamp": "2024-08-25T23:44:57Z",
+      "sha256": "099e81880496c73125dba3ada8a2244aaa5f0ef7eaf50ec487de13e10c470837",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20384",
+      "history": "https://swse.miraheze.org/w/index.php?title=Cryokinesis&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-dark-transfer",
+      "title": "Dark Transfer",
+      "revision": 24721,
+      "timestamp": "2024-11-05T20:45:12Z",
+      "sha256": "914f6a9cb762207817749eb4ab7e811f6bb3f961513c3749b90ee9bc940bcc42",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24721",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Transfer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-dark-transfer-legacy-era-campaign-guide",
+      "title": "Dark Transfer",
+      "revision": 24721,
+      "timestamp": "2024-11-05T20:45:12Z",
+      "sha256": "914f6a9cb762207817749eb4ab7e811f6bb3f961513c3749b90ee9bc940bcc42",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24721",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Transfer&action=history",
+      "section": "Legacy Era Campaign Guide"
+    },
+    {
+      "id": "source:wiki-dark-transfer-web-enhancements",
+      "title": "Dark Transfer",
+      "revision": 24721,
+      "timestamp": "2024-11-05T20:45:12Z",
+      "sha256": "914f6a9cb762207817749eb4ab7e811f6bb3f961513c3749b90ee9bc940bcc42",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24721",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dark%20Transfer&action=history",
+      "section": "Web Enhancements"
+    },
+    {
+      "id": "source:wiki-deflecting-slash",
+      "title": "Deflecting Slash",
+      "revision": 20390,
+      "timestamp": "2024-08-25T23:45:35Z",
+      "sha256": "e5163865d534bd05903ed9d3857cbec8e0dd66cd0d0ce4ecb3f5b68f062307a8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20390",
+      "history": "https://swse.miraheze.org/w/index.php?title=Deflecting%20Slash&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-detonate",
+      "title": "Detonate",
+      "revision": 20139,
+      "timestamp": "2024-08-25T23:17:23Z",
+      "sha256": "07ed5343c5d71910ea493f2ffe949de73d0517d9ce2db33d83d35d89ed906636",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20139",
+      "history": "https://swse.miraheze.org/w/index.php?title=Detonate&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-disarming-slash",
+      "title": "Disarming Slash",
+      "revision": 20393,
+      "timestamp": "2024-08-25T23:45:56Z",
+      "sha256": "d21086fde1c91d415e266630debd4b76cca7666acef43dd0f9152711013a6199",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20393",
+      "history": "https://swse.miraheze.org/w/index.php?title=Disarming%20Slash&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-drain-energy",
+      "title": "Drain Energy",
+      "revision": 20396,
+      "timestamp": "2024-08-25T23:46:14Z",
+      "sha256": "4671e2ac436f82fbaf095c2a49b553af51a87882383196cbb25cdccb49d46d6b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20396",
+      "history": "https://swse.miraheze.org/w/index.php?title=Drain%20Energy&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-draw-closer",
+      "title": "Draw Closer",
+      "revision": 20397,
+      "timestamp": "2024-08-25T23:46:19Z",
+      "sha256": "ba7b5e07f90d3fba0cc4bfc178408771c99c5c58af5c646c3a3c4052c5d42944",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20397",
+      "history": "https://swse.miraheze.org/w/index.php?title=Draw%20Closer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-energy-resistance",
+      "title": "Energy Resistance",
+      "revision": 19120,
+      "timestamp": "2024-08-25T21:21:19Z",
+      "sha256": "9dfd5ca73108c1a03d3717587d0acc77fd9aff756953e04ccc94ddd0172d65f6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19120",
+      "history": "https://swse.miraheze.org/w/index.php?title=Energy%20Resistance&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-enlighten",
+      "title": "Enlighten",
+      "revision": 20148,
+      "timestamp": "2024-08-25T23:18:22Z",
+      "sha256": "94f0bddf9d46f89c206e35ce7cbbcdf399737ed13a7eff9bb635d7c3fe1df4f0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20148",
+      "history": "https://swse.miraheze.org/w/index.php?title=Enlighten&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-falling-avalanche",
+      "title": "Falling Avalanche",
+      "revision": 20413,
+      "timestamp": "2024-08-25T23:47:51Z",
+      "sha256": "0bbc9e90d533431055e58982f89ababbe3888f778dfbc803218a86bb157ee82b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20413",
+      "history": "https://swse.miraheze.org/w/index.php?title=Falling%20Avalanche&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-fear",
+      "title": "Fear",
+      "revision": 19129,
+      "timestamp": "2024-08-25T21:22:27Z",
+      "sha256": "8d8d75740cc6cf9af9a5135e2fe82446cb3c84ef0617a6faeb3357dffac088e7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19129",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fear&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-fluid-riposte",
+      "title": "Fluid Riposte",
+      "revision": 26267,
+      "timestamp": "2025-03-04T06:25:34Z",
+      "sha256": "a8ad0b53b974874ee6b0d7285c4b15c96e3559a6fa183c0adc0187f676a4fa26",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26267",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fluid%20Riposte&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-fold-space",
+      "title": "Fold Space",
+      "revision": 20418,
+      "timestamp": "2024-08-25T23:48:22Z",
+      "sha256": "ea7f67ba9714d848f3ce2f70a9b7bdd8c6db4d457cc2214f2401af787ef824c4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20418",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fold%20Space&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-blast",
+      "title": "Force Blast",
+      "revision": 19447,
+      "timestamp": "2024-08-25T21:59:31Z",
+      "sha256": "b5a97609ebcb667f23e0688132fff27a615391afa23286d5111f9a370c7ba035",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19447",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Blast&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-blind",
+      "title": "Force Blind",
+      "revision": 20420,
+      "timestamp": "2024-08-25T23:48:36Z",
+      "sha256": "8e39a0b0b97f42e320a9a0e5ecd32a5f62db5adc6678468dab42f8cd952dee5b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20420",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Blind&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-light",
+      "title": "Force Light",
+      "revision": 26248,
+      "timestamp": "2025-02-26T02:41:51Z",
+      "sha256": "8dce7cba850b65a889ed8ed4b973b6e76982ea35a94ade0ea3354b58788202ff",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26248",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Light&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-scream",
+      "title": "Force Scream",
+      "revision": 26110,
+      "timestamp": "2025-01-29T19:01:08Z",
+      "sha256": "508ada0f9e3bd63d16e285bd8ad7f3bc9b415be777e34e1cc367a20e445b1a84",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26110",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Scream&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-shield",
+      "title": "Force Shield",
+      "revision": 19448,
+      "timestamp": "2024-08-25T21:59:38Z",
+      "sha256": "5bf704ff9279b501e8c6143591efed4ae045cb199d4262fb5176c62268b46914",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19448",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Shield&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-storm",
+      "title": "Force Storm",
+      "revision": 19449,
+      "timestamp": "2024-08-25T21:59:43Z",
+      "sha256": "491a72b79a57f73e9cf687b1a9d86c591c2aee80b9f8c77904baa2049689e007",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19449",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Storm&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-storm-force-unleashed-campaign-guide",
+      "title": "Force Storm",
+      "revision": 19449,
+      "timestamp": "2024-08-25T21:59:43Z",
+      "sha256": "491a72b79a57f73e9cf687b1a9d86c591c2aee80b9f8c77904baa2049689e007",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19449",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Storm&action=history",
+      "section": "Force Unleashed Campaign Guide"
+    },
+    {
+      "id": "source:wiki-force-storm-jedi-academy-training-manual",
+      "title": "Force Storm",
+      "revision": 19449,
+      "timestamp": "2024-08-25T21:59:43Z",
+      "sha256": "491a72b79a57f73e9cf687b1a9d86c591c2aee80b9f8c77904baa2049689e007",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19449",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Storm&action=history",
+      "section": "Jedi Academy Training Manual"
+    },
+    {
+      "id": "source:wiki-force-track",
+      "title": "Force Track",
+      "revision": 20424,
+      "timestamp": "2024-08-25T23:49:17Z",
+      "sha256": "f7f1f661b3388e4da967b021d8b18bcd9023e8fc071adcab988da52abd84be13",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20424",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Track&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-whirlwind",
+      "title": "Force Whirlwind",
+      "revision": 19138,
+      "timestamp": "2024-08-25T21:23:26Z",
+      "sha256": "81eab613bfaabbd6833dbbcfbb8ea495e98104dbc6ed81740e8c0581eace0f7a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19138",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20Whirlwind&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-hatred",
+      "title": "Hatred",
+      "revision": 20430,
+      "timestamp": "2024-08-25T23:50:00Z",
+      "sha256": "58644c85e10d2cf625d32307b5d4d3bca3335f9de0bee031f7a7af02cad68c2a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20430",
+      "history": "https://swse.miraheze.org/w/index.php?title=Hatred&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-hawk-bat-swoop",
+      "title": "Hawk-Bat Swoop",
+      "revision": 20431,
+      "timestamp": "2024-08-25T23:50:06Z",
+      "sha256": "5c0301e626e39c0f307140ea61404a4ffeec8872ab59e13a1d39f1b6ae383bfa",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20431",
+      "history": "https://swse.miraheze.org/w/index.php?title=Hawk-Bat%20Swoop&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-high-ground-defense",
+      "title": "High Ground Defense",
+      "revision": 20436,
+      "timestamp": "2024-08-25T23:50:39Z",
+      "sha256": "de94e3bf8df34f87eb09b71cbcb6c6d970297ab9d5c63420b7eee7da7030d48a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20436",
+      "history": "https://swse.miraheze.org/w/index.php?title=High%20Ground%20Defense&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-inertia",
+      "title": "Inertia",
+      "revision": 20451,
+      "timestamp": "2024-08-25T23:52:19Z",
+      "sha256": "df8d81797aad5fff18cbe2775740633b2f4246ee3d4df9156b9e8703c04da193",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20451",
+      "history": "https://swse.miraheze.org/w/index.php?title=Inertia&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-inspire",
+      "title": "Inspire",
+      "revision": 20452,
+      "timestamp": "2024-08-25T23:52:25Z",
+      "sha256": "3e9b585e197c47d9ef795ef37fe1224e8babfcd7274c6753934378d1fbb9303c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20452",
+      "history": "https://swse.miraheze.org/w/index.php?title=Inspire&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-intercept",
+      "title": "Intercept",
+      "revision": 18723,
+      "timestamp": "2024-08-25T20:37:37Z",
+      "sha256": "14b774772fbb28717b3ad912707e01492c4e7a4160b888e8e57371f183869252",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18723",
+      "history": "https://swse.miraheze.org/w/index.php?title=Intercept&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-intercept-force-power",
+      "title": "Intercept",
+      "revision": 18723,
+      "timestamp": "2024-08-25T20:37:37Z",
+      "sha256": "14b774772fbb28717b3ad912707e01492c4e7a4160b888e8e57371f183869252",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18723",
+      "history": "https://swse.miraheze.org/w/index.php?title=Intercept&action=history",
+      "section": "Force Power"
+    },
+    {
+      "id": "source:wiki-ionize",
+      "title": "Ionize",
+      "revision": 19182,
+      "timestamp": "2024-08-25T21:28:30Z",
+      "sha256": "dd9b060abddba891d502a38673d191085a2ab3a5dd122bf0c8c2bef942ea650b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19182",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ionize&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-kinetic-combat",
+      "title": "Kinetic Combat",
+      "revision": 19205,
+      "timestamp": "2024-08-25T21:31:27Z",
+      "sha256": "33dcb059897956310936fd5274750604d18dec9c1be73e0df694ee65c06a1887",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19205",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kinetic%20Combat&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-levitate",
+      "title": "Levitate",
+      "revision": 19967,
+      "timestamp": "2024-08-25T22:56:59Z",
+      "sha256": "affcc0e314a7177763d5ac65ffb0b263e90afc46fede68580aa65d3aa5726137",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19967",
+      "history": "https://swse.miraheze.org/w/index.php?title=Levitate&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-lightning-burst",
+      "title": "Lightning Burst",
+      "revision": 20239,
+      "timestamp": "2024-08-25T23:28:03Z",
+      "sha256": "05a27af081b4058b25b648aacb2e5182edb3ed8ff39fff0172067c4734b1460f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20239",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lightning%20Burst&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-makashi-riposte",
+      "title": "Makashi Riposte",
+      "revision": 20477,
+      "timestamp": "2024-08-25T23:55:40Z",
+      "sha256": "4fe06e7ca3840a0fa9c8cdc5da9a27e41b3a13f44cfac0506b7ff68b01b9124f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20477",
+      "history": "https://swse.miraheze.org/w/index.php?title=Makashi%20Riposte&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-malacia",
+      "title": "Malacia",
+      "revision": 26186,
+      "timestamp": "2025-02-12T23:30:52Z",
+      "sha256": "c61b88c79f28861a58f6946564951d15ac85217ea07a91357b1e8f68c579bb0d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26186",
+      "history": "https://swse.miraheze.org/w/index.php?title=Malacia&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-memory-walk",
+      "title": "Memory Walk",
+      "revision": 20483,
+      "timestamp": "2024-08-25T23:56:18Z",
+      "sha256": "70446eaf831e3238074f64d07e3128dad98ed2a488488bd264285636668a2381",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20483",
+      "history": "https://swse.miraheze.org/w/index.php?title=Memory%20Walk&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mind-shard",
+      "title": "Mind Shard",
+      "revision": 20486,
+      "timestamp": "2024-08-25T23:56:35Z",
+      "sha256": "cafccb56fb8acd7dc0fef4107a7b2824571acdb824c77aa3329df8ce857cc1ef",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20486",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mind%20Shard&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-morichro",
+      "title": "Morichro",
+      "revision": 19993,
+      "timestamp": "2024-08-25T22:59:50Z",
+      "sha256": "4bec0937895ea4e840b45ff0ec1e0436abedc33969a30b92c132ec834b64bcea",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19993",
+      "history": "https://swse.miraheze.org/w/index.php?title=Morichro&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-obscure",
+      "title": "Obscure",
+      "revision": 20268,
+      "timestamp": "2024-08-25T23:31:57Z",
+      "sha256": "f0a7a5f40030821928dd89feb9a40b17c5b639c422cb5d777a9cb419c20aedfe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20268",
+      "history": "https://swse.miraheze.org/w/index.php?title=Obscure&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-pass-the-blade",
+      "title": "Pass the Blade",
+      "revision": 20497,
+      "timestamp": "2024-08-25T23:58:05Z",
+      "sha256": "4156483f83566da396e2cafadf5bece3b4c5f4b1846210a425676243db422deb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20497",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pass%20the%20Blade&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-phase",
+      "title": "Phase",
+      "revision": 20021,
+      "timestamp": "2024-08-25T23:02:46Z",
+      "sha256": "c84cbb339e8708eafad3099a75c739db88878c37b4aef62e752bb39eacfdd651",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20021",
+      "history": "https://swse.miraheze.org/w/index.php?title=Phase&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-plant-surge",
+      "title": "Plant Surge",
+      "revision": 20499,
+      "timestamp": "2024-08-25T23:58:20Z",
+      "sha256": "79c9e14d1cdf948fcb142dc34b30838a12f2959f80be89d2eb0bf403ff0a6c2f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20499",
+      "history": "https://swse.miraheze.org/w/index.php?title=Plant%20Surge&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-prescience",
+      "title": "Prescience",
+      "revision": 20276,
+      "timestamp": "2024-08-25T23:32:56Z",
+      "sha256": "064fc403ebe34a8b6b8e4c2c473fa30c8f8c6215c5e367d190f9a08f2a9d7d35",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20276",
+      "history": "https://swse.miraheze.org/w/index.php?title=Prescience&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-pushing-slash",
+      "title": "Pushing Slash",
+      "revision": 20504,
+      "timestamp": "2024-08-25T23:59:04Z",
+      "sha256": "ca6a86513d78553b089c3cf46b2a84f87f3cedc8681e482ac97b4de8a25481a5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20504",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pushing%20Slash&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-rend",
+      "title": "Rend",
+      "revision": 20033,
+      "timestamp": "2024-08-25T23:04:04Z",
+      "sha256": "f4cdcd9bea1fb5c7f6a852214be0c5381e2f1e78cf44edb9c5f0f604a23499ec",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20033",
+      "history": "https://swse.miraheze.org/w/index.php?title=Rend&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-repulse",
+      "title": "Repulse",
+      "revision": 19561,
+      "timestamp": "2024-08-25T22:11:36Z",
+      "sha256": "4e6ed3042c88b7dc5d6b055c794a26e6cd06dd6837d7267a27de9827638368f4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19561",
+      "history": "https://swse.miraheze.org/w/index.php?title=Repulse&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-resist-force",
+      "title": "Resist Force",
+      "revision": 19308,
+      "timestamp": "2024-08-25T21:42:25Z",
+      "sha256": "724d38e4e6d1ff07a47fb0b4d6208a5742321782c4f75c38dadedce59a71bb29",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19308",
+      "history": "https://swse.miraheze.org/w/index.php?title=Resist%20Force&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-rising-whirlwind",
+      "title": "Rising Whirlwind",
+      "revision": 26713,
+      "timestamp": "2025-06-26T14:19:19Z",
+      "sha256": "4d322d4a51b2b28ebadb032982245b00d2f8c9f7849f8531d14f95c4cd939d79",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26713",
+      "history": "https://swse.miraheze.org/w/index.php?title=Rising%20Whirlwind&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-saber-swarm",
+      "title": "Saber Swarm",
+      "revision": 20510,
+      "timestamp": "2024-08-25T23:59:41Z",
+      "sha256": "31b654d754f40e693147eac94bb1aa3efde97a4281cbdf9450f2d2d4b499bf0a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20510",
+      "history": "https://swse.miraheze.org/w/index.php?title=Saber%20Swarm&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sarlacc-sweep",
+      "title": "Sarlacc Sweep",
+      "revision": 26269,
+      "timestamp": "2025-03-04T07:27:54Z",
+      "sha256": "2b0134b889eafe236a797aa630a9dfd8179f1a5e6bdf57096b9a5a58c7d8319a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26269",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sarlacc%20Sweep&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-shatterpoint",
+      "title": "Shatterpoint",
+      "revision": 20048,
+      "timestamp": "2024-08-25T23:06:03Z",
+      "sha256": "2ef5054b51f8bebcef77839339c0e49e6ae5092c785cfe30e11e15e6f07402d3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20048",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shatterpoint&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-shien-deflection",
+      "title": "Shien Deflection",
+      "revision": 20522,
+      "timestamp": "2024-08-26T00:01:06Z",
+      "sha256": "7fddbe4d647acdb2d23a2fa7294325f29b3e66ac61a45ea9fdea86e154d518c7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20522",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shien%20Deflection&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-slow",
+      "title": "Slow",
+      "revision": 19342,
+      "timestamp": "2024-08-25T21:46:35Z",
+      "sha256": "40b0640031d88966aec13a8a9cc69f8bae68dc0af190f68e8964099a2eddce11",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19342",
+      "history": "https://swse.miraheze.org/w/index.php?title=Slow&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-stagger",
+      "title": "Stagger",
+      "revision": 20319,
+      "timestamp": "2024-08-25T23:37:44Z",
+      "sha256": "6f8504d766cb3d106a3b0c63fbcb3355a32b3dbcd961381ba3e697a1e7012f81",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20319",
+      "history": "https://swse.miraheze.org/w/index.php?title=Stagger&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-swift-flank",
+      "title": "Swift Flank",
+      "revision": 20545,
+      "timestamp": "2024-08-26T00:03:31Z",
+      "sha256": "d981fcedc2cb0f537930f2824bba1a321ed3cfb102d54ef6ad4e44f3e1b7fe5f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20545",
+      "history": "https://swse.miraheze.org/w/index.php?title=Swift%20Flank&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-technometry",
+      "title": "Technometry",
+      "revision": 20066,
+      "timestamp": "2024-08-25T23:08:25Z",
+      "sha256": "634db081c48de096c1d3e9872f48fd675119171687a065ef70c66e4c12a1e2f8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20066",
+      "history": "https://swse.miraheze.org/w/index.php?title=Technometry&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-tempered-aggression",
+      "title": "Tempered Aggression",
+      "revision": 20550,
+      "timestamp": "2024-08-26T00:04:06Z",
+      "sha256": "0386c88618e73516951df731852a07ed571081f7530484a961d58886881acca3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20550",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tempered%20Aggression&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-thought-bomb",
+      "title": "Thought Bomb",
+      "revision": 20555,
+      "timestamp": "2024-08-26T00:04:41Z",
+      "sha256": "362028b27b895b2f3ab2fb286353670ec7f754ee562e8046cb827508dfe2c278",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20555",
+      "history": "https://swse.miraheze.org/w/index.php?title=Thought%20Bomb&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-twin-strike",
+      "title": "Twin Strike",
+      "revision": 26268,
+      "timestamp": "2025-03-04T07:22:13Z",
+      "sha256": "eb578167269761acb895f5329f853576bba5ef7243d989c39be590dbe3c8941d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26268",
+      "history": "https://swse.miraheze.org/w/index.php?title=Twin%20Strike&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-unbalancing-block",
+      "title": "Unbalancing Block",
+      "revision": 20562,
+      "timestamp": "2024-08-26T00:05:39Z",
+      "sha256": "a371cce7dbbf63d8d20e278d1128034573847a776db730f09871e2d82d2205f5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20562",
+      "history": "https://swse.miraheze.org/w/index.php?title=Unbalancing%20Block&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-unhindered-charge",
+      "title": "Unhindered Charge",
+      "revision": 20563,
+      "timestamp": "2024-08-26T00:05:45Z",
+      "sha256": "7a56ebafcaf53e9fef3dbd5f17612c2fa679a1f9fb41b7f1a456037371916e33",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20563",
+      "history": "https://swse.miraheze.org/w/index.php?title=Unhindered%20Charge&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-valor",
+      "title": "Valor",
+      "revision": 19368,
+      "timestamp": "2024-08-25T21:49:40Z",
+      "sha256": "b85880c1a9e8620d1932571e9a6d0f0cb9bd2a2da220d711943a519038f62d78",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19368",
+      "history": "https://swse.miraheze.org/w/index.php?title=Valor&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-vornskr-s-ferocity",
+      "title": "Vornskr's Ferocity",
+      "revision": 20574,
+      "timestamp": "2024-08-26T00:06:49Z",
+      "sha256": "4dbceceaa4b8eb7a669ebc4e2d3ccf1cc93af6b2329cf235be5d206238dc5d74",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20574",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vornskr%27s%20Ferocity&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-wound",
+      "title": "Wound",
+      "revision": 19375,
+      "timestamp": "2024-08-25T21:50:27Z",
+      "sha256": "753816ebfb20efc20adff4713b58ad23ce6ac0c40e118620a876ee954df0cff3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19375",
+      "history": "https://swse.miraheze.org/w/index.php?title=Wound&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-category-lightsaber-form-force-powers",
+      "title": "Category:Lightsaber Form Force Powers",
+      "section": null,
+      "revision": 20589,
+      "timestamp": "2024-08-26T00:08:11Z",
+      "sha256": "ff038a75363737a72bcc4188e20ce3b8623e2ef607f54b36d9c1bcf547a65535",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20589",
+      "history": "https://swse.miraheze.org/w/index.php?title=Category:Lightsaber%20Form%20Force%20Powers&action=history"
     }
   ],
   "species": [
@@ -23925,6 +24715,17 @@
       "featId": "feat:flurry",
       "attackBonus": 2,
       "reflexPenalty": -5
+    },
+    "lightsaberFormPowers": {
+      "sourceIds": [
+        "source:wiki-category-lightsaber-form-force-powers"
+      ],
+      "descriptor": "lightsaber-form",
+      "requiresActivatedLightsaber": true,
+      "rebukeExceptions": [
+        "power:draw-closer",
+        "power:pushing-slash"
+      ]
     }
   },
   "heroicTraits": {
@@ -25482,6 +26283,720 @@
       "action": "standard-action",
       "descriptors": [
         "light-side"
+      ]
+    },
+    {
+      "id": "power:assured-strike",
+      "name": "Assured Strike",
+      "sourceId": "source:wiki-assured-strike",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:ballistakinesis",
+      "name": "Ballistakinesis",
+      "sourceId": "source:wiki-ballistakinesis",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:barrier-of-blades",
+      "name": "Barrier of Blades",
+      "sourceId": "source:wiki-barrier-of-blades",
+      "action": "swift-action",
+      "actionText": "Swift Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:circle-of-shelter",
+      "name": "Circle of Shelter",
+      "sourceId": "source:wiki-circle-of-shelter",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:cloak",
+      "name": "Cloak",
+      "sourceId": "source:wiki-cloak",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:combustion",
+      "name": "Combustion",
+      "sourceId": "source:wiki-combustion",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:contentious-opportunity",
+      "name": "Contentious Opportunity",
+      "sourceId": "source:wiki-contentious-opportunity",
+      "action": "free-action",
+      "actionText": "Free Action (when you make an Attack of Opportunity)",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:convection",
+      "name": "Convection",
+      "sourceId": "source:wiki-convection",
+      "action": "swift-action",
+      "actionText": "Swift Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:corruption",
+      "name": "Corruption",
+      "sourceId": "source:wiki-corruption-force-power",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:crucitorn",
+      "name": "Crucitorn",
+      "sourceId": "source:wiki-crucitorn",
+      "action": "reaction",
+      "actionText": "Reaction (to an attack or Force Power)",
+      "descriptors": []
+    },
+    {
+      "id": "power:cryokinesis",
+      "name": "Cryokinesis",
+      "sourceId": "source:wiki-cryokinesis",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:dark-transfer-legacy-era-campaign-guide",
+      "name": "Dark Transfer (Legacy Era Campaign Guide)",
+      "sourceId": "source:wiki-dark-transfer-legacy-era-campaign-guide",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:dark-transfer-web-enhancements",
+      "name": "Dark Transfer (Web Enhancements)",
+      "sourceId": "source:wiki-dark-transfer-web-enhancements",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:deflecting-slash",
+      "name": "Deflecting Slash",
+      "sourceId": "source:wiki-deflecting-slash",
+      "action": "reaction",
+      "actionText": "Reaction (when targeted by a non-Area Attack ranged attack)",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:detonate",
+      "name": "Detonate",
+      "sourceId": "source:wiki-detonate",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:disarming-slash",
+      "name": "Disarming Slash",
+      "sourceId": "source:wiki-disarming-slash",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:drain-energy",
+      "name": "Drain Energy",
+      "sourceId": "source:wiki-drain-energy",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:draw-closer",
+      "name": "Draw Closer",
+      "sourceId": "source:wiki-draw-closer",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form",
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:energy-resistance",
+      "name": "Energy Resistance",
+      "sourceId": "source:wiki-energy-resistance",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:enlighten",
+      "name": "Enlighten",
+      "sourceId": "source:wiki-enlighten",
+      "action": "reaction",
+      "actionText": "Reaction or Swift Action",
+      "descriptors": [
+        "light-side",
+        "mind-affecting"
+      ],
+      "actions": [
+        "reaction",
+        "swift-action"
+      ]
+    },
+    {
+      "id": "power:falling-avalanche",
+      "name": "Falling Avalanche",
+      "sourceId": "source:wiki-falling-avalanche",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:fear",
+      "name": "Fear",
+      "sourceId": "source:wiki-fear",
+      "action": "swift-action",
+      "actionText": "Swift Action",
+      "descriptors": [
+        "dark-side",
+        "mind-affecting"
+      ]
+    },
+    {
+      "id": "power:fluid-riposte",
+      "name": "Fluid Riposte",
+      "sourceId": "source:wiki-fluid-riposte",
+      "action": "reaction",
+      "actionText": "Reaction (when an adjacent opponent makes a Melee Attack against you)",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:fold-space",
+      "name": "Fold Space",
+      "sourceId": "source:wiki-fold-space",
+      "action": "full-round-action",
+      "actionText": "Full-Round Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:force-blast",
+      "name": "Force Blast",
+      "sourceId": "source:wiki-force-blast",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:force-blind",
+      "name": "Force Blind",
+      "sourceId": "source:wiki-force-blind",
+      "action": "swift-action",
+      "actionText": "Swift Action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:force-light",
+      "name": "Force Light",
+      "sourceId": "source:wiki-force-light",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "light-side"
+      ]
+    },
+    {
+      "id": "power:force-scream",
+      "name": "Force Scream",
+      "sourceId": "source:wiki-force-scream",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:force-shield",
+      "name": "Force Shield",
+      "sourceId": "source:wiki-force-shield",
+      "action": "reaction",
+      "actionText": "Reaction",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:force-storm-force-unleashed-campaign-guide",
+      "name": "Force Storm (Force Unleashed Campaign Guide)",
+      "sourceId": "source:wiki-force-storm-force-unleashed-campaign-guide",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side",
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:force-storm-jedi-academy-training-manual",
+      "name": "Force Storm (Jedi Academy Training Manual)",
+      "sourceId": "source:wiki-force-storm-jedi-academy-training-manual",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:force-track",
+      "name": "Force Track",
+      "sourceId": "source:wiki-force-track",
+      "action": "swift-action",
+      "actionText": "Swift Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:force-whirlwind",
+      "name": "Force Whirlwind",
+      "sourceId": "source:wiki-force-whirlwind",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:hatred",
+      "name": "Hatred",
+      "sourceId": "source:wiki-hatred",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:hawk-bat-swoop",
+      "name": "Hawk-Bat Swoop",
+      "sourceId": "source:wiki-hawk-bat-swoop",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:high-ground-defense",
+      "name": "High Ground Defense",
+      "sourceId": "source:wiki-high-ground-defense",
+      "action": "swift-action",
+      "actionText": "Swift Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:inertia",
+      "name": "Inertia",
+      "sourceId": "source:wiki-inertia",
+      "action": "move-action",
+      "actionText": "Move Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:inspire",
+      "name": "Inspire",
+      "sourceId": "source:wiki-inspire",
+      "action": "swift-action",
+      "actionText": "Swift Action",
+      "descriptors": [
+        "light-side"
+      ]
+    },
+    {
+      "id": "power:intercept",
+      "name": "Intercept",
+      "sourceId": "source:wiki-intercept-force-power",
+      "action": "reaction",
+      "actionText": "Reaction",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:ionize",
+      "name": "Ionize",
+      "sourceId": "source:wiki-ionize",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:kinetic-combat",
+      "name": "Kinetic Combat",
+      "sourceId": "source:wiki-kinetic-combat",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:levitate",
+      "name": "Levitate",
+      "sourceId": "source:wiki-levitate",
+      "action": "move-action",
+      "actionText": "Move Action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:lightning-burst",
+      "name": "Lightning Burst",
+      "sourceId": "source:wiki-lightning-burst",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:makashi-riposte",
+      "name": "Makashi Riposte",
+      "sourceId": "source:wiki-makashi-riposte",
+      "action": "reaction",
+      "actionText": "Reaction (when an adjacent opponent makes a Melee Attack against you)",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:malacia",
+      "name": "Malacia",
+      "sourceId": "source:wiki-malacia",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "light-side"
+      ]
+    },
+    {
+      "id": "power:memory-walk",
+      "name": "Memory Walk",
+      "sourceId": "source:wiki-memory-walk",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side",
+        "mind-affecting"
+      ]
+    },
+    {
+      "id": "power:mind-shard",
+      "name": "Mind Shard",
+      "sourceId": "source:wiki-mind-shard",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "mind-affecting"
+      ]
+    },
+    {
+      "id": "power:morichro",
+      "name": "Morichro",
+      "sourceId": "source:wiki-morichro",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:obscure",
+      "name": "Obscure",
+      "sourceId": "source:wiki-obscure",
+      "action": "reaction",
+      "actionText": "Reaction",
+      "descriptors": [
+        "mind-affecting"
+      ]
+    },
+    {
+      "id": "power:pass-the-blade",
+      "name": "Pass the Blade",
+      "sourceId": "source:wiki-pass-the-blade",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:phase",
+      "name": "Phase",
+      "sourceId": "source:wiki-phase",
+      "action": "move-action",
+      "actionText": "Move Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:plant-surge",
+      "name": "Plant Surge",
+      "sourceId": "source:wiki-plant-surge",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:prescience",
+      "name": "Prescience",
+      "sourceId": "source:wiki-prescience",
+      "action": "swift-action",
+      "actionText": "Swift Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:pushing-slash",
+      "name": "Pushing Slash",
+      "sourceId": "source:wiki-pushing-slash",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form",
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:rend",
+      "name": "Rend",
+      "sourceId": "source:wiki-rend",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:repulse",
+      "name": "Repulse",
+      "sourceId": "source:wiki-repulse",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:resist-force",
+      "name": "Resist Force",
+      "sourceId": "source:wiki-resist-force",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:rising-whirlwind",
+      "name": "Rising Whirlwind",
+      "sourceId": "source:wiki-rising-whirlwind",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:saber-swarm",
+      "name": "Saber Swarm",
+      "sourceId": "source:wiki-saber-swarm",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:sarlacc-sweep",
+      "name": "Sarlacc Sweep",
+      "sourceId": "source:wiki-sarlacc-sweep",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:shatterpoint",
+      "name": "Shatterpoint",
+      "sourceId": "source:wiki-shatterpoint",
+      "action": "swift-action",
+      "actionText": "Swift Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:shien-deflection",
+      "name": "Shien Deflection",
+      "sourceId": "source:wiki-shien-deflection",
+      "action": "reaction",
+      "actionText": "Reaction (when an enemy makes a non-Area Attack ranged attack against you)",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:slow",
+      "name": "Slow",
+      "sourceId": "source:wiki-slow",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:stagger",
+      "name": "Stagger",
+      "sourceId": "source:wiki-stagger",
+      "action": "swift-action",
+      "actionText": "Swift Action",
+      "descriptors": [
+        "telekinetic"
+      ]
+    },
+    {
+      "id": "power:swift-flank",
+      "name": "Swift Flank",
+      "sourceId": "source:wiki-swift-flank",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:technometry",
+      "name": "Technometry",
+      "sourceId": "source:wiki-technometry",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": []
+    },
+    {
+      "id": "power:tempered-aggression",
+      "name": "Tempered Aggression",
+      "sourceId": "source:wiki-tempered-aggression",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form",
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:thought-bomb",
+      "name": "Thought Bomb",
+      "sourceId": "source:wiki-thought-bomb",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "mind-affecting"
+      ]
+    },
+    {
+      "id": "power:twin-strike",
+      "name": "Twin Strike",
+      "sourceId": "source:wiki-twin-strike",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:unbalancing-block",
+      "name": "Unbalancing Block",
+      "sourceId": "source:wiki-unbalancing-block",
+      "action": "reaction",
+      "actionText": "Reaction (when an adjacent enemy makes a Melee Attack against you)",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:unhindered-charge",
+      "name": "Unhindered Charge",
+      "sourceId": "source:wiki-unhindered-charge",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form"
+      ]
+    },
+    {
+      "id": "power:valor",
+      "name": "Valor",
+      "sourceId": "source:wiki-valor",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "light-side"
+      ]
+    },
+    {
+      "id": "power:vornskr-s-ferocity",
+      "name": "Vornskr's Ferocity",
+      "sourceId": "source:wiki-vornskr-s-ferocity",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "lightsaber-form",
+        "dark-side"
+      ]
+    },
+    {
+      "id": "power:wound",
+      "name": "Wound",
+      "sourceId": "source:wiki-wound",
+      "action": "standard-action",
+      "actionText": "Standard Action",
+      "descriptors": [
+        "dark-side"
       ]
     }
   ],

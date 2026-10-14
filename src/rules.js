@@ -1,3 +1,4 @@
+import {activeLightsabers,powerActions} from './power-activation.js';
 import {defenseAbilityDetails,thresholdDetails,validateDefenseAbilities} from './defense-abilities.js';
 import {teamSkillDetails,validateTeamAllies} from './team-skills.js';
 import {isPrestige,classMaximum,hasClassTalent,hasClassBonusFeat,classEntry,validateClassAcquisition,advancementForceBase,validateClassBans} from './class-advancement.js';
@@ -84,7 +85,7 @@ export function validateCharacter(c, pack) {
   const powerIds=new Set();
   for(const l of c.levels)if(l.forcePowers!==undefined){
     if(!Array.isArray(l.forcePowers)||l.forcePowers.length>200)bad('Force powers');
-    for(const p of l.forcePowers){if(!obj(p)||Object.keys(p).some(k=>!['id','powerId','spent'].includes(k))||typeof p.id!=='string'||!/^[a-f0-9-]{36}$/.test(p.id)||powerIds.has(p.id)||!ix.forcePowers.has(p.powerId)||typeof p.spent!=='boolean')bad('Force power copy');powerIds.add(p.id);}
+    for(const p of l.forcePowers){if(!obj(p)||Object.keys(p).some(k=>!['id','powerId','spent','action'].includes(k))||typeof p.id!=='string'||!/^[a-f0-9-]{36}$/.test(p.id)||powerIds.has(p.id)||!ix.forcePowers.has(p.powerId)||typeof p.spent!=='boolean')bad('Force power copy');if(p.action!==undefined&&!powerActions(ix.forcePowers.get(p.powerId)).includes(p.action))bad('Force power action');powerIds.add(p.id);}
   }
   if(c.forcePowerRecoveryPending!==undefined&&typeof c.forcePowerRecoveryPending!=='boolean')bad('Force power recovery');
   validateArmorChecks(c,bad);
@@ -346,7 +347,7 @@ export function derive(c, pack) {
   const defensiveCombat=defensiveCombatState(c,pack,ctx,dexDenied);
   const flurry=flurryState(c,pack,ctx,effectiveSize,helpless);
   const defenseAbilities=defenseAbilityDetails(c,pack,effects,mods,{dex,armorMaxDex,dexDenied,helpless});
-  const wieldingLightsaber=c.inventory.some(e=>e.equipped&&e.carried!==false&&ix.equipment.get(e.id).group==='lightsabers');
+  const wieldingLightsaber=activeLightsabers(c,pack).length>0;
   const condition = pack.rules.conditionPenalties[c.condition];
   const defenses = {}, breakdowns = {},equipmentDefenseBonuses={};
   for (const key of ['reflex', 'fortitude', 'will']) {
@@ -447,11 +448,12 @@ export function derive(c, pack) {
     const damage=extraDamageDice(w.damage,diceBonus);
     const criticalDice=dice=>w.unarmed&&total('unarmedCriticalDieStep')?dice?.replace(/d([0-9]+)/,(_,die)=>'d'+pack.rules.unarmed.dieSteps[Math.min(pack.rules.unarmed.dieSteps.indexOf(12),pack.rules.unarmed.dieSteps.indexOf(Number(die))+total('unarmedCriticalDieStep'))]):dice;
     const attack=ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + grip + aimBonus + c.modifiers.attack + e.attackMod + power.penalty + fullAttackPenalty + defensiveCombat.attackPenalty + flurryBonus;
+    const inactiveLightsaber=w.group==='lightsabers'&&e.activated===false;
     const powerIssue=w.mode==='melee'&&powerAttack.selected&&!powerAttack.available?powerAttack.reason:'';
     const display=dice=>dice?dice+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
     const criticalDisplay=dice=>criticalDice(dice)!==dice?{criticalDamageDisplay:display(criticalDice(dice))}:{};
     const unAimedRange=weaponRange(w,{...e,aimed:false},pack,featHas,c);
-    return {...w,name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,criticalThreat,multiattackReduction,fullAttackPenalty,effectGroup:group,ammunition,technique,powerAttack:power,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,flatFooted,issue:(defensiveCombat.attacksBlocked?defensiveCombat.reason||'Total Defense forbids attacks':'')||powerIssue||technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:!defensiveCombat.attacksBlocked&&!powerIssue&&technique.available&&range.available&&(!ammunition||ammunition.available),
+    return {...w,name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,criticalThreat,multiattackReduction,fullAttackPenalty,effectGroup:group,ammunition,technique,powerAttack:power,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,flatFooted,issue:(defensiveCombat.attacksBlocked?defensiveCombat.reason||'Total Defense forbids attacks':'')||(inactiveLightsaber?'Activate Lightsaber':'')||powerIssue||technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:!inactiveLightsaber&&!defensiveCombat.attacksBlocked&&!powerIssue&&technique.available&&range.available&&(!ammunition||ammunition.available),
       attack,aimed,bracing,braced:bracing.active,opportunityWeapon:weaponCanOpportunity(w,e,pack,ctx),fullAttackGrip:fullAttackGrip(w,e,pack,effectiveSize),ignoresCover:aimed,ignoresDarkness:aimed&&!!attachedScope(e,c,pack)?.scope.ignoresDarkness,
       ...(bracing.active?{unBraced:{braced:false,attack:attack-firePenalty+unBracedTechniquePenalty}}:{}),
       ...(aimed?{unAimed:{aimed:false,attack:attack-aimBonus-range.penalty+unAimedRange.penalty,damage:extraDamageDice(w.damage,technique.extraDice),damageDisplay:display(extraDamageDice(w.damage,technique.extraDice)),...criticalDisplay(extraDamageDice(w.damage,technique.extraDice)),ignoresCover:false,ignoresDarkness:false}}:{}),
@@ -485,7 +487,7 @@ export function derive(c, pack) {
   return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,normalProtection:armorProtection(c,{armorItems,classDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
-    forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId),adept:ctx.talents.some(t=>t.id==='talent:force-power-adept'&&t.choice===p.powerId&&!ctx.inactiveTalents.has(t.id))})),powerSlots:ctx.powerSlots,
+    forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,action:p.action||ix.forcePowers.get(p.powerId).action,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId),adept:ctx.talents.some(t=>t.id==='talent:force-power-adept'&&t.choice===p.powerId&&!ctx.inactiveTalents.has(t.id))})),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses,conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,

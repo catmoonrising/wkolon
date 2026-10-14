@@ -286,7 +286,8 @@ function ammunitionControls(r,e,i,scope){
 }
 function weaponOptions(r,e,i,scope=''){
  const select=(key,label,records,value,empty=false)=>`<label>${label}<select data-inventory="${key}" data-index="${i}">${empty?option('',typeof empty==='string'?empty:'Choose…',value):''}${records.map(o=>option(o.id,o.name,value,o.disabled)).join('')}</select></label>`;
- return (ix.equipment.get(e.id).thrown||ix.equipment.get(e.id).modes?.some(m=>m.thrown)?select('attackStyle','Attack',[{id:'melee',name:'Melee'},{id:'thrown',name:'Thrown',disabled:!r.thrown}],e.attackStyle||'melee'):'')+
+ return (r.group==='lightsabers'?`<label class="checkbox"><input type="checkbox" data-inventory="activated" data-index="${i}" ${(e.activated??e.equipped)?'checked':''}>Active</label>`:'')+
+  (ix.equipment.get(e.id).thrown||ix.equipment.get(e.id).modes?.some(m=>m.thrown)?select('attackStyle','Attack',[{id:'melee',name:'Melee'},{id:'thrown',name:'Thrown',disabled:!r.thrown}],e.attackStyle||'melee'):'')+
   (r.stunDamage?select('damageSetting','Setting',[{id:'normal',name:'Normal'},{id:'stun',name:'Stun'}],e.damageSetting||'normal'):'')+
   (r.modes?select('weaponMode','Form',r.modes,e.weaponMode||r.modes[0].id):'')+
   (r.launchers?select('launcher','Launch',r.launchers,e.launcher||r.launchers[0].id):'')+
@@ -785,7 +786,7 @@ function events() {
       if(el.dataset.inventory==='attackTechnique'&&ix.equipment.get(e.id).autofire&&!ix.equipment.get(e.id).autofireOnly){if(val==='burst-fire')e.fireMode='autofire';else if(val==='rapid-shot')e.fireMode='single';}
       if(el.dataset.inventory==='fireMode')delete e.attackTechnique;
       if(['scopeUid','stockPosition','fireMode'].includes(el.dataset.inventory))e.aimed=false;
-      if(['stockPosition','fireMode','damageSetting','ammunitionId','weaponMode','equipped','carried','scopeUid'].includes(el.dataset.inventory)||el.dataset.inventory==='aimed'&&val)clearBracing(c);
+      if(['stockPosition','fireMode','damageSetting','ammunitionId','weaponMode','equipped','activated','carried','scopeUid'].includes(el.dataset.inventory)||el.dataset.inventory==='aimed'&&val)clearBracing(c);
       if(el.dataset.inventory==='aimed'&&val)c.inventory.filter(other=>other!==e&&ix.equipment.get(other.id).kind==='weapon').forEach(other=>other.aimed=false);
       if(el.dataset.inventory==='weaponMode'&&!ix.equipment.get(e.id).modes.find(m=>m.id===val).thrown)delete e.attackStyle;
     } else return;

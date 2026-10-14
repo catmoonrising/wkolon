@@ -1293,3 +1293,34 @@ import/rebuild, preserved existing mechanics, full Chromium regression checks an
 focused Chromium/Firefox checks for ally counts/competence, saved defense choices,
 conditional threshold changes, secondary skill choices, exclusive book versions,
 full section articles and Dracula mobile layout.
+
+## Supplemental Force powers
+
+Enabled 74 additional choices from 72 pages. All 88 inventoried official
+Force-power pages now have selectable mappings, yielding 90 choices. Dark
+Transfer and Force Storm each retain separate, book-qualified versions. Corruption
+and Intercept import only their Force Power sections; the existing Corruption
+Destiny article and mechanics remain unchanged. Full articles, descriptors,
+printed activation times and source revisions are retained.
+
+Twenty-four Lightsaber Form powers require an activated, wielded Lightsaber.
+Inventory saves activation independently of equipment selection. Inactive blades
+cannot attack or grant Niman's wielded-Lightsaber defenses; another active blade
+can satisfy those requirements. Legacy equipped blades remain active unless
+explicitly deactivated. Form powers have no added proficiency or form-talent
+learning prerequisite. Their category's Rebuke exceptions are recorded, but
+counterspell resolution is not yet automated.
+
+Enlighten offers its printed Reaction/Swift Action alternatives per suite copy.
+Ordinary activation, spent tracking, dark-side increments, Force Point recovery
+and natural-20 suite recovery use the existing shared rules. Per-power effects,
+targets, sustain costs, mandatory special costs and conditional return-to-suite
+exceptions remain pending; a selectable power does not imply those effects are
+automated.
+
+Validation: 463 JavaScript tests and 27 Python importer tests; focused Chromium
+and Firefox checks cover all 90 choices, mixed-page/version isolation, complete
+text search, active/inactive blade guards, action persistence, spent copies,
+Dark Side Score, Force Point recovery and Dracula mobile layout.
+The full Chromium regression passed, the offline import/rebuild is byte-identical,
+and all previously enabled mechanical records are preserved.

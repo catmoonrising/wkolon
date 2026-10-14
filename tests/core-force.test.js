@@ -16,12 +16,12 @@ function add(c,{feats=[],t=null,increases=[],powers=[]}={}){c.levels.push({class
 test('all four Core Force trees and sixteen powers have reviewed articles, with Corruption kept separate',()=>{
  assert.equal(pack.rules.forceTalentAccess.trees.length,4);
  assert.equal(pack.talents.filter(t=>pack.rules.forceTalentAccess.trees.includes(t.tree)).length,16);
- assert.equal(pack.forcePowers.length,16);
- for(const r of [...pack.forcePowers,...pack.talents.filter(t=>pack.rules.forceTalentAccess.trees.includes(t.tree))]){
+ assert(pack.forcePowers.length>=16);
+ for(const r of [...pack.forcePowers.slice(0,16),...pack.talents.filter(t=>pack.rules.forceTalentAccess.trees.includes(t.tree))]){
   assert(articleText(r.article).includes('Core Rulebook'));assert(pack.catalog.records.some(c=>c.mechanicsIds.includes(r.id)&&c.status==='available'));
  }
- assert(!pack.forcePowers.some(r=>r.name==='Corruption'));
- const corruption=pack.catalog.records.find(r=>r.kind==='forcePower'&&r.name==='Corruption');assert.deepEqual(corruption.books,['Force Unleashed Campaign Guide']);assert.equal(corruption.status,'reference');
+ assert(!pack.forcePowers.slice(0,16).some(r=>r.name==='Corruption'));assert(pack.forcePowers.some(r=>r.id==='power:corruption'));
+ const corruption=pack.catalog.records.find(r=>r.kind==='forcePower'&&r.name==='Corruption');assert.deepEqual(corruption.books,['Force Unleashed Campaign Guide']);assert.equal(corruption.status,'available');
  const powerText=articleText(pack.rulePages.find(r=>r.id===corruption.ruleId).article),destinyText=articleText(pack.rulePages.find(r=>r.id==='rule:corruption').article);
  assert(powerText.includes('bolt of pure Dark Side'));assert(!powerText.includes('Destiny Bonus'));assert(destinyText.includes('Destiny Bonus'));assert(!destinyText.includes('bolt of pure Dark Side'));
  const bad=structuredClone(pack);bad.forcePowers[0].descriptors=['invented'];assert.throws(()=>validatePack(bad));

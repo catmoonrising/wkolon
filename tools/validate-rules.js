@@ -122,7 +122,7 @@ export function validatePack(p) {
     }
     if(key==='classChoices'){prerequisite(r.prerequisite);assert(Array.isArray(r.effects));for(const e of r.effects)assert(Object.keys(e).length===1&&e.target==='powerTake10'&&r.choiceType==='power'&&r.id==='classchoice:force-power-mastery');assert(['forceTechnique','forceSecret','medicalSecret'].includes(r.kind)&&['never','choice'].includes(r.repeat));if(r.choiceType!==undefined)assert(r.choiceType==='power'&&r.repeat==='choice');}
     if (key === 'skills') assert(ABILITIES.includes(r.ability) && typeof r.trainedOnly==='boolean' && typeof r.armorCheck==='boolean');
-    if(key==='forcePowers'){assert(['standard-action','swift-action','full-round-action','free-action','reaction'].includes(r.action));assert(Array.isArray(r.descriptors)&&new Set(r.descriptors).size===r.descriptors.length&&r.descriptors.every(d=>['dark-side','light-side','mind-affecting','telekinetic'].includes(d)));}
+    if(key==='forcePowers'){const actions=['standard-action','swift-action','move-action','full-round-action','free-action','reaction'];assert(actions.includes(r.action));assert(Array.isArray(r.descriptors)&&new Set(r.descriptors).size===r.descriptors.length&&r.descriptors.every(d=>['dark-side','light-side','mind-affecting','telekinetic','lightsaber-form'].includes(d)));if(r.actionText!==undefined)assert(typeof r.actionText==='string'&&r.actionText.length>0);if(r.actions!==undefined)assert(Array.isArray(r.actions)&&r.actions.length>1&&new Set(r.actions).size===r.actions.length&&r.actions.every(a=>actions.includes(a))&&r.actions[0]===r.action,'Invalid alternative power actions');}
     if (['feats','talents'].includes(key)) {
       if(r.forceActivation!==undefined)assert(['check','forcePoint'].includes(r.forceActivation));
       if(r.requiresDarkSide!==undefined)assert.equal(r.requiresDarkSide,true);
@@ -234,6 +234,7 @@ export function validatePack(p) {
       if(r.abilityBonuses!==undefined){assert(r.kind==='armor'&&r.abilityBonuses&&Object.keys(r.abilityBonuses).every(k=>k==='str'),'Unsupported equipment ability bonus');assert(Object.values(r.abilityBonuses).every(n=>Number.isInteger(n)&&n>0),'Invalid equipment ability bonus');}
     }
   }
+  const forms=p.rules.lightsaberFormPowers;assert(forms&&forms.descriptor==='lightsaber-form'&&forms.requiresActivatedLightsaber===true&&forms.sourceIds.length===1&&sources.has(forms.sourceIds[0]),'Invalid form-power rule');assert.deepEqual(forms.rebukeExceptions,['power:draw-closer','power:pushing-slash']);forms.rebukeExceptions.forEach(id=>requireRef('forcePowers',id));
   const access=p.rules.forceTalentAccess,recovery=p.rules.forcePowerRecovery;
   const techniques=p.rules.attackTechniques;
   assert(Array.isArray(techniques)&&techniques.length===4&&new Set(techniques.map(t=>t.id)).size===4,'Invalid attack techniques');

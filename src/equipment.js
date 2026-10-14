@@ -60,6 +60,7 @@ export function validateInventoryOptions(e,pack,bad){
  if(e.weightOverride!==undefined&&(!Number.isFinite(e.weightOverride)||e.weightOverride<0||e.weightOverride>1000000))bad('equipment weight');
  if(e.licenseStatus!==undefined&&!['none','pending','approved','denied'].includes(e.licenseStatus))bad('license status');
  if(e.mechanical!==undefined&&typeof e.mechanical!=='boolean')bad('mechanical equipment');
+ if(e.activated!==undefined&&(r.group!=='lightsabers'||typeof e.activated!=='boolean'))bad('Lightsaber activation');
  if(e.carried!==undefined&&typeof e.carried!=='boolean')bad('carried equipment');
  if(e.distance!==undefined&&(r.kind!=='weapon'||!Number.isInteger(e.distance)||e.distance<0||e.distance>100000))bad('weapon distance');
  if(e.weaponMode!==undefined&&!r.modes?.some(m=>m.id===e.weaponMode))bad('weapon mode');

@@ -1,10 +1,12 @@
+import {powerActivationIssue} from './power-activation.js';
 // Power effects stay in pinned articles. These operations track individual suite copies.
 import {clearFollowUps} from './attack-follow-ups.js';
 import {clearAiming,clearBracing,startNextTurn} from './attack-techniques.js';
 export function powerCopy(c,id){return c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===id);}
 export function usePower(c,d,pack,id,natural){
- const power=d.forcePowers.find(p=>p.copyId===id),copy=powerCopy(c,id),skill=d.skills.find(s=>s.id==='skill:use-the-force');
- if(!power||!copy||copy.spent||!skill?.available||d.incapacitated)throw new Error('Power unavailable');
+ const power=d.forcePowers.find(p=>p.copyId===id),copy=powerCopy(c,id);
+ const issue=powerActivationIssue(c,d,pack,power);
+ if(!copy||copy.spent||issue)throw new Error(issue||'Power unavailable');
  if(!Number.isInteger(natural)||natural<1||natural>20)throw new Error('Invalid power roll');
  clearFollowUps(c);clearAiming(c);clearBracing(c);
  if(['standard-action','move-action','full-round-action'].includes(power.action))delete c.routineProgress;

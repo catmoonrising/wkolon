@@ -39,6 +39,9 @@
   - [x] All Core Jedi/Noble/Scoundrel class talents, pinned tree access, repeat caps, skill substitutions, lightsaber specialization and Connections pricing.
   - [x] Core Force talent trees and access through Force Sensitivity.
   - [x] Force Training and all 16 Core Force powers, duplicate copies, chronological Wisdom gains, spent tracking and suite recovery.
+  - [x] All 88 inventoried official Force-power pages: 90 choices, isolated book versions/mixed-page sections, complete articles, descriptors and activation times.
+  - [x] Lightsaber Form power activation guards, saved Lightsaber activation and Enlighten's alternative action choices.
+  - [ ] Individual Force-power effects, targets, sustain costs, mandatory power-specific costs, return-to-suite exceptions and Rebuke resolution.
   - [x] All Core feat and weapon pages, specific weapon choices, prerequisites and class bonus lists.
   - [x] Unarmed attacks, Martial Arts, Finesse, Triple Crit, Force Boon, Strong in the Force, weapon ranges and area routines.
   - [x] Species native-check rerolls, threatened Take 10, senses and carrying/lifting limits.

@@ -1117,3 +1117,19 @@ prerequisite or effect is inferred from their shared wiki page.
 
 Book variants of nonrepeatable feats share `exclusiveGroup`; a character selects
 one version of Staggering Attack rather than gaining the same named feat twice.
+
+### Supplemental Force power contract
+
+Each power retains its pinned article and standalone bracketed descriptors.
+`actionText` preserves the printed Time text; `action` remains the default action.
+An optional `actions` array lists actual alternatives. A suite copy can save its
+chosen `action`, validated against those alternatives. Book versions have separate
+IDs, section sources and qualified names. Intercept imports only its Force Power
+tab; its starship maneuver is separate. Corruption retains its Force Power tab.
+
+`lightsaber-form` is a descriptor. The general form-power rule is pinned separately:
+activation requires an equipped, carried Lightsaber with `activated !== false`.
+Legacy equipped Lightsabers count as active. Inventory can save `activated` for
+Lightsabers; inactive Lightsabers cannot make ordinary Lightsaber attacks or
+provide the wielded-Lightsaber defense bonuses. Power effects, target resolution,
+sustaining and talent-specific return-to-suite exceptions remain separate work.

@@ -6,26 +6,26 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 
 **Mapped** means at least one reviewed mechanic uses the page; it does not mean every rule on that page is automated. **Reference** means embedded text without a reviewed mechanical mapping. **Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.
 
-Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **558 / 4,400 pages (12.7%)**. A mechanical mapping alone does not count as embedded text.
+Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **629 / 4,400 pages (14.3%)**. A mechanical mapping alone does not count as embedded text.
 
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Clone Wars Campaign Guide | 571 | 70 | 501 | 0 | 1 |
+| Clone Wars Campaign Guide | 571 | 78 | 493 | 0 | 1 |
 | Core Rulebook | 654 | 285 | 369 | 0 | 1 |
 | Dawn of Defiance | 244 | 2 | 242 | 0 | 0 |
-| Force Unleashed Campaign Guide | 356 | 49 | 307 | 0 | 0 |
+| Force Unleashed Campaign Guide | 356 | 53 | 303 | 0 | 0 |
 | Galaxy at War | 274 | 66 | 208 | 0 | 0 |
 | Galaxy of Intrigue | 229 | 8 | 221 | 0 | 0 |
-| Jedi Academy Training Manual | 301 | 41 | 260 | 0 | 0 |
-| Knights of the Old Republic Campaign Guide | 512 | 89 | 423 | 0 | 0 |
-| Legacy Era Campaign Guide | 413 | 44 | 369 | 0 | 1 |
+| Jedi Academy Training Manual | 301 | 82 | 219 | 0 | 0 |
+| Knights of the Old Republic Campaign Guide | 512 | 99 | 413 | 0 | 0 |
+| Legacy Era Campaign Guide | 413 | 53 | 360 | 0 | 1 |
 | Rebellion Era Campaign Guide | 344 | 78 | 266 | 0 | 0 |
 | Scavenger's Guide to Droids | 211 | 1 | 210 | 0 | 0 |
 | Scum and Villainy | 317 | 39 | 278 | 0 | 0 |
-| Starships of the Galaxy | 253 | 18 | 235 | 0 | 0 |
+| Starships of the Galaxy | 253 | 19 | 234 | 0 | 0 |
 | Threats of the Galaxy | 256 | 6 | 250 | 0 | 0 |
 | Unknown Regions Campaign Guide | 355 | 15 | 340 | 0 | 0 |
-| Web Enhancements | 519 | 40 | 479 | 0 | 0 |
+| Web Enhancements | 519 | 41 | 478 | 0 | 0 |
 
 4,400 distinct candidate pages across 16 sources. Shared pages appear in more than one row. The exclusion tree contains 367 pages in 5 categories.
 

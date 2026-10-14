@@ -1859,6 +1859,37 @@
               "const": -5
             }
           }
+        },
+        "lightsaberFormPowers": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "descriptor",
+            "requiresActivatedLightsaber",
+            "rebukeExceptions"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "descriptor": {
+              "const": "lightsaber-form"
+            },
+            "requiresActivatedLightsaber": {
+              "const": true
+            },
+            "rebukeExceptions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
         }
       },
       "required": [
@@ -2029,7 +2060,8 @@
               "swift-action",
               "full-round-action",
               "free-action",
-              "reaction"
+              "reaction",
+              "move-action"
             ]
           },
           "descriptors": {
@@ -2040,7 +2072,27 @@
                 "dark-side",
                 "light-side",
                 "mind-affecting",
-                "telekinetic"
+                "telekinetic",
+                "lightsaber-form"
+              ]
+            }
+          },
+          "actionText": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actions": {
+            "type": "array",
+            "minItems": 2,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "standard-action",
+                "swift-action",
+                "full-round-action",
+                "free-action",
+                "reaction",
+                "move-action"
               ]
             }
           }
