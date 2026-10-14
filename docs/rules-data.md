@@ -1096,3 +1096,24 @@ Incoming damage can declare `requiresUseTheForce` to apply the matching
 conditional Fortitude bonus to Damage Threshold. The declaration is per damage
 application, like Energy/Fire, and is shown only when it changes the result.
 Jedi Counseling 114 confirms the Fortitude-to-threshold relationship.
+
+### Galaxy at War feat contract
+
+`teamSkill` declares a fixed skill, +3 competence base, +1 per same-feat ally
+within 12 squares, capped at +7. `teamFeatAllies` stores the declared counts per
+feat. Its competence bonus competes with Skill Focus rather than stacking.
+`defenseAbility` adds an optional ability for its defense; `defenseAbilities`
+stores explicit choices, with the highest effective modifier as the default.
+Predictive Defense uses Intelligence literally; Dexterity-only restrictions do
+not apply to Intelligence under the default reading. Dodge losses still apply.
+`thresholdDefense` enables Will for Fight Through Pain. The default chooses the
+higher applicable defense for each damage context; a saved explicit choice can
+select either. Conditional bonuses combine by type across selected contexts.
+`rangedOpportunity` adds only to ranged attacks of opportunity.
+
+Staggering Attack has two distinct published rules. Each gets a book-qualified
+name, source section, prerequisite and complete section article. No merged
+prerequisite or effect is inferred from their shared wiki page.
+
+Book variants of nonrepeatable feats share `exclusiveGroup`; a character selects
+one version of Staggering Attack rather than gaining the same named feat twice.

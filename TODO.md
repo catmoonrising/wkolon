@@ -25,6 +25,9 @@
   - [x] Improved Rapid Strike: Light/Lightsaber restriction, printed Dexterity penalties, critical dice and Mighty Swing nonstacking.
   - [x] All 21 Clone Wars feat selections, Nelvaanian traits/prerequisites and reviewed heroic bonus access.
   - [x] Unstoppable Force, Unwavering Resolve, Wary Defender and Grand Army training defense calculations; conditional Force-attack Damage Threshold.
+  - [x] 35 Galaxy at War feat options, including separate/exclusive Staggering Attack book versions and Mission Specialist secondary skills.
+  - [x] Thirteen team skill bonuses, competence nonstacking, defense ability choices, Fight Through Pain contexts and Opportunistic Shooter.
+  - [ ] Remaining Galaxy at War feat actions and additional team movement/skill benefits.
   - [ ] Remaining Clone Wars feat actions, Scent/Shadow Swiftness target declarations and movement interactions.
   - [ ] Implant equipment and Implant Training; remaining KOTOR feat effects/actions.
   - [ ] Biotech modification projects and remaining martial-style actions, triggers and encounter limits.

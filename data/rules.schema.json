@@ -2991,6 +2991,10 @@
         },
         "choiceExoticMode": {
           "const": "melee"
+        },
+        "exclusiveGroup": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
         }
       }
     },
@@ -3043,7 +3047,8 @@
                 "criticalThreat",
                 "tumbleSokan",
                 "unarmedCriticalDieStep",
-                "armorFortitudeToWill"
+                "armorFortitudeToWill",
+                "rangedOpportunity"
               ]
             },
             "amount": {
@@ -3179,6 +3184,86 @@
             },
             "type": {
               "const": "competence"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "defense",
+            "ability"
+          ],
+          "properties": {
+            "target": {
+              "const": "defenseAbility"
+            },
+            "defense": {
+              "enum": [
+                "reflex",
+                "fortitude",
+                "will"
+              ]
+            },
+            "ability": {
+              "enum": [
+                "int",
+                "str",
+                "cha"
+              ]
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "defense"
+          ],
+          "properties": {
+            "target": {
+              "const": "thresholdDefense"
+            },
+            "defense": {
+              "const": "will"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "skill",
+            "amount",
+            "type",
+            "perAlly",
+            "maximum",
+            "radius"
+          ],
+          "properties": {
+            "target": {
+              "const": "teamSkill"
+            },
+            "skill": {
+              "type": "string"
+            },
+            "amount": {
+              "const": 3
+            },
+            "type": {
+              "const": "competence"
+            },
+            "perAlly": {
+              "const": 1
+            },
+            "maximum": {
+              "const": 7
+            },
+            "radius": {
+              "const": 12
             }
           }
         }

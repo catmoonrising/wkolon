@@ -7914,6 +7914,366 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=20094",
       "history": "https://swse.miraheze.org/w/index.php?title=Wary%20Defender&action=history",
       "section": null
+    },
+    {
+      "id": "source:wiki-aquatic-specialists",
+      "title": "Aquatic Specialists",
+      "revision": 15873,
+      "timestamp": "2024-08-18T00:53:20Z",
+      "sha256": "38acec3061143e63caae3003f832d4f12c13fc631716946b9d999117f4d6b0fd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15873",
+      "history": "https://swse.miraheze.org/w/index.php?title=Aquatic%20Specialists&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-ascension-specialists",
+      "title": "Ascension Specialists",
+      "revision": 15934,
+      "timestamp": "2024-08-18T00:53:27Z",
+      "sha256": "90bafcf57ef6fff2ccca0954fbc5b8e1eff8ea2331dde414d16e59ee218bf2de",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15934",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ascension%20Specialists&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-bantha-herder",
+      "title": "Bantha Herder",
+      "revision": 16131,
+      "timestamp": "2024-08-18T00:56:21Z",
+      "sha256": "8e169e10a3eb795e9fc8edcecccf8f8caeb97b0d80a43296ce2f0e66aa5ece07",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16131",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bantha%20Herder&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-battering-attack",
+      "title": "Battering Attack",
+      "revision": 16161,
+      "timestamp": "2024-08-18T00:56:24Z",
+      "sha256": "4c5bfc1cbcd63d098c9258643751b8aa193558aba5858f7980db338687a86e34",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16161",
+      "history": "https://swse.miraheze.org/w/index.php?title=Battering%20Attack&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-covert-operatives",
+      "title": "Covert Operatives",
+      "revision": 20852,
+      "timestamp": "2024-08-26T00:39:01Z",
+      "sha256": "f95640668be52c3a6bf8cef6daf247b294aa255401a8c09a5069a2f3cc0ec0b8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20852",
+      "history": "https://swse.miraheze.org/w/index.php?title=Covert%20Operatives&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-destructive-force",
+      "title": "Destructive Force",
+      "revision": 20856,
+      "timestamp": "2024-08-26T00:39:29Z",
+      "sha256": "dfb345eaa3759b7eec3130ed5dec86379be2f5b3b0160b12d9d061fd6c9f62f8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20856",
+      "history": "https://swse.miraheze.org/w/index.php?title=Destructive%20Force&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-disabler",
+      "title": "Disabler",
+      "revision": 20858,
+      "timestamp": "2024-08-26T00:39:46Z",
+      "sha256": "ff2e9ecca6909cc759fe91c37f2a9131e349d4938bb3dabf80a5ac79deca792d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20858",
+      "history": "https://swse.miraheze.org/w/index.php?title=Disabler&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-dive-for-cover",
+      "title": "Dive for Cover",
+      "revision": 20859,
+      "timestamp": "2024-08-26T00:39:52Z",
+      "sha256": "63bed44f214878001df3006b1a77175a7bcde7d65c1c79bf8f29f99b87e9fc57",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20859",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dive%20for%20Cover&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-fight-through-pain",
+      "title": "Fight Through Pain",
+      "revision": 20867,
+      "timestamp": "2024-08-26T00:40:45Z",
+      "sha256": "3d1945b1895f8c1a065c6ff89077fd9e357ac50b5ed5b0364ff2af4c45be40dc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20867",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fight%20Through%20Pain&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-force-of-personality",
+      "title": "Force of Personality",
+      "revision": 20870,
+      "timestamp": "2024-08-26T00:41:01Z",
+      "sha256": "c0f30de2862246d11fb4cedb1f34d8db20ac954c7617209a6b17d063a8be5b8b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20870",
+      "history": "https://swse.miraheze.org/w/index.php?title=Force%20of%20Personality&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-forceful-blast",
+      "title": "Forceful Blast",
+      "revision": 20871,
+      "timestamp": "2024-08-26T00:41:07Z",
+      "sha256": "958e24d31157ec894d42f77b6c12ed2e4f1ecb8c28d0fdfdc9def868427ac7bb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20871",
+      "history": "https://swse.miraheze.org/w/index.php?title=Forceful%20Blast&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-fortifying-recovery",
+      "title": "Fortifying Recovery",
+      "revision": 20872,
+      "timestamp": "2024-08-26T00:41:12Z",
+      "sha256": "58b51890519aef6d6f62c0d2ae62f66744746c45eb6f18864a9a903233addbdd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20872",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fortifying%20Recovery&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-medical-team",
+      "title": "Medical Team",
+      "revision": 20901,
+      "timestamp": "2024-08-26T00:45:21Z",
+      "sha256": "949bfd5182afba67106ba8f92f7bff2f0fdc01677c9cca32a98e0d1203e71ab0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20901",
+      "history": "https://swse.miraheze.org/w/index.php?title=Medical%20Team&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mission-specialist",
+      "title": "Mission Specialist",
+      "revision": 20906,
+      "timestamp": "2024-08-26T00:45:57Z",
+      "sha256": "e05772cfe23978b660597ed5690b70d4fa93d9ef0ccb0e505c3fa6b4b0005873",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20906",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mission%20Specialist&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mounted-regiment",
+      "title": "Mounted Regiment",
+      "revision": 20908,
+      "timestamp": "2024-08-26T00:46:17Z",
+      "sha256": "75ca2d1efe13c2a7f6160a51d976042f6f3c8fa4e1ee8eb823f5a205def6034d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20908",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mounted%20Regiment&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-never-surrender",
+      "title": "Never Surrender",
+      "revision": 20911,
+      "timestamp": "2024-08-26T00:46:43Z",
+      "sha256": "bac9d5e8b6b19141cc69e396230016f277747d63223bdf78b7cfd55f99fd5cb0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20911",
+      "history": "https://swse.miraheze.org/w/index.php?title=Never%20Surrender&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-nimble-team",
+      "title": "Nimble Team",
+      "revision": 20912,
+      "timestamp": "2024-08-26T00:46:49Z",
+      "sha256": "c224e7bc1d3d916978ffd3c5690b473155a5a96e7fbb01233d26773cb8995065",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20912",
+      "history": "https://swse.miraheze.org/w/index.php?title=Nimble%20Team&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-officer-candidacy-training",
+      "title": "Officer Candidacy Training",
+      "revision": 20916,
+      "timestamp": "2024-08-26T00:47:23Z",
+      "sha256": "ab6eb8838dad0ef88fc2d7abcb7bd81b6a7c76015b3c0d58c7c23234c638fc80",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20916",
+      "history": "https://swse.miraheze.org/w/index.php?title=Officer%20Candidacy%20Training&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-opportunistic-shooter",
+      "title": "Opportunistic Shooter",
+      "revision": 20917,
+      "timestamp": "2024-08-26T00:47:29Z",
+      "sha256": "4511345ed4b2fb5a3071eb9045b7e2d787012b12d46325afa98401e801ef12bb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20917",
+      "history": "https://swse.miraheze.org/w/index.php?title=Opportunistic%20Shooter&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-pistoleer",
+      "title": "Pistoleer",
+      "revision": 20920,
+      "timestamp": "2024-08-26T00:48:16Z",
+      "sha256": "64f9009a6669335a085917d11e1b06cb13878c8978f5ca915b7b5bf1c855403b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20920",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pistoleer&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-predictive-defense",
+      "title": "Predictive Defense",
+      "revision": 20924,
+      "timestamp": "2024-08-26T00:48:51Z",
+      "sha256": "bfc0edda0edd763bb8b80c564c7a4e7ab212aab5b71a50c08940ac07ed8c6d35",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20924",
+      "history": "https://swse.miraheze.org/w/index.php?title=Predictive%20Defense&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-resilient-strength",
+      "title": "Resilient Strength",
+      "revision": 20934,
+      "timestamp": "2024-08-26T00:50:07Z",
+      "sha256": "58562e69db2d9f4a8efea64ccd09ebe6c12e820a850d08ab4b027d5b90bfc5c3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20934",
+      "history": "https://swse.miraheze.org/w/index.php?title=Resilient%20Strength&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-riflemaster",
+      "title": "Riflemaster",
+      "revision": 20935,
+      "timestamp": "2024-08-26T00:50:13Z",
+      "sha256": "545f98a5fa366cc4e9a0d7de344095df83870342d564b72f341c98dfc1f67500",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20935",
+      "history": "https://swse.miraheze.org/w/index.php?title=Riflemaster&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-risk-taker",
+      "title": "Risk Taker",
+      "revision": 20936,
+      "timestamp": "2024-08-26T00:50:23Z",
+      "sha256": "c09176c2e0b134136837191de3e37fd7594cc81e6747ac3b820ae297b3836214",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20936",
+      "history": "https://swse.miraheze.org/w/index.php?title=Risk%20Taker&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-slicer-team",
+      "title": "Slicer Team",
+      "revision": 20951,
+      "timestamp": "2024-08-26T00:52:03Z",
+      "sha256": "4639e05b0c6132ec5cfbfbfe7e3f7369ebd3d93bdd12bca05882b73f9d29368a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20951",
+      "history": "https://swse.miraheze.org/w/index.php?title=Slicer%20Team&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sport-hunter",
+      "title": "Sport Hunter",
+      "revision": 20955,
+      "timestamp": "2024-08-26T00:52:28Z",
+      "sha256": "cbbbb03a3bc6ec103290512feed547a9507ecc17e28e8ca16432e7f3ee4f952e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20955",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sport%20Hunter&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-steadying-position",
+      "title": "Steadying Position",
+      "revision": 20960,
+      "timestamp": "2024-08-26T00:52:57Z",
+      "sha256": "56a9085fa199b2d6ef66c2ab991903d60dfd374523b31d608b3be98d7a06fa9f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20960",
+      "history": "https://swse.miraheze.org/w/index.php?title=Steadying%20Position&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-technical-experts",
+      "title": "Technical Experts",
+      "revision": 20971,
+      "timestamp": "2024-08-26T00:54:02Z",
+      "sha256": "fcf100a94fae1ad3c8045e0e08f2f7445451d16bfc029e21ba6afd31443fb086",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20971",
+      "history": "https://swse.miraheze.org/w/index.php?title=Technical%20Experts&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-tireless-squad",
+      "title": "Tireless Squad",
+      "revision": 20976,
+      "timestamp": "2024-08-26T00:54:44Z",
+      "sha256": "fd0e48324ed729b368b73112e879cebadd27c5d9a54b262f81720ad2b82354b3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20976",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tireless%20Squad&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-unhindered-approach",
+      "title": "Unhindered Approach",
+      "revision": 20982,
+      "timestamp": "2024-08-26T00:55:55Z",
+      "sha256": "dbaa8ef682af7c525960d1c47104fe629a4cdf55f03dfa5d7f47ff89048b6a45",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20982",
+      "history": "https://swse.miraheze.org/w/index.php?title=Unhindered%20Approach&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-unified-squadron",
+      "title": "Unified Squadron",
+      "revision": 20983,
+      "timestamp": "2024-08-26T00:56:00Z",
+      "sha256": "aaf14f8b19e19ed947819faccaccb79929d79db67e02d02f6138b1ba92674c6a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20983",
+      "history": "https://swse.miraheze.org/w/index.php?title=Unified%20Squadron&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-wary-sentries",
+      "title": "Wary Sentries",
+      "revision": 20991,
+      "timestamp": "2024-08-26T00:57:02Z",
+      "sha256": "94fbf8f6d45ea3917a3570ceadc698c91ffd5e6acf2e98dbad862530e0ee695c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20991",
+      "history": "https://swse.miraheze.org/w/index.php?title=Wary%20Sentries&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-wilderness-specialists",
+      "title": "Wilderness Specialists",
+      "revision": 20995,
+      "timestamp": "2024-08-26T00:57:40Z",
+      "sha256": "8de0f827982db5573c5be326a1c9c65ba956c21e0dfdb0701f06cf99f1764a31",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20995",
+      "history": "https://swse.miraheze.org/w/index.php?title=Wilderness%20Specialists&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-staggering-attack",
+      "title": "Staggering Attack",
+      "revision": 19785,
+      "timestamp": "2024-08-25T22:35:59Z",
+      "sha256": "f87642e517ddb5fe07c4708bf332536d5fa2655144be20068aaada8958c18ecc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19785",
+      "history": "https://swse.miraheze.org/w/index.php?title=Staggering%20Attack&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-staggering-attack-galaxy-at-war",
+      "title": "Staggering Attack",
+      "revision": 19785,
+      "timestamp": "2024-08-25T22:35:59Z",
+      "sha256": "f87642e517ddb5fe07c4708bf332536d5fa2655144be20068aaada8958c18ecc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19785",
+      "history": "https://swse.miraheze.org/w/index.php?title=Staggering%20Attack&action=history",
+      "section": "Galaxy at War"
+    },
+    {
+      "id": "source:wiki-staggering-attack-scum-and-villainy",
+      "title": "Staggering Attack",
+      "revision": 19785,
+      "timestamp": "2024-08-25T22:35:59Z",
+      "sha256": "f87642e517ddb5fe07c4708bf332536d5fa2655144be20068aaada8958c18ecc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19785",
+      "history": "https://swse.miraheze.org/w/index.php?title=Staggering%20Attack&action=history",
+      "section": "Scum and Villainy"
     }
   ],
   "species": [
@@ -8775,7 +9135,17 @@
         "feat:withdrawal-strike",
         "feat:unstoppable-force",
         "feat:unwavering-resolve",
-        "feat:wary-defender"
+        "feat:wary-defender",
+        "feat:battering-attack",
+        "feat:dive-for-cover",
+        "feat:fight-through-pain",
+        "feat:force-of-personality",
+        "feat:mission-specialist",
+        "feat:never-surrender",
+        "feat:officer-candidacy-training",
+        "feat:resilient-strength",
+        "feat:risk-taker",
+        "feat:staggering-attack-galaxy-at-war"
       ],
       "talentTrees": [
         "tree:jedi-consular",
@@ -8884,7 +9254,13 @@
         "feat:experienced-medic",
         "feat:leader-of-droids",
         "feat:unwavering-resolve",
-        "feat:wary-defender"
+        "feat:wary-defender",
+        "feat:disabler",
+        "feat:fight-through-pain",
+        "feat:force-of-personality",
+        "feat:mission-specialist",
+        "feat:predictive-defense",
+        "feat:sport-hunter"
       ],
       "talentTrees": [
         "tree:influence",
@@ -8985,7 +9361,16 @@
         "feat:droid-hunter",
         "feat:droidcraft",
         "feat:expert-droid-repair",
-        "feat:overwhelming-attack"
+        "feat:overwhelming-attack",
+        "feat:bantha-herder",
+        "feat:disabler",
+        "feat:fight-through-pain",
+        "feat:force-of-personality",
+        "feat:mission-specialist",
+        "feat:opportunistic-shooter",
+        "feat:pistoleer",
+        "feat:predictive-defense",
+        "feat:steadying-position"
       ],
       "talentTrees": [
         "tree:fortune",
@@ -9094,7 +9479,21 @@
         "feat:droid-hunter",
         "feat:droidcraft",
         "feat:expert-droid-repair",
-        "feat:flash-and-clear"
+        "feat:flash-and-clear",
+        "feat:destructive-force",
+        "feat:disabler",
+        "feat:dive-for-cover",
+        "feat:forceful-blast",
+        "feat:fortifying-recovery",
+        "feat:mission-specialist",
+        "feat:never-surrender",
+        "feat:opportunistic-shooter",
+        "feat:pistoleer",
+        "feat:resilient-strength",
+        "feat:riflemaster",
+        "feat:risk-taker",
+        "feat:sport-hunter",
+        "feat:steadying-position"
       ],
       "talentTrees": [
         "tree:awareness",
@@ -9239,7 +9638,25 @@
         "feat:separatist-military-training",
         "feat:trench-warrior",
         "feat:unstoppable-force",
-        "feat:wary-defender"
+        "feat:wary-defender",
+        "feat:bantha-herder",
+        "feat:battering-attack",
+        "feat:destructive-force",
+        "feat:disabler",
+        "feat:dive-for-cover",
+        "feat:forceful-blast",
+        "feat:fortifying-recovery",
+        "feat:mission-specialist",
+        "feat:never-surrender",
+        "feat:officer-candidacy-training",
+        "feat:opportunistic-shooter",
+        "feat:pistoleer",
+        "feat:resilient-strength",
+        "feat:riflemaster",
+        "feat:risk-taker",
+        "feat:sport-hunter",
+        "feat:steadying-position",
+        "feat:staggering-attack-galaxy-at-war"
       ],
       "talentTrees": [
         "tree:armor-specialist",
@@ -14967,6 +15384,781 @@
         }
       ],
       "reminder": ""
+    },
+    {
+      "id": "feat:aquatic-specialists",
+      "name": "Aquatic Specialists",
+      "sourceId": "source:wiki-aquatic-specialists",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:swim"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:swim",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:ascension-specialists",
+      "name": "Ascension Specialists",
+      "sourceId": "source:wiki-ascension-specialists",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:climb"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:climb",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:bantha-herder",
+      "name": "Bantha Herder",
+      "sourceId": "source:wiki-bantha-herder",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:battering-attack",
+      "name": "Battering Attack",
+      "sourceId": "source:wiki-battering-attack",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:bantha-rush"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:trip"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:covert-operatives",
+      "name": "Covert Operatives",
+      "sourceId": "source:wiki-covert-operatives",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:stealth"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:stealth",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:destructive-force",
+      "name": "Destructive Force",
+      "sourceId": "source:wiki-destructive-force",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:disabler",
+      "name": "Disabler",
+      "sourceId": "source:wiki-disabler",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:dive-for-cover",
+      "name": "Dive for Cover",
+      "sourceId": "source:wiki-dive-for-cover",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:jump"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:fight-through-pain",
+      "name": "Fight Through Pain",
+      "sourceId": "source:wiki-fight-through-pain",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "thresholdDefense",
+          "defense": "will"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:force-of-personality",
+      "name": "Force of Personality",
+      "sourceId": "source:wiki-force-of-personality",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "cha",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "defenseAbility",
+          "defense": "will",
+          "ability": "cha"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:forceful-blast",
+      "name": "Forceful Blast",
+      "sourceId": "source:wiki-forceful-blast",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 1
+          },
+          {
+            "kind": "feat",
+            "value": "feat:weapon-proficiency-simple-weapons"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:fortifying-recovery",
+      "name": "Fortifying Recovery",
+      "sourceId": "source:wiki-fortifying-recovery",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "con",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:medical-team",
+      "name": "Medical Team",
+      "sourceId": "source:wiki-medical-team",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:treat-injury"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:treat-injury",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:mission-specialist",
+      "name": "Mission Specialist",
+      "sourceId": "source:wiki-mission-specialist",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "$choice"
+          }
+        ]
+      },
+      "repeat": "choice",
+      "effects": [],
+      "reminder": "",
+      "choiceType": "skill"
+    },
+    {
+      "id": "feat:mounted-regiment",
+      "name": "Mounted Regiment",
+      "sourceId": "source:wiki-mounted-regiment",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:ride"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:ride",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:never-surrender",
+      "name": "Never Surrender",
+      "sourceId": "source:wiki-never-surrender",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:endurance"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:nimble-team",
+      "name": "Nimble Team",
+      "sourceId": "source:wiki-nimble-team",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:acrobatics"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:acrobatics",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:officer-candidacy-training",
+      "name": "Officer Candidacy Training",
+      "sourceId": "source:wiki-officer-candidacy-training",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:opportunistic-shooter",
+      "name": "Opportunistic Shooter",
+      "sourceId": "source:wiki-opportunistic-shooter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": []
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "rangedOpportunity",
+          "amount": 2,
+          "type": "untyped"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:pistoleer",
+      "name": "Pistoleer",
+      "sourceId": "source:wiki-pistoleer",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:weapon-proficiency-pistols"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:predictive-defense",
+      "name": "Predictive Defense",
+      "sourceId": "source:wiki-predictive-defense",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "int",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "defenseAbility",
+          "defense": "reflex",
+          "ability": "int"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:resilient-strength",
+      "name": "Resilient Strength",
+      "sourceId": "source:wiki-resilient-strength",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "ability",
+            "value": "str",
+            "min": 13
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "defenseAbility",
+          "defense": "fortitude",
+          "ability": "str"
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:riflemaster",
+      "name": "Riflemaster",
+      "sourceId": "source:wiki-riflemaster",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:weapon-proficiency-rifles"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:risk-taker",
+      "name": "Risk Taker",
+      "sourceId": "source:wiki-risk-taker",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "any",
+            "requirements": [
+              {
+                "kind": "trained",
+                "value": "skill:climb"
+              },
+              {
+                "kind": "trained",
+                "value": "skill:jump"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:slicer-team",
+      "name": "Slicer Team",
+      "sourceId": "source:wiki-slicer-team",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:use-computer"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:use-computer",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:sport-hunter",
+      "name": "Sport Hunter",
+      "sourceId": "source:wiki-sport-hunter",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "any",
+            "requirements": [
+              {
+                "kind": "feat",
+                "value": "feat:weapon-proficiency-pistols"
+              },
+              {
+                "kind": "feat",
+                "value": "feat:weapon-proficiency-rifles"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:steadying-position",
+      "name": "Steadying Position",
+      "sourceId": "source:wiki-steadying-position",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "feat",
+            "value": "feat:careful-shot"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": ""
+    },
+    {
+      "id": "feat:technical-experts",
+      "name": "Technical Experts",
+      "sourceId": "source:wiki-technical-experts",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:mechanics"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:mechanics",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:tireless-squad",
+      "name": "Tireless Squad",
+      "sourceId": "source:wiki-tireless-squad",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:endurance"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:endurance",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:unhindered-approach",
+      "name": "Unhindered Approach",
+      "sourceId": "source:wiki-unhindered-approach",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:jump"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:jump",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:unified-squadron",
+      "name": "Unified Squadron",
+      "sourceId": "source:wiki-unified-squadron",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:pilot"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:pilot",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:wary-sentries",
+      "name": "Wary Sentries",
+      "sourceId": "source:wiki-wary-sentries",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:perception"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:perception",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:wilderness-specialists",
+      "name": "Wilderness Specialists",
+      "sourceId": "source:wiki-wilderness-specialists",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "trained",
+            "value": "skill:survival"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "teamSkill",
+          "skill": "skill:survival",
+          "amount": 3,
+          "type": "competence",
+          "perAlly": 1,
+          "maximum": 7,
+          "radius": 12
+        }
+      ],
+      "reminder": ""
+    },
+    {
+      "id": "feat:staggering-attack-galaxy-at-war",
+      "name": "Staggering Attack (Galaxy at War)",
+      "sourceId": "source:wiki-staggering-attack-galaxy-at-war",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "bab",
+            "min": 1
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "exclusiveGroup": "staggering-attack"
+    },
+    {
+      "id": "feat:staggering-attack-scum-and-villainy",
+      "name": "Staggering Attack (Scum and Villainy)",
+      "sourceId": "source:wiki-staggering-attack-scum-and-villainy",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "any",
+            "requirements": [
+              {
+                "kind": "talent",
+                "value": "talent:sneak-attack"
+              },
+              {
+                "kind": "feat",
+                "value": "feat:rapid-shot"
+              },
+              {
+                "kind": "feat",
+                "value": "feat:rapid-strike"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "exclusiveGroup": "staggering-attack"
     }
   ],
   "talents": [

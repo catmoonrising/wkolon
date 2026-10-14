@@ -1251,3 +1251,45 @@ extensions, full Chromium regression checks and focused Chromium/Firefox checks
 for conditional defenses, typed
 Equipment stacking, Wary Defender modes/expiry, Force-attack threshold, Nelvaanian
 creation, full source popups, save/reload and Dracula mobile layout.
+
+## Galaxy at War feats
+
+Enabled 35 feat options from 34 pages, bringing the feat catalog to 154. Staggering
+Attack has different Scum and Villainy and Galaxy at War rules; each has its own
+book-qualified name, prerequisite and pinned section article. A nonrepeatable
+version group prevents taking the same named feat twice. The Jedi/Soldier class
+tables explicitly grant the Galaxy at War version as a bonus feat despite missing
+category tags on the feat page; the Scum and Villainy version remains general.
+Mission Specialist offers trained secondary skills and can repeat for another
+skill. Other new prerequisites and class access retain their printed limits.
+
+Thirteen team feats grant a +3 competence skill bonus, increased by declared
+same-feat allies within 12 squares to a maximum +7. It competes with Skill Focus
+rather than stacking. Counts are saved per character; additional movement and
+other benefits in those feat articles remain pending. The default counts other
+allies; the general Team Feats page's Skill Focus comparison is retained as an
+unanswered ruling topic.
+
+Force of Personality, Predictive Defense and Resilient Strength add their optional
+defense abilities. Auto selects the highest effective modifier; explicit lower
+choices are supported and saved. Predictive Defense uses Intelligence literally
+without Dexterity-only caps or denial; Dodge losses still apply. The alternative
+reading is awaiting the user's answer. These choices do not change attacks, HP
+or unrelated ability checks.
+
+Fight Through Pain chooses Fortitude or Will for threshold, using the better
+applicable defense for each context by default. Explicit choices are saved.
+Incoming damage supports multiple declared contexts, combines bonuses by type,
+replaces weaker Equipment bonuses and avoids adding the same insight bonus twice.
+This handles a conditional Will bonus becoming better than normal Fortitude.
+Opportunistic Shooter adds +2 only to ranged attacks of opportunity.
+
+Remaining actions include forced movement, weapon-specific feat benefits,
+Steadying Position, Never Surrender and Fortifying Recovery/Bonus Hit Points.
+Their complete source text is present; selection does not imply full automation.
+
+Validation: 455 JavaScript tests, 27 Python importer tests, byte-identical offline
+import/rebuild, preserved existing mechanics, full Chromium regression checks and
+focused Chromium/Firefox checks for ally counts/competence, saved defense choices,
+conditional threshold changes, secondary skill choices, exclusive book versions,
+full section articles and Dracula mobile layout.

@@ -47,6 +47,8 @@ default-only decision remains here even though it adds no switch to the sheet.
 | Topic | Current behavior | Unanswered alternative |
 | --- | --- | --- |
 | Tumble movement cost | Multiply Tumble with diagonal/difficult-terrain movement costs. | Every tumbled square costs a flat 2 regardless of terrain/diagonals. |
+| Predictive Defense | Intelligence is not subject to Dexterity-only caps or loss. | Apply Dexterity restrictions to the replacement Intelligence modifier. |
+| Team feat allies | Count other allies within 12 squares; solo competence bonus +3. | Count the character as an ally too, for a solo +4. The general Team Feats comparison with Skill Focus is unclear. |
 | Tough as Durasteel | Full reference text; activated action still pending. | Body class-level amount versus the table’s last even-level amount. |
 
 ## Source gaps and discrepancies

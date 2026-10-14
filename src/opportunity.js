@@ -35,7 +35,9 @@ export function planOpportunity(c,d,pack,uid){
  const attack=d.attacks.find(a=>a.uid===uid);
  if(!attack?.opportunityWeapon)fail('Weapon cannot make attacks of opportunity');
  if(!attack.available||!attack.damage)fail(attack.issue||'Attack unavailable');
- return {attack,spent:{opponent:p.opponent.trim(),action:p.action.trim()},previous:structuredClone(p.used)};
+ const bonus=attack.mode==='ranged'?d.rangedOpportunityBonus||0:0;
+ const result=bonus?{...attack,attack:attack.attack+bonus,breakdown:attack.breakdown+'; Opportunistic Shooter: +'+bonus}:attack;
+ return {attack:result,spent:{opponent:p.opponent.trim(),action:p.action.trim()},previous:structuredClone(p.used)};
 }
 export function startNextRound(c){
  nextFollowUpRound(c);
