@@ -1,13 +1,14 @@
+const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
 const choose=require('./choice-actions.cjs');
 module.exports=async function(browser,base,root){
  const context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  try{
-  await page.goto(base+'#creation');const editor=page.locator('#creator-modal'),body=page.locator('#cr-body');
-  await body.locator('[data-generation-assign="str"]').selectOption('0');
-  await editor.locator('[data-step="2"]').click();await body.locator('[data-select-class="class:scout"]').click();
-  await editor.locator('[data-step="5"]').click();await choose(page,'talent','talent:sprint|');await editor.locator('#cr-done').click();
+  await page.goto(base+'#creation');const editor=page.locator('#creator-modal'),body=creationUI.body(page);
+  await creationUI.tab(page,'abilities');await body.locator('[data-generation-assign="str"]').selectOption('0');
+  await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:scout');
+  await creationUI.openChoice(page,'talent');await choose(page,'talent','talent:sprint|');await creationUI.done(page,'done');
   const speed=page.locator('#module-speed');assert((await speed.innerText()).includes('Run 30'));
   await page.locator('#module-inventory [data-field="credits"]').fill('100000');await page.locator('#module-inventory [data-field="credits"]').press('Tab');
   await page.locator('#equipment-catalog > summary').click();await page.locator('#purchase-item').selectOption('equipment:heavy-battle-armor');await page.locator('#purchase button[type="submit"]').click();

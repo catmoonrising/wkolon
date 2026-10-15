@@ -1,3 +1,4 @@
+const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url');
 module.exports=async function(browser,base,root){
  const {newCharacter,validateCharacter}=await import(pathToFileURL(path.join(root,'src/rules.js')).href),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
@@ -19,11 +20,11 @@ module.exports=async function(browser,base,root){
  await page.locator('#module-inventory [data-inventory="launcher"]').selectOption('cesta');
  await page.locator('#skill-modifiers > summary').click();await page.locator('[data-skill-modifier="skill:stealth"]').fill('4');await page.locator('[data-skill-modifier="skill:stealth"]').dispatchEvent('change');
  await page.locator('[data-flat-footed]').check();await page.waitForTimeout(350);assert.equal(await page.locator('[data-defense="reflex"]').textContent(),'12');
- await page.evaluate(()=>location.hash='creation');const creator=page.locator('#creator-modal');await creator.locator('[data-step="4"]').click();await creator.locator('[data-open-tree="feat:0:1"]').click();
- await creator.locator('[data-tree-search]').fill('Exotic Weapon Proficiency');await creator.locator('[data-tree-pick="feat:exotic-weapon-proficiency|"]').click();
- const secondary=creator.locator('select[data-secondary][data-slot="1"]');assert((await secondary.innerText()).includes('Bowcaster'));assert(!(await secondary.innerText()).includes('Blaster Pistol'));await secondary.selectOption('feat:exotic-weapon-proficiency|equipment:bowcaster');
- await creator.locator('#cr-done').click();await page.waitForTimeout(350);
- await page.locator(`[data-character="${f.id}"]`).click();await page.evaluate(()=>location.hash='creation');await creator.locator('[data-step="4"]').click();await creator.locator('[data-open-tree="feat:0:0"]').click();await creator.locator('[data-tree-search]').fill('Force Boon');await creator.locator('[data-tree-pick="feat:force-boon|"]').click();await creator.locator('#cr-done').click();
+ await page.evaluate(()=>location.hash='creation');const creator=page.locator('#creator-modal');await creationUI.openChoice(page,'feat',0,1);
+ await creationUI.body(page).locator('[data-tree-search]').fill('Exotic Weapon Proficiency');await creationUI.body(page).locator('[data-tree-pick="feat:exotic-weapon-proficiency|"]').click();
+ const secondary=creationUI.body(page).locator('select[data-secondary][data-slot="1"]');assert((await secondary.innerText()).includes('Bowcaster'));assert(!(await secondary.innerText()).includes('Blaster Pistol'));await secondary.selectOption('feat:exotic-weapon-proficiency|equipment:bowcaster');
+ await creationUI.done(page,'done');await page.waitForTimeout(350);
+ await page.locator(`[data-character="${f.id}"]`).click();await page.evaluate(()=>location.hash='creation');await creationUI.openChoice(page,'feat');await creationUI.body(page).locator('[data-tree-search]').fill('Force Boon');await creationUI.body(page).locator('[data-tree-pick="feat:force-boon|"]').click();await creationUI.done(page,'done');
  await page.waitForTimeout(350);assert.equal(await page.locator('#module-force [data-field="forcePoints"]').inputValue(),'8');await page.locator('#module-force [data-action="force-point-roll"]').click();await page.waitForTimeout(350);assert.equal(await page.locator('#module-force [data-field="forcePoints"]').inputValue(),'7');assert((await page.locator('#dicelog').innerText()).includes('1d8kh1'));
  await page.reload();assert.equal(await page.locator('#module-force [data-field="forcePoints"]').inputValue(),'7');await page.locator(`[data-character="${c.id}"]`).click();await page.waitForTimeout(100);assert((await page.locator('#module-attacks').innerText()).includes('Amphistaff (Whip)'));assert.equal(await page.locator('[data-skill-modifier="skill:stealth"]').inputValue(),'4');
  await page.evaluate(async()=>{await navigator.serviceWorker.register('sw.js',{scope:'./'});await navigator.serviceWorker.ready;});await page.waitForFunction(()=>navigator.serviceWorker.controller);await context.setOffline(true);await page.reload();await page.locator('#module-attacks').waitFor();assert((await page.locator('#module-attacks').innerText()).includes('Unarmed Attack'));assert.deepEqual(errors,[]);

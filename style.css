@@ -298,3 +298,24 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 
 .movement-terrain-grid {display:grid;align-items:center;gap:.3rem .5rem;margin:.3rem 0;max-width:24rem;}
 .movement-terrain-grid input {width:100%;min-width:0;max-width:5rem;box-sizing:border-box;}
+
+.level-plan-toolbar { margin-bottom: .75rem; }
+.level-plan-toolbar input { width: 4rem; }
+.level-plan-scroll { max-width: 100%; overflow: auto; }
+.level-plan { min-width: 72rem; width: 100%; }
+.level-plan th, .level-plan td { vertical-align: top; padding: .5rem; }
+.level-plan thead th { position: sticky; top: 0; background: var(--panel-bg); z-index: 2; }
+.level-plan tbody th { width: 2.5rem; }
+.level-plan .choice-field { margin: 0 0 .35rem; min-width: 9rem; }
+.level-plan .choice-field label { margin: 0; }
+.level-plan .choice-field button { max-width: 18rem; text-align: left; }
+.level-plan td > select { display: block; margin-bottom: .3rem; }
+.level-plan td > button { margin-bottom: .3rem; }
+.level-plan td .rules-ref-detail { margin-bottom: .3rem; }
+.level-plan .level-unresolved > th { color: var(--muted-fg); }
+.level-hp input { width: 4rem; }
+
+.level-plan tr > :first-child { position: sticky; left: 0; min-width: 2.5rem; background: var(--panel-bg); z-index: 2; }
+.level-plan tr > :nth-child(2) { position: sticky; left: 3.5rem; min-width: 9rem; background: var(--panel-bg); z-index: 2; }
+.level-plan thead tr > :first-child, .level-plan thead tr > :nth-child(2) { z-index: 4; }
+.level-plan .inactive-choice { color: var(--muted-fg); }

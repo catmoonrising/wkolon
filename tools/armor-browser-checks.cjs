@@ -1,3 +1,4 @@
+const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict');
 const path=require('node:path');
 const choose=require('./choice-actions.cjs');
@@ -9,13 +10,13 @@ module.exports=async function(browser,base,root){
  const saved=()=>page.evaluate(()=>{const r=JSON.parse(localStorage.getItem('wkolon-roster-v1'));return r.characters.find(c=>c.id===r.activeId);});
  try{
   await page.goto(base+'#creation');const editor=page.locator('#creator-modal');
-  await editor.locator('[data-step="2"]').click();await editor.locator('[data-select-class="class:soldier"]').click();
-  await editor.locator('[data-step="0"]').click();
+  await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:soldier');
+  await creationUI.tab(page,'abilities');
   for(const [i,a] of ['str','dex','con','int','wis','cha'].entries())await editor.locator(`[data-generation-assign="${a}"]`).selectOption(String(i));
-  await editor.locator('[data-step="4"]').click();
+  await creationUI.openChoice(page,'feat');
   await choose(page,'feat','family:Armor Proficiency');
-  await editor.locator('[data-secondary][data-slot="0"]').selectOption('feat:armor-proficiency-heavy|');
-  await editor.locator('#cr-done').click();
+  await creationUI.body(page).locator('[data-secondary][data-slot="0"]').selectOption('feat:armor-proficiency-heavy|');
+  await creationUI.done(page,'done');
   await page.locator('#module-inventory [data-field="credits"]').fill('100000');await page.locator('#module-inventory [data-field="credits"]').press('Tab');
   await page.locator('#equipment-catalog > summary').click();
   await page.locator('#purchase-item').selectOption('equipment:corellian-powersuit');

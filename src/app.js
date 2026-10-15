@@ -1,3 +1,5 @@
+import {resizeLevelPlan,choosePlannedClass} from './level-plan.js';
+import {levelPlanTable} from './level-plan-ui.js';
 import {setTeamAllies,teamSkillControls} from './team-skills.js';
 import {classEntry,hasClassTalent,recordPrivateerFall} from './class-advancement.js';
 import {classOptions,classDeclarations,classChoiceControls,classKindLabel} from './class-advancement-ui.js';
@@ -38,7 +40,7 @@ import {renderStatBlock} from './stat-block.js';
 import {installStatBlock} from './stat-block-ui.js';
 import {healthBars,xpBar,statBar,createCombatControls} from './combat-ui.js';
 import {createRecoveryControls} from './recovery-ui.js';
-import {CREATOR_STEPS} from './creation-steps.js';
+import {CREATOR_TABS,CREATOR_STEPS} from './creation-steps.js';
 import {referenceEntries} from './rules-reference.js';
 import {TRAIT_FIELDS, TRAIT_TEXT, emptyStory, backgroundLanguage} from './heroic-traits.js';
 import {generationState, setGenerationMethod, assignScore, setPoolScore, setRolledPool} from './ability-generation.js';
@@ -87,7 +89,6 @@ async function openReference(id){
 const equipmentDrafts=new Map();
 const weightText=(weight)=>weight===null?'? kg':`${Number(weight.toFixed(2))} kg`;
 const totalWeight=()=>`${derived.weight.toFixed(1)}${derived.weightUnknown?' + ?':''} kg`;
-const activeFeatSlots=new Map();
 const knowledgeDrafts = new Map();
 const backgroundKnowledgeDrafts = new Set();
 let creatorStep = 0, editorMode = null, returnFocus = null;
@@ -127,7 +128,7 @@ function selectorContext(levelIndex, kind, slotIndex=0) {
   if(kind==='classChoice')l.classChoices=(l.classChoices||[]).slice(0,slotIndex);
   return progression(draft,pack).ctx;
 }
-function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=false) {
+function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=false,compact=false) {
   const type = kind==='classChoice'?'classChoices':kind === 'talent' ? 'talents' : 'feats';
   const l = current().levels[levelIndex], cls = ix.classes.get(l.classId);
   const ctx = selectorContext(levelIndex,kind,slotIndex);
@@ -160,11 +161,12 @@ function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=f
     const secondaryLabel=group.value.startsWith('family:')?'Type':record.choiceType==='skill'?'Skill':record.choiceType==='weapon'?'Weapon':record.choiceType==='power'?'Power':'Weapon group';
     secondaryHTML=`<label>${secondaryLabel}<select ${attrs} data-secondary>${option('','Choose…',value)}${options.sort((a,b)=>a.name.localeCompare(b.name)).map(o=>option(o.value,o.name,value)).join('')}</select></label>`;
   }
-  return `<div class="choice-field">${hidePrimary?'':`<label>${escape(label)}<button type="button" ${attrs} data-primary data-open-tree="${kind}:${levelIndex}:${slotIndex}" ${editorMode==='creation'&&kind==='feat'?`aria-pressed="${(activeFeatSlots.get(current().id)||0)===slotIndex}"`: ''}>${escape(record?(family(record)||entryLabel(selected)):'Choose…')}</button></label>`}${secondaryHTML}</div>`;
+  return `<div class="choice-field">${hidePrimary?'':`<label>${compact?'':escape(label)}<button type="button" aria-label="${escape(label)} at level ${levelIndex+1}, choice ${slotIndex+1}" ${attrs} data-primary data-open-tree="${kind}:${levelIndex}:${slotIndex}">${escape(record?(family(record)||entryLabel(selected)):'Choose…')}</button></label>`}${secondaryHTML}</div>`;
 
 }
 function treeOptions(level,kind,slotIndex=0) {
   const c=current(),l=c.levels[level],cls=ix.classes.get(l.classId),row=derived.rows[level];
+  if(kind==='class')return {key:c.id+':class:'+level,type:'classes',kind,level,slotIndex:0,ctx:progression(c,pack,level).ctx,draft:{acquisitionDSS:c.darkSideScore},classDrafts:l.pendingClass?{}:{[l.classId]:{entryDeclarations:l.entryDeclarations,acquisitionDSS:l.acquisitionDSS??c.darkSideScore}},selected:l.pendingClass?null:{id:l.classId},allowedIds:pack.classes.map(r=>r.id)};
   const slot=kind==='classChoice'?row.choiceSlots[slotIndex]:kind==='feat'?row.slots[slotIndex]:null;
   const type=kind==='classChoice'?'classChoices':kind==='talent'?'talents':'feats';
   const ctx=selectorContext(level,kind,slotIndex);
@@ -173,15 +175,12 @@ function treeOptions(level,kind,slotIndex=0) {
     selected:kind==='classChoice'?l.classChoices?.[slotIndex]:kind==='feat'?l.feats[slotIndex]:l[kind],ctx,
     allowedIds,restrictions:slot?.kind==='bonus'?cls.bonusRestrictions:null};
 }
-function choiceScreen(kind) {
-  const c=current(),row=derived.rows[0];
-  const j=kind==='feat'?Math.min(activeFeatSlots.get(c.id)||0,Math.max(0,row.slots.length-1)):0;
-  const controls=kind==='feat'?row.slots.map((slot,i)=>selectChoice(0,kind,i,slot,c.levels[0].feats[i])).join(''):selectChoice(0,kind,0,null,c.levels[0].talent,true);
-  return `<div class="actions feature-slot-controls">${controls}</div>${featureTrees.render(treeOptions(0,kind,j))}`;
-}
 function renderTreeDialog() {
   if(!treeTarget || !$('feature-tree-modal').open)return;
-  const {level,kind,slotIndex}=treeTarget,options=treeOptions(level,kind,slotIndex);
+  const {level,kind,slotIndex}=treeTarget;
+  if(kind==='powers'||kind==='training'){$('feature-tree-title').textContent=(kind==='powers'?'Force Powers':'Skills')+' — Level '+(level+1);$('feature-tree-body').innerHTML=kind==='powers'?forcePowersUI.library(level):trainingAfterIncrease(level);numericFields($('feature-tree-body'));return;}
+  const options=treeOptions(level,kind,slotIndex);
+  if(kind==='class'){$('feature-tree-title').textContent='Choose Your Class — Level '+(level+1);$('feature-tree-body').innerHTML=featureTrees.render(options);return;}
   $('feature-tree-title').textContent=kind==='classChoice'?'Select a '+classKindLabel[derived.rows[level].choiceSlots[slotIndex].kind]:kind==='talent'?'Select a Talent':'Select Feats';
   const slot=kind==='classChoice'?{...derived.rows[level].choiceSlots[slotIndex],label:classKindLabel[derived.rows[level].choiceSlots[slotIndex].kind]}:kind==='feat'?derived.rows[level].slots[slotIndex]:null;
   $('feature-tree-body').innerHTML=selectChoice(level,kind,slotIndex,slot,options.selected,true)+featureTrees.render(options);
@@ -352,25 +351,34 @@ function traitsSummary() {
   return `<details id="character-traits"><summary>Heroic Traits</summary><dl class="traits-display">${values.map(([key,label])=>`<dt>${label}</dt><dd>${escape(c.heroicTraits[key])}</dd>`).join('')}</dl>${record?ruleReference(record,record.name,null,'sheet-story'):''}${story.kind==='destiny'?`<div class="actions">${field('Destiny Points','story.points',story.points,'number',`min="0" max="${c.levels.length}"`)}</div>${story.details?`<p class="trait-description">${escape(story.details)}</p>`:''}`:''}</details>`;
 }
 function creation() {
-  const c=current(), species=ix.species.get(c.species), cls=ix.classes.get(c.levels[0].classId);
-  const ctx=clone(derived.rows[0].ctx);
-  const allowed=classSkills(ctx,ix);
-  const budget=Math.max(1,cls.trainedSkills+Math.floor((derived.rows[0].scores.int-10)/2))+species.bonusSkills;
-  const row=derived.rows[0];
-  const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));
-  gear[0].querySelector('.panel-heading')?.remove();
-  const bodies=[
-    generateAbilities()+abilityCards(),
-    speciesBrowser.render(c.species),
-    creationOptions.classes(c),
-    skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`),
-    choiceScreen('feat')+forcePowersUI.library(0),
-    choiceScreen('talent'),
-    `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${gear.map(p=>p.outerHTML).join('')}`,
-    finishing()
-  ];
-  return bodies.map((body,i)=>panel(`${i+1}. ${CREATOR_STEPS[i]}`,body)).join('');
+ const c=current(),species=ix.species.get(c.species),cls=ix.classes.get(c.levels[0].classId),row=derived.rows[0];
+ switch(CREATOR_TABS[creatorStep].id){
+  case 'levels':return levelPlanTable(c,derived,pack,{choice:selectChoice,reference:(r,label,s,key)=>ruleReference(r,label||r.name,s,key)});
+  case 'abilities':return generateAbilities()+abilityCards();
+  case 'species':return speciesBrowser.render(c.species);
+  case 'skills':{const allowed=classSkills(row.ctx,ix),budget=Math.max(1,cls.trainedSkills+Math.floor((row.scores.int-10)/2))+species.bonusSkills;return skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`);}
+  case 'equipment':{const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));gear[0].querySelector('.panel-heading')?.remove();return `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${gear.map(p=>p.outerHTML).join('')}`;}
+  case 'character':return finishing();
+ }
 }
+const classPickDrafts=new Map();let classRequirementTarget=null;
+function classPickDraft(level,id){
+ const key=current().id+':'+level+':'+id;
+ if(!classPickDrafts.has(key)){const l=current().levels[level];classPickDrafts.set(key,{entryDeclarations:{...(l.classId===id&&!l.pendingClass?l.entryDeclarations:{})},acquisitionDSS:l.classId===id&&l.acquisitionDSS!==undefined?l.acquisitionDSS:current().darkSideScore});}
+ const draft=classPickDrafts.get(key),l=current().levels[level];draft.acquisitionDSS=l.classId===id&&l.acquisitionDSS!==undefined?l.acquisitionDSS:current().darkSideScore;return draft;
+}
+function selectPlanClass(level,id){
+ const cls=ix.classes.get(id),draft=classPickDraft(level,id),ctx=progression(current(),pack,level).ctx,entry=classEntry(cls,ctx,ix,draft);
+ if(!entry.available){
+  classRequirementTarget={level,id};$('rule-detail-title').textContent=cls.name;
+  $('rule-detail-body').innerHTML=`<div class="actions">${cls.entrySpecials.map(s=>`<label class="checkbox"><input type="checkbox" data-plan-declaration="${s.id}" ${draft.entryDeclarations[s.id]?'checked':''}>${escape(s.label)}</label>`).join('')}<button type="button" data-plan-select-class disabled title="${escape(entry.reason)}">Select</button></div>${renderArticle(cls.article)}`;
+  if(!$('rule-detail-modal').open)$('rule-detail-modal').showModal();return;
+ }
+ choosePlannedClass(current(),pack,level,id,draft);changed();
+ if($('rule-detail-modal').open&&classRequirementTarget){classRequirementTarget=null;$('rule-detail-modal').close();}
+ if($('feature-tree-modal').open)$('feature-tree-modal').close();
+}
+
 function languageCount() {
   const linguists = derived.ctx.feats.filter(s=>s.id==='feat:linguist').length;
   return Math.max(0,derived.mods.int)+linguists*Math.max(1,1+derived.mods.int);
@@ -490,17 +498,17 @@ function renderEditor() {
   $('cr-title').textContent = {creation:'Character Creation',advancement:'Level up',rules:'Rules',powers:'Force Powers'}[editorMode];
   const isCreation = editorMode === 'creation';
   $('cr-stepper').hidden = !isCreation;
-  $('cr-prev').hidden = $('cr-next').hidden = !isCreation;
-  $('cr-step-status').textContent = isCreation ? `${creatorStep+1} / ${CREATOR_STEPS.length}` : '';
+  $('cr-prev').hidden = $('cr-next').hidden = true;
+  $('cr-step-status').textContent = '';
   renderCreatorIssues();
   $('cr-prev').disabled = creatorStep === 0;
   $('cr-next').disabled = creatorStep === CREATOR_STEPS.length-1;
-  $('cr-stepper').innerHTML = CREATOR_STEPS.map((label,i)=>`<button class="cr-tab ${i===creatorStep?'active':''}" role="tab" id="cr-tab-${i}" aria-selected="${i===creatorStep}" aria-controls="cr-body" data-step="${i}">${i+1}. ${escape(label)}</button>`).join('');
+  $('cr-stepper').innerHTML = CREATOR_STEPS.map((label,i)=>`<button class="cr-tab ${i===creatorStep?'active':''}" role="tab" id="cr-tab-${i}" aria-selected="${i===creatorStep}" aria-controls="cr-body" data-step="${i}" data-creation-tab="${CREATOR_TABS[i].id}">${escape(label)}</button>`).join('');
   $('cr-body').setAttribute('role', isCreation ? 'tabpanel' : 'region');
   if (isCreation) $('cr-body').setAttribute('aria-labelledby',`cr-tab-${creatorStep}`); else $('cr-body').removeAttribute('aria-labelledby');
   const oldScroll = $('cr-body').scrollTop;
   const openDetails=[...$('cr-body').querySelectorAll('details[open][id]')].map(el=>el.id);
-  $('cr-body').innerHTML = isCreation ? panelBody(panelParts(creation())[creatorStep]) : editorMode==='powers'?forcePowersUI.manager(powerManageLevel):({advancement,rules}[editorMode])();
+  $('cr-body').innerHTML = isCreation ? creation() : editorMode==='powers'?forcePowersUI.manager(powerManageLevel):({advancement,rules}[editorMode])();
   openDetails.forEach(id=>{const detail=$('cr-body').querySelector(`[id="${CSS.escape(id)}"]`);if(detail)detail.open=true;});
   numericFields($('cr-body')); $('cr-body').scrollTop=oldScroll;
   renderTreeDialog();if($('creator-modal').open)featureTrees.layout();requestAnimationFrame(()=>featureTrees.layout());
@@ -602,7 +610,7 @@ function events() {
   $('feature-tree-close').addEventListener('click',()=>$('feature-tree-modal').close());
   $('feature-tree-modal').addEventListener('close',()=>{featureTrees.remember();const t=treeTarget;treeTarget=null;$('feature-tree-body').replaceChildren();if(t)$('cr-body').querySelector(`[data-open-tree="${t.kind}:${t.level}:${t.slotIndex}"]`)?.focus({preventScroll:true});});
   $('rule-detail-close').addEventListener('click',()=> $('rule-detail-modal').close());
-  $('rule-detail-modal').addEventListener('close',()=>{referenceRequest++;});
+  $('rule-detail-modal').addEventListener('close',()=>{referenceRequest++;classRequirementTarget=null;});
   document.addEventListener('input',event=>{
     const el=event.target;
     if(el.hasAttribute('data-counseling-search')){houseRules.search(el.value);const root=$('module-house-rules');root.querySelector('.counseling-topics').outerHTML=new DOMParser().parseFromString(houseRules.render(current()),'text/html').querySelector('.counseling-topics').outerHTML;return;}
@@ -643,6 +651,8 @@ function events() {
     if(el.id==='rules-book'){rulesCatalog.source(el.value);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(el.id==='rules-kind'||el.id==='rules-builder-only'){rulesCatalog.filter($('rules-kind').value,$('rules-builder-only').checked);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(featureTrees.change(event)||el.disabled)return;
+    if(el.hasAttribute('data-plan-declaration')&&classRequirementTarget){const {level,id}=classRequirementTarget,draft=classPickDraft(level,id);draft.entryDeclarations[el.dataset.planDeclaration]=el.checked;const entry=classEntry(ix.classes.get(id),progression(c,pack,level).ctx,ix,draft),button=$('rule-detail-body').querySelector('[data-plan-select-class]');button.disabled=!entry.available;button.title=entry.reason;return;}
+    if(el.id==='creation-level'){const count=Number(el.value);try{resizeLevelPlan(c,pack,count);changed();}catch(error){notify(error.message);renderEditor();}return;}
     if(el.id==='next-class'){advancementDrafts.set(c.id,{classId:el.value,entryDeclarations:{}});renderEditor();return;}
     if(el.hasAttribute('data-class-ban')){if(el.checked){c.classBans??=[];if(!c.classBans.some(b=>b.classId===el.dataset.classBan))c.classBans.push({classId:el.dataset.classBan,throughLevel:derived.ctx.classLevels.get(el.dataset.classBan)||1});}else c.classBans=(c.classBans||[]).filter(b=>b.classId!==el.dataset.classBan);changed();return;}
     if(el.hasAttribute('data-class-dss')){const n=Number(el.value);if(Number.isInteger(n)&&n>=0&&n<=1000)c.levels[Number(el.dataset.classDss)].acquisitionDSS=n;changed();return;}
@@ -734,7 +744,7 @@ function events() {
       const value=Number(el.value); if(!Number.isInteger(value)||value<3||value>30) {notify('Base abilities must be whole numbers from 3 to 30.');render();return;}
       c.abilities[el.dataset.ability]=value;delete c.abilityGeneration;
     } else if(el.dataset.class) {
-      const index=Number(el.dataset.class),l=c.levels[index];l.classId=el.value;const cls=ix.classes.get(el.value),cl=(progression(c,pack,index).ctx.classLevels.get(cls.id)||0)+1;l.feats=l.feats.slice(0,levelSlots(index+1,cl,ix.species.get(c.species),cls,pack).length);if(!hasClassTalent(cls,cl))l.talent=null;if(!cls.startingFeats.includes(l.startingFeat?.id))l.startingFeat=null;delete l.entryDeclarations;delete l.classChoices;if(ix.classes.get(el.value).classType==='prestige')l.acquisitionDSS=c.darkSideScore;else delete l.acquisitionDSS;
+      const index=Number(el.dataset.class),l=c.levels[index];l.classId=el.value;delete l.pendingClass;const cls=ix.classes.get(el.value),cl=(progression(c,pack,index).ctx.classLevels.get(cls.id)||0)+1;l.feats=l.feats.slice(0,levelSlots(index+1,cl,ix.species.get(c.species),cls,pack).length);if(!hasClassTalent(cls,cl))l.talent=null;if(!cls.startingFeats.includes(l.startingFeat?.id))l.startingFeat=null;delete l.entryDeclarations;delete l.classChoices;if(ix.classes.get(el.value).classType==='prestige')l.acquisitionDSS=c.darkSideScore;else delete l.acquisitionDSS;
       if(Number(el.dataset.class)>0) l.hpRoll=Math.floor(ix.classes.get(el.value).hitDie/2)+1;
     } else if(el.dataset.knowledgeGroup) {
       const scope=el.dataset.knowledgeGroup, list=trainingList(scope);
@@ -805,8 +815,10 @@ function events() {
     if(creationOptions.click(event))return;
     const classPick=event.target.closest('[data-select-class]');
     if(classPick){const id=classPick.dataset.selectClass;if(!classPick.disabled&&ix.classes.has(id)&&!(ix.species.get(current().species).forbiddenClasses||[]).includes(id)){current().levels[0].classId=id;changed();}return;}
+    const planRules=event.target.closest('[data-plan-rules]');
+    if(planRules){$('rule-detail-title').textContent=planRules.dataset.planRulesTitle;$('rule-detail-body').innerHTML=planRules.dataset.planRules.split(',').map(id=>ix.feats.get(id)).filter(Boolean).map(r=>`<h3>${escape(r.name)}</h3>${renderArticle(r.article)}`).join('');$('rule-detail-modal').showModal();return;}
     const treeClick=featureTrees.click(event);
-    if(treeClick){if(treeClick.detail){$('rule-detail-title').textContent=treeClick.detail.title;$('rule-detail-body').innerHTML=treeClick.detail.html;$('rule-detail-modal').showModal();}if('selection' in treeClick){const o=treeClick.options,l=current().levels[o.level],s=treeClick.selection;if(o.kind==='talent'&&s&&ix.talents.get(s.id).requiresDarkSide)s.darkSideScore=current().darkSideScore;if(o.kind==='classChoice'){l.classChoices??=[];l.classChoices[o.slotIndex]=s;}else if(o.kind==='feat')l.feats[o.slotIndex]=s;else l[o.kind]=s;changed();}return;}
+    if(treeClick){if(treeClick.detail){$('rule-detail-title').textContent=treeClick.detail.title;$('rule-detail-body').innerHTML=treeClick.detail.html;$('rule-detail-modal').showModal();}if('selection' in treeClick){const o=treeClick.options;if(o.kind==='class'){if(treeClick.selection)selectPlanClass(o.level,treeClick.selection.id);return;}const l=current().levels[o.level],s=treeClick.selection;if(o.kind==='talent'&&s&&ix.talents.get(s.id).requiresDarkSide)s.darkSideScore=current().darkSideScore;if(o.kind==='classChoice'){l.classChoices??=[];l.classChoices[o.slotIndex]=s;}else if(o.kind==='feat')l.feats[o.slotIndex]=s;else l[o.kind]=s;changed();}return;}
     const mechanicsFold=event.target.closest('[data-mechanics-fold]');
     if(mechanicsFold){$('rule-detail-body').querySelectorAll('.feature-mechanics').forEach(el=>el.open=mechanicsFold.dataset.mechanicsFold==='unfold');return;}
     const ruleLink=event.target.closest('[data-rule-page]');
@@ -837,10 +849,11 @@ function events() {
     if(el.hasAttribute('data-energy-activate')||el.hasAttribute('data-energy-recharge')){try{if(el.dataset.energyActivate){activateEnergyShield(current(),derived,pack,el.dataset.energyActivate);logEvent('resource','Energy Shield: Activate (Swift Action)');}else{const r=rechargeEnergyShield(current(),derived,pack,el.dataset.energyRecharge);logEvent('roll',`Shield recharge: Mechanics ${r.roll.value}; SR ${r.before} → ${r.after}`,`${r.roll.display} = ${totalHtml(r.roll)}; SR ${r.before} → ${r.after}`);}changed();}catch(error){notify(error.message);}return;}
     if(forcePowersUI.click(el))return;
     const c=current();
+    if(el.hasAttribute('data-plan-add')){resizeLevelPlan(c,pack,Math.min(20,c.levels.length+1));changed();return;}
+    if(el.hasAttribute('data-plan-select-class')&&classRequirementTarget){selectPlanClass(classRequirementTarget.level,classRequirementTarget.id);return;}
     if(el.dataset.startingEquipment){try{claimStartingEquipment(c,pack,el.dataset.startingEquipment);changed();}catch(error){notify(error.message);}return;}
     if(el.dataset.openTree){
       const [kind,rawLevel,rawSlot]=el.dataset.openTree.split(':'),level=Number(rawLevel),slotIndex=Number(rawSlot);
-      if(editorMode==='creation'&&creatorStep===4&&kind==='feat'){activeFeatSlots.set(c.id,slotIndex);renderEditor();return;}
       treeTarget={level,kind,slotIndex};$('feature-tree-modal').showModal();renderTreeDialog();if($('creator-modal').open)featureTrees.layout();requestAnimationFrame(()=>featureTrees.layout());return;
     }
     if(el.dataset.removeKnowledge){

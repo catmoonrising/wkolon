@@ -75,6 +75,7 @@ export function validateCharacter(c, pack) {
   if (!Array.isArray(c.levels) || c.levels.length < 1 || c.levels.length > 20) bad('levels');
   for (const [i, l] of c.levels.entries()) {
     if (!obj(l) || !ix.classes.has(l.classId) || (i && !num(l.hpRoll, 1, ix.classes.get(l.classId).hitDie))) bad('class or HP roll');
+    if(l.pendingClass!==undefined&&typeof l.pendingClass!=='boolean')bad('pending class');
     validateClassAcquisition(l,ix.classes.get(l.classId),bad,ix);
     if(!i&&isPrestige(ix.classes.get(l.classId)))bad('prestige starting class');
     if (!Array.isArray(l.feats) || l.feats.length > 4 || !l.feats.every(s => choice(s, 'feats')) || !choice(l.talent, 'talents') || !choice(l.startingFeat, 'feats')) bad('level choices');
@@ -225,7 +226,8 @@ export function progression(c, pack, through = c.levels.length) {
     conditionalFocus();
   }
   for (const [i, l] of c.levels.slice(0, through).entries()) {
-    if((species.forbiddenClasses||[]).includes(l.classId)){issue(i,`${species.name} cannot be ${ix.classes.get(l.classId).name}`);rows.push({number:i+1,classLevel:0,cls:ix.classes.get(l.classId),slots:[],scores:{...ctx.scores},ctx:{...ctx}});continue;}
+    if(l.pendingClass){issue(i,'choose a class');rows.push({number:i+1,classLevel:0,cls:ix.classes.get(l.classId),slots:[],choiceSlots:[],powerChoices:0,valid:false,pendingClass:true,scores:{...ctx.scores},ctx:{...ctx}});continue;}
+    if((species.forbiddenClasses||[]).includes(l.classId)){issue(i,`${species.name} cannot be ${ix.classes.get(l.classId).name}`);rows.push({number:i+1,classLevel:0,cls:ix.classes.get(l.classId),slots:[],valid:false,scores:{...ctx.scores},ctx:{...ctx}});continue;}
     const cls = ix.classes.get(l.classId), n = i + 1;
     const entry=classEntry(cls,ctx,ix,l);
     if(!entry.available||rows.some(r=>r.valid===false)){issue(i,entry.reason||'Resolve earlier class entry');rows.push({number:n,classLevel:ctx.classLevels.get(cls.id)||0,cls,slots:[],valid:false,scores:{...ctx.scores},ctx:{...ctx}});continue;}
@@ -376,7 +378,7 @@ export function derive(c, pack) {
   const thresholdState=thresholdDetails(c,effects,defenses,conditionalEffects,equipmentDefenseBonuses,pack.rules.sizeThreshold[effectiveSize]+total('threshold')+c.modifiers.threshold);
   const threshold=thresholdState.total,thresholdContext=thresholdState.context;
   const teamSkills=teamSkillDetails(c,effects,ix);
-  const hp = ix.classes.get(c.levels[0].classId).startingHP + mods.con + c.levels.slice(1).reduce((n, l,i) => n + (rows[i+1].valid===false?0:Math.max(1, l.hpRoll + (ix.classes.get(l.classId).hpConstitution===false?0:mods.con))), 0) + total('hp') + c.modifiers.hp;
+  const hp = (rows[0].valid===false?0:ix.classes.get(c.levels[0].classId).startingHP + mods.con) + c.levels.slice(1).reduce((n, l,i) => n + (rows[i+1].valid===false?0:Math.max(1, l.hpRoll + (ix.classes.get(l.classId).hpConstitution===false?0:mods.con))), 0) + total('hp') + c.modifiers.hp;
   const nativeSkills = pack.skills.map(s => {
     const trained = ctx.trained.has(s.id);
     const focus = Math.max(0, ...effects.filter(e => e.target === 'skillFocus' && e.selection.choice === s.id && trained).map(e => e.amount));
@@ -487,7 +489,7 @@ export function derive(c, pack) {
   return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,normalProtection:armorProtection(c,{armorItems,classDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
-    recovery:recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
+    recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
     forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,action:p.action||ix.forcePowers.get(p.powerId).action,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId),adept:ctx.talents.some(t=>t.id==='talent:force-power-adept'&&t.choice===p.powerId&&!ctx.inactiveTalents.has(t.id))})),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses,conditionalThresholds:thresholdState.conditional,

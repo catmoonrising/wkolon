@@ -1,20 +1,21 @@
+const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict');const fs=require('node:fs');const path=require('node:path');
 const choose=require('./choice-actions.cjs');
 module.exports=async function checkTrees(browser,base,root){
  const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
  try {
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base+'#creation');const body=page.locator('#cr-body');
-  const step=async n=>page.locator(`[data-step="${n}"]`).click();
-  await step(2);await body.locator('[data-select-class="class:scout"]').click();
-  await step(3);
+  await page.goto(base+'#creation');const body=creationUI.body(page);
+
+  await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:scout');
+  await creationUI.tab(page,'skills');
   assert.equal(await body.locator('[data-trained]').count(),18); // Knowledge's seven fields share one row.
   assert(await body.locator('[data-trained="skill:use-the-force"]').isDisabled());
   assert(await body.locator('[data-trained="skill:persuasion"]').isDisabled());
   assert(!(await body.locator('[data-trained="skill:initiative"]').isDisabled()));
   assert(await body.locator('[data-trained="skill:use-the-force"]').evaluate(el=>el.closest('label').classList.contains('skill-unavailable')));
   await body.locator('[data-trained="skill:initiative"]').check();
-  await step(4);assert.equal(await body.locator('[data-choice="talent"]').count(),0);
+  await creationUI.openChoice(page,'feat');assert.equal(await body.locator('[data-choice="talent"]').count(),0);
   assert.equal(await body.locator('[data-tree-group]').count(),0);
   assert.equal(await body.locator('[data-tree-pick="feat:skill-focus|"]').count(),1);
   assert.equal(await body.locator('[data-tree-pick="family:Weapon Proficiency"]').count(),1);
@@ -33,13 +34,13 @@ module.exports=async function checkTrees(browser,base,root){
    return false;
   }).length);assert.equal(steep,0);
   await page.screenshot({path:path.join(root,'.build/feat-tree-folded.png')});
-  await choose(page,'feat','feat:force-sensitivity|');await step(3);assert(!(await body.locator('[data-trained="skill:use-the-force"]').isDisabled()));
+  await choose(page,'feat','feat:force-sensitivity|');await creationUI.tab(page,'skills');assert(!(await body.locator('[data-trained="skill:use-the-force"]').isDisabled()));
   await body.locator('[data-trained="skill:use-the-force"]').check();
-  await step(4);await choose(page,'feat','feat:force-sensitivity|');await step(3);
+  await creationUI.openChoice(page,'feat');await choose(page,'feat','feat:force-sensitivity|');await creationUI.tab(page,'skills');
   assert(await body.locator('[data-trained="skill:use-the-force"]').isChecked());
   // Existing invalid training remains removable; it does not grant an eligible skill.
   await body.locator('[data-trained="skill:use-the-force"]').uncheck();assert(await body.locator('[data-trained="skill:use-the-force"]').isDisabled());
-  await step(5);assert.equal(await body.locator('[data-choice="feat"]').count(),0);
+  await creationUI.openChoice(page,'talent');assert.equal(await body.locator('[data-choice="feat"]').count(),0);
   assert.deepEqual(await body.locator('[data-tree-group]').evaluateAll(buttons=>buttons.map(b=>b.dataset.treeGroup)),['all','tree:awareness','tree:camouflage','tree:fringer','tree:survivor']);
   const pick=id=>body.locator(`[data-tree-pick="talent:${id}|"]`),node=id=>body.locator(`[data-tree-node="talent:${id}|"]`);
   assert.equal(await body.locator('[data-tree-group="tree:awareness"]').getAttribute('aria-pressed'),'true');
@@ -74,19 +75,19 @@ module.exports=async function checkTrees(browser,base,root){
   const search=body.locator('[data-tree-search]');await search.evaluate(el=>el._same=true);await search.fill('Damage Reduction');assert(await search.evaluate(el=>el._same && el===document.activeElement));assert(await node('weak-point').count());assert(await node('keen-shot').count());assert(await node('acute-senses').count());assert.equal(await pick('uncanny-dodge-i').count(),0);
   await search.fill('');await body.locator('[data-tree-group="tree:awareness"]').click();
   await page.screenshot({path:path.join(root,'.build/talent-tree-folded.png')});
-  await page.locator('#cr-close').click();await page.locator('#theme-select').selectOption('dracula-dark.css');
+  await creationUI.done(page,'close');await page.locator('#theme-select').selectOption('dracula-dark.css');
   await page.waitForFunction(()=>getComputedStyle(document.body).backgroundColor==='rgb(40, 42, 54)');
-  await page.locator('#module-header a[href="#creation"]').click();await step(5);
+  await page.locator('#module-header a[href="#creation"]').click();await creationUI.openChoice(page,'talent');
   await pick('acute-senses').hover();
   assert(await pick('acute-senses').evaluate(el=>{const node=el.closest('article'),s=getComputedStyle(el),n=getComputedStyle(node);return s.backgroundColor==='rgba(0, 0, 0, 0)'&&s.color===n.color&&n.backgroundColor==='rgb(189, 147, 249)';}));
   await page.screenshot({path:path.join(root,'.build/talent-hover-dracula.png')});
 
-  await step(2);await body.locator('[data-select-class="class:soldier"]').click();await step(5);await body.locator('[data-tree-group="all"]').click();
+  await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:soldier');await creationUI.openChoice(page,'talent');await body.locator('[data-tree-group="all"]').click();
   assert.equal(await node('acute-senses').count(),0);
   assert.deepEqual(await body.locator('[data-tree-group]').evaluateAll(buttons=>buttons.map(b=>b.dataset.treeGroup)),['all','tree:armor-specialist','tree:brawler','tree:commando','tree:weapon-specialist']);
-  await step(2);await body.locator('[data-select-class="class:scout"]').click();await step(5);if(await pick('acute-senses').getAttribute('aria-pressed')!=='true')await choose(page,'talent','talent:acute-senses|');
+  await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:scout');await creationUI.openChoice(page,'talent');if(await pick('acute-senses').getAttribute('aria-pressed')!=='true')await choose(page,'talent','talent:acute-senses|');
   // Add a third Scout level, so previous talents unlock the illustrated branches legitimately.
-  await page.locator('#cr-done').click();await page.locator('#module-classes a[href="#advancement"]').click();
+  await creationUI.done(page,'done');await page.locator('#module-classes a[href="#advancement"]').click();
   await body.locator('#next-class').selectOption('class:scout');await body.locator('[data-action="add-level"]').click();await body.locator('[data-action="add-level"]').click();
   await body.locator('[data-open-tree="talent:2:0"]').click();
   const modal=page.locator('#feature-tree-modal');await modal.locator('[data-tree-group="tree:awareness"]').click();
@@ -120,7 +121,7 @@ module.exports=async function checkTrees(browser,base,root){
   await scroll.evaluate(el=>{el.scrollLeft=200;el.scrollTop=100;});
   await modal.locator('[data-tree-pick="talent:reset-initiative|"]').click();assert(await modal.locator('[data-tree-node="talent:reset-initiative|"]').evaluate(el=>el.classList.contains('owned')));
   assert.equal(await modal.locator('[data-tree-zoom="reset"]').innerText(),'200%');
-  await page.locator('#feature-tree-close').click();await page.locator('#cr-done').click();
+  await page.locator('#feature-tree-close').click();await creationUI.done(page,'done');
   const download=page.waitForEvent('download');await page.locator('#export-character').click();const c=JSON.parse(fs.readFileSync(await(await download).path(),'utf8'));
   assert.equal(c.levels[0].talent.id,'talent:acute-senses');assert.equal(c.levels[2].talent.id,'talent:improved-initiative');assert.equal(c.levels[4].talent.id,'talent:reset-initiative');
   const featureArticles=page.locator('#module-features .feature-list > article');

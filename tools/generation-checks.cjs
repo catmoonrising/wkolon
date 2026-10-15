@@ -1,3 +1,4 @@
+const creationUI=require('./creator-actions.cjs');
 const choose=require('./choice-actions.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
@@ -8,40 +9,36 @@ module.exports=async function checkGeneration(browser,base,root){
   const page=await context.newPage(), errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'#creation');
   const firstLoad=await page.evaluate(()=>performance.timeOrigin);
-  const body=page.locator('#cr-body');
+  const body=creationUI.body(page);
   const openCreator=async()=>{if(!(await page.locator('#creator-modal').evaluate(el=>el.open)))await page.locator('#module-header a[href="#creation"]').click();};
-  const step=async n=>page.locator(`[data-step="${n}"]`).click();
+
   const method=async m=>body.locator(`[data-crmethod="${m}"]`).click();
-  await body.locator('.cr-method').first().waitFor();
-  assert.deepEqual(await page.locator('#cr-stepper button').allTextContents(),[
-   'Generate & Assign Ability Scores','Select Your Species','Choose Your Class',
-   'Select Skills','Select Feats','Select a Talent',
-   'Determine Starting Credits and Buy Gear','Finish your Character'
-  ].map((label,i)=>`${i+1}. ${label}`));
+  await creationUI.tab(page,'abilities');await body.locator('.cr-method').first().waitFor();
+  assert.deepEqual(await page.locator('#cr-stepper button').allTextContents(),['Levels','Abilities','Species','Skills','Equipment','Character']);
   assert.equal(await body.locator('.cr-assign').count(),6);
   await page.locator('#cr-blocker summary').click();
   assert((await page.locator('#cr-blocker ul').innerText()).includes('Assign all six ability scores'));
   assert((await page.locator('#cr-blocker ul').innerText()).includes('trained skills'));
 
-  await step(1);await body.locator('[data-select-species="species:duros"]').click();
-  await step(2);await body.locator('[data-select-class="class:soldier"]').click();
-  await step(0);assert.equal(await body.locator('.cr-method').count(),4);
+  await creationUI.tab(page,'species');await body.locator('[data-select-species="species:duros"]').click();
+  await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:soldier');
+  await creationUI.tab(page,'abilities');assert.equal(await body.locator('.cr-method').count(),4);
   await method('point-buy');
   const labelGap=async input=>input.evaluate(el=>{const label=el.closest('label'),range=document.createRange();range.selectNode(label.firstChild);return el.getBoundingClientRect().left-range.getBoundingClientRect().right;});
   assert(await labelGap(body.locator('[data-field="pointBudget"]'))>=4,'Budget label has a visible gap before its input');
   assert.deepEqual(await body.locator('.cr-points').evaluateAll(es=>es.map(e=>e.value)),['8','8','8','8','8','8']);
   for(const [i,n] of [['0','18'],['2','15'],['1','9']])await body.locator(`[data-generation-pool="${i}"]`).selectOption({value:n});
   assert.equal(await body.locator('.budget').textContent(),'25 / 25 points');
-  await step(0);
+  await creationUI.tab(page,'abilities');
   const assignAll=async()=>{for(const [i,a] of ['str','dex','con','int','wis','cha'].entries())await body.locator(`[data-generation-assign="${a}"]`).selectOption({value:String(i)});};
   await assignAll();
   assert.equal(await body.locator('#cr-final-dex').textContent(),'11');
   assert.equal(await body.locator('#cr-final-con').textContent(),'13');
-  await step(0);await body.locator('[data-generation-pool="1"]').selectOption({value:'10'});
+  await creationUI.tab(page,'abilities');await body.locator('[data-generation-pool="1"]').selectOption({value:'10'});
   assert.equal(await body.locator('.budget.error').textContent(),'26 / 25 points');
   await body.locator('[data-field="pointBudget"]').fill('30');
   assert.equal(await body.locator('.budget').textContent(),'26 / 30 points');
-  await method('standard');await step(0);
+  await method('standard');await creationUI.tab(page,'abilities');
   assert.deepEqual(await body.locator('.cr-assign').evaluateAll(es=>es.map(e=>e.value)),['','','','','','']);
   await assignAll();
   assert.equal(await body.locator('[data-generation-assign="dex"] option[value="0"]').isDisabled(),true);
@@ -53,24 +50,24 @@ module.exports=async function checkGeneration(browser,base,root){
   assert.equal(await body.locator('[data-generation-assign="dex"] option[value="0"]').isDisabled(),false);
   await body.locator('[data-generation-assign="dex"]').selectOption({value:'0'});
   await body.locator('[data-generation-assign="str"]').selectOption({value:'1'});
-  await step(0);await method('manual');
+  await creationUI.tab(page,'abilities');await method('manual');
   const manual=body.locator('[data-generation-manual="0"]');
   assert.equal(await manual.getAttribute('type'),'number');
   await manual.evaluate(el=>el._identityTest=true);
   await manual.fill('');await manual.pressSequentially('12');
   assert.equal(await manual.evaluate(el=>el._identityTest && el===document.activeElement),true);
-  await page.locator('#cr-next').click();
-  assert.equal(await body.locator('[data-select-species="species:human"]').isVisible(),true); // blur must not swallow Next
-  await step(0);await assignAll();
+  await creationUI.tab(page,'species');
+  assert.equal(await body.locator('[data-select-species="species:human"]').isVisible(),true); // blur must not swallow the tab change
+  await creationUI.tab(page,'abilities');await assignAll();
   assert.equal(await body.locator('#cr-final-str').textContent(),'12');
   assert.equal(await body.locator('#cr-mod-str').textContent(),'+1');
-  await step(0);await manual.fill('14');
+  await creationUI.tab(page,'abilities');await manual.fill('14');
   assert.equal(await body.locator('[data-generation-assign="str"] option:checked').textContent(),'14');
   assert.equal(await manual.evaluate(el=>el===document.activeElement),true);
   assert.equal(await body.locator('#cr-final-str').textContent(),'14');
-  await page.locator('#cr-done').click();
+  await creationUI.done(page,'done');
   assert.equal(await page.locator('#module-abilities [data-ability="str"]').inputValue(),'14');
-  await openCreator();await step(0);
+  await openCreator();await creationUI.tab(page,'abilities');
   await method('rolled');assert.equal(await body.locator('.cr-pool').count(),0);
   // Equal low scores exercise pool indexes that coincide with score captions.
   await page.evaluate(()=>{const original=crypto.getRandomValues.bind(crypto);let i=0;crypto.getRandomValues=array=>{if(array instanceof Uint32Array && array.length===1){array[0]=[2,0,0,0,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,0,0,0][i++%24];return array;}return original(array);};});
@@ -78,12 +75,12 @@ module.exports=async function checkGeneration(browser,base,root){
   const pool=(await body.locator('.cr-pool').allTextContents()).map(Number);
   assert.deepEqual(pool,[5,12,12,12,12,5]);
   assert((await page.locator('#dicelog').textContent()).includes('4d6 drop lowest ×6'));
-  await step(0);await assignAll();
+  await creationUI.tab(page,'abilities');await assignAll();
   await page.screenshot({path:path.join(root,'.build/ability-generation.png')});
-  await step(3);
+  await creationUI.tab(page,'skills');
   for(const a of ['initiative','pilot'])await body.locator(`[data-trained="skill:${a}"]`).check();
-  await step(4);assert.equal(await body.locator('[data-choice="talent"]').count(),0);
-  const primary=()=>body.locator('[data-choice="feat"][data-slot="0"][data-primary]');
+  await creationUI.openChoice(page,'feat');assert.equal(await body.locator('[data-choice="talent"]').count(),0);
+  const primary=()=>page.locator('#cr-body').locator('[data-choice="feat"][data-slot="0"][data-primary]');
   const secondary=()=>body.locator('[data-choice="feat"][data-slot="0"][data-secondary]');
   const names=await body.locator('[data-tree-pick]').allTextContents();
   assert.equal(await body.locator('[data-tree-pick="feat:skill-focus|"]').count(),1);
@@ -96,9 +93,9 @@ module.exports=async function checkGeneration(browser,base,root){
   assert.deepEqual(await secondary().locator('option').allTextContents(),['Choose…','Advanced Melee Weapons','Heavy Weapons','Lightsabers']);
   await page.screenshot({path:path.join(root,'.build/feat-secondary.png')});
   await secondary().selectOption('feat:weapon-proficiency-lightsabers|');
-  await step(5);assert.equal(await body.locator('[data-choice="feat"]').count(),0);
+  await creationUI.openChoice(page,'talent');assert.equal(await body.locator('[data-choice="feat"]').count(),0);
   await choose(page,'talent','talent:armored-defense|');
-  await step(6);
+  await creationUI.tab(page,'equipment');
   for(const selector of ['[data-field="credits"]','#cr-purchase-item','#cr-purchase-quantity'])assert(await labelGap(body.locator(selector))>=4,`${selector} has a visible label gap`);
   await body.locator('[data-field="credits"]').fill('1000');
   await body.locator('#cr-purchase-item').selectOption('equipment:blaster-pistol');
@@ -107,10 +104,10 @@ module.exports=async function checkGeneration(browser,base,root){
   assert.equal(await page.locator('[id="purchase-item"]').count(),1);
   assert.equal(await page.locator('[id="cr-purchase-item"]').count(),1);
   assert((await body.innerText()).includes('Blaster Pistol'));
-  await step(7);await body.locator('[data-field="name"]').fill('Wiki creation');
+  await creationUI.tab(page,'character');await body.locator('[data-field="name"]').fill('Wiki creation');
   assert.equal(await body.locator('[data-field="notes"],[data-field="languages"]').count(),0);
   await body.locator('[data-trait="background"]').fill('Scout background.');
-  await page.locator('#cr-done').click();
+  await creationUI.done(page,'done');
   const downloadEvent=page.waitForEvent('download');await page.locator('#export-character').click();
   const exported=JSON.parse(fs.readFileSync(await (await downloadEvent).path(),'utf8'));
   assert.deepEqual(exported.abilityGeneration.pool,pool);
@@ -120,10 +117,10 @@ module.exports=async function checkGeneration(browser,base,root){
   assert.equal(exported.credits,450);assert.equal(exported.inventory[0].id,'equipment:blaster-pistol');
   if(base.startsWith('https:'))await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);
   assert.equal(await page.evaluate(()=>performance.timeOrigin),firstLoad);
-  await page.reload();await openCreator();await step(0);
+  await page.reload();await openCreator();await creationUI.tab(page,'abilities');
   assert.deepEqual((await body.locator('.cr-pool').allTextContents()).map(Number),pool);
-  await step(0);assert.deepEqual(await body.locator('.cr-assign').evaluateAll(es=>es.map(e=>e.value)),['0','1','2','3','4','5']);
-  await step(2);await body.locator('[data-select-class="class:scout"]').click();await step(3);
+  await creationUI.tab(page,'abilities');assert.deepEqual(await body.locator('.cr-assign').evaluateAll(es=>es.map(e=>e.value)),['0','1','2','3','4','5']);
+  await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:scout');await creationUI.tab(page,'skills');
   assert.equal(await body.locator('.skill-picks').evaluate(el=>getComputedStyle(el).flexDirection),'column');
   assert.equal(await body.locator('[data-trained^="skill:knowledge-"]').count(),0);
   assert.equal(await body.locator('[data-knowledge-field]').count(),0);
@@ -138,18 +135,18 @@ module.exports=async function checkGeneration(browser,base,root){
   await body.locator('[data-add-knowledge]').click();
   await body.locator('[data-knowledge-field]').nth(1).selectOption('skill:knowledge-tactics');
   await page.screenshot({path:path.join(root,'.build/skills-secondary.png')});
-  await page.locator('#cr-done').click();
+  await creationUI.done(page,'done');
   const skillDownloadEvent=page.waitForEvent('download');await page.locator('#export-character').click();
   const skillExport=JSON.parse(fs.readFileSync(await (await skillDownloadEvent).path(),'utf8'));
   assert(skillExport.trainedSkills.includes('skill:knowledge-galactic-lore'));assert(skillExport.trainedSkills.includes('skill:knowledge-tactics'));
-  await page.reload();await openCreator();await step(3);
+  await page.reload();await openCreator();await creationUI.tab(page,'skills');
   assert.deepEqual(await body.locator('[data-knowledge-field]').evaluateAll(es=>es.map(e=>e.value)),['skill:knowledge-galactic-lore','skill:knowledge-tactics']);
   await body.locator('[data-remove-knowledge]').first().click();
   assert.deepEqual(await body.locator('[data-knowledge-field]').evaluateAll(es=>es.map(e=>e.value)),['skill:knowledge-tactics']);
-  await page.reload();await openCreator();await step(3);
+  await page.reload();await openCreator();await creationUI.tab(page,'skills');
   assert.deepEqual(await body.locator('[data-knowledge-field]').evaluateAll(es=>es.map(e=>e.value)),['skill:knowledge-tactics']);
   await body.locator('[data-knowledge-group="initial"]').uncheck();assert.equal(await body.locator('[data-knowledge-field]').count(),0);
   assert.deepEqual(errors,[]);
-  console.log('Browser: eight numbered tabs, combined generation/assignment, secondary choices, builder gear and draft persistence passed');
+  console.log('Browser: six creation tabs and level pickers, combined generation/assignment, secondary choices, builder gear and draft persistence passed');
  } finally {await context.close();}
 };

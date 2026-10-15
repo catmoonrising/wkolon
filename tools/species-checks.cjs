@@ -1,10 +1,11 @@
+const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict');
 const path=require('node:path'),fs=require('node:fs');
 module.exports=async function checkSpecies(browser,base,root){
  const context=await browser.newContext({viewport:{width:1100,height:900},acceptDownloads:true});
  try {
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base+'#creation');await page.locator('[data-step="1"]').click();
+  await page.goto(base+'#creation');await creationUI.tab(page,'species');
   const results=page.locator('#species-results'),search=page.locator('#species-search');
   const names=()=>results.locator('.sp-name-link').allTextContents();
   const initial=await names(),expected=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))).species.map(r=>r.name).sort((a,b)=>a.localeCompare(b));assert.deepEqual(initial,expected);
@@ -29,8 +30,8 @@ module.exports=async function checkSpecies(browser,base,root){
   await results.locator('[data-sort="speed"]').click();assert.equal((await names())[0],'Hutt');assert.equal((await names()).at(-1),'Quarren');
   await results.locator('[data-sort="abilities"]').click();assert.equal((await names())[0],'Cerean');await results.locator('[data-sort="abilities"]').click();assert.equal((await names())[0],'Aqualish');
   await search.fill('gungan');await results.locator('[data-select-species="species:gungan"]').click();assert.equal(await search.inputValue(),'gungan');assert.equal(await results.locator('[data-select-species="species:gungan"]').getAttribute('aria-pressed'),'true');assert(await article.isVisible());
-  await page.locator('[data-step="0"]').click();assert.equal(await page.locator('#cr-final-dex').innerText(),'12');
-  await page.locator('[data-step="1"]').click();assert.equal(await search.inputValue(),'gungan');
+  await creationUI.tab(page,'abilities');assert.equal(await page.locator('#cr-final-dex').innerText(),'12');
+  await creationUI.tab(page,'species');assert.equal(await search.inputValue(),'gungan');
   await search.fill('');await results.locator('[data-sort="name"]').click();
   await page.screenshot({path:path.join(root,'.build/species-desktop.png')});
   await page.setViewportSize({width:390,height:844});await search.fill('gungan');
@@ -42,7 +43,7 @@ module.exports=async function checkSpecies(browser,base,root){
   // Every complete description and feat stays available in the hosted offline snapshot.
   if(base.startsWith('https:')) {
    await page.waitForFunction(()=>navigator.serviceWorker.controller!==null,null,{timeout:60000});await context.setOffline(true);await page.reload();
-   await page.locator('[data-step="1"]').click();await page.locator('#species-search').fill('gungan');await page.locator('[data-species-detail="species:gungan"]').click();await page.locator('#species-description-gungan [data-rule-page="rule:gungan-weapon-master"]').click();
+   await creationUI.tab(page,'species');await page.locator('#species-search').fill('gungan');await page.locator('[data-species-detail="species:gungan"]').click();await page.locator('#species-description-gungan [data-rule-page="rule:gungan-weapon-master"]').click();
    assert((await page.locator('#rule-detail-body').innerText()).includes('from d6 to d8'));await page.locator('#rule-detail-close').click();
   }
   assert.deepEqual(errors,[]);console.log('Species: separate selection/disclosure, full-text search, reversible sorts and arrows, verbatim wiki sections, rule links, complete feat dialogs, retained choices and mobile overflow passed');

@@ -1152,3 +1152,21 @@ reset by New Encounter. Its reduction is included in the optional Helpless cap.
 `skillRerollBest` names a skill whose existing reroll keeps the better result;
 it grants no additional reroll. `vision` with `value: darkvision` grants Darkvision.
 Existing characters without new recovery state retain their previous behavior.
+
+### Level-plan drafts
+
+Creation's Levels table edits the existing chronological `levels` array. Target
+levels can be added through 20; each new row has a valid placeholder `classId`
+and `pendingClass: true`. That placeholder is storage only. A pending class grants
+no class level, BAB, ability increases, feats, talents, powers or HP, and prevents
+later levels from contributing until its class is chosen. Saved drafts retain
+all choices when an earlier prerequisite is invalidated.
+
+Class pickers use the existing entry engine against the context immediately
+before that row. Prestige declarations require explicit confirmation. Confirmed
+classes use the ordinary class progression, multiclass starting-feat, talent and
+class-feature schedules. Increasing an earned level replenishes Force Points
+under the existing advancement rule; lowering the plan clamps resources rather
+than adding uses. Changing class clears only class-specific entry declarations;
+other selections are retained and revalidated. The table is a view over shared
+progression rules, not a second calculation engine.

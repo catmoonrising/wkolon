@@ -1,3 +1,4 @@
+const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict');
 const path=require('node:path');
 module.exports=async function checkHeader(browser,base,root){
@@ -12,8 +13,8 @@ module.exports=async function checkHeader(browser,base,root){
   await page.locator('#module-abilities [data-roll]').first().click();
   assert(await page.locator('#roll-mirror-grip').evaluate(el=>{const s=getComputedStyle(el);return Math.abs(parseFloat(s.width)-17.6)<1&&Math.abs(parseFloat(s.height)-17.6)<1&&s.borderLeftWidth==='2px'&&s.borderTopWidth==='2px'&&s.borderRightWidth==='0px'&&s.borderBottomWidth==='0px'&&getComputedStyle(el,'::before').content==='none';}));
   await page.locator('#roll-mirror').screenshot({path:path.join(root,'.build/rolls-sister-grip.png')});
-  await page.locator('#new-character').click();await page.locator('[data-step="7"]').click();
-  await page.locator('#cr-body [data-field="name"]').fill('Second');await page.locator('#cr-body [data-field="name"]').press('Tab');await page.locator('#cr-done').click();
+  await page.locator('#new-character').click();await creationUI.tab(page,'character');
+  await page.locator('#cr-body [data-field="name"]').fill('Second');await page.locator('#cr-body [data-field="name"]').press('Tab');await creationUI.done(page,'done');
   const second=await page.locator('#roster [data-character][aria-pressed=true]').getAttribute('data-character');
   await page.locator('#module-abilities [data-roll]').first().click();assert.equal(await page.locator('#roll-mirror-body .ev').count(),1);
   assert.equal(await page.locator('#roster [data-delid]').count(),2);

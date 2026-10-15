@@ -25,19 +25,26 @@ corner mirror. Numeric fields accept relative adjustments and arithmetic. Export
 character to move it between browsers or retain a backup. GitHub Pages requires
 no application server, account, runtime scraping or external database.
 
-The reviewed builder includes 23 species, the five heroic classes, 25 skills,
-69 feats, 111 talents, 66 equipment records and 16 Core Force powers. All Core
-feat and weapon pages, heroic class trees and four Force trees are selectable.
-Unarmed attacks, Martial Arts, Finesse, ranges, critical multipliers and area
-routines are calculated. Species checks have scoped rerolls and Take 10; load
-limits use carried equipment and account for armor and size. Force Training
-adds power copies during creation and advancement; the sheet tracks spent copies,
-Force Point recovery, rest and natural-20 recovery at the end of the turn.
-The searchable Rules library has
-485 entries, including reference-only options awaiting mechanical review. It is a
-partial implementation of the sourcebooks. Prestige classes, droid creation,
-vehicles and additional catalogs are future work. Force power target effects,
-durations and special enhancements remain manual.
+Character creation starts with a chronological level table, supporting builds up
+to level 20. Each row separates heroic feats, class feats, talents, ability
+increases and other class features. Class, feat and talent cells open prerequisite
+graphs. Species, initial abilities, skills, equipment and character details have
+separate tabs. Pending levels grant no bonuses; changing an earlier choice keeps
+later selections and reports invalid prerequisites.
+
+The catalog includes all five heroic and 32 prestige classes, the Core skills and
+Force powers from all inventoried official power pages. Current selectable counts
+and source coverage are generated in [Wiki coverage](docs/wiki-coverage.md).
+Force Training tracks individual copies, spending, Force Point recovery, rest and
+natural-20 suite recovery. Unarmed attacks, weapon routines, defenses, conditions,
+armor, shields, recovery and movement use reviewed rules. The Rules library embeds
+all 4,400 inventoried official sourcebook pages, excluding marked Homebrew.
+
+This remains a partial implementation of the sourcebooks. Droid creation, vehicles
+and additional selectable catalogs are pending. Many option effects, including
+Force power targets, durations and special enhancements, still require manual
+handling. Selecting an option does not imply its effects are fully automated.
+
 Conditional feats/talents appear as reminders; numeric sheet and attack
 modifiers handle table rulings and circumstances.
 

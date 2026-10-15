@@ -1,3 +1,4 @@
+const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict');
 const path=require('node:path');
 
@@ -35,16 +36,16 @@ module.exports=async function checkTumble(browser,base,root){
   assert.equal(await toggle.innerText(),'Tumble: Off');
   await page.reload();await page.locator('#module-header').waitFor();assert.equal(await toggle.innerText(),'Tumble: Off');
   await toggle.click();assert.equal(await toggle.innerText(),'Tumble: On');
-  await page.locator('#module-header a[href="#creation"]').click();await page.locator('[data-step="0"]').click();
+  await page.locator('#module-header a[href="#creation"]').click();await creationUI.tab(page,'abilities');
   await page.locator('[data-crmethod="rolled"]').click();await page.locator('[data-action="roll-abilities"]').click();await rolling();await settled();
   assert.equal(await newest().locator('.die').count(),24);assert.equal(await newest().locator('.die-dropped').count(),6);
   assert(await newest().evaluate(el=>[...el.querySelectorAll('.roll-total')].every(total=>{
    const kept=[...el.querySelectorAll(`.die[data-roll="${total.dataset.roll}"]:not(.die-dropped)`)];
    return kept.length===3&&kept.reduce((sum,n)=>sum+Number(n.textContent),0)===Number(total.textContent);
   })));
-  await page.locator('[data-step="6"]').click();await page.locator('[data-action="starting-credits"]').click();await rolling();await settled();
+  await creationUI.tab(page,'equipment');await page.locator('[data-action="starting-credits"]').click();await rolling();await settled();
   const credits=await page.locator('#cr-body [data-field="credits"]').inputValue();assert.equal(await newest().locator('.roll-total').innerText(),credits);
-  await page.locator('#cr-done').click();
+  await creationUI.done(page,'done');
   const persisted=await page.evaluate(()=>JSON.parse(localStorage.getItem('wkolon-roster-v1')));
   assert(Object.values(persisted.logs).flat().every(e=>!e.text.includes('<span')));
   assert.deepEqual(errors,[]);

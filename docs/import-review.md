@@ -1368,3 +1368,27 @@ The full Chromium suite passed with three workers. Offline rebuilding preserves
 identical data, and existing mechanical records are unchanged apart from additive
 heroic bonus-feat lists. The coverage report now separates selectable entries from
 wiki-page mappings.
+
+
+## Character Creation level planner
+
+Creation now opens on a chronological Levels table, with separate Abilities,
+Species, Skills, Equipment and Character tabs. Target levels from 1 through 20
+create saved pending rows; class, feat and talent cells open the shared
+prerequisite browser. The table separates heroic feats, class feats, class talents,
+ability increases and Misc choices such as Force Techniques and powers. Starting
+proficiencies are grouped with full source articles behind their controls.
+
+The existing progression engine supplies each row's cumulative BAB and class-local
+schedules. Prestige entry uses the preceding level's context and explicit
+confirmation for campaign-dependent requirements. Later selections survive edits
+to earlier choices and are revalidated; invalid classes and pending rows grant
+no levels, HP, BAB or natural-healing bonuses. Species changes also invalidate
+forbidden classes. Class and Level remain visible during horizontal scrolling.
+
+Validation includes 481 JavaScript tests and 27 Python importer tests, focused
+Chromium/Firefox scenarios for higher-level builds, multiclassing, prestige entry,
+secondary choices, ability increases, Force Techniques, persistence and mobile
+layout. Existing browser checks now navigate the named tabs and row pickers.
+The full Chromium browser regression passed, including all 43 independent
+feature checks. The new planner modules are included in the hosted offline cache.

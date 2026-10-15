@@ -1,3 +1,4 @@
+const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -48,11 +49,11 @@ module.exports=async function(browser,base,root){
   const character=await saved();assert.equal(character.credits,4645.5);assert.equal(character.inventory[1].options.join(','),'encryption,holo');assert.equal(character.inventory[3].licenseStatus,'approved');assert(character.houseRules.jediCounseling['jc:112-weapon-familiarity-with-feats-and-talents']);
   await page.reload();await page.locator('#module-house-rules').waitFor();assert((await inventory.innerText()).includes('Comlink (Long-Range, Encryption, Holo Capability)'));assert.equal(await inventory.locator('[data-inventory="licenseStatus"]').inputValue(),'approved');
   await house.locator('[data-house-tab="counseling"]').click();assert(await house.locator('[data-counseling="jc:112-weapon-familiarity-with-feats-and-talents"]').isChecked());
-  await page.goto(base+'#creation');const editor=page.locator('#creator-modal');await editor.locator('[data-step="1"]').click();await editor.locator('#species-search').fill('Neimoidian');
+  await page.goto(base+'#creation');const editor=page.locator('#creator-modal');await creationUI.tab(page,'species');await editor.locator('#species-search').fill('Neimoidian');
   assert.equal((await editor.locator('.sp-name-link').allTextContents()).filter(name=>name.startsWith('Neimoidian (')).length,2);
   await editor.locator('[data-select-species="species:neimoidian-galaxy-of-intrigue"]').click();await editor.locator('[data-species-detail="species:neimoidian-galaxy-of-intrigue"]').click();assert(!(await editor.locator('#species-description-neimoidian-galaxy-of-intrigue .wiki-article').innerText()).includes('Deceptive:'));
-  await editor.locator('#species-search').fill('Yuuzhan');await editor.locator('[data-select-species="species:yuuzhan-vong-core-rulebook"]').click();await editor.locator('[data-step="2"]').click();assert(await editor.locator('[data-select-class="class:jedi"]').isDisabled(),await page.locator('#module-header').innerText());
-  await editor.locator('#cr-done').click();assert(await page.locator('#module-force [data-field="forcePoints"]').isDisabled());assert.equal(await page.locator('#module-force [data-field="forcePoints"]').inputValue(),'0');
+  await editor.locator('#species-search').fill('Yuuzhan');await editor.locator('[data-select-species="species:yuuzhan-vong-core-rulebook"]').click();await creationUI.openChoice(page,'class');assert(await creationUI.body(page).locator('[data-tree-pick="class:jedi|"]').isDisabled(),await page.locator('#module-header').innerText());
+  await creationUI.done(page,'done');assert(await page.locator('#module-force [data-field="forcePoints"]').isDisabled());assert.equal(await page.locator('#module-force [data-field="forcePoints"]').inputValue(),'0');
   await page.locator('#theme-select').selectOption({label:'Dracula Dark'});await house.locator('[data-house-tab="counseling"]').click();await house.locator('[data-counseling-search]').fill('Weapon Familiarity');await page.locator('#module-house-rules').scrollIntoViewIfNeeded();await page.screenshot({path:path.join(root,'.build/house-rules-dracula.png')});
   await page.setViewportSize({width:390,height:844});await page.locator('#module-inventory').scrollIntoViewIfNeeded();assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   assert.deepEqual(errors,[]);

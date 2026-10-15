@@ -1,3 +1,4 @@
+const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
@@ -5,13 +6,13 @@ module.exports=async function checkFinishing(browser,base,root){
  const context=await browser.newContext({acceptDownloads:true,viewport:{width:1100,height:900}});
  try {
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base+'#creation');const body=page.locator('#cr-body');
-  await body.locator('.cr-method').first().waitFor();
-  const step=async n=>page.locator(`[data-step="${n}"]`).click();
-  const finish=async()=>{if(!(await page.locator('#creator-modal').evaluate(el=>el.open)))await page.locator('#module-header a[href="#creation"]').click();await step(7);};
+  await page.goto(base+'#creation');const body=creationUI.body(page);
+  await creationUI.tab(page,'abilities');await body.locator('.cr-method').first().waitFor();
+
+  const finish=async()=>{if(!(await page.locator('#creator-modal').evaluate(el=>el.open)))await page.locator('#module-header a[href="#creation"]').click();await creationUI.tab(page,'character');};
   const exportCharacter=async()=>{const event=page.waitForEvent('download');await page.locator('#export-character').click();return JSON.parse(fs.readFileSync(await(await event).path(),'utf8'));};
-  await step(2);await body.locator('[data-select-class="class:soldier"]').click();
-  await step(0);for(const [i,a] of ['str','dex','con','int','wis','cha'].entries())await body.locator(`[data-generation-assign="${a}"]`).selectOption({value:String(i)});
+  await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:soldier');
+  await creationUI.tab(page,'abilities');for(const [i,a] of ['str','dex','con','int','wis','cha'].entries())await body.locator(`[data-generation-assign="${a}"]`).selectOption({value:String(i)});
   await finish();
   assert.equal(await body.locator('[data-field="notes"],[data-field="languages"]').count(),0);
   assert.equal(await body.locator('[data-trait]').count(),13);
@@ -28,7 +29,7 @@ module.exports=async function checkFinishing(browser,base,root){
   await body.locator('.rules-ref-detail summary').click();
   assert((await body.locator('.rules-ref-body').innerText()).includes('Increase two Ability Scores of your choice by +1 each.'));
   await page.screenshot({path:path.join(root,'.build/finishing-destiny.png')});
-  await page.locator('#cr-done').click();
+  await creationUI.done(page,'done');
   await page.locator('main [data-field="languages"]').fill('Huttese');
   await page.locator('main [data-field="notes"]').fill('Keep sheet notes.');
   await page.evaluate(()=>{window.addEventListener('beforeprint',()=>{window._traitsPrinted=document.querySelector('#print-stat-block')?.textContent;});});
@@ -51,7 +52,7 @@ module.exports=async function checkFinishing(browser,base,root){
   await primary.selectOption('knowledge');
   assert.equal(await body.locator('[data-background-knowledge] option').count(),8);
   await body.locator('[data-background-knowledge]').selectOption('skill:knowledge-galactic-lore');
-  await step(3);await body.locator('[data-knowledge-group="initial"]').check();
+  await creationUI.tab(page,'skills');await body.locator('[data-knowledge-group="initial"]').check();
   await body.locator('[data-knowledge-field]').selectOption('skill:knowledge-galactic-lore');
   await finish();await body.locator('[data-story="id"]').selectOption('background:dac-origin');
   await body.locator('[data-background-skill="0"]').selectOption('skill:swim');
@@ -60,22 +61,22 @@ module.exports=async function checkFinishing(browser,base,root){
   await body.locator('[data-story="language"]').selectOption('Quarrenese');
   assert.equal(await body.locator('[data-trait="background"]').inputValue(),'A pilot raised on Dac.');
   await page.screenshot({path:path.join(root,'.build/finishing-background.png')});
-  await page.locator('#cr-done').click();const background=await exportCharacter();
+  await creationUI.done(page,'done');const background=await exportCharacter();
   assert.deepEqual(background.story,{kind:'background',id:'background:dac-origin',skills:['skill:swim','skill:persuasion'],language:'Quarrenese'});
   assert((await page.locator('#module-header').innerText()).includes('Quarrenese'));
   await page.reload();await finish();assert.equal(await body.locator('[data-story="id"]').inputValue(),'background:dac-origin');
   assert.equal(await body.locator('[data-background-skill="1"]').inputValue(),'skill:persuasion');
   await body.locator('[data-story="kind"][value="none"]').check();
   assert.equal(await body.locator('[data-story="id"]').count(),0);
-  await page.locator('#cr-done').click();assert.deepEqual((await exportCharacter()).story,{kind:'none'});
+  await creationUI.done(page,'done');assert.deepEqual((await exportCharacter()).story,{kind:'none'});
   assert(!(await page.locator('#module-header').innerText()).includes('Quarrenese'));
   // A Destiny gains a point on advancement and keeps a valid cap when a level is removed.
   await finish();await body.locator('[data-story="kind"][value="destiny"]').check();
-  await body.locator('[data-story="id"]').selectOption('destiny:discovery');await page.locator('#cr-done').click();
+  await body.locator('[data-story="id"]').selectOption('destiny:discovery');await creationUI.done(page,'done');
   await page.locator('#module-classes a[href="#advancement"]').click();await body.locator('[data-action="add-level"]').click();
-  await page.locator('#cr-done').click();assert.equal((await exportCharacter()).story.points,2);
+  await creationUI.done(page,'done');assert.equal((await exportCharacter()).story.points,2);
   await page.locator('#module-classes a[href="#advancement"]').click();await body.locator('[data-action="undo-level"]').click();
-  await page.locator('#confirm-dialog button[value="confirm"]').click();await page.locator('#cr-done').click();
+  await page.locator('#confirm-dialog button[value="confirm"]').click();await creationUI.done(page,'done');
   assert.equal((await exportCharacter()).story.points,1);
   // Old saved character files remain importable without new traits or story fields.
   const old=structuredClone(destiny);delete old.heroicTraits;delete old.story;old.name='Older file';
@@ -90,7 +91,7 @@ module.exports=async function checkFinishing(browser,base,root){
   await page.setViewportSize({width:390,height:844});
   assert.equal(await body.evaluate(el=>el.scrollWidth<=el.clientWidth+1),true);
   await page.screenshot({path:path.join(root,'.build/finishing-mobile.png')});
-  await page.locator('#cr-done').click();
+  await creationUI.done(page,'done');
   if(base.startsWith('https:')) {
     await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);
     await context.setOffline(true);await page.reload();await finish();

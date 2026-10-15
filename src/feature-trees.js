@@ -1,3 +1,4 @@
+import {classEntry,classRequirement,classRequirementLabel} from './class-advancement.js';
 import {GROUPS,indexPack,eligible,prerequisite} from './rules.js';
 import {counselingEnabled} from './house-rules.js';
 import {articleText,renderArticle,escapeHTML as escape} from './wiki-content.js';
@@ -11,9 +12,10 @@ export function featureVariants(r,pack) {return featureChoices(r,pack).map(choic
 // Rendered text never drives eligibility or graph dependencies.
 export function featureGraph(pack,options) {
  const ix=indexPack(pack),type=options.type,ctx=options.ctx,allowed=new Set(options.allowedIds),nodes=new Map(),byId=new Map();
- const possible=r=>allowed.has(r.id)?featureVariants(r,pack).filter(s=>eligible(r,s,ctx,ix,type)&&(!options.restrictions?.[r.id]||options.restrictions[r.id].includes(s.choice))):[];
+ const classMode=type==='classes',classDraft=r=>options.classDrafts?.[r.id]||options.draft||{};
+ const possible=r=>classMode?(allowed.has(r.id)&&classEntry(r,ctx,ix,classDraft(r),{ignoreDeclarations:true}).available?[{id:r.id}]:[]):allowed.has(r.id)?featureVariants(r,pack).filter(s=>eligible(r,s,ctx,ix,type)&&(!options.restrictions?.[r.id]||options.restrictions[r.id].includes(s.choice))):[];
  const selected=options.selected;
- const possessed=[...ctx[type]];
+ const possessed=classMode?[...ctx.classLevels].map(([id])=>({id})):[...ctx[type]];
  if(selected && !selected.pending && allowed.has(selected.id) && possible(ix[type].get(selected.id)).some(s=>s.id===selected.id&&(s.choice||'')===(selected.choice||'')))possessed.push(selected);
  for(const r of pack[type]) {
   if(!allowed.has(r.id))continue;
@@ -53,7 +55,15 @@ export function featureGraph(pack,options) {
   const key=['feat','featChoice','talent','talentChoice'].includes(p.kind)&&byId.has(p.value)?byId.get(p.value):condition(p,owner);
   if(!out.some(edge=>edge.key===key))out.push({key,alternative});
  }
+ function classParents(p,out,owner,cls,alternative=false){
+  if(p.kind==='any'){p.requirements.forEach(r=>classParents(r,out,owner,cls,true));return;}
+  const key='condition:class:'+cls.id+':'+JSON.stringify(p),collection=p.kind==='feat'?'feats':p.kind==='talent'?'talents':p.kind==='power'?'forcePowers':null;
+  const record=collection?pack[collection].find(r=>r.name.toLocaleLowerCase()===p.name.toLocaleLowerCase()):p.kind==='meleeFocus'?ix.feats.get('feat:weapon-focus'):null;
+  const owned=classRequirement(p,ctx,ix,classDraft(cls)),name=classRequirementLabel(p,ix,cls);
+  nodes.set(key,{key,name,group:null,records:record?[record]:[],parents:[],main:false,owned,available:owned,selected:false});out.push({key,alternative});
+ }
  for(const node of [...nodes.values()])if(node.main) {
+  if(classMode){node.records.forEach(r=>(r.entryRequirements||[]).forEach(p=>classParents(p,node.parents,node.key,r)));continue;}
   node.records.forEach(r=>{parents(r.prerequisite,node.parents,node.key);if(r.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing'))parents({kind:'feat',value:'feat:force-sensitivity'},node.parents,node.key);});node.parents=node.parents.filter(p=>p.key!==node.key);
  }
  const main=[...nodes.values()].filter(n=>n.main);
@@ -89,7 +99,7 @@ export function createFeatureTrees(pack) {
  }
  function results(options) {
   const model=visible(options);
-  return `<div class="feature-tree-scroll" tabindex="0" aria-label="${options.type==='feats'?'Feat':options.type==='talents'?'Talent':'Class feature'} prerequisites" data-tree-scroll="${escape(options.key)}"><div class="feature-tree-stage"><div class="feature-tree-canvas"><svg class="feature-tree-arrows" aria-hidden="true"><g></g></svg>${model.nodes.map(n=>{
+  return `<div class="feature-tree-scroll" tabindex="0" aria-label="${options.type==='feats'?'Feat':options.type==='talents'?'Talent':options.type==='classes'?'Class':'Class feature'} prerequisites" data-tree-scroll="${escape(options.key)}"><div class="feature-tree-stage"><div class="feature-tree-canvas"><svg class="feature-tree-arrows" aria-hidden="true"><g></g></svg>${model.nodes.map(n=>{
    const hasText=n.records.some(r=>r.article);
    const blockedVersion=n.records.some(r=>r.exclusiveGroup&&(options.ctx[options.type]||[]).some(f=>pack[options.type].find(p=>p.id===f.id)?.exclusiveGroup===r.exclusiveGroup&&f.id!==r.id));
    return `<article class="feature-tree-node ${n.owned?'owned':!n.available?'unavailable':''} ${n.selected?'selected':''} ${n.main?'':'prerequisite-node'}" data-tree-node="${escape(n.key)}" data-tree-rank="${n.rank}"><div class="feature-tree-node-head">${hasText?`<button type="button" class="feature-fold" data-tree-fold="${escape(n.key)}" aria-haspopup="dialog" aria-label="Read ${escape(n.name)}">▶</button>`:''}${n.main?`<button type="button" class="feature-pick" data-tree-pick="${escape(n.key)}" aria-pressed="${n.selected}" aria-label="${escape(n.name)}${n.owned?' (possessed)':''}" ${n.available||n.selected?'':`disabled title="${n.owned?'Already possessed':blockedVersion?'Another version already possessed':'Prerequisites or class access not met'}"`}>${escape(n.name)}</button>`:`<span>${escape(n.name)}</span>`}</div></article>`;
@@ -135,8 +145,8 @@ export function createFeatureTrees(pack) {
    if(button.hasAttribute('data-tree-group')){s.group=button.dataset.treeGroup;s.scrollLeft=s.scrollTop=0;const scroll=root.querySelector('.feature-tree-scroll');scroll.scrollTop=scroll.scrollLeft=0;update(key);root.querySelector(`[data-tree-group="${CSS.escape(s.group)}"]`).focus();return {handled:true};}
    if(button.hasAttribute('data-tree-zoom')){const action=button.dataset.treeZoom;zoom(root,action==='reset'?1:s.zoom+(action==='in'?.25:-.25));return {handled:true};}
    if(button.hasAttribute('data-tree-fold')){const node=featureGraph(pack,options).nodes.get(button.dataset.treeFold);return node?{handled:true,detail:{title:node.name,html:mechanics(node)}}:{handled:true};}
-   if(button.hasAttribute('data-tree-all')){const nodes=visible(options).nodes.filter(n=>n.records.some(r=>r.article));return {handled:true,detail:{title:options.type==='feats'?'Feats':'Talents',html:`<div class="feature-mechanics-tools"><button type="button" data-mechanics-fold="fold">Fold all</button><button type="button" data-mechanics-fold="unfold">Unfold all</button></div>${nodes.map(n=>`<details class="feature-mechanics" open><summary>${escape(n.name)}</summary>${mechanics(n)}</details>`).join('')}`}};}
-   if(button.hasAttribute('data-tree-pick')){const model=featureGraph(pack,options),node=model.nodes.get(button.dataset.treePick);if(!node||(!node.available&&!node.selected))return {handled:true};const r=node.records.find(r=>model.possible(r).length);const selection=node.selected?null:{id:r.id,...(r.choiceType||node.records.length>1?{pending:true}:{})};return {handled:true,options,selection};}
+   if(button.hasAttribute('data-tree-all')){const nodes=visible(options).nodes.filter(n=>n.records.some(r=>r.article));return {handled:true,detail:{title:options.type==='feats'?'Feats':options.type==='classes'?'Classes':'Talents',html:`<div class="feature-mechanics-tools"><button type="button" data-mechanics-fold="fold">Fold all</button><button type="button" data-mechanics-fold="unfold">Unfold all</button></div>${nodes.map(n=>`<details class="feature-mechanics" open><summary>${escape(n.name)}</summary>${mechanics(n)}</details>`).join('')}`}};}
+   if(button.hasAttribute('data-tree-pick')){const model=featureGraph(pack,options),node=model.nodes.get(button.dataset.treePick);if(!node||(!node.available&&!node.selected))return {handled:true};const r=node.records.find(r=>model.possible(r).length);if(!r)return {handled:true};const selection=node.selected&&options.type!=='classes'?null:{id:r.id,...(r.choiceType||node.records.length>1?{pending:true}:{})};return {handled:true,options,selection};}
    return null;
   },
  };

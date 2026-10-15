@@ -101,6 +101,8 @@
   - [x] Include Fold all / Unfold all controls.
   - Preserve pmcrwf's sister-site styling and keep labels laconic.
 
+- [x] Character Creation level table: levels 1–20, separate heroic/class choices, class prerequisite graphs, row-specific Misc choices and separate detail tabs.
+
 - [ ] Starships.
 - [ ] Piloting maneuvers.
 
