@@ -24,10 +24,11 @@ export function validatePack(p) {
     if(s.sha256)assert(/^[a-f0-9]{64}$/.test(s.sha256),'Invalid source checksum');
   }
   function requireRef(collection, id) { assert(ix[collection].has(id), `Unknown ${collection} reference: ${id}`); }
-  function speciesStartingFeat(id){requireRef('feats',id);const feat=ix.feats.get(id);assert(feat.repeat==='never'&&!feat.choiceType&&!feat.manualPrerequisites?.length&&!feat.effects.some(e=>['skillTraining','skillSubstitution','forcePowerSlots'].includes(e.target)),'Unsupported conditional starting feat');}
+  function speciesStartingFeat(id){requireRef('feats',id);const feat=ix.feats.get(id);assert(feat.repeat==='never'&&!feat.choiceType&&!feat.manualPrerequisites?.length&&!feat.effects.some(e=>['skillTraining','trainedSkill','classSkill','chosenTalent','skillSubstitution','forcePowerSlots'].includes(e.target)),'Unsupported conditional starting feat');}
   function prerequisite(r) {
     if (['all','any'].includes(r.kind)) { assert(Array.isArray(r.requirements)); r.requirements.forEach(prerequisite); return; }
-    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','level','nonDroid','trait','size','species','droid','weaponFocusMode','weaponProficiencyMode'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','level','nonDroid','trait','size','species','droid','weaponFocusMode','weaponProficiencyMode','classChoices'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    if(r.kind==='classChoices')assert(['forceTechnique','forceSecret','medicalSecret'].includes(r.value)&&Number.isInteger(r.min)&&r.min>=1&&r.min<=20,'Invalid class feature count');
     if(r.kind==='featChoice'){requireRef('feats',r.value);if(r.choice!==undefined)requireRef('skills',r.choice);}
     if(r.kind==='trait')assert.equal(r.value,'rage');
     if(r.kind==='size')assert(p.rules.weaponSizeOrder.includes(r.value));
@@ -156,7 +157,8 @@ export function validatePack(p) {
       if(r.exclusiveGroup!==undefined)assert(r.repeat==='never'&&typeof r.exclusiveGroup==='string'&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(r.exclusiveGroup),'Invalid exclusive feature group');
       if(r.repeatGroup!==undefined){requireRef(key,r.repeatGroup);assert.equal(r.repeat,'choice');}
       if(r.weaponGroup!==undefined)assert(GROUPS.includes(r.weaponGroup),'Unknown weapon group');
-      if(r.choiceType) assert(['skill','weaponGroup','weapon','power','enum','manual'].includes(r.choiceType));
+      if(r.choiceType) assert(['skill','weaponGroup','weapon','power','enum','manual','talent'].includes(r.choiceType));
+      if(r.choiceType==='talent'){assert(key==='talents'&&typeof r.choiceTree==='string'&&r.repeat==='choice'&&r.effects.some(e=>e.target==='chosenTalent'),'Invalid chosen talent grant');const children=p.talents.filter(t=>t.tree===r.choiceTree||t.additionalTrees?.includes(r.choiceTree));assert(children.length>0&&children.every(t=>!t.choiceType&&t.repeat==='never'&&!t.effects.some(e=>e.target==='chosenTalent')&&!t.requiresDarkSide&&!t.requiresLightSide&&!t.manualPrerequisites?.length),'Unsupported granted talent choice');}else assert(r.choiceTree===undefined,'Unexpected talent choice tree');
       if(r.choiceExcluded!==undefined)assert(r.choiceType==='skill'&&Array.isArray(r.choiceExcluded)&&r.choiceExcluded.length>0&&r.choiceExcluded.every(id=>ix.skills.has(id)),'Invalid excluded skill choices');
       if(r.choiceLabel!==undefined)assert(typeof r.choiceLabel==='string'&&r.choiceLabel.trim()&&r.choiceLabel.length<=100);
       if(r.choiceType==='enum')assert(Array.isArray(r.choiceOptions)&&r.choiceOptions.length>0&&new Set(r.choiceOptions.map(o=>o.id)).size===r.choiceOptions.length&&r.choiceOptions.every(o=>Object.keys(o).sort().join() === 'id,name'&&/^[a-z0-9-]+$/.test(o.id)&&typeof o.name==='string'&&o.name.trim()),'Invalid enum choices');
@@ -167,6 +169,8 @@ export function validatePack(p) {
       assert(Array.isArray(r.effects) && typeof r.reminder==='string');
       const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorFortitudeToWill:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};
       for(const e of r.effects) {
+        if(['trainedSkill','classSkill'].includes(e.target)){assert.equal(key,'talents','Unsupported fixed skill grant');assert.deepEqual(Object.keys(e).sort(),['skill','target']);requireRef('skills',e.skill);continue;}
+        if(e.target==='chosenTalent'){assert.deepEqual(e,{target:'chosenTalent'});assert(r.choiceType==='talent'&&key==='talents','Invalid chosen talent effect');continue;}
         if(e.target==='vision'){assert.deepEqual(e,{target:'vision',value:'darkvision'});continue;}
         if(e.target==='skillRerollBest'){assert.deepEqual(Object.keys(e).sort(),['skill','target']);requireRef('skills',e.skill);continue;}
         if(e.target==='defenseAbility'){assert.deepEqual(Object.keys(e).sort(),['ability','defense','target']);assert(({reflex:'int',fortitude:'str',will:'cha'})[e.defense]===e.ability,'Unsupported defense ability');continue;}

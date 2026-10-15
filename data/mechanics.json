@@ -41273,9 +41273,16 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "skillSubstitution",
+          "skill": "skill:initiative",
+          "replacement": "skill:perception",
+          "grantsTraining": true
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:battlefield-medic",
@@ -48661,9 +48668,14 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "classSkill",
+          "skill": "skill:deception"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:improved-sentinel-strike",
@@ -49461,9 +49473,14 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "trainedSkill",
+          "skill": "skill:mechanics"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:influential-friends",
@@ -50864,9 +50881,14 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "classSkill",
+          "skill": "skill:persuasion"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:dirty-fighting",
@@ -54536,6 +54558,11 @@
         "kind": "all",
         "requirements": [
           {
+            "kind": "classChoices",
+            "value": "forceTechnique",
+            "min": 1
+          },
+          {
             "kind": "all",
             "requirements": [
               {
@@ -54547,15 +54574,16 @@
         ]
       },
       "repeat": "choice",
-      "effects": [],
+      "effects": [
+        {
+          "target": "chosenTalent"
+        }
+      ],
       "reminder": "",
-      "automation": "manual",
-      "choiceType": "manual",
-      "choiceLabel": "Talent",
-      "manualPrerequisites": [
-        "Prerequisites: Any Force Technique, Weapon Focus (Lightsabers)",
-        "You have learned how to use a Jedi fighting technique to defeat Jedi in combat. Choose one Talent from the Lightsaber Forms Talent Tree; you gain the benefits of that Talent and are considered to have it Talent for the purpose of satisfying prerequisites. You must meet all the prerequisites as normal for the chosen Talent, in addition to the prerequisites of this Talent. You can select this Talent multiple times. Each time you select it, choose a different Talent from the Lightsaber Forms Talent Tree."
-      ]
+      "automation": "partial",
+      "choiceType": "talent",
+      "choiceLabel": "Form",
+      "choiceTree": "tree:lightsaber-forms"
     },
     {
       "id": "talent:guaranteed-boon",

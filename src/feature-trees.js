@@ -4,7 +4,7 @@ import {GROUPS,indexPack,eligible,prerequisite} from './rules.js';
 import {counselingEnabled} from './house-rules.js';
 import {articleText,renderArticle,escapeHTML as escape} from './wiki-content.js';
 import {layoutFeatureGraph,featureEdgePath,featureCrossings} from './feature-layout.js';
-import {featureChoices,talentTreeIds} from './feature-choices.js';
+import {featureChoices,talentTreeIds,resolveFeatureSelection} from './feature-choices.js';
 const title=value=>value.replace(/^tree:/,'').replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase());
 const treeLabels=new WeakMap();
 function treeTitle(id,pack){
@@ -20,7 +20,7 @@ export function featureGraph(pack,options) {
  const ix=indexPack(pack),type=options.type,ctx=options.ctx,allowed=new Set(options.allowedIds),nodes=new Map(),byId=new Map();
  const classMode=type==='classes',classDraft=r=>options.classDrafts?.[r.id]||options.draft||{};
  const possible=r=>classMode?(allowed.has(r.id)&&classEntry(r,ctx,ix,classDraft(r),{ignoreDeclarations:true}).available?[{id:r.id}]:[]):allowed.has(r.id)?featureVariants(r,pack).filter(s=>eligible(r,s,ctx,ix,type,{ignoreManual:true})&&(!options.restrictions?.[r.id]||options.restrictions[r.id].includes(s.choice))):[];
- const selected=options.selected;
+ const selected=options.selected&&resolveFeatureSelection(ix[type].get(options.selected.id),options.selected,pack);
  const possessed=classMode?[...ctx.classLevels].map(([id])=>({id})):[...ctx[type]];
  if(selected && !selected.pending && allowed.has(selected.id) && (classMode||eligible(ix[type].get(selected.id),selected,ctx,ix,type)) && possible(ix[type].get(selected.id)).some(s=>s.id===selected.id&&(ix[type].get(s.id).choiceType==='manual'||(s.choice||'')===(selected.choice||''))))possessed.push(selected);
  for(const r of pack[type]) {
@@ -44,6 +44,7 @@ export function featureGraph(pack,options) {
   else if(p.kind==='ability')name=p.value.toUpperCase()+' '+p.min;
   else if(p.kind==='bab')name='Base attack +'+p.min;
   else if(p.kind==='level')name='Level '+p.min;
+  else if(p.kind==='classChoices')name=p.min+' '+(p.value==='forceTechnique'?'Force Technique':p.value==='forceSecret'?'Force Secret':'Medical Secret')+(p.min===1?'':'s');
   else if(p.kind==='nonDroid')name='Not a droid';
   else if(p.kind==='droid')name='Droid';
   else if(p.kind==='weaponFocusMode'){record=ix.feats.get('feat:weapon-focus');name='Weapon Focus (Melee)';}

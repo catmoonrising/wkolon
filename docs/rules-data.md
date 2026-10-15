@@ -1263,3 +1263,26 @@ example, Logic Upgrade: Skill Swap excludes Use the Force). Fixed `featChoice`
 requirements may include `choice` for an exact skill rather than the candidate
 secondary choice. `level` prerequisites check the earned character level. Species
 name requirements may refer to official species awaiting their own catalog import.
+
+
+### Permanent talent grants
+
+`{target: "trainedSkill", skill: "skill:mechanics"}` grants training in a fixed
+skill without using the initial pool or Skill Training. Talent-only training
+retains its origin and ends if its only granting talent becomes inactive.
+`{target: "classSkill", skill: "skill:persuasion"}` adds class-skill access while
+the granting talent is active, without granting training. Chronological replay
+applies both only after acquiring the talent. Initial training uses the class
+skills available before the first talent; later talents do not retroactively
+qualify earlier training or feats.
+
+`choiceType: "talent"` with `choiceTree` exposes a fixed tree's nonparameterized,
+nonrepeatable talents as secondary choices. An explicit `{target: "chosenTalent"}`
+effect grants the chosen talent after verifying its prerequisites. It uses no
+additional slot, retains its acquisition level/class and parent origin, and
+participates in later prerequisite and effect evaluation. Already possessed
+choices receive no duplicate grant. Nested grants and secondary choices are not
+inferred. Existing exact manual form names resolve to their known IDs without
+changing the saved character; unknown text remains saved and ineligible.
+`classChoices` prerequisites use a choice-kind `value` and positive `min` count,
+so Stolen Form can require an already earned Force Technique.

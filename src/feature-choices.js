@@ -1,7 +1,14 @@
 export const WEAPON_GROUPS = ['advanced-melee-weapons','heavy-weapons','lightsabers','pistols','rifles','simple-weapons'];
 export const UNARMED_ID = 'attack:unarmed';
 export const talentTreeIds = record => [record.tree,...(record.additionalTrees||[])];
+export function resolveFeatureSelection(r,selection,pack){
+ if(r?.choiceType!=='talent'||!selection?.choice?.startsWith('manual:'))return selection;
+ const name=selection.choice.slice(7).trim().normalize('NFKC').toLocaleLowerCase();
+ const matches=(pack.talents||[]).filter(t=>talentTreeIds(t).includes(r.choiceTree)&&t.name.normalize('NFKC').toLocaleLowerCase()===name);
+ return matches.length===1?{...selection,choice:matches[0].id}:selection;
+}
 export function featureChoices(r,pack){
+ if(r.choiceType==='talent')return (pack.talents||[]).filter(t=>talentTreeIds(t).includes(r.choiceTree)).map(t=>t.id);
  if(r.choiceType==='enum')return r.choiceOptions.map(o=>o.id);
  if(r.choiceType==='manual')return ['manual:choice'];
  if(r.choiceType==='power')return (pack.forcePowers||[]).map(p=>p.id);
@@ -14,5 +21,5 @@ export function featureChoices(r,pack){
 export function choiceName(value,pack){
  if(value.startsWith('manual:'))return value.slice(7);
  const named=[...(pack.feats||[]),...(pack.talents||[])].flatMap(r=>r.choiceOptions||[]).find(o=>o.id===value);if(named)return named.name;
- return value===UNARMED_ID?'Unarmed Attack':pack.skills.find(s=>s.id===value)?.name||pack.equipment.find(w=>w.id===value)?.name||pack.forcePowers?.find(w=>w.id===value)?.name||value.replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase());
+ return pack.talents?.find(r=>r.id===value)?.name||(value===UNARMED_ID?'Unarmed Attack':pack.skills.find(s=>s.id===value)?.name||pack.equipment.find(w=>w.id===value)?.name||pack.forcePowers?.find(w=>w.id===value)?.name||value.replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase()));
 }

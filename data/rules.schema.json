@@ -3133,8 +3133,13 @@
           "const": true
         },
         "additionalTrees": {
-          "type": "array", "minItems": 1, "uniqueItems": true,
-          "items": {"type": "string", "pattern": "^tree:[a-z0-9-]+$"}
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^tree:[a-z0-9-]+$"
+          }
         },
         "choiceType": {
           "enum": [
@@ -3143,7 +3148,8 @@
             "weapon",
             "power",
             "enum",
-            "manual"
+            "manual",
+            "talent"
           ]
         },
         "choiceScope": {
@@ -3218,6 +3224,10 @@
             "type": "string",
             "pattern": "^skill:[a-z0-9-]+$"
           }
+        },
+        "choiceTree": {
+          "type": "string",
+          "pattern": "^tree:[a-z0-9-]+$"
         }
       }
     },
@@ -3527,6 +3537,38 @@
             },
             "skill": {
               "$ref": "#/$defs/id"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "skill"
+          ],
+          "properties": {
+            "target": {
+              "enum": [
+                "trainedSkill",
+                "classSkill"
+              ]
+            },
+            "skill": {
+              "type": "string",
+              "pattern": "^skill:[a-z0-9-]+$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target"
+          ],
+          "properties": {
+            "target": {
+              "const": "chosenTalent"
             }
           }
         }

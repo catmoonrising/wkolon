@@ -118,7 +118,8 @@
 - [x] Manual/Partial coverage markers for current options; saved manual prerequisite confirmation.
 - [x] Enable all 1,036 talent sections in 146 class/common Force trees as 1,034 mechanical options, with published class access and source text.
 - [ ] Remaining 31 Force Tradition and degree-specific droid trees, species, equipment and other official catalogs.
-- [ ] Automate supplemental talent grants needed by later prerequisites, including Watchful Step, Engineer Lineage, Dark Deception, Commanding Presence and Stolen Form.
+- [x] Automate Watchful Step, Engineer Lineage, Dark Deception, Commanding Presence and Stolen Form permanent grants, including legacy form choices and prerequisite replay.
+- [ ] Dedicated Destiny/Background play controls; currently selected in creation and displayed in Character > Heroic Traits.
 - [ ] Audit Trigger Work against the Gunslinger tree-wide Pistols/Rifles restriction.
 
 - Prioritize making all remaining official options selectable before expanding

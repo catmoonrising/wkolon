@@ -62,7 +62,7 @@ Force Sensitivity adds the closed `nonDroid` prerequisite, evaluated against the
 species' `isDroid` flag. It prevents the feat (and its class-skill access) from being
 granted to a droid; it does not implement droid construction.
 
-Validation: 539 JavaScript tests, 35 Python importer tests, the full Chromium browser suite and focused
+Validation: 549 JavaScript tests, 35 Python importer tests, the full Chromium browser suite and focused
 Chromium/Firefox feature checks pass. The dense real feat graph is checked for
 connections passing through cards and curves exceeding 45°. A ranged-feat
 regression covers the Careful Shot/Deadeye and Precise Shot/Sniper joins.
@@ -78,7 +78,8 @@ catalog entries keep each reprint's book and article. A shared talent counts onc
 toward prestige entry requirements even if both of its trees qualify. Tree tabs
 use the source spelling, including punctuation and accented names.
 
-All 840 newly enabled talents have Manual effect coverage. Typed prerequisites
+The bulk import added 840 talents with Manual effect coverage. Five have since
+received reviewed permanent grants and now carry Partial coverage. Typed prerequisites
 still restrict selection. Unverified requirements retain their exact wording and
 require saved confirmation; an unresolved alternative never becomes a narrower
 mandatory branch. Manual selections do not acquire inferred numeric effects,

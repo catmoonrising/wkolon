@@ -46,7 +46,7 @@ import {CREATOR_TABS,CREATOR_STEPS} from './creation-steps.js';
 import {referenceEntries} from './rules-reference.js';
 import {TRAIT_FIELDS, TRAIT_TEXT, emptyStory, backgroundLanguage} from './heroic-traits.js';
 import {generationState, setGenerationMethod, assignScore, setPoolScore, setRolledPool} from './ability-generation.js';
-import {featureChoices,choiceName,UNARMED_ID,talentTreeIds} from './feature-choices.js';
+import {featureChoices,choiceName,UNARMED_ID,talentTreeIds,resolveFeatureSelection} from './feature-choices.js';
 import {createSpeciesChecks} from './species-rules.js';
 import {canAim} from './weapon-rules.js';
 import {ammunitionProfile} from './ammunition.js';
@@ -131,12 +131,13 @@ function selectorContext(levelIndex, kind, slotIndex=0) {
   return progression(draft,pack).ctx;
 }
 function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=false,compact=false) {
+  if(kind==='talent'&&selected)selected=resolveFeatureSelection(ix.talents.get(selected.id),selected,pack);
   const type = kind==='classChoice'?'classChoices':kind === 'talent' ? 'talents' : 'feats';
   const l = current().levels[levelIndex], cls = ix.classes.get(l.classId);
   const ctx = selectorContext(levelIndex,kind,slotIndex);
   let records = pack[type];
   if(kind==='classChoice')records=records.filter(r=>r.kind===slot.kind);
-  if (kind === 'talent') records = records.filter(r => talentTrees(cls,ctx,pack).includes(r.tree));
+  if (kind === 'talent') records = records.filter(r => talentTreeIds(r).some(id=>talentTrees(cls,ctx,pack).includes(id)));
   if (kind === 'startingFeat') records = records.filter(r => cls.startingFeats.includes(r.id));
   if (slot?.kind === 'bonus') records = records.filter(r => cls.bonusFeats.includes(r.id) || cls.startingFeats.includes(r.id));
   const available = r => variants(r).filter(s=>eligible(r,s,ctx,ix,type,{ignoreManual:true}) && (slot?.kind !== 'bonus' || !cls.bonusRestrictions[r.id] || cls.bonusRestrictions[r.id].includes(s.choice)));
@@ -157,11 +158,16 @@ function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=f
   const attrs=`data-choice="${kind}" data-level="${levelIndex}" data-slot="${slotIndex}"`;
   let secondaryHTML='';
   if (secondary) {
-    const options=group.records.flatMap(r=>available(r).map(s=>({value:selectionValue(s),name:group.value.startsWith('family:')?r.name.match(/\((.*)\)$/)[1]:choiceName(s.choice,pack)})));
+    const options=group.records.flatMap(r=>(r.choiceType==='talent'?variants(r):available(r)).map(s=>({value:selectionValue(s),name:group.value.startsWith('family:')?r.name.match(/\((.*)\)$/)[1]:choiceName(s.choice,pack),disabled:r.choiceType==='talent'&&!eligible(r,s,ctx,ix,type,{ignoreManual:true})})));
     const value=!selected?.pending && (selected?.choice || group.value.startsWith('family:')) ? selectionValue(selected) : '';
     if(value && !options.some(o=>o.value===value)) options.unshift({value,name:`${entryLabel(selected)} (ineligible)`});
     const secondaryLabel=group.value.startsWith('family:')?'Type':record.choiceType==='skill'?'Skill':record.choiceType==='weapon'?'Weapon':record.choiceType==='power'?'Power':'Weapon group';
-    secondaryHTML=record.choiceType==='manual'?`<label>${escape(record.choiceLabel||'Choice')}<input type="text" maxlength="300" ${attrs} data-manual-choice value="${escape(selected.choice?.startsWith('manual:')?selected.choice.slice(7):'')}"></label>`:`<label>${escape(record.choiceLabel||(record.choiceType==='enum'?'Choice':secondaryLabel))}<select ${attrs} data-secondary>${option('','Choose…',value)}${options.sort((a,b)=>a.name.localeCompare(b.name)).map(o=>option(o.value,o.name,value)).join('')}</select></label>`;
+    secondaryHTML=record.choiceType==='manual'?`<label>${escape(record.choiceLabel||'Choice')}<input type="text" maxlength="300" ${attrs} data-manual-choice value="${escape(selected.choice?.startsWith('manual:')?selected.choice.slice(7):'')}"></label>`:`<label>${escape(record.choiceLabel||(record.choiceType==='enum'?'Choice':secondaryLabel))}<select ${attrs} data-secondary>${option('','Choose…',value)}${options.sort((a,b)=>a.name.localeCompare(b.name)).map(o=>option(o.value,o.name,value,o.disabled)).join('')}</select></label>`;
+  }
+  if(record?.choiceType==='talent'){
+    const child=ix.talents.get(selected?.choice),page=child?pack.rulePages.find(p=>p.sourceId===child.sourceId)||pack.catalog.records.find(r=>r.kind==='talent'&&r.mechanicsIds.includes(child.id)):pack.rulePages.find(p=>p.id==='rule:'+record.choiceTree.slice(5)+'-talent-tree');
+    const rid=page?.ruleId||page?.id;
+    if(rid)secondaryHTML+=`<a href="https://swse.miraheze.org/wiki/Lightsaber_Forms_Talent_Tree" data-rule-page="${escape(rid)}" aria-label="${escape(child?.name||'Forms')} mechanics">ⓘ</a>`;
   }
   if(record?.manualPrerequisites?.length)secondaryHTML+=`<details class="manual-prerequisites"><summary>Prerequisites</summary><ul>${record.manualPrerequisites.map(t=>`<li>${escape(displayText(t))}</li>`).join('')}</ul></details><label class="checkbox"><input type="checkbox" ${attrs} data-manual-requirements ${selected.manualRequirements?'checked':''}>Requirements met</label>`;
   return `<div class="choice-field">${hidePrimary?'':`<label>${compact?'':escape(label)}<button type="button" aria-label="${escape(label)} at level ${levelIndex+1}, choice ${slotIndex+1}" ${attrs} data-primary data-open-tree="${kind}:${levelIndex}:${slotIndex}">${escape(record?(family(record)||entryLabel(selected)):'Choose…')}</button></label>`}${record&&!hidePrimary?automationBadge(record):''}${secondaryHTML}</div>`;
@@ -370,7 +376,7 @@ function creation() {
   case 'levels':return levelPlanTable(c,derived,pack,{choice:selectChoice,reference:(r,label,s,key)=>ruleReference(r,label||r.name+(s?.choice?' ('+choiceName(s.choice,pack)+')':''),s,key)});
   case 'abilities':return generateAbilities()+abilityCards();
   case 'species':return speciesBrowser.render(c.species,speciesChoiceDetails(c,pack,derived.ctx,derived.rows[0]?.ctx||derived.ctx));
-  case 'skills':{const allowed=row.valid===false?new Set():classSkills(row.ctx,ix),budget=row.valid===false?0:Math.max(1,cls.trainedSkills+Math.floor((row.scores.int-10)/2))+species.bonusSkills;return skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`);}
+  case 'skills':{const allowed=row.valid===false?new Set():row.initialClassSkills||classSkills(row.ctx,ix),budget=row.valid===false?0:Math.max(1,cls.trainedSkills+Math.floor((row.scores.int-10)/2))+species.bonusSkills;return skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`);}
   case 'equipment':{const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));gear[0].querySelector('.panel-heading')?.remove();return `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${gear.map(p=>p.outerHTML).join('')}`;}
   case 'character':return finishing();
  }

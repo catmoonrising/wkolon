@@ -1720,3 +1720,45 @@ Chromium browser regression, focused Firefox checks, the closed schema and all
 4,400 reference-article checks. Repeating the talent import and compilation is
 byte-for-byte identical; a captured full catalog reimport preserves existing
 catalog IDs, talent IDs and effect mappings.
+
+
+## Permanent grants in supplemental talents
+
+Watchful Step now supplies Initiative training and a Perception substitution.
+Engineer Lineage supplies fixed Mechanics training after its Educated/Knowledge
+prerequisites. Neither consumes a normal training choice. Removing a prerequisite
+or grant removes the training it alone supplied and invalidates later dependent
+feats; independently acquired training remains.
+
+Dark Deception adds Deception class-skill access, while Commanding Presence adds
+Persuasion access. These do not train the skill, change DSS or apply their
+conditional/activated effects. Access begins when the talent is acquired. The
+initial skill picker retains its earlier availability snapshot, and neither these
+grants nor a later talent can retroactively qualify earlier training or feats.
+Previously earned access can qualify a later Skill Training feat or training
+from an Intelligence increase.
+
+Stolen Form now chooses among the twelve Lightsaber Forms talents. The picker
+shows unavailable forms disabled and supplies the full chosen form article. It
+requires an already earned Force Technique, Lightsaber focus and the chosen form's
+own prerequisites. It grants that form's possession and supported effects without
+another slot, keeps its source level/class and parent origin, and never grants a
+duplicate copy. Removing/changing Stolen Form replays its granted form and later
+prerequisites. A fall below the Sith class's required DSS suspends both parent
+and granted form. Wisdom increases apply that suspension before later choices.
+
+Saved exact manual form names such as `manual:Ataru` resolve to the known form
+without changing the character file or losing its original text. Unknown names
+remain saved and ineligible. No guessed forms, nested grants or secondary choices
+are manufactured. These five talent records now have Partial coverage; their
+unmapped conditional actions, installation timing and other effects remain manual.
+
+The data contract defines fixed `trainedSkill` and `classSkill` talent effects,
+explicit `chosenTalent` effects, source-tree secondary choices and `classChoices`
+prerequisite counts. Runtime/data validation rejects missing skill references,
+unsupported child trees, repeatable/parameterized children and invalid counts.
+Validation includes chronological grants/removal, old names, source popups,
+secondary controls, dependency replay, class inactivity, saves, themes and mobile.
+All 549 JavaScript tests, 35 Python importer tests, the full Chromium suite with
+54 independent helpers, focused Firefox checks, the closed schema and all 4,400
+reference articles pass.

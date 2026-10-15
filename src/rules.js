@@ -8,7 +8,7 @@ import {emptyTraits, emptyStory, activeBackground, validateFinishing} from './he
 import {emptyProtection,validateCombatState} from './combat.js';
 import {counselingEnabled,ambiguityValue,validateHouseRules} from './house-rules.js';
 import {resolveEquipment,validateInventoryOptions,validateStartingEquipment,validateAttachments,attachedScope} from './equipment.js';
-import {featureChoices,WEAPON_GROUPS,UNARMED_ID,talentTreeIds} from './feature-choices.js';
+import {featureChoices,WEAPON_GROUPS,UNARMED_ID,talentTreeIds,resolveFeatureSelection} from './feature-choices.js';
 import {unarmedWeapon,weaponRange,canAim} from './weapon-rules.js';
 import {ammunitionState,validateAmmunition} from './ammunition.js';
 import {carryingLimits} from './species-rules.js';
@@ -129,6 +129,7 @@ export function classSkills(ctx, ix) {
   const skills = new Set([...ctx.classLevels.keys()].flatMap(id => ix.classes.get(id).skills));
   (ctx.backgroundSkills||[]).forEach(id=>skills.add(id));
   (ctx.speciesClassSkills||[]).forEach(id=>skills.add(id));
+  for(const selection of ctx.talents||[])if(!ctx.inactiveTalents?.has(selection.id)&&(!ix.classes.get(selection.classId)?.continuousDarkSide||ctx.darkSideScore>=ctx.scores.wis))for(const effect of ix.talents.get(selection.id)?.effects||[])if(effect.target==='classSkill')skills.add(effect.skill);
   if (!ctx.forceImmune && ctx.feats.some(f => f.id === F('force-sensitivity'))) skills.add('skill:use-the-force');
   return skills;
 }
@@ -153,6 +154,7 @@ export function prerequisite(p, ctx, ix, choice) {
     case 'classSkill': return classSkills(ctx, ix).has(value);
     case 'bab': return ctx.bab >= p.min;
     case 'level': return ctx.characterLevel >= p.min;
+    case 'classChoices': return (ctx.classChoices||[]).filter(s=>s.kind===p.value&&!ctx.inactiveClasses?.has(s.classId)).length>=p.min;
     case 'nonDroid': return !ctx.isDroid;
     case 'droid': return !!ctx.isDroid;
     case 'weaponFocusMode': return ctx.feats.some(f=>f.id===F('weapon-focus')&&[{id:UNARMED_ID,kind:'weapon',mode:'melee',group:'simple-weapons',unarmed:true},...ix.equipment.values()].some(w=>w.kind==='weapon'&&w.mode===value&&weaponEffectGroup(w,ctx)===f.choice));
@@ -165,14 +167,16 @@ export function prerequisite(p, ctx, ix, choice) {
 
 export function eligible(record, selection, ctx, ix, type, {ignoreManual=false}={}) {
   if (!record || selection.pending) return false;
+  selection=resolveFeatureSelection(record,selection,{talents:[...ix.talents.values()]});
   if(record.manualPrerequisites?.length&&!selection.manualRequirements&&!ignoreManual)return false;
   if(record.requiresLightSide&&ctx.darkSideScore!==0)return false;
   if(ctx.forceImmune&&record.id===F('force-sensitivity'))return false;
   if(record.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing')&&!ctx.feats.some(f=>f.id===F('force-sensitivity')))return false;
   if (record.choiceType === 'skill' && !ix.skills.has(selection.choice)) return false;
   if(record.choiceType==='manual'&&!(typeof selection.choice==='string'&&selection.choice.startsWith('manual:')&&selection.choice.slice(7).trim()&&selection.choice.length<=307&&!/[\r\n|]/.test(selection.choice)))return false;
-  if (record.choiceType && record.choiceType!=='manual' && !featureChoices(record,{skills:[...ix.skills.values()],equipment:[...ix.equipment.values()],forcePowers:[...ix.forcePowers.values()]}).includes(selection.choice)) return false;
+  if (record.choiceType && record.choiceType!=='manual' && !featureChoices(record,{skills:[...ix.skills.values()],equipment:[...ix.equipment.values()],forcePowers:[...ix.forcePowers.values()],talents:[...ix.talents.values()]}).includes(selection.choice)) return false;
   if(record.choiceType==='weaponGroup'&&ix.equipment.has(selection.choice)&&weaponEffectGroup(ix.equipment.get(selection.choice),ctx)!==selection.choice)return false;
+  if(record.choiceType==='talent'){const chosen=ix.talents.get(selection.choice);if(!chosen||chosen.choiceType||chosen.repeat!=='never'||chosen.effects.some(e=>e.target==='chosenTalent')||!prerequisite(chosen.prerequisite,ctx,ix)||chosen.manualPrerequisites?.length&&!selection.manualRequirements)return false;}
   const existing = ctx[type];
   if(record.exclusiveGroup&&existing.some(s=>ix[type].get(s.id)?.exclusiveGroup===record.exclusiveGroup))return false;
   if(record.maxSelections&&existing.filter(s=>s.id===record.id).length>=record.maxSelections)return false;
@@ -214,6 +218,7 @@ export function progression(c, pack, through = c.levels.length) {
   Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,speciesClassSkills:species.bonusClassSkills||[],forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
   Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0,speciesTraining:new Set()});
   const issues = [], rows = [], ordinaryTraining=new Set(),talentTraining=new Map();
+  let initialClassSkills;
   function recordFeature(selection,type,level) {
     const s={...selection,level,classId:c.levels[level-1]?.classId};
     ctx[type].push(s);ctx.features.push({type,selection:s});
@@ -229,17 +234,20 @@ export function progression(c, pack, through = c.levels.length) {
   function grant(s, type, i, label, allow = () => true) {
     if (!s) { issue(i, `choose ${label}`); return; }
     const r = ix[type].get(s.id);
+    s=resolveFeatureSelection(r,s,pack);
     const snapshot=!!(r?.requiresDarkSide&&s.darkSideScore||r?.requiresLightSide&&s.darkSideScore===0);
     const acquired=snapshot?{...ctx,darkSideScore:s.darkSideScore,inactiveTalents:new Set()}:ctx;
     if(r?.manualPrerequisites?.length&&!s.manualRequirements){issue(i,'confirm prerequisites for '+r.name);return;}
     if (!allow(r, s) || !eligible(r, s, acquired, ix, type)) { issue(i, `${r?.name || 'Unknown choice'} is not eligible for ${label}`); return; }
     recordFeature(s,type,i+1);
-    if(r.requiresDarkSide&&ctx.darkSideScore===0||r.requiresLightSide&&ctx.darkSideScore!==0)ctx.inactiveTalents.add(r.id);
+    const sourceClass=ix.classes.get(c.levels[i].classId);
+    if(r.requiresDarkSide&&ctx.darkSideScore===0||r.requiresLightSide&&ctx.darkSideScore!==0||type==='talents'&&sourceClass.continuousDarkSide&&ctx.darkSideScore<ctx.scores.wis)ctx.inactiveTalents.add(r.id);
     for(const e of r.effects){
       if(e.target==='skillTraining'){ctx.trained.add(s.choice);ordinaryTraining.add(s.choice);}
-      if(e.target==='skillSubstitution'&&e.grantsTraining){ctx.trained.add(e.skill);if(type==='talents'){if(!talentTraining.has(e.skill))talentTraining.set(e.skill,new Set());talentTraining.get(e.skill).add(r.id);}else ordinaryTraining.add(e.skill);}
+      if(!ctx.inactiveTalents.has(r.id)&&(e.target==='trainedSkill'||e.target==='skillSubstitution'&&e.grantsTraining)){ctx.trained.add(e.skill);if(type==='talents'){if(!talentTraining.has(e.skill))talentTraining.set(e.skill,new Set());talentTraining.get(e.skill).add(r.id);}else ordinaryTraining.add(e.skill);}
       if(e.target==='forcePowerSlots')ctx.powerSlots+=Math.max(e.minimum,e.amount+modifier(ctx.scores[e.ability]));
     }
+    for(const effect of r.effects)if(effect.target==='chosenTalent'&&!ctx.talents.some(t=>t.id===s.choice))grant({id:s.choice,automatic:true,grantedBy:r.id},'talents',i,'a granted talent');
     conditionalSpeciesGrants();
   }
   for (const [i, l] of c.levels.slice(0, through).entries()) {
@@ -256,6 +264,10 @@ export function progression(c, pack, through = c.levels.length) {
       if (l.abilityIncreases.length !== 2 || new Set(l.abilityIncreases).size !== 2 || !l.abilityIncreases.every(a => ABILITIES.includes(a))) issue(i, 'increase two different abilities');
       else l.abilityIncreases.forEach(a => ctx.scores[a]++);
     } else if (l.abilityIncreases.length) issue(i, 'ability increases are not available');
+    // A higher Wisdom score can suspend already earned Sith talents before
+    // this level's feats, class choices or other talent prerequisites are tested.
+    for(const t of ctx.talents)if(ix.classes.get(t.classId)?.continuousDarkSide&&ctx.darkSideScore<ctx.scores.wis)ctx.inactiveTalents.add(t.id);
+    for(const [skill,grants]of talentTraining)if(!ordinaryTraining.has(skill)&&[...grants].every(id=>ctx.inactiveTalents.has(id)))ctx.trained.delete(skill);
     // Permanent Wisdom increases add powers to each previously earned training,
     // including increases between negative modifiers. Temporary bonuses do not.
     const wisdomGain=Math.max(0,modifier(ctx.scores.wis)-priorWis);
@@ -269,6 +281,7 @@ export function progression(c, pack, through = c.levels.length) {
       const initialForce = l.feats.slice(0,levelSlots(1,cl,species,cls,pack).length).some(s => s?.id === F('force-sensitivity') && eligible(ix.feats.get(s.id),s,ctx,ix,'feats'));
       const allowed = classSkills(ctx, ix);
       if (initialForce) allowed.add('skill:use-the-force');
+      initialClassSkills=new Set(allowed);
       const limit = Math.max(1, cls.trainedSkills + modifier(ctx.scores.int)) + species.bonusSkills;
       for (const id of c.trainedSkills.slice(0, limit)) {
         if(ctx.speciesTraining.has(id))issue(i,`${ix.skills.get(id).name} is already trained by ${species.name}`);
@@ -301,7 +314,7 @@ export function progression(c, pack, through = c.levels.length) {
     const choiceSlots=(cls.classFeatureChoices||[]).filter(s=>s.level===cl);
     for(const [j,slot]of choiceSlots.entries()){const selection=l.classChoices?.[j],r=selection&&ix.classChoices.get(selection.id);const duplicate=r&&ctx.classChoices.some(s=>s.id===r.id&&(r.repeat==='never'||s.choice===selection.choice));if(!r||selection.pending||r.kind!==slot.kind||duplicate||r.choiceType==='power'&&!ix.forcePowers.has(selection.choice)){issue(i,'choose '+slot.kind.replace(/([A-Z])/g,' $1'));continue;}ctx.classChoices.push({...selection,kind:r.kind,classId:cls.id,level:n});}
     if((l.classChoices||[]).slice(choiceSlots.length).some(Boolean))issue(i,'extra class feature choices are not available');
-    rows.push({number: n, classLevel: cl, cls, slots,powerChoices,valid:true,choiceSlots, scores: {...ctx.scores}, ctx: {...ctx,classChoices:[...ctx.classChoices],classFeatures:[...ctx.classFeatures], classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers]}});
+    rows.push({number: n, classLevel: cl, cls, ...(i===0?{initialClassSkills}:{}),slots,powerChoices,valid:true,choiceSlots, scores: {...ctx.scores}, ctx: {...ctx,classChoices:[...ctx.classChoices],classFeatures:[...ctx.classFeatures], classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers]}});
   }
   ctx.inactiveClasses=new Set([...ctx.classLevels.keys()].filter(id=>ix.classes.get(id).continuousDarkSide&&ctx.darkSideScore<ctx.scores.wis));
   for(const t of ctx.talents)if(ctx.inactiveClasses.has(t.classId))ctx.inactiveTalents.add(t.id);
