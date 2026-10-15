@@ -62,7 +62,7 @@ Force Sensitivity adds the closed `nonDroid` prerequisite, evaluated against the
 species' `isDroid` flag. It prevents the feat (and its class-skill access) from being
 granted to a droid; it does not implement droid construction.
 
-Validation: 549 JavaScript tests, 35 Python importer tests, the full Chromium browser suite and focused
+Validation: 559 JavaScript tests, 36 Python importer tests, the full Chromium browser suite and focused
 Chromium/Firefox feature checks pass. The dense real feat graph is checked for
 connections passing through cards and curves exceeding 45°. A ranged-feat
 regression covers the Careful Shot/Deadeye and Precise Shot/Sniper joins.
@@ -90,5 +90,15 @@ Temporary combat targets and crafting choices are not character-creation choices
 Light Side and Guardian Spirit are available through Force Sensitivity. Light
 Side selections record acquisition DSS 0; later DSS suspends rather than deletes
 their ownership, until DSS returns to zero. The inactive talent cannot meet a
-current prerequisite. The 26 Force Tradition and five degree-specific droid tree
-pages remain readable references until their membership/degree access is modeled.
+current prerequisite.
+
+All 122 talents in the 26 Force Tradition trees are selectable after declaring
+membership and a joining level under Character Creation > Character. Multiple
+memberships are allowed. Source popups preserve full admission requirements and
+exceptions; numeric species/training/DSS requirements are also checked. The
+joining level prevents retroactive talent access. Tradition talents count toward
+Force-talent prestige prerequisites and still require Force Sensitivity. Their
+effects remain Manual except for Many Shades of the Force (Partial). Many Shades of the Force offers only known powers with a
+Light Side or Dark Side descriptor. Its descriptor removal applies to all suite
+copies and automatic DSS on activation, while leaving source articles intact.
+Five degree-specific droid tree pages remain references pending the droid model.

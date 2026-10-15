@@ -45,6 +45,7 @@ export function featureGraph(pack,options) {
   else if(p.kind==='bab')name='Base attack +'+p.min;
   else if(p.kind==='level')name='Level '+p.min;
   else if(p.kind==='classChoices')name=p.min+' '+(p.value==='forceTechnique'?'Force Technique':p.value==='forceSecret'?'Force Secret':'Medical Secret')+(p.min===1?'':'s');
+  else if(p.kind==='tradition'){const membership=pack.rules.traditionTalentAccess.find(r=>r.id===p.value);record=pack.rulePages.find(r=>r.id===membership.ruleId);name=membership.name;}
   else if(p.kind==='nonDroid')name='Not a droid';
   else if(p.kind==='droid')name='Droid';
   else if(p.kind==='weaponFocusMode'){record=ix.feats.get('feat:weapon-focus');name='Weapon Focus (Melee)';}

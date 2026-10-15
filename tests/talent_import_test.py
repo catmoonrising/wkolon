@@ -38,7 +38,8 @@ class TalentImportTest(unittest.TestCase):
         return self.parser.parse([node('p', text)], choice_type)
 
     def test_all_class_and_common_force_tree_sections_are_mapped_to_exact_pinned_sources(self):
-        titles = {self.sources[r['sourceId']]['title'] for r in self.pack['catalog']['records'] if r['kind']=='talent' and r['mechanicsIds']}
+        tradition_trees = {r['tree'] for r in self.pack['rules']['traditionTalentAccess']}
+        titles = {self.sources[r['sourceId']]['title'] for r in self.pack['catalog']['records'] if r['kind']=='talent' and r['mechanicsIds'] and r['tree'] not in tradition_trees}
         self.assertEqual(len(titles), 146)
         sections = 0
         for title in titles:
@@ -48,7 +49,7 @@ class TalentImportTest(unittest.TestCase):
             self.assertCountEqual(actual,expected,title)
             sections += len(expected)
         self.assertEqual(sections,1036)
-        self.assertEqual(len(self.pack['talents']),1034)  # two reviewed reprints
+        self.assertEqual(len(self.pack['talents']),1156)  # two reviewed reprints
 
     def test_all_class_access_tables_match_enabled_trees(self):
         pages = {r['sourceId']:r for r in self.pack['rulePages']}
@@ -133,6 +134,34 @@ class TalentImportTest(unittest.TestCase):
         talent['additionalTrees']=['tree:other']
         second = compiler.compile_pack(mechanics,catalog,{'First':1,'Other':1})
         self.assertEqual(second['catalog']['records'][0]['mechanicsIds'],['talent:shared'])
+
+
+
+
+class TraditionImportTest(unittest.TestCase):
+    def test_all_tradition_sections_and_membership_pages_have_exact_pinned_sources(self):
+        pack=json.loads((ROOT/'data/core.json').read_text())
+        sources={s['id']:s for s in pack['sources']}
+        refs={r['name']:r for r in json.loads((ROOT/'data/reference-index.json').read_text())['records']}
+        count=0
+        for membership in pack['rules']['traditionTalentAccess']:
+            title=next(s['title'] for t in pack['talents'] if t['tree']==membership['tree'] for s in [sources[t['sourceId']]])
+            article=json.loads((ROOT/refs[title]['path']).read_text())['article']
+            expected=list(importer.sections(article))
+            actual=[r for r in pack['catalog']['records'] if r['kind']=='talent' and r.get('tree')==membership['tree']]
+            self.assertCountEqual([r['name'] for r in expected],[r['name'] for r in actual])
+            for section in expected:
+                compiled=presentation.talent_section(article['blocks'],section['name'],title)
+                imported=next(t for t in pack['talents'] if t['tree']==membership['tree'] and t['name']==section['name'])
+                def source_tree(value):
+                    if isinstance(value,list):return [source_tree(v) for v in value]
+                    if isinstance(value,dict):return {k:source_tree(v) for k,v in value.items() if k not in ['ruleId','referenceId']}
+                    return value
+                self.assertEqual(source_tree(compiled),source_tree(imported['article']['blocks']),section['name'])
+            page=next(p for p in pack['rulePages'] if p['id']==membership['ruleId'])
+            self.assertEqual(sources[page['sourceId']]['revision'],refs[membership['name']]['source']['revision'])
+            count+=len(expected)
+        self.assertEqual(count,122)
 
 
 if __name__ == '__main__':

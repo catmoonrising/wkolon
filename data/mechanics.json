@@ -22174,6 +22174,1720 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=20349#Veiled_Biotech",
       "history": "https://swse.miraheze.org/w/index.php?title=Yuuzhan%20Vong%20Biotech%20Talent%20Tree&action=history",
       "section": "Veiled Biotech"
+    },
+    {
+      "id": "source:reference-b32c8cc52f3044d3",
+      "title": "The Jensaarai",
+      "revision": 25005,
+      "timestamp": "2024-11-10T17:46:40Z",
+      "sha256": "b5be1cab5049cdbd359a179716457a0dcd47d0ca0c40d3e7458a1b757b0e6ac0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25005",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Jensaarai&action=history"
+    },
+    {
+      "id": "source:reference-967d8c890fd22a13",
+      "title": "The Witches of Dathomir",
+      "revision": 18614,
+      "timestamp": "2024-08-25T20:25:15Z",
+      "sha256": "865e5bc9358f4c78d59c20644bbd7bec23243cb788c6cc3875aa0e69f2cae5b9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18614",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Witches%20of%20Dathomir&action=history"
+    },
+    {
+      "id": "source:reference-f5450be28191b38e",
+      "title": "The Jal Shey",
+      "revision": 27362,
+      "timestamp": "2025-11-03T12:21:31Z",
+      "sha256": "7a8c4cc57b38e3a222c8709dd25931a38a15b69455b4276bf62a3965e86b7a59",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27362",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Jal%20Shey&action=history"
+    },
+    {
+      "id": "source:reference-92a919539ac266fb",
+      "title": "The Keetael",
+      "revision": 22373,
+      "timestamp": "2024-09-03T14:34:13Z",
+      "sha256": "9eb9ef8bcec8cec5789db61ba4bc5bd303206bf0c5ccffb35a4c31461a4e834e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=22373",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Keetael&action=history"
+    },
+    {
+      "id": "source:reference-ae9223fe04ea6773",
+      "title": "The Krath",
+      "revision": 22374,
+      "timestamp": "2024-09-03T14:34:59Z",
+      "sha256": "bbb46dc9d649efb69043421edcae215f5b2df0ce4efeecfd5024cf197caf83d8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=22374",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Krath&action=history"
+    },
+    {
+      "id": "source:reference-c5016e4233ace6a5",
+      "title": "The Luka Sene",
+      "revision": 22375,
+      "timestamp": "2024-09-03T14:35:48Z",
+      "sha256": "85fccd62d86afb1365e7e81d5f62445c40536a7ecfa712da95b88b813b16e327",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=22375",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Luka%20Sene&action=history"
+    },
+    {
+      "id": "source:reference-e706dc9110370d25",
+      "title": "The Order of Shasa",
+      "revision": 22376,
+      "timestamp": "2024-09-03T14:36:14Z",
+      "sha256": "ca8b7f3e551f16266476c7b09b22eaa9551d7b5ea8f0956e1c13a1ac1d53f6a5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=22376",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Order%20of%20Shasa&action=history"
+    },
+    {
+      "id": "source:reference-193d35e3a9b13aeb",
+      "title": "The Agents of Ossus",
+      "revision": 19390,
+      "timestamp": "2024-08-25T21:52:10Z",
+      "sha256": "0fdafce90c2efee34671ba1f5b4426f0e1de3d8dc3439d43550e26a9419c869e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19390",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Agents%20of%20Ossus&action=history"
+    },
+    {
+      "id": "source:reference-3f5a6e0e902bd292",
+      "title": "The Felucian Shamans",
+      "revision": 19442,
+      "timestamp": "2024-08-25T21:58:57Z",
+      "sha256": "59dcecf5738b001aaf1e13eb3abb4ee5daa0f1975a2578576ca4b114640eb34f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19442",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Felucian%20Shamans&action=history"
+    },
+    {
+      "id": "source:reference-2f881fe7af8c4759",
+      "title": "The Bando Gora",
+      "revision": 26116,
+      "timestamp": "2025-01-29T23:18:08Z",
+      "sha256": "a48bca7bdef97d26cb8cd06029de349d3892af6414e3f17a8ae85c784468ac3d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26116",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Bando%20Gora&action=history"
+    },
+    {
+      "id": "source:reference-e44a419b610a5e71",
+      "title": "The Believers",
+      "revision": 19831,
+      "timestamp": "2024-08-25T22:41:42Z",
+      "sha256": "1388160aa3d2d61c31a914d428f3e572efa6e2b92ac9f69a63acb86659b87859",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19831",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Believers&action=history"
+    },
+    {
+      "id": "source:reference-e994ff52a35bf5d9",
+      "title": "The Korunnai",
+      "revision": 23689,
+      "timestamp": "2024-10-06T14:53:45Z",
+      "sha256": "ae5b8a257e1b225c7031f21460627802795f4c09a08875dec32773e7d684e336",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=23689",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Korunnai&action=history"
+    },
+    {
+      "id": "source:reference-811f996c9c25fc13",
+      "title": "The Disciples of Twilight",
+      "revision": 24648,
+      "timestamp": "2024-11-04T21:56:39Z",
+      "sha256": "38fab117d008a897b920b95022137fe14053c570b5ffeff1e37f9d7eb70558b7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24648",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Disciples%20of%20Twilight&action=history"
+    },
+    {
+      "id": "source:reference-e63cea1bc2e37654",
+      "title": "The Ember of Vahl",
+      "revision": 24649,
+      "timestamp": "2024-11-04T21:58:53Z",
+      "sha256": "7525018f8f32c3d5ec63a7a9b1067bcf496ae2ad4a1b5146e8592e7f4e12d44c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24649",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Ember%20of%20Vahl&action=history"
+    },
+    {
+      "id": "source:reference-415da283ca25f058",
+      "title": "The Aing-Tii Monks",
+      "revision": 20366,
+      "timestamp": "2024-08-25T23:42:37Z",
+      "sha256": "fda5c3b2ad5fc3ff9436b93411e998f07cc5e1530019f5fd16c483206b75236a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20366",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Aing-Tii%20Monks&action=history"
+    },
+    {
+      "id": "source:reference-368e73d8d6999f06",
+      "title": "The Baran Do Sages",
+      "revision": 24368,
+      "timestamp": "2024-10-30T17:29:50Z",
+      "sha256": "3a01bcdf1c993de3a4a090d2aca454d91807dae33bee8afb947b0ffaa9157640",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24368",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Baran%20Do%20Sages&action=history"
+    },
+    {
+      "id": "source:reference-fa46a4ad8e2ab9f6",
+      "title": "The Fallanassi",
+      "revision": 24370,
+      "timestamp": "2024-10-30T17:43:29Z",
+      "sha256": "28105660b03a39e20923aca6e839a2e3459f209f1f47e10115850709d3f75fa3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24370",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Fallanassi&action=history"
+    },
+    {
+      "id": "source:reference-9e7bf26f028674eb",
+      "title": "The Iron Knights",
+      "revision": 24372,
+      "timestamp": "2024-10-30T17:51:35Z",
+      "sha256": "ecdb85e57d8bfe37293d98444fb9bc931165c54fe973162111c358aa324b2332",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24372",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Iron%20Knights&action=history"
+    },
+    {
+      "id": "source:reference-e831daaf795b9730",
+      "title": "The Matukai",
+      "revision": 24374,
+      "timestamp": "2024-10-30T18:24:59Z",
+      "sha256": "e7b5f941b61b76f1c99b6660f596ab4d379efde102352c1ba7b9fcab16857479",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24374",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Matukai&action=history"
+    },
+    {
+      "id": "source:reference-e85865866322b788",
+      "title": "The Seyugi Dervishes",
+      "revision": 24376,
+      "timestamp": "2024-10-30T18:39:42Z",
+      "sha256": "cddc7932115c9b1a975c0b0d4d52bdf49e8f799643a374c45b3ab554afde1e94",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24376",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Seyugi%20Dervishes&action=history"
+    },
+    {
+      "id": "source:reference-5d9ed20f40f7f406",
+      "title": "The Shapers of Kro Var",
+      "revision": 24380,
+      "timestamp": "2024-10-30T18:52:13Z",
+      "sha256": "4615819d7d01809adc38f063c1f27fcb2c1e5d6688483a12b062c16ef6acaaef",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24380",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Shapers%20of%20Kro%20Var&action=history"
+    },
+    {
+      "id": "source:reference-c912137cd0a8abc4",
+      "title": "The Tyia",
+      "revision": 24382,
+      "timestamp": "2024-10-30T18:59:22Z",
+      "sha256": "cf760746c9858e25400634256d16b4973fb24c13e5adf01b8ff2802ce8fedac3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24382",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Tyia&action=history"
+    },
+    {
+      "id": "source:reference-915e0858107f4bdc",
+      "title": "The Wardens of the Sky",
+      "revision": 24384,
+      "timestamp": "2024-10-30T19:09:36Z",
+      "sha256": "8be9d4919bc4bf5c41da61651e711af6421da569682d50acd876a50f071360ca",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24384",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Wardens%20of%20the%20Sky&action=history"
+    },
+    {
+      "id": "source:reference-852a93459f3db5f9",
+      "title": "The Zeison Sha",
+      "revision": 24386,
+      "timestamp": "2024-10-30T19:17:31Z",
+      "sha256": "404ae285ab66c9d28a909911ec7d6d7b3085cf0e00f167cc4566d5dd07524d41",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24386",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Zeison%20Sha&action=history"
+    },
+    {
+      "id": "source:reference-213d5b285472d1c3",
+      "title": "The Kilian Rangers",
+      "revision": 23022,
+      "timestamp": "2024-09-14T19:02:15Z",
+      "sha256": "735a32da28c000a82f092033bcd42c83e7c08ee4eec54b6190ad8d0c6ffdf42b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=23022",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Kilian%20Rangers&action=history"
+    },
+    {
+      "id": "source:reference-8f9d636c89fcc833",
+      "title": "The Blazing Chain",
+      "revision": 23368,
+      "timestamp": "2024-09-23T21:56:23Z",
+      "sha256": "f962c6c16442933ba225cf702c2688b7d10ba8422c4c5a187c7db0c4411f07ca",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=23368",
+      "history": "https://swse.miraheze.org/w/index.php?title=The%20Blazing%20Chain&action=history"
+    },
+    {
+      "id": "source:wiki-agent-of-ossus-talent-tree",
+      "title": "Agent of Ossus Talent Tree",
+      "revision": 15759,
+      "timestamp": "2024-08-18T00:53:07Z",
+      "sha256": "094ba58a1d202bea012c9b82c9803d07681f309e638d8f2425328b13611f54c6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15759",
+      "history": "https://swse.miraheze.org/w/index.php?title=Agent%20of%20Ossus%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-aing-tii-monk-talent-tree",
+      "title": "Aing-Tii Monk Talent Tree",
+      "revision": 15776,
+      "timestamp": "2024-08-18T00:53:10Z",
+      "sha256": "a16f4b0396e2a3f9ea0edeabf5684c25a37e4f210479c68c5eb75703420e2da2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15776",
+      "history": "https://swse.miraheze.org/w/index.php?title=Aing-Tii%20Monk%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-bando-gora-captain-talent-tree",
+      "title": "Bando Gora Captain Talent Tree",
+      "revision": 16124,
+      "timestamp": "2024-08-18T00:56:20Z",
+      "sha256": "58b8aa68547afa3599fb7f938ce70b40e2f581d7282fac232860c50d29961a8a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16124",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bando%20Gora%20Captain%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-baran-do-sage-talent-tree",
+      "title": "Baran Do Sage Talent Tree",
+      "revision": 16140,
+      "timestamp": "2024-08-18T00:56:21Z",
+      "sha256": "c599990db2ef78904de6d2ce8c8bfc8d707a9ac7b63601ff8bb89a8f51839f54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16140",
+      "history": "https://swse.miraheze.org/w/index.php?title=Baran%20Do%20Sage%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-believer-disciple-talent-tree",
+      "title": "Believer Disciple Talent Tree",
+      "revision": 16197,
+      "timestamp": "2024-08-18T00:56:29Z",
+      "sha256": "89489d04ca735c6313ca6a3a555f20960529760805e904028bda2b60484c5be1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16197",
+      "history": "https://swse.miraheze.org/w/index.php?title=Believer%20Disciple%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-blazing-chain-talent-tree",
+      "title": "Blazing Chain Talent Tree",
+      "revision": 16283,
+      "timestamp": "2024-08-18T00:56:35Z",
+      "sha256": "eec58a0f341aa11ef5835cec2944f5ec1f6d04bf7fbb79ceede7f4205eb4f289",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16283",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blazing%20Chain%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-dathomiri-witch-talent-tree",
+      "title": "Dathomiri Witch Talent Tree",
+      "revision": 18094,
+      "timestamp": "2024-08-25T19:34:48Z",
+      "sha256": "57161175957c04b709bf8866e52ebc7dc8d17c8832086712d732af88ee532553",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18094",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dathomiri%20Witch%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-disciple-of-twilight-talent-tree",
+      "title": "Disciple of Twilight Talent Tree",
+      "revision": 20142,
+      "timestamp": "2024-08-25T23:17:45Z",
+      "sha256": "3b80570d37326f09a30d57f59eb979390495e92aec69c517611524d0c8e35ee2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20142",
+      "history": "https://swse.miraheze.org/w/index.php?title=Disciple%20of%20Twilight%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-ember-of-vahl-talent-tree",
+      "title": "Ember of Vahl Talent Tree",
+      "revision": 20145,
+      "timestamp": "2024-08-25T23:18:06Z",
+      "sha256": "90b81c14e1380eb8136e472b7794b9da21f98994a86cfef97779eccf1860f587",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20145",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ember%20of%20Vahl%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-felucian-shaman-talent-tree",
+      "title": "Felucian Shaman Talent Tree",
+      "revision": 25738,
+      "timestamp": "2024-12-14T00:35:49Z",
+      "sha256": "dc421ab16313440003365139db5eec5d2642b38050913bb6af0c372fa2632bf5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25738",
+      "history": "https://swse.miraheze.org/w/index.php?title=Felucian%20Shaman%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-iron-knight-talent-tree",
+      "title": "Iron Knight Talent Tree",
+      "revision": 20455,
+      "timestamp": "2024-08-25T23:52:51Z",
+      "sha256": "bff81809ea5242d5cc5ea4211251f74760174c8d5eed10b8a065dff7a98e0601",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20455",
+      "history": "https://swse.miraheze.org/w/index.php?title=Iron%20Knight%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jal-shey-talent-tree",
+      "title": "Jal Shey Talent Tree",
+      "revision": 19184,
+      "timestamp": "2024-08-25T21:28:49Z",
+      "sha256": "47572239b604b4cbbe5fb53bebefd19c32c3af9bb3e278568dae92841a34beb4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19184",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jal%20Shey%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jensaarai-defender-talent-tree",
+      "title": "Jensaarai Defender Talent Tree",
+      "revision": 25721,
+      "timestamp": "2024-12-09T03:15:59Z",
+      "sha256": "58f0c931d089df67f77cc49a7a66d5cfb7217e7a40525b65b00e0d45b9385df2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25721",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jensaarai%20Defender%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-keetael-talent-tree",
+      "title": "Keetael Talent Tree",
+      "revision": 19203,
+      "timestamp": "2024-08-25T21:31:16Z",
+      "sha256": "10d11f998fea80830cd9755343c93b2b14269c0f635149b88bfa15b6a58deb54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19203",
+      "history": "https://swse.miraheze.org/w/index.php?title=Keetael%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-kilian-ranger-talent-tree",
+      "title": "Kilian Ranger Talent Tree",
+      "revision": 20689,
+      "timestamp": "2024-08-26T00:19:58Z",
+      "sha256": "70ec923d563cd1bd0820370d869d65dc2947804dcc5571ad89e153d1a5457ff8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20689",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kilian%20Ranger%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-korunnai-adept-talent-tree",
+      "title": "Korunnai Adept Talent Tree",
+      "revision": 19962,
+      "timestamp": "2024-08-25T22:56:11Z",
+      "sha256": "d606716b8cdfaa5bd16c85387b180faf6ea53cc130d5d3da16054756cd0fa091",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19962",
+      "history": "https://swse.miraheze.org/w/index.php?title=Korunnai%20Adept%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-krath-talent-tree",
+      "title": "Krath Talent Tree",
+      "revision": 19214,
+      "timestamp": "2024-08-25T21:32:14Z",
+      "sha256": "3c80f82b221b44897e5b559243f960f222666a74e2db3a7300350b528474d0d3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19214",
+      "history": "https://swse.miraheze.org/w/index.php?title=Krath%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-luka-sene-talent-tree",
+      "title": "Luka Sene Talent Tree",
+      "revision": 19229,
+      "timestamp": "2024-08-25T21:33:47Z",
+      "sha256": "d44949cae7ad14fc2b43f758bfcf4bd4b19b3dc83344eafa7c2bb0542e187ebe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19229",
+      "history": "https://swse.miraheze.org/w/index.php?title=Luka%20Sene%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-matukai-adept-talent-tree",
+      "title": "Matukai Adept Talent Tree",
+      "revision": 20482,
+      "timestamp": "2024-08-25T23:56:11Z",
+      "sha256": "1425f8cbc47af6b4dd6ed6d889f95c71c0acbe856ab179cb1e95e52a0e04f2b7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20482",
+      "history": "https://swse.miraheze.org/w/index.php?title=Matukai%20Adept%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-order-of-shasa-talent-tree",
+      "title": "Order of Shasa Talent Tree",
+      "revision": 25727,
+      "timestamp": "2024-12-09T04:29:56Z",
+      "sha256": "742dd81cb0220c778b9d8f505638b637e43980c49e95f9eac0711bf68972fa7c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25727",
+      "history": "https://swse.miraheze.org/w/index.php?title=Order%20of%20Shasa%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-seyugi-dervish-talent-tree",
+      "title": "Seyugi Dervish Talent Tree",
+      "revision": 20514,
+      "timestamp": "2024-08-26T00:00:12Z",
+      "sha256": "2974e2d245e8d16896fee34a6894fd5c62967273c20748579ffeac66c702d50a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20514",
+      "history": "https://swse.miraheze.org/w/index.php?title=Seyugi%20Dervish%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-shaper-of-kro-var-talent-tree",
+      "title": "Shaper of Kro Var Talent Tree",
+      "revision": 25736,
+      "timestamp": "2024-12-14T00:04:00Z",
+      "sha256": "6ac9c437a81ca3f446fbfa0031e13b63ba07843aa94624688e931b4a91ccfdfd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25736",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shaper%20of%20Kro%20Var%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-tyia-adept-talent-tree",
+      "title": "Tyia Adept Talent Tree",
+      "revision": 20561,
+      "timestamp": "2024-08-26T00:05:27Z",
+      "sha256": "4bc2d584240710c6b199e3587a210204d2ee8a0728c697c16e07498179be8968",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20561",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tyia%20Adept%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-warden-of-the-sky-talent-tree",
+      "title": "Warden of the Sky Talent Tree",
+      "revision": 20578,
+      "timestamp": "2024-08-26T00:07:07Z",
+      "sha256": "cf568911fc34f37eeac0eba76a2909aeb49f8f4ef3aff61909fc52d733769f22",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20578",
+      "history": "https://swse.miraheze.org/w/index.php?title=Warden%20of%20the%20Sky%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-white-current-adept-talent-tree",
+      "title": "White Current Adept Talent Tree",
+      "revision": 20580,
+      "timestamp": "2024-08-26T00:07:23Z",
+      "sha256": "d3247dfd1dc22a47ebf2e381eae832fc290d836fa275f1e4b7185a91634f8e93",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20580",
+      "history": "https://swse.miraheze.org/w/index.php?title=White%20Current%20Adept%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-zeison-sha-warrior-talent-tree",
+      "title": "Zeison Sha Warrior Talent Tree",
+      "revision": 25652,
+      "timestamp": "2024-12-04T23:45:24Z",
+      "sha256": "7d504c61ee40a7d48e9786946c557f3a74a477c7d352217a70f56006ec779586",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25652",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zeison%20Sha%20Warrior%20Talent%20Tree&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-agent-of-ossus-talent-tree-buried-presence",
+      "title": "Agent of Ossus Talent Tree",
+      "revision": 15759,
+      "timestamp": "2024-08-18T00:53:07Z",
+      "sha256": "094ba58a1d202bea012c9b82c9803d07681f309e638d8f2425328b13611f54c6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15759#Buried_Presence",
+      "history": "https://swse.miraheze.org/w/index.php?title=Agent%20of%20Ossus%20Talent%20Tree&action=history",
+      "section": "Buried Presence"
+    },
+    {
+      "id": "source:wiki-agent-of-ossus-talent-tree-conceal-other",
+      "title": "Agent of Ossus Talent Tree",
+      "revision": 15759,
+      "timestamp": "2024-08-18T00:53:07Z",
+      "sha256": "094ba58a1d202bea012c9b82c9803d07681f309e638d8f2425328b13611f54c6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15759#Conceal_Other",
+      "history": "https://swse.miraheze.org/w/index.php?title=Agent%20of%20Ossus%20Talent%20Tree&action=history",
+      "section": "Conceal Other"
+    },
+    {
+      "id": "source:wiki-agent-of-ossus-talent-tree-insightful-aim",
+      "title": "Agent of Ossus Talent Tree",
+      "revision": 15759,
+      "timestamp": "2024-08-18T00:53:07Z",
+      "sha256": "094ba58a1d202bea012c9b82c9803d07681f309e638d8f2425328b13611f54c6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15759#Insightful_Aim",
+      "history": "https://swse.miraheze.org/w/index.php?title=Agent%20of%20Ossus%20Talent%20Tree&action=history",
+      "section": "Insightful Aim"
+    },
+    {
+      "id": "source:wiki-agent-of-ossus-talent-tree-vanish",
+      "title": "Agent of Ossus Talent Tree",
+      "revision": 15759,
+      "timestamp": "2024-08-18T00:53:07Z",
+      "sha256": "094ba58a1d202bea012c9b82c9803d07681f309e638d8f2425328b13611f54c6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15759#Vanish",
+      "history": "https://swse.miraheze.org/w/index.php?title=Agent%20of%20Ossus%20Talent%20Tree&action=history",
+      "section": "Vanish"
+    },
+    {
+      "id": "source:wiki-aing-tii-monk-talent-tree-aura-of-freedom",
+      "title": "Aing-Tii Monk Talent Tree",
+      "revision": 15776,
+      "timestamp": "2024-08-18T00:53:10Z",
+      "sha256": "a16f4b0396e2a3f9ea0edeabf5684c25a37e4f210479c68c5eb75703420e2da2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15776#Aura_of_Freedom",
+      "history": "https://swse.miraheze.org/w/index.php?title=Aing-Tii%20Monk%20Talent%20Tree&action=history",
+      "section": "Aura of Freedom"
+    },
+    {
+      "id": "source:wiki-aing-tii-monk-talent-tree-folded-space-mastery",
+      "title": "Aing-Tii Monk Talent Tree",
+      "revision": 15776,
+      "timestamp": "2024-08-18T00:53:10Z",
+      "sha256": "a16f4b0396e2a3f9ea0edeabf5684c25a37e4f210479c68c5eb75703420e2da2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15776#Folded_Space_Mastery",
+      "history": "https://swse.miraheze.org/w/index.php?title=Aing-Tii%20Monk%20Talent%20Tree&action=history",
+      "section": "Folded Space Mastery"
+    },
+    {
+      "id": "source:wiki-aing-tii-monk-talent-tree-liberate",
+      "title": "Aing-Tii Monk Talent Tree",
+      "revision": 15776,
+      "timestamp": "2024-08-18T00:53:10Z",
+      "sha256": "a16f4b0396e2a3f9ea0edeabf5684c25a37e4f210479c68c5eb75703420e2da2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15776#Liberate",
+      "history": "https://swse.miraheze.org/w/index.php?title=Aing-Tii%20Monk%20Talent%20Tree&action=history",
+      "section": "Liberate"
+    },
+    {
+      "id": "source:wiki-aing-tii-monk-talent-tree-many-shades-of-the-force",
+      "title": "Aing-Tii Monk Talent Tree",
+      "revision": 15776,
+      "timestamp": "2024-08-18T00:53:10Z",
+      "sha256": "a16f4b0396e2a3f9ea0edeabf5684c25a37e4f210479c68c5eb75703420e2da2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15776#Many_Shades_of_the_Force",
+      "history": "https://swse.miraheze.org/w/index.php?title=Aing-Tii%20Monk%20Talent%20Tree&action=history",
+      "section": "Many Shades of the Force"
+    },
+    {
+      "id": "source:wiki-aing-tii-monk-talent-tree-spatial-integrity",
+      "title": "Aing-Tii Monk Talent Tree",
+      "revision": 15776,
+      "timestamp": "2024-08-18T00:53:10Z",
+      "sha256": "a16f4b0396e2a3f9ea0edeabf5684c25a37e4f210479c68c5eb75703420e2da2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15776#Spatial_Integrity",
+      "history": "https://swse.miraheze.org/w/index.php?title=Aing-Tii%20Monk%20Talent%20Tree&action=history",
+      "section": "Spatial Integrity"
+    },
+    {
+      "id": "source:wiki-bando-gora-captain-talent-tree-bando-gora-surge",
+      "title": "Bando Gora Captain Talent Tree",
+      "revision": 16124,
+      "timestamp": "2024-08-18T00:56:20Z",
+      "sha256": "58b8aa68547afa3599fb7f938ce70b40e2f581d7282fac232860c50d29961a8a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16124#Bando_Gora_Surge",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bando%20Gora%20Captain%20Talent%20Tree&action=history",
+      "section": "Bando Gora Surge"
+    },
+    {
+      "id": "source:wiki-bando-gora-captain-talent-tree-force-fighter",
+      "title": "Bando Gora Captain Talent Tree",
+      "revision": 16124,
+      "timestamp": "2024-08-18T00:56:20Z",
+      "sha256": "58b8aa68547afa3599fb7f938ce70b40e2f581d7282fac232860c50d29961a8a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16124#Force_Fighter",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bando%20Gora%20Captain%20Talent%20Tree&action=history",
+      "section": "Force Fighter"
+    },
+    {
+      "id": "source:wiki-bando-gora-captain-talent-tree-resist-enervation",
+      "title": "Bando Gora Captain Talent Tree",
+      "revision": 16124,
+      "timestamp": "2024-08-18T00:56:20Z",
+      "sha256": "58b8aa68547afa3599fb7f938ce70b40e2f581d7282fac232860c50d29961a8a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16124#Resist_Enervation",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bando%20Gora%20Captain%20Talent%20Tree&action=history",
+      "section": "Resist Enervation"
+    },
+    {
+      "id": "source:wiki-bando-gora-captain-talent-tree-victorious-force-mastery",
+      "title": "Bando Gora Captain Talent Tree",
+      "revision": 16124,
+      "timestamp": "2024-08-18T00:56:20Z",
+      "sha256": "58b8aa68547afa3599fb7f938ce70b40e2f581d7282fac232860c50d29961a8a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16124#Victorious_Force_Mastery",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bando%20Gora%20Captain%20Talent%20Tree&action=history",
+      "section": "Victorious Force Mastery"
+    },
+    {
+      "id": "source:wiki-baran-do-sage-talent-tree-enhanced-danger-sense",
+      "title": "Baran Do Sage Talent Tree",
+      "revision": 16140,
+      "timestamp": "2024-08-18T00:56:21Z",
+      "sha256": "c599990db2ef78904de6d2ce8c8bfc8d707a9ac7b63601ff8bb89a8f51839f54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16140#Enhanced_Danger_Sense",
+      "history": "https://swse.miraheze.org/w/index.php?title=Baran%20Do%20Sage%20Talent%20Tree&action=history",
+      "section": "Enhanced Danger Sense"
+    },
+    {
+      "id": "source:wiki-baran-do-sage-talent-tree-expanded-horizon",
+      "title": "Baran Do Sage Talent Tree",
+      "revision": 16140,
+      "timestamp": "2024-08-18T00:56:21Z",
+      "sha256": "c599990db2ef78904de6d2ce8c8bfc8d707a9ac7b63601ff8bb89a8f51839f54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16140#Expanded_Horizon",
+      "history": "https://swse.miraheze.org/w/index.php?title=Baran%20Do%20Sage%20Talent%20Tree&action=history",
+      "section": "Expanded Horizon"
+    },
+    {
+      "id": "source:wiki-baran-do-sage-talent-tree-knowledge-and-defense",
+      "title": "Baran Do Sage Talent Tree",
+      "revision": 16140,
+      "timestamp": "2024-08-18T00:56:21Z",
+      "sha256": "c599990db2ef78904de6d2ce8c8bfc8d707a9ac7b63601ff8bb89a8f51839f54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16140#Knowledge_and_Defense",
+      "history": "https://swse.miraheze.org/w/index.php?title=Baran%20Do%20Sage%20Talent%20Tree&action=history",
+      "section": "Knowledge and Defense"
+    },
+    {
+      "id": "source:wiki-baran-do-sage-talent-tree-planetary-attunement",
+      "title": "Baran Do Sage Talent Tree",
+      "revision": 16140,
+      "timestamp": "2024-08-18T00:56:21Z",
+      "sha256": "c599990db2ef78904de6d2ce8c8bfc8d707a9ac7b63601ff8bb89a8f51839f54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16140#Planetary_Attunement",
+      "history": "https://swse.miraheze.org/w/index.php?title=Baran%20Do%20Sage%20Talent%20Tree&action=history",
+      "section": "Planetary Attunement"
+    },
+    {
+      "id": "source:wiki-baran-do-sage-talent-tree-precognitive-meditation",
+      "title": "Baran Do Sage Talent Tree",
+      "revision": 16140,
+      "timestamp": "2024-08-18T00:56:21Z",
+      "sha256": "c599990db2ef78904de6d2ce8c8bfc8d707a9ac7b63601ff8bb89a8f51839f54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16140#Precognitive_Meditation",
+      "history": "https://swse.miraheze.org/w/index.php?title=Baran%20Do%20Sage%20Talent%20Tree&action=history",
+      "section": "Precognitive Meditation"
+    },
+    {
+      "id": "source:wiki-believer-disciple-talent-tree-believer-intuition",
+      "title": "Believer Disciple Talent Tree",
+      "revision": 16197,
+      "timestamp": "2024-08-18T00:56:29Z",
+      "sha256": "89489d04ca735c6313ca6a3a555f20960529760805e904028bda2b60484c5be1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16197#Believer_Intuition",
+      "history": "https://swse.miraheze.org/w/index.php?title=Believer%20Disciple%20Talent%20Tree&action=history",
+      "section": "Believer Intuition"
+    },
+    {
+      "id": "source:wiki-believer-disciple-talent-tree-defense-boost",
+      "title": "Believer Disciple Talent Tree",
+      "revision": 16197,
+      "timestamp": "2024-08-18T00:56:29Z",
+      "sha256": "89489d04ca735c6313ca6a3a555f20960529760805e904028bda2b60484c5be1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16197#Defense_Boost",
+      "history": "https://swse.miraheze.org/w/index.php?title=Believer%20Disciple%20Talent%20Tree&action=history",
+      "section": "Defense Boost"
+    },
+    {
+      "id": "source:wiki-believer-disciple-talent-tree-hardiness",
+      "title": "Believer Disciple Talent Tree",
+      "revision": 16197,
+      "timestamp": "2024-08-18T00:56:29Z",
+      "sha256": "89489d04ca735c6313ca6a3a555f20960529760805e904028bda2b60484c5be1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16197#Hardiness",
+      "history": "https://swse.miraheze.org/w/index.php?title=Believer%20Disciple%20Talent%20Tree&action=history",
+      "section": "Hardiness"
+    },
+    {
+      "id": "source:wiki-believer-disciple-talent-tree-high-impact",
+      "title": "Believer Disciple Talent Tree",
+      "revision": 16197,
+      "timestamp": "2024-08-18T00:56:29Z",
+      "sha256": "89489d04ca735c6313ca6a3a555f20960529760805e904028bda2b60484c5be1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16197#High_Impact",
+      "history": "https://swse.miraheze.org/w/index.php?title=Believer%20Disciple%20Talent%20Tree&action=history",
+      "section": "High Impact"
+    },
+    {
+      "id": "source:wiki-believer-disciple-talent-tree-sith-reverence",
+      "title": "Believer Disciple Talent Tree",
+      "revision": 16197,
+      "timestamp": "2024-08-18T00:56:29Z",
+      "sha256": "89489d04ca735c6313ca6a3a555f20960529760805e904028bda2b60484c5be1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16197#Sith_Reverence",
+      "history": "https://swse.miraheze.org/w/index.php?title=Believer%20Disciple%20Talent%20Tree&action=history",
+      "section": "Sith Reverence"
+    },
+    {
+      "id": "source:wiki-blazing-chain-talent-tree-force-directed-shot",
+      "title": "Blazing Chain Talent Tree",
+      "revision": 16283,
+      "timestamp": "2024-08-18T00:56:35Z",
+      "sha256": "eec58a0f341aa11ef5835cec2944f5ec1f6d04bf7fbb79ceede7f4205eb4f289",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16283#Force_Directed_Shot",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blazing%20Chain%20Talent%20Tree&action=history",
+      "section": "Force Directed Shot"
+    },
+    {
+      "id": "source:wiki-blazing-chain-talent-tree-negate-and-redirect",
+      "title": "Blazing Chain Talent Tree",
+      "revision": 16283,
+      "timestamp": "2024-08-18T00:56:35Z",
+      "sha256": "eec58a0f341aa11ef5835cec2944f5ec1f6d04bf7fbb79ceede7f4205eb4f289",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16283#Negate_and_Redirect",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blazing%20Chain%20Talent%20Tree&action=history",
+      "section": "Negate and Redirect"
+    },
+    {
+      "id": "source:wiki-blazing-chain-talent-tree-rising-anger",
+      "title": "Blazing Chain Talent Tree",
+      "revision": 16283,
+      "timestamp": "2024-08-18T00:56:35Z",
+      "sha256": "eec58a0f341aa11ef5835cec2944f5ec1f6d04bf7fbb79ceede7f4205eb4f289",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16283#Rising_Anger",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blazing%20Chain%20Talent%20Tree&action=history",
+      "section": "Rising Anger"
+    },
+    {
+      "id": "source:wiki-blazing-chain-talent-tree-rising-panic",
+      "title": "Blazing Chain Talent Tree",
+      "revision": 16283,
+      "timestamp": "2024-08-18T00:56:35Z",
+      "sha256": "eec58a0f341aa11ef5835cec2944f5ec1f6d04bf7fbb79ceede7f4205eb4f289",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16283#Rising_Panic",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blazing%20Chain%20Talent%20Tree&action=history",
+      "section": "Rising Panic"
+    },
+    {
+      "id": "source:wiki-dathomiri-witch-talent-tree-adept-spellcaster",
+      "title": "Dathomiri Witch Talent Tree",
+      "revision": 18094,
+      "timestamp": "2024-08-25T19:34:48Z",
+      "sha256": "57161175957c04b709bf8866e52ebc7dc8d17c8832086712d732af88ee532553",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18094#Adept_Spellcaster",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dathomiri%20Witch%20Talent%20Tree&action=history",
+      "section": "Adept Spellcaster"
+    },
+    {
+      "id": "source:wiki-dathomiri-witch-talent-tree-dathomiri-charm-beast",
+      "title": "Dathomiri Witch Talent Tree",
+      "revision": 18094,
+      "timestamp": "2024-08-25T19:34:48Z",
+      "sha256": "57161175957c04b709bf8866e52ebc7dc8d17c8832086712d732af88ee532553",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18094#Dathomiri_Charm_Beast",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dathomiri%20Witch%20Talent%20Tree&action=history",
+      "section": "Dathomiri Charm Beast"
+    },
+    {
+      "id": "source:wiki-dathomiri-witch-talent-tree-dathomiri-command-beast",
+      "title": "Dathomiri Witch Talent Tree",
+      "revision": 18094,
+      "timestamp": "2024-08-25T19:34:48Z",
+      "sha256": "57161175957c04b709bf8866e52ebc7dc8d17c8832086712d732af88ee532553",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18094#Dathomiri_Command_Beast",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dathomiri%20Witch%20Talent%20Tree&action=history",
+      "section": "Dathomiri Command Beast"
+    },
+    {
+      "id": "source:wiki-dathomiri-witch-talent-tree-flight",
+      "title": "Dathomiri Witch Talent Tree",
+      "revision": 18094,
+      "timestamp": "2024-08-25T19:34:48Z",
+      "sha256": "57161175957c04b709bf8866e52ebc7dc8d17c8832086712d732af88ee532553",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18094#Flight",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dathomiri%20Witch%20Talent%20Tree&action=history",
+      "section": "Flight"
+    },
+    {
+      "id": "source:wiki-disciple-of-twilight-talent-tree-cloak-of-shadows",
+      "title": "Disciple of Twilight Talent Tree",
+      "revision": 20142,
+      "timestamp": "2024-08-25T23:17:45Z",
+      "sha256": "3b80570d37326f09a30d57f59eb979390495e92aec69c517611524d0c8e35ee2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20142#Cloak_of_Shadows",
+      "history": "https://swse.miraheze.org/w/index.php?title=Disciple%20of%20Twilight%20Talent%20Tree&action=history",
+      "section": "Cloak of Shadows"
+    },
+    {
+      "id": "source:wiki-disciple-of-twilight-talent-tree-phantasm",
+      "title": "Disciple of Twilight Talent Tree",
+      "revision": 20142,
+      "timestamp": "2024-08-25T23:17:45Z",
+      "sha256": "3b80570d37326f09a30d57f59eb979390495e92aec69c517611524d0c8e35ee2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20142#Phantasm",
+      "history": "https://swse.miraheze.org/w/index.php?title=Disciple%20of%20Twilight%20Talent%20Tree&action=history",
+      "section": "Phantasm"
+    },
+    {
+      "id": "source:wiki-disciple-of-twilight-talent-tree-revelation",
+      "title": "Disciple of Twilight Talent Tree",
+      "revision": 20142,
+      "timestamp": "2024-08-25T23:17:45Z",
+      "sha256": "3b80570d37326f09a30d57f59eb979390495e92aec69c517611524d0c8e35ee2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20142#Revelation",
+      "history": "https://swse.miraheze.org/w/index.php?title=Disciple%20of%20Twilight%20Talent%20Tree&action=history",
+      "section": "Revelation"
+    },
+    {
+      "id": "source:wiki-disciple-of-twilight-talent-tree-shadow-armor",
+      "title": "Disciple of Twilight Talent Tree",
+      "revision": 20142,
+      "timestamp": "2024-08-25T23:17:45Z",
+      "sha256": "3b80570d37326f09a30d57f59eb979390495e92aec69c517611524d0c8e35ee2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20142#Shadow_Armor",
+      "history": "https://swse.miraheze.org/w/index.php?title=Disciple%20of%20Twilight%20Talent%20Tree&action=history",
+      "section": "Shadow Armor"
+    },
+    {
+      "id": "source:wiki-disciple-of-twilight-talent-tree-shadow-vision",
+      "title": "Disciple of Twilight Talent Tree",
+      "revision": 20142,
+      "timestamp": "2024-08-25T23:17:45Z",
+      "sha256": "3b80570d37326f09a30d57f59eb979390495e92aec69c517611524d0c8e35ee2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20142#Shadow_Vision",
+      "history": "https://swse.miraheze.org/w/index.php?title=Disciple%20of%20Twilight%20Talent%20Tree&action=history",
+      "section": "Shadow Vision"
+    },
+    {
+      "id": "source:wiki-ember-of-vahl-talent-tree-initiate-of-vahl",
+      "title": "Ember of Vahl Talent Tree",
+      "revision": 20145,
+      "timestamp": "2024-08-25T23:18:06Z",
+      "sha256": "90b81c14e1380eb8136e472b7794b9da21f98994a86cfef97779eccf1860f587",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20145#Initiate_of_Vahl",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ember%20of%20Vahl%20Talent%20Tree&action=history",
+      "section": "Initiate of Vahl"
+    },
+    {
+      "id": "source:wiki-ember-of-vahl-talent-tree-reading-the-flame",
+      "title": "Ember of Vahl Talent Tree",
+      "revision": 20145,
+      "timestamp": "2024-08-25T23:18:06Z",
+      "sha256": "90b81c14e1380eb8136e472b7794b9da21f98994a86cfef97779eccf1860f587",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20145#Reading_the_Flame",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ember%20of%20Vahl%20Talent%20Tree&action=history",
+      "section": "Reading the Flame"
+    },
+    {
+      "id": "source:wiki-ember-of-vahl-talent-tree-sword-of-vahl",
+      "title": "Ember of Vahl Talent Tree",
+      "revision": 20145,
+      "timestamp": "2024-08-25T23:18:06Z",
+      "sha256": "90b81c14e1380eb8136e472b7794b9da21f98994a86cfef97779eccf1860f587",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20145#Sword_of_Vahl",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ember%20of%20Vahl%20Talent%20Tree&action=history",
+      "section": "Sword of Vahl"
+    },
+    {
+      "id": "source:wiki-ember-of-vahl-talent-tree-vahl-s-brand",
+      "title": "Ember of Vahl Talent Tree",
+      "revision": 20145,
+      "timestamp": "2024-08-25T23:18:06Z",
+      "sha256": "90b81c14e1380eb8136e472b7794b9da21f98994a86cfef97779eccf1860f587",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20145#Vahl%27s_Brand",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ember%20of%20Vahl%20Talent%20Tree&action=history",
+      "section": "Vahl's Brand"
+    },
+    {
+      "id": "source:wiki-ember-of-vahl-talent-tree-vahl-s-flame",
+      "title": "Ember of Vahl Talent Tree",
+      "revision": 20145,
+      "timestamp": "2024-08-25T23:18:06Z",
+      "sha256": "90b81c14e1380eb8136e472b7794b9da21f98994a86cfef97779eccf1860f587",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20145#Vahl%27s_Flame",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ember%20of%20Vahl%20Talent%20Tree&action=history",
+      "section": "Vahl's Flame"
+    },
+    {
+      "id": "source:wiki-felucian-shaman-talent-tree-felucian-charm-beast",
+      "title": "Felucian Shaman Talent Tree",
+      "revision": 25738,
+      "timestamp": "2024-12-14T00:35:49Z",
+      "sha256": "dc421ab16313440003365139db5eec5d2642b38050913bb6af0c372fa2632bf5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25738#Felucian_Charm_Beast",
+      "history": "https://swse.miraheze.org/w/index.php?title=Felucian%20Shaman%20Talent%20Tree&action=history",
+      "section": "Felucian Charm Beast"
+    },
+    {
+      "id": "source:wiki-felucian-shaman-talent-tree-felucian-command-beast",
+      "title": "Felucian Shaman Talent Tree",
+      "revision": 25738,
+      "timestamp": "2024-12-14T00:35:49Z",
+      "sha256": "dc421ab16313440003365139db5eec5d2642b38050913bb6af0c372fa2632bf5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25738#Felucian_Command_Beast",
+      "history": "https://swse.miraheze.org/w/index.php?title=Felucian%20Shaman%20Talent%20Tree&action=history",
+      "section": "Felucian Command Beast"
+    },
+    {
+      "id": "source:wiki-felucian-shaman-talent-tree-detonating-blast",
+      "title": "Felucian Shaman Talent Tree",
+      "revision": 25738,
+      "timestamp": "2024-12-14T00:35:49Z",
+      "sha256": "dc421ab16313440003365139db5eec5d2642b38050913bb6af0c372fa2632bf5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25738#Detonating_Blast",
+      "history": "https://swse.miraheze.org/w/index.php?title=Felucian%20Shaman%20Talent%20Tree&action=history",
+      "section": "Detonating Blast"
+    },
+    {
+      "id": "source:wiki-felucian-shaman-talent-tree-hive-mind",
+      "title": "Felucian Shaman Talent Tree",
+      "revision": 25738,
+      "timestamp": "2024-12-14T00:35:49Z",
+      "sha256": "dc421ab16313440003365139db5eec5d2642b38050913bb6af0c372fa2632bf5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25738#Hive_Mind",
+      "history": "https://swse.miraheze.org/w/index.php?title=Felucian%20Shaman%20Talent%20Tree&action=history",
+      "section": "Hive Mind"
+    },
+    {
+      "id": "source:wiki-felucian-shaman-talent-tree-infuse-weapon",
+      "title": "Felucian Shaman Talent Tree",
+      "revision": 25738,
+      "timestamp": "2024-12-14T00:35:49Z",
+      "sha256": "dc421ab16313440003365139db5eec5d2642b38050913bb6af0c372fa2632bf5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25738#Infuse_Weapon",
+      "history": "https://swse.miraheze.org/w/index.php?title=Felucian%20Shaman%20Talent%20Tree&action=history",
+      "section": "Infuse Weapon"
+    },
+    {
+      "id": "source:wiki-felucian-shaman-talent-tree-sickening-blast",
+      "title": "Felucian Shaman Talent Tree",
+      "revision": 25738,
+      "timestamp": "2024-12-14T00:35:49Z",
+      "sha256": "dc421ab16313440003365139db5eec5d2642b38050913bb6af0c372fa2632bf5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25738#Sickening_Blast",
+      "history": "https://swse.miraheze.org/w/index.php?title=Felucian%20Shaman%20Talent%20Tree&action=history",
+      "section": "Sickening Blast"
+    },
+    {
+      "id": "source:wiki-iron-knight-talent-tree-droid-duelist",
+      "title": "Iron Knight Talent Tree",
+      "revision": 20455,
+      "timestamp": "2024-08-25T23:52:51Z",
+      "sha256": "bff81809ea5242d5cc5ea4211251f74760174c8d5eed10b8a065dff7a98e0601",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20455#Droid_Duelist",
+      "history": "https://swse.miraheze.org/w/index.php?title=Iron%20Knight%20Talent%20Tree&action=history",
+      "section": "Droid Duelist"
+    },
+    {
+      "id": "source:wiki-iron-knight-talent-tree-force-repair",
+      "title": "Iron Knight Talent Tree",
+      "revision": 20455,
+      "timestamp": "2024-08-25T23:52:51Z",
+      "sha256": "bff81809ea5242d5cc5ea4211251f74760174c8d5eed10b8a065dff7a98e0601",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20455#Force_Repair",
+      "history": "https://swse.miraheze.org/w/index.php?title=Iron%20Knight%20Talent%20Tree&action=history",
+      "section": "Force Repair"
+    },
+    {
+      "id": "source:wiki-iron-knight-talent-tree-heal-droid",
+      "title": "Iron Knight Talent Tree",
+      "revision": 20455,
+      "timestamp": "2024-08-25T23:52:51Z",
+      "sha256": "bff81809ea5242d5cc5ea4211251f74760174c8d5eed10b8a065dff7a98e0601",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20455#Heal_Droid",
+      "history": "https://swse.miraheze.org/w/index.php?title=Iron%20Knight%20Talent%20Tree&action=history",
+      "section": "Heal Droid"
+    },
+    {
+      "id": "source:wiki-iron-knight-talent-tree-mask-presence",
+      "title": "Iron Knight Talent Tree",
+      "revision": 20455,
+      "timestamp": "2024-08-25T23:52:51Z",
+      "sha256": "bff81809ea5242d5cc5ea4211251f74760174c8d5eed10b8a065dff7a98e0601",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20455#Mask_Presence",
+      "history": "https://swse.miraheze.org/w/index.php?title=Iron%20Knight%20Talent%20Tree&action=history",
+      "section": "Mask Presence"
+    },
+    {
+      "id": "source:wiki-iron-knight-talent-tree-silicon-mind",
+      "title": "Iron Knight Talent Tree",
+      "revision": 20455,
+      "timestamp": "2024-08-25T23:52:51Z",
+      "sha256": "bff81809ea5242d5cc5ea4211251f74760174c8d5eed10b8a065dff7a98e0601",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20455#Silicon_Mind",
+      "history": "https://swse.miraheze.org/w/index.php?title=Iron%20Knight%20Talent%20Tree&action=history",
+      "section": "Silicon Mind"
+    },
+    {
+      "id": "source:wiki-jal-shey-talent-tree-action-exchange",
+      "title": "Jal Shey Talent Tree",
+      "revision": 19184,
+      "timestamp": "2024-08-25T21:28:49Z",
+      "sha256": "47572239b604b4cbbe5fb53bebefd19c32c3af9bb3e278568dae92841a34beb4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19184#Action_Exchange",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jal%20Shey%20Talent%20Tree&action=history",
+      "section": "Action Exchange"
+    },
+    {
+      "id": "source:wiki-jal-shey-talent-tree-force-delay",
+      "title": "Jal Shey Talent Tree",
+      "revision": 19184,
+      "timestamp": "2024-08-25T21:28:49Z",
+      "sha256": "47572239b604b4cbbe5fb53bebefd19c32c3af9bb3e278568dae92841a34beb4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19184#Force_Delay",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jal%20Shey%20Talent%20Tree&action=history",
+      "section": "Force Delay"
+    },
+    {
+      "id": "source:wiki-jal-shey-talent-tree-imbue-item",
+      "title": "Jal Shey Talent Tree",
+      "revision": 19184,
+      "timestamp": "2024-08-25T21:28:49Z",
+      "sha256": "47572239b604b4cbbe5fb53bebefd19c32c3af9bb3e278568dae92841a34beb4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19184#Imbue_Item",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jal%20Shey%20Talent%20Tree&action=history",
+      "section": "Imbue Item"
+    },
+    {
+      "id": "source:wiki-jal-shey-talent-tree-knowledge-of-the-force",
+      "title": "Jal Shey Talent Tree",
+      "revision": 19184,
+      "timestamp": "2024-08-25T21:28:49Z",
+      "sha256": "47572239b604b4cbbe5fb53bebefd19c32c3af9bb3e278568dae92841a34beb4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19184#Knowledge_of_the_Force",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jal%20Shey%20Talent%20Tree&action=history",
+      "section": "Knowledge of the Force"
+    },
+    {
+      "id": "source:wiki-jensaarai-defender-talent-tree-attune-armor",
+      "title": "Jensaarai Defender Talent Tree",
+      "revision": 25721,
+      "timestamp": "2024-12-09T03:15:59Z",
+      "sha256": "58f0c931d089df67f77cc49a7a66d5cfb7217e7a40525b65b00e0d45b9385df2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25721#Attune_Armor",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jensaarai%20Defender%20Talent%20Tree&action=history",
+      "section": "Attune Armor"
+    },
+    {
+      "id": "source:wiki-jensaarai-defender-talent-tree-force-cloak",
+      "title": "Jensaarai Defender Talent Tree",
+      "revision": 25721,
+      "timestamp": "2024-12-09T03:15:59Z",
+      "sha256": "58f0c931d089df67f77cc49a7a66d5cfb7217e7a40525b65b00e0d45b9385df2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25721#Force_Cloak",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jensaarai%20Defender%20Talent%20Tree&action=history",
+      "section": "Force Cloak"
+    },
+    {
+      "id": "source:wiki-jensaarai-defender-talent-tree-force-cloak-mastery",
+      "title": "Jensaarai Defender Talent Tree",
+      "revision": 25721,
+      "timestamp": "2024-12-09T03:15:59Z",
+      "sha256": "58f0c931d089df67f77cc49a7a66d5cfb7217e7a40525b65b00e0d45b9385df2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25721#Force_Cloak_Mastery",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jensaarai%20Defender%20Talent%20Tree&action=history",
+      "section": "Force Cloak Mastery"
+    },
+    {
+      "id": "source:wiki-jensaarai-defender-talent-tree-linked-defense",
+      "title": "Jensaarai Defender Talent Tree",
+      "revision": 25721,
+      "timestamp": "2024-12-09T03:15:59Z",
+      "sha256": "58f0c931d089df67f77cc49a7a66d5cfb7217e7a40525b65b00e0d45b9385df2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25721#Linked_Defense",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jensaarai%20Defender%20Talent%20Tree&action=history",
+      "section": "Linked Defense"
+    },
+    {
+      "id": "source:wiki-keetael-talent-tree-conceal-force-use",
+      "title": "Keetael Talent Tree",
+      "revision": 19203,
+      "timestamp": "2024-08-25T21:31:16Z",
+      "sha256": "10d11f998fea80830cd9755343c93b2b14269c0f635149b88bfa15b6a58deb54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19203#Conceal_Force_Use",
+      "history": "https://swse.miraheze.org/w/index.php?title=Keetael%20Talent%20Tree&action=history",
+      "section": "Conceal Force Use"
+    },
+    {
+      "id": "source:wiki-keetael-talent-tree-force-direction",
+      "title": "Keetael Talent Tree",
+      "revision": 19203,
+      "timestamp": "2024-08-25T21:31:16Z",
+      "sha256": "10d11f998fea80830cd9755343c93b2b14269c0f635149b88bfa15b6a58deb54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19203#Force_Direction",
+      "history": "https://swse.miraheze.org/w/index.php?title=Keetael%20Talent%20Tree&action=history",
+      "section": "Force Direction"
+    },
+    {
+      "id": "source:wiki-keetael-talent-tree-force-momentum",
+      "title": "Keetael Talent Tree",
+      "revision": 19203,
+      "timestamp": "2024-08-25T21:31:16Z",
+      "sha256": "10d11f998fea80830cd9755343c93b2b14269c0f635149b88bfa15b6a58deb54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19203#Force_Momentum",
+      "history": "https://swse.miraheze.org/w/index.php?title=Keetael%20Talent%20Tree&action=history",
+      "section": "Force Momentum"
+    },
+    {
+      "id": "source:wiki-keetael-talent-tree-past-visions",
+      "title": "Keetael Talent Tree",
+      "revision": 19203,
+      "timestamp": "2024-08-25T21:31:16Z",
+      "sha256": "10d11f998fea80830cd9755343c93b2b14269c0f635149b88bfa15b6a58deb54",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19203#Past_Visions",
+      "history": "https://swse.miraheze.org/w/index.php?title=Keetael%20Talent%20Tree&action=history",
+      "section": "Past Visions"
+    },
+    {
+      "id": "source:wiki-kilian-ranger-talent-tree-empower-siang-lance",
+      "title": "Kilian Ranger Talent Tree",
+      "revision": 20689,
+      "timestamp": "2024-08-26T00:19:58Z",
+      "sha256": "70ec923d563cd1bd0820370d869d65dc2947804dcc5571ad89e153d1a5457ff8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20689#Empower_Siang_Lance",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kilian%20Ranger%20Talent%20Tree&action=history",
+      "section": "Empower Siang Lance"
+    },
+    {
+      "id": "source:wiki-kilian-ranger-talent-tree-shield-gauntlet-defense",
+      "title": "Kilian Ranger Talent Tree",
+      "revision": 20689,
+      "timestamp": "2024-08-26T00:19:58Z",
+      "sha256": "70ec923d563cd1bd0820370d869d65dc2947804dcc5571ad89e153d1a5457ff8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20689#Shield_Gauntlet_Defense",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kilian%20Ranger%20Talent%20Tree&action=history",
+      "section": "Shield Gauntlet Defense"
+    },
+    {
+      "id": "source:wiki-kilian-ranger-talent-tree-shield-gauntlet-deflect",
+      "title": "Kilian Ranger Talent Tree",
+      "revision": 20689,
+      "timestamp": "2024-08-26T00:19:58Z",
+      "sha256": "70ec923d563cd1bd0820370d869d65dc2947804dcc5571ad89e153d1a5457ff8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20689#Shield_Gauntlet_Deflect",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kilian%20Ranger%20Talent%20Tree&action=history",
+      "section": "Shield Gauntlet Deflect"
+    },
+    {
+      "id": "source:wiki-kilian-ranger-talent-tree-shield-gauntlet-redirect",
+      "title": "Kilian Ranger Talent Tree",
+      "revision": 20689,
+      "timestamp": "2024-08-26T00:19:58Z",
+      "sha256": "70ec923d563cd1bd0820370d869d65dc2947804dcc5571ad89e153d1a5457ff8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20689#Shield_Gauntlet_Redirect",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kilian%20Ranger%20Talent%20Tree&action=history",
+      "section": "Shield Gauntlet Redirect"
+    },
+    {
+      "id": "source:wiki-kilian-ranger-talent-tree-siang-lance-mastery",
+      "title": "Kilian Ranger Talent Tree",
+      "revision": 20689,
+      "timestamp": "2024-08-26T00:19:58Z",
+      "sha256": "70ec923d563cd1bd0820370d869d65dc2947804dcc5571ad89e153d1a5457ff8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20689#Siang_Lance_Mastery",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kilian%20Ranger%20Talent%20Tree&action=history",
+      "section": "Siang Lance Mastery"
+    },
+    {
+      "id": "source:wiki-korunnai-adept-talent-tree-akk-dog-master",
+      "title": "Korunnai Adept Talent Tree",
+      "revision": 19962,
+      "timestamp": "2024-08-25T22:56:11Z",
+      "sha256": "d606716b8cdfaa5bd16c85387b180faf6ea53cc130d5d3da16054756cd0fa091",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19962#Akk_Dog_Master",
+      "history": "https://swse.miraheze.org/w/index.php?title=Korunnai%20Adept%20Talent%20Tree&action=history",
+      "section": "Akk Dog Master"
+    },
+    {
+      "id": "source:wiki-korunnai-adept-talent-tree-akk-dog-trainer-s-actions",
+      "title": "Korunnai Adept Talent Tree",
+      "revision": 19962,
+      "timestamp": "2024-08-25T22:56:11Z",
+      "sha256": "d606716b8cdfaa5bd16c85387b180faf6ea53cc130d5d3da16054756cd0fa091",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19962#Akk_Dog_Trainer%27s_Actions",
+      "history": "https://swse.miraheze.org/w/index.php?title=Korunnai%20Adept%20Talent%20Tree&action=history",
+      "section": "Akk Dog Trainer's Actions"
+    },
+    {
+      "id": "source:wiki-korunnai-adept-talent-tree-akk-dog-attack-training",
+      "title": "Korunnai Adept Talent Tree",
+      "revision": 19962,
+      "timestamp": "2024-08-25T22:56:11Z",
+      "sha256": "d606716b8cdfaa5bd16c85387b180faf6ea53cc130d5d3da16054756cd0fa091",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19962#Akk_Dog_Attack_Training",
+      "history": "https://swse.miraheze.org/w/index.php?title=Korunnai%20Adept%20Talent%20Tree&action=history",
+      "section": "Akk Dog Attack Training"
+    },
+    {
+      "id": "source:wiki-korunnai-adept-talent-tree-protective-reaction",
+      "title": "Korunnai Adept Talent Tree",
+      "revision": 19962,
+      "timestamp": "2024-08-25T22:56:11Z",
+      "sha256": "d606716b8cdfaa5bd16c85387b180faf6ea53cc130d5d3da16054756cd0fa091",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19962#Protective_Reaction",
+      "history": "https://swse.miraheze.org/w/index.php?title=Korunnai%20Adept%20Talent%20Tree&action=history",
+      "section": "Protective Reaction"
+    },
+    {
+      "id": "source:wiki-krath-talent-tree-dark-side-manipulation",
+      "title": "Krath Talent Tree",
+      "revision": 19214,
+      "timestamp": "2024-08-25T21:32:14Z",
+      "sha256": "3c80f82b221b44897e5b559243f960f222666a74e2db3a7300350b528474d0d3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19214#Dark_Side_Manipulation",
+      "history": "https://swse.miraheze.org/w/index.php?title=Krath%20Talent%20Tree&action=history",
+      "section": "Dark Side Manipulation"
+    },
+    {
+      "id": "source:wiki-krath-talent-tree-krath-illusions",
+      "title": "Krath Talent Tree",
+      "revision": 19214,
+      "timestamp": "2024-08-25T21:32:14Z",
+      "sha256": "3c80f82b221b44897e5b559243f960f222666a74e2db3a7300350b528474d0d3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19214#Krath_Illusions",
+      "history": "https://swse.miraheze.org/w/index.php?title=Krath%20Talent%20Tree&action=history",
+      "section": "Krath Illusions"
+    },
+    {
+      "id": "source:wiki-krath-talent-tree-krath-intuition",
+      "title": "Krath Talent Tree",
+      "revision": 19214,
+      "timestamp": "2024-08-25T21:32:14Z",
+      "sha256": "3c80f82b221b44897e5b559243f960f222666a74e2db3a7300350b528474d0d3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19214#Krath_Intuition",
+      "history": "https://swse.miraheze.org/w/index.php?title=Krath%20Talent%20Tree&action=history",
+      "section": "Krath Intuition"
+    },
+    {
+      "id": "source:wiki-krath-talent-tree-krath-surge",
+      "title": "Krath Talent Tree",
+      "revision": 19214,
+      "timestamp": "2024-08-25T21:32:14Z",
+      "sha256": "3c80f82b221b44897e5b559243f960f222666a74e2db3a7300350b528474d0d3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19214#Krath_Surge",
+      "history": "https://swse.miraheze.org/w/index.php?title=Krath%20Talent%20Tree&action=history",
+      "section": "Krath Surge"
+    },
+    {
+      "id": "source:wiki-luka-sene-talent-tree-field-detection",
+      "title": "Luka Sene Talent Tree",
+      "revision": 19229,
+      "timestamp": "2024-08-25T21:33:47Z",
+      "sha256": "d44949cae7ad14fc2b43f758bfcf4bd4b19b3dc83344eafa7c2bb0542e187ebe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19229#Field_Detection",
+      "history": "https://swse.miraheze.org/w/index.php?title=Luka%20Sene%20Talent%20Tree&action=history",
+      "section": "Field Detection"
+    },
+    {
+      "id": "source:wiki-luka-sene-talent-tree-improved-force-sight",
+      "title": "Luka Sene Talent Tree",
+      "revision": 19229,
+      "timestamp": "2024-08-25T21:33:47Z",
+      "sha256": "d44949cae7ad14fc2b43f758bfcf4bd4b19b3dc83344eafa7c2bb0542e187ebe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19229#Improved_Force_Sight",
+      "history": "https://swse.miraheze.org/w/index.php?title=Luka%20Sene%20Talent%20Tree&action=history",
+      "section": "Improved Force Sight"
+    },
+    {
+      "id": "source:wiki-luka-sene-talent-tree-luka-sene-master",
+      "title": "Luka Sene Talent Tree",
+      "revision": 19229,
+      "timestamp": "2024-08-25T21:33:47Z",
+      "sha256": "d44949cae7ad14fc2b43f758bfcf4bd4b19b3dc83344eafa7c2bb0542e187ebe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19229#Luka_Sene_Master",
+      "history": "https://swse.miraheze.org/w/index.php?title=Luka%20Sene%20Talent%20Tree&action=history",
+      "section": "Luka Sene Master"
+    },
+    {
+      "id": "source:wiki-luka-sene-talent-tree-quickseeing",
+      "title": "Luka Sene Talent Tree",
+      "revision": 19229,
+      "timestamp": "2024-08-25T21:33:47Z",
+      "sha256": "d44949cae7ad14fc2b43f758bfcf4bd4b19b3dc83344eafa7c2bb0542e187ebe",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19229#Quickseeing",
+      "history": "https://swse.miraheze.org/w/index.php?title=Luka%20Sene%20Talent%20Tree&action=history",
+      "section": "Quickseeing"
+    },
+    {
+      "id": "source:wiki-matukai-adept-talent-tree-body-control",
+      "title": "Matukai Adept Talent Tree",
+      "revision": 20482,
+      "timestamp": "2024-08-25T23:56:11Z",
+      "sha256": "1425f8cbc47af6b4dd6ed6d889f95c71c0acbe856ab179cb1e95e52a0e04f2b7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20482#Body_Control",
+      "history": "https://swse.miraheze.org/w/index.php?title=Matukai%20Adept%20Talent%20Tree&action=history",
+      "section": "Body Control"
+    },
+    {
+      "id": "source:wiki-matukai-adept-talent-tree-physical-surge",
+      "title": "Matukai Adept Talent Tree",
+      "revision": 20482,
+      "timestamp": "2024-08-25T23:56:11Z",
+      "sha256": "1425f8cbc47af6b4dd6ed6d889f95c71c0acbe856ab179cb1e95e52a0e04f2b7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20482#Physical_Surge",
+      "history": "https://swse.miraheze.org/w/index.php?title=Matukai%20Adept%20Talent%20Tree&action=history",
+      "section": "Physical Surge"
+    },
+    {
+      "id": "source:wiki-matukai-adept-talent-tree-soft-to-solid",
+      "title": "Matukai Adept Talent Tree",
+      "revision": 20482,
+      "timestamp": "2024-08-25T23:56:11Z",
+      "sha256": "1425f8cbc47af6b4dd6ed6d889f95c71c0acbe856ab179cb1e95e52a0e04f2b7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20482#Soft_to_Solid",
+      "history": "https://swse.miraheze.org/w/index.php?title=Matukai%20Adept%20Talent%20Tree&action=history",
+      "section": "Soft to Solid"
+    },
+    {
+      "id": "source:wiki-matukai-adept-talent-tree-wan-shen-defense",
+      "title": "Matukai Adept Talent Tree",
+      "revision": 20482,
+      "timestamp": "2024-08-25T23:56:11Z",
+      "sha256": "1425f8cbc47af6b4dd6ed6d889f95c71c0acbe856ab179cb1e95e52a0e04f2b7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20482#Wan-Shen_Defense",
+      "history": "https://swse.miraheze.org/w/index.php?title=Matukai%20Adept%20Talent%20Tree&action=history",
+      "section": "Wan-Shen Defense"
+    },
+    {
+      "id": "source:wiki-matukai-adept-talent-tree-wan-shen-kata",
+      "title": "Matukai Adept Talent Tree",
+      "revision": 20482,
+      "timestamp": "2024-08-25T23:56:11Z",
+      "sha256": "1425f8cbc47af6b4dd6ed6d889f95c71c0acbe856ab179cb1e95e52a0e04f2b7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20482#Wan-Shen_Kata",
+      "history": "https://swse.miraheze.org/w/index.php?title=Matukai%20Adept%20Talent%20Tree&action=history",
+      "section": "Wan-Shen Kata"
+    },
+    {
+      "id": "source:wiki-matukai-adept-talent-tree-wan-shen-mastery",
+      "title": "Matukai Adept Talent Tree",
+      "revision": 20482,
+      "timestamp": "2024-08-25T23:56:11Z",
+      "sha256": "1425f8cbc47af6b4dd6ed6d889f95c71c0acbe856ab179cb1e95e52a0e04f2b7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20482#Wan-Shen_Mastery",
+      "history": "https://swse.miraheze.org/w/index.php?title=Matukai%20Adept%20Talent%20Tree&action=history",
+      "section": "Wan-Shen Mastery"
+    },
+    {
+      "id": "source:wiki-order-of-shasa-talent-tree-deception-awareness",
+      "title": "Order of Shasa Talent Tree",
+      "revision": 25727,
+      "timestamp": "2024-12-09T04:29:56Z",
+      "sha256": "742dd81cb0220c778b9d8f505638b637e43980c49e95f9eac0711bf68972fa7c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25727#Deception_Awareness",
+      "history": "https://swse.miraheze.org/w/index.php?title=Order%20of%20Shasa%20Talent%20Tree&action=history",
+      "section": "Deception Awareness"
+    },
+    {
+      "id": "source:wiki-order-of-shasa-talent-tree-greater-weapon-focus-fira",
+      "title": "Order of Shasa Talent Tree",
+      "revision": 25727,
+      "timestamp": "2024-12-09T04:29:56Z",
+      "sha256": "742dd81cb0220c778b9d8f505638b637e43980c49e95f9eac0711bf68972fa7c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25727#Greater_Weapon_Focus_%28Fira%29",
+      "history": "https://swse.miraheze.org/w/index.php?title=Order%20of%20Shasa%20Talent%20Tree&action=history",
+      "section": "Greater Weapon Focus (Fira)"
+    },
+    {
+      "id": "source:wiki-order-of-shasa-talent-tree-progenitor-s-call",
+      "title": "Order of Shasa Talent Tree",
+      "revision": 25727,
+      "timestamp": "2024-12-09T04:29:56Z",
+      "sha256": "742dd81cb0220c778b9d8f505638b637e43980c49e95f9eac0711bf68972fa7c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25727#Progenitor%27s_Call",
+      "history": "https://swse.miraheze.org/w/index.php?title=Order%20of%20Shasa%20Talent%20Tree&action=history",
+      "section": "Progenitor's Call"
+    },
+    {
+      "id": "source:wiki-order-of-shasa-talent-tree-waveform",
+      "title": "Order of Shasa Talent Tree",
+      "revision": 25727,
+      "timestamp": "2024-12-09T04:29:56Z",
+      "sha256": "742dd81cb0220c778b9d8f505638b637e43980c49e95f9eac0711bf68972fa7c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25727#Waveform",
+      "history": "https://swse.miraheze.org/w/index.php?title=Order%20of%20Shasa%20Talent%20Tree&action=history",
+      "section": "Waveform"
+    },
+    {
+      "id": "source:wiki-seyugi-dervish-talent-tree-seyugi-cyclone",
+      "title": "Seyugi Dervish Talent Tree",
+      "revision": 20514,
+      "timestamp": "2024-08-26T00:00:12Z",
+      "sha256": "2974e2d245e8d16896fee34a6894fd5c62967273c20748579ffeac66c702d50a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20514#Seyugi_Cyclone",
+      "history": "https://swse.miraheze.org/w/index.php?title=Seyugi%20Dervish%20Talent%20Tree&action=history",
+      "section": "Seyugi Cyclone"
+    },
+    {
+      "id": "source:wiki-seyugi-dervish-talent-tree-mobile-whirlwind",
+      "title": "Seyugi Dervish Talent Tree",
+      "revision": 20514,
+      "timestamp": "2024-08-26T00:00:12Z",
+      "sha256": "2974e2d245e8d16896fee34a6894fd5c62967273c20748579ffeac66c702d50a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20514#Mobile_Whirlwind",
+      "history": "https://swse.miraheze.org/w/index.php?title=Seyugi%20Dervish%20Talent%20Tree&action=history",
+      "section": "Mobile Whirlwind"
+    },
+    {
+      "id": "source:wiki-seyugi-dervish-talent-tree-repelling-whirlwind",
+      "title": "Seyugi Dervish Talent Tree",
+      "revision": 20514,
+      "timestamp": "2024-08-26T00:00:12Z",
+      "sha256": "2974e2d245e8d16896fee34a6894fd5c62967273c20748579ffeac66c702d50a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20514#Repelling_Whirlwind",
+      "history": "https://swse.miraheze.org/w/index.php?title=Seyugi%20Dervish%20Talent%20Tree&action=history",
+      "section": "Repelling Whirlwind"
+    },
+    {
+      "id": "source:wiki-seyugi-dervish-talent-tree-sudden-storm",
+      "title": "Seyugi Dervish Talent Tree",
+      "revision": 20514,
+      "timestamp": "2024-08-26T00:00:12Z",
+      "sha256": "2974e2d245e8d16896fee34a6894fd5c62967273c20748579ffeac66c702d50a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20514#Sudden_Storm",
+      "history": "https://swse.miraheze.org/w/index.php?title=Seyugi%20Dervish%20Talent%20Tree&action=history",
+      "section": "Sudden Storm"
+    },
+    {
+      "id": "source:wiki-seyugi-dervish-talent-tree-tempest-tossed",
+      "title": "Seyugi Dervish Talent Tree",
+      "revision": 20514,
+      "timestamp": "2024-08-26T00:00:12Z",
+      "sha256": "2974e2d245e8d16896fee34a6894fd5c62967273c20748579ffeac66c702d50a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20514#Tempest_Tossed",
+      "history": "https://swse.miraheze.org/w/index.php?title=Seyugi%20Dervish%20Talent%20Tree&action=history",
+      "section": "Tempest Tossed"
+    },
+    {
+      "id": "source:wiki-shaper-of-kro-var-talent-tree-combustive-force",
+      "title": "Shaper of Kro Var Talent Tree",
+      "revision": 25736,
+      "timestamp": "2024-12-14T00:04:00Z",
+      "sha256": "6ac9c437a81ca3f446fbfa0031e13b63ba07843aa94624688e931b4a91ccfdfd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25736#Combustive_Force",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shaper%20of%20Kro%20Var%20Talent%20Tree&action=history",
+      "section": "Combustive Force"
+    },
+    {
+      "id": "source:wiki-shaper-of-kro-var-talent-tree-earth-buckle",
+      "title": "Shaper of Kro Var Talent Tree",
+      "revision": 25736,
+      "timestamp": "2024-12-14T00:04:00Z",
+      "sha256": "6ac9c437a81ca3f446fbfa0031e13b63ba07843aa94624688e931b4a91ccfdfd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25736#Earth_Buckle",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shaper%20of%20Kro%20Var%20Talent%20Tree&action=history",
+      "section": "Earth Buckle"
+    },
+    {
+      "id": "source:wiki-shaper-of-kro-var-talent-tree-fluidity",
+      "title": "Shaper of Kro Var Talent Tree",
+      "revision": 25736,
+      "timestamp": "2024-12-14T00:04:00Z",
+      "sha256": "6ac9c437a81ca3f446fbfa0031e13b63ba07843aa94624688e931b4a91ccfdfd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25736#Fluidity",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shaper%20of%20Kro%20Var%20Talent%20Tree&action=history",
+      "section": "Fluidity"
+    },
+    {
+      "id": "source:wiki-shaper-of-kro-var-talent-tree-thunderclap",
+      "title": "Shaper of Kro Var Talent Tree",
+      "revision": 25736,
+      "timestamp": "2024-12-14T00:04:00Z",
+      "sha256": "6ac9c437a81ca3f446fbfa0031e13b63ba07843aa94624688e931b4a91ccfdfd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25736#Thunderclap",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shaper%20of%20Kro%20Var%20Talent%20Tree&action=history",
+      "section": "Thunderclap"
+    },
+    {
+      "id": "source:wiki-shaper-of-kro-var-talent-tree-wind-vortex",
+      "title": "Shaper of Kro Var Talent Tree",
+      "revision": 25736,
+      "timestamp": "2024-12-14T00:04:00Z",
+      "sha256": "6ac9c437a81ca3f446fbfa0031e13b63ba07843aa94624688e931b4a91ccfdfd",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25736#Wind_Vortex",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shaper%20of%20Kro%20Var%20Talent%20Tree&action=history",
+      "section": "Wind Vortex"
+    },
+    {
+      "id": "source:wiki-tyia-adept-talent-tree-cycle-of-harmony",
+      "title": "Tyia Adept Talent Tree",
+      "revision": 20561,
+      "timestamp": "2024-08-26T00:05:27Z",
+      "sha256": "4bc2d584240710c6b199e3587a210204d2ee8a0728c697c16e07498179be8968",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20561#Cycle_of_Harmony",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tyia%20Adept%20Talent%20Tree&action=history",
+      "section": "Cycle of Harmony"
+    },
+    {
+      "id": "source:wiki-tyia-adept-talent-tree-force-stabilize",
+      "title": "Tyia Adept Talent Tree",
+      "revision": 20561,
+      "timestamp": "2024-08-26T00:05:27Z",
+      "sha256": "4bc2d584240710c6b199e3587a210204d2ee8a0728c697c16e07498179be8968",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20561#Force_Stabilize",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tyia%20Adept%20Talent%20Tree&action=history",
+      "section": "Force Stabilize"
+    },
+    {
+      "id": "source:wiki-tyia-adept-talent-tree-repel-discord",
+      "title": "Tyia Adept Talent Tree",
+      "revision": 20561,
+      "timestamp": "2024-08-26T00:05:27Z",
+      "sha256": "4bc2d584240710c6b199e3587a210204d2ee8a0728c697c16e07498179be8968",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20561#Repel_Discord",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tyia%20Adept%20Talent%20Tree&action=history",
+      "section": "Repel Discord"
+    },
+    {
+      "id": "source:wiki-tyia-adept-talent-tree-stifle-conflict",
+      "title": "Tyia Adept Talent Tree",
+      "revision": 20561,
+      "timestamp": "2024-08-26T00:05:27Z",
+      "sha256": "4bc2d584240710c6b199e3587a210204d2ee8a0728c697c16e07498179be8968",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20561#Stifle_Conflict",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tyia%20Adept%20Talent%20Tree&action=history",
+      "section": "Stifle Conflict"
+    },
+    {
+      "id": "source:wiki-tyia-adept-talent-tree-tyia-adept",
+      "title": "Tyia Adept Talent Tree",
+      "revision": 20561,
+      "timestamp": "2024-08-26T00:05:27Z",
+      "sha256": "4bc2d584240710c6b199e3587a210204d2ee8a0728c697c16e07498179be8968",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20561#Tyia_Adept",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tyia%20Adept%20Talent%20Tree&action=history",
+      "section": "Tyia Adept"
+    },
+    {
+      "id": "source:wiki-warden-of-the-sky-talent-tree-brutal-unarmed-strike",
+      "title": "Warden of the Sky Talent Tree",
+      "revision": 20578,
+      "timestamp": "2024-08-26T00:07:07Z",
+      "sha256": "cf568911fc34f37eeac0eba76a2909aeb49f8f4ef3aff61909fc52d733769f22",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20578#Brutal_Unarmed_Strike",
+      "history": "https://swse.miraheze.org/w/index.php?title=Warden%20of%20the%20Sky%20Talent%20Tree&action=history",
+      "section": "Brutal Unarmed Strike"
+    },
+    {
+      "id": "source:wiki-warden-of-the-sky-talent-tree-martial-resurgence",
+      "title": "Warden of the Sky Talent Tree",
+      "revision": 20578,
+      "timestamp": "2024-08-26T00:07:07Z",
+      "sha256": "cf568911fc34f37eeac0eba76a2909aeb49f8f4ef3aff61909fc52d733769f22",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20578#Martial_Resurgence",
+      "history": "https://swse.miraheze.org/w/index.php?title=Warden%20of%20the%20Sky%20Talent%20Tree&action=history",
+      "section": "Martial Resurgence"
+    },
+    {
+      "id": "source:wiki-warden-of-the-sky-talent-tree-rebound-leap",
+      "title": "Warden of the Sky Talent Tree",
+      "revision": 20578,
+      "timestamp": "2024-08-26T00:07:07Z",
+      "sha256": "cf568911fc34f37eeac0eba76a2909aeb49f8f4ef3aff61909fc52d733769f22",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20578#Rebound_Leap",
+      "history": "https://swse.miraheze.org/w/index.php?title=Warden%20of%20the%20Sky%20Talent%20Tree&action=history",
+      "section": "Rebound Leap"
+    },
+    {
+      "id": "source:wiki-warden-of-the-sky-talent-tree-simultaneous-strike",
+      "title": "Warden of the Sky Talent Tree",
+      "revision": 20578,
+      "timestamp": "2024-08-26T00:07:07Z",
+      "sha256": "cf568911fc34f37eeac0eba76a2909aeb49f8f4ef3aff61909fc52d733769f22",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20578#Simultaneous_Strike",
+      "history": "https://swse.miraheze.org/w/index.php?title=Warden%20of%20the%20Sky%20Talent%20Tree&action=history",
+      "section": "Simultaneous Strike"
+    },
+    {
+      "id": "source:wiki-warden-of-the-sky-talent-tree-telekinetic-strike",
+      "title": "Warden of the Sky Talent Tree",
+      "revision": 20578,
+      "timestamp": "2024-08-26T00:07:07Z",
+      "sha256": "cf568911fc34f37eeac0eba76a2909aeb49f8f4ef3aff61909fc52d733769f22",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20578#Telekinetic_Strike",
+      "history": "https://swse.miraheze.org/w/index.php?title=Warden%20of%20the%20Sky%20Talent%20Tree&action=history",
+      "section": "Telekinetic Strike"
+    },
+    {
+      "id": "source:wiki-warden-of-the-sky-talent-tree-telekinetic-throw",
+      "title": "Warden of the Sky Talent Tree",
+      "revision": 20578,
+      "timestamp": "2024-08-26T00:07:07Z",
+      "sha256": "cf568911fc34f37eeac0eba76a2909aeb49f8f4ef3aff61909fc52d733769f22",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20578#Telekinetic_Throw",
+      "history": "https://swse.miraheze.org/w/index.php?title=Warden%20of%20the%20Sky%20Talent%20Tree&action=history",
+      "section": "Telekinetic Throw"
+    },
+    {
+      "id": "source:wiki-white-current-adept-talent-tree-force-immersion",
+      "title": "White Current Adept Talent Tree",
+      "revision": 20580,
+      "timestamp": "2024-08-26T00:07:23Z",
+      "sha256": "d3247dfd1dc22a47ebf2e381eae832fc290d836fa275f1e4b7185a91634f8e93",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20580#Force_Immersion",
+      "history": "https://swse.miraheze.org/w/index.php?title=White%20Current%20Adept%20Talent%20Tree&action=history",
+      "section": "Force Immersion"
+    },
+    {
+      "id": "source:wiki-white-current-adept-talent-tree-immerse-another",
+      "title": "White Current Adept Talent Tree",
+      "revision": 20580,
+      "timestamp": "2024-08-26T00:07:23Z",
+      "sha256": "d3247dfd1dc22a47ebf2e381eae832fc290d836fa275f1e4b7185a91634f8e93",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20580#Immerse_Another",
+      "history": "https://swse.miraheze.org/w/index.php?title=White%20Current%20Adept%20Talent%20Tree&action=history",
+      "section": "Immerse Another"
+    },
+    {
+      "id": "source:wiki-white-current-adept-talent-tree-ride-the-current",
+      "title": "White Current Adept Talent Tree",
+      "revision": 20580,
+      "timestamp": "2024-08-26T00:07:23Z",
+      "sha256": "d3247dfd1dc22a47ebf2e381eae832fc290d836fa275f1e4b7185a91634f8e93",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20580#Ride_the_Current",
+      "history": "https://swse.miraheze.org/w/index.php?title=White%20Current%20Adept%20Talent%20Tree&action=history",
+      "section": "Ride the Current"
+    },
+    {
+      "id": "source:wiki-white-current-adept-talent-tree-surrender-to-the-current",
+      "title": "White Current Adept Talent Tree",
+      "revision": 20580,
+      "timestamp": "2024-08-26T00:07:23Z",
+      "sha256": "d3247dfd1dc22a47ebf2e381eae832fc290d836fa275f1e4b7185a91634f8e93",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20580#Surrender_to_the_Current",
+      "history": "https://swse.miraheze.org/w/index.php?title=White%20Current%20Adept%20Talent%20Tree&action=history",
+      "section": "Surrender to the Current"
+    },
+    {
+      "id": "source:wiki-white-current-adept-talent-tree-white-current-adept",
+      "title": "White Current Adept Talent Tree",
+      "revision": 20580,
+      "timestamp": "2024-08-26T00:07:23Z",
+      "sha256": "d3247dfd1dc22a47ebf2e381eae832fc290d836fa275f1e4b7185a91634f8e93",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20580#White_Current_Adept",
+      "history": "https://swse.miraheze.org/w/index.php?title=White%20Current%20Adept%20Talent%20Tree&action=history",
+      "section": "White Current Adept"
+    },
+    {
+      "id": "source:wiki-zeison-sha-warrior-talent-tree-discblade-arc",
+      "title": "Zeison Sha Warrior Talent Tree",
+      "revision": 25652,
+      "timestamp": "2024-12-04T23:45:24Z",
+      "sha256": "7d504c61ee40a7d48e9786946c557f3a74a477c7d352217a70f56006ec779586",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25652#Discblade_Arc",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zeison%20Sha%20Warrior%20Talent%20Tree&action=history",
+      "section": "Discblade Arc"
+    },
+    {
+      "id": "source:wiki-zeison-sha-warrior-talent-tree-distant-discblade-throw",
+      "title": "Zeison Sha Warrior Talent Tree",
+      "revision": 25652,
+      "timestamp": "2024-12-04T23:45:24Z",
+      "sha256": "7d504c61ee40a7d48e9786946c557f3a74a477c7d352217a70f56006ec779586",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25652#Distant_Discblade_Throw",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zeison%20Sha%20Warrior%20Talent%20Tree&action=history",
+      "section": "Distant Discblade Throw"
+    },
+    {
+      "id": "source:wiki-zeison-sha-warrior-talent-tree-recall-discblade",
+      "title": "Zeison Sha Warrior Talent Tree",
+      "revision": 25652,
+      "timestamp": "2024-12-04T23:45:24Z",
+      "sha256": "7d504c61ee40a7d48e9786946c557f3a74a477c7d352217a70f56006ec779586",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25652#Recall_Discblade",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zeison%20Sha%20Warrior%20Talent%20Tree&action=history",
+      "section": "Recall Discblade"
+    },
+    {
+      "id": "source:wiki-zeison-sha-warrior-talent-tree-telekinetic-vigilance",
+      "title": "Zeison Sha Warrior Talent Tree",
+      "revision": 25652,
+      "timestamp": "2024-12-04T23:45:24Z",
+      "sha256": "7d504c61ee40a7d48e9786946c557f3a74a477c7d352217a70f56006ec779586",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25652#Telekinetic_Vigilance",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zeison%20Sha%20Warrior%20Talent%20Tree&action=history",
+      "section": "Telekinetic Vigilance"
+    },
+    {
+      "id": "source:wiki-zeison-sha-warrior-talent-tree-weapon-specialization-discblade",
+      "title": "Zeison Sha Warrior Talent Tree",
+      "revision": 25652,
+      "timestamp": "2024-12-04T23:45:24Z",
+      "sha256": "7d504c61ee40a7d48e9786946c557f3a74a477c7d352217a70f56006ec779586",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25652#Weapon_Specialization_%28Discblade%29",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zeison%20Sha%20Warrior%20Talent%20Tree&action=history",
+      "section": "Weapon Specialization (Discblade)"
     }
   ],
   "species": [
@@ -56869,6 +58583,3172 @@
       "effects": [],
       "reminder": "",
       "automation": "manual"
+    },
+    {
+      "id": "talent:buried-presence",
+      "name": "Buried Presence",
+      "sourceId": "source:wiki-agent-of-ossus-talent-tree-buried-presence",
+      "tree": "tree:agent-of-ossus",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:agent-of-ossus"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:conceal-other",
+      "name": "Conceal Other",
+      "sourceId": "source:wiki-agent-of-ossus-talent-tree-conceal-other",
+      "tree": "tree:agent-of-ossus",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:agent-of-ossus"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:buried-presence"
+          }
+        ]
+      },
+      "repeat": "stack",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:insightful-aim",
+      "name": "Insightful Aim",
+      "sourceId": "source:wiki-agent-of-ossus-talent-tree-insightful-aim",
+      "tree": "tree:agent-of-ossus",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:agent-of-ossus"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "any",
+            "requirements": [
+              {
+                "kind": "feat",
+                "value": "feat:weapon-proficiency-pistols"
+              },
+              {
+                "kind": "feat",
+                "value": "feat:weapon-proficiency-rifles"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:vanish",
+      "name": "Vanish",
+      "sourceId": "source:wiki-agent-of-ossus-talent-tree-vanish",
+      "tree": "tree:agent-of-ossus",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:agent-of-ossus"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:aura-of-freedom",
+      "name": "Aura of Freedom",
+      "sourceId": "source:wiki-aing-tii-monk-talent-tree-aura-of-freedom",
+      "tree": "tree:aing-tii-monk",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:aing-tii-monk"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:folded-space-mastery",
+      "name": "Folded Space Mastery",
+      "sourceId": "source:wiki-aing-tii-monk-talent-tree-folded-space-mastery",
+      "tree": "tree:aing-tii-monk",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:aing-tii-monk"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "power",
+            "value": "power:fold-space"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:liberate",
+      "name": "Liberate",
+      "sourceId": "source:wiki-aing-tii-monk-talent-tree-liberate",
+      "tree": "tree:aing-tii-monk",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:aing-tii-monk"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:aura-of-freedom"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:many-shades-of-the-force",
+      "name": "Many Shades of the Force",
+      "sourceId": "source:wiki-aing-tii-monk-talent-tree-many-shades-of-the-force",
+      "tree": "tree:aing-tii-monk",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:aing-tii-monk"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-training"
+          },
+          {
+            "kind": "power",
+            "value": "$choice"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [
+        {
+          "target": "powerDescriptorRemoval",
+          "descriptors": [
+            "dark-side",
+            "light-side"
+          ]
+        }
+      ],
+      "reminder": "",
+      "automation": "partial",
+      "choiceType": "power",
+      "choiceLabel": "Force power",
+      "choicePowerDescriptors": [
+        "dark-side",
+        "light-side"
+      ]
+    },
+    {
+      "id": "talent:spatial-integrity",
+      "name": "Spatial Integrity",
+      "sourceId": "source:wiki-aing-tii-monk-talent-tree-spatial-integrity",
+      "tree": "tree:aing-tii-monk",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:aing-tii-monk"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:bando-gora-surge",
+      "name": "Bando Gora Surge",
+      "sourceId": "source:wiki-bando-gora-captain-talent-tree-bando-gora-surge",
+      "tree": "tree:bando-gora-captain",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:bando-gora-captain"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:force-fighter",
+      "name": "Force Fighter",
+      "sourceId": "source:wiki-bando-gora-captain-talent-tree-force-fighter",
+      "tree": "tree:bando-gora-captain",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:bando-gora-captain"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:resist-enervation",
+      "name": "Resist Enervation",
+      "sourceId": "source:wiki-bando-gora-captain-talent-tree-resist-enervation",
+      "tree": "tree:bando-gora-captain",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:bando-gora-captain"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:victorious-force-mastery",
+      "name": "Victorious Force Mastery",
+      "sourceId": "source:wiki-bando-gora-captain-talent-tree-victorious-force-mastery",
+      "tree": "tree:bando-gora-captain",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:bando-gora-captain"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-training"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:enhanced-danger-sense",
+      "name": "Enhanced Danger Sense",
+      "sourceId": "source:wiki-baran-do-sage-talent-tree-enhanced-danger-sense",
+      "tree": "tree:baran-do-sage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:baran-do-sage"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:expanded-horizon",
+      "name": "Expanded Horizon",
+      "sourceId": "source:wiki-baran-do-sage-talent-tree-expanded-horizon",
+      "tree": "tree:baran-do-sage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:baran-do-sage"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:knowledge-and-defense",
+      "name": "Knowledge and Defense",
+      "sourceId": "source:wiki-baran-do-sage-talent-tree-knowledge-and-defense",
+      "tree": "tree:baran-do-sage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:baran-do-sage"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:enhanced-danger-sense"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:planetary-attunement",
+      "name": "Planetary Attunement",
+      "sourceId": "source:wiki-baran-do-sage-talent-tree-planetary-attunement",
+      "tree": "tree:baran-do-sage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:baran-do-sage"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:precognitive-meditation",
+      "name": "Precognitive Meditation",
+      "sourceId": "source:wiki-baran-do-sage-talent-tree-precognitive-meditation",
+      "tree": "tree:baran-do-sage",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:baran-do-sage"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:believer-intuition",
+      "name": "Believer Intuition",
+      "sourceId": "source:wiki-believer-disciple-talent-tree-believer-intuition",
+      "tree": "tree:believer-disciple",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:believer-disciple"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:defense-boost",
+      "name": "Defense Boost",
+      "sourceId": "source:wiki-believer-disciple-talent-tree-defense-boost",
+      "tree": "tree:believer-disciple",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:believer-disciple"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:hardiness",
+      "name": "Hardiness",
+      "sourceId": "source:wiki-believer-disciple-talent-tree-hardiness",
+      "tree": "tree:believer-disciple",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:believer-disciple"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:high-impact",
+      "name": "High Impact",
+      "sourceId": "source:wiki-believer-disciple-talent-tree-high-impact",
+      "tree": "tree:believer-disciple",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:believer-disciple"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:sith-reverence",
+      "name": "Sith Reverence",
+      "sourceId": "source:wiki-believer-disciple-talent-tree-sith-reverence",
+      "tree": "tree:believer-disciple",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:believer-disciple"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:force-directed-shot",
+      "name": "Force Directed Shot",
+      "sourceId": "source:wiki-blazing-chain-talent-tree-force-directed-shot",
+      "tree": "tree:blazing-chain",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:blazing-chain"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "trained",
+            "value": "skill:use-the-force"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:negate-and-redirect",
+      "name": "Negate and Redirect",
+      "sourceId": "source:wiki-blazing-chain-talent-tree-negate-and-redirect",
+      "tree": "tree:blazing-chain",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:blazing-chain"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "power",
+            "value": "power:negate-energy"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:rising-anger",
+      "name": "Rising Anger",
+      "sourceId": "source:wiki-blazing-chain-talent-tree-rising-anger",
+      "tree": "tree:blazing-chain",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:blazing-chain"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "feat",
+                "value": "feat:force-sensitivity"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual",
+      "manualPrerequisites": [
+        "Prerequisites: Dark Side Score of 1+, Force Sensitivity"
+      ]
+    },
+    {
+      "id": "talent:rising-panic",
+      "name": "Rising Panic",
+      "sourceId": "source:wiki-blazing-chain-talent-tree-rising-panic",
+      "tree": "tree:blazing-chain",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:blazing-chain"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "feat",
+                "value": "feat:force-sensitivity"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual",
+      "manualPrerequisites": [
+        "Prerequisites: Dark Side Score of 1+, Force Sensitivity"
+      ]
+    },
+    {
+      "id": "talent:adept-spellcaster",
+      "name": "Adept Spellcaster",
+      "sourceId": "source:wiki-dathomiri-witch-talent-tree-adept-spellcaster",
+      "tree": "tree:dathomiri-witch",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:dathomiri-witch"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:dathomiri-charm-beast",
+      "name": "Dathomiri Charm Beast",
+      "sourceId": "source:wiki-dathomiri-witch-talent-tree-dathomiri-charm-beast",
+      "tree": "tree:dathomiri-witch",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:dathomiri-witch"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:dathomiri-command-beast",
+      "name": "Dathomiri Command Beast",
+      "sourceId": "source:wiki-dathomiri-witch-talent-tree-dathomiri-command-beast",
+      "tree": "tree:dathomiri-witch",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:dathomiri-witch"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:dathomiri-charm-beast"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:flight",
+      "name": "Flight",
+      "sourceId": "source:wiki-dathomiri-witch-talent-tree-flight",
+      "tree": "tree:dathomiri-witch",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:dathomiri-witch"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:adept-spellcaster"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:cloak-of-shadows",
+      "name": "Cloak of Shadows",
+      "sourceId": "source:wiki-disciple-of-twilight-talent-tree-cloak-of-shadows",
+      "tree": "tree:disciple-of-twilight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:disciple-of-twilight"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:phantasm",
+      "name": "Phantasm",
+      "sourceId": "source:wiki-disciple-of-twilight-talent-tree-phantasm",
+      "tree": "tree:disciple-of-twilight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:disciple-of-twilight"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:revelation",
+      "name": "Revelation",
+      "sourceId": "source:wiki-disciple-of-twilight-talent-tree-revelation",
+      "tree": "tree:disciple-of-twilight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:disciple-of-twilight"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:shadow-armor",
+      "name": "Shadow Armor",
+      "sourceId": "source:wiki-disciple-of-twilight-talent-tree-shadow-armor",
+      "tree": "tree:disciple-of-twilight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:disciple-of-twilight"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:cloak-of-shadows"
+          }
+        ]
+      },
+      "repeat": "stack",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual",
+      "maxSelections": 4
+    },
+    {
+      "id": "talent:shadow-vision",
+      "name": "Shadow Vision",
+      "sourceId": "source:wiki-disciple-of-twilight-talent-tree-shadow-vision",
+      "tree": "tree:disciple-of-twilight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:disciple-of-twilight"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:initiate-of-vahl",
+      "name": "Initiate of Vahl",
+      "sourceId": "source:wiki-ember-of-vahl-talent-tree-initiate-of-vahl",
+      "tree": "tree:ember-of-vahl",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:ember-of-vahl"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:reading-the-flame",
+      "name": "Reading the Flame",
+      "sourceId": "source:wiki-ember-of-vahl-talent-tree-reading-the-flame",
+      "tree": "tree:ember-of-vahl",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:ember-of-vahl"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:initiate-of-vahl"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:sword-of-vahl",
+      "name": "Sword of Vahl",
+      "sourceId": "source:wiki-ember-of-vahl-talent-tree-sword-of-vahl",
+      "tree": "tree:ember-of-vahl",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:ember-of-vahl"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:initiate-of-vahl"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:vahl-s-brand",
+      "name": "Vahl's Brand",
+      "sourceId": "source:wiki-ember-of-vahl-talent-tree-vahl-s-brand",
+      "tree": "tree:ember-of-vahl",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:ember-of-vahl"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:empower-weapon"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:vahl-s-flame",
+      "name": "Vahl's Flame",
+      "sourceId": "source:wiki-ember-of-vahl-talent-tree-vahl-s-flame",
+      "tree": "tree:ember-of-vahl",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:ember-of-vahl"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:felucian-charm-beast",
+      "name": "Felucian Charm Beast",
+      "sourceId": "source:wiki-felucian-shaman-talent-tree-felucian-charm-beast",
+      "tree": "tree:felucian-shaman",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:felucian-shaman"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:felucian-command-beast",
+      "name": "Felucian Command Beast",
+      "sourceId": "source:wiki-felucian-shaman-talent-tree-felucian-command-beast",
+      "tree": "tree:felucian-shaman",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:felucian-shaman"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:felucian-charm-beast"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:detonating-blast",
+      "name": "Detonating Blast",
+      "sourceId": "source:wiki-felucian-shaman-talent-tree-detonating-blast",
+      "tree": "tree:felucian-shaman",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:felucian-shaman"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "power",
+            "value": "power:force-blast"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:hive-mind",
+      "name": "Hive Mind",
+      "sourceId": "source:wiki-felucian-shaman-talent-tree-hive-mind",
+      "tree": "tree:felucian-shaman",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:felucian-shaman"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:infuse-weapon",
+      "name": "Infuse Weapon",
+      "sourceId": "source:wiki-felucian-shaman-talent-tree-infuse-weapon",
+      "tree": "tree:felucian-shaman",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:felucian-shaman"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:sickening-blast",
+      "name": "Sickening Blast",
+      "sourceId": "source:wiki-felucian-shaman-talent-tree-sickening-blast",
+      "tree": "tree:felucian-shaman",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:felucian-shaman"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "power",
+            "value": "power:force-blast"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:droid-duelist",
+      "name": "Droid Duelist",
+      "sourceId": "source:wiki-iron-knight-talent-tree-droid-duelist",
+      "tree": "tree:iron-knight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:iron-knight"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:force-repair",
+      "name": "Force Repair",
+      "sourceId": "source:wiki-iron-knight-talent-tree-force-repair",
+      "tree": "tree:iron-knight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:iron-knight"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:heal-droid",
+      "name": "Heal Droid",
+      "sourceId": "source:wiki-iron-knight-talent-tree-heal-droid",
+      "tree": "tree:iron-knight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:iron-knight"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "power",
+            "value": "power:vital-transfer"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:mask-presence",
+      "name": "Mask Presence",
+      "sourceId": "source:wiki-iron-knight-talent-tree-mask-presence",
+      "tree": "tree:iron-knight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:iron-knight"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:silicon-mind",
+      "name": "Silicon Mind",
+      "sourceId": "source:wiki-iron-knight-talent-tree-silicon-mind",
+      "tree": "tree:iron-knight",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:iron-knight"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:action-exchange",
+      "name": "Action Exchange",
+      "sourceId": "source:wiki-jal-shey-talent-tree-action-exchange",
+      "tree": "tree:jal-shey",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:jal-shey"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:force-delay"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:force-delay",
+      "name": "Force Delay",
+      "sourceId": "source:wiki-jal-shey-talent-tree-force-delay",
+      "tree": "tree:jal-shey",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:jal-shey"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "trained",
+            "value": "skill:persuasion"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:imbue-item",
+      "name": "Imbue Item",
+      "sourceId": "source:wiki-jal-shey-talent-tree-imbue-item",
+      "tree": "tree:jal-shey",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:jal-shey"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:knowledge-of-the-force",
+      "name": "Knowledge of the Force",
+      "sourceId": "source:wiki-jal-shey-talent-tree-knowledge-of-the-force",
+      "tree": "tree:jal-shey",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:jal-shey"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:attune-armor",
+      "name": "Attune Armor",
+      "sourceId": "source:wiki-jensaarai-defender-talent-tree-attune-armor",
+      "tree": "tree:jensaarai-defender",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:jensaarai-defender"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:force-cloak",
+      "name": "Force Cloak",
+      "sourceId": "source:wiki-jensaarai-defender-talent-tree-force-cloak",
+      "tree": "tree:jensaarai-defender",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:jensaarai-defender"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:force-cloak-mastery",
+      "name": "Force Cloak Mastery",
+      "sourceId": "source:wiki-jensaarai-defender-talent-tree-force-cloak-mastery",
+      "tree": "tree:jensaarai-defender",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:jensaarai-defender"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:force-cloak"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:linked-defense",
+      "name": "Linked Defense",
+      "sourceId": "source:wiki-jensaarai-defender-talent-tree-linked-defense",
+      "tree": "tree:jensaarai-defender",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:jensaarai-defender"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:conceal-force-use",
+      "name": "Conceal Force Use",
+      "sourceId": "source:wiki-keetael-talent-tree-conceal-force-use",
+      "tree": "tree:keetael",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:keetael"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:force-direction",
+      "name": "Force Direction",
+      "sourceId": "source:wiki-keetael-talent-tree-force-direction",
+      "tree": "tree:keetael",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:keetael"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:force-momentum",
+      "name": "Force Momentum",
+      "sourceId": "source:wiki-keetael-talent-tree-force-momentum",
+      "tree": "tree:keetael",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:keetael"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:past-visions",
+      "name": "Past Visions",
+      "sourceId": "source:wiki-keetael-talent-tree-past-visions",
+      "tree": "tree:keetael",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:keetael"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:visions"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:empower-siang-lance",
+      "name": "Empower Siang Lance",
+      "sourceId": "source:wiki-kilian-ranger-talent-tree-empower-siang-lance",
+      "tree": "tree:kilian-ranger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:kilian-ranger"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "bab",
+                "min": 7
+              },
+              {
+                "kind": "talent",
+                "value": "talent:siang-lance-mastery"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:shield-gauntlet-defense",
+      "name": "Shield Gauntlet Defense",
+      "sourceId": "source:wiki-kilian-ranger-talent-tree-shield-gauntlet-defense",
+      "tree": "tree:kilian-ranger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:kilian-ranger"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:shield-gauntlet-deflect",
+      "name": "Shield Gauntlet Deflect",
+      "sourceId": "source:wiki-kilian-ranger-talent-tree-shield-gauntlet-deflect",
+      "tree": "tree:kilian-ranger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:kilian-ranger"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:shield-gauntlet-defense"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:shield-gauntlet-redirect",
+      "name": "Shield Gauntlet Redirect",
+      "sourceId": "source:wiki-kilian-ranger-talent-tree-shield-gauntlet-redirect",
+      "tree": "tree:kilian-ranger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:kilian-ranger"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "bab",
+                "min": 5
+              },
+              {
+                "kind": "talent",
+                "value": "talent:shield-gauntlet-defense"
+              },
+              {
+                "kind": "talent",
+                "value": "talent:shield-gauntlet-deflect"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:siang-lance-mastery",
+      "name": "Siang Lance Mastery",
+      "sourceId": "source:wiki-kilian-ranger-talent-tree-siang-lance-mastery",
+      "tree": "tree:kilian-ranger",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:kilian-ranger"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:akk-dog-master",
+      "name": "Akk Dog Master",
+      "sourceId": "source:wiki-korunnai-adept-talent-tree-akk-dog-master",
+      "tree": "tree:korunnai-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:korunnai-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:akk-dog-trainer-s-actions",
+      "name": "Akk Dog Trainer's Actions",
+      "sourceId": "source:wiki-korunnai-adept-talent-tree-akk-dog-trainer-s-actions",
+      "tree": "tree:korunnai-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:korunnai-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:akk-dog-master"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:akk-dog-attack-training",
+      "name": "Akk Dog Attack Training",
+      "sourceId": "source:wiki-korunnai-adept-talent-tree-akk-dog-attack-training",
+      "tree": "tree:korunnai-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:korunnai-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:akk-dog-master"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:protective-reaction",
+      "name": "Protective Reaction",
+      "sourceId": "source:wiki-korunnai-adept-talent-tree-protective-reaction",
+      "tree": "tree:korunnai-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:korunnai-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:akk-dog-master"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:dark-side-manipulation",
+      "name": "Dark Side Manipulation",
+      "sourceId": "source:wiki-krath-talent-tree-dark-side-manipulation",
+      "tree": "tree:krath",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:krath"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:krath-illusions",
+      "name": "Krath Illusions",
+      "sourceId": "source:wiki-krath-talent-tree-krath-illusions",
+      "tree": "tree:krath",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:krath"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:illusion"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:krath-intuition",
+      "name": "Krath Intuition",
+      "sourceId": "source:wiki-krath-talent-tree-krath-intuition",
+      "tree": "tree:krath",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:krath"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:krath-surge",
+      "name": "Krath Surge",
+      "sourceId": "source:wiki-krath-talent-tree-krath-surge",
+      "tree": "tree:krath",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:krath"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:field-detection",
+      "name": "Field Detection",
+      "sourceId": "source:wiki-luka-sene-talent-tree-field-detection",
+      "tree": "tree:luka-sene",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:luka-sene"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "trained",
+            "value": "skill:use-the-force"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:improved-force-sight",
+      "name": "Improved Force Sight",
+      "sourceId": "source:wiki-luka-sene-talent-tree-improved-force-sight",
+      "tree": "tree:luka-sene",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:luka-sene"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "trained",
+                "value": "skill:use-the-force"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual",
+      "manualPrerequisites": [
+        "Prerequisites: Miraluka, Trained in Use the Force"
+      ]
+    },
+    {
+      "id": "talent:luka-sene-master",
+      "name": "Luka Sene Master",
+      "sourceId": "source:wiki-luka-sene-talent-tree-luka-sene-master",
+      "tree": "tree:luka-sene",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:luka-sene"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "talent",
+                "value": "talent:field-detection"
+              },
+              {
+                "kind": "power",
+                "value": "power:farseeing"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:quickseeing",
+      "name": "Quickseeing",
+      "sourceId": "source:wiki-luka-sene-talent-tree-quickseeing",
+      "tree": "tree:luka-sene",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:luka-sene"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "trained",
+                "value": "skill:use-the-force"
+              },
+              {
+                "kind": "power",
+                "value": "power:farseeing"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:body-control",
+      "name": "Body Control",
+      "sourceId": "source:wiki-matukai-adept-talent-tree-body-control",
+      "tree": "tree:matukai-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:matukai-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:physical-surge",
+      "name": "Physical Surge",
+      "sourceId": "source:wiki-matukai-adept-talent-tree-physical-surge",
+      "tree": "tree:matukai-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:matukai-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:soft-to-solid",
+      "name": "Soft to Solid",
+      "sourceId": "source:wiki-matukai-adept-talent-tree-soft-to-solid",
+      "tree": "tree:matukai-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:matukai-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:wan-shen-defense",
+      "name": "Wan-Shen Defense",
+      "sourceId": "source:wiki-matukai-adept-talent-tree-wan-shen-defense",
+      "tree": "tree:matukai-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:matukai-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:weapon-proficiency-simple-weapons"
+          }
+        ]
+      },
+      "repeat": "stack",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual",
+      "maxSelections": 3
+    },
+    {
+      "id": "talent:wan-shen-kata",
+      "name": "Wan-Shen Kata",
+      "sourceId": "source:wiki-matukai-adept-talent-tree-wan-shen-kata",
+      "tree": "tree:matukai-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:matukai-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:weapon-proficiency-simple-weapons"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:wan-shen-mastery",
+      "name": "Wan-Shen Mastery",
+      "sourceId": "source:wiki-matukai-adept-talent-tree-wan-shen-mastery",
+      "tree": "tree:matukai-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:matukai-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "bab",
+                "min": 5
+              },
+              {
+                "kind": "talent",
+                "value": "talent:wan-shen-kata"
+              },
+              {
+                "kind": "feat",
+                "value": "feat:weapon-proficiency-simple-weapons"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:deception-awareness",
+      "name": "Deception Awareness",
+      "sourceId": "source:wiki-order-of-shasa-talent-tree-deception-awareness",
+      "tree": "tree:order-of-shasa",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:order-of-shasa"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:greater-weapon-focus-fira",
+      "name": "Greater Weapon Focus (Fira)",
+      "sourceId": "source:wiki-order-of-shasa-talent-tree-greater-weapon-focus-fira",
+      "tree": "tree:order-of-shasa",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:order-of-shasa"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual",
+      "manualPrerequisites": [
+        "Prerequisite: Weapon Focus (Fira)"
+      ]
+    },
+    {
+      "id": "talent:progenitor-s-call",
+      "name": "Progenitor's Call",
+      "sourceId": "source:wiki-order-of-shasa-talent-tree-progenitor-s-call",
+      "tree": "tree:order-of-shasa",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:order-of-shasa"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:waveform",
+      "name": "Waveform",
+      "sourceId": "source:wiki-order-of-shasa-talent-tree-waveform",
+      "tree": "tree:order-of-shasa",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:order-of-shasa"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:seyugi-cyclone",
+      "name": "Seyugi Cyclone",
+      "sourceId": "source:wiki-seyugi-dervish-talent-tree-seyugi-cyclone",
+      "tree": "tree:seyugi-dervish",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:seyugi-dervish"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:mobile-whirlwind",
+      "name": "Mobile Whirlwind",
+      "sourceId": "source:wiki-seyugi-dervish-talent-tree-mobile-whirlwind",
+      "tree": "tree:seyugi-dervish",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:seyugi-dervish"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:seyugi-cyclone"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:repelling-whirlwind",
+      "name": "Repelling Whirlwind",
+      "sourceId": "source:wiki-seyugi-dervish-talent-tree-repelling-whirlwind",
+      "tree": "tree:seyugi-dervish",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:seyugi-dervish"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:seyugi-cyclone"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:sudden-storm",
+      "name": "Sudden Storm",
+      "sourceId": "source:wiki-seyugi-dervish-talent-tree-sudden-storm",
+      "tree": "tree:seyugi-dervish",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:seyugi-dervish"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:seyugi-cyclone"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:tempest-tossed",
+      "name": "Tempest Tossed",
+      "sourceId": "source:wiki-seyugi-dervish-talent-tree-tempest-tossed",
+      "tree": "tree:seyugi-dervish",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:seyugi-dervish"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:seyugi-cyclone"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:combustive-force",
+      "name": "Combustive Force",
+      "sourceId": "source:wiki-shaper-of-kro-var-talent-tree-combustive-force",
+      "tree": "tree:shaper-of-kro-var",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:shaper-of-kro-var"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-training"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:earth-buckle",
+      "name": "Earth Buckle",
+      "sourceId": "source:wiki-shaper-of-kro-var-talent-tree-earth-buckle",
+      "tree": "tree:shaper-of-kro-var",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:shaper-of-kro-var"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:fluidity",
+      "name": "Fluidity",
+      "sourceId": "source:wiki-shaper-of-kro-var-talent-tree-fluidity",
+      "tree": "tree:shaper-of-kro-var",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:shaper-of-kro-var"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:thunderclap",
+      "name": "Thunderclap",
+      "sourceId": "source:wiki-shaper-of-kro-var-talent-tree-thunderclap",
+      "tree": "tree:shaper-of-kro-var",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:shaper-of-kro-var"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "feat",
+                "value": "feat:bantha-rush"
+              },
+              {
+                "kind": "feat",
+                "value": "feat:force-training"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:wind-vortex",
+      "name": "Wind Vortex",
+      "sourceId": "source:wiki-shaper-of-kro-var-talent-tree-wind-vortex",
+      "tree": "tree:shaper-of-kro-var",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:shaper-of-kro-var"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:cycle-of-harmony",
+      "name": "Cycle of Harmony",
+      "sourceId": "source:wiki-tyia-adept-talent-tree-cycle-of-harmony",
+      "tree": "tree:tyia-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:tyia-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:tyia-adept"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:force-stabilize",
+      "name": "Force Stabilize",
+      "sourceId": "source:wiki-tyia-adept-talent-tree-force-stabilize",
+      "tree": "tree:tyia-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:tyia-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:tyia-adept"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:repel-discord",
+      "name": "Repel Discord",
+      "sourceId": "source:wiki-tyia-adept-talent-tree-repel-discord",
+      "tree": "tree:tyia-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:tyia-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:stifle-conflict",
+      "name": "Stifle Conflict",
+      "sourceId": "source:wiki-tyia-adept-talent-tree-stifle-conflict",
+      "tree": "tree:tyia-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:tyia-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:tyia-adept",
+      "name": "Tyia Adept",
+      "sourceId": "source:wiki-tyia-adept-talent-tree-tyia-adept",
+      "tree": "tree:tyia-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:tyia-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:brutal-unarmed-strike",
+      "name": "Brutal Unarmed Strike",
+      "sourceId": "source:wiki-warden-of-the-sky-talent-tree-brutal-unarmed-strike",
+      "tree": "tree:warden-of-the-sky",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:warden-of-the-sky"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "talent",
+            "value": "talent:telekinetic-strike"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:martial-resurgence",
+      "name": "Martial Resurgence",
+      "sourceId": "source:wiki-warden-of-the-sky-talent-tree-martial-resurgence",
+      "tree": "tree:warden-of-the-sky",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:warden-of-the-sky"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:rebound-leap",
+      "name": "Rebound Leap",
+      "sourceId": "source:wiki-warden-of-the-sky-talent-tree-rebound-leap",
+      "tree": "tree:warden-of-the-sky",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:warden-of-the-sky"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:simultaneous-strike",
+      "name": "Simultaneous Strike",
+      "sourceId": "source:wiki-warden-of-the-sky-talent-tree-simultaneous-strike",
+      "tree": "tree:warden-of-the-sky",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:warden-of-the-sky"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "bab",
+            "min": 5
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:telekinetic-strike",
+      "name": "Telekinetic Strike",
+      "sourceId": "source:wiki-warden-of-the-sky-talent-tree-telekinetic-strike",
+      "tree": "tree:warden-of-the-sky",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:warden-of-the-sky"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:telekinetic-throw",
+      "name": "Telekinetic Throw",
+      "sourceId": "source:wiki-warden-of-the-sky-talent-tree-telekinetic-throw",
+      "tree": "tree:warden-of-the-sky",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:warden-of-the-sky"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:throw"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:force-immersion",
+      "name": "Force Immersion",
+      "sourceId": "source:wiki-white-current-adept-talent-tree-force-immersion",
+      "tree": "tree:white-current-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:white-current-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "trained",
+                "value": "skill:stealth"
+              },
+              {
+                "kind": "talent",
+                "value": "talent:white-current-adept"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:immerse-another",
+      "name": "Immerse Another",
+      "sourceId": "source:wiki-white-current-adept-talent-tree-immerse-another",
+      "tree": "tree:white-current-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:white-current-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "all",
+            "requirements": [
+              {
+                "kind": "trained",
+                "value": "skill:stealth"
+              },
+              {
+                "kind": "talent",
+                "value": "talent:white-current-adept"
+              }
+            ]
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:ride-the-current",
+      "name": "Ride the Current",
+      "sourceId": "source:wiki-white-current-adept-talent-tree-ride-the-current",
+      "tree": "tree:white-current-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:white-current-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:surrender-to-the-current",
+      "name": "Surrender to the Current",
+      "sourceId": "source:wiki-white-current-adept-talent-tree-surrender-to-the-current",
+      "tree": "tree:white-current-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:white-current-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:white-current-adept",
+      "name": "White Current Adept",
+      "sourceId": "source:wiki-white-current-adept-talent-tree-white-current-adept",
+      "tree": "tree:white-current-adept",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:white-current-adept"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:discblade-arc",
+      "name": "Discblade Arc",
+      "sourceId": "source:wiki-zeison-sha-warrior-talent-tree-discblade-arc",
+      "tree": "tree:zeison-sha-warrior",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:zeison-sha-warrior"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual",
+      "manualPrerequisites": [
+        "Prerequisite: Proficient with Discblade"
+      ]
+    },
+    {
+      "id": "talent:distant-discblade-throw",
+      "name": "Distant Discblade Throw",
+      "sourceId": "source:wiki-zeison-sha-warrior-talent-tree-distant-discblade-throw",
+      "tree": "tree:zeison-sha-warrior",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:zeison-sha-warrior"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual",
+      "manualPrerequisites": [
+        "Prerequisite: Proficient with Discblade"
+      ]
+    },
+    {
+      "id": "talent:recall-discblade",
+      "name": "Recall Discblade",
+      "sourceId": "source:wiki-zeison-sha-warrior-talent-tree-recall-discblade",
+      "tree": "tree:zeison-sha-warrior",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:zeison-sha-warrior"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual",
+      "manualPrerequisites": [
+        "Prerequisite: Proficient with Discblade"
+      ]
+    },
+    {
+      "id": "talent:telekinetic-vigilance",
+      "name": "Telekinetic Vigilance",
+      "sourceId": "source:wiki-zeison-sha-warrior-talent-tree-telekinetic-vigilance",
+      "tree": "tree:zeison-sha-warrior",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:zeison-sha-warrior"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          },
+          {
+            "kind": "power",
+            "value": "power:intercept"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual"
+    },
+    {
+      "id": "talent:weapon-specialization-discblade",
+      "name": "Weapon Specialization (Discblade)",
+      "sourceId": "source:wiki-zeison-sha-warrior-talent-tree-weapon-specialization-discblade",
+      "tree": "tree:zeison-sha-warrior",
+      "prerequisite": {
+        "kind": "all",
+        "requirements": [
+          {
+            "kind": "tradition",
+            "value": "tradition:zeison-sha-warrior"
+          },
+          {
+            "kind": "feat",
+            "value": "feat:force-sensitivity"
+          }
+        ]
+      },
+      "repeat": "never",
+      "effects": [],
+      "reminder": "",
+      "automation": "manual",
+      "manualPrerequisites": [
+        "Prerequisite: Weapon Focus (Discblade)"
+      ]
     }
   ],
   "equipment": [
@@ -61387,7 +66267,416 @@
         "power:draw-closer",
         "power:pushing-slash"
       ]
-    }
+    },
+    "traditionTalentAccess": [
+      {
+        "id": "tradition:agent-of-ossus",
+        "name": "The Agents of Ossus",
+        "tree": "tree:agent-of-ossus",
+        "sourceId": "source:reference-193d35e3a9b13aeb",
+        "ruleId": "rule:tradition-the-agents-of-ossus",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:aing-tii-monk",
+        "name": "The Aing-Tii Monks",
+        "tree": "tree:aing-tii-monk",
+        "sourceId": "source:reference-415da283ca25f058",
+        "ruleId": "rule:tradition-the-aing-tii-monks",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": []
+        }
+      },
+      {
+        "id": "tradition:bando-gora-captain",
+        "name": "The Bando Gora",
+        "tree": "tree:bando-gora-captain",
+        "sourceId": "source:reference-2f881fe7af8c4759",
+        "ruleId": "rule:tradition-the-bando-gora",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            },
+            {
+              "kind": "darkSideScore",
+              "min": 1
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:baran-do-sage",
+        "name": "The Baran Do Sages",
+        "tree": "tree:baran-do-sage",
+        "sourceId": "source:reference-368e73d8d6999f06",
+        "ruleId": "rule:tradition-the-baran-do-sages",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            },
+            {
+              "kind": "species",
+              "value": "Kel Dor"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:believer-disciple",
+        "name": "The Believers",
+        "tree": "tree:believer-disciple",
+        "sourceId": "source:reference-e44a419b610a5e71",
+        "ruleId": "rule:tradition-the-believers",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            },
+            {
+              "kind": "darkSideScore",
+              "min": 1
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:blazing-chain",
+        "name": "The Blazing Chain",
+        "tree": "tree:blazing-chain",
+        "sourceId": "source:reference-8f9d636c89fcc833",
+        "ruleId": "rule:tradition-the-blazing-chain",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": []
+        }
+      },
+      {
+        "id": "tradition:disciple-of-twilight",
+        "name": "The Disciples of Twilight",
+        "tree": "tree:disciple-of-twilight",
+        "sourceId": "source:reference-811f996c9c25fc13",
+        "ruleId": "rule:tradition-the-disciples-of-twilight",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:ember-of-vahl",
+        "name": "The Ember of Vahl",
+        "tree": "tree:ember-of-vahl",
+        "sourceId": "source:reference-e63cea1bc2e37654",
+        "ruleId": "rule:tradition-the-ember-of-vahl",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:white-current-adept",
+        "name": "The Fallanassi",
+        "tree": "tree:white-current-adept",
+        "sourceId": "source:reference-fa46a4ad8e2ab9f6",
+        "ruleId": "rule:tradition-the-fallanassi",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": []
+        }
+      },
+      {
+        "id": "tradition:felucian-shaman",
+        "name": "The Felucian Shamans",
+        "tree": "tree:felucian-shaman",
+        "sourceId": "source:reference-3f5a6e0e902bd292",
+        "ruleId": "rule:tradition-the-felucian-shamans",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "species",
+              "value": "Felucian"
+            },
+            {
+              "kind": "trained",
+              "value": "skill:use-the-force"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:iron-knight",
+        "name": "The Iron Knights",
+        "tree": "tree:iron-knight",
+        "sourceId": "source:reference-9e7bf26f028674eb",
+        "ruleId": "rule:tradition-the-iron-knights",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "species",
+              "value": "Shard"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:jal-shey",
+        "name": "The Jal Shey",
+        "tree": "tree:jal-shey",
+        "sourceId": "source:reference-f5450be28191b38e",
+        "ruleId": "rule:tradition-the-jal-shey",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": []
+        }
+      },
+      {
+        "id": "tradition:jensaarai-defender",
+        "name": "The Jensaarai",
+        "tree": "tree:jensaarai-defender",
+        "sourceId": "source:reference-b32c8cc52f3044d3",
+        "ruleId": "rule:tradition-the-jensaarai",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:keetael",
+        "name": "The Keetael",
+        "tree": "tree:keetael",
+        "sourceId": "source:reference-92a919539ac266fb",
+        "ruleId": "rule:tradition-the-keetael",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "species",
+              "value": "Draethos"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:kilian-ranger",
+        "name": "The Kilian Rangers",
+        "tree": "tree:kilian-ranger",
+        "sourceId": "source:reference-213d5b285472d1c3",
+        "ruleId": "rule:tradition-the-kilian-rangers",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:korunnai-adept",
+        "name": "The Korunnai",
+        "tree": "tree:korunnai-adept",
+        "sourceId": "source:reference-e994ff52a35bf5d9",
+        "ruleId": "rule:tradition-the-korunnai",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:krath",
+        "name": "The Krath",
+        "tree": "tree:krath",
+        "sourceId": "source:reference-ae9223fe04ea6773",
+        "ruleId": "rule:tradition-the-krath",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": []
+        }
+      },
+      {
+        "id": "tradition:luka-sene",
+        "name": "The Luka Sene",
+        "tree": "tree:luka-sene",
+        "sourceId": "source:reference-c5016e4233ace6a5",
+        "ruleId": "rule:tradition-the-luka-sene",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "species",
+              "value": "Miraluka"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:matukai-adept",
+        "name": "The Matukai",
+        "tree": "tree:matukai-adept",
+        "sourceId": "source:reference-e831daaf795b9730",
+        "ruleId": "rule:tradition-the-matukai",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:order-of-shasa",
+        "name": "The Order of Shasa",
+        "tree": "tree:order-of-shasa",
+        "sourceId": "source:reference-e706dc9110370d25",
+        "ruleId": "rule:tradition-the-order-of-shasa",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "species",
+              "value": "Selkath"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:seyugi-dervish",
+        "name": "The Seyugi Dervishes",
+        "tree": "tree:seyugi-dervish",
+        "sourceId": "source:reference-e85865866322b788",
+        "ruleId": "rule:tradition-the-seyugi-dervishes",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:shaper-of-kro-var",
+        "name": "The Shapers of Kro Var",
+        "tree": "tree:shaper-of-kro-var",
+        "sourceId": "source:reference-5d9ed20f40f7f406",
+        "ruleId": "rule:tradition-the-shapers-of-kro-var",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:tyia-adept",
+        "name": "The Tyia",
+        "tree": "tree:tyia-adept",
+        "sourceId": "source:reference-c912137cd0a8abc4",
+        "ruleId": "rule:tradition-the-tyia",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:warden-of-the-sky",
+        "name": "The Wardens of the Sky",
+        "tree": "tree:warden-of-the-sky",
+        "sourceId": "source:reference-915e0858107f4bdc",
+        "ruleId": "rule:tradition-the-wardens-of-the-sky",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:dathomiri-witch",
+        "name": "The Witches of Dathomir",
+        "tree": "tree:dathomiri-witch",
+        "sourceId": "source:reference-967d8c890fd22a13",
+        "ruleId": "rule:tradition-the-witches-of-dathomir",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      },
+      {
+        "id": "tradition:zeison-sha-warrior",
+        "name": "The Zeison Sha",
+        "tree": "tree:zeison-sha-warrior",
+        "sourceId": "source:reference-852a93459f3db5f9",
+        "ruleId": "rule:tradition-the-zeison-sha",
+        "prerequisite": {
+          "kind": "all",
+          "requirements": [
+            {
+              "kind": "feat",
+              "value": "feat:force-sensitivity"
+            }
+          ]
+        }
+      }
+    ]
   },
   "heroicTraits": {
     "sourceIds": [

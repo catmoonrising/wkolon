@@ -11,7 +11,7 @@ export function featureChoices(r,pack){
  if(r.choiceType==='talent')return (pack.talents||[]).filter(t=>talentTreeIds(t).includes(r.choiceTree)).map(t=>t.id);
  if(r.choiceType==='enum')return r.choiceOptions.map(o=>o.id);
  if(r.choiceType==='manual')return ['manual:choice'];
- if(r.choiceType==='power')return (pack.forcePowers||[]).map(p=>p.id);
+ if(r.choiceType==='power')return (pack.forcePowers||[]).filter(p=>!r.choicePowerDescriptors||p.descriptors?.some(d=>r.choicePowerDescriptors.includes(d))).map(p=>p.id);
  if(r.choiceType==='skill')return pack.skills.map(s=>s.id).filter(id=>!r.choiceExcluded?.includes(id));
  const weapons=pack.equipment.filter(w=>w.kind==='weapon'&&!w.unarmed);
  if(r.choiceType==='weaponGroup')return [...(r.choiceGroups||WEAPON_GROUPS),...weapons.filter(w=>w.group.startsWith('exotic-')&&(!r.choiceExoticMode||w.mode===r.choiceExoticMode)).map(w=>w.id)];

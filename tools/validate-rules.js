@@ -27,7 +27,8 @@ export function validatePack(p) {
   function speciesStartingFeat(id){requireRef('feats',id);const feat=ix.feats.get(id);assert(feat.repeat==='never'&&!feat.choiceType&&!feat.manualPrerequisites?.length&&!feat.effects.some(e=>['skillTraining','trainedSkill','classSkill','chosenTalent','skillSubstitution','forcePowerSlots'].includes(e.target)),'Unsupported conditional starting feat');}
   function prerequisite(r) {
     if (['all','any'].includes(r.kind)) { assert(Array.isArray(r.requirements)); r.requirements.forEach(prerequisite); return; }
-    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','level','nonDroid','trait','size','species','droid','weaponFocusMode','weaponProficiencyMode','classChoices'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','level','nonDroid','trait','size','species','droid','weaponFocusMode','weaponProficiencyMode','classChoices','tradition'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    if(r.kind==='tradition')assert(p.rules.traditionTalentAccess?.some(t=>t.id===r.value),'Unknown Force Tradition');
     if(r.kind==='classChoices')assert(['forceTechnique','forceSecret','medicalSecret'].includes(r.value)&&Number.isInteger(r.min)&&r.min>=1&&r.min<=20,'Invalid class feature count');
     if(r.kind==='featChoice'){requireRef('feats',r.value);if(r.choice!==undefined)requireRef('skills',r.choice);}
     if(r.kind==='trait')assert.equal(r.value,'rage');
@@ -149,6 +150,7 @@ export function validatePack(p) {
     if(key==='forcePowers'){const actions=['standard-action','swift-action','move-action','full-round-action','free-action','reaction'];assert(actions.includes(r.action));assert(Array.isArray(r.descriptors)&&new Set(r.descriptors).size===r.descriptors.length&&r.descriptors.every(d=>['dark-side','light-side','mind-affecting','telekinetic','lightsaber-form'].includes(d)));if(r.actionText!==undefined)assert(typeof r.actionText==='string'&&r.actionText.length>0);if(r.actions!==undefined)assert(Array.isArray(r.actions)&&r.actions.length>1&&new Set(r.actions).size===r.actions.length&&r.actions.every(a=>actions.includes(a))&&r.actions[0]===r.action,'Invalid alternative power actions');}
     if (['feats','talents'].includes(key)) {
       if(r.additionalTrees!==undefined)assert(key==='talents'&&Array.isArray(r.additionalTrees)&&r.additionalTrees.length>0&&new Set(r.additionalTrees).size===r.additionalTrees.length&&r.additionalTrees.every(id=>id!==r.tree&&/^tree:[a-z0-9-]+$/.test(id)),'Invalid additional talent trees');
+      if(r.choicePowerDescriptors!==undefined)assert(key==='talents'&&r.choiceType==='power'&&Array.isArray(r.choicePowerDescriptors)&&r.choicePowerDescriptors.length>0&&new Set(r.choicePowerDescriptors).size===r.choicePowerDescriptors.length&&r.choicePowerDescriptors.every(d=>['dark-side','light-side'].includes(d)),'Invalid power descriptor choice');
       if(r.forceActivation!==undefined)assert(['check','forcePoint'].includes(r.forceActivation));
       if(r.requiresDarkSide!==undefined)assert.equal(r.requiresDarkSide,true);
       if(r.requiresLightSide!==undefined)assert(r.requiresLightSide===true&&!r.requiresDarkSide,'Invalid Light Side restriction');
@@ -171,6 +173,7 @@ export function validatePack(p) {
       for(const e of r.effects) {
         if(['trainedSkill','classSkill'].includes(e.target)){assert.equal(key,'talents','Unsupported fixed skill grant');assert.deepEqual(Object.keys(e).sort(),['skill','target']);requireRef('skills',e.skill);continue;}
         if(e.target==='chosenTalent'){assert.deepEqual(e,{target:'chosenTalent'});assert(r.choiceType==='talent'&&key==='talents','Invalid chosen talent effect');continue;}
+        if(e.target==='powerDescriptorRemoval'){assert.deepEqual(Object.keys(e).sort(),['descriptors','target']);assert(key==='talents'&&r.choiceType==='power'&&Array.isArray(e.descriptors)&&e.descriptors.length>0&&new Set(e.descriptors).size===e.descriptors.length&&e.descriptors.every(d=>['dark-side','light-side'].includes(d)),'Invalid descriptor removal');assert.deepEqual(e.descriptors,r.choicePowerDescriptors);assert(p.forcePowers.every(power=>power.descriptors.filter(d=>e.descriptors.includes(d)).length<=1),'Ambiguous aligned power descriptor choice');continue;}
         if(e.target==='vision'){assert.deepEqual(e,{target:'vision',value:'darkvision'});continue;}
         if(e.target==='skillRerollBest'){assert.deepEqual(Object.keys(e).sort(),['skill','target']);requireRef('skills',e.skill);continue;}
         if(e.target==='defenseAbility'){assert.deepEqual(Object.keys(e).sort(),['ability','defense','target']);assert(({reflex:'int',fortitude:'str',will:'cha'})[e.defense]===e.ability,'Unsupported defense ability');continue;}
@@ -393,6 +396,16 @@ export function validatePack(p) {
   assert.deepEqual(Object.keys(awake).sort(),['dc','deathFailureMargin','fatalNatural','firstMinutes','retryHours','sourceIds','stunNoFatalCheck']);assert(awake.dc===10&&awake.firstMinutes===1&&awake.retryHours===1&&awake.deathFailureMargin===5&&awake.fatalNatural===1&&awake.stunNoFatalCheck===true);
   const incoming=p.rules.incomingDamage;assert(incoming&&incoming.sourceIds.length&&incoming.sourceIds.every(id=>sources.has(id)),'Missing damage sources');assert.deepEqual(Object.keys(incoming).sort(),['forcePointCost','helplessStep','ion','normalThresholdSteps','sourceIds','stun']);assert(incoming.normalThresholdSteps===1&&incoming.helplessStep===5&&incoming.forcePointCost===1);assert.deepEqual(incoming.stun,{hpDivisor:2,thresholdSteps:2,blasterRange:6});assert.deepEqual(incoming.ion,{hpDivisor:2,thresholdSteps:2});
   if(access){assert(Object.keys(access).every(k=>['trees','sourceIds'].includes(k)));assert(Array.isArray(access.trees)&&access.trees.length>=4&&access.trees.length<=6&&new Set(access.trees).size===access.trees.length&&['tree:alter','tree:control','tree:dark-side','tree:sense'].every(id=>access.trees.includes(id))&&access.trees.every(t=>['tree:alter','tree:control','tree:dark-side','tree:sense','tree:light-side','tree:guardian-spirit'].includes(t)&&p.talents.some(r=>r.tree===t)));assert(access.sourceIds.length&&access.sourceIds.every(id=>sources.has(id)));}
+  if(p.rules.traditionTalentAccess!==undefined){
+    const traditions=p.rules.traditionTalentAccess;
+    assert(Array.isArray(traditions)&&traditions.length>0&&new Set(traditions.map(r=>r.id)).size===traditions.length&&new Set(traditions.map(r=>r.tree)).size===traditions.length,'Invalid Force Tradition access');
+    for(const r of traditions){
+      assert(Object.keys(r).sort().join()===['id','name','prerequisite','ruleId','sourceId','tree'].sort().join()&&/^tradition:[a-z0-9-]+$/.test(r.id)&&typeof r.name==='string'&&r.name.length>0&&sources.has(r.sourceId),'Invalid Force Tradition');
+      assert(p.rulePages.some(p=>p.id===r.ruleId&&p.sourceId===r.sourceId)&&p.talents.some(t=>t.tree===r.tree),'Missing tradition source/tree');
+      const check=q=>{assert(['all','species','trained','darkSideScore','feat'].includes(q.kind),'Unsupported membership requirement');if(q.kind==='all')q.requirements.forEach(check);else{if(q.kind==='feat')assert.equal(q.value,'feat:force-sensitivity');prerequisite(q);}};check(r.prerequisite);
+      for(const t of p.talents.filter(t=>t.tree===r.tree)){assert(t.prerequisite.kind==='all'&&t.prerequisite.requirements.some(q=>q.kind==='tradition'&&q.value===r.id)&&t.prerequisite.requirements.some(q=>q.kind==='feat'&&q.value==='feat:force-sensitivity'),'Missing tradition talent access guard');}
+    }
+  }
   if(recovery){assert(Object.keys(recovery).every(k=>['sourceIds','restMinutes','forcePointCost','naturalRoll'].includes(k)));assert(recovery.sourceIds.length&&recovery.sourceIds.every(id=>sources.has(id)));assert(recovery.restMinutes===1&&recovery.forcePointCost===1&&recovery.naturalRoll===20);}
   if(p.heroicTraits) {
     assert(Array.isArray(p.heroicTraits.sourceIds));p.heroicTraits.sourceIds.forEach(id=>assert(sources.has(id)));

@@ -103,8 +103,16 @@
 
 - [x] Character Creation level table: levels 1–20, separate heroic/class choices, class prerequisite graphs, row-specific Misc choices and separate detail tabs.
 
-- [ ] Starships.
+- [ ] Modular sheet architecture and layout migration, following docs/modules-roadmap.md.
+  - [ ] Separate Languages, Feats, Talents, Class Features and Species Features.
+  - [ ] Independent visibility, layout and collapse state without disabling mechanics.
+  - [ ] Actions module: six action menus, shared action dispatcher, optional costs/choices, rolls, immediate execution and queued turn plans.
+  - [ ] Reuse existing New Turn and expiry functions; preserve round/encounter limits and completed rolls when plans change.
+- [ ] Starships and vehicles.
 - [ ] Piloting maneuvers.
+- [ ] Droid systems and modifications.
+- [ ] Followers, companions and minions.
+- [ ] Crafting and upgrade projects.
 
 - [x] CSV armor gap: speed penalties and heavy-armor running limits.
 - [x] CSV gap: Force power selection and tracking.
@@ -117,7 +125,8 @@
 - [x] Selectable feats: all 351 inventoried official pages, 358 options, secondary choices and printed class lists.
 - [x] Manual/Partial coverage markers for current options; saved manual prerequisite confirmation.
 - [x] Enable all 1,036 talent sections in 146 class/common Force trees as 1,034 mechanical options, with published class access and source text.
-- [ ] Remaining 31 Force Tradition and degree-specific droid trees, species, equipment and other official catalogs.
+- [x] All 26 Force Tradition trees: 122 talent choices, membership declarations, acquisition levels, exact admission articles and typed access.
+- [ ] Remaining five degree-specific droid trees, species, equipment and other official catalogs.
 - [x] Automate Watchful Step, Engineer Lineage, Dark Deception, Commanding Presence and Stolen Form permanent grants, including legacy form choices and prerequisite replay.
 - [ ] Dedicated Destiny/Background play controls; currently selected in creation and displayed in Character > Heroic Traits.
 - [ ] Audit Trigger Work against the Gunslinger tree-wide Pistols/Rifles restriction.

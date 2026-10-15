@@ -1286,3 +1286,26 @@ inferred. Existing exact manual form names resolve to their known IDs without
 changing the saved character; unknown text remains saved and ineligible.
 `classChoices` prerequisites use a choice-kind `value` and positive `min` count,
 so Stolen Form can require an already earned Force Technique.
+# Force Tradition access
+
+`rules.traditionTalentAccess` lists reviewed memberships with an ID, name, talent
+tree, pinned `sourceId`, full membership `ruleId`, and a typed `prerequisite`.
+The membership article remains the authority for narrative admission, training,
+origins and era restrictions. Selecting a membership declares that these have
+been satisfied; it does not automatically recruit the character.
+
+Characters may save `forceTraditions: [{id, level, darkSideScore}]`. Memberships
+are replayed after that level's feats/training and before its talent. Typed
+requirements are checked at joining, using the saved acquisition DSS. Failed
+membership cannot authorize talents, and joining later cannot authorize earlier
+choices. Multiple memberships are permitted. Tradition talents also require
+Force Sensitivity, independently of membership. Their effects stay Manual until
+implemented. Detailed membership prose takes precedence over the overview's
+abbreviated species and birthplace requirements.
+
+`powerDescriptorRemoval` is a talent effect with an explicit `descriptors` list.
+It applies to every suite copy of the selection's power, while preserving the
+catalog and source article. Effective descriptors must feed both display and
+activation, including automatic DSS costs. Removing or invalidating the talent
+restores the original descriptors. The supported list is Light Side and Dark
+Side only; membership or a secondary choice alone cannot remove a descriptor.

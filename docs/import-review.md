@@ -1762,3 +1762,35 @@ secondary controls, dependency replay, class inactivity, saves, themes and mobil
 All 549 JavaScript tests, 35 Python importer tests, the full Chromium suite with
 54 independent helpers, focused Firefox checks, the closed schema and all 4,400
 reference articles pass.
+
+## Force Tradition talent access
+
+Enabled all 122 sections on the remaining 26 Tradition Talent Tree pages. The
+catalog now has 1,156 talent choices on 172 of 177 inventoried tree pages. New effects remain Manual except for Many Shades of the Force (Partial), whose
+descriptor removal feeds the existing activation/DSS code. Shared tree admission text is retained in each talent
+article, with full membership articles available from creation and the graph.
+
+Membership supports multiple traditions and a joining level. Typed species,
+training, Force Sensitivity and acquisition-DSS checks supplement the declared
+narrative admission requirements. Joining later cannot authorize earlier talents;
+removing membership invalidates dependent choices without erasing them. Source
+membership prose overrides abbreviated overview requirements: outsiders are
+explicitly possible for Aing-Tii Monks, the Ember of Vahl, the Tyia, Shapers of
+Kro Var, Disciples of Twilight and the Korunnai. Do not impose extra species or
+birthplace restrictions from shorthand when those descriptions give alternatives.
+
+Many Shades of the Force has a permanent secondary power choice restricted to a
+known Light Side or Dark Side power. It removes that descriptor from all suite
+copies, and restores it if the talent becomes invalid; the shared source/catalog
+remains unchanged. Shadow Armor and Wan-Shen Defense retain
+printed repeat caps. The importer supports an explicit --traditions mode and
+preserves existing IDs/effects on rerun. Remaining unsupported prerequisites keep
+exact wording and require confirmation, including named exotic weapon requirements
+whose equipment is not imported yet. Droid degree trees remain pending.
+
+Validation: 559 JavaScript tests, 36 Python tests, closed-schema validation,
+all 4,400 reference articles, deterministic repeated import/compilation, a full
+catalog reimport preserving prior IDs/effects, the full Chromium regression with
+55 independent helpers, and focused Firefox checks pass. Browser checks include
+actual DSS spending with/without Many Shades, membership timing, saved choices,
+full source popups and mobile themes.

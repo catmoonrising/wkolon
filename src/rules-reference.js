@@ -14,6 +14,7 @@ export function referenceEntries(r, pack, selection) {
       case 'bab': return `Base attack +${p.min}`;
       case 'level': return `Level ${p.min}`;
       case 'classChoices': return p.min+' '+(p.value==='forceTechnique'?'Force Technique':p.value==='forceSecret'?'Force Secret':'Medical Secret')+(p.min===1?'':'s');
+      case 'tradition': return pack.rules.traditionTalentAccess.find(r=>r.id===p.value).name;
       case 'species': return p.value;
       case 'nonDroid': return 'Cannot be a Droid';
       case 'feat': case 'talent': case 'power': return target(p.value);

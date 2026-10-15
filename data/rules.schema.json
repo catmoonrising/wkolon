@@ -292,6 +292,46 @@
             "$ref": "#/$defs/ambiguity"
           }
         },
+        "traditionTalentAccess": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "tree",
+              "sourceId",
+              "ruleId",
+              "prerequisite"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^tradition:[a-z0-9-]+$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "tree": {
+                "type": "string",
+                "pattern": "^tree:[a-z0-9-]+$"
+              },
+              "sourceId": {
+                "$ref": "#/$defs/id"
+              },
+              "ruleId": {
+                "type": "string",
+                "pattern": "^rule:[a-z0-9-]+$"
+              },
+              "prerequisite": {
+                "$ref": "#/$defs/traditionPrerequisite"
+              }
+            }
+          }
+        },
         "forceTalentAccess": {
           "type": "object",
           "additionalProperties": false,
@@ -3098,6 +3138,68 @@
         }
       ]
     },
+    "traditionPrerequisite": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "requirements"
+          ],
+          "properties": {
+            "kind": {
+              "const": "all"
+            },
+            "requirements": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/traditionPrerequisite"
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "value"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "species",
+                "trained",
+              "feat"
+              ]
+            },
+            "value": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "min"
+          ],
+          "properties": {
+            "kind": {
+              "const": "darkSideScore"
+            },
+            "min": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000
+            }
+          }
+        }
+      ]
+    },
     "feature": {
       "allOf": [
         {
@@ -3105,6 +3207,17 @@
         }
       ],
       "properties": {
+        "choicePowerDescriptors": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "dark-side",
+              "light-side"
+            ]
+          }
+        },
         "effects": {
           "type": "array",
           "items": {
@@ -3557,6 +3670,30 @@
             "skill": {
               "type": "string",
               "pattern": "^skill:[a-z0-9-]+$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "descriptors"
+          ],
+          "properties": {
+            "target": {
+              "const": "powerDescriptorRemoval"
+            },
+            "descriptors": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "enum": [
+                  "dark-side",
+                  "light-side"
+                ]
+              }
             }
           }
         },

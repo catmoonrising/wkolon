@@ -358,7 +358,19 @@ function finishing() {
     if(['era','heroType'].includes(key))return `<label>${label}<select data-trait="${key}">${option('','-',traits[key]||'')}${pack.heroicTraits[key==='era'?'eras':'heroTypes'].map(value=>option(value,value,traits[key])).join('')}</select></label>`;
     return `<label>${label}<input data-trait="${key}" value="${escape(traits[key])}" maxlength="200"></label>`;
   };
-  return `<div class="form-grid">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${TRAIT_FIELDS.filter(([key])=>!TRAIT_TEXT.includes(key)).map(traitField).join('')}</div>${storyEditor()}<div class="trait-texts">${TRAIT_FIELDS.filter(([key])=>TRAIT_TEXT.includes(key)).map(traitField).join('')}</div>`;
+  return `<div class="form-grid">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${TRAIT_FIELDS.filter(([key])=>!TRAIT_TEXT.includes(key)).map(traitField).join('')}</div>${storyEditor()}${traditionEditor()}<div class="trait-texts">${TRAIT_FIELDS.filter(([key])=>TRAIT_TEXT.includes(key)).map(traitField).join('')}</div>`;
+}
+function traditionEditor(){
+ const c=current();
+ return `<details id="creation-traditions"><summary>Force Traditions</summary>${(pack.rules.traditionTalentAccess||[]).map(r=>{
+  const selected=c.forceTraditions?.find(s=>s.id===r.id);
+  return `<div class="actions"><label><input type="checkbox" data-force-tradition="${r.id}" ${selected?'checked':''}>${escape(r.name)}</label><button type="button" data-rule-page="${r.ruleId}" aria-label="Read ${escape(r.name)} membership">ⓘ</button>${selected?`<label>Level<input type="number" data-tradition-level="${r.id}" min="1" max="20" value="${selected.level}"></label>${r.prerequisite.requirements.some(p=>p.kind==='darkSideScore')?`<label>Joining DSS<input type="number" data-tradition-dss="${r.id}" min="0" max="1000" value="${selected.darkSideScore}"></label>`:''}`:''}</div>`;
+ }).join('')}</details>`;
+}
+function traditionSummary(){
+ const memberships=(current().forceTraditions||[]).filter(s=>derived.ctx.forceTraditions.has(s.id));
+ if(!memberships.length)return '';
+ return `<details id="character-traditions"><summary>Force Traditions</summary>${memberships.map(s=>{const r=pack.rules.traditionTalentAccess.find(r=>r.id===s.id);return `<p><button type="button" class="link-button" data-rule-page="${r.ruleId}">${escape(r.name)}</button></p>`;}).join('')}</details>`;
 }
 function carryingDisplay(){
  const load=derived.load;
@@ -470,7 +482,7 @@ function panelBody(panel) { panel.querySelector('.panel-heading')?.remove(); ret
 function sheet() {
   const c = current(), species = resolveSpecies(c,pack);
   const inventoryPanels = panelParts(equipment());
-  const character = `<div class="character-fields">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${ruleReference(species,species.name,null,'header-species')}<span>Level ${derived.level}</span><a href="#creation">Edit</a></div><div class="hint">${escape(species.languages.join(', '))}${backgroundLanguage(c,pack)?', '+escape(backgroundLanguage(c,pack)):''}</div><div class="actions">${field('Languages','languages',c.languages,'text',`maxlength="100000" aria-label="Additional languages (${languageCount()})"`)}</div>${traitsSummary()}`;
+  const character = `<div class="character-fields">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${ruleReference(species,species.name,null,'header-species')}<span>Level ${derived.level}</span><a href="#creation">Edit</a></div><div class="hint">${escape(species.languages.join(', '))}${backgroundLanguage(c,pack)?', '+escape(backgroundLanguage(c,pack)):''}</div><div class="actions">${field('Languages','languages',c.languages,'text',`maxlength="100000" aria-label="Additional languages (${languageCount()})"`)}</div>${traitsSummary()}${traditionSummary()}`;
   const classes = `<table id="class-table"><thead><tr><th>Class</th><th>Level</th><th>Hit die</th><th>Base attack</th></tr></thead><tbody>${[...derived.ctx.classLevels].map(([id,n])=>{const cls=ix.classes.get(id);return `<tr><td>${ruleReference(cls)}</td><td class="derived">${n}</td><td>d${cls.hitDie}</td><td>${signed(cls.bab[n-1])}</td></tr>`;}).join('')}</tbody></table><div class="class-summary"><a href="#advancement" class="button">Level Up</a></div>`;
   const abilities = `<table><thead><tr><th>Ability</th><th>Mod</th><th>Score</th><th>Base</th><th>Species</th></tr></thead><tbody>${ABILITIES.map(a=>`<tr><td>${a.toUpperCase()}</td><td><button class="roll" data-roll="${derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0)}" data-roll-label="${a.toUpperCase()}" aria-label="${a.toUpperCase()} check ${signed(derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0))}" ${derived.incapacitated?'disabled':''}>${signed(derived.mods[a])}</button></td><td class="derived" title="${derived.ctx.scores[a]}${derived.equipmentAbilities[a]?` + ${derived.equipmentAbilities[a]} ${escape(derived.armor.name)}`:''}">${derived.scores[a]}</td><td><input type="number" min="3" max="30" aria-label="Base ${a.toUpperCase()}" data-ability="${a}" value="${c.abilities[a]}"></td><td>${signed(species.abilityAdjustments[a]||0)}</td></tr>`).join('')}</tbody></table>${Object.keys(derived.equipmentAbilities).length?`<details><summary class="hint">Calculations</summary>${Object.entries(derived.equipmentAbilities).map(([a,n])=>`<div class="hint">${a.toUpperCase()}: ${derived.ctx.scores[a]} + ${n} ${escape(derived.armor.name)}</div>`).join('')}</details>`:''}`;
   const defenses = `<div class="actions"><label class="checkbox"><input type="checkbox" data-flat-footed ${derived.flatFooted?'checked':''} ${derived.balancingFlatFooted?'disabled title="Balancing"':''}>Flat-footed</label><label class="checkbox"><input type="checkbox" data-prone ${c.prone?'checked':''}>Prone</label><label class="checkbox"><input type="checkbox" data-helpless ${derived.helpless?'checked':''} ${c.condition===5||c.currentHP===0||derived.recovery.dead?'disabled':''}>Helpless</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:helpless'),'ⓘ',null,'defenses-helpless')}</div><table><thead><tr><th>Defense</th><th>Total</th></tr></thead><tbody>${['reflex','fortitude','will'].map(k=>`<tr title="${escape(derived.breakdowns[k])}"><td>${title(k)}</td><td class="derived defense-total" data-defense="${k}">${derived.defenses[k]}</td></tr>`).join('')}${derived.conditionalDefenses.map(e=>`<tr><td>${title(e.defense)} ${escape(conditionalDefenseLabel(e))}</td><td class="derived defense-total" data-defense="${e.defense}-${e.against}">${e.total}</td></tr>`).join('')}</tbody></table>${proneActionControls(c,derived,pack)}${defensiveCombatControls(c,derived)}<details><summary class="hint">Calculations</summary>${['reflex','fortitude','will'].map(k=>`<div class="hint">${title(k)}: ${escape(derived.breakdowns[k])}</div>`).join('')}</details>`;
@@ -691,6 +703,18 @@ function events() {
         c.story.id=el.value||null;backgroundKnowledgeDrafts.clear();
         if(c.story.kind==='background'){const record=ix.backgrounds.get(el.value);c.story.skills=Array(record?.skillChoices||0).fill(null);c.story.language=record?.bonusLanguages.length===1?record.bonusLanguages[0]:'';}
       } else c.story[key]=el.value;
+      changed();return;
+    }
+    if(el.hasAttribute('data-force-tradition')){
+      const id=el.dataset.forceTradition;
+      if(!pack.rules.traditionTalentAccess.some(r=>r.id===id))return;
+      c.forceTraditions=(c.forceTraditions||[]).filter(s=>s.id!==id);
+      if(el.checked)c.forceTraditions.push({id,level:c.levels.length,darkSideScore:c.darkSideScore});
+      changed();return;
+    }
+    if(el.hasAttribute('data-tradition-level')||el.hasAttribute('data-tradition-dss')){
+      const id=el.dataset.traditionLevel||el.dataset.traditionDss,selection=c.forceTraditions?.find(s=>s.id===id),value=Number(el.value),key=el.hasAttribute('data-tradition-level')?'level':'darkSideScore';
+      if(selection&&el.value!==''&&Number.isInteger(value)&&value>=(key==='level'?1:0)&&value<=(key==='level'?20:1000))selection[key]=value;
       changed();return;
     }
     if(el.hasAttribute('data-background-skill') || el.hasAttribute('data-background-knowledge')) {

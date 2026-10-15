@@ -53,6 +53,10 @@ export function validateCharacter(c, pack) {
   const num = (v, min, max) => Number.isInteger(v) && v >= min && v <= max;
   if (!obj(c) || c.schemaVersion !== 1 || !obj(c.ruleset) || c.ruleset.id !== pack.id || c.ruleset.version !== pack.version) bad('unsupported file or rules pack version');
   const ix = indexPack(pack);
+  if(c.forceTraditions!==undefined){
+    const records=pack.rules.traditionTalentAccess||[];
+    if(!Array.isArray(c.forceTraditions)||c.forceTraditions.length>records.length||new Set(c.forceTraditions.map(s=>s?.id)).size!==c.forceTraditions.length||c.forceTraditions.some(s=>!obj(s)||Object.keys(s).some(k=>!['id','level','darkSideScore'].includes(k))||!records.some(r=>r.id===s.id)||!num(s.level,1,20)||!num(s.darkSideScore,0,1000)))bad('Force Tradition memberships');
+  }
   for (const key of ['id', 'name', 'player', 'languages', 'notes']) if (typeof c[key] !== 'string' || c[key].length > 100000) bad(key);
   if (!/^[a-f0-9-]{36}$/.test(c.id)) bad('character ID');
   if (!ix.species.has(c.species)) bad('unknown species');
@@ -155,6 +159,7 @@ export function prerequisite(p, ctx, ix, choice) {
     case 'bab': return ctx.bab >= p.min;
     case 'level': return ctx.characterLevel >= p.min;
     case 'classChoices': return (ctx.classChoices||[]).filter(s=>s.kind===p.value&&!ctx.inactiveClasses?.has(s.classId)).length>=p.min;
+    case 'tradition': return ctx.forceTraditions?.has(value)||false;
     case 'nonDroid': return !ctx.isDroid;
     case 'droid': return !!ctx.isDroid;
     case 'weaponFocusMode': return ctx.feats.some(f=>f.id===F('weapon-focus')&&[{id:UNARMED_ID,kind:'weapon',mode:'melee',group:'simple-weapons',unarmed:true},...ix.equipment.values()].some(w=>w.kind==='weapon'&&w.mode===value&&weaponEffectGroup(w,ctx)===f.choice));
@@ -197,7 +202,7 @@ export function weaponProficient(w,ctx,ix){
 }
 
 export function talentTrees(cls,ctx,pack){
- return [...cls.talentTrees,...(!ctx.forceImmune&&ctx.feats.some(f=>f.id===F('force-sensitivity'))?pack.rules.forceTalentAccess?.trees||[]:[])];
+ return [...cls.talentTrees,...(!ctx.forceImmune&&ctx.feats.some(f=>f.id===F('force-sensitivity'))?[...(pack.rules.forceTalentAccess?.trees||[]),...(pack.rules.traditionTalentAccess||[]).filter(r=>ctx.forceTraditions?.has(r.id)).map(r=>r.tree)]:[])];
 }
 
 const weaponEffectGroup=(w,ctx)=>counselingEnabled(ctx,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity?.[w.id]||(w.group.startsWith('exotic-')?w.id:w.group):w.group.startsWith('exotic-')?w.id:w.group;
@@ -218,6 +223,8 @@ export function progression(c, pack, through = c.levels.length) {
   Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,speciesClassSkills:species.bonusClassSkills||[],forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
   Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0,speciesTraining:new Set()});
   const issues = [], rows = [], ordinaryTraining=new Set(),talentTraining=new Map();
+  ctx.forceTraditions=new Set();
+  ctx.forceTalentTrees=[...ctx.forceTalentTrees,...(pack.rules.traditionTalentAccess||[]).map(r=>r.tree)];
   let initialClassSkills;
   function recordFeature(selection,type,level) {
     const s={...selection,level,classId:c.levels[level-1]?.classId};
@@ -308,13 +315,18 @@ export function progression(c, pack, through = c.levels.length) {
     const powerChoices=Math.max(0,ctx.powerSlots-ctx.forcePowers.length),chosenPowers=l.forcePowers||[];
     if(chosenPowers.length!==powerChoices)issue(i,`choose ${powerChoices} Force powers (${chosenPowers.length} selected)`);
     for(const p of chosenPowers.slice(0,powerChoices))if(ix.forcePowers.has(p.powerId))ctx.forcePowers.push({...p,level:n});
+    for(const membership of (c.forceTraditions||[]).filter(s=>s.level===n)){
+      const record=(pack.rules.traditionTalentAccess||[]).find(r=>r.id===membership.id);
+      if(record&&prerequisite(record.prerequisite,{...ctx,darkSideScore:membership.darkSideScore},ix))ctx.forceTraditions.add(record.id);
+      else issue(i,(record?.name||'Force Tradition')+' membership requirements not met');
+    }
     if (hasClassTalent(cls,cl)) grant(l.talent, 'talents', i, 'a talent', r => r&&talentTreeIds(r).some(id=>talentTrees(cls,ctx,pack).includes(id)));
     else if (l.talent) issue(i, 'a talent is not available at this class level');
     for(const feature of cls.classFeatures||[])if(feature.level===cl)ctx.classFeatures.push({...feature,classId:cls.id,level:n});
     const choiceSlots=(cls.classFeatureChoices||[]).filter(s=>s.level===cl);
     for(const [j,slot]of choiceSlots.entries()){const selection=l.classChoices?.[j],r=selection&&ix.classChoices.get(selection.id);const duplicate=r&&ctx.classChoices.some(s=>s.id===r.id&&(r.repeat==='never'||s.choice===selection.choice));if(!r||selection.pending||r.kind!==slot.kind||duplicate||r.choiceType==='power'&&!ix.forcePowers.has(selection.choice)){issue(i,'choose '+slot.kind.replace(/([A-Z])/g,' $1'));continue;}ctx.classChoices.push({...selection,kind:r.kind,classId:cls.id,level:n});}
     if((l.classChoices||[]).slice(choiceSlots.length).some(Boolean))issue(i,'extra class feature choices are not available');
-    rows.push({number: n, classLevel: cl, cls, ...(i===0?{initialClassSkills}:{}),slots,powerChoices,valid:true,choiceSlots, scores: {...ctx.scores}, ctx: {...ctx,classChoices:[...ctx.classChoices],classFeatures:[...ctx.classFeatures], classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers]}});
+    rows.push({number: n, classLevel: cl, cls, ...(i===0?{initialClassSkills}:{}),slots,powerChoices,valid:true,choiceSlots, scores: {...ctx.scores}, ctx: {...ctx,forceTraditions:new Set(ctx.forceTraditions),classChoices:[...ctx.classChoices],classFeatures:[...ctx.classFeatures], classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers]}});
   }
   ctx.inactiveClasses=new Set([...ctx.classLevels.keys()].filter(id=>ix.classes.get(id).continuousDarkSide&&ctx.darkSideScore<ctx.scores.wis));
   for(const t of ctx.talents)if(ctx.inactiveClasses.has(t.classId))ctx.inactiveTalents.add(t.id);
@@ -525,7 +537,7 @@ export function derive(c, pack) {
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
-    forcePowers:ctx.forcePowers.map(p=>({...ix.forcePowers.get(p.powerId),copyId:p.id,action:p.action||ix.forcePowers.get(p.powerId).action,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId),adept:ctx.talents.some(t=>t.id==='talent:force-power-adept'&&t.choice===p.powerId&&!ctx.inactiveTalents.has(t.id))})),powerSlots:ctx.powerSlots,
+    forcePowers:ctx.forcePowers.map(p=>{const record=ix.forcePowers.get(p.powerId),removedDescriptors=record.descriptors.filter(descriptor=>effects.some(e=>e.target==='powerDescriptorRemoval'&&e.selection.choice===p.powerId&&e.descriptors.includes(descriptor)));return {...record,descriptors:record.descriptors.filter(d=>!removedDescriptors.includes(d)),removedDescriptors,copyId:p.id,action:p.action||record.action,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId),adept:ctx.talents.some(t=>t.id==='talent:force-power-adept'&&t.choice===p.powerId&&!ctx.inactiveTalents.has(t.id))};}),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses,conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,

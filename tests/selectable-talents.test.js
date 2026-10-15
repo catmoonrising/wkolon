@@ -12,8 +12,8 @@ const t=(id,rest={})=>({id:'talent:'+id,...rest});
 function hero(cls='soldier'){const c=newCharacter(pack,{classId:'class:'+cls});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:14,wis:14,cha:14};return c;}
 
 test('supplemental talents remain manual while typed prerequisites and exact source articles are available',()=>{
- assert.equal(pack.talents.length,1034);const additions=pack.talents.slice(194);assert.equal(additions.length,840);
- const reviewed=new Set(['talent:watchful-step','talent:engineer-lineage','talent:dark-deception','talent:commanding-presence','talent:stolen-form']);
+ assert.equal(pack.talents.length,1156);const additions=pack.talents.slice(194);assert.equal(additions.length,962);
+ const reviewed=new Set(['talent:watchful-step','talent:engineer-lineage','talent:dark-deception','talent:commanding-presence','talent:stolen-form','talent:many-shades-of-the-force']);
  for(const r of additions){assert.equal(r.automation,reviewed.has(r.id)?'partial':'manual',r.name);if(!reviewed.has(r.id))assert.deepEqual(r.effects,[]);assert(r.article?.blocks.length);const source=pack.sources.find(s=>s.id===r.sourceId);assert.equal(source.section,r.name);assert(source.sha256&&source.revision);assert(pack.catalog.records.some(c=>c.kind==='talent'&&c.status==='available'&&c.mechanicsIds.includes(r.id)));}
  const r=ix.talents.get('talent:armored-augmentation-ii'),ctx=derive(hero(),pack).ctx,s={id:r.id,manualRequirements:true};
  assert(!eligible(r,s,ctx,ix,'talents'));ctx.talents.push(t('armored-augmentation-i'));assert(eligible(r,s,ctx,ix,'talents'));assert(!eligible(r,{id:r.id},ctx,ix,'talents'));

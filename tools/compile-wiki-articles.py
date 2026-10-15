@@ -58,7 +58,7 @@ def talent_section(blocks, name, title):
     inherited = next((n for n in blocks if isinstance(n,dict) and n['tag']=='p' and text(n).strip().startswith('Reference Book')),None)
     if inherited and not any(isinstance(n,dict) and n['tag']=='p' and text(n).strip().startswith('Reference Book') for n in main):
         body = [inherited,*body]
-    if title in TALENT_SCOPE_RULES:
+    if title in TALENT_SCOPE_RULES or any(isinstance(n,dict) and n['tag']=='p' and 'may select Talents from this tree' in text(n) for n in blocks[:start]):
         first = next(i for i,n in enumerate(blocks) if rank(n)==3)
         scope = [n for n in blocks[:first] if isinstance(n,dict) and n['tag']=='p' and not text(n).strip().startswith('Reference Book')]
         insert = next((i+1 for i,n in enumerate(body) if isinstance(n,dict) and n['tag']=='p' and text(n).strip().startswith('Reference Book')),0)

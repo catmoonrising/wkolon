@@ -43,6 +43,7 @@ CHOICES = {
  'Skill Boon':('skill','Skill','choice'),
  'Skill Confidence':('skill','Skill','choice'),
  'Skillful Recovery':('skill','Skill','choice'),
+ 'Many Shades of the Force':('power','Force power','never'),
 }
 TRAINED_CHOICES = {'Exceptional Skill','Skill Boon','Skill Confidence','Skillful Recovery'}
 MANUAL_CHOICE_REQUIREMENTS = {'Brutal Attack','Share Force Secret','Share Force Technique','Share Jedi Talent','Coordinated Leadership','Done It All','Stolen Form','Squadron Maneuvers'}
@@ -296,7 +297,7 @@ class PrerequisiteParser:
         return dict(kind='all', requirements=result), manual, failures
 
 
-def collect(mechanics, references, capture):
+def collect(mechanics, references, capture, include_traditions=False):
     sources = {s['id']:s for s in mechanics['sources']}
     existing = collections.defaultdict(list)
     for record in mechanics['talents']:
@@ -310,12 +311,13 @@ def collect(mechanics, references, capture):
         categories = re.findall(r'\[\[Category:([^]|]+)', raw)
         assigned = [name for name in classes if name + ' Talent Trees' in categories]
         common = 'Force Talent Trees' in categories
-        if not assigned and not common:continue
+        tradition = 'Tradition Talent Trees' in categories
+        if not assigned and not common and not (include_traditions and tradition):continue
         article = json.loads((ROOT / reference['path']).read_text())['article']
-        tree = dict(name=title, id='tree:' + slug(title.removesuffix(' Talent Tree')), classes=assigned, commonForce=common, source=reference['source'], article=clean(article))
+        tree = dict(name=title, id='tree:' + slug(title.removesuffix(' Talent Tree')), classes=assigned, commonForce=common, tradition=tradition, source=reference['source'], article=clean(article))
         trees.append(tree)
         scope_rules = []
-        if title in TREE_RULES:
+        if title in TREE_RULES or tradition:
             for block in article['blocks']:
                 if isinstance(block, dict) and block['tag'] == 'h3':break
                 if isinstance(block, dict) and block['tag'] == 'p' and not text(block).strip().startswith('Reference Book'):
@@ -352,6 +354,9 @@ def collect(mechanics, references, capture):
         prerequisite, manual, failures = parser.parse(passages, record.get('choiceType'))
         requirements = prerequisite['requirements']
         if row['commonForce']:requirements.insert(0, dict(kind='feat', value='feat:force-sensitivity'))
+        if next(t for t in trees if t['id']==row['treeId'])['tradition']:
+            requirements.insert(0, dict(kind='feat', value='feat:force-sensitivity'))
+            requirements.insert(0, dict(kind='tradition', value='tradition:'+slug(row['treeTitle'].removesuffix(' Talent Tree'))))
         if row['treeId'] == 'tree:dark-side':
             record['requiresDarkSide'] = True;requirements.insert(0, dict(kind='darkSideScore', min=1))
         if row['treeId'] == 'tree:light-side':
@@ -361,6 +366,10 @@ def collect(mechanics, references, capture):
             if row['treeId'] == 'tree:gand-findsman':requirements.insert(0, dict(kind='feat', value='feat:force-sensitivity'))
         if name in TRAINED_CHOICES:requirements.append(dict(kind='trained', value='$choice'))
         if name == 'Force Exertion':requirements.append(dict(kind='power', value='$choice'))
+        if name == 'Many Shades of the Force':
+            requirements.append(dict(kind='power',value='$choice'))
+            record['choicePowerDescriptors'] = ['dark-side','light-side']
+            record.update(automation='partial',effects=[dict(target='powerDescriptorRemoval',descriptors=['dark-side','light-side'])])
         if name in ['Flurry Attack','Mandalorian Ferocity','Accurate Blow','Disarming Attack']:requirements.append(dict(kind='proficientChoice', value='$choice'))
         if name == 'Accurate Blow':
             record['choiceGroups'] = ['advanced-melee-weapons','lightsabers','simple-weapons']
@@ -372,6 +381,8 @@ def collect(mechanics, references, capture):
             manual += [text(n).strip() for n in row['blocks'] if isinstance(n,dict) and n['tag'] in ['p','ul'] and not text(n).strip().startswith(('Reference Book','Prerequisite')) and re.search(r'\b(?:choose|select|know|possess|already have)\b',text(n),re.I)]
         if name in ['Inspire Loyalty','Commanding Officer']:record['maxSelections'] = 3
         if name == 'Sentinel Strike':record['maxSelections'] = 5
+        if name == 'Shadow Armor':record.update(repeat='stack',maxSelections=4)
+        if name == 'Wan-Shen Defense':record.update(repeat='stack',maxSelections=3)
         if name in FORCE_ACTIVATION:record['forceActivation'] = FORCE_ACTIVATION[name]
         record['prerequisite'] = prerequisite
         if manual:record['manualPrerequisites'] = list(dict.fromkeys(manual))
@@ -424,6 +435,38 @@ def apply_import(mechanics, rows, trees, section_sources, capture, references):
             raise ValueError('Parse revision mismatch: ' + title)
         shutil.copyfile(parse_path, BUILD / ('article-' + slug(title) + '-parse.json'))
         return parse_path
+
+    if any(t['tradition'] for t in trees):
+        overview = json.loads((ROOT / refs['Force Traditions']['path']).read_text())['article']
+        memberships = []
+        strict_species = {'Baran Do Sage':'Kel Dor','Felucian Shaman':'Felucian','Iron Knight':'Shard','Keetael':'Draethos','Luka Sene':'Miraluka','Order of Shasa':'Selkath'}
+        for row in nodes(overview['blocks']):
+            if row['tag']!='tr':continue
+            cells=[n for n in row['children'] if isinstance(n,dict) and n['tag']=='td']
+            if len(cells)<2:continue
+            title=text(cells[1]).strip()
+            tree=known_trees.get(title)
+            if not tree or not tree['tradition']:continue
+            name=text(cells[0]).strip()
+            reference=refs[name]
+            source=copy.deepcopy(reference['source'])
+            sid=register_source(source)
+            register_capture(name,source['revision'])
+            rid='rule:tradition-'+slug(name)
+            pages[rid]=dict(id=rid,name=name,sourceId=sid,article=clean(json.loads((ROOT/reference['path']).read_text())['article']))
+            requirements=[]
+            short=title.removesuffix(' Talent Tree')
+            if short in ['Agent of Ossus','Bando Gora Captain','Believer Disciple','Baran Do Sage','Dathomiri Witch','Disciple of Twilight','Ember of Vahl','Jensaarai Defender','Kilian Ranger','Korunnai Adept','Matukai Adept','Seyugi Dervish','Shaper of Kro Var','Tyia Adept','Warden of the Sky','Zeison Sha Warrior']:
+                requirements.append(dict(kind='feat',value='feat:force-sensitivity'))
+            if short in strict_species:requirements.append(dict(kind='species',value=strict_species[short]))
+            if short=='Felucian Shaman':requirements.append(dict(kind='trained',value='skill:use-the-force'))
+            if short in ['Bando Gora Captain','Believer Disciple']:requirements.append(dict(kind='darkSideScore',min=1))
+            # Narrative admission is a declaration, not something inferred from
+            # the overview's abbreviated origin/species list. Tree access still
+            # requires Force Sensitivity for every tradition.
+            memberships.append(dict(id='tradition:'+slug(short),name=name,tree=tree['id'],sourceId=sid,ruleId=rid,prerequisite=dict(kind='all',requirements=requirements)))
+        if len(memberships)!=sum(t['tradition'] for t in trees):raise ValueError('Missing tradition overview mapping')
+        mechanics['rules']['traditionTalentAccess']=sorted(memberships,key=lambda r:r['name'])
 
     for tree in trees:
         source = copy.deepcopy(tree['source'])
@@ -526,18 +569,19 @@ def apply_import(mechanics, rows, trees, section_sources, capture, references):
     catalog_path.write_text(json.dumps(catalog,ensure_ascii=False,separators=(',',':'))+'\n')
     pins_path.write_text(json.dumps(pins,ensure_ascii=False,indent=2)+'\n')
     extra_path.write_text(json.dumps(extra,ensure_ascii=False,indent=2)+'\n')
-    print('Enabled',len(talents),'talents in',len(trees),'class/common Force trees')
+    print('Enabled',len(talents),'talents in',len(trees),'reviewed trees')
 
 
 def main():
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument('--apply', action='store_true', help='Apply the reviewed pinned import')
+    cli.add_argument('--traditions', action='store_true', help='Include Force Tradition trees and reviewed membership access')
     cli.add_argument('--capture', type=Path, default=BUILD / 'reference/capture.json')
     args = cli.parse_args()
     mechanics = json.loads((ROOT / 'data/mechanics.json').read_text())
     references = json.loads((ROOT / 'data/reference-index.json').read_text())['records']
     capture = json.loads(args.capture.read_text())['pages']
-    rows, trees, sources = collect(mechanics, references, capture)
+    rows, trees, sources = collect(mechanics, references, capture,args.traditions)
     review = dict(schemaVersion=1, trees=[{k:v for k,v in t.items() if k!='article'} for t in trees], records=[{**{k:v for k,v in r.items() if k!='existing'},'existing':bool(r['existing'])} for r in rows])
     (BUILD / 'talent-catalog-review.json').write_text(json.dumps(review,ensure_ascii=False,indent=2)+'\n')
     new = [r for r in rows if not r['existing'] and not r['reprint']]
