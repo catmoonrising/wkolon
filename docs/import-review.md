@@ -1481,3 +1481,44 @@ and Initiative reroll, Nosaurian's Survival reroll, Anzati's Low-Light Vision an
 Yarkora's Deception reroll use existing reviewed fields. Natural Weapons, Reactive
 Claw, Mesmerize, Presence Sense, Soup Drinking and Confusion retain full source
 text and remain manual. All six records carry Partial markers.
+
+
+## Fixed-stat species catalog expansion
+
+Added 67 official species with fixed printed ability modifiers, sizes, normal and
+alternate movement speeds, automatic languages and complete pinned articles.
+Species coverage is now 102 of 132 inventoried pages, with 104 selectable entries
+including the existing book variants. Existing species mechanics are unchanged.
+
+The fixed-stat review excludes narrative ability names from numeric modifiers:
+Gand keep +2 WIS, Massassi keep +4 STR, and Lugubraa have no inherent INT penalty.
+Lugubraa Learning's age-dependent cap and increase remain in their full rules for
+manual resolution. Celegian have no printed ground speed; the record grants
+Fly 6 and Swim 10, with no invented walking speed. Skakoan language capabilities
+and Ubeninal sign language are retained explicitly. No unspecified languages are
+assigned to fill an omission.
+
+Existing typed fields cover printed natural armor, unconditional starting Feats,
+conditional Skill Focus, Primitive exclusions, Chiss bonus training, vision,
+underwater breathing, selected rerolls/Take 10, breath holding, and the exact
+Chistori/Mantellian Savrip Rage rules. Gand's published 1d10-day limb regeneration
+reuses the existing subsystem and now links to Gand's source instead of Trandoshan's.
+
+New data-contract fields cover innate DR, fixed species Damage Threshold bonuses
+and native-flight restrictions under Heavy Load. Chistori, Givin and Nautolan DR
+feeds both the HP display and incoming damage. Stereb's +5 threshold bonus is
+separate from its Fortitude bonus; its stone-only Skill Focus remains manual.
+Celegian and Toydarian cannot fly under Heavy Load. A nonexistent ground movement
+mode remains absent when speed bonuses or encumbrance would otherwise grant
+movement. Other existing encumbrance rules are unchanged.
+
+All new records remain Partial. Natural weapons, conditional/special attacks,
+other situational traits, special senses, aging, and exceptional healing/death
+interactions require further automation. In particular, Gen'Dai's doubled
+threshold for death is not applied to the general threshold display or automated
+damage resolution. Full source text remains the authority for manual resolution.
+
+The remaining 30 pages need book variants, explicit creation choices, restricted
+automatic Feat grants, droid physiology, or unresolved source details. Sorcerer of
+Rhand is held until its bonus Force Training's descriptor restrictions are
+represented; it is not imported as an unrestricted power suite.

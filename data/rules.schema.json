@@ -2995,6 +2995,17 @@
             "type": "string",
             "pattern": "^skill:[a-z0-9-]+$"
           }
+        },
+        "damageReduction": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "damageThresholdBonus": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "flightHeavyLoadForbidden": {
+          "type": "boolean"
         }
       }
     },

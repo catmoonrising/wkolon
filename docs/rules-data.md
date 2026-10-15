@@ -20,6 +20,12 @@ Their articles retain common characteristics and only the selected book's traits
 skills to every class of that species. It grants neither training nor additional
 training slots. Creation, Intelligence increases, feat prerequisites and later
 levels consume the same availability set.
+`damageReduction` and `damageThresholdBonus` are optional nonnegative integers
+for innate DR and a fixed species threshold bonus. DR combines by maximum with
+other DR and follows the existing Lightsaber/Ignore DR handling.
+`flightHeavyLoadForbidden` prevents native flight under a Heavy Load. A native
+movement speed of zero stays zero when adding speed bonuses or carrying a load;
+other printed movement modes remain separate.
 `conditionalFocuses` supports multiple independent training-dependent grants.
 `forceImmune` forbids Force Sensitivity and Use the Force, yields no Force Points,
 and retains immunity to Force effects targeting Will as a manual defensive trait. `technophobic` is an attack

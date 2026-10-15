@@ -77,13 +77,14 @@ export function validatePack(p) {
       if(r.skillRerolls){assert(Array.isArray(r.skillRerolls));for(const e of r.skillRerolls){requireRef('skills',e.skill);assert(Object.keys(e).every(k=>['skill','keep','when'].includes(k))&&['replace','best'].includes(e.keep)&&(!e.when||['intimidate','searchYourFeelingsOrSenseForce'].includes(e.when)),'Unsupported species reroll');}}
       if(r.take10Skills){assert(Array.isArray(r.take10Skills)&&new Set(r.take10Skills).size===r.take10Skills.length);r.take10Skills.forEach(id=>requireRef('skills',id));}
       if(r.vision)assert(['low-light','darkvision'].includes(r.vision));
-      for(const k of ['breatheUnderwater','knockdownImmune'])if(r[k]!==undefined)assert.equal(typeof r[k],'boolean');
+      for(const k of ['breatheUnderwater','knockdownImmune','flightHeavyLoadForbidden'])if(r[k]!==undefined)assert.equal(typeof r[k],'boolean');
       for(const k of ['scentRange','holdBreathMultiplier','naturalHealingMultiplier'])if(r[k]!==undefined)assert(Number.isInteger(r[k])&&r[k]>0);
       if(r.traits!==undefined)assert(Array.isArray(r.traits)&&new Set(r.traits).size===r.traits.length&&r.traits.every(t=>t==='rage'),'Unsupported species trait');
       if (r.isDroid !== undefined) assert.equal(typeof r.isDroid,'boolean',`Invalid droid classification: ${r.id}`);
       assert(p.rules.sizeReflex[r.size] !== undefined && Number.isInteger(r.speed));
       for(const [k,v] of Object.entries(r.abilityAdjustments)) assert(ABILITIES.includes(k) && Number.isInteger(v));
       assert(Array.isArray(r.languages) && Array.isArray(r.reminders));
+      for(const key of ['damageReduction','damageThresholdBonus'])if(r[key]!==undefined)assert(Number.isInteger(r[key])&&r[key]>=0,'Invalid species '+key);
       if(r.naturalArmor!==undefined)assert(Number.isInteger(r.naturalArmor)&&r.naturalArmor>=0,'Invalid natural armor');
       if(r.conditionalDefenses!==undefined){
         assert(Array.isArray(r.conditionalDefenses));

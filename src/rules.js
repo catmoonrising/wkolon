@@ -319,6 +319,7 @@ export function derive(c, pack) {
   }
   const classPassives=[...ctx.classLevels].filter(([id])=>!ctx.inactiveClasses.has(id)).flatMap(([id,n])=>(ix.classes.get(id).passives||[]).map(e=>({...e,amount:Math.floor(n/e.step)*e.amount})));
   const classChoiceEffects=ctx.classChoices.filter(s=>!ctx.inactiveClasses.has(s.classId)).flatMap(s=>ix.classChoices.get(s.id).effects.map(e=>({...e,choice:s.choice})));
+  const speciesDR=species.damageReduction||0;
   const classDR=Math.max(0,...classPassives.filter(e=>e.target==='dr').map(e=>e.amount));
   const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.filter(s=>!ctx.inactiveTalents.has(s.id)).map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
   const energyShields=activeShields(c,pack),shieldLimits=shieldRestrictions(energyShields,ctx,pack);
@@ -383,7 +384,7 @@ export function derive(c, pack) {
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
   const conditionalEffects=[...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='conditionalDefense'),...armorConditionalDefenses(armorItems,ctx,defenses)];
   const conditionalDefenses=[...combineArmorDefenses(conditionalEffects,[],defenses,equipmentDefenseBonuses),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)];
-  const thresholdState=thresholdDetails(c,effects,defenses,conditionalEffects,equipmentDefenseBonuses,pack.rules.sizeThreshold[effectiveSize]+total('threshold')+c.modifiers.threshold);
+  const thresholdState=thresholdDetails(c,effects,defenses,conditionalEffects,equipmentDefenseBonuses,pack.rules.sizeThreshold[effectiveSize]+(species.damageThresholdBonus||0)+total('threshold')+c.modifiers.threshold);
   const threshold=thresholdState.total,thresholdContext=thresholdState.context;
   const teamSkills=teamSkillDetails(c,effects,ix);
   const hp = (rows[0].valid===false?0:ix.classes.get(c.levels[0].classId).startingHP + mods.con) + c.levels.slice(1).reduce((n, l,i) => n + (rows[i+1].valid===false?0:Math.max(1, l.hpRoll + (ix.classes.get(l.classId).hpConstitution===false?0:mods.con))), 0) + total('hp') + c.modifiers.hp;
@@ -484,7 +485,7 @@ export function derive(c, pack) {
   const loadMultiplier=load.heavy?pack.rules.encumbrance.speedMultiplier:1;
   const flatArmorPenalty=unrestrictedArmor?0:armorItems.reduce((n,r)=>n+(r.speedPenalty||0),0);
   const magneticPenalty=unrestrictedArmor||!c.armorChecks?.magneticSoles?0:armorItems.reduce((n,r)=>n+(r.magneticSolesPenalty||0),0);
-  const move=(n,normal=false)=>load.tooHeavy?0:load.overloaded?1:Math.floor(Math.max(0,Math.floor((n + stride) * Math.min(armorSpeedMultiplier(n),loadMultiplier))-flatArmorPenalty-(normal?magneticPenalty:0)) / (c.condition >= 4 ? 2 : 1));
+  const move=(n,normal=false)=>n===0||load.tooHeavy?0:load.overloaded?1:Math.floor(Math.max(0,Math.floor((n + stride) * Math.min(armorSpeedMultiplier(n),loadMultiplier))-flatArmorPenalty-(normal?magneticPenalty:0)) / (c.condition >= 4 ? 2 : 1));
   const speed = move(species.speed,true);
   const restrictedRunningArmor=[...(unrestrictedArmor?[]:armorItems),...energyShields.filter(r=>!effects.some(e=>e.target==='armorMovement'&&(applies(e)||e.when==='proficientArmor'&&armorProficient(r,ctx))))];
   const armorRunMultiplier=Math.min(movement.runMultipliers.light,...restrictedRunningArmor.map(r=>movement.runMultipliers[r.category]));
@@ -494,7 +495,7 @@ export function derive(c, pack) {
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
-  return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,normalProtection:armorProtection(c,{armorItems,classDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+  return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
@@ -502,7 +503,7 @@ export function derive(c, pack) {
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses,conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
-    speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n+(type==='swim'?total('swimSpeed'):0))])),
+    speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,type==='fly'&&species.flightHeavyLoadForbidden&&load.heavy?0:move(n+(type==='swim'?total('swimSpeed'):0))])),
     incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forceMaximum: !level||species.forceImmune||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:!level||species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
     weightUnknown:carried.some(e=>resolveEquipment(e,pack,c).weight===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};

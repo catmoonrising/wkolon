@@ -11234,6 +11234,676 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=26684",
       "history": "https://swse.miraheze.org/w/index.php?title=Yarkora&action=history",
       "section": null
+    },
+    {
+      "id": "source:wiki-balosar",
+      "title": "Balosar",
+      "revision": 16121,
+      "timestamp": "2024-08-18T00:56:19Z",
+      "sha256": "5b1b94c348220a77234b98816c8453e1e51fbd3abcb6614926a74b1dfabdac1a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16121",
+      "history": "https://swse.miraheze.org/w/index.php?title=Balosar&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-barabel",
+      "title": "Barabel",
+      "revision": 16137,
+      "timestamp": "2024-08-18T00:56:21Z",
+      "sha256": "d64f87c5fa41e40e02358091874bcfe9731ef01133ed998bcef232889d8c8174",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16137",
+      "history": "https://swse.miraheze.org/w/index.php?title=Barabel&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-blood-carver",
+      "title": "Blood Carver",
+      "revision": 16301,
+      "timestamp": "2024-08-18T00:56:38Z",
+      "sha256": "340a2c591b2cdf50642e26b71b50818d1613bd0823c9c55e42266be7d0242a33",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16301",
+      "history": "https://swse.miraheze.org/w/index.php?title=Blood%20Carver&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-caamasi",
+      "title": "Caamasi",
+      "revision": 19397,
+      "timestamp": "2024-08-25T21:53:54Z",
+      "sha256": "8f1d62b86dee6620b32518525bcf258d3caa015e2b3868f56743e0649088fffc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19397",
+      "history": "https://swse.miraheze.org/w/index.php?title=Caamasi&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-celegian",
+      "title": "Celegian",
+      "revision": 20370,
+      "timestamp": "2024-08-25T23:43:19Z",
+      "sha256": "912ea0a8e572834dbfa327fdef0cca711ac6640a718ca0f35fa81f89ab0b5264",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20370",
+      "history": "https://swse.miraheze.org/w/index.php?title=Celegian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-chagrian",
+      "title": "Chagrian",
+      "revision": 19838,
+      "timestamp": "2024-08-25T22:42:36Z",
+      "sha256": "e9247a934ea7871cb48a00db1208df8cbd5db6b8319eaee5d4a0e054831d472e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19838",
+      "history": "https://swse.miraheze.org/w/index.php?title=Chagrian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-chiss",
+      "title": "Chiss",
+      "revision": 19402,
+      "timestamp": "2024-08-25T21:54:23Z",
+      "sha256": "4b86dbccf810a2dc85ba652bf371849673d44416fc2d9aabd24b008fee80293c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19402",
+      "history": "https://swse.miraheze.org/w/index.php?title=Chiss&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-chistori",
+      "title": "Chistori",
+      "revision": 18878,
+      "timestamp": "2024-08-25T20:54:14Z",
+      "sha256": "ec8698cbc55f6892a7082cd894ae7e4645119c34e693f468210c4fe08dbd2360",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18878",
+      "history": "https://swse.miraheze.org/w/index.php?title=Chistori&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-clawdite",
+      "title": "Clawdite",
+      "revision": 19624,
+      "timestamp": "2024-08-25T22:18:36Z",
+      "sha256": "fe40653d3f69c1f775b679d562b4d689c67d8fc9c9dd22352d314448b85c5cdc",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19624",
+      "history": "https://swse.miraheze.org/w/index.php?title=Clawdite&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-dashade",
+      "title": "Dashade",
+      "revision": 20855,
+      "timestamp": "2024-08-26T00:39:23Z",
+      "sha256": "7d51edca92710b07a1d8942bfa086fe6f3bfe5b83919580c6d024214d7e78ce3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20855",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dashade&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-defel",
+      "title": "Defel",
+      "revision": 21160,
+      "timestamp": "2024-08-26T01:16:26Z",
+      "sha256": "61076f8bad55cf71adf60b98b5752e1f979424961dce99c2ae779cfaa9be34b5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21160",
+      "history": "https://swse.miraheze.org/w/index.php?title=Defel&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-draethos",
+      "title": "Draethos",
+      "revision": 25921,
+      "timestamp": "2025-01-05T02:56:27Z",
+      "sha256": "f8ee3cbd89c60282dcd9a9e64f151b0e53c417ada2386028623c36d0fa88d210",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25921",
+      "history": "https://swse.miraheze.org/w/index.php?title=Draethos&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-ebruchi",
+      "title": "Ebruchi",
+      "revision": 21309,
+      "timestamp": "2024-08-26T01:33:43Z",
+      "sha256": "a9f5fca73859db5b2bf4ebe31b3289af2fde8ceb341cfa48a0076f3c73edcc24",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21309",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ebruchi&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-elomin",
+      "title": "Elomin",
+      "revision": 21170,
+      "timestamp": "2024-08-26T01:17:27Z",
+      "sha256": "d03bd2a25765100b16c219efbc035342cc733ba3bd329266e011964f6c5a3ccb",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21170",
+      "history": "https://swse.miraheze.org/w/index.php?title=Elomin&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-falleen",
+      "title": "Falleen",
+      "revision": 19658,
+      "timestamp": "2024-08-25T22:22:11Z",
+      "sha256": "e8fe08c234f43c45834816474dc8ccbfcad59089761a336f4d69bfd33da0655f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19658",
+      "history": "https://swse.miraheze.org/w/index.php?title=Falleen&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-feeorin",
+      "title": "Feeorin",
+      "revision": 27372,
+      "timestamp": "2025-12-29T16:36:44Z",
+      "sha256": "0692ce34b9682cd728110c3b10cb9a2e80e72535a7c098d178a5e5e30f8b8a01",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27372",
+      "history": "https://swse.miraheze.org/w/index.php?title=Feeorin&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-felucian",
+      "title": "Felucian",
+      "revision": 19436,
+      "timestamp": "2024-08-25T21:58:18Z",
+      "sha256": "b445c7c733d52cebd2f82140ec4e4f4b63fecdab342848f93d3e108e2a4a7c4a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19436",
+      "history": "https://swse.miraheze.org/w/index.php?title=Felucian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-fosh",
+      "title": "Fosh",
+      "revision": 21184,
+      "timestamp": "2024-08-26T01:18:57Z",
+      "sha256": "9e7f3f2f586eaed80d23927534c45c49e5109e238cc71d3a4abe9caba8009031",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21184",
+      "history": "https://swse.miraheze.org/w/index.php?title=Fosh&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gand",
+      "title": "Gand",
+      "revision": 19666,
+      "timestamp": "2024-08-25T22:23:07Z",
+      "sha256": "743ee5826c6fadc29cc807cb0178848f592ab9773e995f8f7369925fd1dd91a7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19666",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gand&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gen-dai",
+      "title": "Gen'Dai",
+      "revision": 19919,
+      "timestamp": "2024-08-25T22:51:44Z",
+      "sha256": "817511e39f0efeab5d1810557c171b63ea3991a964c0dca1dc3af9d814539bf2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19919",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gen%27Dai&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-givin",
+      "title": "Givin",
+      "revision": 21187,
+      "timestamp": "2024-08-26T01:19:16Z",
+      "sha256": "7ec0307902bbe194f7af17f09298215ca8d97829722406424e5cae69f441e6e2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21187",
+      "history": "https://swse.miraheze.org/w/index.php?title=Givin&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gotal",
+      "title": "Gotal",
+      "revision": 21188,
+      "timestamp": "2024-08-26T01:19:21Z",
+      "sha256": "ad213462c99d20bd2d8f6a86eb55ebf9c76de0a242f4a8992a2e9e0e82ef20f0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21188",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gotal&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-herglic",
+      "title": "Herglic",
+      "revision": 21190,
+      "timestamp": "2024-08-26T01:19:34Z",
+      "sha256": "58165ee6abba19bc5a1a6480fb78530931947ba8230237077d96f37a16f20134",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21190",
+      "history": "https://swse.miraheze.org/w/index.php?title=Herglic&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-houk",
+      "title": "Houk",
+      "revision": 19685,
+      "timestamp": "2024-08-25T22:25:11Z",
+      "sha256": "bdaefba230f03685c49e5b0a0d264b5cc860ef145a48808133a2ca8c69e0f42f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19685",
+      "history": "https://swse.miraheze.org/w/index.php?title=Houk&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-iktotchi",
+      "title": "Iktotchi",
+      "revision": 19935,
+      "timestamp": "2024-08-25T22:53:30Z",
+      "sha256": "0542f0543473427c39d2ab54f89a672f0e420da2ea1edd60745ee57dc5d33ba4",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19935",
+      "history": "https://swse.miraheze.org/w/index.php?title=Iktotchi&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-ishi-tib",
+      "title": "Ishi Tib",
+      "revision": 21355,
+      "timestamp": "2024-08-26T01:38:50Z",
+      "sha256": "be6d51bc4bca6d7b0851ec3b1014917d4aa4d51ac2899d7b990e98e994f4a90f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21355",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ishi%20Tib&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-kaleesh",
+      "title": "Kaleesh",
+      "revision": 19955,
+      "timestamp": "2024-08-25T22:55:26Z",
+      "sha256": "22c56f8476a7c6716947c0d35e688f108beed54e5f2ce083ceec71a09dd5f018",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19955",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kaleesh&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-kerkoiden",
+      "title": "Kerkoiden",
+      "revision": 19959,
+      "timestamp": "2024-08-25T22:55:48Z",
+      "sha256": "0d1d4fd87a08cc513b277b7a532b4df7d62898cd02b0b26b1c62b0e0320ec645",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19959",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kerkoiden&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-khil",
+      "title": "Khil",
+      "revision": 19204,
+      "timestamp": "2024-08-25T21:31:21Z",
+      "sha256": "213128cd56bf1806f1a0ffd1708e6c5e7eaa9897f270868fdec1d651476e919e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19204",
+      "history": "https://swse.miraheze.org/w/index.php?title=Khil&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-kissai",
+      "title": "Kissai",
+      "revision": 25911,
+      "timestamp": "2025-01-05T02:18:10Z",
+      "sha256": "290b8182b2ae815ca1a3bd9bd698c7e9bdb1ab02adabb4e7da01f60a2d1882d1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25911",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kissai&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-lugubraa",
+      "title": "Lugubraa",
+      "revision": 21371,
+      "timestamp": "2024-08-26T01:40:40Z",
+      "sha256": "1a708a157a15bf385f03dda33860e1608f1962a909d7ed527517bec25e249b7d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21371",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lugubraa&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-lurmen",
+      "title": "Lurmen",
+      "revision": 20893,
+      "timestamp": "2024-08-26T00:44:04Z",
+      "sha256": "0d535a6d5210c3c7a31d06b7900c4a0336ef8f13eead5f8674f806ef3b6842b8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20893",
+      "history": "https://swse.miraheze.org/w/index.php?title=Lurmen&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-mantellian-savrip",
+      "title": "Mantellian Savrip",
+      "revision": 18963,
+      "timestamp": "2024-08-25T21:03:10Z",
+      "sha256": "d4746927d0fec195e9394c988d71dfac209f60dcd5ca92fb03e116e1511c5778",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=18963",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mantellian%20Savrip&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-massassi",
+      "title": "Massassi",
+      "revision": 26680,
+      "timestamp": "2025-05-30T04:03:17Z",
+      "sha256": "7fa8b55465d4e521441003ad8312f1201869cde3348af27658ab65a95705a196",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26680",
+      "history": "https://swse.miraheze.org/w/index.php?title=Massassi&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-nagai",
+      "title": "Nagai",
+      "revision": 20256,
+      "timestamp": "2024-08-25T23:30:41Z",
+      "sha256": "1b8130aeb227752eca19d3fcd81d5451896706109965a44404a43a5a19720ea7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20256",
+      "history": "https://swse.miraheze.org/w/index.php?title=Nagai&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-nautolan",
+      "title": "Nautolan",
+      "revision": 20001,
+      "timestamp": "2024-08-25T23:00:39Z",
+      "sha256": "f66fc7c4e9e972f83e91b140aebde8506fb821f6476f3b2c386be692b2c444ef",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20001",
+      "history": "https://swse.miraheze.org/w/index.php?title=Nautolan&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-nazren",
+      "title": "Nazren",
+      "revision": 23915,
+      "timestamp": "2024-10-07T20:21:37Z",
+      "sha256": "c5d98c34d0f14b32a3cbd887401d7d1311cdcf9a1ca63aad3dcee46888c1ce55",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=23915",
+      "history": "https://swse.miraheze.org/w/index.php?title=Nazren&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-pa-lowick",
+      "title": "Pa'lowick",
+      "revision": 21227,
+      "timestamp": "2024-08-26T01:23:42Z",
+      "sha256": "0a1d6a089c9546df8ff0ecf70b97b46af556aa420132438bca65d9cc05784d36",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21227",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pa%27lowick&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-pau-an",
+      "title": "Pau'an",
+      "revision": 24863,
+      "timestamp": "2024-11-07T16:08:16Z",
+      "sha256": "5aee4c1e8ba19b5010e6ec1ce7332d862d40be64422c5bc11dcb145e719f7946",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24863",
+      "history": "https://swse.miraheze.org/w/index.php?title=Pau%27an&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-polis-massan",
+      "title": "Polis Massan",
+      "revision": 21710,
+      "timestamp": "2024-08-26T02:19:57Z",
+      "sha256": "127d871314b109f9f6cfe6f82696366b31ee709b4ee0d4cabc135bd68c080956",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21710",
+      "history": "https://swse.miraheze.org/w/index.php?title=Polis%20Massan&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-ryn",
+      "title": "Ryn",
+      "revision": 22729,
+      "timestamp": "2024-09-06T20:51:21Z",
+      "sha256": "fa3058061a860ff5fcc1b82a5a8c10a159ac9819994466f11402db60a3b6f232",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=22729",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ryn&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sakiyan",
+      "title": "Sakiyan",
+      "revision": 20298,
+      "timestamp": "2024-08-25T23:35:17Z",
+      "sha256": "c3aebf5c302eff9c47859ce3267c48c36ce0c5c9dc1752e2accb2843e8195d5e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20298",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sakiyan&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-selkath",
+      "title": "Selkath",
+      "revision": 19316,
+      "timestamp": "2024-08-25T21:43:32Z",
+      "sha256": "1fe635efab29cb8b464fbe0c046649bda1635b87739743c569e8a81796b46c8c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19316",
+      "history": "https://swse.miraheze.org/w/index.php?title=Selkath&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-skakoan",
+      "title": "Skakoan",
+      "revision": 21747,
+      "timestamp": "2024-08-26T02:24:19Z",
+      "sha256": "ecd4f22ebbc05d45d16ceb8c5ce4cdfd525ff2686da153c297bc09cac50dbd04",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21747",
+      "history": "https://swse.miraheze.org/w/index.php?title=Skakoan&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-snivvian",
+      "title": "Snivvian",
+      "revision": 19344,
+      "timestamp": "2024-08-25T21:46:46Z",
+      "sha256": "d74b42100dbc6399a9f13995e1b223636da4950bb91a7cb963376e36e5a5c148",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19344",
+      "history": "https://swse.miraheze.org/w/index.php?title=Snivvian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-squib",
+      "title": "Squib",
+      "revision": 21451,
+      "timestamp": "2024-08-26T01:49:34Z",
+      "sha256": "48cddfedb5e306f1804057dcbcded1e2ad32d7935954e90a42f7a1de1cf1f276",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21451",
+      "history": "https://swse.miraheze.org/w/index.php?title=Squib&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-stereb",
+      "title": "Stereb",
+      "revision": 21753,
+      "timestamp": "2024-08-26T02:25:19Z",
+      "sha256": "6dfb9645bdbe608ad649cdee0160bce7a5ce534b12380ce0dd7a7cdaf9218475",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21753",
+      "history": "https://swse.miraheze.org/w/index.php?title=Stereb&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-talz",
+      "title": "Talz",
+      "revision": 19585,
+      "timestamp": "2024-08-25T22:14:10Z",
+      "sha256": "11a3dbdd1f86017c9ec45f4effa32be8c4423eac77d4c45cf3a862f8b32e9995",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19585",
+      "history": "https://swse.miraheze.org/w/index.php?title=Talz&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-taung",
+      "title": "Taung",
+      "revision": 20970,
+      "timestamp": "2024-08-26T00:53:57Z",
+      "sha256": "d1d0d6d238493e52f08ca9648e0e1a98cc8f83d000ff6983da44deaa360e2aa6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20970",
+      "history": "https://swse.miraheze.org/w/index.php?title=Taung&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-thakwaash",
+      "title": "Thakwaash",
+      "revision": 20974,
+      "timestamp": "2024-08-26T00:54:20Z",
+      "sha256": "45c4d55f19a59201c2bce0e019e15bfc2c1f167f70b456d638961a85b088128e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20974",
+      "history": "https://swse.miraheze.org/w/index.php?title=Thakwaash&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-togorian",
+      "title": "Togorian",
+      "revision": 19591,
+      "timestamp": "2024-08-25T22:14:47Z",
+      "sha256": "fd5b40a98f46737c12ce9ea5fb58289f97ac0d04bd16c001128f11985563b93f",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19591",
+      "history": "https://swse.miraheze.org/w/index.php?title=Togorian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-togruta",
+      "title": "Togruta",
+      "revision": 19592,
+      "timestamp": "2024-08-25T22:14:52Z",
+      "sha256": "cb07c99668018ccd942204d89568fe49cf933b52be9077d6546f61a230559c17",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19592",
+      "history": "https://swse.miraheze.org/w/index.php?title=Togruta&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-toydarian",
+      "title": "Toydarian",
+      "revision": 19799,
+      "timestamp": "2024-08-25T22:37:29Z",
+      "sha256": "7a671dd7429a95b8e4aa40a5551b95b9280b2aef4ef8df1977ec4473963a60b5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19799",
+      "history": "https://swse.miraheze.org/w/index.php?title=Toydarian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-trianii",
+      "title": "Trianii",
+      "revision": 20980,
+      "timestamp": "2024-08-26T00:55:07Z",
+      "sha256": "557736bdb4f13b95e825fad4519717dba0f6621567d30747cab7ab09b72ed9b5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20980",
+      "history": "https://swse.miraheze.org/w/index.php?title=Trianii&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-tusken-raider",
+      "title": "Tusken Raider",
+      "revision": 21788,
+      "timestamp": "2024-08-26T02:29:07Z",
+      "sha256": "97d9b8125aa1a05c97d28365fb6a962a0655c8d310973c87257a463375edca99",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21788",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tusken%20Raider&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-ubese",
+      "title": "Ubese",
+      "revision": 19803,
+      "timestamp": "2024-08-25T22:37:53Z",
+      "sha256": "e8e4ff3c2befb28b0f6a447269766d12fa925d95c91e652375c72d51cc1ddac2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19803",
+      "history": "https://swse.miraheze.org/w/index.php?title=Ubese&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-utai",
+      "title": "Utai",
+      "revision": 19051,
+      "timestamp": "2024-08-25T21:12:37Z",
+      "sha256": "3743495d0905bac7ea00dd71ce260dd2a2b378dabbdd4f399cb65f2fd4e2459d",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19051",
+      "history": "https://swse.miraheze.org/w/index.php?title=Utai&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-vagaari",
+      "title": "Vagaari",
+      "revision": 21476,
+      "timestamp": "2024-08-26T01:52:05Z",
+      "sha256": "7ca7b1abe2071338f0d65a5b88c3e4cfb192ac6c1c8fa1f4b525bad70a4ecab3",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21476",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vagaari&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-vahla",
+      "title": "Vahla",
+      "revision": 25467,
+      "timestamp": "2024-11-26T00:39:42Z",
+      "sha256": "ad2be7ba86b64ba257e6e2f28119ff3c2a6eb755858145bbee520b1f3247b5a1",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25467",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vahla&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-verpine",
+      "title": "Verpine",
+      "revision": 27341,
+      "timestamp": "2025-08-24T22:37:45Z",
+      "sha256": "17903bd23957cc3b577c3ae725255dcf3c430eab6610eb768450cde87890a391",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=27341",
+      "history": "https://swse.miraheze.org/w/index.php?title=Verpine&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-vurk",
+      "title": "Vurk",
+      "revision": 21887,
+      "timestamp": "2024-08-27T19:32:58Z",
+      "sha256": "a8d372302b3beb11b8fe5c116de97b6a5c2a2851354e6a294f0357d1b16a9b5b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21887",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vurk&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-weequay",
+      "title": "Weequay",
+      "revision": 20342,
+      "timestamp": "2024-08-25T23:40:05Z",
+      "sha256": "316f6f82a134250b264ec82b355fc381f1c6d99796b9c199918396cda3fd1245",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20342",
+      "history": "https://swse.miraheze.org/w/index.php?title=Weequay&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-whiphid",
+      "title": "Whiphid",
+      "revision": 19606,
+      "timestamp": "2024-08-25T22:16:08Z",
+      "sha256": "6fe4c5e8c9235559bf80e8a424abf1679548c44225af3f1935e6f758263161d2",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19606",
+      "history": "https://swse.miraheze.org/w/index.php?title=Whiphid&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-wroonian",
+      "title": "Wroonian",
+      "revision": 19810,
+      "timestamp": "2024-08-25T22:38:49Z",
+      "sha256": "d2a6d6243489f2be6e2002ca6590ce72be80f16375cc44b08365349f0aa22c70",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19810",
+      "history": "https://swse.miraheze.org/w/index.php?title=Wroonian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-yevetha",
+      "title": "Yevetha",
+      "revision": 20999,
+      "timestamp": "2024-08-26T00:58:04Z",
+      "sha256": "c4ec3a474a2c7db47c5bf93efa8b51800e61cf3f554971adc788493b3d83178c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20999",
+      "history": "https://swse.miraheze.org/w/index.php?title=Yevetha&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-yuzzem",
+      "title": "Yuzzem",
+      "revision": 21000,
+      "timestamp": "2024-08-26T00:58:09Z",
+      "sha256": "facd0401011f2271971d15ded8cf06aa027bd955465c2b106da6a5fe87d810e7",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21000",
+      "history": "https://swse.miraheze.org/w/index.php?title=Yuzzem&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-zygerrian",
+      "title": "Zygerrian",
+      "revision": 21002,
+      "timestamp": "2024-08-26T00:58:22Z",
+      "sha256": "7fd2632192018b2227102dfef063e7523c04e46ab29226e5ec8d731284f5875c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21002",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zygerrian&action=history",
+      "section": null
     }
   ],
   "species": [
@@ -12353,6 +13023,1612 @@
           "skill": "skill:deception",
           "keep": "replace"
         }
+      ]
+    },
+    {
+      "name": "Balosar",
+      "abilityAdjustments": {
+        "dex": 2,
+        "cha": 2,
+        "con": -2,
+        "wis": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Balosar"
+      ],
+      "id": "species:balosar",
+      "sourceId": "source:wiki-balosar",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Barabel",
+      "abilityAdjustments": {
+        "str": 2,
+        "dex": -2,
+        "wis": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Barabel"
+      ],
+      "id": "species:barabel",
+      "sourceId": "source:wiki-barabel",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision",
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ],
+      "naturalArmor": 2
+    },
+    {
+      "name": "Blood Carver",
+      "abilityAdjustments": {
+        "dex": 2,
+        "wis": -2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Batorese"
+      ],
+      "id": "species:blood-carver",
+      "sourceId": "source:wiki-blood-carver",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:acrobatics",
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Caamasi",
+      "abilityAdjustments": {
+        "wis": 4,
+        "str": -2,
+        "con": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Caamasi"
+      ],
+      "id": "species:caamasi",
+      "sourceId": "source:wiki-caamasi",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "skillRerolls": [
+        {
+          "skill": "skill:persuasion",
+          "keep": "best"
+        }
+      ]
+    },
+    {
+      "name": "Celegian",
+      "abilityAdjustments": {
+        "int": 2,
+        "dex": -2
+      },
+      "size": "medium",
+      "speed": 0,
+      "languages": [
+        "Basic (understood)"
+      ],
+      "id": "species:celegian",
+      "sourceId": "source:wiki-celegian",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "speeds": {
+        "fly": 6,
+        "swim": 10
+      },
+      "flightHeavyLoadForbidden": true,
+      "skillRerolls": [
+        {
+          "skill": "skill:swim",
+          "keep": "replace"
+        }
+      ],
+      "take10Skills": [
+        "skill:swim"
+      ]
+    },
+    {
+      "name": "Chagrian",
+      "abilityAdjustments": {
+        "str": 2,
+        "dex": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Chagri"
+      ],
+      "id": "species:chagrian",
+      "sourceId": "source:wiki-chagrian",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light",
+      "breatheUnderwater": true
+    },
+    {
+      "name": "Chiss",
+      "abilityAdjustments": {
+        "int": 2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Cheunh"
+      ],
+      "id": "species:chiss",
+      "sourceId": "source:wiki-chiss",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 1,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light"
+    },
+    {
+      "name": "Chistori",
+      "abilityAdjustments": {
+        "str": 2,
+        "dex": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Chistori"
+      ],
+      "id": "species:chistori",
+      "sourceId": "source:wiki-chistori",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "damageReduction": 2,
+      "rage": {
+        "dailyUses": 1,
+        "bonus": 2,
+        "durationBase": 5,
+        "restMinutes": 10,
+        "blockedSkills": [
+          "skill:mechanics",
+          "skill:stealth",
+          "skill:use-the-force"
+        ]
+      },
+      "traits": [
+        "rage"
+      ]
+    },
+    {
+      "name": "Clawdite",
+      "abilityAdjustments": {
+        "cha": 2,
+        "str": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Clawdite"
+      ],
+      "id": "species:clawdite",
+      "sourceId": "source:wiki-clawdite",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Dashade",
+      "abilityAdjustments": {
+        "dex": 2,
+        "wis": -2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Dashadi"
+      ],
+      "id": "species:dashade",
+      "sourceId": "source:wiki-dashade",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Defel",
+      "abilityAdjustments": {
+        "int": 2,
+        "str": -2
+      },
+      "size": "small",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Defel"
+      ],
+      "id": "species:defel",
+      "sourceId": "source:wiki-defel",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Draethos",
+      "abilityAdjustments": {
+        "con": 2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Draethos"
+      ],
+      "id": "species:draethos",
+      "sourceId": "source:wiki-draethos",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light",
+      "naturalArmor": 1,
+      "startingFeats": [
+        "feat:weapon-proficiency-advanced-melee-weapons"
+      ]
+    },
+    {
+      "name": "Ebruchi",
+      "abilityAdjustments": {
+        "str": 2,
+        "con": 2,
+        "wis": -2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Ebruchese"
+      ],
+      "id": "species:ebruchi",
+      "sourceId": "source:wiki-ebruchi",
+      "defenses": {
+        "will": 2
+      },
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "startingFeats": [
+        "feat:improved-damage-threshold"
+      ]
+    },
+    {
+      "name": "Elomin",
+      "abilityAdjustments": {
+        "int": 2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Elomin"
+      ],
+      "id": "species:elomin",
+      "sourceId": "source:wiki-elomin",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Falleen",
+      "abilityAdjustments": {
+        "cha": 2,
+        "wis": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Falleen"
+      ],
+      "id": "species:falleen",
+      "sourceId": "source:wiki-falleen",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "holdBreathMultiplier": 25
+    },
+    {
+      "name": "Feeorin",
+      "abilityAdjustments": {
+        "str": 2,
+        "con": 2,
+        "dex": -2,
+        "wis": -2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Feeorin"
+      ],
+      "id": "species:feeorin",
+      "sourceId": "source:wiki-feeorin",
+      "defenses": {
+        "fortitude": 2
+      },
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light"
+    },
+    {
+      "name": "Felucian",
+      "abilityAdjustments": {
+        "con": 2,
+        "int": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Felucianese"
+      ],
+      "id": "species:felucian",
+      "sourceId": "source:wiki-felucian",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light",
+      "breatheUnderwater": true,
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ],
+      "startingFeats": [
+        "feat:force-sensitivity"
+      ]
+    },
+    {
+      "name": "Fosh",
+      "abilityAdjustments": {
+        "dex": 2,
+        "cha": 2,
+        "con": -2
+      },
+      "size": "small",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Fosh"
+      ],
+      "id": "species:fosh",
+      "sourceId": "source:wiki-fosh",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Gand",
+      "abilityAdjustments": {
+        "wis": 2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Gand"
+      ],
+      "id": "species:gand",
+      "sourceId": "source:wiki-gand",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision",
+      "limbRegeneration": {
+        "sourceId": "source:wiki-gand",
+        "die": 10
+      }
+    },
+    {
+      "name": "Gen'Dai",
+      "abilityAdjustments": {
+        "con": 4,
+        "wis": -2,
+        "cha": -2
+      },
+      "size": "large",
+      "speed": 8,
+      "languages": [
+        "Basic",
+        "Gen'Dai"
+      ],
+      "id": "species:gen-dai",
+      "sourceId": "source:wiki-gen-dai",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Givin",
+      "abilityAdjustments": {
+        "int": 2,
+        "str": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Givin"
+      ],
+      "id": "species:givin",
+      "sourceId": "source:wiki-givin",
+      "defenses": {
+        "fortitude": 2
+      },
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "damageReduction": 2
+    },
+    {
+      "name": "Gotal",
+      "abilityAdjustments": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Gotal"
+      ],
+      "id": "species:gotal",
+      "sourceId": "source:wiki-gotal",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light"
+    },
+    {
+      "name": "Herglic",
+      "abilityAdjustments": {
+        "str": 4,
+        "dex": -4
+      },
+      "size": "large",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Herglic"
+      ],
+      "id": "species:herglic",
+      "sourceId": "source:wiki-herglic",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:gather-information",
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Houk",
+      "abilityAdjustments": {
+        "str": 2,
+        "con": 2,
+        "wis": -2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Houkese"
+      ],
+      "id": "species:houk",
+      "sourceId": "source:wiki-houk",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "naturalArmor": 1
+    },
+    {
+      "name": "Iktotchi",
+      "abilityAdjustments": {
+        "con": 2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Iktotchese"
+      ],
+      "id": "species:iktotchi",
+      "sourceId": "source:wiki-iktotchi",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "naturalArmor": 1
+    },
+    {
+      "name": "Ishi Tib",
+      "abilityAdjustments": {
+        "int": 2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Tibranese"
+      ],
+      "id": "species:ishi-tib",
+      "sourceId": "source:wiki-ishi-tib",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "speeds": {
+        "swim": 4
+      },
+      "vision": "low-light",
+      "breatheUnderwater": true
+    },
+    {
+      "name": "Kaleesh",
+      "abilityAdjustments": {
+        "con": 2,
+        "cha": 2,
+        "dex": -2,
+        "int": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Kaleesh"
+      ],
+      "id": "species:kaleesh",
+      "sourceId": "source:wiki-kaleesh",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:survival",
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision"
+    },
+    {
+      "name": "Kerkoiden",
+      "abilityAdjustments": {
+        "wis": 2,
+        "con": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Kerkoidese"
+      ],
+      "id": "species:kerkoiden",
+      "sourceId": "source:wiki-kerkoiden",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Khil",
+      "abilityAdjustments": {
+        "int": 2,
+        "cha": 2,
+        "con": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Khilese"
+      ],
+      "id": "species:khil",
+      "sourceId": "source:wiki-khil",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Kissai",
+      "abilityAdjustments": {
+        "cha": 2,
+        "wis": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Sith"
+      ],
+      "id": "species:kissai",
+      "sourceId": "source:wiki-kissai",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Lugubraa",
+      "abilityAdjustments": {
+        "str": 2,
+        "con": 2,
+        "dex": -2,
+        "wis": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Lugubraal"
+      ],
+      "id": "species:lugubraa",
+      "sourceId": "source:wiki-lugubraa",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision",
+      "startingFeats": [
+        "feat:improved-damage-threshold"
+      ]
+    },
+    {
+      "name": "Lurmen",
+      "abilityAdjustments": {
+        "wis": 2,
+        "str": -2
+      },
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Basic",
+        "Lurmese"
+      ],
+      "id": "species:lurmen",
+      "sourceId": "source:wiki-lurmen",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ]
+    },
+    {
+      "name": "Mantellian Savrip",
+      "abilityAdjustments": {
+        "str": 4,
+        "con": 4,
+        "int": -4,
+        "wis": -4,
+        "cha": -4,
+        "dex": -2
+      },
+      "size": "large",
+      "speed": 8,
+      "languages": [
+        "Savrip"
+      ],
+      "id": "species:mantellian-savrip",
+      "sourceId": "source:wiki-mantellian-savrip",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ],
+      "naturalArmor": 2,
+      "rage": {
+        "dailyUses": 1,
+        "bonus": 2,
+        "durationBase": 5,
+        "restMinutes": 10,
+        "blockedSkills": [
+          "skill:mechanics",
+          "skill:stealth",
+          "skill:use-the-force"
+        ]
+      },
+      "traits": [
+        "rage"
+      ]
+    },
+    {
+      "name": "Massassi",
+      "abilityAdjustments": {
+        "str": 4,
+        "int": -2,
+        "wis": -2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Sith"
+      ],
+      "id": "species:massassi",
+      "sourceId": "source:wiki-massassi",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:survival",
+      "reminders": [],
+      "automation": "partial",
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ]
+    },
+    {
+      "name": "Nagai",
+      "abilityAdjustments": {
+        "dex": 2,
+        "cha": 2,
+        "con": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Nagaian"
+      ],
+      "id": "species:nagai",
+      "sourceId": "source:wiki-nagai",
+      "defenses": {
+        "reflex": 2
+      },
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Nautolan",
+      "abilityAdjustments": {
+        "con": 2,
+        "int": -2,
+        "wis": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Nautila",
+        "Basic"
+      ],
+      "id": "species:nautolan",
+      "sourceId": "source:wiki-nautolan",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "speeds": {
+        "swim": 4
+      },
+      "vision": "low-light",
+      "breatheUnderwater": true,
+      "damageReduction": 2
+    },
+    {
+      "name": "Nazren",
+      "abilityAdjustments": {
+        "str": 2,
+        "con": 2,
+        "dex": -2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Nazren"
+      ],
+      "id": "species:nazren",
+      "sourceId": "source:wiki-nazren",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Pa'lowick",
+      "abilityAdjustments": {
+        "wis": 2,
+        "str": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Lowickese"
+      ],
+      "id": "species:pa-lowick",
+      "sourceId": "source:wiki-pa-lowick",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ],
+      "holdBreathMultiplier": 25
+    },
+    {
+      "name": "Pau'an",
+      "abilityAdjustments": {
+        "wis": 2,
+        "cha": 2,
+        "str": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Utapese"
+      ],
+      "id": "species:pau-an",
+      "sourceId": "source:wiki-pau-an",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:persuasion",
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light"
+    },
+    {
+      "name": "Polis Massan",
+      "abilityAdjustments": {
+        "wis": 2,
+        "str": -2
+      },
+      "size": "small",
+      "speed": 6,
+      "languages": [
+        "Basic (understood)",
+        "Massan (understood)"
+      ],
+      "id": "species:polis-massan",
+      "sourceId": "source:wiki-polis-massan",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:treat-injury",
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision"
+    },
+    {
+      "name": "Ryn",
+      "abilityAdjustments": {
+        "cha": 2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Ryn"
+      ],
+      "id": "species:ryn",
+      "sourceId": "source:wiki-ryn",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Sakiyan",
+      "abilityAdjustments": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Sakiyan"
+      ],
+      "id": "species:sakiyan",
+      "sourceId": "source:wiki-sakiyan",
+      "defenses": {
+        "reflex": 2
+      },
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:perception",
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision"
+    },
+    {
+      "name": "Selkath",
+      "abilityAdjustments": {
+        "cha": 2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Selkath"
+      ],
+      "id": "species:selkath",
+      "sourceId": "source:wiki-selkath",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "speeds": {
+        "swim": 4
+      },
+      "breatheUnderwater": true
+    },
+    {
+      "name": "Skakoan",
+      "abilityAdjustments": {
+        "int": 2,
+        "dex": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Skakoverbal (spoken)",
+        "Skakoform (written)",
+        "Basic"
+      ],
+      "id": "species:skakoan",
+      "sourceId": "source:wiki-skakoan",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:mechanics",
+      "reminders": [],
+      "automation": "partial",
+      "startingFeats": [
+        "feat:armor-proficiency-light"
+      ]
+    },
+    {
+      "name": "Snivvian",
+      "abilityAdjustments": {
+        "wis": 2
+      },
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Snivvian"
+      ],
+      "id": "species:snivvian",
+      "sourceId": "source:wiki-snivvian",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Squib",
+      "abilityAdjustments": {
+        "dex": 2,
+        "str": -2
+      },
+      "size": "small",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Squibbian"
+      ],
+      "id": "species:squib",
+      "sourceId": "source:wiki-squib",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Stereb",
+      "abilityAdjustments": {
+        "str": 4,
+        "con": 2,
+        "dex": -2,
+        "int": -2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Stereb"
+      ],
+      "id": "species:stereb",
+      "sourceId": "source:wiki-stereb",
+      "defenses": {
+        "fortitude": 2
+      },
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision",
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ],
+      "damageThresholdBonus": 5
+    },
+    {
+      "name": "Talz",
+      "abilityAdjustments": {
+        "con": 2,
+        "int": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Talz"
+      ],
+      "id": "species:talz",
+      "sourceId": "source:wiki-talz",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:mechanics",
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision"
+    },
+    {
+      "name": "Taung",
+      "abilityAdjustments": {
+        "con": 2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Mando'a"
+      ],
+      "id": "species:taung",
+      "sourceId": "source:wiki-taung",
+      "defenses": {
+        "reflex": 1,
+        "fortitude": 1,
+        "will": 1
+      },
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "skillRerolls": [
+        {
+          "skill": "skill:knowledge-tactics",
+          "keep": "replace"
+        }
+      ]
+    },
+    {
+      "name": "Thakwaash",
+      "abilityAdjustments": {
+        "str": 4,
+        "dex": -2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Thakwaashi"
+      ],
+      "id": "species:thakwaash",
+      "sourceId": "source:wiki-thakwaash",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "naturalArmor": 1
+    },
+    {
+      "name": "Togorian",
+      "abilityAdjustments": {
+        "str": 4,
+        "int": -2,
+        "wis": -2
+      },
+      "size": "large",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Togorian"
+      ],
+      "id": "species:togorian",
+      "sourceId": "source:wiki-togorian",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light"
+    },
+    {
+      "name": "Togruta",
+      "abilityAdjustments": {
+        "dex": 2,
+        "con": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Togruti"
+      ],
+      "id": "species:togruta",
+      "sourceId": "source:wiki-togruta",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Toydarian",
+      "abilityAdjustments": {
+        "wis": 2,
+        "str": -2
+      },
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Huttese",
+        "Toydarian"
+      ],
+      "id": "species:toydarian",
+      "sourceId": "source:wiki-toydarian",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:deception",
+      "reminders": [],
+      "automation": "partial",
+      "speeds": {
+        "fly": 6
+      },
+      "flightHeavyLoadForbidden": true,
+      "conditionalDefenses": [
+        {
+          "defense": "will",
+          "against": "use-the-force",
+          "amount": 5,
+          "type": "untyped"
+        }
+      ]
+    },
+    {
+      "name": "Trianii",
+      "abilityAdjustments": {
+        "wis": 2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Trianii"
+      ],
+      "id": "species:trianii",
+      "sourceId": "source:wiki-trianii",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Tusken Raider",
+      "abilityAdjustments": {
+        "con": 2,
+        "int": -2,
+        "wis": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Tusken"
+      ],
+      "id": "species:tusken-raider",
+      "sourceId": "source:wiki-tusken-raider",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Ubese",
+      "abilityAdjustments": {
+        "dex": 2,
+        "con": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Ubese",
+        "Ubeninal"
+      ],
+      "id": "species:ubese",
+      "sourceId": "source:wiki-ubese",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:perception",
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Utai",
+      "abilityAdjustments": {
+        "con": 2,
+        "cha": -2
+      },
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Utapese"
+      ],
+      "id": "species:utai",
+      "sourceId": "source:wiki-utai",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light"
+    },
+    {
+      "name": "Vagaari",
+      "abilityAdjustments": {
+        "str": 2,
+        "wis": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Sy Bisti",
+        "Vagaari"
+      ],
+      "id": "species:vagaari",
+      "sourceId": "source:wiki-vagaari",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:deception",
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Vahla",
+      "abilityAdjustments": {
+        "int": 2,
+        "con": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Vahla"
+      ],
+      "id": "species:vahla",
+      "sourceId": "source:wiki-vahla",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "startingFeats": [
+        "feat:force-sensitivity"
+      ]
+    },
+    {
+      "name": "Verpine",
+      "abilityAdjustments": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Verpine"
+      ],
+      "id": "species:verpine",
+      "sourceId": "source:wiki-verpine",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:mechanics",
+      "reminders": [],
+      "automation": "partial",
+      "naturalArmor": 1
+    },
+    {
+      "name": "Vurk",
+      "abilityAdjustments": {
+        "con": 2,
+        "cha": 2,
+        "dex": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Semblan"
+      ],
+      "id": "species:vurk",
+      "sourceId": "source:wiki-vurk",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "speeds": {
+        "swim": 4
+      },
+      "breatheUnderwater": true
+    },
+    {
+      "name": "Weequay",
+      "abilityAdjustments": {
+        "con": 2,
+        "int": -2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Sriluurian"
+      ],
+      "id": "species:weequay",
+      "sourceId": "source:wiki-weequay",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:endurance",
+      "reminders": [],
+      "automation": "partial",
+      "naturalArmor": 1
+    },
+    {
+      "name": "Whiphid",
+      "abilityAdjustments": {
+        "str": 4,
+        "int": -2,
+        "wis": -2
+      },
+      "size": "large",
+      "speed": 6,
+      "languages": [
+        "Whiphid"
+      ],
+      "id": "species:whiphid",
+      "sourceId": "source:wiki-whiphid",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Wroonian",
+      "abilityAdjustments": {
+        "dex": 2,
+        "con": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Wroonian"
+      ],
+      "id": "species:wroonian",
+      "sourceId": "source:wiki-wroonian",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Yevetha",
+      "abilityAdjustments": {
+        "str": 2,
+        "cha": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Yevethan"
+      ],
+      "id": "species:yevetha",
+      "sourceId": "source:wiki-yevetha",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Yuzzem",
+      "abilityAdjustments": {
+        "str": 4,
+        "wis": -2,
+        "cha": -2
+      },
+      "size": "large",
+      "speed": 6,
+      "languages": [
+        "Yuzz"
+      ],
+      "id": "species:yuzzem",
+      "sourceId": "source:wiki-yuzzem",
+      "defenses": {},
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "name": "Zygerrian",
+      "abilityAdjustments": {
+        "con": 2,
+        "wis": -2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic"
+      ],
+      "id": "species:zygerrian",
+      "sourceId": "source:wiki-zygerrian",
+      "defenses": {
+        "will": 2
+      },
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "startingFeats": [
+        "feat:martial-arts-i"
       ]
     }
   ],
