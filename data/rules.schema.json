@@ -3016,6 +3016,10 @@
         "flightHeavyLoadForbidden": {
           "type": "boolean"
         },
+        "startingTrainedSkills": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}
+        },
         "conditionalStartingFeats": {
           "type": "array",
           "uniqueItems": true,
@@ -3033,7 +3037,7 @@
       "properties": {
         "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
         "name": {"type": "string", "minLength": 1},
-        "kind": {"enum": ["ability", "language", "skillFocus"]},
+        "kind": {"enum": ["ability", "language", "skillFocus", "trainedSkill", "startingFeat"]},
         "options": {
           "type": "array", "minItems": 2,
           "items": {
@@ -3071,11 +3075,19 @@
           }}}}
         },
         {
-          "if": {"properties": {"kind": {"const": "skillFocus"}}},
+          "if": {"properties": {"kind": {"enum": ["skillFocus", "trainedSkill"]}}},
           "then": {"properties": {"options": {"items": {
             "additionalProperties": false,
             "required": ["id", "name", "skillId"],
             "properties": {"id": {}, "name": {}, "skillId": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}}
+          }}}}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "startingFeat"}}},
+          "then": {"properties": {"options": {"items": {
+            "additionalProperties": false,
+            "required": ["id", "name", "featId"],
+            "properties": {"id": {}, "name": {}, "featId": {"type": "string", "pattern": "^feat:[a-z0-9-]+$"}}
           }}}}
         }
       ]

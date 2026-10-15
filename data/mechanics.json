@@ -12244,6 +12244,26 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=26019",
       "history": "https://swse.miraheze.org/w/index.php?title=Vultan&action=history",
       "section": null
+    },
+    {
+      "id": "source:wiki-mrlssi",
+      "title": "Mrlssi",
+      "revision": 21214,
+      "timestamp": "2024-08-26T01:22:16Z",
+      "sha256": "781bdcbe8214aab1142c8c160f1137dcdfc7478a18782fe7f1a4dceee9132d48",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21214",
+      "history": "https://swse.miraheze.org/w/index.php?title=Mrlssi&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-tof",
+      "title": "Tof",
+      "revision": 21469,
+      "timestamp": "2024-08-26T01:51:22Z",
+      "sha256": "38fd9b35fe7de6df0b4d8b415d19e42fbb22d567e15d6623fa1d8f44fe151f9a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21469",
+      "history": "https://swse.miraheze.org/w/index.php?title=Tof&action=history",
+      "section": null
     }
   ],
   "species": [
@@ -15741,6 +15761,119 @@
               "id": "knowledge-technology",
               "name": "Knowledge (Technology)",
               "skillId": "skill:knowledge-technology"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "species:mrlssi",
+      "name": "Mrlssi",
+      "sourceId": "source:wiki-mrlssi",
+      "abilityAdjustments": {
+        "int": 2,
+        "cha": 2,
+        "str": -2
+      },
+      "defenses": {},
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Basic",
+        "Mrlsstese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:persuasion",
+      "reminders": [],
+      "automation": "partial",
+      "bonusClassSkills": [
+        "skill:mechanics"
+      ],
+      "creationChoices": [
+        {
+          "id": "knowledge",
+          "name": "Knowledge Field",
+          "kind": "trainedSkill",
+          "options": [
+            {
+              "id": "knowledge-bureaucracy",
+              "name": "Bureaucracy",
+              "skillId": "skill:knowledge-bureaucracy"
+            },
+            {
+              "id": "knowledge-galactic-lore",
+              "name": "Galactic Lore",
+              "skillId": "skill:knowledge-galactic-lore"
+            },
+            {
+              "id": "knowledge-life-sciences",
+              "name": "Life Sciences",
+              "skillId": "skill:knowledge-life-sciences"
+            },
+            {
+              "id": "knowledge-physical-sciences",
+              "name": "Physical Sciences",
+              "skillId": "skill:knowledge-physical-sciences"
+            },
+            {
+              "id": "knowledge-social-sciences",
+              "name": "Social Sciences",
+              "skillId": "skill:knowledge-social-sciences"
+            },
+            {
+              "id": "knowledge-tactics",
+              "name": "Tactics",
+              "skillId": "skill:knowledge-tactics"
+            },
+            {
+              "id": "knowledge-technology",
+              "name": "Technology",
+              "skillId": "skill:knowledge-technology"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "species:tof",
+      "name": "Tof",
+      "sourceId": "source:wiki-tof",
+      "abilityAdjustments": {
+        "str": 2,
+        "cha": 2,
+        "dex": -2,
+        "wis": -2
+      },
+      "defenses": {},
+      "size": "large",
+      "speed": 6,
+      "languages": [
+        "Tof"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "conditionalStartingFeats": [
+        "feat:mighty-swing"
+      ],
+      "creationChoices": [
+        {
+          "id": "feat",
+          "name": "Bonus Feat",
+          "kind": "startingFeat",
+          "options": [
+            {
+              "id": "rapid-shot",
+              "name": "Rapid Shot",
+              "featId": "feat:rapid-shot"
+            },
+            {
+              "id": "rapid-strike",
+              "name": "Rapid Strike",
+              "featId": "feat:rapid-strike"
             }
           ]
         }

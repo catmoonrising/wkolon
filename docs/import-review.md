@@ -1597,3 +1597,35 @@ conditional grant timing, training eligibility, per-species persistence, manual
 choice clearing, exclusive languages, stat blocks, mobile themes and offline
 reload. A pre-existing missing ID definition in the published JSON Schema was
 also repaired; the complete compiled pack validates against that schema.
+
+## Species bonus training and first-level Feat choices
+
+Added Mrlssi and Tof with complete pinned articles and explicit saved creation
+choices. Coverage is now 118 of 132 species pages (89.4%), with 130 selectable
+entries. Existing mechanical records are unchanged.
+
+Mrlssi receive +2 INT, +2 CHA, -2 STR, Small size, Speed 4, Basic and Mrlsstese.
+Mechanics is always a class skill, and trained Persuasion grants Skill Focus.
+Scholarly Inclination grants one chosen Knowledge field at first level, even
+outside the class skill list. This uses the new `trainedSkill` choice kind and
+`startingTrainedSkills` resolved field, independently of ordinary training.
+The skill appears in the level table, sheet and stat block without inventing
+possession of the Skill Training Feat. Its origin is tracked in
+`ctx.speciesTraining` and marked beside its locked training control. A duplicate
+ordinary selection remains editable, with an explicit validation error, so it
+can be replaced without silently changing the saved build.
+
+Tof receive +2 STR, +2 CHA, -2 DEX, -2 WIS, Large size, Speed 6 and Tof language.
+A new `startingFeat` choice kind offers Rapid Shot or Rapid Strike. It follows
+their normal BAB +1 prerequisites and reuses the existing first-level
+conditional grant mechanism. Eligible choices grant no extra selectable slot;
+unavailable choices stay visible. A later BAB increase cannot qualify the
+first-level gift retroactively. Mighty Swing uses its printed STR 13
+prerequisite at first level, independently of the selected Feat. Fearless's +5
+Will against Fear/Intimidate remains manual in the full article; no permanent
+Will bonus is invented. Both species retain Partial markers.
+
+Tests cover class-independent training, pool accounting, duplicate replacement,
+conditional Focus, level-zero drafts, first-level BAB/STR boundaries, later
+advancement and earlier edits, repeated grant prevention, source text, stat
+blocks, persistence, mobile themes and offline reload.

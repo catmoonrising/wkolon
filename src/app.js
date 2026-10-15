@@ -203,21 +203,31 @@ function trainingList(scope) {return scope==='initial'?current().trainedSkills:c
 function replaceTraining(scope, skills) {if(scope==='initial')current().trainedSkills=skills;else current().levels[Number(scope)].trainedSkills=skills;}
 function knowledgeKey(scope) {return current().id+':'+scope;}
 function skillPicks(records, chosen, scope='initial', allowed=new Set(records.map(r=>r.id)), counter='') {
+  const automatic=scope==='initial'?derived.rows[0]?.ctx.speciesTraining||new Set():new Set();
+  const origin=ix.species.get(current().species).name;
+  const trainingBadge=id=>automatic.has(id)?`<small class="badge" title="Species training">${escape(origin)}</small>`:'';
   const knowledge=records.filter(r=>r.id.startsWith('skill:knowledge-'));
   const selected=chosen.filter(id=>id.startsWith('skill:knowledge-'));
+  const speciesKnowledge=knowledge.filter(r=>automatic.has(r.id)).map(r=>r.id);
   const pending=knowledgeDrafts.get(knowledgeKey(scope))||0;
   let knowledgeShown=false;
   const rows=records.map(r=>{
     if(r.id.startsWith('skill:knowledge-')) {
       if(knowledgeShown)return null;knowledgeShown=true;
-      const slots=[...selected,...Array(pending).fill('')];
-      const canTrain=knowledge.some(r=>allowed.has(r.id));
-      const control=`<div class="knowledge-pick"><label class="${canTrain?'':'skill-unavailable'}"><input type="checkbox" data-knowledge-group="${scope}" ${slots.length?'checked':!canTrain?'disabled':''}>Knowledge</label>${slots.length?`<div class="knowledge-fields">${slots.map((id,i)=>`<div class="knowledge-field"><select aria-label="Knowledge field ${i+1}" data-knowledge-field="${scope}" data-previous-knowledge="${escape(id)}">${option('','Choose Knowledge Field',id)}${knowledge.map(r=>option(r.id,r.name.replace(/^Knowledge \((.*)\)$/, '$1'),id,!allowed.has(r.id)||(selected.includes(r.id)&&r.id!==id))).join('')}</select><button type="button" data-remove-knowledge="${scope}" data-knowledge-id="${escape(id)}" aria-label="Remove Knowledge field ${i+1}" title="Remove Knowledge field ${i+1}">×</button></div>`).join('')}${canTrain && slots.length<knowledge.length?`<button type="button" data-add-knowledge="${scope}" aria-label="Add Knowledge field">+</button>`:''}</div>`:''}</div>`;
-      return {id:'skill:knowledge',name:'Knowledge',ability:'int',control,selected:slots.length>0,unavailable:!canTrain};
+      const slots=[...speciesKnowledge.filter(id=>!selected.includes(id)),...selected,...Array(pending).fill('')];
+      const canTrain=knowledge.some(r=>allowed.has(r.id)&&!automatic.has(r.id));
+      const fields=slots.map((id,i)=>{
+        const fixed=automatic.has(id)&&!selected.includes(id);
+        return `<div class="knowledge-field"><select aria-label="Knowledge field ${i+1}" data-knowledge-field="${scope}" data-previous-knowledge="${escape(id)}" ${fixed?'disabled':''}>${option('','Choose Knowledge Field',id)}${knowledge.map(r=>option(r.id,r.name.replace(/^Knowledge \((.*)\)$/, '$1'),id,!allowed.has(r.id)||((selected.includes(r.id)||automatic.has(r.id))&&r.id!==id))).join('')}</select><button type="button" data-remove-knowledge="${scope}" data-knowledge-id="${escape(id)}" aria-label="Remove Knowledge field ${i+1}" title="Remove Knowledge field ${i+1}" ${fixed?'disabled':''}>×</button>${trainingBadge(id)}</div>`;
+      }).join('');
+      const locked=!selected.length&&!pending&&(speciesKnowledge.length>0||!canTrain);
+      const control=`<div class="knowledge-pick"><label class="${canTrain||speciesKnowledge.length?'':'skill-unavailable'}"><input type="checkbox" data-knowledge-group="${scope}" ${slots.length?'checked':''} ${locked?'disabled':''}>Knowledge</label>${slots.length?`<div class="knowledge-fields">${fields}${canTrain&&slots.length<knowledge.length?`<button type="button" data-add-knowledge="${scope}" aria-label="Add Knowledge field">+</button>`:''}</div>`:''}</div>`;
+      return {id:'skill:knowledge',name:'Knowledge',ability:'int',control,selected:slots.length>0,unavailable:!canTrain&&!speciesKnowledge.length};
     }
     const attrs=scope==='initial'?`data-trained="${r.id}"`:`data-extra-skill="${r.id}" data-level="${scope}"`;
-    const control=`<label class="${allowed.has(r.id)?'':'skill-unavailable'}" ${allowed.has(r.id)?'':`title="${r.id==='skill:use-the-force'?'Requires Force Sensitivity':'Not a class skill'}"`}><input type="checkbox" ${attrs} ${chosen.includes(r.id)?'checked':!allowed.has(r.id)?'disabled':''}>${escape(r.name)}</label>`;
-    return {id:r.id,name:r.name,ability:r.ability,control,selected:chosen.includes(r.id),unavailable:!allowed.has(r.id)};
+    const trained=chosen.includes(r.id),fixed=automatic.has(r.id),available=allowed.has(r.id)||fixed;
+    const control=`<label class="${available?'':'skill-unavailable'}" ${available?'':`title="${r.id==='skill:use-the-force'?'Requires Force Sensitivity':'Not a class skill'}"`}><input type="checkbox" ${attrs} ${trained||fixed?'checked':''} ${fixed&&!trained||!available&&!trained?'disabled':''}>${escape(r.name)}</label>${trainingBadge(r.id)}`;
+    return {id:r.id,name:r.name,ability:r.ability,control,selected:trained||fixed,unavailable:!available};
   });
   return creationOptions.skills(knowledgeKey(scope),rows.filter(Boolean),counter);
 }
@@ -358,7 +368,7 @@ function creation() {
  switch(CREATOR_TABS[creatorStep].id){
   case 'levels':return levelPlanTable(c,derived,pack,{choice:selectChoice,reference:(r,label,s,key)=>ruleReference(r,label||r.name+(s?.choice?' ('+choiceName(s.choice,pack)+')':''),s,key)});
   case 'abilities':return generateAbilities()+abilityCards();
-  case 'species':return speciesBrowser.render(c.species,speciesChoiceDetails(c,pack,derived.ctx));
+  case 'species':return speciesBrowser.render(c.species,speciesChoiceDetails(c,pack,derived.ctx,derived.rows[0]?.ctx||derived.ctx));
   case 'skills':{const allowed=row.valid===false?new Set():classSkills(row.ctx,ix),budget=row.valid===false?0:Math.max(1,cls.trainedSkills+Math.floor((row.scores.int-10)/2))+species.bonusSkills;return skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`);}
   case 'equipment':{const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));gear[0].querySelector('.panel-heading')?.remove();return `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${gear.map(p=>p.outerHTML).join('')}`;}
   case 'character':return finishing();

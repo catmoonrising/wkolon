@@ -30,7 +30,7 @@ export function createSpeciesBrowser(pack) {
   }
   return {
     render:(selected,groups=[])=>{
-      const active=groups.filter(g=>g.active),species=pack.species.find(r=>r.id===selected);
+      const active=groups.filter(g=>g.active||g.kind==='startingFeat'),species=pack.species.find(r=>r.id===selected);
       const controls=active.length?`<fieldset class="species-choices"><legend>${escape(species.name)}</legend><div class="actions">${active.map(g=>`<label>${escape(g.name)}<select data-species-choice="${g.id}" aria-label="${escape(species.name+' '+g.name)}"><option value="" ${g.selected===null?'selected':''}>Choose…</option>${g.options.map(o=>`<option value="${o.id}" ${o.id===g.selected?'selected':''} ${o.available?'':'disabled'}>${escape(o.name)}</option>`).join('')}</select></label>`).join('')}</div></fieldset>`:'';
       return `<div class="species-browser">${controls}<input id="species-search" type="search" placeholder="Search" aria-label="Search species" value="${escape(query)}"><div id="species-results">${results(selected)}</div></div>`;
     },

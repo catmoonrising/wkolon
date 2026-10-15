@@ -47,6 +47,20 @@ copies its fixed data, adds only its selected ability modifiers and language,
 and routes selected Skill Focus through the ordinary conditional grant rules.
 It never changes the generated ability pool or the pinned species record.
 Source profiles stay separate from the character's narrative Gender field.
+Two additional choice kinds cover species creation grants. `trainedSkill`
+options contain `skillId` and grant first-level training independently of the
+class skill list and ordinary training pool. The resolved record exposes
+`startingTrainedSkills`; progression records their origin as `speciesTraining`.
+Duplicate ordinary selections are preserved but invalid, so the player can
+replace them rather than lose a training slot silently.
+
+`startingFeat` options contain `featId` and use first-level eligibility. These
+are nonrepeatable Feats without secondary choices, manual prerequisites or
+immediate training/resource effects. Selecting an option adds it to
+`conditionalStartingFeats`, never to the ordinary Feat slot list. The picker
+uses the first-level context, so later Base Attack Bonus or ability increases
+cannot qualify an earlier grant. If none of the offered Feats is eligible at
+first level, no bonus is granted. Their unavailable options remain visible.
 `forceImmune` forbids Force Sensitivity and Use the Force, yields no Force Points,
 and retains immunity to Force effects targeting Will as a manual defensive trait. `technophobic` is an attack
 and mechanical-tool check penalty, not a penalty to all checks.

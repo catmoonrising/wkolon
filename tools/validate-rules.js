@@ -24,6 +24,7 @@ export function validatePack(p) {
     if(s.sha256)assert(/^[a-f0-9]{64}$/.test(s.sha256),'Invalid source checksum');
   }
   function requireRef(collection, id) { assert(ix[collection].has(id), `Unknown ${collection} reference: ${id}`); }
+  function speciesStartingFeat(id){requireRef('feats',id);const feat=ix.feats.get(id);assert(feat.repeat==='never'&&!feat.choiceType&&!feat.manualPrerequisites?.length&&!feat.effects.some(e=>['skillTraining','skillSubstitution','forcePowerSlots'].includes(e.target)),'Unsupported conditional starting feat');}
   function prerequisite(r) {
     if (['all','any'].includes(r.kind)) { assert(Array.isArray(r.requirements)); r.requirements.forEach(prerequisite); return; }
     assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','level','nonDroid','trait','size','species','droid','weaponFocusMode','weaponProficiencyMode'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
@@ -75,14 +76,15 @@ export function validatePack(p) {
         assert(Array.isArray(r.creationChoices)&&r.creationChoices.length>0,'Invalid species choice groups');
         const groupIds=new Set();
         for(const g of r.creationChoices){
-          assert(g&&Object.keys(g).every(k=>['id','name','kind','options'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
+          assert(g&&Object.keys(g).every(k=>['id','name','kind','options'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus','trainedSkill','startingFeat'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
           assert(Array.isArray(g.options)&&g.options.length>=2,'Invalid species options');const optionIds=new Set();
           for(const o of g.options){
-            const field={ability:'adjustments',language:'language',skillFocus:'skillId'}[g.kind];
+            const field={ability:'adjustments',language:'language',skillFocus:'skillId',trainedSkill:'skillId',startingFeat:'featId'}[g.kind];
             assert(o&&Object.keys(o).every(k=>['id','name',field].includes(k))&&typeof o.id==='string'&&/^[a-z][a-z0-9-]*$/.test(o.id)&&!optionIds.has(o.id)&&typeof o.name==='string'&&o.name.trim(),'Invalid species option');optionIds.add(o.id);
             if(g.kind==='ability')assert(o.adjustments&&typeof o.adjustments==='object'&&!Array.isArray(o.adjustments)&&Object.keys(o.adjustments).length>0&&Object.entries(o.adjustments).every(([a,n])=>ABILITIES.includes(a)&&Number.isInteger(n)&&n!==0&&n>=-10&&n<=10),'Invalid species ability option');
             if(g.kind==='language')assert(typeof o.language==='string'&&o.language.trim()&&o.language.length<=100,'Invalid species language option');
-            if(g.kind==='skillFocus')requireRef('skills',o.skillId);
+            if(['skillFocus','trainedSkill'].includes(g.kind))requireRef('skills',o.skillId);
+            if(g.kind==='startingFeat')speciesStartingFeat(o.featId);
           }
         }
       }
@@ -110,6 +112,7 @@ export function validatePack(p) {
         assert(new Set(r.conditionalDefenses.map(e=>e.defense+':'+e.against)).size===r.conditionalDefenses.length,'Duplicate conditional defense');
       }
       if(r.bonusClassSkills){assert(Array.isArray(r.bonusClassSkills)&&new Set(r.bonusClassSkills).size===r.bonusClassSkills.length,'Invalid species class skills');r.bonusClassSkills.forEach(id=>requireRef('skills',id));}
+      if(r.startingTrainedSkills!==undefined){assert(Array.isArray(r.startingTrainedSkills)&&new Set(r.startingTrainedSkills).size===r.startingTrainedSkills.length,'Invalid species training');r.startingTrainedSkills.forEach(id=>requireRef('skills',id));}
       if(r.conditionalFocus) requireRef('skills',r.conditionalFocus);
       if(r.conditionalFocuses){assert(Array.isArray(r.conditionalFocuses)&&new Set(r.conditionalFocuses).size===r.conditionalFocuses.length);r.conditionalFocuses.forEach(id=>requireRef('skills',id));}
       for(const key of ['forceImmune','technophobic','biotechProficiency'])if(r[key]!==undefined)assert.equal(typeof r[key],'boolean');
@@ -117,7 +120,7 @@ export function validatePack(p) {
       if(r.forbiddenClasses){assert(Array.isArray(r.forbiddenClasses));r.forbiddenClasses.forEach(id=>requireRef('classes',id));}
       if(r.weaponFamiliarity)for(const [id,group] of Object.entries(r.weaponFamiliarity)){requireRef('equipment',id);assert(GROUPS.includes(group));}
       for(const key of ['startingFeats','excludedStartingFeats'])if(r[key]){assert(Array.isArray(r[key]));r[key].forEach(id=>requireRef('feats',id));}
-      if(r.conditionalStartingFeats!==undefined){assert(Array.isArray(r.conditionalStartingFeats)&&new Set(r.conditionalStartingFeats).size===r.conditionalStartingFeats.length,'Invalid conditional starting feats');for(const id of r.conditionalStartingFeats){requireRef('feats',id);const feat=p.feats.find(f=>f.id===id);assert(feat.repeat==='never'&&!feat.choiceType&&!feat.manualPrerequisites?.length&&!feat.effects.some(e=>['skillTraining','skillSubstitution','forcePowerSlots'].includes(e.target)),'Unsupported conditional starting feat');}}
+      if(r.conditionalStartingFeats!==undefined){assert(Array.isArray(r.conditionalStartingFeats)&&new Set(r.conditionalStartingFeats).size===r.conditionalStartingFeats.length,'Invalid conditional starting feats');r.conditionalStartingFeats.forEach(speciesStartingFeat);}
       if(r.speeds){assert(Object.keys(r.speeds).every(key=>/^[a-z-]+$/.test(key)));assert(Object.values(r.speeds).every(n=>Number.isInteger(n)&&n>=0));}
     }
     if(r.automation!==undefined)assert(['manual','partial'].includes(r.automation),'Invalid automation status');

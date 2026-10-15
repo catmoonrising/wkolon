@@ -3,6 +3,7 @@ import {choiceName} from './feature-choices.js';
 import {hasClassTalent} from './class-advancement.js';
 import {ABILITIES,indexPack,levelSlots} from './rules.js';
 import {escapeHTML as escape} from './wiki-content.js';
+import {optionArticle} from './creation-options.js';
 
 export function levelPlanTable(c,d,pack,{choice,reference}){
  const ix=indexPack(pack),pick=(i,kind,j,slot,s)=>choice(i,kind,j,slot,s,false,true);
@@ -23,6 +24,7 @@ export function levelPlanTable(c,d,pack,{choice,reference}){
   const starting=!blocked&&i>0&&row.classLevel===1&&cls.startingFeats.length?pick(i,'startingFeat',0,{label:'Starting feat'},l.startingFeat):'';
   const talents=blocked?readOnly(l.talent,'talents','plan-inactive-talent-'+i):hasClassTalent(cls,row.classLevel)?pick(i,'talent',0,{label:'Talent'},l.talent):'';
   const misc=[...(row.ctx.classFeatures||[]).filter(f=>f.level===i+1).map(f=>reference(cls,f.name,null,'plan-feature-'+i+'-'+f.name)),...(blocked?(l.classChoices||[]).map((s,j)=>readOnly(s,'classChoices','plan-inactive-misc-'+i+'-'+j)):(row.choiceSlots||[]).map((slot,j)=>pick(i,'classChoice',j,{...slot,label:slot.kind.replace(/([A-Z])/g,' $1')},l.classChoices?.[j])))];
+  if(i===0&&!blocked)for(const id of row.ctx.speciesTraining||[]){const skill=ix.skills.get(id);misc.push(reference(optionArticle(pack,skill.name),skill.name,null,'plan-species-training-'+id));}
   if(!pending&&plannedClassLevel===1&&(cls.entrySpecials?.length||cls.continuousDarkSide||cls.advanceRestrictions?.length))misc.push(`<details class="level-entry"><summary>Entry</summary>${classDeclarations(cls,l,i)}${cls.continuousDarkSide?`<label>Acquisition DSS <input type="number" min="0" max="1000" data-class-dss="${i}" value="${l.acquisitionDSS??c.darkSideScore}"></label>`:''}${cls.advanceRestrictions?.length?`<label><input type="checkbox" data-class-ban="${cls.id}" ${c.classBans?.some(b=>b.classId===cls.id)?'checked':''}>Known pirate</label>`:''}</details>`);
   if(!blocked&&i)misc.push(`<details class="level-hp"><summary>HP</summary><label>d${cls.hitDie} <input type="number" data-field="hpRoll" data-level="${i}" min="1" max="${cls.hitDie}" value="${l.hpRoll}" aria-label="Level ${i+1} HP roll"></label></details>`);
   if(!blocked&&row.powerChoices)misc.push(`<button type="button" data-open-tree="powers:${i}:0">Force powers (${(l.forcePowers||[]).length}/${row.powerChoices})</button>`);

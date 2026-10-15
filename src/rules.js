@@ -210,7 +210,7 @@ export function progression(c, pack, through = c.levels.length) {
   const background=activeBackground(c,pack);
   const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, c.abilities[a] + (species.abilityAdjustments[a] || 0)])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
   Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,speciesClassSkills:species.bonusClassSkills||[],forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
-  Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0});
+  Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0,speciesTraining:new Set()});
   const issues = [], rows = [], ordinaryTraining=new Set(),talentTraining=new Map();
   function recordFeature(selection,type,level) {
     const s={...selection,level,classId:c.levels[level-1]?.classId};
@@ -255,6 +255,7 @@ export function progression(c, pack, through = c.levels.length) {
     const wisdomGain=Math.max(0,modifier(ctx.scores.wis)-priorWis);
     ctx.powerSlots+=wisdomGain*ctx.feats.filter(s=>ix.feats.get(s.id).effects.some(e=>e.target==='forcePowerSlots')).length;
     if (i === 0) {
+      for(const id of species.startingTrainedSkills||[]){ctx.trained.add(id);ctx.speciesTraining.add(id);ordinaryTraining.add(id);}
       for (const id of species.startingFeats||[]) recordFeature({id,automatic:true},'feats',1);
       for (const id of cls.startingFeats) if (!(species.excludedStartingFeats||[]).includes(id) && !ctx.feats.some(f=>f.id===id) && !['feat:linguist', 'feat:shake-it-off'].includes(id) && eligible(ix.feats.get(id),{id},ctx,ix,'feats')) recordFeature({id,automatic:true},'feats',1);
       conditionalSpeciesGrants();
@@ -264,7 +265,8 @@ export function progression(c, pack, through = c.levels.length) {
       if (initialForce) allowed.add('skill:use-the-force');
       const limit = Math.max(1, cls.trainedSkills + modifier(ctx.scores.int)) + species.bonusSkills;
       for (const id of c.trainedSkills.slice(0, limit)) {
-        if (allowed.has(id)){ctx.trained.add(id);ordinaryTraining.add(id);} else issue(i, `${ix.skills.get(id).name} is not a starting class skill`);
+        if(ctx.speciesTraining.has(id))issue(i,`${ix.skills.get(id).name} is already trained by ${species.name}`);
+        else if (allowed.has(id)){ctx.trained.add(id);ordinaryTraining.add(id);} else issue(i, `${ix.skills.get(id).name} is not a starting class skill`);
       }
       conditionalSpeciesGrants();
       if (c.trainedSkills.length !== limit) issue(i, `choose ${limit} starting trained skills (${c.trainedSkills.length} selected)`);
@@ -311,7 +313,7 @@ export function derive(c, pack) {
   const ix = indexPack(pack), species = resolveSpecies(c,pack);
   const {ctx, rows, issues} = progression(c, pack);
   const level = ctx.characterLevel, half = Math.floor(level / 2), background=activeBackground(c,pack);
-  issues.push(...speciesChoiceDetails(c,pack,ctx).map(g=>g.issue).filter(Boolean));
+  issues.push(...speciesChoiceDetails(c,pack,ctx,rows[0]?.ctx||ctx).map(g=>g.issue).filter(Boolean));
   const story=c.story;
   if(story?.kind==='destiny' && !story.id)issues.push('Choose a Destiny');
   if(story?.kind==='background') {

@@ -6,7 +6,7 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 
 **Mapped** means at least one reviewed mechanic uses the page; it does not mean every rule on that page is automated. **Reference** means embedded text without a reviewed mechanical mapping. **Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.
 
-Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **927 / 4,400 pages (21.1%)**. A mechanical mapping alone does not count as embedded text.
+Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **929 / 4,400 pages (21.1%)**. A mechanical mapping alone does not count as embedded text.
 
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -15,7 +15,7 @@ Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: *
 | Dawn of Defiance | 244 | 3 | 241 | 0 | 0 |
 | Force Unleashed Campaign Guide | 356 | 85 | 271 | 0 | 0 |
 | Galaxy at War | 274 | 75 | 199 | 0 | 0 |
-| Galaxy of Intrigue | 229 | 44 | 185 | 0 | 0 |
+| Galaxy of Intrigue | 229 | 45 | 184 | 0 | 0 |
 | Jedi Academy Training Manual | 301 | 89 | 212 | 0 | 0 |
 | Knights of the Old Republic Campaign Guide | 512 | 110 | 402 | 0 | 0 |
 | Legacy Era Campaign Guide | 413 | 81 | 332 | 0 | 1 |
@@ -24,7 +24,7 @@ Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: *
 | Scum and Villainy | 317 | 77 | 240 | 0 | 0 |
 | Starships of the Galaxy | 253 | 23 | 230 | 0 | 0 |
 | Threats of the Galaxy | 256 | 14 | 242 | 0 | 0 |
-| Unknown Regions Campaign Guide | 355 | 49 | 306 | 0 | 0 |
+| Unknown Regions Campaign Guide | 355 | 50 | 305 | 0 | 0 |
 | Web Enhancements | 519 | 58 | 461 | 0 | 0 |
 
 4,400 distinct candidate pages across 16 sources. Shared pages appear in more than one row. The exclusion tree contains 367 pages in 5 categories.
@@ -35,7 +35,7 @@ These counts ignore effect automation. Entries include book variants; page cover
 
 | Content | Entries | Inventoried pages represented |
 | --- | ---: | ---: |
-| Species | 128 | 116 / 132 (87.9%) |
+| Species | 130 | 118 / 132 (89.4%) |
 | Heroic classes | 5 | - |
 | Prestige classes | 32 | 32 / 32 (100.0%) |
 | Skills (Knowledge fields separately) | 25 | - |
