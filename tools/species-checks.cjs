@@ -8,7 +8,10 @@ module.exports=async function checkSpecies(browser,base,root){
   await page.goto(base+'#creation');await creationUI.tab(page,'species');
   const results=page.locator('#species-results'),search=page.locator('#species-search');
   const names=()=>results.locator('.sp-name-link').allTextContents();
-  const initial=await names(),expected=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))).species.map(r=>r.name).sort((a,b)=>a.localeCompare(b));assert.deepEqual(initial,expected);
+  const species=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))).species,byName=new Map(species.map(r=>[r.name,r]));
+  const ordered=async(metric,descending)=>{const rows=(await names()).map(n=>byName.get(n));for(let i=1;i<rows.length;i++){const a=metric(rows[i-1]),b=metric(rows[i]);let cmp=0;for(let j=0;j<a.length&&!cmp;j++)cmp=a[j]-b[j];assert(descending?cmp>=0:cmp<=0,'Numeric order: '+rows[i-1].name+' / '+rows[i].name);if(!cmp)assert(rows[i-1].name.localeCompare(rows[i].name)<=0,'Alphabetical tie-break');}};
+  const speed=r=>[r.speed,r.speed+Object.values(r.speeds||{}).reduce((a,b)=>a+b,0)],abilities=r=>[Object.values(r.abilityAdjustments).reduce((a,b)=>a+b,0)];
+  const initial=await names(),expected=species.map(r=>r.name).sort((a,b)=>a.localeCompare(b));assert.deepEqual(initial,expected);
   assert.equal(await results.locator('[data-sort="name"]').innerText(),'Species ▼');
   await results.locator('[data-sort="name"]').click();assert.deepEqual(await names(),[...initial].reverse());assert.equal(await results.locator('[data-sort="name"]').innerText(),'Species ▲');
   await results.locator('[data-sort="name"]').press('Enter');assert.deepEqual(await names(),initial);
@@ -26,9 +29,9 @@ module.exports=async function checkSpecies(browser,base,root){
   await page.keyboard.press('Escape');assert(await page.locator('#creator-modal').isVisible());assert(!(await modal.isVisible()));assert(await feat.evaluate(el=>el===document.activeElement));
   await search.evaluate(el=>el._sameSearch=true);await search.fill('BIOTECH');assert((await names()).includes('Gungan'));assert((await names()).some(n=>n.startsWith('Yuuzhan Vong')));assert(await search.evaluate(el=>el._sameSearch && el===document.activeElement));assert(await article.isVisible());
   await search.fill('no species matches this phrase');assert.equal(await names().then(n=>n.length),0);assert.equal(await results.locator('[role="status"]').innerText(),'No matches');
-  await search.fill('');await results.locator('[data-sort="speed"]').click();assert.equal((await names())[0],'Gungan');assert.equal(await results.locator('th[aria-sort="descending"]').innerText(),'Speed ▲');
-  await results.locator('[data-sort="speed"]').click();assert.equal((await names())[0],'Hutt');assert.equal((await names()).at(-1),'Quarren');
-  await results.locator('[data-sort="abilities"]').click();assert.equal((await names())[0],'Cerean');await results.locator('[data-sort="abilities"]').click();assert.equal((await names())[0],'Aqualish');
+  await search.fill('');await results.locator('[data-sort="speed"]').click();await ordered(speed,true);assert.equal(await results.locator('th[aria-sort="descending"]').innerText(),'Speed ▲');
+  await results.locator('[data-sort="speed"]').click();await ordered(speed,false);
+  await results.locator('[data-sort="abilities"]').click();await ordered(abilities,true);await results.locator('[data-sort="abilities"]').click();await ordered(abilities,false);
   await search.fill('gungan');await results.locator('[data-select-species="species:gungan"]').click();assert.equal(await search.inputValue(),'gungan');assert.equal(await results.locator('[data-select-species="species:gungan"]').getAttribute('aria-pressed'),'true');assert(await article.isVisible());
   await creationUI.tab(page,'abilities');assert.equal(await page.locator('#cr-final-dex').innerText(),'12');
   await creationUI.tab(page,'species');assert.equal(await search.inputValue(),'gungan');
