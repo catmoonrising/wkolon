@@ -1,5 +1,6 @@
 export const WEAPON_GROUPS = ['advanced-melee-weapons','heavy-weapons','lightsabers','pistols','rifles','simple-weapons'];
 export const UNARMED_ID = 'attack:unarmed';
+export const talentTreeIds = record => [record.tree,...(record.additionalTrees||[])];
 export function featureChoices(r,pack){
  if(r.choiceType==='enum')return r.choiceOptions.map(o=>o.id);
  if(r.choiceType==='manual')return ['manual:choice'];

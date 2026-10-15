@@ -17,8 +17,8 @@ test('every Core Jedi, Noble and Scoundrel class-tree talent is selectable with 
  const trees={jedi:['jedi-consular','jedi-guardian','jedi-sentinel','lightsaber-combat'],noble:['influence','inspiration','leadership','lineage'],scoundrel:['fortune','misfortune','slicer','spacer']};
  const counts={'jedi-consular':4,'jedi-guardian':5,'jedi-sentinel':5,'lightsaber-combat':6,influence:4,inspiration:5,leadership:6,lineage:4,fortune:5,misfortune:5,slicer:3,spacer:4};
  for(const [cls,names] of Object.entries(trees)){
-  const r=pack.classes.find(r=>r.id==='class:'+cls);assert.deepEqual(r.talentTrees,names.map(n=>'tree:'+n));assert(pack.sources.some(s=>s.id===r.talentAccessSourceId));
-  for(const tree of r.talentTrees){const records=pack.talents.filter(t=>t.tree===tree);assert.equal(records.length,counts[tree.slice(5)],tree);
+  const r=pack.classes.find(r=>r.id==='class:'+cls);assert(names.every(n=>r.talentTrees.includes('tree:'+n)));assert(pack.sources.some(s=>s.id===r.talentAccessSourceId));
+  for(const tree of names.map(n=>'tree:'+n)){const records=pack.talents.filter(t=>t.tree===tree&&pack.catalog.records.some(r=>r.kind==='talent'&&r.mechanicsIds.includes(t.id)&&r.books.includes('Core Rulebook')));assert.equal(records.length,counts[tree.slice(5)],tree);
    for(const t of records){const source=pack.sources.find(s=>s.id===t.sourceId);assert.equal(source.section,t.name);assert(articleText(t.article).includes('Core Rulebook'));assert(pack.catalog.records.some(r=>r.mechanicsIds.includes(t.id)&&r.status==='available'));}
   }
  }

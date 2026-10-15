@@ -55,17 +55,39 @@ The Core Scout/Soldier trees are now complete, including Camouflage, Fringer,
 Brawler and Commando. Proficiency and Weapon Focus conditions connect to the
 secondary choices for Devastating Attack and Penetrating Attack. Repeatable talents
 remain selectable at later earned slots. Class tree access uses separately pinned
-Core class-tree lists; other classes cannot choose these talents merely because
+class-tree overview tables, including supplemental trees; other classes cannot choose these talents merely because
 they meet a prerequisite.
 
 Force Sensitivity adds the closed `nonDroid` prerequisite, evaluated against the
 species' `isDroid` flag. It prevents the feat (and its class-skill access) from being
 granted to a droid; it does not implement droid construction.
 
-Validation: 337 JavaScript tests, the full Chromium browser suite and focused
+Validation: 539 JavaScript tests, 35 Python importer tests, the full Chromium browser suite and focused
 Chromium/Firefox feature checks pass. The dense real feat graph is checked for
 connections passing through cards and curves exceeding 45°. A ranged-feat
 regression covers the Careful Shot/Deadeye and Precise Shot/Sniper joins.
 Checks also cover local requirements, retained
 feat chains, arrow tips, crossing gaps, stable rule dialogs, zoom, mobile themes,
 selection replay and persistence.
+
+
+The class/common Force catalog now includes all 1,036 sections from 146 trees.
+Two reviewed Multiattack Proficiency reprints share their mechanical identity,
+with `additionalTrees` retaining their access through both source trees. Separate
+catalog entries keep each reprint's book and article. A shared talent counts once
+toward prestige entry requirements even if both of its trees qualify. Tree tabs
+use the source spelling, including punctuation and accented names.
+
+All 840 newly enabled talents have Manual effect coverage. Typed prerequisites
+still restrict selection. Unverified requirements retain their exact wording and
+require saved confirmation; an unresolved alternative never becomes a narrower
+mandatory branch. Manual selections do not acquire inferred numeric effects,
+training, additional talents, memberships or hardware. Printed skill, weapon,
+vehicle, item and other permanent secondary choices use the shared choice controls.
+Temporary combat targets and crafting choices are not character-creation choices.
+
+Light Side and Guardian Spirit are available through Force Sensitivity. Light
+Side selections record acquisition DSS 0; later DSS suspends rather than deletes
+their ownership, until DSS returns to zero. The inactive talent cannot meet a
+current prerequisite. The 26 Force Tradition and five degree-specific droid tree
+pages remain readable references until their membership/degree access is modeled.

@@ -14,10 +14,12 @@ function hero(cls='jedi'){const c=newCharacter(pack,{classId:'class:scoundrel'})
 function add(c,{feats=[],t=null,increases=[],powers=[]}={}){c.levels.push({classId:c.levels[0].classId,hpRoll:4,feats,talent:t,startingFeat:null,abilityIncreases:increases,trainedSkills:[],forcePowers:powers});}
 
 test('all four Core Force trees and sixteen powers have reviewed articles, with Corruption kept separate',()=>{
- assert.equal(pack.rules.forceTalentAccess.trees.length,4);
- assert.equal(pack.talents.filter(t=>pack.rules.forceTalentAccess.trees.includes(t.tree)).length,16);
+ const coreTrees=['tree:alter','tree:control','tree:dark-side','tree:sense'];
+ assert(coreTrees.every(id=>pack.rules.forceTalentAccess.trees.includes(id)));
+ const coreTalents=pack.talents.filter(t=>coreTrees.includes(t.tree)&&pack.catalog.records.some(r=>r.kind==='talent'&&r.mechanicsIds.includes(t.id)&&r.books.includes('Core Rulebook')));
+ assert.equal(coreTalents.length,16);
  assert(pack.forcePowers.length>=16);
- for(const r of [...pack.forcePowers.slice(0,16),...pack.talents.filter(t=>pack.rules.forceTalentAccess.trees.includes(t.tree))]){
+ for(const r of [...pack.forcePowers.slice(0,16),...coreTalents]){
   assert(articleText(r.article).includes('Core Rulebook'));assert(pack.catalog.records.some(c=>c.mechanicsIds.includes(r.id)&&c.status==='available'));
  }
  assert(!pack.forcePowers.slice(0,16).some(r=>r.name==='Corruption'));assert(pack.forcePowers.some(r=>r.id==='power:corruption'));
@@ -30,7 +32,7 @@ test('all four Core Force trees and sixteen powers have reviewed articles, with 
 
 test('Force Sensitivity opens Force trees on every heroic class without granting extra talent slots',()=>{
  for(const cls of pack.classes.filter(r=>r.classType!=='prestige')){const c=hero(cls.id.slice(6));c.levels[0].feats=[feat('force-sensitivity'),feat('toughness')];c.levels[0].forcePowers=[];
-  const d=derive(c,pack);assert(d.ctx.talents.some(t=>t.id==='talent:force-perception'),cls.name);assert.equal(talentTrees(cls,d.ctx,pack).length,cls.talentTrees.length+4);
+  const d=derive(c,pack);assert(d.ctx.talents.some(t=>t.id==='talent:force-perception'),cls.name);assert.equal(talentTrees(cls,d.ctx,pack).length,cls.talentTrees.length+pack.rules.forceTalentAccess.trees.length);
   add(c,{t:talent('force-pilot')});assert(derive(c,pack).issues.some(s=>s.includes('talent is not available')));
   if(cls.id!=='class:jedi'){c.levels[0].feats=[];c.houseRules={jediCounseling:{'jc:106-jedi-multiclassing':false}};const noForce=derive(c,pack);assert(!noForce.ctx.talents.length);assert.deepEqual(talentTrees(cls,noForce.ctx,pack),cls.talentTrees);}
  }

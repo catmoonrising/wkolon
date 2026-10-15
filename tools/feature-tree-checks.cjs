@@ -2,6 +2,7 @@ const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict');const fs=require('node:fs');const path=require('node:path');
 const choose=require('./choice-actions.cjs');
 module.exports=async function checkTrees(browser,base,root){
+ const pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
  const context=await browser.newContext({viewport:{width:1440,height:1000},acceptDownloads:true});
  try {
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
@@ -41,7 +42,8 @@ module.exports=async function checkTrees(browser,base,root){
   // Existing invalid training remains removable; it does not grant an eligible skill.
   await body.locator('[data-trained="skill:use-the-force"]').uncheck();assert(await body.locator('[data-trained="skill:use-the-force"]').isDisabled());
   await creationUI.openChoice(page,'talent');assert.equal(await body.locator('[data-choice="feat"]').count(),0);
-  assert.deepEqual(await body.locator('[data-tree-group]').evaluateAll(buttons=>buttons.map(b=>b.dataset.treeGroup)),['all','tree:awareness','tree:camouflage','tree:fringer','tree:survivor']);
+  assert.deepEqual(await body.locator('[data-tree-group]').evaluateAll(buttons=>buttons.map(b=>b.dataset.treeGroup)),['all',...pack.classes.find(c=>c.id==='class:scout').talentTrees].sort((a,b)=>a.localeCompare(b)));
+  await body.locator('[data-tree-group="tree:awareness"]').click();
   const pick=id=>body.locator(`[data-tree-pick="talent:${id}|"]`),node=id=>body.locator(`[data-tree-node="talent:${id}|"]`);
   assert.equal(await body.locator('[data-tree-group="tree:awareness"]').getAttribute('aria-pressed'),'true');
   assert(!(await pick('acute-senses').isDisabled()));assert(await pick('improved-initiative').isDisabled());
@@ -84,7 +86,7 @@ module.exports=async function checkTrees(browser,base,root){
 
   await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:soldier');await creationUI.openChoice(page,'talent');await body.locator('[data-tree-group="all"]').click();
   assert.equal(await node('acute-senses').count(),0);
-  assert.deepEqual(await body.locator('[data-tree-group]').evaluateAll(buttons=>buttons.map(b=>b.dataset.treeGroup)),['all','tree:armor-specialist','tree:brawler','tree:commando','tree:weapon-specialist']);
+  assert.deepEqual(await body.locator('[data-tree-group]').evaluateAll(buttons=>buttons.map(b=>b.dataset.treeGroup)),['all',...pack.classes.find(c=>c.id==='class:soldier').talentTrees].sort((a,b)=>a.localeCompare(b)));
   await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:scout');await creationUI.openChoice(page,'talent');if(await pick('acute-senses').getAttribute('aria-pressed')!=='true')await choose(page,'talent','talent:acute-senses|');
   // Add a third Scout level, so previous talents unlock the illustrated branches legitimately.
   await creationUI.done(page,'done');await page.locator('#module-classes a[href="#advancement"]').click();

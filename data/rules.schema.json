@@ -311,14 +311,16 @@
             "trees": {
               "type": "array",
               "minItems": 4,
-              "maxItems": 4,
+              "maxItems": 6,
               "uniqueItems": true,
               "items": {
                 "enum": [
                   "tree:alter",
                   "tree:control",
                   "tree:dark-side",
-                  "tree:sense"
+                  "tree:sense",
+                  "tree:light-side",
+                  "tree:guardian-spirit"
                 ]
               }
             }
@@ -3126,6 +3128,13 @@
         },
         "requiresDarkSide": {
           "type": "boolean"
+        },
+        "requiresLightSide": {
+          "const": true
+        },
+        "additionalTrees": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^tree:[a-z0-9-]+$"}
         },
         "choiceType": {
           "enum": [

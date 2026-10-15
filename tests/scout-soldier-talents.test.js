@@ -18,10 +18,10 @@ function level(c,t,cls='soldier'){
 
 test('Scout and Soldier have all four reviewed Core trees with complete, separately pinned talent sections',()=>{
  const trees={scout:['awareness','camouflage','fringer','survivor'],soldier:['armor-specialist','brawler','commando','weapon-specialist']};
- const counts={awareness:8,camouflage:3,fringer:4,survivor:4,'armor-specialist':5,brawler:5,commando:7,'weapon-specialist':3};
+ const counts={awareness:6,camouflage:3,fringer:4,survivor:4,'armor-specialist':5,brawler:5,commando:7,'weapon-specialist':3};
  for(const [cls,list] of Object.entries(trees)){
-  const r=pack.classes.find(r=>r.id==='class:'+cls);assert.deepEqual(r.talentTrees,list.map(n=>'tree:'+n));assert(pack.sources.some(s=>s.id===r.talentAccessSourceId));
-  for(const tree of r.talentTrees){const talents=pack.talents.filter(r=>r.tree===tree);assert.equal(talents.length,counts[tree.slice(5)]);
+  const r=pack.classes.find(r=>r.id==='class:'+cls);assert(list.every(n=>r.talentTrees.includes('tree:'+n)));assert(pack.sources.some(s=>s.id===r.talentAccessSourceId));
+  for(const tree of list.map(n=>'tree:'+n)){const talents=pack.talents.filter(t=>t.tree===tree&&pack.catalog.records.some(r=>r.kind==='talent'&&r.mechanicsIds.includes(t.id)&&r.books.includes('Core Rulebook')));assert.equal(talents.length,counts[tree.slice(5)]);
    for(const t of talents){const source=pack.sources.find(s=>s.id===t.sourceId);assert.equal(source.section,t.name);if(!['Reset Initiative','Weak Point'].includes(t.name))assert(articleText(t.article).includes('Core Rulebook'));}
   }
  }

@@ -166,7 +166,7 @@ put Applications behind a disclosure, preserving supplementary section labels.
 
 ## Prerequisites and effects
 
-`rules.forceTalentAccess` pins the four Core Force trees and their access sources.
+`rules.forceTalentAccess` pins the four Core Force trees, Light Side and Guardian Spirit, and their access sources.
 An earned Force Sensitivity feat permits these trees in any existing talent slot;
 it creates no additional slot and is required even with Counseling disabled.
 Dark Side talents require `darkSideScore >= 1`. Their selections retain
@@ -239,8 +239,24 @@ Juggernaut's `armorMovement: 1` removes armor's speed and running restrictions,
 with proficiency required. Long Stride changes natural movement speeds only.
 No equipment record or base score is rewritten. Other attack procedures, rerolls,
 ally bonuses and condition changes remain manual, with verbatim rules retained.
-Class `talentAccessSourceId` pins the reviewed Core tree list independently of
-the class article and individual talent sections.
+Class `talentAccessSourceId` pins the reviewed class tree list, including its
+supplemental trees, independently of the class article and individual sections.
+Bulk talent entries retain an isolated, pinned section article. Known
+prerequisites use the existing closed grammar; unresolved requirements retain
+their verbatim passages in `manualPrerequisites` and require confirmation.
+Unmapped effects use `automation: manual`, not guessed numeric modifiers.
+Creation-time choices use the existing secondary-choice fields. Identical names
+in different trees retain separate source identities and catalog articles.
+Only reviewed identical reprints share a mechanical ID: `additionalTrees`
+lists their other trees. Class access, graph tabs and tree prerequisites use
+all memberships; an individual selection is still counted once. A shared name
+alone never merges two source records.
+
+`requiresLightSide: true` records the Light Side tree's acquisition requirement
+and ongoing restriction. Such selections save `darkSideScore: 0`; increasing
+DSS keeps the selection but makes it inactive until DSS returns to zero.
+`darkSideScore` prerequisites can contain a closed `min`/`max` range, including
+zero. Dark Side talents retain their existing positive acquisition snapshots.
 
 `rules.ambiguities` contains stable IDs, names, pinned source/rule IDs, enumerated
 options and a default option. Character `houseRules.ambiguities` stores only those

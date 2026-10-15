@@ -8,7 +8,7 @@ import {emptyTraits, emptyStory, activeBackground, validateFinishing} from './he
 import {emptyProtection,validateCombatState} from './combat.js';
 import {counselingEnabled,ambiguityValue,validateHouseRules} from './house-rules.js';
 import {resolveEquipment,validateInventoryOptions,validateStartingEquipment,validateAttachments,attachedScope} from './equipment.js';
-import {featureChoices,WEAPON_GROUPS,UNARMED_ID} from './feature-choices.js';
+import {featureChoices,WEAPON_GROUPS,UNARMED_ID,talentTreeIds} from './feature-choices.js';
 import {unarmedWeapon,weaponRange,canAim} from './weapon-rules.js';
 import {ammunitionState,validateAmmunition} from './ammunition.js';
 import {carryingLimits} from './species-rules.js';
@@ -85,8 +85,9 @@ export function validateCharacter(c, pack) {
     if(!i&&isPrestige(ix.classes.get(l.classId)))bad('prestige starting class');
     if (!Array.isArray(l.feats) || l.feats.length > 4 || !l.feats.every(s => choice(s, 'feats')) || !choice(l.talent, 'talents') || !choice(l.startingFeat, 'feats')) bad('level choices');
     if (!Array.isArray(l.abilityIncreases) || l.abilityIncreases.length > 2 || !l.abilityIncreases.every(a => a === '' || ABILITIES.includes(a)) || !skillList(l.trainedSkills)) bad('level ability/skill choices');
-    if(l.talent?.darkSideScore!==undefined&&!num(l.talent.darkSideScore,1,1000))bad('talent acquisition DSS');
+    if(l.talent?.darkSideScore!==undefined&&!num(l.talent.darkSideScore,0,1000))bad('talent acquisition DSS');
     if(l.talent&&!l.talent.pending&&ix.talents.get(l.talent.id).requiresDarkSide&&!num(l.talent.darkSideScore,1,1000))bad('talent acquisition DSS');
+    if(l.talent&&!l.talent.pending&&ix.talents.get(l.talent.id).requiresLightSide&&l.talent.darkSideScore!==0)bad('talent acquisition DSS');
   }
   const powerIds=new Set();
   for(const l of c.levels)if(l.forcePowers!==undefined){
@@ -146,7 +147,7 @@ export function prerequisite(p, ctx, ix, choice) {
     case 'talent': return !ctx.inactiveTalents?.has(value)&&ctx.talents.some(t => t.id === value);
     case 'talentChoice': return ctx.talents.some(t=>!ctx.inactiveTalents?.has(t.id)&&(t.id===value||ix.talents.get(t.id)?.repeatGroup===value)&&(ix.talents.get(t.id)?.weaponGroup||t.choice)===(p.choice==='$choice'?choice:p.choice));
     case 'power': return ctx.forcePowers?.some(p=>p.powerId===value)||false;
-    case 'darkSideScore': return (ctx.darkSideScore||0)>=p.min;
+    case 'darkSideScore': return (ctx.darkSideScore||0)>=p.min&&(p.max===undefined||(ctx.darkSideScore||0)<=p.max);
     case 'trained': return ctx.trained.has(value);
     case 'untrained': return !ctx.trained.has(value);
     case 'classSkill': return classSkills(ctx, ix).has(value);
@@ -165,6 +166,7 @@ export function prerequisite(p, ctx, ix, choice) {
 export function eligible(record, selection, ctx, ix, type, {ignoreManual=false}={}) {
   if (!record || selection.pending) return false;
   if(record.manualPrerequisites?.length&&!selection.manualRequirements&&!ignoreManual)return false;
+  if(record.requiresLightSide&&ctx.darkSideScore!==0)return false;
   if(ctx.forceImmune&&record.id===F('force-sensitivity'))return false;
   if(record.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing')&&!ctx.feats.some(f=>f.id===F('force-sensitivity')))return false;
   if (record.choiceType === 'skill' && !ix.skills.has(selection.choice)) return false;
@@ -227,11 +229,12 @@ export function progression(c, pack, through = c.levels.length) {
   function grant(s, type, i, label, allow = () => true) {
     if (!s) { issue(i, `choose ${label}`); return; }
     const r = ix[type].get(s.id);
-    const acquired=r?.requiresDarkSide&&s.darkSideScore?{...ctx,darkSideScore:s.darkSideScore,inactiveTalents:new Set()}:ctx;
+    const snapshot=!!(r?.requiresDarkSide&&s.darkSideScore||r?.requiresLightSide&&s.darkSideScore===0);
+    const acquired=snapshot?{...ctx,darkSideScore:s.darkSideScore,inactiveTalents:new Set()}:ctx;
     if(r?.manualPrerequisites?.length&&!s.manualRequirements){issue(i,'confirm prerequisites for '+r.name);return;}
     if (!allow(r, s) || !eligible(r, s, acquired, ix, type)) { issue(i, `${r?.name || 'Unknown choice'} is not eligible for ${label}`); return; }
     recordFeature(s,type,i+1);
-    if(r.requiresDarkSide&&ctx.darkSideScore===0)ctx.inactiveTalents.add(r.id);
+    if(r.requiresDarkSide&&ctx.darkSideScore===0||r.requiresLightSide&&ctx.darkSideScore!==0)ctx.inactiveTalents.add(r.id);
     for(const e of r.effects){
       if(e.target==='skillTraining'){ctx.trained.add(s.choice);ordinaryTraining.add(s.choice);}
       if(e.target==='skillSubstitution'&&e.grantsTraining){ctx.trained.add(e.skill);if(type==='talents'){if(!talentTraining.has(e.skill))talentTraining.set(e.skill,new Set());talentTraining.get(e.skill).add(r.id);}else ordinaryTraining.add(e.skill);}
@@ -292,7 +295,7 @@ export function progression(c, pack, through = c.levels.length) {
     const powerChoices=Math.max(0,ctx.powerSlots-ctx.forcePowers.length),chosenPowers=l.forcePowers||[];
     if(chosenPowers.length!==powerChoices)issue(i,`choose ${powerChoices} Force powers (${chosenPowers.length} selected)`);
     for(const p of chosenPowers.slice(0,powerChoices))if(ix.forcePowers.has(p.powerId))ctx.forcePowers.push({...p,level:n});
-    if (hasClassTalent(cls,cl)) grant(l.talent, 'talents', i, 'a talent', r => talentTrees(cls,ctx,pack).includes(r?.tree));
+    if (hasClassTalent(cls,cl)) grant(l.talent, 'talents', i, 'a talent', r => r&&talentTreeIds(r).some(id=>talentTrees(cls,ctx,pack).includes(id)));
     else if (l.talent) issue(i, 'a talent is not available at this class level');
     for(const feature of cls.classFeatures||[])if(feature.level===cl)ctx.classFeatures.push({...feature,classId:cls.id,level:n});
     const choiceSlots=(cls.classFeatureChoices||[]).filter(s=>s.level===cl);

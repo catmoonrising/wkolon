@@ -19,7 +19,7 @@ export function referenceEntries(r, pack, selection) {
       case 'featChoice': return `${target(p.value)} (${p.choice?name(p.choice):'same weapon'})`;
       case 'trait': return `${target(p.value)} species trait`;
       case 'size': return `${target(p.value)} or larger`;
-      case 'darkSideScore': return `Dark Side Score ${p.min}+`;
+      case 'darkSideScore': return 'Dark Side Score '+p.min+(p.max===undefined?'+':p.max!==p.min?' to '+p.max:'');
       case 'trained': return `Trained in ${target(p.value)}`;
       case 'untrained': return `Untrained in ${target(p.value)}`;
       case 'classSkill': return `${target(p.value)} is a class skill`;

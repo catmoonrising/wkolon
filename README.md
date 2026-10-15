@@ -36,7 +36,9 @@ The catalog includes all five heroic and 32 prestige classes, the Core skills an
 Force powers from all inventoried official power pages. Current selectable counts
 and source coverage are generated in [Wiki coverage](docs/wiki-coverage.md).
 All 351 inventoried official feat pages are selectable (358 options including
-variants). Manual and Partial markers describe effect coverage; requirements the
+variants). The talent catalog includes 1,034 options from all 146 class/common
+Force trees. Tradition and droid-degree access remain pending.
+Manual and Partial markers describe effect coverage; requirements the
 sheet cannot verify require confirmation.
 Force Training tracks individual copies, spending, Force Point recovery, rest and
 natural-20 suite recovery. Unarmed attacks, weapon routines, defenses, conditions,
@@ -72,6 +74,14 @@ redirect aliases (including talent-tree sections), retries and resume. Use
 not an automatically executable pack. Compilation checks the reviewed revision manifest and refuses changed revisions.
 New mechanical mappings need explicit
 review of prerequisites, stacking, conditions, timing and errata.
+
+After capturing the official reference library, review the class/common Force
+talent catalog with `python3 tools/import-talents.py`. It writes a review file
+without changing the pack. `--apply` imports the pinned sections, source-derived
+prerequisites, permanent secondary choices and class access tables. It preserves
+existing effects and marks new effects Manual. Compile the reviewed result with
+`python3 tools/compile-core.py` and run the validation and browser checks.
+
 
 Import the Core Rulebook library and build the browser pack:
 

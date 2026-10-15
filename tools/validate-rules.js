@@ -36,7 +36,7 @@ export function validatePack(p) {
     if(r.kind==='species')assert(typeof r.value==='string'&&r.value.length>0&&r.value.length<=100,'Invalid prerequisite species');
     if(r.kind==='power'&&r.value!=='$choice')requireRef('forcePowers',r.value);
     if(r.kind==='talentChoice'){requireRef('talents',r.value);assert(r.choice==='$choice'||GROUPS.includes(r.choice),'Unsupported talent choice prerequisite');}
-    if(r.kind==='darkSideScore')assert.equal(r.min,1);
+    if(r.kind==='darkSideScore'){assert(Number.isInteger(r.min)&&r.min>=0&&r.min<=1000);if(r.max!==undefined)assert(Number.isInteger(r.max)&&r.max>=r.min&&r.max<=1000,'Invalid Dark Side Score range');}
     if (r.kind === 'ability') { assert(ABILITIES.includes(r.value)); assert(Number.isInteger(r.min)); }
     if (r.kind === 'bab'||r.kind==='level') assert(Number.isInteger(r.min)&&r.min>=0&&r.min<=20);
     if (r.kind === 'feat') requireRef('feats',r.value);
@@ -147,8 +147,10 @@ export function validatePack(p) {
     if (key === 'skills') assert(ABILITIES.includes(r.ability) && typeof r.trainedOnly==='boolean' && typeof r.armorCheck==='boolean');
     if(key==='forcePowers'){const actions=['standard-action','swift-action','move-action','full-round-action','free-action','reaction'];assert(actions.includes(r.action));assert(Array.isArray(r.descriptors)&&new Set(r.descriptors).size===r.descriptors.length&&r.descriptors.every(d=>['dark-side','light-side','mind-affecting','telekinetic','lightsaber-form'].includes(d)));if(r.actionText!==undefined)assert(typeof r.actionText==='string'&&r.actionText.length>0);if(r.actions!==undefined)assert(Array.isArray(r.actions)&&r.actions.length>1&&new Set(r.actions).size===r.actions.length&&r.actions.every(a=>actions.includes(a))&&r.actions[0]===r.action,'Invalid alternative power actions');}
     if (['feats','talents'].includes(key)) {
+      if(r.additionalTrees!==undefined)assert(key==='talents'&&Array.isArray(r.additionalTrees)&&r.additionalTrees.length>0&&new Set(r.additionalTrees).size===r.additionalTrees.length&&r.additionalTrees.every(id=>id!==r.tree&&/^tree:[a-z0-9-]+$/.test(id)),'Invalid additional talent trees');
       if(r.forceActivation!==undefined)assert(['check','forcePoint'].includes(r.forceActivation));
       if(r.requiresDarkSide!==undefined)assert.equal(r.requiresDarkSide,true);
+      if(r.requiresLightSide!==undefined)assert(r.requiresLightSide===true&&!r.requiresDarkSide,'Invalid Light Side restriction');
       prerequisite(r.prerequisite); assert(['never','choice','stack'].includes(r.repeat));
       if(r.maxSelections!==undefined)assert(r.repeat==='stack'&&Number.isInteger(r.maxSelections)&&r.maxSelections>=1&&r.maxSelections<=20,'Invalid repeat limit');
       if(r.exclusiveGroup!==undefined)assert(r.repeat==='never'&&typeof r.exclusiveGroup==='string'&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(r.exclusiveGroup),'Invalid exclusive feature group');
@@ -386,7 +388,7 @@ export function validatePack(p) {
   assert.deepEqual(Object.keys(natural).sort(),['removablePersistent','restHours','sourceIds','usesPerDay']);assert(natural.restHours===8&&natural.usesPerDay===1);assert.deepEqual(natural.removablePersistent,['rage','second-wind','injury']);
   assert.deepEqual(Object.keys(awake).sort(),['dc','deathFailureMargin','fatalNatural','firstMinutes','retryHours','sourceIds','stunNoFatalCheck']);assert(awake.dc===10&&awake.firstMinutes===1&&awake.retryHours===1&&awake.deathFailureMargin===5&&awake.fatalNatural===1&&awake.stunNoFatalCheck===true);
   const incoming=p.rules.incomingDamage;assert(incoming&&incoming.sourceIds.length&&incoming.sourceIds.every(id=>sources.has(id)),'Missing damage sources');assert.deepEqual(Object.keys(incoming).sort(),['forcePointCost','helplessStep','ion','normalThresholdSteps','sourceIds','stun']);assert(incoming.normalThresholdSteps===1&&incoming.helplessStep===5&&incoming.forcePointCost===1);assert.deepEqual(incoming.stun,{hpDivisor:2,thresholdSteps:2,blasterRange:6});assert.deepEqual(incoming.ion,{hpDivisor:2,thresholdSteps:2});
-  if(access){assert(Object.keys(access).every(k=>['trees','sourceIds'].includes(k)));assert(Array.isArray(access.trees)&&access.trees.length===4&&new Set(access.trees).size===4&&access.trees.every(t=>p.talents.some(r=>r.tree===t)));assert(access.sourceIds.length&&access.sourceIds.every(id=>sources.has(id)));}
+  if(access){assert(Object.keys(access).every(k=>['trees','sourceIds'].includes(k)));assert(Array.isArray(access.trees)&&access.trees.length>=4&&access.trees.length<=6&&new Set(access.trees).size===access.trees.length&&['tree:alter','tree:control','tree:dark-side','tree:sense'].every(id=>access.trees.includes(id))&&access.trees.every(t=>['tree:alter','tree:control','tree:dark-side','tree:sense','tree:light-side','tree:guardian-spirit'].includes(t)&&p.talents.some(r=>r.tree===t)));assert(access.sourceIds.length&&access.sourceIds.every(id=>sources.has(id)));}
   if(recovery){assert(Object.keys(recovery).every(k=>['sourceIds','restMinutes','forcePointCost','naturalRoll'].includes(k)));assert(recovery.sourceIds.length&&recovery.sourceIds.every(id=>sources.has(id)));assert(recovery.restMinutes===1&&recovery.forcePointCost===1&&recovery.naturalRoll===20);}
   if(p.heroicTraits) {
     assert(Array.isArray(p.heroicTraits.sourceIds));p.heroicTraits.sourceIds.forEach(id=>assert(sources.has(id)));

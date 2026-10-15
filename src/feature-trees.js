@@ -4,8 +4,13 @@ import {GROUPS,indexPack,eligible,prerequisite} from './rules.js';
 import {counselingEnabled} from './house-rules.js';
 import {articleText,renderArticle,escapeHTML as escape} from './wiki-content.js';
 import {layoutFeatureGraph,featureEdgePath,featureCrossings} from './feature-layout.js';
-import {featureChoices} from './feature-choices.js';
+import {featureChoices,talentTreeIds} from './feature-choices.js';
 const title=value=>value.replace(/^tree:/,'').replaceAll('-',' ').replace(/\b\w/g,c=>c.toUpperCase());
+const treeLabels=new WeakMap();
+function treeTitle(id,pack){
+ if(!treeLabels.has(pack))treeLabels.set(pack,new Map((pack.catalog?.records||[]).filter(r=>r.kind==='talentTree').map(r=>['tree:'+r.name.replace(/ Talent Tree$/,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''),r.name.replace(/ Talent Tree$/,'')])));
+ return treeLabels.get(pack).get(id)||title(id);
+}
 export const featureFamily=r=>/^(Weapon Proficiency|Armor Proficiency) \(/.test(r.name)?r.name.replace(/ \(.*\)$/,''):null;
 export const featureValue=r=>featureFamily(r)?'family:'+featureFamily(r):r.id+'|';
 export function featureVariants(r,pack) {return featureChoices(r,pack).map(choice=>({id:r.id,...(choice?{choice}:{})}));}
@@ -21,7 +26,7 @@ export function featureGraph(pack,options) {
  for(const r of pack[type]) {
   if(!allowed.has(r.id))continue;
   const key=type==='feats'?featureValue(r):r.id+'|';let node=nodes.get(key);
-  if(!node){node={key,name:type==='feats'?(featureFamily(r)||r.name):r.name,group:type==='talents'?r.tree:null,records:[],parents:[],main:true,available:false,owned:false,selected:false};nodes.set(key,node);}
+  if(!node){const groups=type==='talents'?talentTreeIds(r).filter(id=>!options.allowedTrees||options.allowedTrees.includes(id)):[];node={key,name:type==='feats'?(featureFamily(r)||r.name):r.name,group:groups[0]||null,groups,records:[],parents:[],main:true,available:false,owned:false,selected:false};nodes.set(key,node);}
   const owns=s=>{const prior=ix[type].get(s.id);return s.id===r.id||r.repeatGroup&&prior?.repeatGroup===r.repeatGroup&&(!r.weaponGroup||(prior.weaponGroup||s.choice)===r.weaponGroup);};
   node.records.push(r);node.available||=possible(r).length>0;node.owned||=possessed.some(owns);node.selected||=selected?.id===r.id;byId.set(r.id,key);
  }
@@ -33,7 +38,7 @@ export function featureGraph(pack,options) {
   if(['feat','featChoice','talent','talentChoice'].includes(p.kind)){record=ix[p.kind.startsWith('talent')?'talents':'feats'].get(p.value);name=record.name+(p.kind==='featChoice'&&p.choice?' ('+ix.skills.get(p.choice).name+')':p.kind==='featChoice'||p.kind==='talentChoice'&&p.choice==='$choice'?' (same weapon)':p.kind==='talentChoice'?' ('+title(p.choice)+')':'');}
   else if(p.kind==='trained')name='Trained in '+(choice?'a skill':ix.skills.get(p.value).name);
   else if(p.kind==='power'){record=ix.forcePowers.get(p.value);name=choice?'Known Force Power':record.name;}
-  else if(p.kind==='darkSideScore')name='DSS '+p.min;
+  else if(p.kind==='darkSideScore')name='DSS '+p.min+(p.max!==undefined&&p.max!==p.min?' to '+p.max:'');
   else if(p.kind==='untrained')name='Untrained in '+(choice?'chosen skill':ix.skills.get(p.value).name);
   else if(p.kind==='classSkill')name=choice?'Class skill':ix.skills.get(p.value).name+' class skill';
   else if(p.kind==='ability')name=p.value.toUpperCase()+' '+p.min;
@@ -69,7 +74,7 @@ export function featureGraph(pack,options) {
   node.records.forEach(r=>{parents(r.prerequisite,node.parents,node.key);if(r.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing'))parents({kind:'feat',value:'feat:force-sensitivity'},node.parents,node.key);});node.parents=node.parents.filter(p=>p.key!==node.key);
  }
  const main=[...nodes.values()].filter(n=>n.main);
- return {nodes,groups:[...new Set(main.map(n=>n.group).filter(Boolean))].sort((a,b)=>title(a).localeCompare(title(b))),possible};
+ return {nodes,groups:[...new Set(main.flatMap(n=>n.groups||[]))].sort((a,b)=>treeTitle(a,pack).localeCompare(treeTitle(b,pack))),possible};
 }
 
 export function createFeatureTrees(pack) {
@@ -79,12 +84,12 @@ export function createFeatureTrees(pack) {
  function visible(options) {
   const model=featureGraph(pack,options),s=state(options.key);
   const accessStamp=options.allowedIds.join('|'),allowed=new Set(options.allowedIds);
-  const permitted=group=>[...model.nodes.values()].some(n=>n.group===group&&n.records.some(r=>allowed.has(r.id)));
+  const permitted=group=>[...model.nodes.values()].some(n=>n.groups?.includes(group)&&n.records.some(r=>allowed.has(r.id)));
   if(options.type==='feats')s.group='all';
   if(s.group===null || (s.accessStamp!==accessStamp && s.group!=='all' && !permitted(s.group)))s.group=model.groups.find(permitted)||model.groups[0]||'all';
   s.accessStamp=accessStamp;
   const query=s.query.trim().toLocaleLowerCase(),found=new Set();
-  for(const n of model.nodes.values())if(n.main && (s.group==='all'||n.group===s.group) && (!s.onlyEligible||n.available||n.owned) && (n.name+' '+n.records.map(r=>articleText(r.article)).join(' ')).toLocaleLowerCase().includes(query))found.add(n.key);
+  for(const n of model.nodes.values())if(n.main && (s.group==='all'||n.groups?.includes(s.group)) && (!s.onlyEligible||n.available||n.owned) && (n.name+' '+n.records.map(r=>articleText(r.article)).join(' ')).toLocaleLowerCase().includes(query))found.add(n.key);
   const include=key=>{const n=model.nodes.get(key);if(!n)return;for(const parent of n.parents)if(!found.has(parent.key)){found.add(parent.key);include(parent.key);}};
   [...found].forEach(include);
   const ranks=new Map();function rank(key,seen=new Set()){if(ranks.has(key))return ranks.get(key);if(seen.has(key))return 0;seen.add(key);const n=model.nodes.get(key);const value=n.parents.length?1+Math.max(...n.parents.map(p=>rank(p.key,new Set(seen)))):0;ranks.set(key,value);return value;}
@@ -95,7 +100,7 @@ export function createFeatureTrees(pack) {
   const baseNodes=options.type==='classes'?nodes.filter(n=>n.main&&n.records[0].classType!=='prestige').sort((a,b)=>a.name.localeCompare(b.name)):[];
   return {...model,nodes:nodes.filter(n=>!baseNodes.includes(n)),baseNodes};
  }
- function tabs(options) {if(options.type!=='talents')return '';const model=featureGraph(pack,options),s=state(options.key);return ['all',...model.groups].map(group=>`<button type="button" data-tree-group="${escape(group)}" aria-pressed="${s.group===group}">${escape(group==='all'?'All':title(group))}</button>`).join('');}
+ function tabs(options) {if(options.type!=='talents')return '';const model=featureGraph(pack,options),s=state(options.key);return ['all',...model.groups].map(group=>`<button type="button" data-tree-group="${escape(group)}" aria-pressed="${s.group===group}">${escape(group==='all'?'All':treeTitle(group,pack))}</button>`).join('');}
  function mechanics(node) {
   const articles=[...new Map(node.records.filter(r=>r.article).map(r=>[JSON.stringify(r.article.blocks),r])).values()];
   return articles.map(r=>(articles.length>1?`<h3>${escape(r.name)}</h3>`:'')+automationBadge(r)+renderArticle(r.article)).join('');

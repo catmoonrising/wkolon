@@ -6,26 +6,26 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 
 **Mapped** means at least one reviewed mechanic uses the page; it does not mean every rule on that page is automated. **Reference** means embedded text without a reviewed mechanical mapping. **Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.
 
-Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **932 / 4,400 pages (21.2%)**. A mechanical mapping alone does not count as embedded text.
+Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: **1,040 / 4,400 pages (23.6%)**. A mechanical mapping alone does not count as embedded text.
 
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Clone Wars Campaign Guide | 571 | 89 | 482 | 0 | 1 |
+| Clone Wars Campaign Guide | 571 | 104 | 467 | 0 | 1 |
 | Core Rulebook | 654 | 285 | 369 | 0 | 1 |
 | Dawn of Defiance | 244 | 3 | 241 | 0 | 0 |
-| Force Unleashed Campaign Guide | 356 | 86 | 270 | 0 | 0 |
-| Galaxy at War | 274 | 75 | 199 | 0 | 0 |
-| Galaxy of Intrigue | 229 | 45 | 184 | 0 | 0 |
-| Jedi Academy Training Manual | 301 | 89 | 212 | 0 | 0 |
-| Knights of the Old Republic Campaign Guide | 512 | 110 | 402 | 0 | 0 |
-| Legacy Era Campaign Guide | 413 | 82 | 331 | 0 | 1 |
-| Rebellion Era Campaign Guide | 344 | 138 | 206 | 0 | 0 |
-| Scavenger's Guide to Droids | 211 | 18 | 193 | 0 | 0 |
-| Scum and Villainy | 317 | 77 | 240 | 0 | 0 |
-| Starships of the Galaxy | 253 | 23 | 230 | 0 | 0 |
-| Threats of the Galaxy | 256 | 14 | 242 | 0 | 0 |
-| Unknown Regions Campaign Guide | 355 | 51 | 304 | 0 | 0 |
-| Web Enhancements | 519 | 58 | 461 | 0 | 0 |
+| Force Unleashed Campaign Guide | 356 | 101 | 255 | 0 | 0 |
+| Galaxy at War | 274 | 84 | 190 | 0 | 0 |
+| Galaxy of Intrigue | 229 | 50 | 179 | 0 | 0 |
+| Jedi Academy Training Manual | 301 | 98 | 203 | 0 | 0 |
+| Knights of the Old Republic Campaign Guide | 512 | 121 | 391 | 0 | 0 |
+| Legacy Era Campaign Guide | 413 | 96 | 317 | 0 | 1 |
+| Rebellion Era Campaign Guide | 344 | 147 | 197 | 0 | 0 |
+| Scavenger's Guide to Droids | 211 | 22 | 189 | 0 | 0 |
+| Scum and Villainy | 317 | 86 | 231 | 0 | 0 |
+| Starships of the Galaxy | 253 | 26 | 227 | 0 | 0 |
+| Threats of the Galaxy | 256 | 17 | 239 | 0 | 0 |
+| Unknown Regions Campaign Guide | 355 | 57 | 298 | 0 | 0 |
+| Web Enhancements | 519 | 60 | 459 | 0 | 0 |
 
 4,400 distinct candidate pages across 16 sources. Shared pages appear in more than one row. The exclusion tree contains 367 pages in 5 categories.
 
@@ -40,7 +40,7 @@ These counts ignore effect automation. Entries include book variants; page cover
 | Prestige classes | 32 | 32 / 32 (100.0%) |
 | Skills (Knowledge fields separately) | 25 | - |
 | Feats | 358 | 351 / 351 (100.0%) |
-| Talents | 194 | - |
+| Talents | 1034 | 146 / 177 (82.5%) |
 | Equipment | 142 | - |
 | Armor (included above) | 72 | 66 / 66 (100.0%) |
 | Force powers | 90 | 88 / 88 (100.0%) |

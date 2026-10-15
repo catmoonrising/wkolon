@@ -1,7 +1,8 @@
 const creationUI=require('./creator-actions.cjs');
-const assert=require('node:assert/strict'),path=require('node:path');
+const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
 const choose=require('./choice-actions.cjs');
 module.exports=async function(browser,base,root){
+ const pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
  const context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  try{
@@ -29,7 +30,7 @@ module.exports=async function(browser,base,root){
   await page.locator('#print').click();assert((await page.locator('#stat-block-text').inputValue()).includes('6 Squares'));await page.locator('#stat-block-close').click();
   await page.locator('#theme-select').selectOption({label:'Dracula Dark'});await page.locator('#module-classes a[href="#advancement"]').click();
   await body.locator('[data-open-tree="talent:2:0"]').click();const tree=page.locator('#feature-tree-modal');await tree.locator('[data-tree-group="tree:armor-specialist"]').click();
-  assert.equal(await tree.locator('[data-tree-pick]').count(),5);assert(await tree.locator('[data-tree-node="talent:juggernaut|"]').evaluate(el=>el.classList.contains('owned')));
+  assert.equal(await tree.locator('[data-tree-pick]').count(),pack.talents.filter(r=>r.tree==='tree:armor-specialist').length);assert(await tree.locator('[data-tree-node="talent:juggernaut|"]').evaluate(el=>el.classList.contains('owned')));
   await page.screenshot({path:path.join(root,'.build/armor-specialist-talents.png')});await page.locator('#feature-tree-close').click();await creationUI.done(page,'done');
   await page.waitForFunction(()=>document.querySelector('#save-status').textContent==='Saved');
   await page.evaluate(async()=>{await navigator.serviceWorker.register('./sw.js');await navigator.serviceWorker.ready;});await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);

@@ -116,7 +116,10 @@
 
 - [x] Selectable feats: all 351 inventoried official pages, 358 options, secondary choices and printed class lists.
 - [x] Manual/Partial coverage markers for current options; saved manual prerequisite confirmation.
-- [ ] Remaining species, talent-tree options, equipment and other official catalogs.
+- [x] Enable all 1,036 talent sections in 146 class/common Force trees as 1,034 mechanical options, with published class access and source text.
+- [ ] Remaining 31 Force Tradition and degree-specific droid trees, species, equipment and other official catalogs.
+- [ ] Automate supplemental talent grants needed by later prerequisites, including Watchful Step, Engineer Lineage, Dark Deception, Commanding Presence and Stolen Form.
+- [ ] Audit Trigger Work against the Gunslinger tree-wide Pistols/Rifles restriction.
 
 - Prioritize making all remaining official options selectable before expanding
   automation, with exact articles, secondary choices and class access.

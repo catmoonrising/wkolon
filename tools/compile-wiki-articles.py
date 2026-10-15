@@ -42,6 +42,30 @@ def official_blocks(blocks):
     return result
 
 
+# These introductions contain rules shared by every talent in their tree.
+TALENT_SCOPE_RULES = {'Dark Side Talent Tree','Light Side Talent Tree','Gand Findsman Talent Tree','Imperial Inquisitor Talent Tree','Gunslinger Talent Tree','Implant Talent Tree','Inspiration Talent Tree','Leadership Talent Tree','Squad Leadership Talent Tree','Squadron Leader Talent Tree','Wingman Talent Tree'}
+
+
+def talent_section(blocks, name, title):
+    def text(n):
+        return n if isinstance(n, str) else ''.join(text(c) for c in n['children'])
+    def rank(n):
+        return int(n['tag'][1]) if isinstance(n,dict) and re.fullmatch(r'h[2-5]',n['tag']) else None
+    start = next(i for i,n in enumerate(blocks) if rank(n)==3 and text(n).strip()==name)
+    end = next((i for i in range(start+1,len(blocks)) if rank(blocks[i]) and rank(blocks[i])<=3),len(blocks))
+    body = blocks[start+1:end]
+    main = body[:next((i for i,n in enumerate(body) if rank(n) in [4,5]),len(body))]
+    inherited = next((n for n in blocks if isinstance(n,dict) and n['tag']=='p' and text(n).strip().startswith('Reference Book')),None)
+    if inherited and not any(isinstance(n,dict) and n['tag']=='p' and text(n).strip().startswith('Reference Book') for n in main):
+        body = [inherited,*body]
+    if title in TALENT_SCOPE_RULES:
+        first = next(i for i,n in enumerate(blocks) if rank(n)==3)
+        scope = [n for n in blocks[:first] if isinstance(n,dict) and n['tag']=='p' and not text(n).strip().startswith('Reference Book')]
+        insert = next((i+1 for i,n in enumerate(body) if isinstance(n,dict) and n['tag']=='p' and text(n).strip().startswith('Reference Book')),0)
+        body = [*body[:insert],*scope,*body[insert:]]
+    return body
+
+
 class Tree(HTMLParser):
     def __init__(self, text):
         super().__init__(convert_charrefs=True)
@@ -131,7 +155,11 @@ def article(root, title, pages, source, feat_ids, variant=None, tab=None, parse_
                 return children
             result['href'] = url
             target = unquote(parsed_url.path[len('/wiki/'):]).replace('_', ' ')
-            if target in feat_ids:
+            fragment = unquote(parsed_url.fragment).replace('_', ' ')
+            qualified = target + '#' + fragment
+            if fragment and qualified in feat_ids:
+                result['ruleId'] = feat_ids[qualified]
+            elif target in feat_ids:
                 result['ruleId'] = feat_ids[target]
         if tag in {'th', 'td'}:
             for key in ['colspan', 'rowspan']:

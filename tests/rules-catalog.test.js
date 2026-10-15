@@ -34,7 +34,7 @@ test('core talent sections preserve prerequisites and exclude neighbouring and s
  assert(armor.includes('Prerequisite:')&&armor.includes('Armored Defense'));
  assert(!armor.includes('Second Skin'));
  assert(pack.catalog.records.some(r=>r.name==='Uncanny Dodge I'&&r.kind==='talent'));
- assert(!pack.catalog.records.some(r=>r.name==='Reset Initiative'&&r.kind==='talent'));
+ assert(pack.catalog.records.some(r=>r.name==='Reset Initiative'&&r.kind==='talent'&&r.books.includes('Force Unleashed Campaign Guide')));
  assert(pack.talents.some(r=>r.name==='Reset Initiative'));
  const variants=articleText(page('Neimoidian').article);
  assert(variants.includes('Core Rulebook')&&variants.includes('Galaxy of Intrigue'));

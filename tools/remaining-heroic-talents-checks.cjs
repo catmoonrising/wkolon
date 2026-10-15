@@ -21,11 +21,11 @@ module.exports=async function(browser,base,root){
   await initiative.selectOption('skill:initiative');assert.equal(await skills.locator('[data-roll-label="Initiative"]').getAttribute('data-roll'),'10');await waitSave();await page.reload();assert.equal(await initiative.inputValue(),'skill:initiative');
   await page.locator('#print').click();assert((await page.locator('#stat-block-text').inputValue()).includes('Initiative +10'));await page.locator('#stat-block-close').click();
   await initiative.selectOption('skill:use-the-force');await openTree();
-  assert.deepEqual(await groups(),['all','tree:alter','tree:control','tree:dark-side','tree:jedi-consular','tree:jedi-guardian','tree:jedi-sentinel','tree:lightsaber-combat','tree:sense']);
+  assert.deepEqual(await groups(),['all',...pack.classes.find(r=>r.id==='class:jedi').talentTrees,...pack.rules.forceTalentAccess.trees].sort((a,b)=>a.localeCompare(b)));
   await page.locator('[data-tree-group="tree:jedi-sentinel"]').click();assert(await page.locator('[data-tree-pick="talent:dark-side-scourge|"]').isDisabled());
   await page.locator('[data-tree-group="tree:lightsaber-combat"]').click();await page.locator('[data-tree-fold="talent:weapon-specialization-lightsabers|"]').click();
   assert((await page.locator('#rule-detail-body').innerText()).includes('+2 bonus on melee damage'));await page.locator('#rule-detail-close').click();await creationUI.done(page,'done');
-  await page.locator(`[data-character="${noble.id}"]`).click();await openTree();assert.deepEqual(await groups(),['all','tree:influence','tree:inspiration','tree:leadership','tree:lineage']);await creationUI.done(page,'done');
+  await page.locator(`[data-character="${noble.id}"]`).click();await openTree();assert.deepEqual(await groups(),['all',...pack.classes.find(r=>r.id==='class:noble').talentTrees].sort((a,b)=>a.localeCompare(b)));await creationUI.done(page,'done');
   await page.locator('#equipment-catalog > summary').click();await page.locator('#purchase-item').selectOption('equipment:blaster-pistol');
   const quote=page.locator('#purchase [data-shop-quote]'),quantity=page.locator('#purchase-quantity');
   assert((await quote.innerText()).includes('500 cr')&&(await quote.innerText()).includes('Connections'));assert.equal(await page.locator('#purchase [data-shop-field="license"]').count(),0);
@@ -33,7 +33,7 @@ module.exports=async function(browser,base,root){
   await quantity.fill('2');await quantity.press('Tab');assert((await quote.innerText()).includes('1,000 cr'));await page.locator('#purchase button[type="submit"]').click();
   assert.equal(await page.locator('#module-inventory [data-inventory="licenseStatus"]').inputValue(),'approved');assert.equal(await page.locator('#module-inventory [data-field="credits"]').inputValue(),'9000');
   await page.locator('#purchase [data-shop-field="market"]').selectOption('black-market');assert((await quote.innerText()).includes('2,000 cr'));
-  await page.locator(`[data-character="${scoundrel.id}"]`).click();await openTree();assert.deepEqual(await groups(),['all','tree:fortune','tree:misfortune','tree:slicer','tree:spacer']);await creationUI.done(page,'done');
+  await page.locator(`[data-character="${scoundrel.id}"]`).click();await openTree();assert.deepEqual(await groups(),['all',...pack.classes.find(r=>r.id==='class:scoundrel').talentTrees].sort((a,b)=>a.localeCompare(b)));await creationUI.done(page,'done');
   const gather=skills.locator('[data-skill-source="skill:gather-information"]');assert.equal(await gather.inputValue(),'skill:gather-information');assert((await gather.innerText()).includes('Use Computer (network) +14'));
   await gather.selectOption('skill:use-computer');assert.equal(await skills.locator('[data-roll-label="Gather Information"]').getAttribute('data-roll'),'14');
   await page.locator('#theme-select').selectOption({label:'Dracula Dark'});await skills.scrollIntoViewIfNeeded();await page.screenshot({path:path.join(root,'.build/skill-substitution-dracula.png')});await waitSave();

@@ -66,7 +66,7 @@ def selectable_options(pack, reference):
     add('Prestige classes', [r for r in classes if r.get('classType') == 'prestige'], 'prestigeClass')
     add('Skills (Knowledge fields separately)', pack.get('skills', []))
     add('Feats', pack.get('feats', []), 'feat')
-    add('Talents', pack.get('talents', []))
+    add('Talents', pack.get('talents', []), 'talentTree')
     equipment = pack.get('equipment', [])
     add('Equipment', equipment)
     add('Armor (included above)', [r for r in equipment if r.get('kind') == 'armor'], 'armor')

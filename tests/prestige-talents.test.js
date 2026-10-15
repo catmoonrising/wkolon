@@ -35,11 +35,13 @@ function weapon(c,name,extra={}){const e={id:'equipment:'+name,uid:crypto.random
 const fullRoutine=(a,b=a)=>({kind:'fullAttack',steps:[{attackId:a.uid,count:1,source:'base',attackMod:0,damageMod:0},{attackId:b.uid,count:1,source:a===b?'doubleAttack':'twoWeapons',attackMod:0,damageMod:0}]});
 
 test('Core prestige talents have full sources, matching-choice prerequisites and class-limited graph access',()=>{
- assert.equal(pack.talents.length,194);
+ const prestigeCoreTrees=new Set(['bounty-hunter','dark-side-devotee','duelist','expert-pilot','force-adept','force-item','gunner','gunslinger','infamy','lightsaber-forms','mastermind','military-tactics','sith','weapon-master'].map(t=>'tree:'+t));
+ const prestigeCore=pack.talents.filter(t=>prestigeCoreTrees.has(t.tree)&&pack.catalog.records.some(r=>r.kind==='talent'&&r.mechanicsIds.includes(t.id)&&r.books.includes('Core Rulebook')));
+ assert.equal(prestigeCore.length,83);
  const c=soldier();add(c,'gunslinger');const d=derive(c,pack),ids=ix.classes.get('class:gunslinger').talentTrees;
  const graph=featureGraph(pack,{type:'talents',ctx:d.ctx,allowedIds:pack.talents.filter(r=>ids.includes(r.tree)).map(r=>r.id)});
  assert(graph.nodes.has('talent:trigger-work|'));assert(!graph.nodes.has('talent:ataru|'));
- for(const r of pack.talents.slice(111))assert(r.article?.blocks.length,r.name);
+ for(const r of prestigeCore)assert(r.article?.blocks.length,r.name);
 });
 test('Greater Focus and Specialization require the same group, preserve fixed Lightsaber aliases and exclude Lightsabers from generic Greater Specialization',()=>{
  const c=soldier(),ctx=derive(c,pack).ctx;ctx.feats.push(f('weapon-focus','pistols'));ctx.talents.push(t('weapon-specialization','pistols'),t('greater-weapon-focus','pistols'));

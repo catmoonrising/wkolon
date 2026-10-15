@@ -1661,3 +1661,62 @@ manual.
 Tests cover later BAB, ability improvements, starting and selected Feats, real
 versus invalid training, earlier edits, actual acquisition levels, conditional
 chains, circular requirements, duplicate prevention and complete source text.
+
+
+## Supplemental class and common Force talent catalog
+
+Enabled all 1,036 isolated talent sections on 146 official tree pages, bringing
+the selectable catalog from 194 to 1,034 mechanical options. The two shared
+Multiattack Proficiency reprints retain both source articles and tree memberships.
+Existing mechanical IDs, source pins and effects are preserved; only Rifles'
+additional Carbineer membership changes an existing talent record.
+
+The five heroic and 32 prestige access lists are checked against their explicit
+pinned overview tables, independently cross-checked against source categories.
+Heroic tree counts are Jedi 4, Noble 16, Scoundrel 14, Scout 14 and Soldier 13.
+Light Side and Guardian Spirit join the four Core common Force trees. Tradition
+membership and degree-specific droid access remain pending for 31 other pages.
+
+The 840 added options have Manual effect coverage and empty effect lists. Source
+sections retain their own book attribution, nested special rules and relevant
+tree-wide restrictions. No AI-generated summaries replace their mechanics.
+Punctuation is normalized only at display time. Exact page-and-section links
+resolve locally without conflating reprints or unrelated identical names.
+
+The importer recognizes prerequisite conjunctions, alternatives, existing feature
+identities, ability scores, Base Attack Bonus, levels, trained skills, species and
+supported secondary-choice conditions. Feature names containing 'and' or 'or'
+remain intact. If a conjunction contains an unmodeled requirement, its known
+conditions still apply. If an alternative is not fully modeled, the complete
+alternative stays manual; the parser does not require just its recognized branch.
+The 34 new options with unverified requirements require explicit saved
+confirmation. Examples include Inquisitorius membership, tree talent counts,
+languages, armor proficiency context and specific weapon-focus interpretations.
+
+Twenty new talents expose permanent secondary choices. Vehicle Focus uses its
+six printed vehicle types. Accurate Blow limits weapon groups and Exotic Weapons
+to the printed melee choices. Close Contact, follower talents and Sentinel Strike
+retain their printed selection limits; temporary targets and per-item crafting
+choices remain in the rules text. Nine newly enabled heroic Jedi talents retain
+the existing Jedi Counseling activation restriction and its RAW off-state.
+
+Light Side acquisition records DSS 0 explicitly. Increasing DSS preserves the
+selection as inactive and prevents it from supplying prerequisites; returning to
+zero restores it. This mirrors existing Dark Side acquisition history in the
+opposite direction. Imperial Inquisitor's tree-wide selection requirements stay
+manual; no continuing DSS-based suppression is invented for that tree.
+
+Further automation must handle permanent dependency grants such as Watchful Step,
+Engineer Lineage, Dark Deception, Commanding Presence and Stolen Form. Numeric
+bonuses, activated actions, followers, vehicles, crafting and encounter timing in
+new options remain manual. Trigger Work also needs a separate audit against the
+Gunslinger tree's weapon restriction. This batch does not claim these effects are
+automated or that every RAW build can already resolve all dependent choices.
+
+Validation covers every isolated section and class access table, parser failure
+cases, local link identities, reprints, Light Side history/inactivity, repeat caps,
+secondary choices, manual confirmation and persistence. All 539 JavaScript tests and 35 Python importer tests pass, as do the full
+Chromium browser regression, focused Firefox checks, the closed schema and all
+4,400 reference-article checks. Repeating the talent import and compilation is
+byte-for-byte identical; a captured full catalog reimport preserves existing
+catalog IDs, talent IDs and effect mappings.

@@ -1,3 +1,4 @@
+import {talentTreeIds} from './feature-choices.js';
 export const isPrestige=cls=>cls.classType==='prestige';
 export const classMaximum=cls=>cls.maxLevel??20;
 export const hasClassTalent=(cls,level)=>cls.talentLevels?cls.talentLevels.includes(level):level%2===1;
@@ -12,8 +13,8 @@ export function classRequirement(p,ctx,ix,level,{ignoreDeclarations=false}={}){
   case 'trained':return ctx.trained.has(p.value);
   case 'feat':return ctx.feats.some(s=>sameName(ix.feats.get(s.id).name,p.name)&&(!p.choice||s.choice===p.choice));
   case 'talent':return ctx.talents.some(s=>active(s)&&sameName(ix.talents.get(s.id).name,p.name));
-  case 'talentTrees':return ctx.talents.filter(s=>active(s)&&p.values.includes(ix.talents.get(s.id).tree)).length>=p.min;
-  case 'forceTalents':return ctx.talents.filter(s=>active(s)&&ctx.forceTalentTrees?.includes(ix.talents.get(s.id).tree)).length>=p.min;
+  case 'talentTrees':return ctx.talents.filter(s=>active(s)&&talentTreeIds(ix.talents.get(s.id)).some(id=>p.values.includes(id))).length>=p.min;
+  case 'forceTalents':return ctx.talents.filter(s=>active(s)&&talentTreeIds(ix.talents.get(s.id)).some(id=>ctx.forceTalentTrees?.includes(id))).length>=p.min;
   case 'power':return ctx.forcePowers?.some(s=>sameName(ix.forcePowers.get(s.powerId).name,p.name))||false;
   case 'techniques':return (ctx.classChoices||[]).filter(s=>s.kind==='forceTechnique').length>=p.min;
   case 'droid':return !!ctx.isDroid;

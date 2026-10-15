@@ -46,7 +46,7 @@ import {CREATOR_TABS,CREATOR_STEPS} from './creation-steps.js';
 import {referenceEntries} from './rules-reference.js';
 import {TRAIT_FIELDS, TRAIT_TEXT, emptyStory, backgroundLanguage} from './heroic-traits.js';
 import {generationState, setGenerationMethod, assignScore, setPoolScore, setRolledPool} from './ability-generation.js';
-import {featureChoices,choiceName,UNARMED_ID} from './feature-choices.js';
+import {featureChoices,choiceName,UNARMED_ID,talentTreeIds} from './feature-choices.js';
 import {createSpeciesChecks} from './species-rules.js';
 import {canAim} from './weapon-rules.js';
 import {ammunitionProfile} from './ammunition.js';
@@ -163,7 +163,7 @@ function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=f
     const secondaryLabel=group.value.startsWith('family:')?'Type':record.choiceType==='skill'?'Skill':record.choiceType==='weapon'?'Weapon':record.choiceType==='power'?'Power':'Weapon group';
     secondaryHTML=record.choiceType==='manual'?`<label>${escape(record.choiceLabel||'Choice')}<input type="text" maxlength="300" ${attrs} data-manual-choice value="${escape(selected.choice?.startsWith('manual:')?selected.choice.slice(7):'')}"></label>`:`<label>${escape(record.choiceLabel||(record.choiceType==='enum'?'Choice':secondaryLabel))}<select ${attrs} data-secondary>${option('','Choose…',value)}${options.sort((a,b)=>a.name.localeCompare(b.name)).map(o=>option(o.value,o.name,value)).join('')}</select></label>`;
   }
-  if(record?.manualPrerequisites?.length)secondaryHTML+=`<details class="manual-prerequisites"><summary>Prerequisites</summary><ul>${record.manualPrerequisites.map(t=>`<li>${escape(t)}</li>`).join('')}</ul></details><label class="checkbox"><input type="checkbox" ${attrs} data-manual-requirements ${selected.manualRequirements?'checked':''}>Requirements met</label>`;
+  if(record?.manualPrerequisites?.length)secondaryHTML+=`<details class="manual-prerequisites"><summary>Prerequisites</summary><ul>${record.manualPrerequisites.map(t=>`<li>${escape(displayText(t))}</li>`).join('')}</ul></details><label class="checkbox"><input type="checkbox" ${attrs} data-manual-requirements ${selected.manualRequirements?'checked':''}>Requirements met</label>`;
   return `<div class="choice-field">${hidePrimary?'':`<label>${compact?'':escape(label)}<button type="button" aria-label="${escape(label)} at level ${levelIndex+1}, choice ${slotIndex+1}" ${attrs} data-primary data-open-tree="${kind}:${levelIndex}:${slotIndex}">${escape(record?(family(record)||entryLabel(selected)):'Choose…')}</button></label>`}${record&&!hidePrimary?automationBadge(record):''}${secondaryHTML}</div>`;
 
 }
@@ -173,10 +173,11 @@ function treeOptions(level,kind,slotIndex=0) {
   const slot=kind==='classChoice'?row.choiceSlots[slotIndex]:kind==='feat'?row.slots[slotIndex]:null;
   const type=kind==='classChoice'?'classChoices':kind==='talent'?'talents':'feats';
   const ctx=selectorContext(level,kind,slotIndex);
-  const allowedIds=pack[type].filter(r=>kind==='classChoice'?r.kind===slot.kind:kind==='talent'?talentTrees(cls,ctx,pack).includes(r.tree):kind==='startingFeat'?cls.startingFeats.includes(r.id):slot.kind!=='bonus'||cls.bonusFeats.includes(r.id)||cls.startingFeats.includes(r.id)).map(r=>r.id);
+  const allowedTrees=kind==='talent'?talentTrees(cls,ctx,pack):null;
+  const allowedIds=pack[type].filter(r=>kind==='classChoice'?r.kind===slot.kind:kind==='talent'?talentTreeIds(r).some(id=>allowedTrees.includes(id)):kind==='startingFeat'?cls.startingFeats.includes(r.id):slot.kind!=='bonus'||cls.bonusFeats.includes(r.id)||cls.startingFeats.includes(r.id)).map(r=>r.id);
   return {key:c.id+':'+level+':'+kind+':'+slotIndex,type,kind,level,slotIndex,
     selected:kind==='classChoice'?l.classChoices?.[slotIndex]:kind==='feat'?l.feats[slotIndex]:l[kind],ctx,
-    allowedIds,restrictions:slot?.kind==='bonus'?cls.bonusRestrictions:null};
+    allowedIds,...(allowedTrees?{allowedTrees}:{}),restrictions:slot?.kind==='bonus'?cls.bonusRestrictions:null};
 }
 function renderTreeDialog() {
   if(!treeTarget || !$('feature-tree-modal').open)return;
@@ -784,7 +785,7 @@ function events() {
       let s=familyName?{id:representative.id,pending:true}:parseSelection(el.value);
       if(el.hasAttribute('data-secondary') && !s){const old=el.dataset.choice==='classChoice'?l.classChoices?.[Number(el.dataset.slot)]:el.dataset.choice==='feat'?l.feats[Number(el.dataset.slot)]:l[el.dataset.choice];s=old?{id:old.id,...(/^(Weapon Proficiency|Armor Proficiency) \(/.test(ix.feats.get(old.id)?.name||'')?{pending:true}:{})}:null;}
       const oldSelection=el.dataset.choice==='classChoice'?l.classChoices?.[Number(el.dataset.slot)]:el.dataset.choice==='feat'?l.feats[Number(el.dataset.slot)]:l[el.dataset.choice];if(s&&oldSelection?.id===s.id&&oldSelection.manualRequirements!==undefined)s.manualRequirements=oldSelection.manualRequirements;
-      if(el.dataset.choice==='talent'&&s&&ix.talents.get(s.id).requiresDarkSide)s.darkSideScore=c.darkSideScore;
+      if(el.dataset.choice==='talent'&&s&&(ix.talents.get(s.id).requiresDarkSide||ix.talents.get(s.id).requiresLightSide))s.darkSideScore=c.darkSideScore;
       if(el.dataset.choice==='classChoice'){l.classChoices??=[];l.classChoices[Number(el.dataset.slot)]=s;}else if(el.dataset.choice==='feat') l.feats[Number(el.dataset.slot)]=s; else l[el.dataset.choice]=s;
     } else if(el.dataset.increase) {
       const l=c.levels[Number(el.dataset.level)]; l.abilityIncreases[Number(el.dataset.increase)]=el.value;
@@ -835,7 +836,7 @@ function events() {
     const planRules=event.target.closest('[data-plan-rules]');
     if(planRules){$('rule-detail-title').textContent=planRules.dataset.planRulesTitle;$('rule-detail-body').innerHTML=planRules.dataset.planRules.split(',').map(id=>ix.feats.get(id)).filter(Boolean).map(r=>`<h3>${escape(r.name)}</h3>${renderArticle(r.article)}`).join('');$('rule-detail-modal').showModal();return;}
     const treeClick=featureTrees.click(event);
-    if(treeClick){if(treeClick.detail){$('rule-detail-title').textContent=treeClick.detail.title;$('rule-detail-body').innerHTML=treeClick.detail.html;$('rule-detail-modal').showModal();}if('selection' in treeClick){const o=treeClick.options;if(o.kind==='class'){if(treeClick.selection)selectPlanClass(o.level,treeClick.selection.id);return;}const l=current().levels[o.level],s=treeClick.selection;if(o.kind==='talent'&&s&&ix.talents.get(s.id).requiresDarkSide)s.darkSideScore=current().darkSideScore;if(o.kind==='classChoice'){l.classChoices??=[];l.classChoices[o.slotIndex]=s;}else if(o.kind==='feat')l.feats[o.slotIndex]=s;else l[o.kind]=s;changed();}return;}
+    if(treeClick){if(treeClick.detail){$('rule-detail-title').textContent=treeClick.detail.title;$('rule-detail-body').innerHTML=treeClick.detail.html;$('rule-detail-modal').showModal();}if('selection' in treeClick){const o=treeClick.options;if(o.kind==='class'){if(treeClick.selection)selectPlanClass(o.level,treeClick.selection.id);return;}const l=current().levels[o.level],s=treeClick.selection;if(o.kind==='talent'&&s&&(ix.talents.get(s.id).requiresDarkSide||ix.talents.get(s.id).requiresLightSide))s.darkSideScore=current().darkSideScore;if(o.kind==='classChoice'){l.classChoices??=[];l.classChoices[o.slotIndex]=s;}else if(o.kind==='feat')l.feats[o.slotIndex]=s;else l[o.kind]=s;changed();}return;}
     const mechanicsFold=event.target.closest('[data-mechanics-fold]');
     if(mechanicsFold){$('rule-detail-body').querySelectorAll('.feature-mechanics').forEach(el=>el.open=mechanicsFold.dataset.mechanicsFold==='unfold');return;}
     const ruleLink=event.target.closest('[data-rule-page]');

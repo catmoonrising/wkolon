@@ -200,6 +200,19 @@ def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=(),
         elif alias['to'] in targets:
             targets[alias['from']] = targets[alias['to']]
 
+    # Exact page+section identities disambiguate talents reprinted in other trees.
+    prior_sources = {s['id']: s for s in (previous_catalog or {}).get('sources', [])}
+    prior_sources.update({s['id']: s for s in baseline['sources']})
+    for old in [*baseline.get('rulePages', []), *(previous_catalog or {}).get('rulePages', [])]:
+        src = prior_sources.get(old['sourceId'])
+        if src and src.get('section'):
+            targets[src['title'] + '#' + src['section']] = old['id']
+    for kind in ['feats', 'talents']:
+        for item in baseline[kind]:
+            src = prior_sources[item['sourceId']]
+            if src.get('section'):
+                targets.setdefault(src['title'] + '#' + src['section'], 'rule:' + slug(item['name']))
+
     def add_page(name, title=None, part=None, rule_id=None, source_id=None):
         title = title or name
         alias = aliases.get(title, {})
@@ -216,8 +229,11 @@ def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=(),
         tab = ('Force Power' if part == 'Force Power' else 'Destiny') if title == 'Corruption' else None
         full = presentation.article(ROOT, title, pages, source, targets, variant=variant, tab=tab)
         blocks = section(full['blocks'], part) if part and not variant and not tab else full['blocks']
-        first = next((n for n in blocks if text(n).strip()), None)
-        if part and (first is None or not text(first).strip().startswith('Reference Book')):
+        talent_part = part and title.endswith(' Talent Tree') and any(heading(n,3) and text(n).strip()==part for n in full['blocks'])
+        if talent_part:
+            blocks = presentation.talent_section(full['blocks'],part,title)
+        main = blocks[:next((i for i,n in enumerate(blocks) if heading(n,4) or heading(n,5)),len(blocks))]
+        if part and not any(isinstance(n,dict) and n['tag']=='p' and text(n).strip().startswith('Reference Book') for n in main):
             # A Core talent inherits the tree's book attribution, not the next
             # talent's reference or an unrelated Additional section's book.
             inherited = next((n for n in full['blocks'] if isinstance(n, dict) and n['tag'] == 'p'
@@ -294,13 +310,19 @@ def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=(),
             continue
         src = next(s for s in baseline['sources'] if s['id'] == old['sourceId'])
         add_page(old['name'], src['title'], src.get('section'), old['id'], src['id'])
+    # Source-qualified rule IDs may differ from a feature's name slug. Existing
+    # exact sections already satisfy its article requirement; do not create a
+    # second generic page on every import.
+    imported_identities = {(sources[r['sourceId']]['title'],sources[r['sourceId']]['revision'],sources[r['sourceId']].get('section')) for r in rule_pages.values()}
     for kind in ['species', 'feats', 'talents', 'equipment', 'classes', 'classChoices']:
         for r in baseline.get(kind, []):
             rule_id = 'rule:' + slug(r['name'])
-            if rule_id in rule_pages:
-                continue
             src = next(s for s in baseline['sources'] if s['id'] == r['sourceId'])
+            identity = (src['title'],src['revision'],src.get('section'))
+            if identity in imported_identities:
+                continue
             add_page(r['name'], src['title'], src.get('section'), rule_id, src['id'])
+            imported_identities.add(identity)
     # Preserve vetted official catalog entries if a category listing changes.
     # Their source and rule text are still refreshed from the pinned page above.
     for old in (previous_catalog or {}).get('records', []):
@@ -323,6 +345,9 @@ def compile_catalog(inventory, pages, redirects, baseline, excluded_homebrew=(),
         item['mechanicsIds'] = []
         for r in baseline.get(collections.get(item['kind'], ''), []):
             same_name = r['name'] == item['name']
+            if item['kind'] == 'talent':
+                old, new = old_sources[r['sourceId']], sources[item['sourceId']]
+                same_name = all(old.get(key) == new.get(key) for key in ['title', 'revision', 'section']) or same_name and item.get('tree') in r.get('additionalTrees', [])
             same_skill_family = item['kind'] == 'skill' and item['name'] == 'Knowledge' and r['name'].startswith('Knowledge (')
             same_source_family = item['kind'] in {'feat','gear'} and old_sources[r['sourceId']]['title'] == sources[item['sourceId']]['title']
             if same_name or same_skill_family or same_source_family:
