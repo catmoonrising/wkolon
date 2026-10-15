@@ -120,7 +120,7 @@ export function validatePack(p) {
       if(r.forbiddenClasses){assert(Array.isArray(r.forbiddenClasses));r.forbiddenClasses.forEach(id=>requireRef('classes',id));}
       if(r.weaponFamiliarity)for(const [id,group] of Object.entries(r.weaponFamiliarity)){requireRef('equipment',id);assert(GROUPS.includes(group));}
       for(const key of ['startingFeats','excludedStartingFeats'])if(r[key]){assert(Array.isArray(r[key]));r[key].forEach(id=>requireRef('feats',id));}
-      if(r.conditionalStartingFeats!==undefined){assert(Array.isArray(r.conditionalStartingFeats)&&new Set(r.conditionalStartingFeats).size===r.conditionalStartingFeats.length,'Invalid conditional starting feats');r.conditionalStartingFeats.forEach(speciesStartingFeat);}
+      for(const key of ['conditionalStartingFeats','conditionalFeats'])if(r[key]!==undefined){assert(Array.isArray(r[key])&&new Set(r[key]).size===r[key].length,'Invalid conditional species feats');r[key].forEach(speciesStartingFeat);}
       if(r.speeds){assert(Object.keys(r.speeds).every(key=>/^[a-z-]+$/.test(key)));assert(Object.values(r.speeds).every(n=>Number.isInteger(n)&&n>=0));}
     }
     if(r.automation!==undefined)assert(['manual','partial'].includes(r.automation),'Invalid automation status');

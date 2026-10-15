@@ -12264,6 +12264,36 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=21469",
       "history": "https://swse.miraheze.org/w/index.php?title=Tof&action=history",
       "section": null
+    },
+    {
+      "id": "source:wiki-codru-ji",
+      "title": "Codru-Ji",
+      "revision": 20116,
+      "timestamp": "2024-08-25T23:14:57Z",
+      "sha256": "49967abc8e5d6dcd887e0f0b9599c9b470cb55a0eb4b81b99aca35cc24c8d0b0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20116",
+      "history": "https://swse.miraheze.org/w/index.php?title=Codru-Ji&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-gran",
+      "title": "Gran",
+      "revision": 19456,
+      "timestamp": "2024-08-25T22:00:44Z",
+      "sha256": "a198e7e393fd1f9c595b63e9f61708955549133a65f36a5353481c60b2d494f0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19456",
+      "history": "https://swse.miraheze.org/w/index.php?title=Gran&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-sluissi",
+      "title": "Sluissi",
+      "revision": 21443,
+      "timestamp": "2024-08-26T01:48:36Z",
+      "sha256": "e3333189cd8eda9232db5ae08d76cb0f60d2056b3128ed7d8b0632846db84856",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21443",
+      "history": "https://swse.miraheze.org/w/index.php?title=Sluissi&action=history",
+      "section": null
     }
   ],
   "species": [
@@ -15877,6 +15907,76 @@
             }
           ]
         }
+      ]
+    },
+    {
+      "id": "species:codru-ji",
+      "name": "Codru-Ji",
+      "sourceId": "source:wiki-codru-ji",
+      "abilityAdjustments": {},
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Codruese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "conditionalFeats": [
+        "feat:dual-weapon-mastery-i"
+      ]
+    },
+    {
+      "id": "species:gran",
+      "name": "Gran",
+      "sourceId": "source:wiki-gran",
+      "abilityAdjustments": {
+        "cha": 2,
+        "int": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Gran"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision",
+      "conditionalFeats": [
+        "feat:precise-shot"
+      ]
+    },
+    {
+      "id": "species:sluissi",
+      "name": "Sluissi",
+      "sourceId": "source:wiki-sluissi",
+      "abilityAdjustments": {
+        "int": 2,
+        "dex": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Sluiussese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "conditionalFeats": [
+        "feat:tech-specialist"
       ]
     }
   ],

@@ -3020,6 +3020,10 @@
           "type": "array", "uniqueItems": true,
           "items": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}
         },
+        "conditionalFeats": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^feat:[a-z0-9-]+$"}
+        },
         "conditionalStartingFeats": {
           "type": "array",
           "uniqueItems": true,

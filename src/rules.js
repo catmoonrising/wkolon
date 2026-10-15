@@ -217,8 +217,11 @@ export function progression(c, pack, through = c.levels.length) {
     ctx[type].push(s);ctx.features.push({type,selection:s});
   }
   function conditionalSpeciesGrants() {
+    if(!ctx.characterLevel)return;
     for(const id of [species.conditionalFocus,...(species.conditionalFocuses||[]),background?.conditionalFocus])if (id && ctx.trained.has(id) && !ctx.feats.some(f => f.id === F('skill-focus') && f.choice === id)) recordFeature({id: F('skill-focus'), choice: id, automatic: true},'feats',[...ctx.classLevels.values()].reduce((sum,n)=>sum+n,0));
-    if(ctx.characterLevel===1)for(const id of species.conditionalStartingFeats||[])if(!ctx.feats.some(f=>f.id===id)&&eligible(ix.feats.get(id),{id},ctx,ix,'feats'))recordFeature({id,automatic:true},'feats',1);
+    const ids=[...(species.conditionalFeats||[]),...(ctx.characterLevel===1?species.conditionalStartingFeats||[]:[])];
+    let added=true;
+    while(added){added=false;for(const id of ids)if(!ctx.feats.some(f=>f.id===id)&&eligible(ix.feats.get(id),{id},ctx,ix,'feats')){recordFeature({id,automatic:true},'feats',ctx.characterLevel);added=true;}}
   }
   const issue = (i, text) => issues.push(`Level ${i + 1}: ${text}`);
   function grant(s, type, i, label, allow = () => true) {

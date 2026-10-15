@@ -1629,3 +1629,35 @@ Tests cover class-independent training, pool accounting, duplicate replacement,
 conditional Focus, level-zero drafts, first-level BAB/STR boundaries, later
 advancement and earlier edits, repeated grant prevention, source text, stat
 blocks, persistence, mobile themes and offline reload.
+
+## Conditional Feats gained during progression
+
+Added Codru-Ji, Gran and Sluissi, with pinned full articles and Partial markers.
+Species coverage is now 121 of 132 pages (91.7%), with 133 selectable entries.
+The new `conditionalFeats` field uses the same restricted plain-Feat contract
+as `conditionalStartingFeats`, with no first-level limitation. Grants retain
+their actual acquisition level and consume no selectable slot. A fixed-point
+pass resolves prerequisite chains without duplicating Feats or inventing
+effects for circular requirements. Level-zero drafts earn no grants.
+
+Codru-Ji have no ability modifiers, Medium size, Speed 6, Basic and Codruese.
+They gain Dual Weapon Mastery I when DEX 13 and BAB +1 are met, including on later
+levels. Four-arm wielding, including two two-handed weapons, and the +5
+Grab/Grapple bonus remain manual. The current Full Attack grip checks do not
+yet implement their extra hands; the source text does not grant extra attacks.
+
+Gran have +2 CHA, -2 INT, Medium size, Speed 6, Basic, Gran and Darkvision.
+Point-Blank Shot grants Precise Shot whether gained as a starting Feat or during
+later advancement. Innate Accuracy's once-per-encounter Swift Aim and Target
+Awareness's first-50-square Perception exception remain manual.
+
+Sluissi have +2 INT, -2 DEX, Medium size, Speed 6, Basic and the printed
+Sluiussese language. Real Mechanics training grants Tech Specialist, including
+training gained later through Skill Training. The current authoritative Feat
+requires trained Mechanics only; no INT 15 prerequisite is invented. Careful
+Worker, Serpentine running starts and the conditional stability bonus remain
+manual.
+
+Tests cover later BAB, ability improvements, starting and selected Feats, real
+versus invalid training, earlier edits, actual acquisition levels, conditional
+chains, circular requirements, duplicate prevention and complete source text.

@@ -31,6 +31,11 @@ their prerequisites are met during level-one replay. It grants no selectable
 slot, never duplicates a possessed Feat, and never becomes available from a later
 ability increase. Selection-dependent, manual-prerequisite and immediate-effect
 grants require a richer format and are rejected here.
+`conditionalFeats` uses the same restricted Feat-ID contract, without a
+first-level limitation. Progression grants each Feat at the first replayed level
+at which its prerequisites are met, without consuming a selectable slot. A
+fixed-point pass handles prerequisites supplied by another conditional grant.
+No conditional grant is earned in a level-zero draft.
 `conditionalFocuses` supports multiple independent training-dependent grants.
 `creationChoices` contains named, single-selection species choices. Each group
 has a stable `id`, `name`, `kind` and `options`. Ability options contain additive
