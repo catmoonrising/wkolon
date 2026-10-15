@@ -11904,6 +11904,306 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=21002",
       "history": "https://swse.miraheze.org/w/index.php?title=Zygerrian&action=history",
       "section": null
+    },
+    {
+      "id": "source:wiki-bith",
+      "title": "Bith",
+      "revision": 16238,
+      "timestamp": "2024-08-18T00:56:32Z",
+      "sha256": "3dadd543a24ddc1f4cb219ff59cd767a6d6f703c0fa4374f4fae8f786ecfc290",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16238",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bith&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-bith-galaxy-of-intrigue",
+      "title": "Bith",
+      "revision": 16238,
+      "timestamp": "2024-08-18T00:56:32Z",
+      "sha256": "3dadd543a24ddc1f4cb219ff59cd767a6d6f703c0fa4374f4fae8f786ecfc290",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16238",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bith&action=history",
+      "section": "Galaxy of Intrigue"
+    },
+    {
+      "id": "source:wiki-bith-threats-of-the-galaxy",
+      "title": "Bith",
+      "revision": 16238,
+      "timestamp": "2024-08-18T00:56:32Z",
+      "sha256": "3dadd543a24ddc1f4cb219ff59cd767a6d6f703c0fa4374f4fae8f786ecfc290",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=16238",
+      "history": "https://swse.miraheze.org/w/index.php?title=Bith&action=history",
+      "section": "Threats of the Galaxy"
+    },
+    {
+      "id": "source:wiki-chadra-fan",
+      "title": "Chadra-Fan",
+      "revision": 20112,
+      "timestamp": "2024-08-25T23:14:22Z",
+      "sha256": "42b8dff06d149d7e0bebc4430d85a80e93ada608978c7e4157636dbf8ccb9b61",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20112",
+      "history": "https://swse.miraheze.org/w/index.php?title=Chadra-Fan&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-chadra-fan-unknown-regions-campaign-guide",
+      "title": "Chadra-Fan",
+      "revision": 20112,
+      "timestamp": "2024-08-25T23:14:22Z",
+      "sha256": "42b8dff06d149d7e0bebc4430d85a80e93ada608978c7e4157636dbf8ccb9b61",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20112",
+      "history": "https://swse.miraheze.org/w/index.php?title=Chadra-Fan&action=history",
+      "section": "Unknown Regions Campaign Guide"
+    },
+    {
+      "id": "source:wiki-chadra-fan-legacy-era-campaign-guide",
+      "title": "Chadra-Fan",
+      "revision": 20112,
+      "timestamp": "2024-08-25T23:14:22Z",
+      "sha256": "42b8dff06d149d7e0bebc4430d85a80e93ada608978c7e4157636dbf8ccb9b61",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20112",
+      "history": "https://swse.miraheze.org/w/index.php?title=Chadra-Fan&action=history",
+      "section": "Legacy Era Campaign Guide"
+    },
+    {
+      "id": "source:wiki-dug",
+      "title": "Dug",
+      "revision": 19885,
+      "timestamp": "2024-08-25T22:47:45Z",
+      "sha256": "9ab7d376339fbf2583ac3b1b448e7645bf8d49b1beed3160768f00f7b353d09e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19885",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dug&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-dug-clone-wars-campaign-guide",
+      "title": "Dug",
+      "revision": 19885,
+      "timestamp": "2024-08-25T22:47:45Z",
+      "sha256": "9ab7d376339fbf2583ac3b1b448e7645bf8d49b1beed3160768f00f7b353d09e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19885",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dug&action=history",
+      "section": "Clone Wars Campaign Guide"
+    },
+    {
+      "id": "source:wiki-dug-web-enhancements",
+      "title": "Dug",
+      "revision": 19885,
+      "timestamp": "2024-08-25T22:47:45Z",
+      "sha256": "9ab7d376339fbf2583ac3b1b448e7645bf8d49b1beed3160768f00f7b353d09e",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19885",
+      "history": "https://swse.miraheze.org/w/index.php?title=Dug&action=history",
+      "section": "Web Enhancements"
+    },
+    {
+      "id": "source:wiki-geonosian",
+      "title": "Geonosian",
+      "revision": 26743,
+      "timestamp": "2025-07-06T15:04:20Z",
+      "sha256": "7bb39f2890921f83efa21ecc820f46ee7d5d5cabd52299dc1b99053681b394a0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26743",
+      "history": "https://swse.miraheze.org/w/index.php?title=Geonosian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-geonosian-clone-wars-campaign-guide",
+      "title": "Geonosian",
+      "revision": 26743,
+      "timestamp": "2025-07-06T15:04:20Z",
+      "sha256": "7bb39f2890921f83efa21ecc820f46ee7d5d5cabd52299dc1b99053681b394a0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26743",
+      "history": "https://swse.miraheze.org/w/index.php?title=Geonosian&action=history",
+      "section": "Clone Wars Campaign Guide"
+    },
+    {
+      "id": "source:wiki-geonosian-web-enhancements",
+      "title": "Geonosian",
+      "revision": 26743,
+      "timestamp": "2025-07-06T15:04:20Z",
+      "sha256": "7bb39f2890921f83efa21ecc820f46ee7d5d5cabd52299dc1b99053681b394a0",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26743",
+      "history": "https://swse.miraheze.org/w/index.php?title=Geonosian&action=history",
+      "section": "Web Enhancements"
+    },
+    {
+      "id": "source:wiki-jawa",
+      "title": "Jawa",
+      "revision": 26742,
+      "timestamp": "2025-07-06T14:52:51Z",
+      "sha256": "ad321c4594f2d30ec0084af816ad4938e1037d2fccf7d5d5e4f999356c5ac69a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26742",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jawa&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-jawa-scum-and-villainy",
+      "title": "Jawa",
+      "revision": 26742,
+      "timestamp": "2025-07-06T14:52:51Z",
+      "sha256": "ad321c4594f2d30ec0084af816ad4938e1037d2fccf7d5d5e4f999356c5ac69a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26742",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jawa&action=history",
+      "section": "Scum and Villainy"
+    },
+    {
+      "id": "source:wiki-jawa-web-enhancements",
+      "title": "Jawa",
+      "revision": 26742,
+      "timestamp": "2025-07-06T14:52:51Z",
+      "sha256": "ad321c4594f2d30ec0084af816ad4938e1037d2fccf7d5d5e4f999356c5ac69a",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26742",
+      "history": "https://swse.miraheze.org/w/index.php?title=Jawa&action=history",
+      "section": "Web Enhancements"
+    },
+    {
+      "id": "source:wiki-kaminoan",
+      "title": "Kaminoan",
+      "revision": 19957,
+      "timestamp": "2024-08-25T22:55:37Z",
+      "sha256": "2071f658b9f7f397b56a5254519ace6ecc00681b3e1e9310f549baf29f20afe8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19957",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kaminoan&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-kaminoan-clone-wars-campaign-guide",
+      "title": "Kaminoan",
+      "revision": 19957,
+      "timestamp": "2024-08-25T22:55:37Z",
+      "sha256": "2071f658b9f7f397b56a5254519ace6ecc00681b3e1e9310f549baf29f20afe8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19957",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kaminoan&action=history",
+      "section": "Clone Wars Campaign Guide"
+    },
+    {
+      "id": "source:wiki-kaminoan-web-enhancements",
+      "title": "Kaminoan",
+      "revision": 19957,
+      "timestamp": "2024-08-25T22:55:37Z",
+      "sha256": "2071f658b9f7f397b56a5254519ace6ecc00681b3e1e9310f549baf29f20afe8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19957",
+      "history": "https://swse.miraheze.org/w/index.php?title=Kaminoan&action=history",
+      "section": "Web Enhancements"
+    },
+    {
+      "id": "source:wiki-krevaaki",
+      "title": "Krevaaki",
+      "revision": 20468,
+      "timestamp": "2024-08-25T23:54:22Z",
+      "sha256": "3126397e42a36d6e3d8909126c94d33bb461075670cf29155b063ef0bd7decba",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20468",
+      "history": "https://swse.miraheze.org/w/index.php?title=Krevaaki&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-krevaaki-unknown-regions-campaign-guide",
+      "title": "Krevaaki",
+      "revision": 20468,
+      "timestamp": "2024-08-25T23:54:22Z",
+      "sha256": "3126397e42a36d6e3d8909126c94d33bb461075670cf29155b063ef0bd7decba",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20468",
+      "history": "https://swse.miraheze.org/w/index.php?title=Krevaaki&action=history",
+      "section": "Unknown Regions Campaign Guide"
+    },
+    {
+      "id": "source:wiki-krevaaki-jedi-academy-training-manual",
+      "title": "Krevaaki",
+      "revision": 20468,
+      "timestamp": "2024-08-25T23:54:22Z",
+      "sha256": "3126397e42a36d6e3d8909126c94d33bb461075670cf29155b063ef0bd7decba",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20468",
+      "history": "https://swse.miraheze.org/w/index.php?title=Krevaaki&action=history",
+      "section": "Jedi Academy Training Manual"
+    },
+    {
+      "id": "source:wiki-noghri",
+      "title": "Noghri",
+      "revision": 19532,
+      "timestamp": "2024-08-25T22:08:25Z",
+      "sha256": "2b3ca6f3d05ab68988bcb8c36fa30476630d842279c3f6609c5339a3259c1bab",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19532",
+      "history": "https://swse.miraheze.org/w/index.php?title=Noghri&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-noghri-force-unleashed-campaign-guide",
+      "title": "Noghri",
+      "revision": 19532,
+      "timestamp": "2024-08-25T22:08:25Z",
+      "sha256": "2b3ca6f3d05ab68988bcb8c36fa30476630d842279c3f6609c5339a3259c1bab",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19532",
+      "history": "https://swse.miraheze.org/w/index.php?title=Noghri&action=history",
+      "section": "Force Unleashed Campaign Guide"
+    },
+    {
+      "id": "source:wiki-noghri-web-enhancements",
+      "title": "Noghri",
+      "revision": 19532,
+      "timestamp": "2024-08-25T22:08:25Z",
+      "sha256": "2b3ca6f3d05ab68988bcb8c36fa30476630d842279c3f6609c5339a3259c1bab",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19532",
+      "history": "https://swse.miraheze.org/w/index.php?title=Noghri&action=history",
+      "section": "Web Enhancements"
+    },
+    {
+      "id": "source:wiki-umbaran",
+      "title": "Umbaran",
+      "revision": 26744,
+      "timestamp": "2025-07-06T15:11:38Z",
+      "sha256": "e0cc756204226a22314482080415a8c8442a9618bafa8545363ddec81772396b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26744",
+      "history": "https://swse.miraheze.org/w/index.php?title=Umbaran&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-umbaran-galaxy-of-intrigue",
+      "title": "Umbaran",
+      "revision": 26744,
+      "timestamp": "2025-07-06T15:11:38Z",
+      "sha256": "e0cc756204226a22314482080415a8c8442a9618bafa8545363ddec81772396b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26744",
+      "history": "https://swse.miraheze.org/w/index.php?title=Umbaran&action=history",
+      "section": "Galaxy of Intrigue"
+    },
+    {
+      "id": "source:wiki-umbaran-clone-wars-campaign-guide",
+      "title": "Umbaran",
+      "revision": 26744,
+      "timestamp": "2025-07-06T15:11:38Z",
+      "sha256": "e0cc756204226a22314482080415a8c8442a9618bafa8545363ddec81772396b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26744",
+      "history": "https://swse.miraheze.org/w/index.php?title=Umbaran&action=history",
+      "section": "Clone Wars Campaign Guide"
+    },
+    {
+      "id": "source:wiki-zeltron",
+      "title": "Zeltron",
+      "revision": 24741,
+      "timestamp": "2024-11-06T02:56:54Z",
+      "sha256": "489aa7c62b31daffec52d49d4edf755ffa937de0cf2525b2d9da4b84dcbaa62b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24741",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zeltron&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-zeltron-legacy-era-campaign-guide",
+      "title": "Zeltron",
+      "revision": 24741,
+      "timestamp": "2024-11-06T02:56:54Z",
+      "sha256": "489aa7c62b31daffec52d49d4edf755ffa937de0cf2525b2d9da4b84dcbaa62b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24741",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zeltron&action=history",
+      "section": "Legacy Era Campaign Guide"
+    },
+    {
+      "id": "source:wiki-zeltron-web-enhancements",
+      "title": "Zeltron",
+      "revision": 24741,
+      "timestamp": "2024-11-06T02:56:54Z",
+      "sha256": "489aa7c62b31daffec52d49d4edf755ffa937de0cf2525b2d9da4b84dcbaa62b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=24741",
+      "history": "https://swse.miraheze.org/w/index.php?title=Zeltron&action=history",
+      "section": "Web Enhancements"
     }
   ],
   "species": [
@@ -14630,6 +14930,547 @@
       "startingFeats": [
         "feat:martial-arts-i"
       ]
+    },
+    {
+      "id": "species:bith-galaxy-of-intrigue",
+      "name": "Bith (Galaxy of Intrigue)",
+      "sourceId": "source:wiki-bith-galaxy-of-intrigue",
+      "bookVariant": "Galaxy of Intrigue",
+      "abilityAdjustments": {
+        "int": 2,
+        "cha": 2,
+        "con": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Bith"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "scentRange": 10
+    },
+    {
+      "id": "species:bith-threats-of-the-galaxy",
+      "name": "Bith (Threats of the Galaxy)",
+      "sourceId": "source:wiki-bith-threats-of-the-galaxy",
+      "bookVariant": "Threats of the Galaxy",
+      "abilityAdjustments": {
+        "int": 2,
+        "con": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Bith"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "skillRerolls": [
+        {
+          "skill": "skill:perception",
+          "keep": "replace"
+        }
+      ]
+    },
+    {
+      "id": "species:chadra-fan-unknown-regions-campaign-guide",
+      "name": "Chadra-Fan (Unknown Regions Campaign Guide)",
+      "sourceId": "source:wiki-chadra-fan-unknown-regions-campaign-guide",
+      "bookVariant": "Unknown Regions Campaign Guide",
+      "abilityAdjustments": {
+        "dex": 2,
+        "wis": -2
+      },
+      "defenses": {},
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Basic",
+        "Chadra-Fan"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision",
+      "skillRerolls": [
+        {
+          "skill": "skill:perception",
+          "keep": "replace"
+        }
+      ]
+    },
+    {
+      "id": "species:chadra-fan-legacy-era-campaign-guide",
+      "name": "Chadra-Fan (Legacy Era Campaign Guide)",
+      "sourceId": "source:wiki-chadra-fan-legacy-era-campaign-guide",
+      "bookVariant": "Legacy Era Campaign Guide",
+      "abilityAdjustments": {
+        "cha": 2,
+        "wis": -2
+      },
+      "defenses": {},
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Basic",
+        "Chadra-Fan"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision"
+    },
+    {
+      "id": "species:dug-clone-wars-campaign-guide",
+      "name": "Dug (Clone Wars Campaign Guide)",
+      "sourceId": "source:wiki-dug-clone-wars-campaign-guide",
+      "bookVariant": "Clone Wars Campaign Guide",
+      "abilityAdjustments": {
+        "dex": 2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "small",
+      "speed": 6,
+      "languages": [
+        "Dug"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "skillRerolls": [
+        {
+          "skill": "skill:climb",
+          "keep": "replace"
+        },
+        {
+          "skill": "skill:jump",
+          "keep": "replace"
+        }
+      ],
+      "take10Skills": [
+        "skill:climb",
+        "skill:jump"
+      ]
+    },
+    {
+      "id": "species:dug-web-enhancements",
+      "name": "Dug (Web Enhancements)",
+      "sourceId": "source:wiki-dug-web-enhancements",
+      "bookVariant": "Web Enhancements",
+      "abilityAdjustments": {
+        "dex": 2,
+        "wis": -2,
+        "cha": -2
+      },
+      "defenses": {
+        "reflex": 2
+      },
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Dug"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:acrobatics",
+      "reminders": [],
+      "automation": "partial",
+      "skillRerolls": [
+        {
+          "skill": "skill:climb",
+          "keep": "replace"
+        },
+        {
+          "skill": "skill:jump",
+          "keep": "replace"
+        }
+      ]
+    },
+    {
+      "id": "species:geonosian-clone-wars-campaign-guide",
+      "name": "Geonosian (Clone Wars Campaign Guide)",
+      "sourceId": "source:wiki-geonosian-clone-wars-campaign-guide",
+      "bookVariant": "Clone Wars Campaign Guide",
+      "abilityAdjustments": {
+        "str": 2,
+        "int": -2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Geonosian"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light",
+      "flightHeavyLoadForbidden": true,
+      "speeds": {
+        "fly": 6,
+        "climb": 3
+      }
+    },
+    {
+      "id": "species:geonosian-web-enhancements",
+      "name": "Geonosian (Web Enhancements)",
+      "sourceId": "source:wiki-geonosian-web-enhancements",
+      "bookVariant": "Web Enhancements",
+      "abilityAdjustments": {
+        "dex": 2,
+        "int": -2,
+        "wis": -2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Geonosian"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:mechanics",
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light",
+      "flightHeavyLoadForbidden": true,
+      "speeds": {
+        "fly": 8
+      },
+      "startingFeats": [
+        "feat:weapon-proficiency-advanced-melee-weapons"
+      ],
+      "naturalArmor": 1
+    },
+    {
+      "id": "species:jawa-scum-and-villainy",
+      "name": "Jawa (Scum and Villainy)",
+      "sourceId": "source:wiki-jawa-scum-and-villainy",
+      "bookVariant": "Scum and Villainy",
+      "abilityAdjustments": {
+        "dex": 2,
+        "str": -2
+      },
+      "defenses": {},
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Jawaese",
+        "Jawa Trade Language"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision"
+    },
+    {
+      "id": "species:jawa-web-enhancements",
+      "name": "Jawa (Web Enhancements)",
+      "sourceId": "source:wiki-jawa-web-enhancements",
+      "bookVariant": "Web Enhancements",
+      "abilityAdjustments": {
+        "dex": 2,
+        "str": -2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Jawaese",
+        "Jawa Trade Language"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision"
+    },
+    {
+      "id": "species:kaminoan-clone-wars-campaign-guide",
+      "name": "Kaminoan (Clone Wars Campaign Guide)",
+      "sourceId": "source:wiki-kaminoan-clone-wars-campaign-guide",
+      "bookVariant": "Clone Wars Campaign Guide",
+      "abilityAdjustments": {
+        "int": 2,
+        "wis": -2
+      },
+      "defenses": {
+        "fortitude": 1
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Kaminoan"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:treat-injury",
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "id": "species:kaminoan-web-enhancements",
+      "name": "Kaminoan (Web Enhancements)",
+      "sourceId": "source:wiki-kaminoan-web-enhancements",
+      "bookVariant": "Web Enhancements",
+      "abilityAdjustments": {
+        "con": 2,
+        "wis": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Kaminoan"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "id": "species:krevaaki-unknown-regions-campaign-guide",
+      "name": "Krevaaki (Unknown Regions Campaign Guide)",
+      "sourceId": "source:wiki-krevaaki-unknown-regions-campaign-guide",
+      "bookVariant": "Unknown Regions Campaign Guide",
+      "abilityAdjustments": {
+        "wis": 2,
+        "cha": -2
+      },
+      "defenses": {
+        "fortitude": 1
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Kreva"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:climb",
+      "reminders": [],
+      "automation": "partial",
+      "naturalArmor": 1
+    },
+    {
+      "id": "species:krevaaki-jedi-academy-training-manual",
+      "name": "Krevaaki (Jedi Academy Training Manual)",
+      "sourceId": "source:wiki-krevaaki-jedi-academy-training-manual",
+      "bookVariant": "Jedi Academy Training Manual",
+      "abilityAdjustments": {
+        "wis": 2,
+        "cha": -2
+      },
+      "defenses": {
+        "fortitude": 1
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Kreva"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "naturalArmor": 1
+    },
+    {
+      "id": "species:noghri-force-unleashed-campaign-guide",
+      "name": "Noghri (Force Unleashed Campaign Guide)",
+      "sourceId": "source:wiki-noghri-force-unleashed-campaign-guide",
+      "bookVariant": "Force Unleashed Campaign Guide",
+      "abilityAdjustments": {
+        "dex": 2,
+        "wis": 2,
+        "cha": -4
+      },
+      "defenses": {},
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Honoghran"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "scentRange": 10,
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ],
+      "conditionalStartingFeats": [
+        "feat:running-attack"
+      ]
+    },
+    {
+      "id": "species:noghri-web-enhancements",
+      "name": "Noghri (Web Enhancements)",
+      "sourceId": "source:wiki-noghri-web-enhancements",
+      "bookVariant": "Web Enhancements",
+      "abilityAdjustments": {
+        "dex": 2,
+        "cha": -4
+      },
+      "defenses": {},
+      "size": "small",
+      "speed": 6,
+      "languages": [
+        "Honoghran"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "scentRange": 10,
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ],
+      "startingFeats": [
+        "feat:martial-arts-i"
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:initiative",
+          "keep": "replace"
+        }
+      ]
+    },
+    {
+      "id": "species:umbaran-galaxy-of-intrigue",
+      "name": "Umbaran (Galaxy of Intrigue)",
+      "sourceId": "source:wiki-umbaran-galaxy-of-intrigue",
+      "bookVariant": "Galaxy of Intrigue",
+      "abilityAdjustments": {
+        "dex": 2,
+        "wis": 2,
+        "con": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Umbarese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:gather-information",
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision",
+      "skillRerolls": [
+        {
+          "skill": "skill:stealth",
+          "keep": "replace"
+        }
+      ]
+    },
+    {
+      "id": "species:umbaran-clone-wars-campaign-guide",
+      "name": "Umbaran (Clone Wars Campaign Guide)",
+      "sourceId": "source:wiki-umbaran-clone-wars-campaign-guide",
+      "bookVariant": "Clone Wars Campaign Guide",
+      "abilityAdjustments": {
+        "wis": 2,
+        "cha": 2,
+        "con": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Umbarese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:persuasion",
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light"
+    },
+    {
+      "id": "species:zeltron-legacy-era-campaign-guide",
+      "name": "Zeltron (Legacy Era Campaign Guide)",
+      "sourceId": "source:wiki-zeltron-legacy-era-campaign-guide",
+      "bookVariant": "Legacy Era Campaign Guide",
+      "abilityAdjustments": {
+        "cha": 2,
+        "wis": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "id": "species:zeltron-web-enhancements",
+      "name": "Zeltron (Web Enhancements)",
+      "sourceId": "source:wiki-zeltron-web-enhancements",
+      "bookVariant": "Web Enhancements",
+      "abilityAdjustments": {
+        "cha": 4,
+        "con": -2,
+        "wis": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:persuasion",
+      "reminders": [],
+      "automation": "partial"
     }
   ],
   "classes": [

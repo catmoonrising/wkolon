@@ -3006,6 +3006,14 @@
         },
         "flightHeavyLoadForbidden": {
           "type": "boolean"
+        },
+        "conditionalStartingFeats": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^feat:[a-z0-9-]+$"
+          }
         }
       }
     },

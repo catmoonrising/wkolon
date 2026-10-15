@@ -1522,3 +1522,39 @@ The remaining 30 pages need book variants, explicit creation choices, restricted
 automatic Feat grants, droid physiology, or unresolved source details. Sorcerer of
 Rhand is held until its bonus Force Training's descriptor restrictions are
 represented; it is not imported as an unrestricted power suite.
+
+## Separate species book versions
+
+Added 20 selectable versions from ten official species pages: Bith, Chadra-Fan,
+Dug, Geonosian, Jawa, Kaminoan, Krevaaki, Noghri, Umbaran and Zeltron. Each uses
+the name `Species (Book)`, its own pinned source section and one isolated trait
+set. Common descriptions and characteristics remain available. The importer now
+preserves these book tabs on subsequent imports. Coverage is 112 of 132 species
+pages, with 124 selectable entries. Existing species records are unchanged.
+
+Fixed printed scores, sizes, speeds, automatic languages and supported traits
+are mapped independently for each version. In particular, the two Geonosians
+retain different flight speeds, languages and starting Feats; the two Noghri
+retain different walking speeds and Feat grants. Neither Noghri article names a
+second automatic language, so both receive Honoghran only. Other special traits
+remain manual with full source text and Partial markers.
+
+The new `conditionalStartingFeats` contract covers nonrepeatable Feats without
+secondary choices, manual prerequisites or immediate resource/training effects.
+It checks prerequisites during level-one replay, grants no selectable slot and
+never grants the Feat retroactively from later ability improvements. Noghri
+(Force Unleashed Campaign Guide) receives Running Attack when its actual
+Dexterity 13 prerequisite is met at first level. Running Attack has no Base
+Attack Bonus, Dodge or Mobility prerequisite. Existing conditional Skill Focus
+grants continue to follow training eligibility.
+
+Species prerequisite popups show the character's selected book version when
+applicable. Otherwise they retain every matching version rather than silently
+choosing one. Unit and browser checks cover isolated source articles, version
+switches, automatic grants, first-level eligibility, later ability improvements,
+editing an earlier score, save/reload and mobile layout.
+
+The remaining 20 species pages need explicit creation choices, more complex
+automatic grants, droid physiology or source details that cannot safely be
+inferred. They remain in the embedded reference library while those data
+contracts are developed.

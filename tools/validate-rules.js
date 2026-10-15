@@ -102,6 +102,7 @@ export function validatePack(p) {
       if(r.forbiddenClasses){assert(Array.isArray(r.forbiddenClasses));r.forbiddenClasses.forEach(id=>requireRef('classes',id));}
       if(r.weaponFamiliarity)for(const [id,group] of Object.entries(r.weaponFamiliarity)){requireRef('equipment',id);assert(GROUPS.includes(group));}
       for(const key of ['startingFeats','excludedStartingFeats'])if(r[key]){assert(Array.isArray(r[key]));r[key].forEach(id=>requireRef('feats',id));}
+      if(r.conditionalStartingFeats!==undefined){assert(Array.isArray(r.conditionalStartingFeats)&&new Set(r.conditionalStartingFeats).size===r.conditionalStartingFeats.length,'Invalid conditional starting feats');for(const id of r.conditionalStartingFeats){requireRef('feats',id);const feat=p.feats.find(f=>f.id===id);assert(feat.repeat==='never'&&!feat.choiceType&&!feat.manualPrerequisites?.length&&!feat.effects.some(e=>['skillTraining','skillSubstitution','forcePowerSlots'].includes(e.target)),'Unsupported conditional starting feat');}}
       if(r.speeds){assert(Object.keys(r.speeds).every(key=>/^[a-z-]+$/.test(key)));assert(Object.values(r.speeds).every(n=>Number.isInteger(n)&&n>=0));}
     }
     if(r.automation!==undefined)assert(['manual','partial'].includes(r.automation),'Invalid automation status');

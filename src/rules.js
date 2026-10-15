@@ -214,8 +214,9 @@ export function progression(c, pack, through = c.levels.length) {
     const s={...selection,level,classId:c.levels[level-1]?.classId};
     ctx[type].push(s);ctx.features.push({type,selection:s});
   }
-  function conditionalFocus() {
+  function conditionalSpeciesGrants() {
     for(const id of [species.conditionalFocus,...(species.conditionalFocuses||[]),background?.conditionalFocus])if (id && ctx.trained.has(id) && !ctx.feats.some(f => f.id === F('skill-focus') && f.choice === id)) recordFeature({id: F('skill-focus'), choice: id, automatic: true},'feats',[...ctx.classLevels.values()].reduce((sum,n)=>sum+n,0));
+    if(ctx.characterLevel===1)for(const id of species.conditionalStartingFeats||[])if(!ctx.feats.some(f=>f.id===id)&&eligible(ix.feats.get(id),{id},ctx,ix,'feats'))recordFeature({id,automatic:true},'feats',1);
   }
   const issue = (i, text) => issues.push(`Level ${i + 1}: ${text}`);
   function grant(s, type, i, label, allow = () => true) {
@@ -231,7 +232,7 @@ export function progression(c, pack, through = c.levels.length) {
       if(e.target==='skillSubstitution'&&e.grantsTraining){ctx.trained.add(e.skill);if(type==='talents'){if(!talentTraining.has(e.skill))talentTraining.set(e.skill,new Set());talentTraining.get(e.skill).add(r.id);}else ordinaryTraining.add(e.skill);}
       if(e.target==='forcePowerSlots')ctx.powerSlots+=Math.max(e.minimum,e.amount+modifier(ctx.scores[e.ability]));
     }
-    conditionalFocus();
+    conditionalSpeciesGrants();
   }
   for (const [i, l] of c.levels.slice(0, through).entries()) {
     if(l.pendingClass){issue(i,'choose a class');rows.push({number:i+1,classLevel:0,cls:ix.classes.get(l.classId),slots:[],choiceSlots:[],powerChoices:0,valid:false,pendingClass:true,scores:{...ctx.scores},ctx:{...ctx}});continue;}
@@ -254,6 +255,7 @@ export function progression(c, pack, through = c.levels.length) {
     if (i === 0) {
       for (const id of species.startingFeats||[]) recordFeature({id,automatic:true},'feats',1);
       for (const id of cls.startingFeats) if (!(species.excludedStartingFeats||[]).includes(id) && !ctx.feats.some(f=>f.id===id) && !['feat:linguist', 'feat:shake-it-off'].includes(id) && eligible(ix.feats.get(id),{id},ctx,ix,'feats')) recordFeature({id,automatic:true},'feats',1);
+      conditionalSpeciesGrants();
       // Initial Force Sensitivity can enable training during the same creation step.
       const initialForce = l.feats.slice(0,levelSlots(1,cl,species,cls,pack).length).some(s => s?.id === F('force-sensitivity') && eligible(ix.feats.get(s.id),s,ctx,ix,'feats'));
       const allowed = classSkills(ctx, ix);
@@ -262,7 +264,7 @@ export function progression(c, pack, through = c.levels.length) {
       for (const id of c.trainedSkills.slice(0, limit)) {
         if (allowed.has(id)){ctx.trained.add(id);ordinaryTraining.add(id);} else issue(i, `${ix.skills.get(id).name} is not a starting class skill`);
       }
-      conditionalFocus();
+      conditionalSpeciesGrants();
       if (c.trainedSkills.length !== limit) issue(i, `choose ${limit} starting trained skills (${c.trainedSkills.length} selected)`);
       for (const id of cls.startingFeats.filter(id => !(species.excludedStartingFeats||[]).includes(id) && ['feat:linguist', 'feat:shake-it-off'].includes(id))) {
         if (eligible(ix.feats.get(id), {id}, ctx, ix, 'feats')) recordFeature({id,automatic:true},'feats',1);
@@ -276,7 +278,7 @@ export function progression(c, pack, through = c.levels.length) {
       if (classSkills(ctx, ix).has(id) && !ctx.trained.has(id)){ctx.trained.add(id);ordinaryTraining.add(id);}
       else issue(i, 'additional trained skill is not eligible');
     }
-    conditionalFocus();
+    conditionalSpeciesGrants();
     const slots = levelSlots(n, cl, species, cls, pack);
     for (const [j, slot] of slots.entries()) grant(l.feats[j], 'feats', i, slot.label, (r, s) => slot.kind === 'general' || (cls.bonusFeats.includes(r?.id) || cls.startingFeats.includes(r?.id)) && (!cls.bonusRestrictions[r?.id] || cls.bonusRestrictions[r.id].includes(s.choice)));
     if (l.feats.slice(slots.length).some(Boolean)) issue(i, 'extra feat selections are not available');
@@ -294,8 +296,8 @@ export function progression(c, pack, through = c.levels.length) {
   ctx.inactiveClasses=new Set([...ctx.classLevels.keys()].filter(id=>ix.classes.get(id).continuousDarkSide&&ctx.darkSideScore<ctx.scores.wis));
   for(const t of ctx.talents)if(ctx.inactiveClasses.has(t.classId))ctx.inactiveTalents.add(t.id);
   for(const [skill,grants]of talentTraining)if(!ordinaryTraining.has(skill)&&[...grants].every(id=>ctx.inactiveTalents.has(id)))ctx.trained.delete(skill);
-  // Conditional Skill Focus is a competence bonus, granted only while trained.
-  conditionalFocus();
+  // Replay species grants after training and at their permitted acquisition level.
+  conditionalSpeciesGrants();
   if (ctx.trained.has('skill:use-the-force') && !ctx.feats.some(f => f.id === F('force-sensitivity'))) {
     ctx.trained.delete('skill:use-the-force');
     issues.push('Use the Force training requires Force Sensitivity');

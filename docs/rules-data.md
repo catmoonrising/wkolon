@@ -26,6 +26,11 @@ other DR and follows the existing Lightsaber/Ignore DR handling.
 `flightHeavyLoadForbidden` prevents native flight under a Heavy Load. A native
 movement speed of zero stays zero when adding speed bonuses or carrying a load;
 other printed movement modes remain separate.
+`conditionalStartingFeats` lists nonrepeatable, unparameterized Feat IDs granted only when
+their prerequisites are met during level-one replay. It grants no selectable
+slot, never duplicates a possessed Feat, and never becomes available from a later
+ability increase. Selection-dependent, manual-prerequisite and immediate-effect
+grants require a richer format and are rejected here.
 `conditionalFocuses` supports multiple independent training-dependent grants.
 `forceImmune` forbids Force Sensitivity and Use the Force, yields no Force Points,
 and retains immunity to Force effects targeting Will as a manual defensive trait. `technophobic` is an attack

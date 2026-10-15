@@ -27,7 +27,17 @@ SKILLS = ['Acrobatics', 'Climb', 'Deception', 'Endurance', 'Gather Information',
     'Pilot', 'Ride', 'Stealth', 'Survival', 'Swim', 'Treat Injury', 'Use Computer', 'Use the Force']
 CLASSES = ['Jedi', 'Noble', 'Scoundrel', 'Scout', 'Soldier']
 SPECIES_VARIANTS = {'Neimoidian': ['Core Rulebook', 'Galaxy of Intrigue'],
-    'Yuuzhan Vong': ['Core Rulebook', 'Legacy Era Campaign Guide']}
+    'Yuuzhan Vong': ['Core Rulebook', 'Legacy Era Campaign Guide'],
+    'Bith': ['Galaxy of Intrigue', 'Threats of the Galaxy'],
+    'Chadra-Fan': ['Unknown Regions Campaign Guide', 'Legacy Era Campaign Guide'],
+    'Dug': ['Clone Wars Campaign Guide', 'Web Enhancements'],
+    'Geonosian': ['Clone Wars Campaign Guide', 'Web Enhancements'],
+    'Jawa': ['Scum and Villainy', 'Web Enhancements'],
+    'Kaminoan': ['Clone Wars Campaign Guide', 'Web Enhancements'],
+    'Krevaaki': ['Unknown Regions Campaign Guide', 'Jedi Academy Training Manual'],
+    'Noghri': ['Force Unleashed Campaign Guide', 'Web Enhancements'],
+    'Umbaran': ['Galaxy of Intrigue', 'Clone Wars Campaign Guide'],
+    'Zeltron': ['Legacy Era Campaign Guide', 'Web Enhancements']}
 
 
 def module(name, filename):
