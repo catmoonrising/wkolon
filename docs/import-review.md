@@ -1441,3 +1441,22 @@ secondary choices, prerequisite confirmation, invalidation, save/reload and
 Dracula mobile layout. The reference validator confirms all 4,400 pinned articles
 with 367 excluded pages. Offline recompilation is deterministic, and an explicit
 comparison confirms existing mechanical fields are preserved.
+
+
+## Additional species, fixed traits
+
+Advozse, Aleena, Altiri, Amani, Anarrian, Arcona and Arkanian now have selectable
+records tied to their pinned full articles. Ability adjustments, size, normal
+speed and automatic languages follow those articles. Existing reviewed records
+are unchanged. Advozse retain the printed language name Advb.
+
+Existing typed fields implement Advozse natural armor, Low-Light Vision and
+Perception rerolls; Aleena Acrobatics rerolls; Altiri bonus starting training;
+Amani Fortitude, climbing Take 10 and Primitive starting-feat exclusions; Anarrian
+bonus starting feat; Arcona Fortitude and Scent; and Arkanian Darkvision.
+
+Partial markers remain conservative. Quick Energy, Visually Striking, Amani
+Reach/Roll, Strength Surge, Flash of Genius and Intellectual Reputation retain
+their complete source wording for manual resolution. No temporary or situational
+bonus is turned into a permanent modifier. In particular, the optional Arkanian
+Persuasion ability substitution is not applied automatically.

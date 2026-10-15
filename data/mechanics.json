@@ -11104,6 +11104,76 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=20352",
       "history": "https://swse.miraheze.org/w/index.php?title=Zero%20Range&action=history",
       "section": null
+    },
+    {
+      "id": "source:wiki-advozse",
+      "title": "Advozse",
+      "revision": 15744,
+      "timestamp": "2024-08-18T00:53:07Z",
+      "sha256": "bb60377c237de185fc33edeac246ae89d0b831d87e00bd70ee835ae76c9ade79",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15744",
+      "history": "https://swse.miraheze.org/w/index.php?title=Advozse&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-aleena",
+      "title": "Aleena",
+      "revision": 15788,
+      "timestamp": "2024-08-18T00:53:11Z",
+      "sha256": "3ab5d8f6cc4689c4754856124b6b9860ec92f5fd8ac161098ef5875cd7e32cc8",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15788",
+      "history": "https://swse.miraheze.org/w/index.php?title=Aleena&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-altiri",
+      "title": "Altiri",
+      "revision": 15802,
+      "timestamp": "2024-08-18T00:53:12Z",
+      "sha256": "406e2dd77e787ed4043f6688f55da404e20f0f33ffb978911d70961110919def",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15802",
+      "history": "https://swse.miraheze.org/w/index.php?title=Altiri&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-amani",
+      "title": "Amani",
+      "revision": 15804,
+      "timestamp": "2024-08-18T00:53:12Z",
+      "sha256": "ac354e1e5ffc1837ad2ecd618c63d36bb69167ff0f360803cd8571fbecc8ec88",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15804",
+      "history": "https://swse.miraheze.org/w/index.php?title=Amani&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-anarrian",
+      "title": "Anarrian",
+      "revision": 15825,
+      "timestamp": "2024-08-18T00:53:16Z",
+      "sha256": "9d7c6717b26b649ef6a65be1df8ae92e131b35ad2f2e4e803a071f9cbe296e0b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15825",
+      "history": "https://swse.miraheze.org/w/index.php?title=Anarrian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-arcona",
+      "title": "Arcona",
+      "revision": 15881,
+      "timestamp": "2024-08-18T00:53:21Z",
+      "sha256": "e514154d1ae815076c10786ebe46489f2222beeb41086d6205a8381147050673",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15881",
+      "history": "https://swse.miraheze.org/w/index.php?title=Arcona&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-arkanian",
+      "title": "Arkanian",
+      "revision": 15890,
+      "timestamp": "2024-08-18T00:53:22Z",
+      "sha256": "7127ee15e22e367076a60aad01d3d45ce6bb7560e5165d8a2914142eff322370",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15890",
+      "history": "https://swse.miraheze.org/w/index.php?title=Arkanian&action=history",
+      "section": null
     }
   ],
   "species": [
@@ -11890,6 +11960,176 @@
         "feat:weapon-proficiency-rifles"
       ],
       "automation": "partial"
+    },
+    {
+      "id": "species:advozse",
+      "name": "Advozse",
+      "sourceId": "source:wiki-advozse",
+      "abilityAdjustments": {
+        "con": 2,
+        "wis": 2,
+        "dex": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Advb",
+        "Basic"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "low-light",
+      "naturalArmor": 1,
+      "skillRerolls": [
+        {
+          "skill": "skill:perception",
+          "keep": "replace"
+        }
+      ]
+    },
+    {
+      "id": "species:aleena",
+      "name": "Aleena",
+      "sourceId": "source:wiki-aleena",
+      "abilityAdjustments": {
+        "dex": 2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "small",
+      "speed": 4,
+      "languages": [
+        "Aleena",
+        "Basic"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "skillRerolls": [
+        {
+          "skill": "skill:acrobatics",
+          "keep": "replace"
+        }
+      ]
+    },
+    {
+      "id": "species:altiri",
+      "name": "Altiri",
+      "sourceId": "source:wiki-altiri",
+      "abilityAdjustments": {},
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Altirish",
+        "Basic"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 1,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "id": "species:amani",
+      "name": "Amani",
+      "sourceId": "source:wiki-amani",
+      "abilityAdjustments": {
+        "str": 2,
+        "int": -2,
+        "cha": -2
+      },
+      "defenses": {
+        "fortitude": 1
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Amanese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "take10Skills": [
+        "skill:climb"
+      ],
+      "excludedStartingFeats": [
+        "feat:weapon-proficiency-heavy-weapons",
+        "feat:weapon-proficiency-pistols",
+        "feat:weapon-proficiency-rifles"
+      ]
+    },
+    {
+      "id": "species:anarrian",
+      "name": "Anarrian",
+      "sourceId": "source:wiki-anarrian",
+      "abilityAdjustments": {},
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Anarrese",
+        "Basic"
+      ],
+      "bonusFeats": 1,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial"
+    },
+    {
+      "id": "species:arcona",
+      "name": "Arcona",
+      "sourceId": "source:wiki-arcona",
+      "abilityAdjustments": {
+        "cha": 2,
+        "wis": -2
+      },
+      "defenses": {
+        "fortitude": 2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Arconese",
+        "Basic"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "scentRange": 10
+    },
+    {
+      "id": "species:arkanian",
+      "name": "Arkanian",
+      "sourceId": "source:wiki-arkanian",
+      "abilityAdjustments": {
+        "int": 2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Arkanian",
+        "Basic"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "vision": "darkvision"
     }
   ],
   "classes": [
