@@ -2987,6 +2987,14 @@
         },
         "startingEquipment": {
           "$ref": "#/$defs/startingEquipment"
+        },
+        "bonusClassSkills": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^skill:[a-z0-9-]+$"
+          }
         }
       }
     },

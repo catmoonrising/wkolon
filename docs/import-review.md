@@ -1460,3 +1460,24 @@ Reach/Roll, Strength Surge, Flash of Genius and Intellectual Reputation retain
 their complete source wording for manual resolution. No temporary or situational
 bonus is turned into a permanent modifier. In particular, the optional Arkanian
 Persuasion ability substitution is not applied automatically.
+
+
+## Species class-skill access
+
+`bonusClassSkills` is defined in the data contract before use in calculations.
+It contains skill IDs and changes availability only. It is not bonus training.
+Creation, Skill Training eligibility and later training use the same union of
+class, Background and species skills. Replaying after a species change preserves
+saved choices but removes training that is no longer legal.
+
+Added pinned species: Anzati (Stealth, Survival), Cathar (Climb, Stealth),
+Nosaurian (Climb), Nyriaanan (Survival), Shistavanen (Survival), and Yarkora
+(Gather Information). Mrlssi remains pending because its separate bonus
+Knowledge training needs a creation choice, not an unrestricted training slot.
+
+Fixed scores, sizes, speeds and automatic languages are mapped. Nyriaanan's
+bonus starting Feat and Low-Light Vision, Shistavanen's conditional Skill Focus
+and Initiative reroll, Nosaurian's Survival reroll, Anzati's Low-Light Vision and
+Yarkora's Deception reroll use existing reviewed fields. Natural Weapons, Reactive
+Claw, Mesmerize, Presence Sense, Soup Drinking and Confusion retain full source
+text and remain manual. All six records carry Partial markers.

@@ -16,6 +16,10 @@ Protection and attack sequences follow the [combat data contract](combat.md).
 
 Book-specific species are separate records with `bookVariant` and distinct IDs.
 Their articles retain common characteristics and only the selected book's traits.
+`bonusClassSkills` is an optional unique list of skill IDs available as class
+skills to every class of that species. It grants neither training nor additional
+training slots. Creation, Intelligence increases, feat prerequisites and later
+levels consume the same availability set.
 `conditionalFocuses` supports multiple independent training-dependent grants.
 `forceImmune` forbids Force Sensitivity and Use the Force, yields no Force Points,
 and retains immunity to Force effects targeting Will as a manual defensive trait. `technophobic` is an attack

@@ -11174,6 +11174,66 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=15890",
       "history": "https://swse.miraheze.org/w/index.php?title=Arkanian&action=history",
       "section": null
+    },
+    {
+      "id": "source:wiki-anzati",
+      "title": "Anzati",
+      "revision": 15862,
+      "timestamp": "2024-08-18T00:53:20Z",
+      "sha256": "3e8db4a032a38940ce71a5ae4d79920258b226dcff13c0b5d9841d444262e44c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15862",
+      "history": "https://swse.miraheze.org/w/index.php?title=Anzati&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-cathar",
+      "title": "Cathar",
+      "revision": 25915,
+      "timestamp": "2025-01-05T02:40:51Z",
+      "sha256": "6a0bb12bf90239f02d08dfb94e2ac61ec92b6ca0b45bce1a7676357ac27b8316",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=25915",
+      "history": "https://swse.miraheze.org/w/index.php?title=Cathar&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-nosaurian",
+      "title": "Nosaurian",
+      "revision": 19536,
+      "timestamp": "2024-08-25T22:08:49Z",
+      "sha256": "f40db6cf2570ece3a545c0a788dca8042787645e8165a9ce8bea7479c89c8211",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=19536",
+      "history": "https://swse.miraheze.org/w/index.php?title=Nosaurian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-nyriaanan",
+      "title": "Nyriaanan",
+      "revision": 26595,
+      "timestamp": "2025-04-03T21:40:10Z",
+      "sha256": "a3ba288857e045f7f7b4c6eaaf166b07f514717f38950138755408a288596098",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26595",
+      "history": "https://swse.miraheze.org/w/index.php?title=Nyriaanan&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-shistavanen",
+      "title": "Shistavanen",
+      "revision": 21438,
+      "timestamp": "2024-08-26T01:48:04Z",
+      "sha256": "f6fd7e6a5973cb5770d45d2046bcf3330aa17c8ec97285bb9bcff643ecb2a19c",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21438",
+      "history": "https://swse.miraheze.org/w/index.php?title=Shistavanen&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-yarkora",
+      "title": "Yarkora",
+      "revision": 26684,
+      "timestamp": "2025-05-30T04:15:24Z",
+      "sha256": "b811efdce3d570fb80e3935d0c234a82fb5303a1cd3ba6ac482e29ef667a08a5",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26684",
+      "history": "https://swse.miraheze.org/w/index.php?title=Yarkora&action=history",
+      "section": null
     }
   ],
   "species": [
@@ -12130,6 +12190,170 @@
       "reminders": [],
       "automation": "partial",
       "vision": "darkvision"
+    },
+    {
+      "id": "species:anzati",
+      "name": "Anzati",
+      "sourceId": "source:wiki-anzati",
+      "abilityAdjustments": {},
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Anzat",
+        "Basic"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "bonusClassSkills": [
+        "skill:stealth",
+        "skill:survival"
+      ],
+      "vision": "low-light"
+    },
+    {
+      "id": "species:cathar",
+      "name": "Cathar",
+      "sourceId": "source:wiki-cathar",
+      "abilityAdjustments": {
+        "dex": 2,
+        "int": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 8,
+      "languages": [
+        "Basic",
+        "Catharese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "bonusClassSkills": [
+        "skill:climb",
+        "skill:stealth"
+      ]
+    },
+    {
+      "id": "species:nosaurian",
+      "name": "Nosaurian",
+      "sourceId": "source:wiki-nosaurian",
+      "abilityAdjustments": {
+        "dex": 2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Nosaurian"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "bonusClassSkills": [
+        "skill:climb"
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:survival",
+          "keep": "replace"
+        }
+      ]
+    },
+    {
+      "id": "species:nyriaanan",
+      "name": "Nyriaanan",
+      "sourceId": "source:wiki-nyriaanan",
+      "abilityAdjustments": {
+        "wis": 2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Nyriaanan"
+      ],
+      "bonusFeats": 1,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "bonusClassSkills": [
+        "skill:survival"
+      ],
+      "vision": "low-light"
+    },
+    {
+      "id": "species:shistavanen",
+      "name": "Shistavanen",
+      "sourceId": "source:wiki-shistavanen",
+      "abilityAdjustments": {
+        "dex": 2,
+        "int": -2,
+        "cha": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Shistavanen"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:perception",
+      "reminders": [],
+      "automation": "partial",
+      "bonusClassSkills": [
+        "skill:survival"
+      ],
+      "vision": "low-light",
+      "skillRerolls": [
+        {
+          "skill": "skill:initiative",
+          "keep": "replace"
+        }
+      ]
+    },
+    {
+      "id": "species:yarkora",
+      "name": "Yarkora",
+      "sourceId": "source:wiki-yarkora",
+      "abilityAdjustments": {
+        "wis": 2,
+        "cha": 2,
+        "dex": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Yarkora"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "bonusClassSkills": [
+        "skill:gather-information"
+      ],
+      "skillRerolls": [
+        {
+          "skill": "skill:deception",
+          "keep": "replace"
+        }
+      ]
     }
   ],
   "classes": [

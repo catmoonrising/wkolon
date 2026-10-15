@@ -125,6 +125,7 @@ export function validateCharacter(c, pack) {
 export function classSkills(ctx, ix) {
   const skills = new Set([...ctx.classLevels.keys()].flatMap(id => ix.classes.get(id).skills));
   (ctx.backgroundSkills||[]).forEach(id=>skills.add(id));
+  (ctx.speciesClassSkills||[]).forEach(id=>skills.add(id));
   if (!ctx.forceImmune && ctx.feats.some(f => f.id === F('force-sensitivity'))) skills.add('skill:use-the-force');
   return skills;
 }
@@ -206,7 +207,7 @@ export function progression(c, pack, through = c.levels.length) {
   const ix = indexPack(pack), species = ix.species.get(c.species);
   const background=activeBackground(c,pack);
   const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, c.abilities[a] + (species.abilityAdjustments[a] || 0)])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
-  Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
+  Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,speciesClassSkills:species.bonusClassSkills||[],forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
   Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0});
   const issues = [], rows = [], ordinaryTraining=new Set(),talentTraining=new Map();
   function recordFeature(selection,type,level) {

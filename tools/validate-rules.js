@@ -93,6 +93,7 @@ export function validatePack(p) {
         }
         assert(new Set(r.conditionalDefenses.map(e=>e.defense+':'+e.against)).size===r.conditionalDefenses.length,'Duplicate conditional defense');
       }
+      if(r.bonusClassSkills){assert(Array.isArray(r.bonusClassSkills)&&new Set(r.bonusClassSkills).size===r.bonusClassSkills.length,'Invalid species class skills');r.bonusClassSkills.forEach(id=>requireRef('skills',id));}
       if(r.conditionalFocus) requireRef('skills',r.conditionalFocus);
       if(r.conditionalFocuses){assert(Array.isArray(r.conditionalFocuses)&&new Set(r.conditionalFocuses).size===r.conditionalFocuses.length);r.conditionalFocuses.forEach(id=>requireRef('skills',id));}
       for(const key of ['forceImmune','technophobic','biotechProficiency'])if(r[key]!==undefined)assert.equal(typeof r[key],'boolean');
