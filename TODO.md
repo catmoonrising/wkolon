@@ -114,6 +114,10 @@
 
 ## Implementation batches
 
+- [x] Selectable feats: all 351 inventoried official pages, 358 options, secondary choices and printed class lists.
+- [x] Manual/Partial coverage markers for current options; saved manual prerequisite confirmation.
+- [ ] Remaining species, talent-tree options, equipment and other official catalogs.
+
 - Prioritize making all remaining official options selectable before expanding
   automation, with exact articles, secondary choices and class access.
 - Mark manual and partial automation concisely; expose details on demand.

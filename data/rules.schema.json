@@ -2253,6 +2253,12 @@
         },
         "talentAccessSourceId": {
           "type": "string"
+        },
+        "automation": {
+          "enum": [
+            "manual",
+            "partial"
+          ]
         }
       }
     },
@@ -3020,7 +3026,9 @@
             "skill",
             "weaponGroup",
             "weapon",
-            "power"
+            "power",
+            "enum",
+            "manual"
           ]
         },
         "choiceScope": {
@@ -3042,11 +3050,59 @@
           }
         },
         "choiceExoticMode": {
-          "const": "melee"
+          "enum": [
+            "melee",
+            "ranged"
+          ]
         },
         "exclusiveGroup": {
           "type": "string",
           "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "choiceLabel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "choiceOptions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z0-9-]+$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "manualPrerequisites": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          }
+        },
+        "choiceExcluded": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^skill:[a-z0-9-]+$"
+          }
         }
       }
     },

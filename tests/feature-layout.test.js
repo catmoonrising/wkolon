@@ -86,3 +86,9 @@ test('curved crossings get one underpass; shared branches, joins and separated p
  const flat=edge('e','f',pos(0,70),pos(200,70));assert.equal(featureCrossings([a,flat]).length,1);
  assert.deepEqual(featureCrossings([flat,{...flat,from:'g',to:'h'}]),[]);
 });
+
+test('crossing detection preserves vertical and backward segment intersections',()=>{
+ const edge=(from,to,points)=>({from,to,path:{points}});
+ const a=edge('a','aa',[{x:0,y:0},{x:100,y:100}]),b=edge('b','bb',[{x:100,y:0},{x:0,y:100}]),c=edge('c','cc',[{x:50,y:-100},{x:50,y:200}]);
+ const hits=featureCrossings([a,b,c]);assert.equal(hits.length,3);for(const hit of hits){assert.equal(hit.x,50);assert.equal(hit.y,50);}assert.deepEqual(hits.map(h=>[h.under,h.over]),[[0,1],[0,2],[1,2]]);
+});

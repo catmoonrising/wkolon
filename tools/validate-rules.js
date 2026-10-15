@@ -26,18 +26,18 @@ export function validatePack(p) {
   function requireRef(collection, id) { assert(ix[collection].has(id), `Unknown ${collection} reference: ${id}`); }
   function prerequisite(r) {
     if (['all','any'].includes(r.kind)) { assert(Array.isArray(r.requirements)); r.requirements.forEach(prerequisite); return; }
-    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','nonDroid','trait','size','species','droid','weaponFocusMode','weaponProficiencyMode'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
-    if(r.kind==='featChoice')requireRef('feats',r.value);
+    assert(['ability','feat','featChoice','talent','talentChoice','power','darkSideScore','trained','untrained','classSkill','proficientChoice','focusChoice','bab','level','nonDroid','trait','size','species','droid','weaponFocusMode','weaponProficiencyMode'].includes(r.kind), `Unsupported prerequisite ${r.kind}`);
+    if(r.kind==='featChoice'){requireRef('feats',r.value);if(r.choice!==undefined)requireRef('skills',r.choice);}
     if(r.kind==='trait')assert.equal(r.value,'rage');
     if(r.kind==='size')assert(p.rules.weaponSizeOrder.includes(r.value));
     if(r.kind==='weaponFocusMode')assert.equal(r.value,'melee');
     if(r.kind==='weaponProficiencyMode')assert(r.value==='ranged'&&r.excludedGroups?.length===1&&r.excludedGroups[0]==='heavy-weapons');
-    if(r.kind==='species')assert(p.species.some(s=>s.name.replace(/ \([^)]*\)$/,'')===r.value),'Unknown prerequisite species');
+    if(r.kind==='species')assert(typeof r.value==='string'&&r.value.length>0&&r.value.length<=100,'Invalid prerequisite species');
     if(r.kind==='power'&&r.value!=='$choice')requireRef('forcePowers',r.value);
     if(r.kind==='talentChoice'){requireRef('talents',r.value);assert(r.choice==='$choice'||GROUPS.includes(r.choice),'Unsupported talent choice prerequisite');}
     if(r.kind==='darkSideScore')assert.equal(r.min,1);
     if (r.kind === 'ability') { assert(ABILITIES.includes(r.value)); assert(Number.isInteger(r.min)); }
-    if (r.kind === 'bab') assert(Number.isInteger(r.min));
+    if (r.kind === 'bab'||r.kind==='level') assert(Number.isInteger(r.min)&&r.min>=0&&r.min<=20);
     if (r.kind === 'feat') requireRef('feats',r.value);
     if (r.kind === 'talent') requireRef('talents',r.value);
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
@@ -102,6 +102,8 @@ export function validatePack(p) {
       for(const key of ['startingFeats','excludedStartingFeats'])if(r[key]){assert(Array.isArray(r[key]));r[key].forEach(id=>requireRef('feats',id));}
       if(r.speeds){assert(Object.keys(r.speeds).every(key=>/^[a-z-]+$/.test(key)));assert(Object.values(r.speeds).every(n=>Number.isInteger(n)&&n>=0));}
     }
+    if(r.automation!==undefined)assert(['manual','partial'].includes(r.automation),'Invalid automation status');
+    if(r.manualPrerequisites!==undefined)assert(Array.isArray(r.manualPrerequisites)&&r.manualPrerequisites.length>0&&r.manualPrerequisites.every(t=>typeof t==='string'&&t.trim()&&t.length<=1000),'Invalid manual prerequisites');
     if(r.startingEquipment!==undefined){
       assert(['species','classes'].includes(key),'Unsupported equipment grant');
       const g=r.startingEquipment;assert(g&&typeof g==='object'&&!Array.isArray(g),'Invalid starting equipment grant');assert.deepEqual(Object.keys(g).sort(),['items','sourceId']);assert(sources.has(g.sourceId),'Missing starting equipment source');
@@ -131,9 +133,13 @@ export function validatePack(p) {
       if(r.exclusiveGroup!==undefined)assert(r.repeat==='never'&&typeof r.exclusiveGroup==='string'&&/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(r.exclusiveGroup),'Invalid exclusive feature group');
       if(r.repeatGroup!==undefined){requireRef(key,r.repeatGroup);assert.equal(r.repeat,'choice');}
       if(r.weaponGroup!==undefined)assert(GROUPS.includes(r.weaponGroup),'Unknown weapon group');
-      if(r.choiceType) assert(['skill','weaponGroup','weapon','power'].includes(r.choiceType));
+      if(r.choiceType) assert(['skill','weaponGroup','weapon','power','enum','manual'].includes(r.choiceType));
+      if(r.choiceExcluded!==undefined)assert(r.choiceType==='skill'&&Array.isArray(r.choiceExcluded)&&r.choiceExcluded.length>0&&r.choiceExcluded.every(id=>ix.skills.has(id)),'Invalid excluded skill choices');
+      if(r.choiceLabel!==undefined)assert(typeof r.choiceLabel==='string'&&r.choiceLabel.trim()&&r.choiceLabel.length<=100);
+      if(r.choiceType==='enum')assert(Array.isArray(r.choiceOptions)&&r.choiceOptions.length>0&&new Set(r.choiceOptions.map(o=>o.id)).size===r.choiceOptions.length&&r.choiceOptions.every(o=>Object.keys(o).sort().join() === 'id,name'&&/^[a-z0-9-]+$/.test(o.id)&&typeof o.name==='string'&&o.name.trim()),'Invalid enum choices');
+      else assert(r.choiceOptions===undefined,'Unexpected enum choices');
       if(r.choiceGroups)assert(r.choiceType==='weaponGroup'&&Array.isArray(r.choiceGroups)&&r.choiceGroups.length&&new Set(r.choiceGroups).size===r.choiceGroups.length&&r.choiceGroups.every(g=>GROUPS.includes(g)),'Unsupported weapon choices');
-      if(r.choiceExoticMode)assert(r.choiceType==='weaponGroup'&&r.choiceExoticMode==='melee','Unsupported exotic weapon mode');
+      if(r.choiceExoticMode)assert(r.choiceType==='weaponGroup'&&['melee','ranged'].includes(r.choiceExoticMode),'Unsupported exotic weapon mode');
       if(r.choiceScope)assert(r.choiceType==='weapon'&&r.choiceScope==='exotic');
       assert(Array.isArray(r.effects) && typeof r.reminder==='string');
       const passiveConditions={armorMaxDex:'proficientArmor',armorBonus:'proficientArmor',armorFortitude:'proficientArmor',armorFortitudeToWill:'proficientArmor',armorMovement:'proficientArmor',speed:'lightOrNoArmor',meleeDamage:'meleeAttack'};

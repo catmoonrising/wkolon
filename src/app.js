@@ -1,3 +1,4 @@
+import {automationBadge} from './feature-status.js';
 import {resizeLevelPlan,choosePlannedClass} from './level-plan.js';
 import {levelPlanTable} from './level-plan-ui.js';
 import {setTeamAllies,teamSkillControls} from './team-skills.js';
@@ -105,7 +106,7 @@ const option = (value, name, selected, disabled=false) => `<option value="${esca
 const choices = (records, selected) => [...records].sort((a,b) => a.name.localeCompare(b.name)).map(r => option(r.id, r.name, selected, r.id.startsWith('class:')&&(ix?.species.get(current().species).forbiddenClasses||[]).includes(r.id))).join('');
 const field = (label, key, value, type='text', attrs='') => `<label>${escape(label)}<input type="${type}" data-field="${key}" value="${escape(value)}" ${attrs}></label>`;
 function ruleReference(r, label=r.name, selection=null, scope='ref') {
-  return `<details class="rules-ref-detail" id="${escape(scope+'-'+r.id+(selection?.choice?'-'+selection.choice:''))}"><summary aria-label="${escape(r.name)} mechanics">${escape(label)}</summary><div class="rules-ref-body">${r.article?renderArticle(r.article):`<dl>${referenceEntries(r,pack,selection).map(e=>`<dt>${escape(e.heading)}</dt><dd>${escape(e.text)}</dd>`).join('')}</dl>`}</div></details>`;
+  return `<details class="rules-ref-detail" id="${escape(scope+'-'+r.id+(selection?.choice?'-'+selection.choice:''))}"><summary aria-label="${escape(r.name)} mechanics">${escape(label)}${automationBadge(r)}</summary><div class="rules-ref-body">${r.article?renderArticle(r.article):`<dl>${referenceEntries(r,pack,selection).map(e=>`<dt>${escape(e.heading)}</dt><dd>${escape(e.text)}</dd>`).join('')}</dl>`}</div></details>`;
 }
 const panel = (heading, body, className='') => `<section class="panel ${className}">${heading ? `<div class="panel-heading"><h2>${heading}</h2></div>` : ''}${body}</section>`;
 const metric = (label, value, detail='') => `<div class="metric"><span>${label}</span><strong>${value}</strong>${detail ? `<small>${detail}</small>` : ''}</div>`;
@@ -137,7 +138,7 @@ function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=f
   if (kind === 'talent') records = records.filter(r => talentTrees(cls,ctx,pack).includes(r.tree));
   if (kind === 'startingFeat') records = records.filter(r => cls.startingFeats.includes(r.id));
   if (slot?.kind === 'bonus') records = records.filter(r => cls.bonusFeats.includes(r.id) || cls.startingFeats.includes(r.id));
-  const available = r => variants(r).filter(s=>eligible(r,s,ctx,ix,type) && (slot?.kind !== 'bonus' || !cls.bonusRestrictions[r.id] || cls.bonusRestrictions[r.id].includes(s.choice)));
+  const available = r => variants(r).filter(s=>eligible(r,s,ctx,ix,type,{ignoreManual:true}) && (slot?.kind !== 'bonus' || !cls.bonusRestrictions[r.id] || cls.bonusRestrictions[r.id].includes(s.choice)));
   // Some weapon/armor feats have separate rules IDs. Present their shared name once.
   const family = r => type==='feats' && /^(Weapon Proficiency|Armor Proficiency) \(/.test(r.name) ? r.name.replace(/ \(.*\)$/, '') : null;
   const groups = new Map();
@@ -159,9 +160,10 @@ function selectChoice(levelIndex, kind, slotIndex, slot, selected, hidePrimary=f
     const value=!selected?.pending && (selected?.choice || group.value.startsWith('family:')) ? selectionValue(selected) : '';
     if(value && !options.some(o=>o.value===value)) options.unshift({value,name:`${entryLabel(selected)} (ineligible)`});
     const secondaryLabel=group.value.startsWith('family:')?'Type':record.choiceType==='skill'?'Skill':record.choiceType==='weapon'?'Weapon':record.choiceType==='power'?'Power':'Weapon group';
-    secondaryHTML=`<label>${secondaryLabel}<select ${attrs} data-secondary>${option('','Choose…',value)}${options.sort((a,b)=>a.name.localeCompare(b.name)).map(o=>option(o.value,o.name,value)).join('')}</select></label>`;
+    secondaryHTML=record.choiceType==='manual'?`<label>${escape(record.choiceLabel||'Choice')}<input type="text" maxlength="300" ${attrs} data-manual-choice value="${escape(selected.choice?.startsWith('manual:')?selected.choice.slice(7):'')}"></label>`:`<label>${escape(record.choiceLabel||(record.choiceType==='enum'?'Choice':secondaryLabel))}<select ${attrs} data-secondary>${option('','Choose…',value)}${options.sort((a,b)=>a.name.localeCompare(b.name)).map(o=>option(o.value,o.name,value)).join('')}</select></label>`;
   }
-  return `<div class="choice-field">${hidePrimary?'':`<label>${compact?'':escape(label)}<button type="button" aria-label="${escape(label)} at level ${levelIndex+1}, choice ${slotIndex+1}" ${attrs} data-primary data-open-tree="${kind}:${levelIndex}:${slotIndex}">${escape(record?(family(record)||entryLabel(selected)):'Choose…')}</button></label>`}${secondaryHTML}</div>`;
+  if(record?.manualPrerequisites?.length)secondaryHTML+=`<details class="manual-prerequisites"><summary>Manual prerequisites</summary><ul>${record.manualPrerequisites.map(t=>`<li>${escape(t)}</li>`).join('')}</ul></details><label class="checkbox"><input type="checkbox" ${attrs} data-manual-requirements ${selected.manualRequirements?'checked':''}>Requirements checked</label>`;
+  return `<div class="choice-field">${hidePrimary?'':`<label>${compact?'':escape(label)}<button type="button" aria-label="${escape(label)} at level ${levelIndex+1}, choice ${slotIndex+1}" ${attrs} data-primary data-open-tree="${kind}:${levelIndex}:${slotIndex}">${escape(record?(family(record)||entryLabel(selected)):'Choose…')}</button></label>`}${record&&!hidePrimary?automationBadge(record):''}${secondaryHTML}</div>`;
 
 }
 function treeOptions(level,kind,slotIndex=0) {
@@ -651,6 +653,7 @@ function events() {
     if(el.id==='rules-book'){rulesCatalog.source(el.value);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(el.id==='rules-kind'||el.id==='rules-builder-only'){rulesCatalog.filter($('rules-kind').value,$('rules-builder-only').checked);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(featureTrees.change(event)||el.disabled)return;
+    if(el.hasAttribute('data-manual-requirements')||el.hasAttribute('data-manual-choice')){const l=c.levels[Number(el.dataset.level)],kind=el.dataset.choice,s=kind==='feat'?l.feats[Number(el.dataset.slot)]:l[kind];if(!s)return;if(el.hasAttribute('data-manual-requirements'))s.manualRequirements=el.checked;else{if(/[\r\n|]/.test(el.value)){notify('Use a single choice without |');renderEditor();return;}if(el.value.trim()){s.choice='manual:'+el.value.trim();delete s.pending;}else{delete s.choice;s.pending=true;}}changed();return;}
     if(el.hasAttribute('data-plan-declaration')&&classRequirementTarget){const {level,id}=classRequirementTarget,draft=classPickDraft(level,id);draft.entryDeclarations[el.dataset.planDeclaration]=el.checked;const entry=classEntry(ix.classes.get(id),progression(c,pack,level).ctx,ix,draft),button=$('rule-detail-body').querySelector('[data-plan-select-class]');button.disabled=!entry.available;button.title=entry.reason;return;}
     if(el.id==='creation-level'){const count=Number(el.value);try{resizeLevelPlan(c,pack,count);changed();}catch(error){notify(error.message);renderEditor();}return;}
     if(el.id==='next-class'){advancementDrafts.set(c.id,{classId:el.value,entryDeclarations:{}});renderEditor();return;}
@@ -767,6 +770,7 @@ function events() {
       const representative=familyName && pack.feats.find(r=>r.name.startsWith(familyName+' ('));
       let s=familyName?{id:representative.id,pending:true}:parseSelection(el.value);
       if(el.hasAttribute('data-secondary') && !s){const old=el.dataset.choice==='classChoice'?l.classChoices?.[Number(el.dataset.slot)]:el.dataset.choice==='feat'?l.feats[Number(el.dataset.slot)]:l[el.dataset.choice];s=old?{id:old.id,...(/^(Weapon Proficiency|Armor Proficiency) \(/.test(ix.feats.get(old.id)?.name||'')?{pending:true}:{})}:null;}
+      const oldSelection=el.dataset.choice==='classChoice'?l.classChoices?.[Number(el.dataset.slot)]:el.dataset.choice==='feat'?l.feats[Number(el.dataset.slot)]:l[el.dataset.choice];if(s&&oldSelection?.id===s.id&&oldSelection.manualRequirements!==undefined)s.manualRequirements=oldSelection.manualRequirements;
       if(el.dataset.choice==='talent'&&s&&ix.talents.get(s.id).requiresDarkSide)s.darkSideScore=c.darkSideScore;
       if(el.dataset.choice==='classChoice'){l.classChoices??=[];l.classChoices[Number(el.dataset.slot)]=s;}else if(el.dataset.choice==='feat') l.feats[Number(el.dataset.slot)]=s; else l[el.dataset.choice]=s;
     } else if(el.dataset.increase) {

@@ -16,17 +16,21 @@ export function layoutFeatureGraph(nodes, sizes) {
  const columns=new Map(), byKey=new Map(nodes.map(n=>[n.key,n]));
  for(const n of nodes){if(!columns.has(n.rank))columns.set(n.rank,[]);columns.get(n.rank).push(n.key);}
  const ranks=[...columns.keys()].sort((a,b)=>a-b), edges=nodes.flatMap(n=>n.parents.filter(p=>byKey.has(p.key)).map(p=>({from:p.key,to:n.key,alternative:p.alternative})));
- const neighbours=(key,incoming)=>edges.filter(e=>(incoming?e.to:e.from)===key).map(e=>incoming?e.from:e.to);
+ const incomingEdges=new Map(),outgoingEdges=new Map();
+ for(const e of edges){if(!incomingEdges.has(e.to))incomingEdges.set(e.to,[]);incomingEdges.get(e.to).push(e.from);if(!outgoingEdges.has(e.from))outgoingEdges.set(e.from,[]);outgoingEdges.get(e.from).push(e.to);}
+ const neighbours=(key,incoming)=>(incoming?incomingEdges:outgoingEdges).get(key)||[];
  const order=()=>new Map([...columns.values()].flatMap(keys=>keys.map((key,i)=>[key,i])));
- function crossings(){
-  const indices=order();let count=0;
-  const at=(e,r)=>{const start=byKey.get(e.from).rank,end=byKey.get(e.to).rank;return indices.get(e.from)+(indices.get(e.to)-indices.get(e.from))*(r-start)/(end-start);};
-  for(let i=0;i<edges.length;i++)for(const b of edges.slice(i+1)){
-   const a=edges[i];if(a.from===b.from||a.to===b.to||a.from===b.to||a.to===b.from)continue;
-   const lo=Math.max(byKey.get(a.from).rank,byKey.get(b.from).rank),hi=Math.min(byKey.get(a.to).rank,byKey.get(b.to).rank);
-   if(lo<hi&&(at(a,lo)-at(b,lo))*(at(a,hi)-at(b,hi))<0)count++;
-  }return count;
+ // Only overlapping rank intervals can cross. Cache those pairs once, then
+ // score adjacent swaps using the pairs incident to the two moved nodes.
+ const pairs=[],nodePairs=new Map();
+ for(let i=0;i<edges.length;i++)for(let j=i+1;j<edges.length;j++){
+  const a=edges[i],b=edges[j];if(a.from===b.from||a.to===b.to||a.from===b.to||a.to===b.from)continue;
+  const lo=Math.max(byKey.get(a.from).rank,byKey.get(b.from).rank),hi=Math.min(byKey.get(a.to).rank,byKey.get(b.to).rank);if(lo>=hi)continue;
+  const index=pairs.length;pairs.push({a,b,lo,hi});for(const key of new Set([a.from,a.to,b.from,b.to])){if(!nodePairs.has(key))nodePairs.set(key,[]);nodePairs.get(key).push(index);}
  }
+ const at=(e,r,indices)=>{const start=byKey.get(e.from).rank,end=byKey.get(e.to).rank;return indices.get(e.from)+(indices.get(e.to)-indices.get(e.from))*(r-start)/(end-start);};
+ const crossing=(p,indices)=>(at(p.a,p.lo,indices)-at(p.b,p.lo,indices))*(at(p.a,p.hi,indices)-at(p.b,p.hi,indices))<0?1:0;
+ const crossings=()=>{const indices=order();return pairs.reduce((sum,p)=>sum+crossing(p,indices),0);};
  // Alternating barycentric sweeps place related branches together. Keep the best
  // order, then swap neighbours only when that removes a crossing; names play no role.
  let best=[...columns].map(([r,keys])=>[r,[...keys]]),score=crossings();
@@ -39,11 +43,14 @@ export function layoutFeatureGraph(nodes, sizes) {
   const next=crossings();if(next<score){score=next;best=[...columns].map(([r,keys])=>[r,[...keys]]);}
  }
  best.forEach(([r,keys])=>columns.set(r,keys));
+ const indices=order();
  for(let pass=0;pass<4;pass++){
   let improved=false;
   for(const keys of columns.values())for(let i=0;i<keys.length-1;i++){
-   [keys[i],keys[i+1]]=[keys[i+1],keys[i]];const next=crossings();
-   if(next<score){score=next;improved=true;}else [keys[i],keys[i+1]]=[keys[i+1],keys[i]];
+   const a=keys[i],b=keys[i+1],affected=new Set([...(nodePairs.get(a)||[]),...(nodePairs.get(b)||[])]);
+   const count=()=>[...affected].reduce((sum,index)=>sum+crossing(pairs[index],indices),0),before=count();
+   indices.set(a,i+1);indices.set(b,i);const delta=count()-before;
+   if(delta<0){[keys[i],keys[i+1]]=[b,a];score+=delta;improved=true;}else{indices.set(a,i);indices.set(b,i+1);}
   }if(!improved)break;
  }
  // Disconnected branches share no dependencies. Give each its own vertical band,
@@ -138,17 +145,24 @@ function flattenCurve([a,b,c,d],points,depth=0){
 export function featureCrossings(edges){
  const hits=[],bounds=edges.map(e=>({left:Math.min(...e.path.points.map(p=>p.x)),right:Math.max(...e.path.points.map(p=>p.x)),top:Math.min(...e.path.points.map(p=>p.y)),bottom:Math.max(...e.path.points.map(p=>p.y))}));
  const cross=(a,b)=>a.x*b.y-a.y*b.x,minus=(a,b)=>({x:a.x-b.x,y:a.y-b.y});
+ const segments=edges.map(e=>e.path.points.slice(1).map((end,i)=>{const start=e.path.points[i];return {start,delta:minus(end,start),left:Math.min(start.x,end.x),right:Math.max(start.x,end.x),top:Math.min(start.y,end.y),bottom:Math.max(start.y,end.y)};}));
+ const forward=segments.map(ss=>ss.every((s,i)=>s.delta.x>=0&&(!i||s.left>=ss[i-1].left)));
  for(let i=0;i<edges.length;i++)for(let j=i+1;j<edges.length;j++){
   const a=edges[i],b=edges[j],ab=bounds[i],bb=bounds[j];
   // Fan-outs and joined prerequisites are real connections, never overpasses.
   if(a.from===b.from||a.to===b.to||a.from===b.to||a.to===b.from||ab.right<bb.left||bb.right<ab.left||ab.bottom<bb.top||bb.bottom<ab.top)continue;
-  const ap=a.path.points,bp=b.path.points;
-  for(let k=1;k<ap.length;k++)for(let l=1;l<bp.length;l++){
-   const p=ap[k-1],q=bp[l-1],r=minus(ap[k],p),s=minus(bp[l],q),den=cross(r,s);if(Math.abs(den)<1e-9)continue;
+  const ap=a.path.points,bp=b.path.points;let start=0;
+  for(const sa of segments[i]){
+   if(forward[i]&&forward[j])while(start<segments[j].length&&segments[j][start].right<sa.left)start++;
+   for(let l=start;l<segments[j].length;l++){
+   const sb=segments[j][l];if(forward[j]&&sb.left>sa.right)break;
+   if(sa.right<sb.left||sb.right<sa.left||sa.bottom<sb.top||sb.bottom<sa.top)continue;
+   const p=sa.start,q=sb.start,r=sa.delta,s=sb.delta,den=cross(r,s);if(Math.abs(den)<1e-9)continue;
    const delta=minus(q,p),t=cross(delta,s)/den,u=cross(delta,r)/den;if(t<0||t>1||u<0||u>1)continue;
    const point={x:p.x+t*r.x,y:p.y+t*r.y},distance=v=>Math.hypot(point.x-v.x,point.y-v.y);
    if([ap[0],ap.at(-1),bp[0],bp.at(-1)].some(v=>distance(v)<10)||hits.some(h=>h.under===i&&h.over===j&&distance(h)<2))continue;
    hits.push({under:i,over:j,...point});
+   }
   }
  }
  return hits;

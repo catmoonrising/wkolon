@@ -319,3 +319,8 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .level-plan tr > :nth-child(2) { position: sticky; left: 3.5rem; min-width: 9rem; background: var(--panel-bg); z-index: 2; }
 .level-plan thead tr > :first-child, .level-plan thead tr > :nth-child(2) { z-index: 4; }
 .level-plan .inactive-choice { color: var(--muted-fg); }
+
+.automation-badge { font-size: .75em; font-weight: normal; color: var(--muted-fg); margin-inline-start: .4em; white-space: nowrap; }
+.feature-tree-node.owned .automation-badge { color: inherit; }
+.choice-field > .automation-badge { display: inline-block; margin-bottom: .25rem; }
+.manual-prerequisites { font-size: .9em; max-width: 30rem; }

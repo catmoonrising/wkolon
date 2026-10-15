@@ -1,3 +1,4 @@
+import {automationBadge} from './feature-status.js';
 import {classEntry,classRequirement,classRequirementLabel} from './class-advancement.js';
 import {GROUPS,indexPack,eligible,prerequisite} from './rules.js';
 import {counselingEnabled} from './house-rules.js';
@@ -13,10 +14,10 @@ export function featureVariants(r,pack) {return featureChoices(r,pack).map(choic
 export function featureGraph(pack,options) {
  const ix=indexPack(pack),type=options.type,ctx=options.ctx,allowed=new Set(options.allowedIds),nodes=new Map(),byId=new Map();
  const classMode=type==='classes',classDraft=r=>options.classDrafts?.[r.id]||options.draft||{};
- const possible=r=>classMode?(allowed.has(r.id)&&classEntry(r,ctx,ix,classDraft(r),{ignoreDeclarations:true}).available?[{id:r.id}]:[]):allowed.has(r.id)?featureVariants(r,pack).filter(s=>eligible(r,s,ctx,ix,type)&&(!options.restrictions?.[r.id]||options.restrictions[r.id].includes(s.choice))):[];
+ const possible=r=>classMode?(allowed.has(r.id)&&classEntry(r,ctx,ix,classDraft(r),{ignoreDeclarations:true}).available?[{id:r.id}]:[]):allowed.has(r.id)?featureVariants(r,pack).filter(s=>eligible(r,s,ctx,ix,type,{ignoreManual:true})&&(!options.restrictions?.[r.id]||options.restrictions[r.id].includes(s.choice))):[];
  const selected=options.selected;
  const possessed=classMode?[...ctx.classLevels].map(([id])=>({id})):[...ctx[type]];
- if(selected && !selected.pending && allowed.has(selected.id) && possible(ix[type].get(selected.id)).some(s=>s.id===selected.id&&(s.choice||'')===(selected.choice||'')))possessed.push(selected);
+ if(selected && !selected.pending && allowed.has(selected.id) && (classMode||eligible(ix[type].get(selected.id),selected,ctx,ix,type)) && possible(ix[type].get(selected.id)).some(s=>s.id===selected.id&&(ix[type].get(s.id).choiceType==='manual'||(s.choice||'')===(selected.choice||''))))possessed.push(selected);
  for(const r of pack[type]) {
   if(!allowed.has(r.id))continue;
   const key=type==='feats'?featureValue(r):r.id+'|';let node=nodes.get(key);
@@ -29,7 +30,7 @@ export function featureGraph(pack,options) {
   // globally joins unrelated branches into one large, tangled component.
   const key='condition:'+JSON.stringify(p)+':for:'+owner;if(nodes.has(key))return key;
   const choice=p.value==='$choice';let name,record;
-  if(['feat','featChoice','talent','talentChoice'].includes(p.kind)){record=ix[p.kind.startsWith('talent')?'talents':'feats'].get(p.value);name=record.name+(p.kind==='featChoice'||p.kind==='talentChoice'&&p.choice==='$choice'?' (same weapon)':p.kind==='talentChoice'?' ('+title(p.choice)+')':'');}
+  if(['feat','featChoice','talent','talentChoice'].includes(p.kind)){record=ix[p.kind.startsWith('talent')?'talents':'feats'].get(p.value);name=record.name+(p.kind==='featChoice'&&p.choice?' ('+ix.skills.get(p.choice).name+')':p.kind==='featChoice'||p.kind==='talentChoice'&&p.choice==='$choice'?' (same weapon)':p.kind==='talentChoice'?' ('+title(p.choice)+')':'');}
   else if(p.kind==='trained')name='Trained in '+(choice?'a skill':ix.skills.get(p.value).name);
   else if(p.kind==='power'){record=ix.forcePowers.get(p.value);name=choice?'Known Force Power':record.name;}
   else if(p.kind==='darkSideScore')name='DSS '+p.min;
@@ -37,6 +38,7 @@ export function featureGraph(pack,options) {
   else if(p.kind==='classSkill')name=choice?'Class skill':ix.skills.get(p.value).name+' class skill';
   else if(p.kind==='ability')name=p.value.toUpperCase()+' '+p.min;
   else if(p.kind==='bab')name='Base attack +'+p.min;
+  else if(p.kind==='level')name='Level '+p.min;
   else if(p.kind==='nonDroid')name='Not a droid';
   else if(p.kind==='droid')name='Droid';
   else if(p.kind==='weaponFocusMode'){record=ix.feats.get('feat:weapon-focus');name='Weapon Focus (Melee)';}
@@ -46,13 +48,13 @@ export function featureGraph(pack,options) {
   else if(p.kind==='size')name=title(p.value)+' or larger';
   else if(p.kind==='proficientChoice')name='Weapon Proficiency';
   else if(p.kind==='focusChoice')name='Weapon Focus'+(choice?'':` (${title(p.value)})`);
-  const choices=p.kind==='featChoice'||p.kind==='talentChoice'&&p.choice==='$choice'?featureChoices(record,pack):choice?(p.kind==='power'?pack.forcePowers.map(r=>r.id):p.kind==='proficientChoice'||p.kind==='focusChoice'?[...GROUPS,...pack.equipment.filter(w=>w.kind==='weapon').map(w=>w.id),'attack:unarmed']:pack.skills.map(s=>s.id)):[null];
+  const choices=p.kind==='featChoice'&&p.choice?[null]:p.kind==='featChoice'||p.kind==='talentChoice'&&p.choice==='$choice'?featureChoices(record,pack):choice?(p.kind==='power'?pack.forcePowers.map(r=>r.id):p.kind==='proficientChoice'||p.kind==='focusChoice'?[...GROUPS,...pack.equipment.filter(w=>w.kind==='weapon').map(w=>w.id),'attack:unarmed']:pack.skills.map(s=>s.id)):[null];
   const owned=choices.some(value=>prerequisite(p,ctx,ix,value));
   nodes.set(key,{key,name,group:null,records:record?[record]:[],parents:[],main:false,owned,available:owned,selected:false});return key;
  }
  function parents(p,out,owner,alternative=false) {
   if(p.kind==='all'||p.kind==='any'){p.requirements.forEach(r=>parents(r,out,owner,alternative||p.kind==='any'));return;}
-  const key=['feat','featChoice','talent','talentChoice'].includes(p.kind)&&byId.has(p.value)?byId.get(p.value):condition(p,owner);
+  const key=['feat','featChoice','talent','talentChoice'].includes(p.kind)&&!(p.kind==='featChoice'&&p.choice)&&byId.has(p.value)?byId.get(p.value):condition(p,owner);
   if(!out.some(edge=>edge.key===key))out.push({key,alternative});
  }
  function classParents(p,out,owner,cls,alternative=false){
@@ -71,7 +73,7 @@ export function featureGraph(pack,options) {
 }
 
 export function createFeatureTrees(pack) {
- const states=new Map(),configs=new Map();
+ const states=new Map(),configs=new Map(),geometryCache=new WeakMap();
  const state=key=>{if(!states.has(key))states.set(key,{query:'',group:null,onlyEligible:false,zoom:1,scrollLeft:0,scrollTop:0});return states.get(key);};
  const rootFor=key=>[...document.querySelectorAll('.feature-tree-browser')].find(el=>el.dataset.treeKey===key);
  function visible(options) {
@@ -95,27 +97,29 @@ export function createFeatureTrees(pack) {
  function tabs(options) {if(options.type!=='talents')return '';const model=featureGraph(pack,options),s=state(options.key);return ['all',...model.groups].map(group=>`<button type="button" data-tree-group="${escape(group)}" aria-pressed="${s.group===group}">${escape(group==='all'?'All':title(group))}</button>`).join('');}
  function mechanics(node) {
   const articles=[...new Map(node.records.filter(r=>r.article).map(r=>[JSON.stringify(r.article.blocks),r])).values()];
-  return articles.map(r=>articles.length>1?`<h3>${escape(r.name)}</h3>${renderArticle(r.article)}`:renderArticle(r.article)).join('');
+  return articles.map(r=>(articles.length>1?`<h3>${escape(r.name)}</h3>`:'')+automationBadge(r)+renderArticle(r.article)).join('');
  }
  function results(options) {
   const model=visible(options);
   return `<div class="feature-tree-scroll" tabindex="0" aria-label="${options.type==='feats'?'Feat':options.type==='talents'?'Talent':options.type==='classes'?'Class':'Class feature'} prerequisites" data-tree-scroll="${escape(options.key)}"><div class="feature-tree-stage"><div class="feature-tree-canvas"><svg class="feature-tree-arrows" aria-hidden="true"><g></g></svg>${model.nodes.map(n=>{
    const hasText=n.records.some(r=>r.article);
    const blockedVersion=n.records.some(r=>r.exclusiveGroup&&(options.ctx[options.type]||[]).some(f=>pack[options.type].find(p=>p.id===f.id)?.exclusiveGroup===r.exclusiveGroup&&f.id!==r.id));
-   return `<article class="feature-tree-node ${n.owned?'owned':!n.available?'unavailable':''} ${n.selected?'selected':''} ${n.main?'':'prerequisite-node'}" data-tree-node="${escape(n.key)}" data-tree-rank="${n.rank}"><div class="feature-tree-node-head">${hasText?`<button type="button" class="feature-fold" data-tree-fold="${escape(n.key)}" aria-haspopup="dialog" aria-label="Read ${escape(n.name)}">▶</button>`:''}${n.main?`<button type="button" class="feature-pick" data-tree-pick="${escape(n.key)}" aria-pressed="${n.selected}" aria-label="${escape(n.name)}${n.owned?' (possessed)':''}" ${n.available||n.selected?'':`disabled title="${n.owned?'Already possessed':blockedVersion?'Another version already possessed':'Prerequisites or class access not met'}"`}>${escape(n.name)}</button>`:`<span>${escape(n.name)}</span>`}</div></article>`;
+   return `<article class="feature-tree-node ${n.owned?'owned':!n.available?'unavailable':''} ${n.selected?'selected':''} ${n.main?'':'prerequisite-node'}" data-tree-node="${escape(n.key)}" data-tree-rank="${n.rank}"><div class="feature-tree-node-head">${hasText?`<button type="button" class="feature-fold" data-tree-fold="${escape(n.key)}" aria-haspopup="dialog" aria-label="Read ${escape(n.name)}">▶</button>`:''}${n.main?`<button type="button" class="feature-pick" data-tree-pick="${escape(n.key)}" aria-pressed="${n.selected}" aria-label="${escape(n.name)}${n.owned?' (possessed)':''}" ${n.available||n.selected?'':`disabled title="${n.owned?'Already possessed':blockedVersion?'Another version already possessed':'Prerequisites or class access not met'}"`}>${escape(n.name)}</button>`:`<span>${escape(n.name)}</span>`}${n.main?automationBadge(n.records[0]):''}</div></article>`;
   }).join('')}</div></div>${model.nodes.length?'':'<p role="status">No matches</p>'}</div>`;
  }
  function remember(key){const root=rootFor(key),scroll=root?.querySelector('.feature-tree-scroll');if(scroll){const s=state(key);s.scrollLeft=scroll.scrollLeft;s.scrollTop=scroll.scrollTop;}}
  function layout(root) {
   const options=configs.get(root.dataset.treeKey);if(!options)return;
   const s=state(options.key),model=visible(options),elements=new Map([...root.querySelectorAll('[data-tree-node]')].map(el=>[el.dataset.treeNode,el]));
-  const geometry=layoutFeatureGraph(model.nodes,new Map([...elements].map(([key,el])=>[key,{width:el.offsetWidth,height:el.offsetHeight}])));
+  const sizes=new Map([...elements].map(([key,el])=>[key,{width:el.offsetWidth,height:el.offsetHeight}])),signature=JSON.stringify(model.nodes.map(n=>[n.key,n.rank,n.parents,sizes.get(n.key)]));
+  let cached=geometryCache.get(root);
+  if(cached?.signature!==signature){const geometry=layoutFeatureGraph(model.nodes,sizes),edges=geometry.edges.map(edge=>({...edge,path:featureEdgePath(geometry.positions.get(edge.from),geometry.positions.get(edge.to),edge.via)}));cached={signature,geometry,edges,crossings:featureCrossings(edges)};geometryCache.set(root,cached);}
+  const {geometry,edges,crossings}=cached;
   const {positions,width,height}=geometry;
   for(const [key,p] of positions){const el=elements.get(key);el.style.left=p.x+'px';el.style.top=p.y+'px';}
   const canvas=root.querySelector('.feature-tree-canvas'),svg=canvas.querySelector('svg'),stage=root.querySelector('.feature-tree-stage');
   canvas.style.width=width+'px';canvas.style.height=height+'px';canvas.style.transform=`scale(${s.zoom})`;
   stage.style.width=width*s.zoom+'px';stage.style.height=height*s.zoom+'px';svg.setAttribute('width',width);svg.setAttribute('height',height);
-  const edges=geometry.edges.map(edge=>({...edge,path:featureEdgePath(positions.get(edge.from),positions.get(edge.to),edge.via)})),crossings=featureCrossings(edges);
   const maskId=i=>'cross-'+options.key.replace(/[^a-z0-9]/gi,'')+'-'+i;
   // Cut only the underpass at real crossings. SVG masks reveal the current theme
   // beneath it, while the overpass keeps its original solid/dotted curve.

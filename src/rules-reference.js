@@ -12,9 +12,11 @@ export function referenceEntries(r, pack, selection) {
       case 'any': return p.requirements.map(prerequisite).filter(Boolean).join(' or ');
       case 'ability': return `${p.value.toUpperCase()} ${p.min}`;
       case 'bab': return `Base attack +${p.min}`;
+      case 'level': return `Level ${p.min}`;
+      case 'species': return p.value;
       case 'nonDroid': return 'Cannot be a Droid';
       case 'feat': case 'talent': case 'power': return target(p.value);
-      case 'featChoice': return `${target(p.value)} (same weapon)`;
+      case 'featChoice': return `${target(p.value)} (${p.choice?name(p.choice):'same weapon'})`;
       case 'trait': return `${target(p.value)} species trait`;
       case 'size': return `${target(p.value)} or larger`;
       case 'darkSideScore': return `Dark Side Score ${p.min}+`;

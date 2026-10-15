@@ -1,3 +1,4 @@
+import {automationBadge} from './feature-status.js';
 import {ABILITIES, signed} from './rules.js';
 import {createListSort} from './list-sort.js';
 import {escapeHTML as escape, articleText, renderArticle} from './wiki-content.js';
@@ -18,7 +19,7 @@ export function createSpeciesBrowser(pack) {
       const open=expanded.has(r.id),id='species-description-'+r.id.split(':')[1];
       const abilities=ABILITIES.filter(a=>r.abilityAdjustments[a]).map(a=>`${signed(r.abilityAdjustments[a])} ${title(a)}`).join(', ')||'—';
       const speed=[r.speed,...Object.entries(r.speeds||{}).map(([type,n])=>`${title(type)} ${n}`)].join(', ');
-      return `<tr class="species-row ${selected===r.id?'selected':''}"><td><button type="button" data-select-species="${r.id}" aria-label="Select ${escape(r.name)}" aria-pressed="${selected===r.id}">Select</button></td><td class="nm"><a href="#${id}" class="sp-name-link" data-species-detail="${r.id}" aria-expanded="${open}" aria-controls="${id}">${escape(r.name)}</a></td><td>${escape(abilities)}</td><td>${escape(title(r.size))}</td><td>${escape(speed)}</td></tr><tr class="sp-detail" id="${id}" ${open?'':'hidden'}><td colspan="5">${renderArticle(r.article)}</td></tr>`;
+      return `<tr class="species-row ${selected===r.id?'selected':''}"><td><button type="button" data-select-species="${r.id}" aria-label="Select ${escape(r.name)}" aria-pressed="${selected===r.id}">Select</button></td><td class="nm"><a href="#${id}" class="sp-name-link" data-species-detail="${r.id}" aria-expanded="${open}" aria-controls="${id}">${escape(r.name)}</a>${automationBadge(r)}</td><td>${escape(abilities)}</td><td>${escape(title(r.size))}</td><td>${escape(speed)}</td></tr><tr class="sp-detail" id="${id}" ${open?'':'hidden'}><td colspan="5">${renderArticle(r.article)}</td></tr>`;
     }).join('')}</tbody></table>${rows.length?'':'<p role="status">No matches</p>'}</div>`;
   }
   return {

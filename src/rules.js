@@ -70,7 +70,7 @@ export function validateCharacter(c, pack) {
   if (!num(c.pointBudget, 0, 100)) bad('point budget');
   const skillList = v => Array.isArray(v) && v.length <= pack.skills.length && new Set(v).size === v.length && v.every(id => ix.skills.has(id));
   if (!skillList(c.trainedSkills)) bad('trained skills');
-  const choice = (s, type) => s === null || (obj(s) && ix[type].has(s.id) && (!('choice' in s) || typeof s.choice === 'string') && (!('pending' in s) || typeof s.pending === 'boolean'));
+  const choice = (s, type) => s === null || (obj(s) && ix[type].has(s.id) && (!('choice' in s) || typeof s.choice === 'string') && (!('pending' in s) || typeof s.pending === 'boolean') && (!('manualRequirements' in s) || typeof s.manualRequirements === 'boolean') && (!('choice' in s) || s.choice.length<=307));
   validateClassBans(c,ix,bad);
   if (!Array.isArray(c.levels) || c.levels.length < 1 || c.levels.length > 20) bad('levels');
   for (const [i, l] of c.levels.entries()) {
@@ -133,7 +133,7 @@ export function prerequisite(p, ctx, ix, choice) {
     case 'any': return p.requirements.some(r => prerequisite(r, ctx, ix, choice));
     case 'ability': return ctx.scores[value] >= p.min;
     case 'feat': return ctx.feats.some(f => f.id === value);
-    case 'featChoice': return ctx.feats.some(f=>f.id===value&&f.choice===choice);
+    case 'featChoice': return ctx.feats.some(f=>f.id===value&&f.choice===(p.choice??choice));
     case 'trait': return ctx.traits?.includes(value)||false;
     case 'size': return !!ctx.sizeOrder&&ctx.sizeOrder.indexOf(ctx.size)>=ctx.sizeOrder.indexOf(value);
     case 'species': return ctx.speciesName?.replace(/ \([^)]*\)$/,'')===value;
@@ -145,6 +145,7 @@ export function prerequisite(p, ctx, ix, choice) {
     case 'untrained': return !ctx.trained.has(value);
     case 'classSkill': return classSkills(ctx, ix).has(value);
     case 'bab': return ctx.bab >= p.min;
+    case 'level': return ctx.characterLevel >= p.min;
     case 'nonDroid': return !ctx.isDroid;
     case 'droid': return !!ctx.isDroid;
     case 'weaponFocusMode': return ctx.feats.some(f=>f.id===F('weapon-focus')&&[{id:UNARMED_ID,kind:'weapon',mode:'melee',group:'simple-weapons',unarmed:true},...ix.equipment.values()].some(w=>w.kind==='weapon'&&w.mode===value&&weaponEffectGroup(w,ctx)===f.choice));
@@ -155,12 +156,14 @@ export function prerequisite(p, ctx, ix, choice) {
   }
 }
 
-export function eligible(record, selection, ctx, ix, type) {
+export function eligible(record, selection, ctx, ix, type, {ignoreManual=false}={}) {
   if (!record || selection.pending) return false;
+  if(record.manualPrerequisites?.length&&!selection.manualRequirements&&!ignoreManual)return false;
   if(ctx.forceImmune&&record.id===F('force-sensitivity'))return false;
   if(record.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing')&&!ctx.feats.some(f=>f.id===F('force-sensitivity')))return false;
   if (record.choiceType === 'skill' && !ix.skills.has(selection.choice)) return false;
-  if (record.choiceType && !featureChoices(record,{skills:[...ix.skills.values()],equipment:[...ix.equipment.values()],forcePowers:[...ix.forcePowers.values()]}).includes(selection.choice)) return false;
+  if(record.choiceType==='manual'&&!(typeof selection.choice==='string'&&selection.choice.startsWith('manual:')&&selection.choice.slice(7).trim()&&selection.choice.length<=307&&!/[\r\n|]/.test(selection.choice)))return false;
+  if (record.choiceType && record.choiceType!=='manual' && !featureChoices(record,{skills:[...ix.skills.values()],equipment:[...ix.equipment.values()],forcePowers:[...ix.forcePowers.values()]}).includes(selection.choice)) return false;
   if(record.choiceType==='weaponGroup'&&ix.equipment.has(selection.choice)&&weaponEffectGroup(ix.equipment.get(selection.choice),ctx)!==selection.choice)return false;
   const existing = ctx[type];
   if(record.exclusiveGroup&&existing.some(s=>ix[type].get(s.id)?.exclusiveGroup===record.exclusiveGroup))return false;
@@ -168,7 +171,7 @@ export function eligible(record, selection, ctx, ix, type) {
   if (record.repeat === 'never' && existing.some(s => s.id === record.id)) return false;
   if (record.repeat === 'choice' && existing.some(s => {
     const prior=ix[type].get(s.id);
-    return (prior.repeatGroup||prior.id)===(record.repeatGroup||record.id)&&(prior.weaponGroup||s.choice||'')===(record.weaponGroup||selection.choice||'');
+    return (prior.repeatGroup||prior.id)===(record.repeatGroup||record.id)&&(prior.weaponGroup||s.choice||'').toLocaleLowerCase()===(record.weaponGroup||selection.choice||'').toLocaleLowerCase();
   })) return false;
   return prerequisite(record.prerequisite, ctx, ix, selection.choice);
 }
@@ -215,6 +218,7 @@ export function progression(c, pack, through = c.levels.length) {
     if (!s) { issue(i, `choose ${label}`); return; }
     const r = ix[type].get(s.id);
     const acquired=r?.requiresDarkSide&&s.darkSideScore?{...ctx,darkSideScore:s.darkSideScore,inactiveTalents:new Set()}:ctx;
+    if(r?.manualPrerequisites?.length&&!s.manualRequirements){issue(i,'confirm prerequisites for '+r.name);return;}
     if (!allow(r, s) || !eligible(r, s, acquired, ix, type)) { issue(i, `${r?.name || 'Unknown choice'} is not eligible for ${label}`); return; }
     recordFeature(s,type,i+1);
     if(r.requiresDarkSide&&ctx.darkSideScore===0)ctx.inactiveTalents.add(r.id);

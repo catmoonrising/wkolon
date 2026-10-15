@@ -1170,3 +1170,31 @@ under the existing advancement rule; lowering the plan clamps resources rather
 than adding uses. Changing class clears only class-specific entry declarations;
 other selections are retained and revalidated. The table is a view over shared
 progression rules, not a second calculation engine.
+
+### Selectable options with manual effects
+
+`automation` is explicit coverage metadata: `manual` means effects require manual
+handling; `partial` means some effects or actions are automated. Prerequisite
+checking and merely displaying text do not count as effect automation. These
+labels never authorize a calculation. Existing mappings remain unchanged.
+
+`manualPrerequisites` contains exact, source-derived requirements that the current
+character model cannot verify. Selecting such an option requires a saved boolean
+`manualRequirements: true` on that selection. Known typed prerequisites still
+apply. The picker may offer the option before confirmation, but progression does
+not grant it until confirmation. Removing confirmation deactivates dependent
+choices through normal replay. No inferred hardware, memberships or campaign
+permissions are created.
+
+Additional secondary-choice formats are `enum` with `choiceOptions: [{id,name}]`
+and `manual` with a verbatim user-entered choice stored as `manual:<text>`.
+`choiceLabel` names the secondary control. Manual choices support unimported
+options without pretending their effects or eligibility are checked. Both remain
+pending until a nonempty secondary choice is provided. Enum IDs and manual text
+are bounded and validated; repeat-by-choice rejects duplicates.
+
+`choiceExcluded` removes listed skill IDs from a skill secondary choice (for
+example, Logic Upgrade: Skill Swap excludes Use the Force). Fixed `featChoice`
+requirements may include `choice` for an exact skill rather than the candidate
+secondary choice. `level` prerequisites check the earned character level. Species
+name requirements may refer to official species awaiting their own catalog import.

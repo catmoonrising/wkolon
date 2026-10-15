@@ -35,6 +35,9 @@ later selections and reports invalid prerequisites.
 The catalog includes all five heroic and 32 prestige classes, the Core skills and
 Force powers from all inventoried official power pages. Current selectable counts
 and source coverage are generated in [Wiki coverage](docs/wiki-coverage.md).
+All 351 inventoried official feat pages are selectable (358 options including
+variants). Manual and Partial markers describe effect coverage; requirements the
+sheet cannot verify require confirmation.
 Force Training tracks individual copies, spending, Force Point recovery, rest and
 natural-20 suite recovery. Unarmed attacks, weapon routines, defenses, conditions,
 armor, shields, recovery and movement use reviewed rules. The Rules library embeds

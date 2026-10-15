@@ -1,3 +1,4 @@
+import {automationBadge} from './feature-status.js';
 import {articleText,escapeHTML as escape,renderArticle} from './wiki-content.js';
 
 // Excerpts reuse the imported document nodes. They never generate rule summaries
@@ -48,7 +49,7 @@ export function createCreationOptions(pack){
    // Checkbox names double as the full-article link; all selection controls stay
    // in their existing vertical order, including Knowledge's secondary fields.
    const control=r.control.replace(escape(r.name)+'</label>',link(page)+'</label>');
-   return `<article class="creation-option ${r.selected?'selected':''} ${r.unavailable?'unavailable':''}" data-skill-option="${r.id}"><div class="option-head">${fold(r.id,key,r.name)}${control}<small>${escape(r.ability.toUpperCase())}</small></div>${preview(page,'skill',r.id,key)}</article>`;
+   return `<article class="creation-option ${r.selected?'selected':''} ${r.unavailable?'unavailable':''}" data-skill-option="${r.id}"><div class="option-head">${fold(r.id,key,r.name)}${control}<small>${escape(r.ability.toUpperCase())}</small>${automationBadge(pack.skills.find(s=>s.id===r.id))}</div>${preview(page,'skill',r.id,key)}</article>`;
   }).join('')}</div>`;
  }
  function render(key,config){

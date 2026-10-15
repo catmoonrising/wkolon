@@ -1392,3 +1392,52 @@ secondary choices, ability increases, Force Techniques, persistence and mobile
 layout. Existing browser checks now navigate the named tabs and row pickers.
 The full Chromium browser regression passed, including all 43 independent
 feature checks. The new planner modules are included in the hosted offline cache.
+
+## Remaining official feat selections
+
+Added the remaining 144 inventoried official feat pages as selectable records:
+358 feat options now represent all 351 official feat pages in the captured
+inventory. Each keeps its complete pinned article, source revision/history,
+printed typed prerequisites, repeat rules and heroic class bonus-list membership.
+No new feat effect calculations are claimed by this batch. Existing mechanical
+fields are unchanged, apart from additive bonus-feat lists and coverage metadata.
+The Scout list explicitly includes Tech Specialist despite the feat page lacking
+that category tag; the printed list takes precedence for class access.
+
+Droid Focus, Nikto Survival and Superior Tech have finite secondary choices.
+Relentless Attack, Savage Attack and Return Fire use the existing weapon-group
+and exotic-weapon choices, including their printed prerequisite choices. Logic
+Upgrade: Skill Swap excludes Use the Force and trained skills. Adaptable Talent
+and Recurring Success accept a saved manual choice, allowing references to options
+whose own catalog import is still pending. Starship Tactics includes its printed
+Gunnery Specialist prerequisite exception; maneuver suites remain manual.
+
+Requirements that depend on unmodeled droid systems, implants, campaign permission
+or membership retain their exact source wording and require a saved confirmation.
+Known prerequisites still apply, and unconfirmed selections do not contribute to
+progression. Changing a prerequisite preserves later selections and invalidates
+their contributions normally. Manual choices and confirmations survive reload and
+character export/import.
+
+Current options have explicit Manual or Partial coverage metadata. These labels
+refer to effect handling, not selection or prerequisite checks. Partial is a
+conservative statement that some behavior is implemented, not certification that
+the whole article is automated. No label drives a calculation or replaces the
+complete rules text.
+
+The expanded graph exposed repeated whole-graph crossing counts during adjacent
+swaps. Cached rank-overlapping pairs and incident-pair deltas preserve the exact
+layout decisions. Cached neighbor lists and segment bounds reduce repeated scans;
+repeated DOM layouts reuse geometry while dimensions and topology are unchanged.
+A comparison against the previous implementation matched all positions, routes and
+crossings for 30 generated graphs and the full 652-node/429-edge catalog graph.
+On this machine the catalog layout fell from 55.6 seconds to 1.3 seconds. This is
+a measured example, not a cross-device performance guarantee.
+
+Validation: 491 JavaScript tests and 27 Python importer tests pass. The complete
+Chromium browser regression, including 44 independent feature checks, passed.
+Focused Chromium and Firefox checks cover exact source text, manual and enum
+secondary choices, prerequisite confirmation, invalidation, save/reload and
+Dracula mobile layout. The reference validator confirms all 4,400 pinned articles
+with 367 excluded pages. Offline recompilation is deterministic, and an explicit
+comparison confirms existing mechanical fields are preserved.

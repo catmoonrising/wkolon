@@ -15,7 +15,7 @@ const can=(id,ctx,choice)=>eligible(ix.feats.get('feat:'+id),f(id,choice),ctx,ix
 const weapon=(id,more={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...more});
 test('all eighteen reviewed KOTOR feats retain pinned complete articles and catalog links',()=>{
  for(const id of ids){const r=ix.feats.get('feat:'+id);assert(r);const record=pack.catalog.records.find(c=>c.mechanicsIds.includes(r.id));assert.equal(record.status,'available');assert(record.books.includes('Knights of the Old Republic Campaign Guide'));assert.equal(r.article.sourceId,r.sourceId);assert(articleText(r.article).includes('Effect:'));}
- assert(!ix.feats.has('feat:implant-training'));
+ assert.equal(ix.feats.get('feat:implant-training').automation,'manual');assert(ix.feats.get('feat:implant-training').manualPrerequisites.length);
 });
 test('KOTOR heroic bonus lists match the reviewed class lists and leave military/droid feats general',()=>{
  const expected={jedi:['accelerated-strike','critical-strike','force-readiness','improved-rapid-strike','tumble-defense','withdrawal-strike'],noble:['quick-skill'],scoundrel:['gearhead','poison-resistance','quick-skill','sniper-shot'],scout:['conditioning','gearhead','increased-agility','poison-resistance'],soldier:['accelerated-strike','conditioning','critical-strike','improved-rapid-strike','increased-agility','power-blast','sniper-shot','tumble-defense','withdrawal-strike']};
