@@ -1,4 +1,5 @@
 import {automationBadge} from './feature-status.js';
+import {resolveSpecies,speciesChoiceDetails,chooseSpeciesOption} from './species-choices.js';
 import {resizeLevelPlan,choosePlannedClass} from './level-plan.js';
 import {levelPlanTable} from './level-plan-ui.js';
 import {setTeamAllies,teamSkillControls} from './team-skills.js';
@@ -241,11 +242,11 @@ function generateAbilities() {
   return controls+budget+`<table class="cr-generated"><tbody>${state.pool.map((n,i)=>`<tr><td>${i+1}</td><td>${c.abilityMethod==='point-buy'?`<select class="cr-points" aria-label="Score ${i+1}" data-generation-pool="${i}">${Object.entries(pack.rules.pointBuyCosts).map(([value,cost])=>option(value,`${value} (${cost} pt)`,n)).join('')}</select>`:`<input type="number" class="tiny cr-manual" aria-label="Score ${i+1}" data-generation-manual="${i}" min="3" max="30" required value="${n}">`}</td></tr>`).join('')}</tbody></table>`;
 }
 function abilityCards() {
-  const c=current(), state=generationState(c,pack);
+  const c=current(), state=generationState(c,pack),species=resolveSpecies(c,pack);
   const rows=ABILITIES.map(a=>{
     const taken=new Set(Object.entries(state.assign).filter(([key,i])=>key!==a && i!==null).map(([,i])=>i));
     const control=`<select class="cr-assign" aria-label="Base ${a.toUpperCase()}" data-generation-assign="${a}">${option('','-',state.assign[a]??'')}${state.pool.map((n,i)=>option(i,n,state.assign[a],taken.has(i))).join('')}</select>`;
-    return `<tr><td>${a.toUpperCase()}</td><td>${control}</td><td>${signed(ix.species.get(c.species).abilityAdjustments[a]||0)}</td><td id="cr-final-${a}">${derived.scores[a]}</td><td id="cr-mod-${a}">${signed(derived.mods[a])}</td></tr>`;
+    return `<tr><td>${a.toUpperCase()}</td><td>${control}</td><td>${signed(species.abilityAdjustments[a]||0)}</td><td id="cr-final-${a}">${derived.scores[a]}</td><td id="cr-mod-${a}">${signed(derived.mods[a])}</td></tr>`;
   }).join('');
   return abilityPool(state,true)+`<table class="cr-scores"><thead><tr><th>Ability</th><th>Base</th><th>Species</th><th>Score</th><th>Mod</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
@@ -355,9 +356,9 @@ function traitsSummary() {
 function creation() {
  const c=current(),species=ix.species.get(c.species),cls=ix.classes.get(c.levels[0].classId),row=derived.rows[0];
  switch(CREATOR_TABS[creatorStep].id){
-  case 'levels':return levelPlanTable(c,derived,pack,{choice:selectChoice,reference:(r,label,s,key)=>ruleReference(r,label||r.name,s,key)});
+  case 'levels':return levelPlanTable(c,derived,pack,{choice:selectChoice,reference:(r,label,s,key)=>ruleReference(r,label||r.name+(s?.choice?' ('+choiceName(s.choice,pack)+')':''),s,key)});
   case 'abilities':return generateAbilities()+abilityCards();
-  case 'species':return speciesBrowser.render(c.species);
+  case 'species':return speciesBrowser.render(c.species,speciesChoiceDetails(c,pack,derived.ctx));
   case 'skills':{const allowed=row.valid===false?new Set():classSkills(row.ctx,ix),budget=row.valid===false?0:Math.max(1,cls.trainedSkills+Math.floor((row.scores.int-10)/2))+species.bonusSkills;return skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`);}
   case 'equipment':{const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));gear[0].querySelector('.panel-heading')?.remove();return `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${gear.map(p=>p.outerHTML).join('')}`;}
   case 'character':return finishing();
@@ -450,7 +451,7 @@ function panelParts(html) {
 }
 function panelBody(panel) { panel.querySelector('.panel-heading')?.remove(); return panel.innerHTML; }
 function sheet() {
-  const c = current(), species = ix.species.get(c.species);
+  const c = current(), species = resolveSpecies(c,pack);
   const inventoryPanels = panelParts(equipment());
   const character = `<div class="character-fields">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${ruleReference(species,species.name,null,'header-species')}<span>Level ${derived.level}</span><a href="#creation">Edit</a></div><div class="hint">${escape(species.languages.join(', '))}${backgroundLanguage(c,pack)?', '+escape(backgroundLanguage(c,pack)):''}</div><div class="actions">${field('Languages','languages',c.languages,'text',`maxlength="100000" aria-label="Additional languages (${languageCount()})"`)}</div>${traitsSummary()}`;
   const classes = `<table id="class-table"><thead><tr><th>Class</th><th>Level</th><th>Hit die</th><th>Base attack</th></tr></thead><tbody>${[...derived.ctx.classLevels].map(([id,n])=>{const cls=ix.classes.get(id);return `<tr><td>${ruleReference(cls)}</td><td class="derived">${n}</td><td>d${cls.hitDie}</td><td>${signed(cls.bab[n-1])}</td></tr>`;}).join('')}</tbody></table><div class="class-summary"><a href="#advancement" class="button">Level Up</a></div>`;
@@ -682,6 +683,7 @@ function events() {
       changed();return;
     }
 
+    if(el.hasAttribute('data-species-choice')){chooseSpeciesOption(c,pack,el.dataset.speciesChoice,el.value||null);changed();return;}
     if(el.hasAttribute('data-unarmed-technique')){if(!['normal','rapid-strike'].includes(el.value))return;c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers.attackTechnique=el.value;changed();return;}
     if(el.hasAttribute('data-charge-path')){if(el.hasAttribute('data-math'))commitMath(el);const path=chargePath(c),key=el.dataset.chargePath;path[key]=el.type==='checkbox'?el.checked:key==='mode'?el.value:el.value===''&&key==='acrobatics'?null:Number(el.value);if(['lowObjectSquares','diagonalLowObjectSquares'].includes(key))path.lowObjects=false;try{validateCharge({...c,chargePath:path},reason=>{throw new Error('Invalid '+reason);});c.chargePath=path;}catch(err){notify(err.message);}changed();return;}
     if(el.hasAttribute('data-energy-charges')||el.hasAttribute('data-energy-sr')){

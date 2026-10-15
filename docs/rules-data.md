@@ -32,6 +32,21 @@ slot, never duplicates a possessed Feat, and never becomes available from a late
 ability increase. Selection-dependent, manual-prerequisite and immediate-effect
 grants require a richer format and are rejected here.
 `conditionalFocuses` supports multiple independent training-dependent grants.
+`creationChoices` contains named, single-selection species choices. Each group
+has a stable `id`, `name`, `kind` and `options`. Ability options contain additive
+`adjustments`; language options contain one `language`; Skill Focus options
+contain one `skillId` and are available only while that skill is trained. A
+Skill Focus choice is required only when at least one offered skill is trained.
+These grants consume neither a selectable Feat slot nor an extra trained-skill
+slot. No choice has an implicit default. When a choice is required, a missing
+or newly ineligible selection appears in Unresolved Choices.
+
+Characters save `speciesChoices[speciesId][groupId]` as an option ID or `null`.
+Choices survive species switches and earlier-level edits. Resolving a species
+copies its fixed data, adds only its selected ability modifiers and language,
+and routes selected Skill Focus through the ordinary conditional grant rules.
+It never changes the generated ability pool or the pinned species record.
+Source profiles stay separate from the character's narrative Gender field.
 `forceImmune` forbids Force Sensitivity and Use the Force, yields no Force Points,
 and retains immunity to Force effects targeting Will as a manual defensive trait. `technophobic` is an attack
 and mechanical-tool check penalty, not a penalty to all checks.

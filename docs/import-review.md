@@ -1558,3 +1558,42 @@ The remaining 20 species pages need explicit creation choices, more complex
 automatic grants, droid physiology or source details that cannot safely be
 inferred. They remain in the embedded reference library while those data
 contracts are developed.
+
+## Species creation choices
+
+The data contract now represents saved, single-selection ability profiles,
+automatic languages and conditional Skill Focus choices. None has an implicit
+default. Selected modifiers are added to fixed species modifiers without
+altering the generated score pool, and only the chosen automatic language is
+added. Choices are preserved independently for each species when switching.
+Conditional Focus requires training in an offered skill and consumes no Heroic
+Feat slot. If another offered skill is trained after an earlier edit, an invalid
+saved selection remains visible and is reported in Unresolved Choices.
+
+Added four pinned official species with their complete articles:
+
+- Arkanian Offshoot: -2 CON and a choice of +2 STR or +2 DEX. Its one Skill Focus
+  choice is limited to trained Endurance, Mechanics, Pilot, Survival or Treat
+  Injury. Determination remains manual.
+- Devaronian: the printed male/female ability profiles are explicit choices,
+  independent of the narrative Gender field. Training, scores and prerequisites
+  replay from the selected profile. Conditional Skill Focus (Deception) uses the
+  existing training-dependent grant. Natural Curiosity remains manual.
+- Nikto: +2 STR, -2 INT, -2 CHA, +2 Fortitude, +2 Natural Armor and the printed
+  Survival reroll. Automatic Nikto is supplemented by Basic or Huttese, chosen
+  explicitly. The selected language appears on the sheet and in the stat block.
+- Vultan: +2 INT, -2 WIS, one additional first-level class-skill training slot,
+  and one Skill Focus choice limited to trained Knowledge fields. Basic and
+  Dromnyr are automatic languages. Untrained/non-class skill selections never
+  qualify for the conditional bonus.
+
+All four retain Partial markers. Species coverage is 116 of 132 pages (87.9%),
+with 128 selectable entries. Existing mechanical records are unchanged. The
+level table now includes secondary choices in automatic Feat labels, such as
+Skill Focus (Mechanics). The new module is included in the offline shell.
+
+Unit and browser checks cover earlier-level edits, prerequisite changes,
+conditional grant timing, training eligibility, per-species persistence, manual
+choice clearing, exclusive languages, stat blocks, mobile themes and offline
+reload. A pre-existing missing ID definition in the published JSON Schema was
+also repaired; the complete compiled pack validates against that schema.

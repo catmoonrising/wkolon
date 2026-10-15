@@ -6,12 +6,13 @@ import {choiceName} from './feature-choices.js';
 import {persistentName} from './recovery.js';
 import {planFullAttack} from './full-attacks.js';
 import {conditionalDefenseLabel} from './defensive-combat.js';
+import {resolveSpecies} from './species-choices.js';
 
 // Formatting reference: Darth Vader, wiki revision 25962. All values come from
 // the saved character and Saga derivation, never from the reference NPC.
 export function renderStatBlock(c,d,pack){
  if(c.attackTarget)d=derive({...c,attackTarget:undefined},pack);
- const ix=indexPack(pack),species=ix.species.get(c.species);
+ const ix=indexPack(pack),species=resolveSpecies(c,pack);
  const line=(label,value)=>value?`<p><b>${label}:</b> ${value}</p>`:'';
  const textLine=(label,value)=>line(label,escape(value));
  const featureName=(type,s)=>{

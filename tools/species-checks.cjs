@@ -10,7 +10,11 @@ module.exports=async function checkSpecies(browser,base,root){
   const names=()=>results.locator('.sp-name-link').allTextContents();
   const species=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))).species,byName=new Map(species.map(r=>[r.name,r]));
   const ordered=async(metric,descending)=>{const rows=(await names()).map(n=>byName.get(n));for(let i=1;i<rows.length;i++){const a=metric(rows[i-1]),b=metric(rows[i]);let cmp=0;for(let j=0;j<a.length&&!cmp;j++)cmp=a[j]-b[j];assert(descending?cmp>=0:cmp<=0,'Numeric order: '+rows[i-1].name+' / '+rows[i].name);if(!cmp)assert(rows[i-1].name.localeCompare(rows[i].name)<=0,'Alphabetical tie-break');}};
-  const speed=r=>[r.speed,r.speed+Object.values(r.speeds||{}).reduce((a,b)=>a+b,0)],abilities=r=>[Object.values(r.abilityAdjustments).reduce((a,b)=>a+b,0)];
+  const speed=r=>[r.speed,r.speed+Object.values(r.speeds||{}).reduce((a,b)=>a+b,0)],abilities=r=>{
+   let totals=[Object.values(r.abilityAdjustments).reduce((a,b)=>a+b,0)];
+   for(const group of r.creationChoices||[])if(group.kind==='ability')totals=totals.flatMap(total=>group.options.map(o=>total+Object.values(o.adjustments).reduce((a,b)=>a+b,0)));
+   return [totals.reduce((a,b)=>a+b,0)/totals.length];
+  };
   const initial=await names(),expected=species.map(r=>r.name).sort((a,b)=>a.localeCompare(b));assert.deepEqual(initial,expected);
   assert.equal(await results.locator('[data-sort="name"]').innerText(),'Species ▼');
   await results.locator('[data-sort="name"]').click();assert.deepEqual(await names(),[...initial].reverse());assert.equal(await results.locator('[data-sort="name"]').innerText(),'Species ▲');

@@ -19,6 +19,7 @@ import {defensiveCombatState,defensiveConditionalTotals,flurryState} from './def
 import {weaponCanOpportunity} from './opportunity.js';
 import {balanceFlatFooted} from './balance.js';
 import {applyAttackTarget,canAimAtTarget} from './attack-targets.js';
+import {resolveSpecies,speciesChoiceDetails,validateSpeciesChoices} from './species-choices.js';
 export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 export const GROUPS = WEAPON_GROUPS;
 export const modifier = score => Math.floor((score - 10) / 2);
@@ -55,6 +56,7 @@ export function validateCharacter(c, pack) {
   for (const key of ['id', 'name', 'player', 'languages', 'notes']) if (typeof c[key] !== 'string' || c[key].length > 100000) bad(key);
   if (!/^[a-f0-9-]{36}$/.test(c.id)) bad('character ID');
   if (!ix.species.has(c.species)) bad('unknown species');
+  validateSpeciesChoices(c,pack,bad);
   if (!['standard', 'point-buy', 'manual', 'rolled'].includes(c.abilityMethod)) bad('ability method');
   if (!obj(c.abilities) || !ABILITIES.every(a => num(c.abilities[a], 3, 30))) bad('ability scores');
   if (c.abilityGeneration !== undefined) {
@@ -204,7 +206,7 @@ export function levelSlots(levelNumber, classLevel, species, cls, pack) {
 
 // Replay choices in order. Invalid or unearned selections never contribute effects.
 export function progression(c, pack, through = c.levels.length) {
-  const ix = indexPack(pack), species = ix.species.get(c.species);
+  const ix = indexPack(pack), species = resolveSpecies(c,pack);
   const background=activeBackground(c,pack);
   const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, c.abilities[a] + (species.abilityAdjustments[a] || 0)])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
   Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,speciesClassSkills:species.bonusClassSkills||[],forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
@@ -306,9 +308,10 @@ export function progression(c, pack, through = c.levels.length) {
 }
 
 export function derive(c, pack) {
-  const ix = indexPack(pack), species = ix.species.get(c.species);
+  const ix = indexPack(pack), species = resolveSpecies(c,pack);
   const {ctx, rows, issues} = progression(c, pack);
   const level = ctx.characterLevel, half = Math.floor(level / 2), background=activeBackground(c,pack);
+  issues.push(...speciesChoiceDetails(c,pack,ctx).map(g=>g.issue).filter(Boolean));
   const story=c.story;
   if(story?.kind==='destiny' && !story.id)issues.push('Choose a Destiny');
   if(story?.kind==='background') {

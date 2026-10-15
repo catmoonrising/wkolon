@@ -12204,6 +12204,46 @@
       "url": "https://swse.miraheze.org/w/index.php?oldid=24741",
       "history": "https://swse.miraheze.org/w/index.php?title=Zeltron&action=history",
       "section": "Web Enhancements"
+    },
+    {
+      "id": "source:wiki-arkanian-offshoot",
+      "title": "Arkanian Offshoot",
+      "revision": 15892,
+      "timestamp": "2024-08-18T00:53:22Z",
+      "sha256": "edd183a2e59df9c388d18fc9403b3548b497f07a36fe93b1ce467d8d3b038f81",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=15892",
+      "history": "https://swse.miraheze.org/w/index.php?title=Arkanian%20Offshoot&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-devaronian",
+      "title": "Devaronian",
+      "revision": 20141,
+      "timestamp": "2024-08-25T23:17:36Z",
+      "sha256": "38ccdc490bf223d9d1600eb7e8e3071e631bb4e4d2291e542708e7f34c185eb9",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=20141",
+      "history": "https://swse.miraheze.org/w/index.php?title=Devaronian&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-nikto",
+      "title": "Nikto",
+      "revision": 21395,
+      "timestamp": "2024-08-26T01:43:24Z",
+      "sha256": "20c7bf6c23ff90a25cab0e35a9bfec153adf2a6196d5f180b7a0e60b280854b6",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=21395",
+      "history": "https://swse.miraheze.org/w/index.php?title=Nikto&action=history",
+      "section": null
+    },
+    {
+      "id": "source:wiki-vultan",
+      "title": "Vultan",
+      "revision": 26019,
+      "timestamp": "2025-01-17T20:34:59Z",
+      "sha256": "cdf31d1840a7ff45dc74266b883f7c3cedae6373fe121c5274432d5a625ad87b",
+      "url": "https://swse.miraheze.org/w/index.php?oldid=26019",
+      "history": "https://swse.miraheze.org/w/index.php?title=Vultan&action=history",
+      "section": null
     }
   ],
   "species": [
@@ -15471,6 +15511,240 @@
       "conditionalFocus": "skill:persuasion",
       "reminders": [],
       "automation": "partial"
+    },
+    {
+      "id": "species:arkanian-offshoot",
+      "name": "Arkanian Offshoot",
+      "sourceId": "source:wiki-arkanian-offshoot",
+      "abilityAdjustments": {
+        "con": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Arkanian"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "creationChoices": [
+        {
+          "id": "ability",
+          "name": "Ability Modifier",
+          "kind": "ability",
+          "options": [
+            {
+              "id": "str",
+              "name": "Strength",
+              "adjustments": {
+                "str": 2
+              }
+            },
+            {
+              "id": "dex",
+              "name": "Dexterity",
+              "adjustments": {
+                "dex": 2
+              }
+            }
+          ]
+        },
+        {
+          "id": "focus",
+          "name": "Skill Focus",
+          "kind": "skillFocus",
+          "options": [
+            {
+              "id": "endurance",
+              "name": "Endurance",
+              "skillId": "skill:endurance"
+            },
+            {
+              "id": "mechanics",
+              "name": "Mechanics",
+              "skillId": "skill:mechanics"
+            },
+            {
+              "id": "pilot",
+              "name": "Pilot",
+              "skillId": "skill:pilot"
+            },
+            {
+              "id": "survival",
+              "name": "Survival",
+              "skillId": "skill:survival"
+            },
+            {
+              "id": "treat-injury",
+              "name": "Treat Injury",
+              "skillId": "skill:treat-injury"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "species:devaronian",
+      "name": "Devaronian",
+      "sourceId": "source:wiki-devaronian",
+      "abilityAdjustments": {},
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Devaronese"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": "skill:deception",
+      "reminders": [],
+      "automation": "partial",
+      "creationChoices": [
+        {
+          "id": "profile",
+          "name": "Sex",
+          "kind": "ability",
+          "options": [
+            {
+              "id": "male",
+              "name": "Male",
+              "adjustments": {
+                "dex": 2,
+                "wis": -2,
+                "cha": -2
+              }
+            },
+            {
+              "id": "female",
+              "name": "Female",
+              "adjustments": {
+                "int": 2,
+                "wis": 2,
+                "dex": -2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "species:nikto",
+      "name": "Nikto",
+      "sourceId": "source:wiki-nikto",
+      "abilityAdjustments": {
+        "str": 2,
+        "int": -2,
+        "cha": -2
+      },
+      "defenses": {
+        "fortitude": 2
+      },
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Nikto"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 0,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "naturalArmor": 2,
+      "skillRerolls": [
+        {
+          "skill": "skill:survival",
+          "keep": "replace"
+        }
+      ],
+      "creationChoices": [
+        {
+          "id": "language",
+          "name": "Language",
+          "kind": "language",
+          "options": [
+            {
+              "id": "basic",
+              "name": "Basic",
+              "language": "Basic"
+            },
+            {
+              "id": "huttese",
+              "name": "Huttese",
+              "language": "Huttese"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "species:vultan",
+      "name": "Vultan",
+      "sourceId": "source:wiki-vultan",
+      "abilityAdjustments": {
+        "int": 2,
+        "wis": -2
+      },
+      "defenses": {},
+      "size": "medium",
+      "speed": 6,
+      "languages": [
+        "Basic",
+        "Dromnyr"
+      ],
+      "bonusFeats": 0,
+      "bonusSkills": 1,
+      "conditionalFocus": null,
+      "reminders": [],
+      "automation": "partial",
+      "creationChoices": [
+        {
+          "id": "focus",
+          "name": "Skill Focus",
+          "kind": "skillFocus",
+          "options": [
+            {
+              "id": "knowledge-bureaucracy",
+              "name": "Knowledge (Bureaucracy)",
+              "skillId": "skill:knowledge-bureaucracy"
+            },
+            {
+              "id": "knowledge-galactic-lore",
+              "name": "Knowledge (Galactic Lore)",
+              "skillId": "skill:knowledge-galactic-lore"
+            },
+            {
+              "id": "knowledge-life-sciences",
+              "name": "Knowledge (Life Sciences)",
+              "skillId": "skill:knowledge-life-sciences"
+            },
+            {
+              "id": "knowledge-physical-sciences",
+              "name": "Knowledge (Physical Sciences)",
+              "skillId": "skill:knowledge-physical-sciences"
+            },
+            {
+              "id": "knowledge-social-sciences",
+              "name": "Knowledge (Social Sciences)",
+              "skillId": "skill:knowledge-social-sciences"
+            },
+            {
+              "id": "knowledge-tactics",
+              "name": "Knowledge (Tactics)",
+              "skillId": "skill:knowledge-tactics"
+            },
+            {
+              "id": "knowledge-technology",
+              "name": "Knowledge (Technology)",
+              "skillId": "skill:knowledge-technology"
+            }
+          ]
+        }
+      ]
     }
   ],
   "classes": [

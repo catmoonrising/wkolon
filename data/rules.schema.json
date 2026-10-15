@@ -2166,6 +2166,10 @@
     }
   },
   "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z]+:[a-z0-9-]+$"
+    },
     "background": {
       "allOf": [
         {
@@ -2805,6 +2809,11 @@
         }
       ],
       "properties": {
+        "creationChoices": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/speciesCreationChoice" }
+        },
         "bookVariant": {
           "type": "string"
         },
@@ -3016,6 +3025,60 @@
           }
         }
       }
+    },
+    "speciesCreationChoice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "kind", "options"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+        "name": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["ability", "language", "skillFocus"]},
+        "options": {
+          "type": "array", "minItems": 2,
+          "items": {
+            "type": "object",
+            "required": ["id", "name"],
+            "properties": {
+              "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
+              "name": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "ability"}}},
+          "then": {"properties": {"options": {"items": {
+            "additionalProperties": false,
+            "required": ["id", "name", "adjustments"],
+            "properties": {
+              "id": {}, "name": {},
+              "adjustments": {
+                "type": "object", "minProperties": 1,
+                "propertyNames": {"enum": ["str", "dex", "con", "int", "wis", "cha"]},
+                "additionalProperties": {"type": "integer", "minimum": -10, "maximum": 10, "not": {"const": 0}}
+              }
+            }
+          }}}}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "language"}}},
+          "then": {"properties": {"options": {"items": {
+            "additionalProperties": false,
+            "required": ["id", "name", "language"],
+            "properties": {"id": {}, "name": {}, "language": {"type": "string", "minLength": 1, "maxLength": 100}}
+          }}}}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "skillFocus"}}},
+          "then": {"properties": {"options": {"items": {
+            "additionalProperties": false,
+            "required": ["id", "name", "skillId"],
+            "properties": {"id": {}, "name": {}, "skillId": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}}
+          }}}}
+        }
+      ]
     },
     "feature": {
       "allOf": [

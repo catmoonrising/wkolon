@@ -71,6 +71,21 @@ export function validatePack(p) {
       }
     }
     if (key === 'species') {
+      if(r.creationChoices!==undefined){
+        assert(Array.isArray(r.creationChoices)&&r.creationChoices.length>0,'Invalid species choice groups');
+        const groupIds=new Set();
+        for(const g of r.creationChoices){
+          assert(g&&Object.keys(g).every(k=>['id','name','kind','options'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
+          assert(Array.isArray(g.options)&&g.options.length>=2,'Invalid species options');const optionIds=new Set();
+          for(const o of g.options){
+            const field={ability:'adjustments',language:'language',skillFocus:'skillId'}[g.kind];
+            assert(o&&Object.keys(o).every(k=>['id','name',field].includes(k))&&typeof o.id==='string'&&/^[a-z][a-z0-9-]*$/.test(o.id)&&!optionIds.has(o.id)&&typeof o.name==='string'&&o.name.trim(),'Invalid species option');optionIds.add(o.id);
+            if(g.kind==='ability')assert(o.adjustments&&typeof o.adjustments==='object'&&!Array.isArray(o.adjustments)&&Object.keys(o.adjustments).length>0&&Object.entries(o.adjustments).every(([a,n])=>ABILITIES.includes(a)&&Number.isInteger(n)&&n!==0&&n>=-10&&n<=10),'Invalid species ability option');
+            if(g.kind==='language')assert(typeof o.language==='string'&&o.language.trim()&&o.language.length<=100,'Invalid species language option');
+            if(g.kind==='skillFocus')requireRef('skills',o.skillId);
+          }
+        }
+      }
       if(r.limbRegeneration){assert.deepEqual(Object.keys(r.limbRegeneration).sort(),['die','sourceId']);assert.equal(r.limbRegeneration.die,10);assert(sources.has(r.limbRegeneration.sourceId),'Missing limb regeneration source');}
       if(r.bellow)assert.deepEqual(r.bellow,{damageDice:3,die:6,coneSquares:6,conditionCost:1,extraDieCost:1,defense:'fortitude'});
       if(r.rage){assert.deepEqual(Object.keys(r.rage).sort(),['blockedSkills','bonus','dailyUses','durationBase','restMinutes']);assert(r.rage.dailyUses===1&&r.rage.bonus===2&&r.rage.durationBase===5&&r.rage.restMinutes===10);assert.deepEqual(r.rage.blockedSkills,['skill:mechanics','skill:stealth','skill:use-the-force']);r.rage.blockedSkills.forEach(id=>requireRef('skills',id));}
