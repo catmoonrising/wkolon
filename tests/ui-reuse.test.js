@@ -26,7 +26,7 @@ test('math fields adjust relative to the last value, clamp bounds and reject cod
   assert.equal(evalArith('globalThis'),null);
 });
 test('roster accepts older characters, validates log content and limits per-character history',()=>{
-  const c=newCharacter(pack),roster={schemaVersion:1,activeId:c.id,characters:[c]};
+  const c=newCharacter(pack,{classId:'class:scoundrel'}),roster={schemaVersion:1,activeId:c.id,characters:[c]};
   assert.equal(validateRoster(roster,pack),roster);
   roster.logs={[c.id]:[{kind:'roll',text:'Pilot: 10 +7 = 17'}]};
   validateRoster(roster,pack);

@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
  const {newCharacter,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Bracing';c.abilityMethod='manual';c.abilities={str:12,dex:13,con:10,int:10,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Bracing';c.abilityMethod='manual';c.abilities={str:12,dex:13,con:10,int:10,wis:10,cha:10};
  c.levels[0].classId='class:soldier';c.levels[0].feats=[{id:'feat:weapon-proficiency-heavy-weapons'},{id:'feat:burst-fire'}];
  const item=id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,shotsRemaining:20});
  c.inventory=[item('heavy-repeating-blaster'),item('light-repeating-blaster'),item('blaster-rifle')];

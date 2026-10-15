@@ -18,7 +18,8 @@ module.exports=async function checkGeneration(browser,base,root){
   assert.equal(await body.locator('.cr-assign').count(),6);
   await page.locator('#cr-blocker summary').click();
   assert((await page.locator('#cr-blocker ul').innerText()).includes('Assign all six ability scores'));
-  assert((await page.locator('#cr-blocker ul').innerText()).includes('trained skills'));
+  assert((await page.locator('#cr-blocker ul').innerText()).includes('choose a class'));
+  assert(!(await page.locator('#cr-blocker ul').innerText()).includes('trained skills'));
 
   await creationUI.tab(page,'species');await body.locator('[data-select-species="species:duros"]').click();
   await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:soldier');

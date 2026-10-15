@@ -2,7 +2,7 @@ const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url');
 module.exports=async function(browser,base,root){
  const {newCharacter,validateCharacter}=await import(pathToFileURL(path.join(root,'src/rules.js')).href),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const hero=(name,cls,t)=>{const c=newCharacter(pack);Object.assign(c,{name,abilityMethod:'manual',credits:10000,abilities:{str:10,dex:8,con:10,int:10,wis:10,cha:20}});c.levels[0].classId='class:'+cls;c.levels[0].talent={id:'talent:'+t};return c;};
+ const hero=(name,cls,t)=>{const c=newCharacter(pack,{classId:'class:scoundrel'});Object.assign(c,{name,abilityMethod:'manual',credits:10000,abilities:{str:10,dex:8,con:10,int:10,wis:10,cha:20}});c.levels[0].classId='class:'+cls;c.levels[0].talent={id:'talent:'+t};return c;};
  const jedi=hero('Jedi','jedi','force-intuition');jedi.trainedSkills=['skill:use-the-force','skill:acrobatics','skill:perception'];jedi.levels[0].feats=[{id:'feat:skill-focus',choice:'skill:use-the-force'},{id:'feat:weapon-focus',choice:'lightsabers'}];
  jedi.levels.push({classId:'class:jedi',hpRoll:4,feats:[{id:'feat:skill-focus',choice:'skill:initiative'}],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]},{classId:'class:jedi',hpRoll:4,feats:[{id:'feat:toughness'}],talent:{id:'talent:weapon-specialization-lightsabers'},startingFeat:null,abilityIncreases:[],trainedSkills:[]});
  const noble=hero('Noble','noble','connections');noble.levels[0].feats=[{id:'feat:toughness'},{id:'feat:improved-defenses'}];

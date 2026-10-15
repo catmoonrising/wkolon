@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
  const {newCharacter,derive,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Defensive options';c.abilityMethod='manual';c.abilities={str:12,dex:18,con:12,int:14,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Defensive options';c.abilityMethod='manual';c.abilities={str:12,dex:18,con:12,int:14,wis:10,cha:10};
  c.levels=Array.from({length:6},(_,i)=>({classId:i===1?'class:scoundrel':'class:soldier',hpRoll:i?5:null,feats:i===0?[{id:'feat:melee-defense'},{id:'feat:dodge'}]:i===2?[{id:'feat:mobility'},{id:'feat:skill-training',choice:'skill:acrobatics'}]:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  c.inventory=[{id:'equipment:blaster-pistol',uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,shotsRemaining:10}];
  c.routines=[{id:crypto.randomUUID(),name:'Two shots',steps:[{id:crypto.randomUUID(),attackId:c.inventory[0].uid,count:2,attackMod:0,damageMod:0}]}];validateCharacter(c,pack);

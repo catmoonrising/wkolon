@@ -11,7 +11,7 @@ import {articleText} from '../src/wiki-content.js';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),ambiguity='ambiguity:prone-helpless';
 function hero(){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:soldier';
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:soldier';
  c.inventory=['knife','blaster-pistol'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...(id==='blaster-pistol'?{shotsRemaining:20}:{})}));return c;
 }
 const routine=(c,indices=[0])=>({name:'Test',steps:indices.map(i=>({attackId:c.inventory[i].uid,count:1,attackMod:0,damageMod:0}))});

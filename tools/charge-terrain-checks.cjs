@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
  const {newCharacter,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Charge terrain';c.species='species:gungan';c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:scoundrel';c.trainedSkills=['skill:acrobatics'];
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Charge terrain';c.species='species:gungan';c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:scoundrel';c.trainedSkills=['skill:acrobatics'];
  c.inventory=['knife','blaster-pistol'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...(id==='blaster-pistol'?{shotsRemaining:20,aimed:true}:{})}));
  c.chargePath={squares:3,difficultSquares:1,lowObjects:true};validateCharacter(c,pack);
  const context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);

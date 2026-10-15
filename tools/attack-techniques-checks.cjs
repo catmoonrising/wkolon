@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
  const {newCharacter,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Attack techniques';c.abilityMethod='manual';c.abilities={str:13,dex:12,con:10,int:10,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Attack techniques';c.abilityMethod='manual';c.abilities={str:13,dex:12,con:10,int:10,wis:10,cha:10};
  const feats={0:['weapon-proficiency-heavy-weapons','burst-fire'],1:['rapid-shot'],2:['rapid-strike'],3:['mighty-swing'],5:['point-blank-shot','precise-shot'],7:['careful-shot'],8:['deadeye']};
  c.levels=Array.from({length:9},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:(feats[i]||[]).map(id=>({id:'feat:'+id})),talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  const item=(id,more={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...more});

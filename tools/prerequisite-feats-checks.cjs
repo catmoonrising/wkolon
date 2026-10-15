@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),choose=require('./choice-actions.cjs');
 module.exports=async(browser,base,root,transport)=>{
  const pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))),{newCharacter,derive,validateCharacter}=await import('../src/rules.js');
- const f=n=>({id:'feat:'+n}),c=newCharacter(pack);c.name='Flurry tester';c.abilityMethod='manual';c.abilities={str:13,dex:16,con:14,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';c.trainedSkills=['skill:initiative','skill:perception','skill:endurance','skill:pilot'];c.levels[0].feats=[f('martial-arts-i'),f('dodge')];c.levels[0].talent={id:'talent:armored-defense'};
+ const f=n=>({id:'feat:'+n}),c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Flurry tester';c.abilityMethod='manual';c.abilities={str:13,dex:16,con:14,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';c.trainedSkills=['skill:initiative','skill:perception','skill:endurance','skill:pilot'];c.levels[0].feats=[f('martial-arts-i'),f('dodge')];c.levels[0].talent={id:'talent:armored-defense'};
  for(let n=2;n<=7;n++)c.levels.push({classId:'class:soldier',hpRoll:6,feats:n===2?[f('flurry')]:n===3?[f('tae-jitsu-training')]:[],talent:null,startingFeat:null,abilityIncreases:n===4?['str','con']:[],trainedSkills:[]});
  c.inventory=['blaster-pistol','blaster-rifle'].map((id,i)=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:i===0,twoHanded:false,attackMod:0,damageMod:0,distance:1}));validateCharacter(c,pack);
  const original=derive(c,pack),context=await browser.newContext({viewport:{width:1280,height:1000}});

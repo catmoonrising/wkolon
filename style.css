@@ -209,6 +209,8 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .feature-tree-stage { position: relative; overflow: hidden; }
 .feature-tree-canvas { position: absolute; left: 0; top: 0; transform-origin: 0 0; }
 .feature-tree-node { position: absolute; width: max-content; max-width: 25rem; box-sizing: border-box; border: 1px solid var(--border); background: var(--panel-bg); padding: .4rem; z-index: 1; }
+.base-class-options { display: flex; flex-wrap: wrap; gap: .6rem; margin: .2rem 0 .8rem; }
+.feature-tree-node.base-class-node { position: static; }
 .feature-tree-node.prerequisite-node { font-size: .8rem; padding: .2rem .3rem; max-width: 20rem; }
 .feature-tree-node-head { display: flex; gap: .35rem; align-items: baseline; }
 .feature-pick { background: transparent; border: 0; font: inherit; color: inherit; padding: 0; text-align: left; flex: 1; }

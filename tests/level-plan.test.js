@@ -6,7 +6,7 @@ import {resizeLevelPlan,choosePlannedClass} from '../src/level-plan.js';
 import {featureGraph} from '../src/feature-trees.js';
 import {levelPlanTable} from '../src/level-plan-ui.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),ix=indexPack(pack);
-function hero(){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:14,wis:14,cha:14};c.levels[0].classId='class:soldier';return c;}
+function hero(){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:14,wis:14,cha:14};c.levels[0].classId='class:soldier';return c;}
 test('higher-level creation saves pending rows without granting phantom class levels, BAB, HP or increases',()=>{
  const c=hero(),before=derive(c,pack);resizeLevelPlan(c,pack,10);c.levels[3].abilityIncreases=['str','dex'];const d=derive(c,pack);assert.equal(c.levels.length,10);assert.equal(d.level,1);assert.equal(d.bab,before.bab);assert.equal(d.hp,before.hp);assert.equal(d.recovery.naturalHealing.amount,before.recovery.naturalHealing.amount);assert.deepEqual(d.scores,before.scores);assert(d.issues.includes('Level 2: choose a class'));validateCharacter(JSON.parse(JSON.stringify(c)),pack);assert(c.levels.slice(1).every(l=>l.pendingClass));c.levels[1].pendingClass='yes';assert.throws(()=>validateCharacter(c,pack),/pending class/);
 });

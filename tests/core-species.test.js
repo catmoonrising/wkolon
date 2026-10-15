@@ -9,7 +9,7 @@ import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const skill=(d,id)=>d.skills.find(s=>s.id==='skill:'+id);
 function hero(species,cls='soldier'){
- const c=newCharacter(pack);c.species='species:'+species;c.abilityMethod='manual';
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.species='species:'+species;c.abilityMethod='manual';
  c.abilities=Object.fromEntries(ABILITIES.map(a=>[a,10]));c.levels[0].classId='class:'+cls;
  return c;
 }

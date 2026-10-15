@@ -5,7 +5,7 @@ import {newCharacter,derive,validateCharacter} from '../src/rules.js';
 import {recoveryState,newDay,setPersistent,setDead,receiveHealing,restEightHours,checkConsciousness,loseLimb,removeLimb,startRage,setLimbPersistent} from '../src/recovery.js';
 import {renderStatBlock} from '../src/stat-block.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-const hero=(species='human')=>{const c=newCharacter(pack);c.species='species:'+species;c.abilityMethod='manual';c.abilities={str:10,dex:10,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';return c;};
+const hero=(species='human')=>{const c=newCharacter(pack,{classId:'class:scoundrel'});c.species='species:'+species;c.abilityMethod='manual';c.abilities={str:10,dex:10,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';return c;};
 const roller=(natural,value)=>expr=>({value,d20:[natural],display:expr,rollId:1});
 
 test('legacy recovery objects remain valid; new fields default without mutation and validate strictly',()=>{

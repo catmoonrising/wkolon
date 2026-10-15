@@ -6,7 +6,7 @@ import {startingEquipmentGrants,claimStartingEquipment,canRollStartingCredits,re
 import {validatePack} from '../tools/validate-rules.js';
 import {articleText} from '../src/wiki-content.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-const hero=()=>Object.assign(newCharacter(pack),{species:'species:kel-dor'});
+const hero=()=>Object.assign(newCharacter(pack,{classId:'class:scoundrel'}),{species:'species:kel-dor'});
 
 test('reviewed grants preserve Kel Dor equipment text, replacement prices and unspecified weights',()=>{
  validatePack(pack);
@@ -38,7 +38,7 @@ test('Jedi and species grants coexist without replacing owned or equipped equipm
 });
 
 test('multiclass advancement grants no creation equipment and cannot roll starting credits',()=>{
- const c=newCharacter(pack);c.levels.push({...structuredClone(c.levels[0]),classId:'class:jedi',hpRoll:5});
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.levels.push({...structuredClone(c.levels[0]),classId:'class:jedi',hpRoll:5});
  assert.deepEqual(startingEquipmentGrants(c,pack),[]);assert.throws(()=>claimStartingEquipment(c,pack,'class:jedi'),/unavailable/);assert(!canRollStartingCredits(c));
 });
 
@@ -55,7 +55,7 @@ test('unknown gear weight stays unknown until entered and can be restored to uns
 });
 
 test('legacy saves still validate; forged claims, origins, quantities and rule references fail',()=>{
- validateCharacter(newCharacter(pack),pack);
+ validateCharacter(newCharacter(pack,{classId:'class:scoundrel'}),pack);
  const c=hero();claimStartingEquipment(c,pack,c.species);
  for(const mutate of [c=>c.startingEquipmentClaims=null,c=>c.startingEquipmentClaims.push(c.species),c=>c.startingEquipmentClaims=['species:human'],c=>c.inventory[0].startingGrant='class:jedi',c=>c.inventory[0].quantity=2,c=>c.startingCreditsRolled=1]){
   const bad=structuredClone(c);mutate(bad);assert.throws(()=>validateCharacter(bad,pack),/starting equipment|starting credits/);

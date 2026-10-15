@@ -8,7 +8,7 @@ import {validatePack} from '../tools/validate-rules.js';
 import {createStore,STORAGE_KEY} from '../src/persistence.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const item=(id,extra={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...extra});
-const hero=()=>{const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:10,dex:10,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';return c;};
+const hero=()=>{const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:10,dex:10,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';return c;};
 const routine=(...steps)=>({name:'Volley',steps:steps.map(([attackId,count=1])=>({attackId,count,attackMod:0,damageMod:0}))});
 const roller=expr=>({value:expr.startsWith('1d20')?1:10,d20:expr.startsWith('1d20')?[1]:[],display:expr,coeffs:[1]});
 

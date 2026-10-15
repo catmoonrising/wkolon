@@ -11,7 +11,7 @@ export function routineStepPlan(c,d,pack,id){
  if(!step)throw new Error('Routine complete');
  routinePlan({steps:steps.slice(index)},plan.attacks);
  if(d.incapacitated||d.helpless)throw new Error('Attack unavailable');
- return {...plan,routine:{name:(r.name||'Routine')+` · ${index+1}/${steps.length}`,steps:[step]},progress:index+1<steps.length?{id,index:index+1,signature}:null};
+ return {...plan,routine:{name:(r.name||'Routine')+`, ${index+1}/${steps.length}`,steps:[step]},progress:index+1<steps.length?{id,index:index+1,signature}:null};
 }
 export function rollRoutineStep(c,d,pack,id,roller){
  const p=routineStepPlan(c,d,pack,id),result=rollRoutine(p.routine,p.attacks,pack.rules.combat,roller);

@@ -16,7 +16,7 @@ import {createStore,STORAGE_KEY,validateRoster} from '../src/persistence.js';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 function hero({great=false,follow=false}={}){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:16,dex:14,con:10,int:14,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:16,dex:14,con:10,int:14,wis:10,cha:10};
  c.levels=Array.from({length:4},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  c.levels[0].feats=[{id:'feat:power-attack'},{id:'feat:cleave'}];
  if(great)c.levels[3].feats=[{id:'feat:great-cleave'}];if(follow)c.levels[2].feats=[{id:'feat:follow-through'}];

@@ -10,7 +10,7 @@ import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const item=(id,more={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...more});
 export function hero(abilities={}){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:13,dex:13,con:10,int:10,wis:10,cha:10,...abilities};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:13,dex:13,con:10,int:10,wis:10,cha:10,...abilities};
  const feats={0:['weapon-proficiency-heavy-weapons','burst-fire'],1:['rapid-shot'],2:['rapid-strike'],3:['mighty-swing'],5:['point-blank-shot','precise-shot'],7:['careful-shot'],8:['deadeye']};
  c.levels=Array.from({length:9},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:(feats[i]||[]).map(id=>({id:'feat:'+id})),talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));return c;
 }

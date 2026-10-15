@@ -95,7 +95,7 @@ export function validateAttachments(c,pack,bad){
 // species/class creation. Inventory edits never replenish a claimed grant.
 export function startingEquipmentGrants(c,pack){
  if(c.levels.length!==1)return [];
- return [pack.species.find(r=>r.id===c.species),pack.classes.find(r=>r.id===c.levels[0].classId)]
+ return [pack.species.find(r=>r.id===c.species),!c.levels[0].pendingClass&&pack.classes.find(r=>r.id===c.levels[0].classId)]
   .filter(r=>r?.startingEquipment)
   .map(r=>({...r.startingEquipment,id:r.id,claimed:(c.startingEquipmentClaims||[]).includes(r.id)}));
 }
@@ -112,7 +112,7 @@ export function claimStartingEquipment(c,pack,id){
  return additions;
 }
 export function canRollStartingCredits(c){
- return c.levels.length===1&&!c.startingCreditsRolled&&!c.credits&&!c.inventory.some(e=>!e.startingGrant);
+ return c.levels.length===1&&!c.levels[0].pendingClass&&!c.startingCreditsRolled&&!c.credits&&!c.inventory.some(e=>!e.startingGrant);
 }
 export function validateStartingEquipment(c,pack,bad){
  const grants=new Map([...pack.species,...pack.classes].filter(r=>r.startingEquipment).map(r=>[r.id,r.startingEquipment]));

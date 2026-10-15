@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
  const {newCharacter,derive,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Charge';c.abilityMethod='manual';c.abilities={str:14,dex:18,con:10,int:14,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Charge';c.abilityMethod='manual';c.abilities={str:14,dex:18,con:10,int:14,wis:10,cha:10};
  c.levels=Array.from({length:6},(_,i)=>({classId:i===1?'class:scoundrel':'class:soldier',hpRoll:i?5:null,feats:i===0?[{id:'feat:powerful-charge'},{id:'feat:dodge'}]:i===2?[{id:'feat:mobility'},{id:'feat:skill-training',choice:'skill:acrobatics'}]:i===4?[{id:'feat:improved-charge'}]:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  c.inventory=['knife','blaster-pistol'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...(id==='blaster-pistol'?{shotsRemaining:10}:{})}));validateCharacter(c,pack);
  const before=derive(c,pack),context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);

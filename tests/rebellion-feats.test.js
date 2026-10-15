@@ -9,7 +9,7 @@ import {renderStatBlock} from '../src/stat-block.js';
 import {articleText} from '../src/wiki-content.js';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),ix=indexPack(pack),f=id=>({id:'feat:'+id});
-function hero(species='human',count=1){const c=newCharacter(pack);c.species='species:'+species;c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:14,wis:14,cha:14};c.trainedSkills=['skill:endurance','skill:pilot','skill:stealth','skill:perception'];c.levels=Array.from({length:count},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:[],talent:null,startingFeat:null,abilityIncreases:[3,7,11,15,19].includes(i)?['str','dex']:[],trainedSkills:[]}));return c;}
+function hero(species='human',count=1){const c=newCharacter(pack,{classId:'class:scoundrel'});c.species='species:'+species;c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:14,wis:14,cha:14};c.trainedSkills=['skill:endurance','skill:pilot','skill:stealth','skill:perception'];c.levels=Array.from({length:count},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:[],talent:null,startingFeat:null,abilityIncreases:[3,7,11,15,19].includes(i)?['str','dex']:[],trainedSkills:[]}));return c;}
 function windHero(){const c=hero('wookiee',9);c.currentHP=1;c.condition=3;for(const [i,id]of [[0,'extra-second-wind'],[1,'fast-surge'],[2,'unstoppable-combatant'],[3,'recovering-surge'],[5,'vitality-surge'],[8,'resurgent-vitality']])c.levels[i].feats=[f(id)];return c;}
 const roll=expr=>({value:expr.startsWith('1d20')?20:12,d20:expr.startsWith('1d20')?[10]:[],display:expr});
 test('all 60 Rebellion Era feat pages have selectable exact articles and printed class bonus access',()=>{

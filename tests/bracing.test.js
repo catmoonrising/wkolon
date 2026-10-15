@@ -13,7 +13,7 @@ import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const item=(id,more={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...more});
 function hero(str=13){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str,dex:13,con:10,int:10,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str,dex:13,con:10,int:10,wis:10,cha:10};
  c.levels[0].classId='class:soldier';c.levels[0].feats=[{id:'feat:weapon-proficiency-heavy-weapons'},{id:'feat:burst-fire'}];
  c.inventory=[item('heavy-repeating-blaster',{shotsRemaining:20}),item('light-repeating-blaster',{shotsRemaining:20}),item('blaster-rifle',{shotsRemaining:20})];return c;
 }

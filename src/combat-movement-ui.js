@@ -15,7 +15,7 @@ function terrain(key,segments,headers,id){
 }
 export function runningCostLabel(c,d,pack){
  const p=runningPath(c),cost=movementCost(p.before,pack.rules.combatMovement)+movementCost(p.after,pack.rules.combatMovement);
- let speed;try{speed=movementSpeed(d,p.mode);}catch{speed='—';}
+ let speed;try{speed=movementSpeed(d,p.mode);}catch{speed='-';}
  return `${cost}/${speed} squares`;
 }
 export function runningAttackControls(c,d,pack,a,scope='',view){
@@ -25,7 +25,7 @@ export function runningAttackControls(c,d,pack,a,scope='',view){
 }
 export function withdrawIssue(c,d,pack){try{planWithdraw(c,d,pack);return '';}catch(e){return e.message;}}
 export function withdrawCostLabel(c,d,pack){
- const p=withdrawPath(c),cost=movementCost(p.path,pack.rules.combatMovement);let speed;try{speed=Math.floor(movementSpeed(d,p.mode)*pack.rules.combatMovement.withdraw.speedMultiplier);}catch{speed='—';}
+ const p=withdrawPath(c),cost=movementCost(p.path,pack.rules.combatMovement);let speed;try{speed=Math.floor(movementSpeed(d,p.mode)*pack.rules.combatMovement.withdraw.speedMultiplier);}catch{speed='-';}
  return `${cost}/${speed} squares`;
 }
 export function withdrawControls(c,d,pack,scope=''){

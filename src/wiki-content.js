@@ -1,6 +1,7 @@
 // The importer emits a closed document tree. No source HTML or event attributes reach the DOM.
 export const WIKI_TAGS = new Set('p b i strong em ul ol li dl dt dd table thead tbody tr th td caption h2 h3 h4 h5 br sub sup blockquote hr a'.split(' '));
 export const escapeHTML = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export const displayText = value => String(value ?? '').replace(/\s*\u2014\s*/g, ' - ').replace(/\s*\u00b7\s*/g, ', ');
 export function wikiURL(value) {
   try { const u=new URL(value);return u.protocol==='https:' && u.hostname==='swse.miraheze.org' && u.pathname.startsWith('/wiki/') && !u.username && !u.password ? u.href : null; } catch { return null; }
 }
@@ -10,7 +11,7 @@ export function articleText(article) {
 }
 export function renderArticle(article) {
   function render(node) {
-    if(typeof node==='string')return escapeHTML(node);
+    if(typeof node==='string')return escapeHTML(displayText(node));
     if(!node || !WIKI_TAGS.has(node.tag) || !Array.isArray(node.children))return '';
     const body=node.children.map(render).join('');
     let attrs='';

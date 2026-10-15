@@ -12,7 +12,7 @@ import {validatePack} from '../tools/validate-rules.js';
 import {articleText} from '../src/wiki-content.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),ambiguity='ambiguity:opportunity-limit';
 function hero(reflexes=true){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:16,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:soldier';c.levels[0].feats=reflexes?[{id:'feat:combat-reflexes'}]:[];
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:16,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:soldier';c.levels[0].feats=reflexes?[{id:'feat:combat-reflexes'}]:[];
  c.inventory=['knife','blaster-pistol','blaster-rifle'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...(id==='knife'?{}:{shotsRemaining:20})}));c.opportunity={...opportunityContext(c),opponent:'Guard A',action:'Guard A, move 1',provoked:true};return c;
 }
 const roller=(natural=12,calls=[])=>expr=>{calls.push(expr);const m=/^1d20([+-]\d+)$/.exec(expr);return {value:m?natural+Number(m[1]):9,d20:m?[natural]:[],display:expr,coeffs:[1]};};

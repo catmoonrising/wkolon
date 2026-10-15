@@ -17,7 +17,7 @@ const step=(source,attackId,extra={})=>({id:crypto.randomUUID(),source,attackId,
 const routine=(...steps)=>({id:crypto.randomUUID(),kind:'fullAttack',name:'Full Attack',steps});
 const roller=(calls=[],natural=12)=>expr=>{calls.push(expr);return {value:expr.startsWith('1d20')?natural:10,d20:expr.startsWith('1d20')?[natural]:[],display:expr,coeffs:[1]};};
 function hero(){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:18,con:10,int:10,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:18,con:10,int:10,wis:10,cha:10};
  const feats={0:[['dual-weapon-mastery-i'],['power-attack']],1:[['rapid-shot']],2:[['weapon-proficiency-lightsabers']],3:[['mighty-swing']],5:[['double-attack','rifles'],['dual-weapon-mastery-ii']],7:[['double-attack','lightsabers']],8:[['double-attack','simple-weapons']],9:[['weapon-proficiency-advanced-melee-weapons']],11:[['triple-attack','rifles'],['dual-weapon-mastery-iii']]};
  c.levels=Array.from({length:12},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:(feats[i]||[]).map(([id,choice])=>({id:'feat:'+id,...(choice?{choice}:{})})),talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  c.inventory=[item('blaster-pistol',{shotsRemaining:10}),item('blaster-pistol',{shotsRemaining:10}),item('blaster-rifle',{shotsRemaining:10}),item('double-bladed-lightsaber')];return c;

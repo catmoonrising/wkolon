@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
  const {newCharacter,derive,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Targets';c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:soldier';
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Targets';c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:soldier';
  c.inventory=['knife','blaster-pistol','targeting-scope-low-light'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:!id.startsWith('targeting-scope'),twoHanded:false,attackMod:0,damageMod:0,...(id==='blaster-pistol'?{shotsRemaining:20}:{})}));c.inventory[1].scopeUid=c.inventory[2].uid;
  c.routines=[{id:crypto.randomUUID(),name:'Two shots',steps:[{id:crypto.randomUUID(),attackId:c.inventory[1].uid,count:2,attackMod:0,damageMod:0}]}];validateCharacter(c,pack);
  const before=derive(c,pack),context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);

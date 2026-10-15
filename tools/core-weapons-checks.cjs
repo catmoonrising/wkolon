@@ -3,8 +3,8 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 module.exports=async function(browser,base,root){
  const {newCharacter,validateCharacter}=await import(pathToFileURL(path.join(root,'src/rules.js')).href),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
  const item=(id,extra={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...extra});
- const c=newCharacter(pack);Object.assign(c,{name:'Weapon Hero',abilityMethod:'manual',abilities:{str:14,dex:18,con:10,int:13,wis:12,cha:10}});c.levels[0].classId='class:soldier';c.levels[0].feats=[{id:'feat:point-blank-shot'},{id:'feat:far-shot'}];c.inventory=[item('blaster-pistol'),item('grenade-launcher'),item('net'),item('amphistaff'),item('energy-ball')];validateCharacter(c,pack);
- const f=newCharacter(pack);f.name='Force Boon Hero';f.levels[0].classId='class:jedi';f.levels[0].feats=[null,{id:'feat:strong-in-the-force'}];
+ const c=newCharacter(pack,{classId:'class:scoundrel'});Object.assign(c,{name:'Weapon Hero',abilityMethod:'manual',abilities:{str:14,dex:18,con:10,int:13,wis:12,cha:10}});c.levels[0].classId='class:soldier';c.levels[0].feats=[{id:'feat:point-blank-shot'},{id:'feat:far-shot'}];c.inventory=[item('blaster-pistol'),item('grenade-launcher'),item('net'),item('amphistaff'),item('energy-ball')];validateCharacter(c,pack);
+ const f=newCharacter(pack,{classId:'class:scoundrel'});f.name='Force Boon Hero';f.levels[0].classId='class:jedi';f.levels[0].feats=[null,{id:'feat:strong-in-the-force'}];
  const context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];page.setDefaultTimeout(15000);page.on('pageerror',e=>errors.push(e.message));
  await context.addInitScript(roster=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster));},{schemaVersion:1,activeId:c.id,characters:[c,f]});
  await page.goto(base);await page.locator('#module-attacks').waitFor();

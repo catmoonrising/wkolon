@@ -10,7 +10,7 @@ import {renderStatBlock} from '../src/stat-block.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const feat=id=>({id:'feat:'+id}),talent=id=>({id:'talent:'+id});
 const copy=(name,spent=false)=>({id:crypto.randomUUID(),powerId:'power:'+name,spent});
-function hero(cls='jedi'){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:10,dex:8,con:10,int:10,wis:12,cha:18};c.levels[0].classId='class:'+cls;c.trainedSkills=['skill:use-the-force'];c.levels[0].feats=[feat('force-training'),feat('toughness')];c.levels[0].talent=talent('force-perception');c.levels[0].forcePowers=[copy('farseeing'),copy('battle-strike')];return c;}
+function hero(cls='jedi'){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:10,dex:8,con:10,int:10,wis:12,cha:18};c.levels[0].classId='class:'+cls;c.trainedSkills=['skill:use-the-force'];c.levels[0].feats=[feat('force-training'),feat('toughness')];c.levels[0].talent=talent('force-perception');c.levels[0].forcePowers=[copy('farseeing'),copy('battle-strike')];return c;}
 function add(c,{feats=[],t=null,increases=[],powers=[]}={}){c.levels.push({classId:c.levels[0].classId,hpRoll:4,feats,talent:t,startingFeat:null,abilityIncreases:increases,trainedSkills:[],forcePowers:powers});}
 
 test('all four Core Force trees and sixteen powers have reviewed articles, with Corruption kept separate',()=>{

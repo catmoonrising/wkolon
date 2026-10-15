@@ -11,7 +11,7 @@ const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.ur
 const references=JSON.parse(fs.readFileSync(new URL('../data/reference-index.json',import.meta.url))).records;
 const f=(name,more={})=>({id:'feat:'+name,...more});
 const feat=id=>ix.feats.get('feat:'+id);
-function hero(){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:18,wis:14,cha:14};c.trainedSkills=['skill:mechanics','skill:use-computer'];return c;}
+function hero(){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:18,wis:14,cha:14};c.trainedSkills=['skill:mechanics','skill:use-computer'];return c;}
 const can=(id,ctx,more={},opts)=>eligible(feat(id),f(id,more),ctx,ix,'feats',opts);
 test('every inventoried official feat page has a selectable, pinned source mapping',()=>{
  const sourceTitles=new Set(pack.feats.map(r=>pack.sources.find(s=>s.id===r.sourceId).title)),pages=references.filter(r=>r.kind==='feat');assert.equal(pages.length,351);assert.equal(pack.feats.length,358);

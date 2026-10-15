@@ -90,7 +90,7 @@
   - [ ] Remaining conditional feat actions and damage interpretation alternatives awaiting rulings.
   - [ ] Other weapon/armor upgrades, upgrade slots and aftermarket stocks.
 
-- [x] **Revamp character creation** — species, class, skill, feat and talent browsers implemented.
+- [x] **Revamp character creation** - species, class, skill, feat and talent browsers implemented.
   - [x] Species: searchable and sortable table, expandable wiki articles, complete species feat dialogs.
   - [x] Separate feat and talent screens with shared prerequisite trees from left to right.
   - [x] Possessed/selectable/unavailable states, prerequisite arrows, search, eligibility filter and scrolling.

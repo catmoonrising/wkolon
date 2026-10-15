@@ -12,7 +12,7 @@ import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const item=(id,extra={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...extra});
 function hero(){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:10,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:10,wis:10,cha:10};
  c.levels=Array.from({length:5},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:i?[]:[{id:'feat:power-attack'},{id:'feat:weapon-proficiency-advanced-melee-weapons'}],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  c.inventory=[item('mace'),item('knife',{twoHanded:true}),item('vibro-axe'),item('blaster-rifle',{shotsRemaining:10})];return c;
 }

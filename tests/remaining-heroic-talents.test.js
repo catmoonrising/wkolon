@@ -9,7 +9,7 @@ import {purchaseQuote} from '../src/equipment.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const talent=id=>({id:'talent:'+id});
 const item=id=>({id:'equipment:'+id,quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0});
-function hero(cls,t){const c=newCharacter(pack);c.abilityMethod='manual';c.levels[0].classId='class:'+cls;c.levels[0].feats=[];c.levels[0].talent=talent(t);return c;}
+function hero(cls,t){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.levels[0].classId='class:'+cls;c.levels[0].feats=[];c.levels[0].talent=talent(t);return c;}
 function add(c,t,cls=c.levels[0].classId){c.levels.push({classId:cls,hpRoll:4,feats:[],talent:t?talent(t):null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});}
 const get=(d,id)=>d.skills.find(s=>s.id==='skill:'+id);
 

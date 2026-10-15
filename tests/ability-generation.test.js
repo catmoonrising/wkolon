@@ -5,7 +5,7 @@ import {newCharacter, validateCharacter, derive} from '../src/rules.js';
 import {generationState, setGenerationMethod, assignScore, setPoolScore, setRolledPool} from '../src/ability-generation.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 test('existing standard characters retain assignments; method changes reset scores',()=>{
- const c=newCharacter(pack);
+ const c=newCharacter(pack,{classId:'class:scoundrel'});
  assert.deepEqual(Object.values(generationState(c,pack).assign),[0,1,2,3,4,5]);
  setGenerationMethod(c,'point-buy',pack);
  assert.equal(derive(c,pack).pointCost,0);
@@ -21,7 +21,7 @@ test('existing standard characters retain assignments; method changes reset scor
  assert.doesNotThrow(()=>validateCharacter(c,pack));
 });
 test('equal rolled results are distinct assignments and persist in exports',()=>{
- const c=newCharacter(pack);setGenerationMethod(c,'rolled',pack);
+ const c=newCharacter(pack,{classId:'class:scoundrel'});setGenerationMethod(c,'rolled',pack);
  assert.equal(generationState(c,pack).pool.length,0);
  setRolledPool(c,[12,12,12,12,12,12]);
  for(const [i,a] of ['str','dex','con','int','wis','cha'].entries()) assert(assignScore(c,a,i,pack));
@@ -33,7 +33,7 @@ test('equal rolled results are distinct assignments and persist in exports',()=>
 });
 
 test('manual and point-buy generation stay separate from assignment',()=>{
- const c=newCharacter(pack);setGenerationMethod(c,'manual',pack);
+ const c=newCharacter(pack,{classId:'class:scoundrel'});setGenerationMethod(c,'manual',pack);
  assert(setPoolScore(c,0,30,pack));assert.equal(c.abilities.str,10);
  assert(assignScore(c,'str',0,pack));assert.equal(c.abilities.str,30);
  assert(setPoolScore(c,0,12,pack));assert.equal(c.abilities.str,12);

@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
  const {newCharacter,derive,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Movement';c.abilityMethod='manual';c.abilities={str:14,dex:16,con:10,int:14,wis:10,cha:10};c.species='species:gungan';
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Movement';c.abilityMethod='manual';c.abilities={str:14,dex:16,con:10,int:14,wis:10,cha:10};c.species='species:gungan';
  c.levels=Array.from({length:3},(_,i)=>({classId:'class:scout',hpRoll:i?5:null,feats:i===0?[{id:'feat:running-attack'}]:i===1?[{id:'feat:dodge'}]:[{id:'feat:mobility'}],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  c.inventory=['knife','blaster-pistol','blaster-rifle'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...(id==='knife'?{}:{shotsRemaining:20})}));validateCharacter(c,pack);
  const before=derive(c,pack);assert(before.ctx.feats.some(f=>f.id==='feat:dodge'));assert(before.ctx.feats.some(f=>f.id==='feat:mobility'));

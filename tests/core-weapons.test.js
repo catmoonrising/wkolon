@@ -10,7 +10,7 @@ import {createStore,STORAGE_KEY} from '../src/persistence.js';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),ix=indexPack(pack);
 const item=(id,extra={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...extra});
-const hero=(cls='soldier',size='human')=>{const c=newCharacter(pack);c.species='species:'+size;c.abilityMethod='manual';c.abilities={str:14,dex:18,con:10,int:13,wis:12,cha:10};c.levels[0].classId='class:'+cls;return c;};
+const hero=(cls='soldier',size='human')=>{const c=newCharacter(pack,{classId:'class:scoundrel'});c.species='species:'+size;c.abilityMethod='manual';c.abilities={str:14,dex:18,con:10,int:13,wis:12,cha:10};c.levels[0].classId='class:'+cls;return c;};
 const can=(id,ctx,choice)=>eligible(ix.feats.get('feat:'+id),{id:'feat:'+id,...(choice?{choice}:{})},ctx,ix,'feats');
 const routine=uid=>({name:'Test',steps:[{attackId:uid,count:1,attackMod:0,damageMod:0}]});
 const roller=(die,total,damage)=>expr=>({value:expr.startsWith('1d20')?total:damage,d20:expr.startsWith('1d20')?[die]:[],display:expr,coeffs:[],rollId:1});

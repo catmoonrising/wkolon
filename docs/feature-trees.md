@@ -11,7 +11,7 @@ Nodes group parameterized feats under one primary name. Secondary options appear
 only after choosing that primary. Talent tabs use the existing tree IDs; feats
 share one graph without categories. Grey nodes remain readable but cannot be
 selected. Possessed nodes
-are highlighted, and selectable nodes use normal styling. Only Show Eligible keeps
+are highlighted, and selectable nodes use normal styling. Eligible only keeps
 possessed nodes for context. Prerequisite conditions (such as trained skills) are
 read-only nodes. Multiple prerequisite arrows are conjunctive unless marked “or”.
 

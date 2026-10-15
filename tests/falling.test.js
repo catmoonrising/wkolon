@@ -6,7 +6,7 @@ import {fallingState,planFalling,knownFallingDistance,resolveFalling} from '../s
 import {fallingControls} from '../src/falling-ui.js';
 import {ambiguityValue,createHouseRules} from '../src/house-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-function fixture(){const c=newCharacter(pack);c.levels[0].classId='class:jedi';c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.currentHP=1000;c.falling={meters:3,natural:10,damage:6};return c;}
+function fixture(){const c=newCharacter(pack,{classId:'class:scoundrel'});c.levels[0].classId='class:jedi';c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.currentHP=1000;c.falling={meters:3,natural:10,damage:6};return c;}
 const noDice=()=>{throw Error('Unexpected dice');};
 
 test('falls use Fortitude, 1d6 per complete 3 metres and the 20d6 cap',()=>{

@@ -5,7 +5,7 @@ import {escapeHTML as escape} from './wiki-content.js';
 export function fallingIssue(c,d,pack){try{planFalling(c,d,pack);return '';}catch(e){return e.message;}}
 export function fallingDiceLabel(c,d,pack){
  try{const plan=planFalling(c,d,pack),known=knownFallingDistance(plan);return (known?'':'Up to ')+(known?.dice??Math.min(plan.rule.maximumDice,Math.floor(plan.path.meters/plan.rule.metersPerDie)))+'d'+plan.rule.damageDie;}
- catch{return '—';}
+ catch{return '-';}
 }
 const number=(key,value,label,{roll=false,min=-100000,max=100000,step=1}={})=>`<input type="number" min="${min}" max="${max}" step="${step}" data-falling="${key}" value="${value??''}" aria-label="${escape(label)}" ${roll?'placeholder="Roll"':''}>`;
 export function fallingControls(c,d,pack){

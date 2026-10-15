@@ -2,7 +2,7 @@ const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
  const {newCharacter,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Falling';c.levels[0].classId='class:jedi';c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.currentHP=1000;c.balance={active:true,activeDC:10};c.falling={meters:3,natural:10,damage:6};c.inventory=[{id:'equipment:blaster-pistol',uid:crypto.randomUUID(),quantity:1,equipped:true,aimed:true,shotsRemaining:20,twoHanded:false,attackMod:0,damageMod:0}];validateCharacter(c,pack);
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Falling';c.levels[0].classId='class:jedi';c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.currentHP=1000;c.balance={active:true,activeDC:10};c.falling={meters:3,natural:10,damage:6};c.inventory=[{id:'equipment:blaster-pistol',uid:crypto.randomUUID(),quantity:1,equipped:true,aimed:true,shotsRemaining:20,twoHanded:false,attackMod:0,damageMod:0}];validateCharacter(c,pack);
  const context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);
  try{
   await context.addInitScript(roster=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster));},{schemaVersion:1,activeId:c.id,characters:[c]});await context.addInitScript(()=>Math.random=()=>.55);await page.goto(base);

@@ -13,7 +13,7 @@ import {articleText} from '../src/wiki-content.js';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 function hero(){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:12,dex:18,con:12,int:14,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:12,dex:18,con:12,int:14,wis:10,cha:10};
  c.levels=Array.from({length:6},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:i===0?[{id:'feat:melee-defense'},{id:'feat:dodge'}]:i===2?[{id:'feat:mobility'}]:i===5?[{id:'feat:double-attack',choice:'pistols'}]:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  c.inventory=[{id:'equipment:blaster-pistol',uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,shotsRemaining:10}];return c;
 }

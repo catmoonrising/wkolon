@@ -2,7 +2,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 module.exports=async(browser,base,root)=>{
  const {validateRoster}=await import('../src/persistence.js');
  const {newCharacter,validateCharacter}=await import('../src/rules.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Ammunition';c.abilityMethod='manual';c.abilities={str:10,dex:10,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Ammunition';c.abilityMethod='manual';c.abilities={str:10,dex:10,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';
  const item=(id,more={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,carried:true,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...more});
  c.inventory=[item('blaster-rifle',{shotsRemaining:2,aimed:true}),item('sporting-blaster-pistol'),item('flamethrower'),item('heavy-repeating-blaster',{shotsRemaining:19})];
  c.routines=[{id:crypto.randomUUID(),name:'Three shots',steps:[{id:crypto.randomUUID(),attackId:c.inventory[0].uid,count:2,attackMod:0,damageMod:0},{id:crypto.randomUUID(),attackId:c.inventory[0].uid,count:1,attackMod:0,damageMod:0}]}];validateCharacter(c,pack);

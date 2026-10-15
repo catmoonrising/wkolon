@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
  const {newCharacter,derive,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Follow-ups';c.abilityMethod='manual';c.abilities={str:16,dex:14,con:10,int:14,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Follow-ups';c.abilityMethod='manual';c.abilities={str:16,dex:14,con:10,int:14,wis:10,cha:10};
  c.levels=Array.from({length:4},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:i===0?[{id:'feat:power-attack'},{id:'feat:cleave'}]:i===1?[{id:'feat:mighty-swing'}]:i===2?[{id:'feat:follow-through'}]:[{id:'feat:great-cleave'}],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  c.inventory=['knife','blaster-pistol'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...(id==='knife'?{}:{shotsRemaining:20})}));
  const r={id:crypto.randomUUID(),name:'Cuts',steps:[{id:crypto.randomUUID(),attackId:c.inventory[0].uid,count:2,attackMod:3,damageMod:0}]};c.routines=[r];validateCharacter(c,pack);assert(derive(c,pack).ctx.feats.some(f=>f.id==='feat:great-cleave'));assert(derive(c,pack).ctx.feats.some(f=>f.id==='feat:follow-through'));

@@ -17,7 +17,7 @@ test('library searches the full description and filters type without granting re
  assert(library.matches().some(r=>r.name==='Force Lightning'));
  assert.equal(library.matches().filter(r=>r.status==='available').length,pack.forcePowers.length);
  assert.equal(library.matches().find(r=>r.name==='Corruption').status,'available');
- const c=newCharacter(pack),before=derive(c,pack);validateCharacter(c,pack);
+ const c=newCharacter(pack,{classId:'class:scoundrel'}),before=derive(c,pack);validateCharacter(c,pack);
  library.search('Force Lightning');library.results();
  assert.deepEqual(derive(c,pack).scores,before.scores);
  assert(!before.ctx.feats.some(r=>r.id==='feat:force-lightning'));

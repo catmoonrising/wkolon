@@ -8,7 +8,7 @@ const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.ur
 const ix=indexPack(pack);
 const ids=['acrobatic-strike','careful-shot','charging-fire','combat-reflexes','coordinated-attack','quick-draw','rapid-shot','rapid-strike','running-attack','vehicular-combat'];
 function context(){
- const c=newCharacter(pack);c.levels[0].classId='class:soldier';c.levels[0].feats=[];c.levels[0].talent=null;
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.levels[0].classId='class:soldier';c.levels[0].feats=[];c.levels[0].talent=null;
  return derive(c,pack).ctx;
 }
 const can=(id,ctx)=>eligible(ix.feats.get('feat:'+id),{id:'feat:'+id},ctx,ix,'feats');
@@ -42,7 +42,7 @@ test('conditional combat feats retain full imported Special rules and do not mod
  const text=name=>articleText(pack.rulePages.find(r=>r.name===name).article);
  assert(text('Rapid Shot').includes('Strength')&&text('Rapid Shot').includes('-5'));
  assert(text('Rapid Strike').includes('Dexterity')&&text('Rapid Strike').includes('Light'));
- const c=newCharacter(pack);c.levels[0].classId='class:soldier';c.levels[0].feats=[];c.levels[0].talent=null;
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.levels[0].classId='class:soldier';c.levels[0].feats=[];c.levels[0].talent=null;
  c.inventory=[{id:'equipment:blaster-pistol',quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0}];
  const before=derive(c,pack);c.levels[0].feats=[{id:'feat:rapid-shot'},{id:'feat:vehicular-combat'}];c.trainedSkills=['skill:pilot'];
  const after=derive(c,pack);assert(after.ctx.feats.some(f=>f.id==='feat:rapid-shot'));assert(after.ctx.feats.some(f=>f.id==='feat:vehicular-combat'));

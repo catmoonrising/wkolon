@@ -29,7 +29,7 @@ test('Gungan text preserves species sections and linked complete feats; Gamorrea
  assert(html.includes('https://swse.miraheze.org/wiki/Total_Concealment'));assert(html.includes('data-rule-page="rule:gungan-weapon-master"'));
  assert(pack.backgrounds.find(r=>r.name==='Naboo Origin').excludedSpecies.includes('species:gungan'));
  assert(pack.backgrounds.find(r=>r.name==='Gamorr Origin').excludedSpecies.includes('species:gamorrean'));
- const c=newCharacter(pack);c.species='species:gamorrean';c.levels[0].classId='class:soldier';let d=derive(c,pack);
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.species='species:gamorrean';c.levels[0].classId='class:soldier';let d=derive(c,pack);
  assert(d.ctx.feats.some(f=>f.id==='feat:improved-damage-threshold'&&f.automatic));assert(!d.ctx.feats.some(f=>f.id==='feat:weapon-proficiency-pistols'));assert(!d.ctx.feats.some(f=>f.id==='feat:weapon-proficiency-rifles'));
  c.levels.push({...structuredClone(c.levels[0]),classId:'class:scoundrel',hpRoll:4,startingFeat:{id:'feat:weapon-proficiency-pistols'}});d=derive(c,pack);assert(d.ctx.feats.some(f=>f.id==='feat:weapon-proficiency-pistols'));
  c.species='species:human';d=derive(c,pack);assert(!d.ctx.feats.some(f=>f.id==='feat:improved-damage-threshold'));assert(d.ctx.feats.some(f=>f.id==='feat:weapon-proficiency-rifles'));

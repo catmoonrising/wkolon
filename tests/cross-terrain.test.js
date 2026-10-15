@@ -13,7 +13,7 @@ import {createHouseRules,ambiguityValue} from '../src/house-rules.js';
 import {articleText} from '../src/wiki-content.js';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-function hero(){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:scoundrel';c.trainedSkills=['skill:acrobatics'];c.acrobaticsMovement={crossTerrain:true,path:{squares:6,difficult:6},terrainCheck:15};return c;}
+function hero(){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:scoundrel';c.trainedSkills=['skill:acrobatics'];c.acrobaticsMovement={crossTerrain:true,path:{squares:6,difficult:6},terrainCheck:15};return c;}
 const noDice=()=>assert.fail('No dice expected');
 const roller=(totals,calls=[])=>expr=>{calls.push(expr);return {value:totals.shift(),d20:[12],display:expr,coeffs:[1]};};
 

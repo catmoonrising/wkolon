@@ -7,7 +7,7 @@ import {articleText} from '../src/wiki-content.js';
 import {renderStatBlock} from '../src/stat-block.js';
 import {counselingEnabled} from '../src/house-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-const hero=(species='human',cls='soldier')=>{const c=newCharacter(pack);c.species='species:'+species;c.levels[0].classId='class:'+cls;c.abilityMethod='manual';c.abilities=Object.fromEntries(ABILITIES.map(a=>[a,10]));return c;};
+const hero=(species='human',cls='soldier')=>{const c=newCharacter(pack,{classId:'class:scoundrel'});c.species='species:'+species;c.levels[0].classId='class:'+cls;c.abilityMethod='manual';c.abilities=Object.fromEntries(ABILITIES.map(a=>[a,10]));return c;};
 const item=(id,extra={})=>({id:'equipment:'+id,quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...extra});
 const toggle=(c,id,on)=>{c.houseRules??={};c.houseRules.jediCounseling??={};c.houseRules.jediCounseling[id]=on;};
 

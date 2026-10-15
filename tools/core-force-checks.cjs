@@ -2,7 +2,7 @@ const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url');
 module.exports=async function(browser,base,root){
  const {newCharacter,validateCharacter}=await import(pathToFileURL(path.join(root,'src/rules.js')).href),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);Object.assign(c,{name:'Force Hero',abilityMethod:'manual',abilities:{str:10,dex:8,con:10,int:10,wis:12,cha:18}});c.levels[0].classId='class:jedi';c.trainedSkills=['skill:use-the-force','skill:acrobatics','skill:perception'];c.levels[0].feats=[{id:'feat:force-training'},{id:'feat:toughness'}];c.levels[0].talent={id:'talent:force-perception'};validateCharacter(c,pack);
+ const c=newCharacter(pack,{classId:'class:scoundrel'});Object.assign(c,{name:'Force Hero',abilityMethod:'manual',abilities:{str:10,dex:8,con:10,int:10,wis:12,cha:18}});c.levels[0].classId='class:jedi';c.trainedSkills=['skill:use-the-force','skill:acrobatics','skill:perception'];c.levels[0].feats=[{id:'feat:force-training'},{id:'feat:toughness'}];c.levels[0].talent={id:'talent:force-perception'};validateCharacter(c,pack);
  const roster={schemaVersion:1,activeId:c.id,characters:[c]},context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];page.setDefaultTimeout(15000);
  page.on('pageerror',e=>errors.push(e.message));await context.addInitScript(roster=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster));},roster);
  const saved=()=>page.waitForFunction(()=>document.querySelector('#save-status').textContent==='Saved');

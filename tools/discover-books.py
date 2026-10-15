@@ -154,13 +154,12 @@ def markdown(result):
         f"The exclusion tree contains {len(result['excludedPages']):,} pages in {len(result['excludedCategories'])} categories.", '']
     lines += ['## Selectable options', '',
         'These counts ignore effect automation. Entries include book variants; page coverage deduplicates their primary sources. '
-        'Many talents and items share pages, so no overall selectable-content percentage is claimed. '
-        'An em dash means the inventory does not provide a comparable denominator.', '',
+        'Many talents and items share pages, so no overall selectable-content percentage is claimed.', '',
         '| Content | Entries | Inventoried pages represented |',
         '| --- | ---: | ---: |']
     for row in result['selectableOptions']:
         pages = (f"{row['pages']} / {row['totalPages']} ({row['pages']/row['totalPages']:.1%})"
-                 if row.get('totalPages') else '—')
+                 if row.get('totalPages') else '-')
         lines.append(f"| {row['name']} | {row['entries']} | {pages} |")
     lines += ['',
         'Rebuild with `python tools/discover-books.py` or `--offline` after a captured refresh. '

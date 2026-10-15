@@ -10,7 +10,7 @@ import {articleText} from '../src/wiki-content.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),ix=indexPack(pack);
 const f=(id,choice)=>({id:'feat:'+id,...(choice?{choice}:{})});
 const ids=['accelerated-strike','conditioning','critical-strike','force-readiness','gearhead','improved-rapid-strike','increased-agility','logic-upgrade-self-defense','logic-upgrade-tactician','mandalorian-training','poison-resistance','power-blast','quick-skill','republic-military-training','sith-military-training','sniper-shot','tumble-defense','withdrawal-strike'];
-function hero(){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:12,con:14,int:10,wis:10,cha:10};c.levels=Array.from({length:9},(_,i)=>({classId:'class:soldier',hpRoll:i?6:null,feats:i===0?[f('rapid-strike'),f('martial-arts-i')]:i===1?[f('improved-rapid-strike')]:i===3?[f('mighty-swing')]:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));return c;}
+function hero(){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:12,con:14,int:10,wis:10,cha:10};c.levels=Array.from({length:9},(_,i)=>({classId:'class:soldier',hpRoll:i?6:null,feats:i===0?[f('rapid-strike'),f('martial-arts-i')]:i===1?[f('improved-rapid-strike')]:i===3?[f('mighty-swing')]:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));return c;}
 const can=(id,ctx,choice)=>eligible(ix.feats.get('feat:'+id),f(id,choice),ctx,ix,'feats');
 const weapon=(id,more={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...more});
 test('all eighteen reviewed KOTOR feats retain pinned complete articles and catalog links',()=>{

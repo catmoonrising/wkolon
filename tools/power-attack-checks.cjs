@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
  const {newCharacter,validateCharacter}=await import('../src/rules.js'),{validateRoster}=await import('../src/persistence.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Power Attack';c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:10,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Power Attack';c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:10,wis:10,cha:10};
  c.levels=Array.from({length:5},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:({0:['power-attack','weapon-proficiency-heavy-weapons'],1:['weapon-proficiency-advanced-melee-weapons'],2:['burst-fire'],3:['mighty-swing']}[i]||[]).map(id=>({id:'feat:'+id})),talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  const item=(id,extra={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...extra});
  c.inventory=[item('mace'),item('knife',{twoHanded:true}),item('vibro-axe'),item('blaster-rifle',{shotsRemaining:20,distance:6})];c.routines=[{id:crypto.randomUUID(),name:'Two swings',steps:[{id:crypto.randomUUID(),attackId:c.inventory[0].uid,count:2,attackMod:0,damageMod:0}]}];validateCharacter(c,pack);

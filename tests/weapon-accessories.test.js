@@ -8,7 +8,7 @@ import {createStore,STORAGE_KEY} from '../src/persistence.js';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const item=(id,extra={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,carried:true,equipped:!id.startsWith('targeting-scope'),twoHanded:false,attackMod:0,damageMod:0,...extra});
-const hero=(cls='soldier')=>{const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:10,dex:10,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:'+cls;return c;};
+const hero=(cls='soldier')=>{const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:10,dex:10,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:'+cls;return c;};
 const routine=(...steps)=>({name:'Shots',steps:steps.map(([attackId,count=1])=>({attackId,count,attackMod:0,damageMod:0}))});
 const roller=expressions=>expr=>{expressions.push(expr);return {value:12,d20:expr.startsWith('1d20')?[12]:[],display:expr,coeffs:[1]};};
 function feats(c){c.levels=Array.from({length:6},(_,i)=>({classId:'class:soldier',hpRoll:i?5:null,feats:i===0?[{id:'feat:point-blank-shot'},{id:'feat:precise-shot'}]:i===2?[{id:'feat:careful-shot'}]:i===5?[{id:'feat:deadeye'}]:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));}

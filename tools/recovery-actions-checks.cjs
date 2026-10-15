@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url');
 module.exports=async function(browser,base,root){
  const {newCharacter,validateCharacter}=await import(pathToFileURL(path.join(root,'src/rules.js')).href),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);Object.assign(c,{name:'Recovery Hero',abilityMethod:'manual',abilities:{str:14,dex:12,con:10,int:10,wis:10,cha:10},currentHP:1});c.levels[0].classId='class:soldier';
+ const c=newCharacter(pack,{classId:'class:scoundrel'});Object.assign(c,{name:'Recovery Hero',abilityMethod:'manual',abilities:{str:14,dex:12,con:10,int:10,wis:10,cha:10},currentHP:1});c.levels[0].classId='class:soldier';
  const w=structuredClone(c);Object.assign(w,{id:crypto.randomUUID(),name:'Rage Hero',species:'species:wookiee',currentHP:null});
  const i=structuredClone(c);Object.assign(i,{id:crypto.randomUUID(),name:'Bellow Hero',species:'species:ithorian',currentHP:null});
  for(const x of [c,w,i])validateCharacter(x,pack);

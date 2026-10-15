@@ -10,7 +10,7 @@ import {healthBars} from '../src/combat-ui.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const feat=id=>({id:'feat:'+id});
 const item=id=>({uid:crypto.randomUUID(),id:'equipment:'+id,quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0});
-function hero(cls='soldier'){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:18,con:12,int:12,wis:10,cha:10};c.levels[0].classId='class:'+cls;c.levels[0].feats=[];c.inventory=[];return c;}
+function hero(cls='soldier'){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:18,con:12,int:12,wis:10,cha:10};c.levels[0].classId='class:'+cls;c.levels[0].feats=[];c.inventory=[];return c;}
 const skill=(d,id)=>d.skills.find(s=>s.id==='skill:'+id).total;
 
 test('supplemental armor has reviewed stats, source articles and unlisted prices stay owned-only',()=>{

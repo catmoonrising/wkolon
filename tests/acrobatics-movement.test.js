@@ -13,7 +13,7 @@ import {usePower,recoverPower} from '../src/force-powers.js';
 import {validatePack} from '../tools/validate-rules.js';
 import {articleText} from '../src/wiki-content.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-function hero(){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:scoundrel';c.trainedSkills=['skill:acrobatics'];c.inventory=[{id:'equipment:blaster-pistol',uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,shotsRemaining:20,aimed:true}];return c;}
+function hero(){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:scoundrel';c.trainedSkills=['skill:acrobatics'];c.inventory=[{id:'equipment:blaster-pistol',uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,shotsRemaining:20,aimed:true}];return c;}
 const noDice=()=>assert.fail('No dice before validation');
 const roller=(value=15,natural=12,calls=[])=>expr=>{calls.push(expr);return {value,d20:[natural],display:expr,coeffs:[1]};};
 function path(c,{total=1,tumbled=1,tumble=true,occupied=0,mode='normal',check=null}={}){c.acrobaticsMovement={mode,tumble,occupied,check,path:movementSegment(typeof total==='number'?{squares:total}:total),tumbled:movementSegment(typeof tumbled==='number'?{squares:tumbled}:tumbled)};}

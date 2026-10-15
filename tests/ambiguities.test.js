@@ -10,7 +10,7 @@ const id='ambiguity:sprint-heavy-armor';
 const item=name=>({id:'equipment:'+name,quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0});
 const level=(cls,talent=null,feats=[])=>({classId:'class:'+cls,hpRoll:4,feats,talent:talent?{id:'talent:'+talent}:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});
 function runner(){
- const c=newCharacter(pack);c.levels[0].classId='class:scout';c.levels[0].talent={id:'talent:sprint'};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.levels[0].classId='class:scout';c.levels[0].talent={id:'talent:sprint'};
  c.levels[0].feats=[{id:'feat:armor-proficiency-light'},{id:'feat:armor-proficiency-medium'}];return c;
 }
 
@@ -20,7 +20,7 @@ test('ambiguity settings preserve explicit choices and defaults for older saves,
  assert(html.includes('five times')&&html.includes('three times'));assert(!html.includes('Hard March'));assert(!pack.rules.ambiguities.some(r=>/droid.*armor|armor.*droid/i.test(r.name)));
  assert(ui.change({hasAttribute:n=>n==='data-ambiguity',dataset:{ambiguity:id},value:'sprint-limit'},c));
  const restored=JSON.parse(JSON.stringify(c));validateCharacter(restored,pack);assert.equal(ambiguityValue(restored,pack,id),'sprint-limit');
- assert.equal(ambiguityValue(newCharacter(pack),pack,id),'armor-limit');
+ assert.equal(ambiguityValue(newCharacter(pack,{classId:'class:scoundrel'}),pack,id),'armor-limit');
  restored.houseRules.ambiguities[id]='invented';assert.throws(()=>validateCharacter(restored,pack),/ambiguities/);
  restored.houseRules.ambiguities={'ambiguity:invented':'sprint-limit'};assert.throws(()=>validateCharacter(restored,pack),/ambiguities/);
 });
@@ -39,7 +39,7 @@ test('Sprint always calculates normal running; heavy armor follows the saved int
 
 test('the droid heavy-armor exception applies only to native speeds other than 4/6, without a House Rules setting',()=>{
  const fixture=structuredClone(pack),species={...fixture.species[0],id:'species:droid-fixture',isDroid:true,speeds:{fly:6}};fixture.species.push(species);
- const c=newCharacter(fixture);c.species=species.id;c.inventory=[item('heavy-battle-armor')];
+ const c=newCharacter(fixture,{classId:'class:scoundrel'});c.species=species.id;c.inventory=[item('heavy-battle-armor')];
  for(const [speed,expected] of [[4,3],[6,4],[7,7],[8,8]]){species.speed=speed;const d=derive(c,fixture);assert.equal(d.speed,expected);assert.equal(d.runSpeed,expected*3);assert.equal(d.speeds.fly,4);}
  c.condition=4;assert.equal(derive(c,fixture).speed,4);c.condition=0;
  species.isDroid=false;assert.equal(derive(c,fixture).speed,6);

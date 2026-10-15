@@ -43,7 +43,7 @@ module.exports=async function checkTumble(browser,base,root){
    const kept=[...el.querySelectorAll(`.die[data-roll="${total.dataset.roll}"]:not(.die-dropped)`)];
    return kept.length===3&&kept.reduce((sum,n)=>sum+Number(n.textContent),0)===Number(total.textContent);
   })));
-  await creationUI.tab(page,'equipment');await page.locator('[data-action="starting-credits"]').click();await rolling();await settled();
+  await creationUI.chooseClass(page,'class:scoundrel');await creationUI.tab(page,'equipment');await page.locator('[data-action="starting-credits"]').click();await rolling();await settled();
   const credits=await page.locator('#cr-body [data-field="credits"]').inputValue();assert.equal(await newest().locator('.roll-total').innerText(),credits);
   await creationUI.done(page,'done');
   const persisted=await page.evaluate(()=>JSON.parse(localStorage.getItem('wkolon-roster-v1')));

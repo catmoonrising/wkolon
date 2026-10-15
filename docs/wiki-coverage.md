@@ -31,23 +31,23 @@ Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped mechanic: *
 
 ## Selectable options
 
-These counts ignore effect automation. Entries include book variants; page coverage deduplicates their primary sources. Many talents and items share pages, so no overall selectable-content percentage is claimed. An em dash means the inventory does not provide a comparable denominator.
+These counts ignore effect automation. Entries include book variants; page coverage deduplicates their primary sources. Many talents and items share pages, so no overall selectable-content percentage is claimed.
 
 | Content | Entries | Inventoried pages represented |
 | --- | ---: | ---: |
 | Species | 24 | 22 / 132 (16.7%) |
-| Heroic classes | 5 | — |
+| Heroic classes | 5 | - |
 | Prestige classes | 32 | 32 / 32 (100.0%) |
-| Skills (Knowledge fields separately) | 25 | — |
+| Skills (Knowledge fields separately) | 25 | - |
 | Feats | 358 | 351 / 351 (100.0%) |
-| Talents | 194 | — |
-| Equipment | 142 | — |
+| Talents | 194 | - |
+| Equipment | 142 | - |
 | Armor (included above) | 72 | 66 / 66 (100.0%) |
 | Force powers | 90 | 88 / 88 (100.0%) |
-| Force Techniques | 57 | — |
-| Force Secrets | 15 | — |
-| Medical Secrets | 7 | — |
-| Destinies | 11 | — |
-| Backgrounds | 46 | — |
+| Force Techniques | 57 | - |
+| Force Secrets | 15 | - |
+| Medical Secrets | 7 | - |
+| Destinies | 11 | - |
+| Backgrounds | 46 | - |
 
 Rebuild with `python tools/discover-books.py` or `--offline` after a captured refresh. The complete title/status queue and category snapshot are saved under `.build/`; this report adds no unreviewed options to the character sheet.

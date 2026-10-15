@@ -5,7 +5,7 @@ import {newCharacter,derive,indexPack,validateCharacter} from '../src/rules.js';
 import {carryingLimits,createSpeciesChecks} from '../src/species-rules.js';
 import {renderStatBlock} from '../src/stat-block.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),ix=indexPack(pack);
-const hero=species=>{const c=newCharacter(pack);c.species='species:'+species;c.abilityMethod='manual';c.abilities={str:10,dex:18,con:10,int:10,wis:10,cha:10};return c;};
+const hero=species=>{const c=newCharacter(pack,{classId:'class:scoundrel'});c.species='species:'+species;c.abilityMethod='manual';c.abilities={str:10,dex:18,con:10,int:10,wis:10,cha:10};return c;};
 const item=(id,quantity=1,extra={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...extra});
 function fixture(species,values){
  const c=hero(species),logs=[],checks=createSpeciesChecks({current:()=>c,derived:()=>derive(c,pack),log:(...args)=>logs.push(args)},expr=>({value:values.shift(),display:expr,coeffs:[],rollId:1}));

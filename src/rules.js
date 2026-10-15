@@ -30,14 +30,17 @@ export function indexPack(pack) {
   return Object.fromEntries(['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds','forcePowers','classChoices'].map(key => [key, new Map((pack[key]||[]).map(r => [r.id, r]))]));
 }
 
-export function newCharacter(pack) {
+export function newCharacter(pack, {classId=null}={}) {
+  const cls=classId===null?null:pack.classes.find(r=>r.id===classId&&r.classType!=='prestige');
+  if(classId!==null&&!cls)throw new Error('Choose a base class');
+  const placeholder=pack.classes.find(r=>r.classType!=='prestige');
   return {
     schemaVersion: 1, ruleset: {id: pack.id, version: pack.version},
     id: crypto.randomUUID(), name: 'unnamed', player: '', species: 'species:human',
     abilityMethod: 'standard', abilities: Object.fromEntries(ABILITIES.map((a, i) => [a, pack.rules.standardArray[i]])),
     pointBudget: 25, trainedSkills: [],
-    levels: [{classId: 'class:scoundrel', hpRoll: null, feats: [], talent: null, startingFeat: null, abilityIncreases: [], trainedSkills: []}],
-    inventory: [], credits: 0, currentHP: null, forcePoints: 5, condition: 0,
+    levels: [{classId: cls?.id||placeholder.id, ...(!cls?{pendingClass:true}:{}), hpRoll: null, feats: [], talent: null, startingFeat: null, abilityIncreases: [], trainedSkills: []}],
+    inventory: [], credits: 0, currentHP: null, forcePoints: cls?(advancementForceBase(cls,pack)??0):0, condition: 0,
     protection:emptyProtection(),routines:[],xp:0,darkSideScore:0,
     languages: '', notes: '', heroicTraits: emptyTraits(), story: emptyStory('none'), modifiers: {reflex: 0, fortitude: 0, will: 0, hp: 0, threshold: 0, attack: 0, damage: 0},
   };
@@ -499,7 +502,7 @@ export function derive(c, pack) {
     conditionalDefenses,conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,move(n+(type==='swim'?total('swimSpeed'):0))])),
-    incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forceMaximum: species.forceImmune||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
+    incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forceMaximum: !level||species.forceImmune||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:!level||species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
     weightUnknown:carried.some(e=>resolveEquipment(e,pack,c).weight===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};
 }

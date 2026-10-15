@@ -5,7 +5,7 @@ import {newCharacter,derive,validateCharacter} from '../src/rules.js';
 import {escapeBonds,escapeBondsDetails,escapeBondsState,planEscapeBonds} from '../src/escape-bonds.js';
 import {escapeBondsControls,escapeBondsIssue} from '../src/escape-bonds-ui.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-function fixture(trained=false){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.trainedSkills=trained?['skill:acrobatics']:[];return c;}
+function fixture(trained=false){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.trainedSkills=trained?['skill:acrobatics']:[];return c;}
 
 test('fixed restraints and tight space retain their printed DCs and action times',()=>{
  const c=fixture();

@@ -2,7 +2,7 @@ import {escapeBondsState,escapeBondsDetails,planEscapeBonds,ESCAPE_BONDS_NAMES,E
 import {escapeHTML as escape} from './wiki-content.js';
 
 export function escapeBondsIssue(c,d,pack){try{planEscapeBonds(c,d,pack);return '';}catch(e){return e.message;}}
-export const escapeBondsDCLabel=(c,pack)=>{const {dc}=escapeBondsDetails(c,pack);return 'DC '+(dc===null?'—':dc);};
+export const escapeBondsDCLabel=(c,pack)=>{const {dc}=escapeBondsDetails(c,pack);return 'DC '+(dc===null?'-':dc);};
 const number=(key,value,label,roll=false)=>`<input type="number" min="-100000" max="100000" data-escape-bonds="${key}" value="${value??''}" aria-label="${escape(label)}" ${roll?'placeholder="Roll" title="Acrobatics total; blank to roll"':''}>`;
 export function escapeBondsControls(c,d,pack){
  const p=escapeBondsState(c),{restraint,duration}=escapeBondsDetails(c,pack),issue=escapeBondsIssue(c,d,pack),trained=d.ctx.trained.has(pack.rules.escapeBonds.skillId);

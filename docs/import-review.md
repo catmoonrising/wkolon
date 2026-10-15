@@ -306,8 +306,8 @@ larger size. All five heroic class Core bonus tables are reviewed separately
 from their Additional sections.
 
 Unarmed attacks, Martial Arts, Finesse, Triple Crit, Force Boon and Strong in the
-Force now have calculation support. Conditional action feats—including Power
-Attack, Double/Triple Attack, Dual Weapon Mastery, Cleave and Burst Fire—retain
+Force now have calculation support. Conditional action feats-including Power
+Attack, Double/Triple Attack, Dual Weapon Mastery, Cleave and Burst Fire-retain
 complete wording and remain player-configured through routine modifiers. Extra
 Rage, Dreadful Rage and Extra Second Wind now have activation and recovery
 tracking, including their printed limits and the separate Counseling switches.

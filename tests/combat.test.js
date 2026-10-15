@@ -41,7 +41,7 @@ test('routines resolve natural misses, full-damage criticals and cumulative Refl
 });
 
 test('missing attacks preflight the entire routine before rolling and references follow physical items',()=>{
- const c=newCharacter(pack);c.inventory=[item('blaster-pistol'),item('knife')];
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.inventory=[item('blaster-pistol'),item('knife')];
  const r=routine([step(c.inventory[1].uid),step(crypto.randomUUID())]);
  let calls=0;assert.throws(()=>rollRoutine(r,derive(c,pack).attacks,rules,()=>calls++),/unavailable/);assert.equal(calls,0);
  r.steps.pop();c.inventory.reverse();assert.equal(derive(c,pack).attacks.find(a=>a.uid===r.steps[0].attackId).name,'Knife');
@@ -50,7 +50,7 @@ test('missing attacks preflight the entire routine before rolling and references
 
 test('old characters migrate without losing data; import/export preserves routine links and validates before mutation',()=>{
  globalThis.window={addEventListener(){}};globalThis.document={addEventListener(){}};
- const c=newCharacter(pack);c.name='Legacy';c.inventory=[item('knife')];delete c.inventory[0].uid;
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Legacy';c.inventory=[item('knife')];delete c.inventory[0].uid;
  for(const key of ['protection','routines','xp','darkSideScore'])delete c[key];
  const data=new Map([[STORAGE_KEY,JSON.stringify({schemaVersion:1,activeId:c.id,characters:[c]})]]);
  const storage={getItem:key=>data.get(key),setItem:(key,value)=>data.set(key,value)};
@@ -67,13 +67,13 @@ test('old characters migrate without losing data; import/export preserves routin
 });
 
 test('XP progression and Force Point capacity use heroic level while DSS capacity uses Wisdom score',()=>{
- const c=prepareCombatState(newCharacter(pack));let d=derive(c,pack);assert.equal(d.nextXP,1000);assert.equal(d.forceMaximum,5);
+ const c=prepareCombatState(newCharacter(pack,{classId:'class:scoundrel'}));let d=derive(c,pack);assert.equal(d.nextXP,1000);assert.equal(d.forceMaximum,5);
  c.levels.push({...structuredClone(c.levels[0]),hpRoll:5});d=derive(c,pack);assert.equal(d.nextXP,3000);assert.equal(d.forceMaximum,6);
  c.abilities.wis=18;assert.equal(derive(c,pack).scores.wis,18);
 });
 
 test('print stat block uses current Saga values, eligible features and safe text instead of editable sheet controls',()=>{
- const c=prepareCombatState(newCharacter(pack));c.name='<script>Vader</script>';c.inventory=[item('blaster-pistol')];
+ const c=prepareCombatState(newCharacter(pack,{classId:'class:scoundrel'}));c.name='<script>Vader</script>';c.inventory=[item('blaster-pistol')];
  c.condition=4;c.currentHP=7;c.protection={dr:5,drBypass:'<Energy>',sr:15,srMax:20};c.routines=[routine([step(c.inventory[0].uid,{count:2,attackMod:-5,damageMod:2})])];
  c.levels[0].feats=[{id:'feat:toughness'}];c.levels[0].talent={id:'talent:fool-s-luck'};
  const d=derive(c,pack),html=renderStatBlock(c,d,pack);

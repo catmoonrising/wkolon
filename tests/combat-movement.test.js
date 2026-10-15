@@ -11,7 +11,7 @@ import {articleText} from '../src/wiki-content.js';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 function hero(){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:16,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:soldier';c.levels[0].feats=[{id:'feat:running-attack'},{id:'feat:dodge'}];
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:16,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:soldier';c.levels[0].feats=[{id:'feat:running-attack'},{id:'feat:dodge'}];
  c.levels.push({classId:'class:soldier',hpRoll:5,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]},{classId:'class:soldier',hpRoll:5,feats:[{id:'feat:mobility'}],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});
  c.inventory=['knife','blaster-pistol','blaster-rifle'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...(id==='knife'?{}:{shotsRemaining:20})}));return c;
 }

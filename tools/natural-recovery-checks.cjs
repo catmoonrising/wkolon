@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url');
 module.exports=async function(browser,base,root){
  const {newCharacter,validateCharacter}=await import(pathToFileURL(path.join(root,'src/rules.js')).href),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const make=(name,species)=>{const c=newCharacter(pack);Object.assign(c,{name,species:'species:'+species,abilityMethod:'manual',abilities:{str:10,dex:10,con:10,int:10,wis:10,cha:10},currentHP:20,condition:5});c.levels[0].classId='class:soldier';return c;};
+ const make=(name,species)=>{const c=newCharacter(pack,{classId:'class:scoundrel'});Object.assign(c,{name,species:'species:'+species,abilityMethod:'manual',abilities:{str:10,dex:10,con:10,int:10,wis:10,cha:10},currentHP:20,condition:5});c.levels[0].classId='class:soldier';return c;};
  const c=make('Unconscious Ithorian','ithorian'),w=make('Resting Wookiee','wookiee'),t=make('Regenerating Trandoshan','trandoshan');w.currentHP=5;w.condition=2;t.condition=2;
  for(const x of [c,w,t])validateCharacter(x,pack);
  const context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);

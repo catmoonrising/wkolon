@@ -8,7 +8,7 @@ import {newEncounter,newDay} from '../src/recovery.js';
 import {purchaseQuote,equipmentFamilies} from '../src/equipment.js';
 import {renderStatBlock} from '../src/stat-block.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-function hero(rating=20){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:18,con:12,int:12,wis:10,cha:10};c.currentHP=100;c.levels[0].classId='class:soldier';c.levels[0].feats=[];c.trainedSkills=['skill:mechanics'];c.inventory=[{id:'equipment:energy-shield-'+rating,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0}];return c;}
+function hero(rating=20){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:18,con:12,int:12,wis:10,cha:10};c.currentHP=100;c.levels[0].classId='class:soldier';c.levels[0].feats=[];c.trainedSkills=['skill:mechanics'];c.inventory=[{id:'equipment:energy-shield-'+rating,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0}];return c;}
 const activate=c=>activateEnergyShield(c,derive(c,pack),pack,c.inventory[0].uid);
 
 test('six shield ratings share one purchase family with exact costs and no invented fitted prices',()=>{

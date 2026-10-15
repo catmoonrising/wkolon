@@ -18,14 +18,14 @@ function add(c,cls,talent=null){
  c.levels.push({classId:r.id,hpRoll:6,feats:[],talent,startingFeat:null,abilityIncreases:pack.rules.abilityLevels.includes(n)?['str','con']:[],trainedSkills:[],...(r.entrySpecials?{entryDeclarations:Object.fromEntries(r.entrySpecials.map(s=>[s.id,true]))}:{})});
 }
 function soldier(){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:13,dex:16,con:10,int:10,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:13,dex:16,con:10,int:10,wis:10,cha:10};
  c.levels[0].classId='class:soldier';c.trainedSkills=['skill:pilot','skill:initiative','skill:perception','skill:endurance'];
  c.levels[0].feats=[f('martial-arts-i'),f('point-blank-shot')];c.levels[0].talent=t('armored-defense');
  for(let i=2;i<=7;i++){add(c,'soldier');if(i===2)c.levels.at(-1).feats=[f('quick-draw')];if(i===3)c.levels.at(-1).feats=[f('precise-shot')];}
  return c;
 }
 function jedi(){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:10,dex:18,con:10,int:10,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:10,dex:18,con:10,int:10,wis:10,cha:10};
  c.levels[0].classId='class:jedi';c.trainedSkills=['skill:acrobatics','skill:initiative','skill:use-the-force'];c.levels[0].feats=[f('weapon-focus','lightsabers'),f('force-training')];c.levels[0].talent=t('acrobatic-recovery');
  c.levels[0].forcePowers=[{id:crypto.randomUUID(),powerId:'power:battle-strike',spent:false}];
  for(let i=2;i<=7;i++){add(c,'jedi');if(i===3)c.levels.at(-1).talent=t('weapon-specialization-lightsabers');}

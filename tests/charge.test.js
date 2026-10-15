@@ -12,7 +12,7 @@ import {articleText} from '../src/wiki-content.js';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 function hero(){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:18,con:10,int:14,wis:10,cha:10};
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:18,con:10,int:14,wis:10,cha:10};
  c.levels=Array.from({length:6},(_,i)=>({classId:i===1?'class:scoundrel':'class:soldier',hpRoll:i?5:null,feats:i===0?[{id:'feat:powerful-charge'},{id:'feat:dodge'}]:i===2?[{id:'feat:mobility'},{id:'feat:skill-training',choice:'skill:acrobatics'}]:i===4?[{id:'feat:improved-charge'}]:i===5?[{id:'feat:melee-defense'}]:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]}));
  c.inventory=['knife','blaster-pistol'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...(id==='blaster-pistol'?{shotsRemaining:10}:{})}));return c;
 }

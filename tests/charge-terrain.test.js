@@ -10,7 +10,7 @@ import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const noDice=()=>assert.fail('No dice before preflight');
 const roller=()=>({value:12,d20:[12],display:'12',coeffs:[1]});
-function hero(){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:scoundrel';c.trainedSkills=['skill:acrobatics'];return c;}
+function hero(){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.levels[0].classId='class:scoundrel';c.trainedSkills=['skill:acrobatics'];return c;}
 
 test('Charge movement references the closed movement mapping and pinned Move source',()=>{
  validatePack(pack);assert.equal(pack.rules.charge.movementCostRule,'combatMovement');assert(pack.rules.charge.sourceIds.includes('source:wiki-move'));

@@ -8,7 +8,7 @@ const skill=n=>`skill:${n}`;
 const feat=id=>({id:`feat:${id}`});
 const talent=id=>({id:`talent:${id}`});
 function hero(cls='soldier') {
-  const c=newCharacter(p); c.levels[0].classId=`class:${cls}`;
+  const c=newCharacter(p,{classId:'class:scoundrel'}); c.levels[0].classId=`class:${cls}`;
   c.trainedSkills=['endurance','initiative','mechanics','perception','pilot'].map(skill);
   c.levels[0].feats=[feat('improved-defenses'),feat('toughness')];
   c.levels[0].talent=talent('armored-defense');

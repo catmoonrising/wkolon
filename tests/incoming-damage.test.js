@@ -10,7 +10,7 @@ import {validatePack} from '../tools/validate-rules.js';
 import {createHouseRules} from '../src/house-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const item=(id,extra={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...extra});
-const hero=()=>{const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:10,dex:10,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';return c;};
+const hero=()=>{const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:10,dex:10,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';return c;};
 const stats=c=>({...derive(c,pack),threshold:10});
 
 test('reviewed stun modes retain physical types and dice; grenade payloads inherit stun-only effects',()=>{

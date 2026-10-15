@@ -27,3 +27,6 @@ with source revisions, wikitext checksums and contributor-history links. Images,
 executable markup, comments and site navigation are omitted. This imported wiki
 presentation is also distributed under CC BY-SA 4.0; it is kept separate from
 reviewed, executable mechanical mappings.
+
+The site replaces em dashes and middle dots in displayed text with plain hyphens
+and commas. Pinned source files, wording and mechanical values are unchanged.

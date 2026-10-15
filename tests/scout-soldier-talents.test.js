@@ -10,7 +10,7 @@ const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.ur
 const talent=id=>({id:'talent:'+id});
 const item=id=>({id:'equipment:'+id,quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0});
 function hero(cls='soldier',t='armored-defense'){
- const c=newCharacter(pack);c.abilityMethod='manual';c.levels[0].classId='class:'+cls;c.levels[0].feats=[];c.levels[0].talent=talent(t);return c;
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.levels[0].classId='class:'+cls;c.levels[0].feats=[];c.levels[0].talent=talent(t);return c;
 }
 function level(c,t,cls='soldier'){
  c.levels.push({classId:'class:'+cls,hpRoll:4,feats:[],talent:t?talent(t):null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});

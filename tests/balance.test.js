@@ -8,7 +8,7 @@ import {planOpportunity} from '../src/opportunity.js';
 import {reloadWeapon} from '../src/ammunition.js';
 import {balanceControls} from '../src/balance-ui.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-function fixture(trained=false){const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.trainedSkills=trained?['skill:acrobatics']:[];c.balance={check:10,path:{squares:3}};return c;}
+function fixture(trained=false){const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:10,int:14,wis:10,cha:10};c.trainedSkills=trained?['skill:acrobatics']:[];c.balance={check:10,path:{squares:3}};return c;}
 const die=n=>expr=>({value:n,d20:[n],display:expr});
 test('Balance retains exact width DCs, one unstable adjustment and the pinned rules mapping',()=>{
  const c=fixture();assert.equal(balanceDC(c,pack),10);c.balance.width='4-7';assert.equal(balanceDC(c,pack),15);c.balance.width='under-4';assert.equal(balanceDC(c,pack),20);c.balance.unstable=true;assert.equal(balanceDC(c,pack),25);

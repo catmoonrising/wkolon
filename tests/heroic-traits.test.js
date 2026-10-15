@@ -8,7 +8,7 @@ const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.ur
 const background=(id,skills=[],language='')=>({kind:'background',id:'background:'+id,skills,language});
 
 test('finishing traits and exclusive story choices roundtrip; old files retain languages and notes',()=>{
- const c=newCharacter(pack);c.heroicTraits.height='1.72';c.heroicTraits.background='A pilot from Dac.';
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.heroicTraits.height='1.72';c.heroicTraits.background='A pilot from Dac.';
  c.story={kind:'destiny',id:'destiny:rescue',details:'Save my sister.',points:1};
  assert.deepEqual(validateCharacter(JSON.parse(JSON.stringify(c)),pack),c);
  const old=structuredClone(c);delete old.heroicTraits;delete old.story;old.languages='Bocce';old.notes='Keep this.';
@@ -20,7 +20,7 @@ test('finishing traits and exclusive story choices roundtrip; old files retain l
 });
 
 test('occupations grant selected class access, not training or an extra pool; bonuses only apply untrained',()=>{
- const c=newCharacter(pack);c.levels[0].classId='class:soldier';
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.levels[0].classId='class:soldier';
  c.trainedSkills=['skill:endurance','skill:initiative','skill:mechanics','skill:perception','skill:pilot'];
  const baseline=derive(c,pack), skill=id=>derive(c,pack).skills.find(s=>s.id===id);
  c.story=background('academic',['skill:persuasion']);
@@ -34,7 +34,7 @@ test('occupations grant selected class access, not training or an extra pool; bo
 });
 
 test('planet choices give two distinct class skills and one language; homeworld exclusion removes benefits',()=>{
- const c=newCharacter(pack);c.levels[0].classId='class:soldier';c.story=background('dac-origin',['skill:persuasion',null]);
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.levels[0].classId='class:soldier';c.story=background('dac-origin',['skill:persuasion',null]);
  assert.doesNotThrow(()=>validateCharacter(c,pack));assert(derive(c,pack).issues.includes('Choose 2 Background class skills'));
  assert(derive(c,pack).issues.includes('Choose a Background language'));assert.equal(backgroundLanguage(c,pack),'');
  c.story.skills[1]='skill:swim';c.story.language='Quarrenese';assert.equal(backgroundLanguage(c,pack),'Quarrenese');
@@ -46,7 +46,7 @@ test('planet choices give two distinct class skills and one language; homeworld 
 });
 
 test('Exiled focus is conditional on training and never stacks with another Skill Focus',()=>{
- const c=newCharacter(pack);c.story=background('exiled',['skill:knowledge-galactic-lore']);
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.story=background('exiled',['skill:knowledge-galactic-lore']);
  const lore=()=>derive(c,pack).skills.find(s=>s.id==='skill:knowledge-galactic-lore');
  assert.equal(lore().focus,0);
  c.trainedSkills=['skill:knowledge-galactic-lore'];assert.equal(lore().focus,5);

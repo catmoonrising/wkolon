@@ -40,7 +40,7 @@ export function createCreationOptions(pack){
   if(config.kind==='classes'){
    const c=config.character,forbidden=new Set(pack.species.find(r=>r.id===c.species).forbiddenClasses||[]);
    return `<div class="class-options">${pack.classes.filter(r=>r.classType!=='prestige').filter(r=>matches(optionArticle(pack,r.name))).map(r=>{
-    const page=optionArticle(pack,r.name),selected=c.levels[0].classId===r.id,disabled=forbidden.has(r.id);
+    const page=optionArticle(pack,r.name),selected=!c.levels[0].pendingClass&&c.levels[0].classId===r.id,disabled=forbidden.has(r.id);
     return `<article class="creation-option ${selected?'selected':''} ${disabled?'unavailable':''}" data-class-option="${r.id}"><div class="option-head">${fold(r.id,key,r.name)}<button type="button" data-select-class="${r.id}" aria-label="Select ${escape(r.name)}" aria-pressed="${selected}" ${disabled?`disabled title="${escape(pack.species.find(s=>s.id===c.species).name)} cannot be ${escape(r.name)}"`:''}>Select</button>${link(page)}</div>${preview(page,'class',r.id,key)}</article>`;
    }).join('')}</div>`;
   }

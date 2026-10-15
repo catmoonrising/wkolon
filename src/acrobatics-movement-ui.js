@@ -4,7 +4,7 @@ import {escapeHTML as escape} from './wiki-content.js';
 
 const number=(key,value,label,min=0,max=100000)=>`<input type="number" min="${min}" max="${max}" data-acrobatics-movement="${key}" ${['check','terrainCheck'].includes(key)?'placeholder="Roll" title="Acrobatics total; blank to roll"':''} value="${value??''}" aria-label="${label}">`;
 export function acrobaticsMoveIssue(c,d,pack){try{planAcrobaticsMove(c,d,pack);return '';}catch(e){return e.message;}}
-export function acrobaticsMoveCostLabel(c,d,pack){let speed;try{speed=movementSpeed(d,acrobaticsPath(c).mode);}catch{speed='—';}return `${acrobaticsMoveCost(c,pack,undefined,d)}/${speed} squares`;}
+export function acrobaticsMoveCostLabel(c,d,pack){let speed;try{speed=movementSpeed(d,acrobaticsPath(c).mode);}catch{speed='-';}return `${acrobaticsMoveCost(c,pack,undefined,d)}/${speed} squares`;}
 export function acrobaticsMoveControls(c,d,pack,scope=''){
  const p=acrobaticsPath(c),issue=acrobaticsMoveIssue(c,d,pack),id=scope+'acrobatics-move',modes=[['normal','Normal'],...Object.keys(d.speeds).map(k=>[k,k[0].toUpperCase()+k.slice(1)])];
  if(!modes.some(([k])=>k===p.mode))modes.push([p.mode,p.mode+' (unavailable)']);

@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root,transport)=>{
  const pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))),{newCharacter}=await import('../src/rules.js');
- const c=newCharacter(pack);c.name='Armor tester';c.abilityMethod='manual';c.abilities={str:14,dex:18,con:12,int:12,wis:10,cha:10};c.levels[0].classId='class:soldier';c.levels[0].feats=[{id:'feat:armor-proficiency-heavy'}];c.credits=250000;c.currentHP=100;c.inventory=[];
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Armor tester';c.abilityMethod='manual';c.abilities={str:14,dex:18,con:12,int:12,wis:10,cha:10};c.levels[0].classId='class:soldier';c.levels[0].feats=[{id:'feat:armor-proficiency-heavy'}];c.credits=250000;c.currentHP=100;c.inventory=[];
  const roster={schemaVersion:1,activeId:c.id,characters:[c]},context=await browser.newContext({viewport:{width:1280,height:1000}});
  await context.addInitScript(({roster})=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster));},{roster});
  const page=await context.newPage();page.setDefaultTimeout(20000);const errors=[];page.on('pageerror',e=>errors.push(e.message));

@@ -8,7 +8,7 @@ import {rollRoutine} from '../src/combat.js';
 import {renderStatBlock} from '../src/stat-block.js';
 import {usePower} from '../src/force-powers.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-const hero=(species='human',cls='soldier')=>{const c=newCharacter(pack);c.species='species:'+species;c.abilityMethod='manual';c.abilities={str:10,dex:18,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:'+cls;return c;};
+const hero=(species='human',cls='soldier')=>{const c=newCharacter(pack,{classId:'class:scoundrel'});c.species='species:'+species;c.abilityMethod='manual';c.abilities={str:10,dex:18,con:10,int:10,wis:10,cha:10};c.levels[0].classId='class:'+cls;return c;};
 const level=classId=>({classId:'class:'+classId,hpRoll:3,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});
 const roller=(natural,total,damage)=>expr=>({value:expr.startsWith('1d20')?total:damage,d20:expr.startsWith('1d20')?[natural]:[],display:expr,rollId:1});
 const item=id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0});

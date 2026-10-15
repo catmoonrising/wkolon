@@ -2,7 +2,7 @@ const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),{pathToFileURL}=require('node:url');
 module.exports=async function(browser,base,root){
  const {newCharacter}=await import(pathToFileURL(path.join(root,'src/rules.js')).href),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json')));
- const c=newCharacter(pack);c.name='Kel Dor Jedi';c.species='species:kel-dor';c.levels[0].classId='class:jedi';
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.name='Kel Dor Jedi';c.species='species:kel-dor';c.levels[0].classId='class:jedi';
  const context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);
  try{
   await context.addInitScript(roster=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster));},{schemaVersion:1,activeId:c.id,characters:[c]});

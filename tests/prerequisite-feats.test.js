@@ -12,7 +12,7 @@ const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.ur
 const f=(n,choice)=>({id:'feat:'+n,...(choice?{choice}:{})}),t=n=>({id:'talent:'+n});
 function add(c,id='soldier'){const r=ix.classes.get('class:'+id),n=c.levels.length+1;c.levels.push({classId:r.id,hpRoll:Math.floor(r.hitDie/2)+1,feats:[],talent:null,startingFeat:null,abilityIncreases:pack.rules.abilityLevels.includes(n)?['str','con']:[],trainedSkills:[]});}
 function soldier(level=7){
- const c=newCharacter(pack);c.abilityMethod='manual';c.abilities={str:13,dex:16,con:14,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';c.trainedSkills=['skill:initiative','skill:perception','skill:endurance','skill:pilot'];c.levels[0].feats=[f('martial-arts-i'),f('flurry')];c.levels[0].talent=t('armored-defense');
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:13,dex:16,con:14,int:10,wis:10,cha:10};c.levels[0].classId='class:soldier';c.trainedSkills=['skill:initiative','skill:perception','skill:endurance','skill:pilot'];c.levels[0].feats=[f('martial-arts-i'),f('flurry')];c.levels[0].talent=t('armored-defense');
  for(let n=2;n<=level;n++)add(c);return c;
 }
 function weapon(c,id,extra={}){const e={id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,distance:1,...extra};c.inventory.push(e);return e;}

@@ -9,7 +9,7 @@ const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.ur
 const feat=id=>({id:'feat:'+id});
 const item=(id,more={})=>({uid:crypto.randomUUID(),id:'equipment:'+id,quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...more});
 function hero(cls='soldier'){
- const c=newCharacter(pack);c.levels[0].classId='class:'+cls;c.abilityMethod='manual';
+ const c=newCharacter(pack,{classId:'class:scoundrel'});c.levels[0].classId='class:'+cls;c.abilityMethod='manual';
  c.levels[0].feats=[];c.inventory=[];return c;
 }
 
