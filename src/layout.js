@@ -1,3 +1,5 @@
+import {MODULES,moduleVisible} from './sheet-modules.js';
+import {migrateModuleLayout,MODULE_LAYOUT_VERSION} from './module-layout.js';
 /* ============================================================
    layout.js - free-form module layout.
    Move, resize (8 handles), snap-to-grid, snap-to-modules, persistent
@@ -17,22 +19,8 @@
      is where you go to read back through history rather than something that needs to be open. Only
      a fresh install: the Object.assign below replaces `collapsed` wholesale from a saved layout, so
      anyone who already has one keeps exactly what they left. */
-  const state = { free: false, activated: false, grid: 16, snapGrid: true, snapEdge: true, zTop: 0, map: {}, collapsed: { dice: true } };
-  function validatedLayout(d) {
-    const object = v => v && typeof v === 'object' && !Array.isArray(v);
-    const validKey = k => /^[a-z][a-z0-9-]{0,80}$/.test(k);
-    if (!object(d) || !object(d.map) || Object.keys(d.map).length > 100) throw new Error('not a layout file');
-    for (const [k,p] of Object.entries(d.map)) {
-      if (!validKey(k) || !object(p) || !['x','y','w'].every(n=>Number.isFinite(p[n]) && p[n]>=0 && p[n]<=1000000) || p.w<32 || ['h','hc','z'].some(n=>p[n]!==undefined && (!Number.isFinite(p[n]) || p[n]<0 || p[n]>1000000))) throw new Error('invalid module position');
-    }
-    const collapsed=d.collapsed || {}, stacks=d.stacks || {};
-    if (!object(collapsed) || !object(stacks) || Object.entries(collapsed).some(([k,v])=>!validKey(k) || typeof v!=='boolean') || Object.keys(stacks).length>100) throw new Error('invalid layout groups');
-    for (const st of Object.values(stacks)) {
-      if (!object(st) || !Array.isArray(st.members) || st.members.length>100 || !st.members.every(validKey) || typeof st.active!=='string' || !st.members.includes(st.active)) throw new Error('invalid module stack');
-    }
-    return { free:!!d.free, activated:!!d.activated, grid:Math.max(1,Math.min(64,Number(d.grid)||16)), snapGrid:d.snapGrid!==false, snapEdge:d.snapEdge!==false, zTop:Math.max(0,Math.min(1000000,Number(d.zTop)||0)), map:d.map, collapsed, stacks };
-  }
-  try { const d = JSON.parse(localStorage.getItem(LKEY)); if (d) Object.assign(state, validatedLayout(d)); } catch (e) { /* Invalid layout preferences use the default flow. */ }
+  const state = { moduleVersion: MODULE_LAYOUT_VERSION, visibility: {}, free: false, activated: false, grid: 16, snapGrid: true, snapEdge: true, zTop: 0, map: {}, collapsed: { dice: true } };
+  try { const d = JSON.parse(localStorage.getItem(LKEY)); if (d) { Object.assign(state, migrateModuleLayout(d)); save(); } } catch (e) { /* Invalid layout preferences use the default flow. */ }
 
   if (!state.collapsed) state.collapsed = {};   // a layout saved before collapsing existed
   if (!state.stacks) state.stacks = {};         // { id: { members: [key, ...], active: key } }
@@ -54,7 +42,7 @@
      in Free mode takes that module back out. */
   const stackIdOf = k => Object.keys(state.stacks).find(id => state.stacks[id].members.includes(k)) || null;
   const stackMates = m => { const id = stackIdOf(key(m)); return id ? state.stacks[id].members.filter(k => k !== key(m)).map(moduleByKey).filter(Boolean) : []; };
-  const isHiddenMember = m => m.classList.contains("lay-stack-hidden");
+  const isHiddenMember = m => m.hidden || m.classList.contains("lay-stack-hidden");
   function moduleTitle(m) {
     const h2 = m.querySelector(":scope > h2");
     return h2 ? [...h2.childNodes].filter(n => n.nodeType === 3).map(n => n.textContent).join("").replace(/\s+/g, " ").trim() || key(m) : key(m);
@@ -79,12 +67,16 @@
     });
     if (!state.activated) return;
     Object.values(state.stacks).forEach(st => {
+      const visible=st.members.filter(k=>!moduleByKey(k).hidden);
+      const active=visible.includes(st.active)?st.active:visible[0];
       st.members.forEach(k => {
         const m = moduleByKey(k);
-        m.classList.add("lay-stacked");
-        m.classList.toggle("lay-stack-hidden", k !== st.active);
+        if(m.hidden)return;
+        m.classList.toggle("lay-stacked",visible.length>1);
+        m.classList.toggle("lay-stack-hidden", k !== active);
+        if(visible.length<2)return;
         const bar = document.createElement("div"); bar.className = "lay-tabs";
-        bar.innerHTML = st.members.map(mk => `<button type="button" class="char-tab lay-tab${mk === st.active ? " active" : ""}" data-tab="${mk}">${escapeText(moduleTitle(moduleByKey(mk)))}</button>`).join("");
+        bar.innerHTML = visible.map(mk => `<button type="button" class="char-tab lay-tab${mk === active ? " active" : ""}" data-tab="${mk}">${escapeText(moduleTitle(moduleByKey(mk)))}</button>`).join("");
         m.insertBefore(bar, m.firstChild);
       });
     });
@@ -203,10 +195,12 @@
     const crect = container().getBoundingClientRect();
     // A module added to the sheet after you arranged yours (Senses, say) goes below everything
     // rather than into its flow spot, which your arrangement may already cover.
-    const placed = modules().filter(m => state.map[key(m)]);
+    const placed = modules().filter(m => !m.hidden && state.map[key(m)]);
     let bottom = placed.reduce((b, m) => { const p = state.map[key(m)]; return Math.max(b, p.y + (p.h || m.offsetHeight)); }, 0);
     modules().forEach(m => {
-      if (state.map[key(m)]) return;
+      if (m.hidden || state.map[key(m)]) return;
+      const mate=stackMates(m).find(other=>state.map[key(other)]);
+      if(mate){state.map[key(m)]={...state.map[key(mate)]};return;}
       const r = m.getBoundingClientRect();
       if (placed.length) {
         state.map[key(m)] = { x: 0, y: bottom + 16, w: Math.round(r.width), h: 0, z: 0 };
@@ -227,7 +221,7 @@
   function bumpZ(m) { const p = state.map[key(m)]; if (!p) return; state.zTop = (state.zTop || 0) + 1; p.z = state.zTop; m.style.zIndex = p.z; }
   function sizeContainer() {
     const c = container(); if (!state.activated) { c.style.minHeight = ""; return; }
-    let max = 0; modules().forEach(m => { const p = state.map[key(m)]; const b = (p ? p.y : 0) + m.offsetHeight; if (b > max) max = b; });
+    let max = 0; modules().filter(m=>!isHiddenMember(m)).forEach(m => { const p = state.map[key(m)]; const b = (p ? p.y : 0) + m.offsetHeight; if (b > max) max = b; });
     c.style.minHeight = (max + 24) + "px";
   }
   function updateGrid() {
@@ -237,11 +231,14 @@
   }
   function apply() {
     const c = container();
+    modules().forEach(m=>{m.hidden=!moduleVisible(key(m),state.visibility,m.dataset.relevant!=='false');m.classList.remove('lay-stack-hidden');});
+    for(const id of selected)if(!moduleByKey(id)||moduleByKey(id).hidden)selected.delete(id);
     if (state.free) state.activated = true;
     if (state.activated) { ensurePositions(); c.classList.add("lay-active"); modules().forEach(applyPos); sizeContainer(); }
     else { c.classList.remove("lay-active"); modules().forEach(clearPos); c.style.minHeight = ""; clearSelection(); }
     modules().forEach(applyCollapse);
     renderStacks();
+    sizeContainer();updateModuleMenu();
     c.classList.toggle("lay-free", state.free);
     if (!state.free) clearSelection();
     updateGrid(); updateSelbox();
@@ -520,7 +517,7 @@
     const rd = new FileReader();
     rd.onload = () => {
       try {
-        const d = validatedLayout(JSON.parse(rd.result));
+        const d = migrateModuleLayout(JSON.parse(rd.result));
         Object.assign(state, { free: false, stacks: {} }, d, { free: false });
         syncControls(); apply(); save();
       } catch (err) { alert("Bad layout file: " + err); }
@@ -546,7 +543,7 @@
     if (!confirm(`Replace your current arrangement with the ${name} layout?`)) return;
     try {
       const res = await fetch("layouts/" + file); if (!res.ok) throw new Error(res.status);
-      const d = validatedLayout(await res.json());
+      const d = migrateModuleLayout(await res.json());
       Object.assign(state, { free: false, stacks: {}, collapsed: {} }, d, { free: false });
       syncControls(); apply(); save();
     } catch (err) { alert("Could not load the " + name + " layout: " + err.message); }
@@ -559,6 +556,22 @@
     if (byId("lay-edge")) byId("lay-edge").checked = state.snapEdge;
     if (byId("lay-gridsize")) byId("lay-gridsize").value = state.grid;
   }
+  function updateModuleMenu(){
+    const list=byId('lay-module-list');if(!list)return;
+    const focused=document.activeElement?.dataset.moduleVisibility;
+    list.innerHTML=MODULES.map(def=>{const m=moduleByKey(def.id);return `<label><input type="checkbox" data-module-visibility="${def.id}" ${m&&!m.hidden?'checked':''}>${escapeText(def.title)}</label>`;}).join('');
+    if(focused)list.querySelector(`[data-module-visibility="${focused}"]`)?.focus({preventScroll:true});
+    positionModuleMenu();
+  }
+  function positionModuleMenu(){
+    const details=byId('lay-modules'),menu=byId('lay-module-menu');if(!details?.open||!menu)return;
+    const r=details.querySelector('summary').getBoundingClientRect(),x=Math.max(8,Math.min(r.left,innerWidth-menu.offsetWidth-8));
+    let y=r.bottom+4;if(innerHeight-y<160&&r.top>160)y=Math.max(8,r.top-Math.min(menu.scrollHeight,innerHeight*.65)-4);
+    menu.style.left=x+'px';menu.style.top=y+'px';menu.style.maxHeight=Math.max(60,Math.min(innerHeight*.65,innerHeight-y-8))+'px';
+  }
+  function showModule(id){
+    state.visibility[id]=true;apply();save();
+  }
   function updateHint() { const el = byId("lay-hint"); if (el) el.textContent = state.free ? "Editing layout" : ""; }
   function buildBar() {
     if (byId("lay-bar")) return;
@@ -569,6 +582,7 @@
       <label>grid <input type="number" id="lay-gridsize" min="1" max="64" style="width:3rem"></label>
       <label><input type="checkbox" id="lay-edge"> snap to modules</label>
       <label id="lay-preset-wrap" hidden>preset <select id="lay-preset"><option value="">-</option></select></label>
+      <details id="lay-modules"><summary>Modules</summary><div id="lay-module-menu"><div id="lay-module-list"></div><button type="button" id="lay-module-auto" title="Show relevant modules automatically">Auto</button></div></details>
       <button id="lay-reset">reset</button>
       <button id="lay-save">save file</button>
       <label>load <input type="file" id="lay-load" accept="application/json"></label>
@@ -579,7 +593,14 @@
     byId("lay-grid").addEventListener("change", e => { state.snapGrid = e.target.checked; updateGrid(); save(); });
     byId("lay-edge").addEventListener("change", e => { state.snapEdge = e.target.checked; save(); });
     byId("lay-gridsize").addEventListener("change", e => { state.grid = Math.max(1, Math.min(64, Number(e.target.value) || 16)); e.target.value = state.grid; updateGrid(); save(); });
-    byId("lay-reset").addEventListener("click", () => { if (confirm("Reset module layout back to the default flow? This also expands any collapsed modules.")) { state.map = {}; state.collapsed = {}; state.stacks = {}; state.free = false; state.activated = false; state.zTop = 0; clearSelection(); syncControls(); apply(); save(); updateHint(); } });
+    byId("lay-reset").addEventListener("click", () => { if (confirm("Reset module layout back to the default flow? This also expands any collapsed modules.")) { state.map = {}; state.collapsed = {}; state.stacks = {}; state.visibility={};state.moduleVersion=MODULE_LAYOUT_VERSION; state.free = false; state.activated = false; state.zTop = 0; clearSelection(); syncControls(); apply(); save(); updateHint(); } });
+    byId('lay-module-list').addEventListener('change',e=>{const id=e.target.dataset.moduleVisibility;if(!MODULES.some(m=>m.id===id))return;state.visibility[id]=e.target.checked;clearSelection();apply();save();});
+    byId('lay-module-auto').addEventListener('click',()=>{state.visibility={};clearSelection();apply();save();});
+    byId('lay-modules').addEventListener('toggle',positionModuleMenu);
+    window.addEventListener('resize',positionModuleMenu);
+    window.addEventListener('scroll',positionModuleMenu,{passive:true});
+    document.addEventListener('click',e=>{const details=byId('lay-modules');if(details.open&&!e.composedPath().includes(details))details.open=false;});
+    document.addEventListener('keydown',e=>{const details=byId('lay-modules');if(e.key==='Escape'&&details.open){details.open=false;details.querySelector('summary').focus();e.preventDefault();e.stopPropagation();}});
     byId("lay-save").addEventListener("click", exportLayout);
     byId("lay-preset").addEventListener("change", e => { const f = e.target.value, name = e.target.selectedOptions[0] ? e.target.selectedOptions[0].text : f; e.target.value = ""; if (f) applyPreset(f, name); });
     loadPresetList();
@@ -589,5 +610,5 @@
 
   function refresh() { buildBar(); wrapBodies(); addCollapseToggles(); addHandles(); apply(); }
   window.__layout = { refresh, state, apply, snapMove, modules, ensurePositions, save, selected, selectAdd, updateSelectionUI, selectionRect,
-    toggleCollapse, wrapBodies, addCollapseToggles, mergeInto, detach, switchTab, stackIdOf };
+    toggleCollapse, wrapBodies, addCollapseToggles, mergeInto, detach, switchTab, stackIdOf,showModule };
 })();

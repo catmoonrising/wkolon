@@ -103,9 +103,9 @@
 
 - [x] Character Creation level table: levels 1–20, separate heroic/class choices, class prerequisite graphs, row-specific Misc choices and separate detail tabs.
 
-- [ ] Modular sheet architecture and layout migration, following docs/modules-roadmap.md.
-  - [ ] Separate Languages, Feats, Talents, Class Features and Species Features.
-  - [ ] Independent visibility, layout and collapse state without disabling mechanics.
+- [x] Modular sheet architecture and layout migration, following docs/modules-roadmap.md.
+  - [x] Separate Languages, Feats, Talents, Class Features and Species Features.
+  - [x] Independent visibility, layout and collapse state without disabling mechanics.
   - [ ] Actions module: six action menus, shared action dispatcher, optional costs/choices, rolls, immediate execution and queued turn plans.
   - [ ] Reuse existing New Turn and expiry functions; preserve round/encounter limits and completed rolls when plans change.
 - [ ] Starships and vehicles.
@@ -128,7 +128,8 @@
 - [x] All 26 Force Tradition trees: 122 talent choices, membership declarations, acquisition levels, exact admission articles and typed access.
 - [ ] Remaining five degree-specific droid trees, species, equipment and other official catalogs.
 - [x] Automate Watchful Step, Engineer Lineage, Dark Deception, Commanding Presence and Stolen Form permanent grants, including legacy form choices and prerequisite replay.
-- [ ] Dedicated Destiny/Background play controls; currently selected in creation and displayed in Character > Heroic Traits.
+- [x] Dedicated Destiny/Background, Destiny Points and Force Traditions modules, shared builder/sheet choices and a bounded Destiny Point counter.
+- [ ] Automate Destiny Point effects, ongoing Destiny benefits/penalties and fulfillment rewards.
 - [ ] Audit Trigger Work against the Gunslinger tree-wide Pistols/Rifles restriction.
 
 - Prioritize making all remaining official options selectable before expanding

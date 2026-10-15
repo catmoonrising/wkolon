@@ -126,11 +126,11 @@ module.exports=async function checkTrees(browser,base,root){
   await page.locator('#feature-tree-close').click();await creationUI.done(page,'done');
   const download=page.waitForEvent('download');await page.locator('#export-character').click();const c=JSON.parse(fs.readFileSync(await(await download).path(),'utf8'));
   assert.equal(c.levels[0].talent.id,'talent:acute-senses');assert.equal(c.levels[2].talent.id,'talent:improved-initiative');assert.equal(c.levels[4].talent.id,'talent:reset-initiative');
-  const featureArticles=page.locator('#module-features .feature-list > article');
-  assert((await featureArticles.first().innerText()).includes('Human'));
-  const featureLabels=await featureArticles.evaluateAll(nodes=>nodes.map(n=>n.querySelector('summary')?.textContent||n.textContent));
-  assert(featureLabels.some(name=>name.startsWith('(F) ')));assert(featureLabels.some(name=>name.startsWith('(T) ')));
-  assert(featureLabels.findIndex(name=>name.includes('(T) Acute Senses'))<featureLabels.findIndex(name=>name.includes('(T) Improved Initiative')));
+  assert((await page.locator('#module-species-features .feature-list > article').first().innerText()).includes('Human'));
+  const featLabels=await page.locator('#module-feats .feature-list > article summary').allTextContents();
+  const talentLabels=await page.locator('#module-talents .feature-list > article summary').allTextContents();
+  assert(featLabels.length>0);assert(talentLabels.length>0);assert(!featLabels.some(name=>name.startsWith('(F) ')));assert(!talentLabels.some(name=>name.startsWith('(T) ')));
+  assert(talentLabels.findIndex(name=>name.includes('Acute Senses'))<talentLabels.findIndex(name=>name.includes('Improved Initiative')));
   if(base.startsWith('https:'))await page.waitForFunction(()=>navigator.serviceWorker.controller!==null,null,{timeout:60000});
   await page.reload();await page.locator('#module-classes a[href="#advancement"]').click();await body.locator('[data-open-tree="talent:4:0"]').click();
   await modal.locator('[data-tree-group="tree:awareness"]').click();assert(await modal.locator('[data-tree-node="talent:reset-initiative|"]').evaluate(el=>el.classList.contains('owned')));

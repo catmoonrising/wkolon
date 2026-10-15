@@ -7,6 +7,10 @@ export const TRAIT_FIELDS = [
 export const TRAIT_TEXT = ['appearance','personality','background','goals'];
 export const emptyTraits = () => Object.fromEntries(TRAIT_FIELDS.map(([key])=>[key,'']));
 export const emptyStory = kind => kind==='destiny'?{kind,id:null,details:'',points:1}:kind==='background'?{kind,id:null,skills:[],language:''}:{kind:'none'};
+export function spendDestinyPoint(c,d){
+ if(c.story?.kind!=='destiny'||!Number.isInteger(c.story.points)||c.story.points<=0||!d.level)throw new Error('Destiny Point unavailable');
+ const before=c.story.points;c.story.points--;return {before,after:c.story.points};
+}
 export const activeBackground = (c,pack) => c.story?.kind==='background'?(pack.backgrounds||[]).find(r=>r.id===c.story.id && !r.excludedSpecies.includes(c.species)):null;
 export function backgroundLanguage(c,pack) {
   const r=activeBackground(c,pack);

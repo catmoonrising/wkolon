@@ -27,7 +27,7 @@ module.exports=async function checkCoreSpecies(browser,base,root){
   assert(await secondary.locator('option[value="feat:weapon-proficiency-heavy-weapons|"]').count());
   await secondary.selectOption('feat:weapon-proficiency-heavy-weapons|');
   await creationUI.done(page,'close');
-  const features=page.locator('#module-features');assert((await features.innerText()).includes('(F) Weapon Proficiency (Heavy Weapons)'));
+  const features=page.locator('#module-feats');assert((await features.innerText()).includes('Weapon Proficiency (Heavy Weapons)'));
   assert(!(await features.innerText()).includes('Weapon Proficiency (Pistols)'));assert(!(await features.innerText()).includes('Weapon Proficiency (Rifles)'));
   await page.locator('#module-header a[href="#creation"]').click();await species('mon calamari');await creationUI.done(page,'close');
   assert((await page.locator('#module-speed').innerText()).includes('Swim 4'));

@@ -90,3 +90,8 @@ actions. Expand the action dispatcher while automating remaining mechanics.
 Implement Droid Systems, Companions/Followers, crafting/upgrades, and the vehicle,
 starship and piloting catalogs with reviewed data formats before calculations.
 Do not delay selectable official content for exhaustive ambiguity searches.
+
+The first registry/migration batch is implemented; see modules.md. It includes the
+feature/language split and dedicated story, point and tradition modules. Actions,
+additional systems, saved activity presets and repeated filtered instances remain
+work to implement, not completed features.

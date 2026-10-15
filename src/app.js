@@ -1,3 +1,6 @@
+import {spendDestinyPoint} from './heroic-traits.js';
+import {MODULES,moduleDefinition,moduleRelevant} from './sheet-modules.js';
+import {featureEntries} from './feature-views.js';
 import {automationBadge} from './feature-status.js';
 import {resolveSpecies,speciesChoiceDetails,chooseSpeciesOption} from './species-choices.js';
 import {resizeLevelPlan,choosePlannedClass} from './level-plan.js';
@@ -333,14 +336,14 @@ function conditionTrack() {
   ];
   return `<input id="condition-level" type="hidden" data-field="condition" value="${step}"><table id="condition-effect"><tbody>${states.map((state,level)=>`<tr data-condition-step="${level}" class="${(level>0 && level<=step) || level===step?'condition-on':''} ${level===step?'condition-current':''}"><td><button type="button" data-condition-step="${level}" aria-pressed="${level===step}">${state}</button></td></tr>`).join('')}</tbody></table>`;
 }
-function storyEditor() {
+function storyEditor(scope='creator') {
   const c=current(), story=c.story||emptyStory('none');
-  const mode=`<div class="actions" role="group" aria-label="Destiny or Background">${[['destiny','Destiny'],['background','Background'],['none','Neither']].map(([kind,label])=>`<label><input type="radio" name="story-kind" data-story="kind" value="${kind}" ${story.kind===kind?'checked':''}>${label}</label>`).join('')}</div>`;
+  const mode=`<div class="actions" role="group" aria-label="Destiny or Background">${[['destiny','Destiny'],['background','Background'],['none','Neither']].map(([kind,label])=>`<label><input type="radio" name="${scope}-story-kind" data-story="kind" value="${kind}" ${story.kind===kind?'checked':''}>${label}</label>`).join('')}</div>`;
   if(story.kind==='none')return mode;
   const records=pack[story.kind==='destiny'?'destinies':'backgrounds'], record=records.find(r=>r.id===story.id);
   const groups=story.kind==='destiny'?`<select data-story="id" aria-label="Destiny">${option('','Choose Destiny',story.id||'')}${choices(records,story.id)}</select>`:`<select data-story="id" aria-label="Background">${option('','Choose Background',story.id||'')}${[['event','Events'],['occupation','Occupations'],['planet','Planets of Origin']].map(([category,label])=>`<optgroup label="${label}">${records.filter(r=>r.category===category).map(r=>option(r.id,r.name,story.id,r.excludedSpecies.includes(c.species))).join('')}</optgroup>`).join('')}</select>`;
   let secondary='';
-  if(story.kind==='destiny')secondary=`${field('Destiny Points','story.points',story.points,'number',`min="0" max="${c.levels.length}"`)}<label>Details<textarea data-story="details" rows="2" maxlength="100000">${escape(story.details)}</textarea></label>`;
+  if(story.kind==='destiny')secondary=`${scope==='creator'?field('Destiny Points','story.points',story.points,'number',`min="0" max="${c.levels.length}"`):''}<label>Details<textarea data-story="details" rows="2" maxlength="100000">${escape(story.details)}</textarea></label>`;
   else if(record) {
     const selected=story.skills.filter(Boolean), skills=record.relevantSkills.map(id=>ix.skills.get(id)), knowledge=skills.filter(r=>r.id.startsWith('skill:knowledge-'));
     secondary=`<fieldset><legend>Class Skills</legend>${Array.from({length:record.skillChoices},(_,i)=>{
@@ -349,7 +352,7 @@ function storyEditor() {
     }).join('')}</fieldset>`;
     if(record.bonusLanguages.length>1)secondary+=`<label>Language<select data-story="language">${option('','Choose…',story.language)}${record.bonusLanguages.map(language=>option(language,language,story.language)).join('')}</select></label>`;
   }
-  return mode+`<div class="story-choice">${groups}${record?ruleReference(record,'ⓘ',null,'creator-story'):''}${secondary}</div>`;
+  return mode+`<div class="story-choice">${groups}${record?ruleReference(record,'ⓘ',null,scope+'-story'):''}${secondary}</div>`;
 }
 function finishing() {
   const c=current(), traits=c.heroicTraits||{};
@@ -360,27 +363,21 @@ function finishing() {
   };
   return `<div class="form-grid">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${TRAIT_FIELDS.filter(([key])=>!TRAIT_TEXT.includes(key)).map(traitField).join('')}</div>${storyEditor()}${traditionEditor()}<div class="trait-texts">${TRAIT_FIELDS.filter(([key])=>TRAIT_TEXT.includes(key)).map(traitField).join('')}</div>`;
 }
-function traditionEditor(){
+function traditionEditor(scope='creation'){
  const c=current();
- return `<details id="creation-traditions"><summary>Force Traditions</summary>${(pack.rules.traditionTalentAccess||[]).map(r=>{
+ return `<details id="${scope}-traditions"><summary>${scope==='creation'?'Force Traditions':'Manage'}</summary>${(pack.rules.traditionTalentAccess||[]).map(r=>{
   const selected=c.forceTraditions?.find(s=>s.id===r.id);
   return `<div class="actions"><label><input type="checkbox" data-force-tradition="${r.id}" ${selected?'checked':''}>${escape(r.name)}</label><button type="button" data-rule-page="${r.ruleId}" aria-label="Read ${escape(r.name)} membership">ⓘ</button>${selected?`<label>Level<input type="number" data-tradition-level="${r.id}" min="1" max="20" value="${selected.level}"></label>${r.prerequisite.requirements.some(p=>p.kind==='darkSideScore')?`<label>Joining DSS<input type="number" data-tradition-dss="${r.id}" min="0" max="1000" value="${selected.darkSideScore}"></label>`:''}`:''}</div>`;
  }).join('')}</details>`;
-}
-function traditionSummary(){
- const memberships=(current().forceTraditions||[]).filter(s=>derived.ctx.forceTraditions.has(s.id));
- if(!memberships.length)return '';
- return `<details id="character-traditions"><summary>Force Traditions</summary>${memberships.map(s=>{const r=pack.rules.traditionTalentAccess.find(r=>r.id===s.id);return `<p><button type="button" class="link-button" data-rule-page="${r.ruleId}">${escape(r.name)}</button></p>`;}).join('')}</details>`;
 }
 function carryingDisplay(){
  const load=derived.load;
  return `${load.heavy?`<span class="badge">${load.tooHeavy?'Too heavy':load.overloaded?'Overloaded':'Heavy Load'}</span>`:''}<details id="carrying-limits"><summary>Load</summary><dl><dt>Heavy Load</dt><dd>≥ ${Number(load.heavyAt.toFixed(2))} kg</dd><dt>Lift</dt><dd>${Number(load.lift.toFixed(2))} kg</dd><dt>Strain</dt><dd>${Number(load.strain.toFixed(2))} kg</dd></dl>${ruleReference(pack.rulePages.find(r=>r.name==='Encumbrance'),'Mechanics',null,'load')}</details>`;
 }
 function traitsSummary() {
-  const c=current(), values=TRAIT_FIELDS.filter(([key])=>c.heroicTraits?.[key]);
-  const story=c.story||emptyStory('none'), record=story.kind==='none'?null:ix[story.kind==='destiny'?'destinies':'backgrounds'].get(story.id);
-  if(!values.length && story.kind==='none')return '';
-  return `<details id="character-traits"><summary>Heroic Traits</summary><dl class="traits-display">${values.map(([key,label])=>`<dt>${label}</dt><dd>${escape(c.heroicTraits[key])}</dd>`).join('')}</dl>${record?ruleReference(record,record.name,null,'sheet-story'):''}${story.kind==='destiny'?`<div class="actions">${field('Destiny Points','story.points',story.points,'number',`min="0" max="${c.levels.length}"`)}</div>${story.details?`<p class="trait-description">${escape(story.details)}</p>`:''}`:''}</details>`;
+ const c=current(),values=TRAIT_FIELDS.filter(([key])=>c.heroicTraits?.[key]);
+ if(!values.length)return '';
+ return `<details id="character-traits"><summary>Heroic Traits</summary><dl class="traits-display">${values.map(([key,label])=>`<dt>${label}</dt><dd>${escape(c.heroicTraits[key])}</dd>`).join('')}</dl></details>`;
 }
 function creation() {
  const c=current(),species=ix.species.get(c.species),cls=ix.classes.get(c.levels[0].classId),row=derived.rows[0];
@@ -415,13 +412,15 @@ function languageCount() {
   const linguists = derived.ctx.feats.filter(s=>s.id==='feat:linguist').length;
   return Math.max(0,derived.mods.int)+linguists*Math.max(1,1+derived.mods.int);
 }
+function featureRows(entries,scope,prefixes=false){
+ return entries.map(({s,r,prefix,label,inactive},i)=>`<article class="${inactive?'feature-inactive':''}"><div>${inactive?'<span class="badge">Inactive</span> ':''}${ruleReference(r,`${prefixes&&prefix?prefix+' ':''}${label}`,s,`${scope}-${i}`)}${s.automatic?'':`<span class="badge">Level ${s.level}</span>`}</div></article>`).join('');
+}
 function featureList() {
-  const species = ix.species.get(current().species);
-  const features = derived.ctx.features.map(({type,selection:s})=>({s,r:ix[type].get(s.id),prefix:type==='feats'?'(F)':'(T)',label:entryLabel(s),inactive:derived.ctx.inactiveTalents.has(s.id)}));
-  for(const f of derived.ctx.classFeatures){const cls=ix.classes.get(f.classId);features.push({s:{level:f.level,automatic:true},r:cls,prefix:'',label:f.name,inactive:derived.ctx.inactiveClasses.has(cls.id)});}
-  for(const choice of derived.ctx.classChoices){const r=ix.classChoices.get(choice.id);features.push({s:choice,r,prefix:'',label:r.name+(choice.choice?' ('+choiceName(choice.choice,pack)+')':''),inactive:derived.ctx.inactiveClasses.has(choice.classId)});}
-  features.sort((a,b)=>a.s.level-b.s.level);
-  return panel('Features',`<div class="feature-list"><article>${ruleReference(species,species.name,null,'features-species')}</article>${features.map(({s,r,prefix,label,inactive},i)=>`<article class="${inactive?'feature-inactive':''}"><div>${inactive?'<span class="badge">Inactive</span> ':''}${ruleReference(r,`${prefix?prefix+' ':''}${label}`,s,`feature-${i}`)}${s.automatic?'':`<span class="badge">Level ${s.level}</span>`}</div></article>`).join('')}</div>`);
+ const species=resolveSpecies(current(),pack);
+ return panel('Features',`<div class="feature-list"><article>${ruleReference(species,species.name,null,'features-species')}</article>${featureRows(featureEntries(current(),derived,pack),'feature',true)}</div>`);
+}
+function featureModule(id,entries){
+ return `<div class="feature-list">${featureRows(entries.filter(e=>e.module===id),id)}</div><a href="#advancement" class="screen-only">Edit</a>`;
 }
 function shopDraft(scope){
  const key=current().id+':'+scope;
@@ -471,8 +470,9 @@ function rules() {
     ${panel('Data attribution',`<p>${escape(pack.license.attribution)}</p><p>${escape(pack.license.changes)}</p><a href="${escape(pack.license.url)}" target="_blank" rel="noopener">${escape(pack.license.name)} ↗</a>`)}
     ${panel('Source revisions',`<div class="table-scroll"><table><thead><tr><th>Source</th><th>Revision</th><th>Updated</th><th>History</th></tr></thead><tbody>${pack.sources.map(s=>`<tr><td><a href="${escape(s.url)}" target="_blank" rel="noopener">${escape(s.title)}${s.section?` / ${escape(s.section)}`:''}</a></td><td>${s.revision}</td><td>${escape(s.timestamp.slice(0,10))}</td><td><a href="${escape(s.history)}" target="_blank" rel="noopener">Contributors ↗</a></td></tr>`).join('')}</tbody></table></div>`)}`;
 }
-function moduleHTML(key, heading, body, classes='') {
-  return `<section class="module ${classes}" data-module="${key}" id="module-${key}"><h2>${heading}</h2>${body}</section>`;
+function moduleHTML(key,body) {
+ const def=moduleDefinition(key);if(!def)throw new Error('Unknown module '+key);
+ return `<section class="module ${def.classes}" data-module="${key}" data-relevant="${moduleRelevant(key,current(),derived)}" id="module-${key}"><h2>${def.title}</h2>${body}</section>`;
 }
 function panelParts(html) {
   const template = document.createElement('template'); template.innerHTML = html;
@@ -482,29 +482,35 @@ function panelBody(panel) { panel.querySelector('.panel-heading')?.remove(); ret
 function sheet() {
   const c = current(), species = resolveSpecies(c,pack);
   const inventoryPanels = panelParts(equipment());
-  const character = `<div class="character-fields">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${ruleReference(species,species.name,null,'header-species')}<span>Level ${derived.level}</span><a href="#creation">Edit</a></div><div class="hint">${escape(species.languages.join(', '))}${backgroundLanguage(c,pack)?', '+escape(backgroundLanguage(c,pack)):''}</div><div class="actions">${field('Languages','languages',c.languages,'text',`maxlength="100000" aria-label="Additional languages (${languageCount()})"`)}</div>${traitsSummary()}${traditionSummary()}`;
+  const character = `<div class="character-fields">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${ruleReference(species,species.name,null,'header-species')}<span>Level ${derived.level}</span><a href="#creation">Edit</a></div>${traitsSummary()}`;
+  const automaticLanguages=[...new Set([...species.languages,...(backgroundLanguage(c,pack)?[backgroundLanguage(c,pack)]:[])])];
+  const languages=`<div>${escape(automaticLanguages.join(', '))}</div><label><span class="sr-only">Additional languages (${languageCount()})</span><input type="text" data-field="languages" value="${escape(c.languages)}" maxlength="100000"></label>`;
+
   const classes = `<table id="class-table"><thead><tr><th>Class</th><th>Level</th><th>Hit die</th><th>Base attack</th></tr></thead><tbody>${[...derived.ctx.classLevels].map(([id,n])=>{const cls=ix.classes.get(id);return `<tr><td>${ruleReference(cls)}</td><td class="derived">${n}</td><td>d${cls.hitDie}</td><td>${signed(cls.bab[n-1])}</td></tr>`;}).join('')}</tbody></table><div class="class-summary"><a href="#advancement" class="button">Level Up</a></div>`;
   const abilities = `<table><thead><tr><th>Ability</th><th>Mod</th><th>Score</th><th>Base</th><th>Species</th></tr></thead><tbody>${ABILITIES.map(a=>`<tr><td>${a.toUpperCase()}</td><td><button class="roll" data-roll="${derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0)}" data-roll-label="${a.toUpperCase()}" aria-label="${a.toUpperCase()} check ${signed(derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0))}" ${derived.incapacitated?'disabled':''}>${signed(derived.mods[a])}</button></td><td class="derived" title="${derived.ctx.scores[a]}${derived.equipmentAbilities[a]?` + ${derived.equipmentAbilities[a]} ${escape(derived.armor.name)}`:''}">${derived.scores[a]}</td><td><input type="number" min="3" max="30" aria-label="Base ${a.toUpperCase()}" data-ability="${a}" value="${c.abilities[a]}"></td><td>${signed(species.abilityAdjustments[a]||0)}</td></tr>`).join('')}</tbody></table>${Object.keys(derived.equipmentAbilities).length?`<details><summary class="hint">Calculations</summary>${Object.entries(derived.equipmentAbilities).map(([a,n])=>`<div class="hint">${a.toUpperCase()}: ${derived.ctx.scores[a]} + ${n} ${escape(derived.armor.name)}</div>`).join('')}</details>`:''}`;
   const defenses = `<div class="actions"><label class="checkbox"><input type="checkbox" data-flat-footed ${derived.flatFooted?'checked':''} ${derived.balancingFlatFooted?'disabled title="Balancing"':''}>Flat-footed</label><label class="checkbox"><input type="checkbox" data-prone ${c.prone?'checked':''}>Prone</label><label class="checkbox"><input type="checkbox" data-helpless ${derived.helpless?'checked':''} ${c.condition===5||c.currentHP===0||derived.recovery.dead?'disabled':''}>Helpless</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:helpless'),'ⓘ',null,'defenses-helpless')}</div><table><thead><tr><th>Defense</th><th>Total</th></tr></thead><tbody>${['reflex','fortitude','will'].map(k=>`<tr title="${escape(derived.breakdowns[k])}"><td>${title(k)}</td><td class="derived defense-total" data-defense="${k}">${derived.defenses[k]}</td></tr>`).join('')}${derived.conditionalDefenses.map(e=>`<tr><td>${title(e.defense)} ${escape(conditionalDefenseLabel(e))}</td><td class="derived defense-total" data-defense="${e.defense}-${e.against}">${e.total}</td></tr>`).join('')}</tbody></table>${proneActionControls(c,derived,pack)}${defensiveCombatControls(c,derived)}<details><summary class="hint">Calculations</summary>${['reflex','fortitude','will'].map(k=>`<div class="hint">${title(k)}: ${escape(derived.breakdowns[k])}</div>`).join('')}</details>`;
   const hp = healthBars(c,derived)+recoveryControls.health();
 
-  return moduleHTML('header','Character',character,'wide') + moduleHTML('classes','Classes',classes+xpBar(c,derived,pack.rules.resources),'wide')
-    + moduleHTML('abilities','Ability Scores',abilities) + moduleHTML('defenses','Defenses',defenses)
-    + moduleHTML('hp','HP',hp) + moduleHTML('threshold','Damage Threshold',`<div class="stat-big">${derived.threshold}</div>${derived.conditionalThresholds.map(r=>`<div>${r.total} ${escape(conditionalDefenseLabel(r))}</div>`).join('')}`,'small')
-    + moduleHTML('bab','Base Attack',`<div class="stat-big">${signed(derived.bab)}</div>`,'small')
-    + moduleHTML('speed','Speed',`<div class="stat-big">${derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armor&&derived.armor.category!=='light'?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${escapeBondsControls(c,derived,pack)}${fallingControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,'small')
-    + moduleHTML('force','Force Points',statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${species.forceImmune?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`)
-    + moduleHTML('dark-side','Dark Side Score',statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'))
-    + moduleHTML('condition','Condition Track',conditionTrack()+recoveryControls.condition()) + moduleHTML('skills','Skills',skillTable())
-    + moduleHTML('attacks','Attacks',attackTable())
-    + (derived.powerSlots||derived.forcePowers.length?moduleHTML('force-powers','Force Powers',forcePowersUI.sheet(),'wide'):'')
-    + moduleHTML('routines','Offensive Routines',combatControls.renderRoutines(),'wide')
-    + moduleHTML('inventory','Inventory',`${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')} <span class="hint">${totalWeight()}</span>${carryingDisplay()}<details class="shop" id="equipment-catalog"><summary>Catalog</summary>${panelBody(inventoryPanels[0]).replace(/<div class="actions">[\s\S]*?<\/div>$/, '')}</details>${panelBody(inventoryPanels[1])}`)
-    + moduleHTML('features','Features',`${recoveryControls.species()}${panelBody(panelParts(featureList())[0])}<a href="#advancement" class="screen-only">Edit</a>`)
-    + moduleHTML('modifiers','Modifiers',`<div class="form-grid">${Object.entries(c.modifiers).map(([key,val])=>field(title(key),`modifiers.${key}`,val,'number','min="-1000" max="1000"')).join('')}</div>`)
-    + moduleHTML('notes','Notes',`<label><span class="sr-only">Character notes</span><textarea data-field="notes" rows="5">${escape(c.notes)}</textarea></label>`)
-    + moduleHTML('house-rules','House Rules',houseRules.render(c),'wide')
-    + moduleHTML('dice','Event Log',`<div id="dicelog" role="log"></div><input id="cmd-input" placeholder="1d20+5" aria-label="Dice expression"><button data-action="clear-log">Clear</button>`);
+  const entries=featureEntries(c,derived,pack);
+  const bodies={
+   header:character,languages,classes:classes+xpBar(c,derived,pack.rules.resources),abilities,defenses,hp,
+   threshold:`<div class="stat-big">${derived.threshold}</div>${derived.conditionalThresholds.map(r=>`<div>${r.total} ${escape(conditionalDefenseLabel(r))}</div>`).join('')}`,
+   bab:`<div class="stat-big">${signed(derived.bab)}</div>`,
+   speed:`<div class="stat-big">${derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armor&&derived.armor.category!=='light'?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${escapeBondsControls(c,derived,pack)}${fallingControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,
+   force:statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${species.forceImmune?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`,
+   'dark-side':statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'),condition:conditionTrack()+recoveryControls.condition(),skills:skillTable(),attacks:attackTable(),
+   'force-powers':forcePowersUI.sheet(),routines:combatControls.renderRoutines(),
+   inventory:`${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')} <span class="hint">${totalWeight()}</span>${carryingDisplay()}<details class="shop" id="equipment-catalog"><summary>Catalog</summary>${panelBody(inventoryPanels[0]).replace(/<div class="actions">[\s\S]*?<\/div>$/, '')}</details>${panelBody(inventoryPanels[1])}`,
+   'species-features':`${recoveryControls.species()}<div class="feature-list"><article>${ruleReference(species,species.name,null,'sheet-species')}</article></div>`,
+   ...Object.fromEntries(['feats','talents','class-features','force-techniques','force-secrets','medical-secrets'].map(id=>[id,featureModule(id,entries)])),
+   destiny:storyEditor('sheet'),
+   'destiny-points':c.story?.kind==='destiny'?statBar('destiny','',c.story.points,c.levels.length,'story.points')+`<button type="button" data-spend-destiny ${c.story.points>0&&derived.level>0?'':'disabled'}>Spend</button>`:'',
+   traditions:`${(c.forceTraditions||[]).map(s=>{const r=pack.rules.traditionTalentAccess.find(r=>r.id===s.id);return `<div class="actions"><button type="button" class="link-button" data-rule-page="${r.ruleId}">${escape(r.name)}</button><span class="badge">Level ${s.level}</span>${s.level<=c.levels.length&&!derived.ctx.forceTraditions.has(s.id)?'<span class="badge">Inactive</span>':''}</div>`;}).join('')}${traditionEditor('sheet')}`,
+   modifiers:`<div class="form-grid">${Object.entries(c.modifiers).map(([key,val])=>field(title(key),`modifiers.${key}`,val,'number','min="-1000" max="1000"')).join('')}</div>`,
+   notes:`<label><span class="sr-only">Character notes</span><textarea data-field="notes" rows="5">${escape(c.notes)}</textarea></label>`,
+   'house-rules':houseRules.render(c),dice:`<div id="dicelog" role="log"></div><input id="cmd-input" placeholder="1d20+5" aria-label="Dice expression"><button data-action="clear-log">Clear</button>`
+  };
+  return MODULES.map(def=>{if(!Object.hasOwn(bodies,def.id))throw new Error('Missing module '+def.id);return moduleHTML(def.id,bodies[def.id]);}).join('');
 }
 function fitBarInput(el) {
   el.style.width=`calc(${Math.max(1,el.value.length)}ch + 3px)`;
@@ -584,6 +590,7 @@ function validCreatorInput() {const invalid=$('cr-body').querySelector('[data-ge
 function closeEditor() { if(validCreatorInput()){$('creator-modal').close();editorMode=null;location.hash='overview';render();} }
 function focusModule(key) {
   const module = $(`module-${key}`); if (!module) return;
+  window.__layout.showModule(key);
   if (window.__layout.state.collapsed[key]) window.__layout.toggleCollapse(module);
   const stack = window.__layout.stackIdOf(key); if (stack) window.__layout.switchTab(key);
   module.scrollIntoView({block:'start',behavior:'smooth'});
@@ -598,7 +605,7 @@ function route() {
   }
   else {
     if ($('creator-modal').open) closeEditor();
-    if (section !== 'overview') focusModule({equipment:'inventory',features:'features',skills:'skills'}[section]);
+    if (section !== 'overview') focusModule({equipment:'inventory',features:'feats',skills:'skills'}[section]);
   }
 }
 function render() {
@@ -655,7 +662,7 @@ function events() {
     if(featureTrees.input(event))return;
     if(el.id==='species-search'){speciesBrowser.search(el.value);$('species-results').innerHTML=speciesBrowser.results(current().species);return;}
     if(el.dataset.trait){current().heroicTraits||={};current().heroicTraits[el.dataset.trait]=el.value;store.schedule();return;}
-    if(el.dataset.story==='details'){current().story.details=el.value;store.schedule();return;}
+    if(el.dataset.story==='details'){current().story.details=el.value;document.querySelectorAll('[data-story="details"]').forEach(other=>{if(other!==el)other.value=el.value;});store.schedule();return;}
     if (el.hasAttribute('data-generation-manual')) {
       const value=Number(el.value), valid=el.value!=='' && Number.isInteger(value) && value>=3 && value<=30;
       el.setCustomValidity(valid?'':'Enter a whole number from 3 to 30.');
@@ -680,6 +687,7 @@ function events() {
     }
   });
   document.addEventListener('change',event=>{
+    if(event.composedPath().some(node=>node.id==='lay-bar'))return;
     const el=event.target, c=current();
     if(el.id==='rules-book'){rulesCatalog.source(el.value);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(el.id==='rules-kind'||el.id==='rules-builder-only'){rulesCatalog.filter($('rules-kind').value,$('rules-builder-only').checked);$('rules-results').innerHTML=rulesCatalog.results();return;}
@@ -852,10 +860,12 @@ function events() {
   });
   document.addEventListener('submit',event=>{if(['recovery-healing','recovery-limb'].includes(event.target.id)){event.preventDefault();recoveryControls.submit(event.target);return;}if(event.target.id==='bellow-controls'){event.preventDefault();recoveryControls.bellow(event.target);return;}if(event.target.id==='apply-damage'){event.preventDefault();const el=event.target.querySelector('[data-incoming-damage]');commitMath(el);combatControls.damage(event.target);return;}if(event.target.matches('form[data-equipment-scope]')){event.preventDefault();purchase(true,event.target);}});
   document.addEventListener('click',event=>{
+    if(event.composedPath().some(node=>node.id==='lay-bar')||event.target.closest('.lay-collapse-btn,.lay-tab,.lay-handle'))return;
     if(event.target.closest('[data-reference-retry]')){loadReferences();return;}
     const rulesPage=event.target.closest('[data-rules-page]');if(rulesPage){rulesCatalog.page(rulesPage.dataset.rulesPage);$('rules-results').innerHTML=rulesCatalog.results();return;}
     const referenceLink=event.target.closest('[data-rule-reference]');
     if(referenceLink&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();openReference(referenceLink.dataset.ruleReference);return;}
+    if(event.target.closest('[data-spend-destiny]')){const c=current();if(c.story?.kind==='destiny'&&c.story.points>0&&derived.level>0){spendDestinyPoint(c,derived);logEvent('resource','Destiny Point: '+c.story.points+' remaining');changed();}return;}
     if(event.target.closest('[data-next-turn]')){startNextTurn(current());changed();return;}
     if(event.target.closest('[data-flurry]')){try{declareFlurry(current(),derived);}catch(err){notify(err.message);}changed();return;}
     const stance=event.target.closest('[data-defense-stance]');if(stance){try{declareDefenseStance(current(),derived,stance.dataset.defenseStance);}catch(err){notify(err.message);}changed();return;}

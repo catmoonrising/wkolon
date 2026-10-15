@@ -63,13 +63,13 @@ module.exports=async function checkFinishing(browser,base,root){
   await page.screenshot({path:path.join(root,'.build/finishing-background.png')});
   await creationUI.done(page,'done');const background=await exportCharacter();
   assert.deepEqual(background.story,{kind:'background',id:'background:dac-origin',skills:['skill:swim','skill:persuasion'],language:'Quarrenese'});
-  assert((await page.locator('#module-header').innerText()).includes('Quarrenese'));
+  assert((await page.locator('#module-languages').innerText()).includes('Quarrenese'));
   await page.reload();await finish();assert.equal(await body.locator('[data-story="id"]').inputValue(),'background:dac-origin');
   assert.equal(await body.locator('[data-background-skill="1"]').inputValue(),'skill:persuasion');
   await body.locator('[data-story="kind"][value="none"]').check();
   assert.equal(await body.locator('[data-story="id"]').count(),0);
   await creationUI.done(page,'done');assert.deepEqual((await exportCharacter()).story,{kind:'none'});
-  assert(!(await page.locator('#module-header').innerText()).includes('Quarrenese'));
+  assert(!(await page.locator('#module-languages').innerText()).includes('Quarrenese'));
   // A Destiny gains a point on advancement and keeps a valid cap when a level is removed.
   await finish();await body.locator('[data-story="kind"][value="destiny"]').check();
   await body.locator('[data-story="id"]').selectOption('destiny:discovery');await creationUI.done(page,'done');

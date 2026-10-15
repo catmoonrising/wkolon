@@ -8,6 +8,13 @@
   border-radius: var(--radius); display: flex; gap: .7rem; align-items: center; flex-wrap: wrap; font-size: .85rem;
 }
 #lay-bar label { display: inline-flex; align-items: center; gap: .25rem; margin: 0; }
+.modules > .module[hidden] { display: none !important; }
+#lay-modules { position: relative; }
+#lay-modules[open] { z-index: 10001; }
+#lay-module-menu { position: fixed; top: 0; left: 0; min-width: min(14rem,calc(100vw - 1rem)); max-width: calc(100vw - 1rem); max-height: min(65vh,32rem); overflow: auto; padding: .5rem; background: var(--bg); border: 1px solid var(--border-soft); box-shadow: var(--module-shadow); }
+#lay-module-list { display: grid; gap: .25rem; }
+#lay-module-list label { white-space: nowrap; }
+#lay-module-auto { margin-left: .5rem; }
 
 /* --- positioning (the arrangement) --- */
 .modules.lay-active { position: relative; }
