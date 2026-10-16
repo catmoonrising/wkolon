@@ -18,7 +18,7 @@ const roller=(die,total,damage)=>expr=>({value:expr.startsWith('1d20')?total:dam
 test('every Core feat and weapon page is reviewed, enabled and has its original article',()=>{
  validatePack(pack);
  for(const r of pack.catalog.records.filter(r=>['feat','weapon'].includes(r.kind))){assert.equal(r.status,'available',r.name);assert(r.mechanicsIds.length);for(const id of r.mechanicsIds)assert((ix.feats.get(id)||ix.equipment.get(id)).article.blocks.length);}
- assert.equal(pack.catalog.records.filter(r=>r.kind==='weapon').length,48);
+ assert(pack.catalog.records.filter(r=>r.kind==='weapon'&&r.books.includes('Core Rulebook')).length>=48);
  assert.equal(ix.equipment.get('equipment:net').damage,null);
  assert.equal(ix.equipment.get('equipment:amphistaff').cost,null);
  assert.equal(ix.equipment.get('equipment:double-bladed-lightsaber').double,true);

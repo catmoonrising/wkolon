@@ -233,7 +233,16 @@ export function validatePack(p) {
           assert(['move-action','free-action','full-round-action'].includes(a.reloadAction)&&sources.has(a.sourceId),'Invalid reload rule');assert(Array.isArray(a.supplyIds)&&a.supplyIds.length&&new Set(a.supplyIds).size===a.supplyIds.length,'Invalid ammunition supplies');a.supplyIds.forEach(id=>requireRef('equipment',id));
         }
       }
-      if(r.kind==='weapon') {
+      if(r.manualAttack!==undefined){
+        assert(r.manualAttack===true&&r.kind==='weapon'&&r.automation==='manual','Invalid manual weapon');
+        assert(r.size===null||p.rules.weaponSizeOrder.includes(r.size),'Invalid manual weapon size');
+        assert(r.group===null||[...GROUPS,'exotic-melee','exotic-ranged'].includes(r.group),'Invalid manual weapon group');
+        assert(r.mode===null||['melee','ranged'].includes(r.mode),'Invalid manual weapon mode');
+        assert(r.damage===null||/^\d+d\d+$/.test(r.damage),'Invalid manual weapon damage');
+        assert(!r.ammunitionProfiles&&!r.modes&&!r.effects,'Manual weapon claims automated mechanics');
+      }
+      if(r.purchasePending!==undefined)assert(r.purchasePending===true&&r.cost===null&&r.automation==='manual','Invalid manual purchase');
+      if(r.kind==='weapon'&&!r.manualAttack) {
         assert(p.rules.weaponSizeOrder.includes(r.size) && [...GROUPS,'exotic-melee','exotic-ranged'].includes(r.group) && ['melee','ranged'].includes(r.mode));
         assert(/^\d+d\d+$/.test(r.damage)||r.damage===null&&(r.damageAction==='Grab / Grapple'||r.ammunition==='grenade'||r.unarmed),'Unsupported weapon damage');
         for(const k of ['accurate','inaccurate','autofire','autofireOnly','areaAttack','thrown','double','addsStrength','unarmed'])if(r[k]!==undefined)assert.equal(typeof r[k],'boolean');

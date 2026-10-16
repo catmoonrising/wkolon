@@ -6,7 +6,7 @@ import {counselingEnabled,ambiguityValue} from './house-rules.js';
 export function flurryState(c,pack,ctx,size,helpless=false){
  const rule=pack.rules.flurry,owned=ctx.feats.some(f=>f.id===rule.featId),selected=!!c.flurry;
  const weapons=c.inventory.filter(e=>e.equipped&&e.carried!==false).map(e=>resolveEquipment(e,pack,c)).filter(w=>w.kind==='weapon'&&!w.unarmed);
- const light=w=>w.group==='lightsabers'||pack.rules.weaponSizeOrder.indexOf(w.size)<pack.rules.weaponSizeOrder.indexOf(size);
+ const light=w=>w.group==='lightsabers'||!!w.size&&pack.rules.weaponSizeOrder.indexOf(w.size)<pack.rules.weaponSizeOrder.indexOf(size);
  const onlyLight=weapons.length?weapons.every(light):counselingEnabled(c,'jc:112-unarmed-attacks-and-weapon-finesse');
  const reason=!owned?'Requires Flurry':helpless?'Attack unavailable':selected?'Used this turn':!onlyLight?'Requires only Light Weapons or Lightsabers':'';
  return {owned,selected,onlyLight,reason,available:!reason,attackBonus:selected&&owned&&(onlyLight||ambiguityValue(c,pack,'ambiguity:flurry-weapon-change')==='retain-bonus')?rule.attackBonus:0,reflexPenalty:selected?rule.reflexPenalty:0};

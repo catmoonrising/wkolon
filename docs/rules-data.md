@@ -1328,3 +1328,26 @@ Execution rereads those resources, validates on a cloned character, and commits
 resource spending and results together. Resolved failures keep their action cost.
 A saved waiting power check resumes its optional FP decision without rerolling.
 See actions.md for supported operations and remaining manual effects.
+
+## Selectable supplemental equipment
+
+All 217 weapon pages and 206 gear pages in the current official reference index
+now map to selectable equipment. Existing reviewed mappings and pins are retained.
+The offline importer tools/import-equipment.py reads the pinned presentation tree,
+never live markup or generated summaries. Only explicit stat paragraphs provide
+prices, kilogram weights, groups, modes, sizes and damage. Repeated equal values
+may agree; differing profiles or unparsed values stay null. Full articles retain
+all variants, instructions, durations and prerequisites.
+
+New weapons have manualAttack:true and automation:manual. Their printed facts
+remain data, while derive.manualAttacks keeps them separate from calculated
+attacks. The sheet and stat block display them as Manual and provide the article;
+they cannot enter automated attack/routine spending. Unknown groups do not grant
+proficiency. Reviewed weapons continue using their existing automation unchanged.
+
+Null prices needing interpretation use purchasePending:true and display Manual
+price. Buy remains disabled, while Add owned stays available. Existing inherently
+unpurchasable equipment keeps its existing handling. Unknown weights retain
+manual overrides. Known purchase prices and availability use existing license and
+market calculations. Detailed table variants, ammunition and item effects remain
+work to review and automate.

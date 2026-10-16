@@ -30,7 +30,7 @@ export function renderStatBlock(c,d,pack){
  const defenseTotal=key=>d.defenses[key]+(d.conditionalDefenses||[]).filter(e=>e.defense===key).map(e=>` (${e.total} ${escape(conditionalDefenseLabel(e))})`).join('');
  const defensiveOptions=[d.defensiveCombat.stance==='fight'?'Fight Defensively':d.defensiveCombat.stance==='total'?'Total Defense':'',d.defensiveCombat.melee?'Melee Defense '+d.defensiveCombat.melee:'',c.chargeReflexPenalty?'Charge':''].filter(Boolean).join('; ');
  const attackText=(a,attackMod=0,damageMod=0)=>`${escape(a.name)} ${signed(a.attack+attackMod)} (${escape(a.damageDisplay)}${damageMod?signed(damageMod):''}${a.criticalThreat<20&&!a.areaType?'; '+a.criticalThreat+'–20 critical':''}${a.criticalMultiplier>2&&!a.areaType?`; ×${a.criticalMultiplier} critical`:''})`;
- const attacks=d.attacks.map(a=>line(a.mode==='melee'?'Melee':'Ranged',attackText(a))).join('');
+ const attacks=d.attacks.map(a=>line(a.mode==='melee'?'Melee':'Ranged',attackText(a))).join('')+(d.manualAttacks||[]).map(a=>line(a.mode==='melee'?'Melee':a.mode==='ranged'?'Ranged':'Attack',escape(a.name)+' (Manual)')).join('');
  const routines=(c.routines||[]).filter(r=>r.steps.length).map(r=>{
   let plan;try{plan=planFullAttack(r,d,pack);}catch(e){return line(escape(r.name||'Routine'),escape(e.message));}
   return line(escape(r.name||'Routine'),r.steps.map(s=>{

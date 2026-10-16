@@ -2653,6 +2653,8 @@
           ],
           "minimum": 0
         },
+        "manualAttack": {"const": true},
+        "purchasePending": {"const": true},
         "family": {
           "type": "string"
         },

@@ -200,14 +200,14 @@ export function weaponProficient(w,ctx,ix){
  if(w.unarmed&&counselingEnabled(ctx,'jc:112-unarmed-weapon-group'))return true;
  if(ctx.feats.some(f=>f.id===F('exotic-weapon-proficiency')&&f.choice===w.id))return true;
  const group=ctx.weaponFamiliarity?.[w.id]||w.group;
- return ctx.feats.some(f=>ix.feats.get(f.id)?.weaponGroup===group);
+ return !!group&&ctx.feats.some(f=>ix.feats.get(f.id)?.weaponGroup===group);
 }
 
 export function talentTrees(cls,ctx,pack){
  return [...cls.talentTrees,...(!ctx.forceImmune&&ctx.feats.some(f=>f.id===F('force-sensitivity'))?[...(pack.rules.forceTalentAccess?.trees||[]),...(pack.rules.traditionTalentAccess||[]).filter(r=>ctx.forceTraditions?.has(r.id)).map(r=>r.tree)]:[])];
 }
 
-const weaponEffectGroup=(w,ctx)=>counselingEnabled(ctx,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity?.[w.id]||(w.group.startsWith('exotic-')?w.id:w.group):w.group.startsWith('exotic-')?w.id:w.group;
+const weaponEffectGroup=(w,ctx)=>counselingEnabled(ctx,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity?.[w.id]||(w.group?.startsWith('exotic-')?w.id:w.group):w.group?.startsWith('exotic-')?w.id:w.group;
 
 export function levelSlots(levelNumber, classLevel, species, cls, pack) {
   const slots = [];
@@ -458,7 +458,8 @@ export function derive(c, pack) {
   });
   const unarmed=unarmedWeapon(pack,effectiveSize,total('unarmedDieSteps'));
   const gloves=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).unarmed);
-  const weaponEntries=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).kind==='weapon'&&!ix.equipment.get(e.id).unarmed);
+  const manualAttacks=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).manualAttack).map(e=>({...resolveEquipment(e,pack,c),uid:e.uid}));
+  const weaponEntries=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).kind==='weapon'&&!ix.equipment.get(e.id).unarmed&&!ix.equipment.get(e.id).manualAttack);
   if(unarmed)weaponEntries.push({id:UNARMED_ID,uid:c.id,twoHanded:false,targetKind:c.unarmedModifiers?.targetKind,attackTechnique:c.unarmedModifiers?.attackTechnique,attackMod:c.unarmedModifiers?.attackMod||0,damageMod:(c.unarmedModifiers?.damageMod||0)+Math.max(0,...gloves.map(e=>ix.equipment.get(e.id).damageBonus||0))});
   const featHas=id=>ctx.feats.some(f=>f.id===F(id));
   const powerAttack=powerAttackState(c,pack,{bab:ctx.bab,owned:featHas('power-attack')});
@@ -535,7 +536,7 @@ export function derive(c, pack) {
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
-  return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+  return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
