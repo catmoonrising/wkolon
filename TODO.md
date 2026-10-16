@@ -106,8 +106,8 @@
 - [x] Modular sheet architecture and layout migration, following docs/modules-roadmap.md.
   - [x] Separate Languages, Feats, Talents, Class Features and Species Features.
   - [x] Independent visibility, layout and collapse state without disabling mechanics.
-  - [ ] Actions module: six action menus, shared action dispatcher, optional costs/choices, rolls, immediate execution and queued turn plans.
-  - [ ] Reuse existing New Turn and expiry functions; preserve round/encounter limits and completed rolls when plans change.
+  - [x] Actions module: six action menus, shared action dispatcher, optional costs/choices, rolls, immediate execution and queued turn plans.
+  - [x] Reuse existing New Turn and expiry functions; preserve round/encounter limits and completed rolls when plans change.
 - [ ] Starships and vehicles.
 - [ ] Piloting maneuvers.
 - [ ] Droid systems and modifications.
@@ -141,3 +141,5 @@
 - Investigate ambiguities that affect the current calculation or action.
 - Use focused checks during development and a full browser regression before
   publishing each batch.
+
+- [ ] Expand Actions with remaining reviewed feature activations and target/effect automation. Manual actions and power effects retain coverage markers.

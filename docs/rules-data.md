@@ -438,7 +438,8 @@ light-weapon treatment. Combat Gloves add their bonus once, not once per pair.
 Force Boon increases the level's Force Point capacity by three; selecting it
 adds those points, and advancement refills the derived pool. Strong in the Force
 changes the roll to d8s; heroic levels 8 and 15 add dice, taking the highest.
-Action/once-per-round timing remains player-managed.
+Actions tracks reviewed action costs and the ordinary one-Force-Point-per-round
+limit when a turn is active. Untracked play retains manual timing.
 
 Species `skillRerolls: [{skill, keep, when?}]` distinguishes replacement from
 keeping the better check and retains Intimidate and Search Your Feelings/Sense
@@ -1309,3 +1310,21 @@ catalog and source article. Effective descriptors must feed both display and
 activation, including automatic DSS costs. Removing or invalidating the talent
 restores the original descriptors. The supported list is Light Side and Dark
 Side only; membership or a secondary choice alone cannot remove a descriptor.
+
+## Actions and saved turn plans
+
+`rules.actionEconomy` pins Actions revision 24963 and The Force reference. It
+defines three action slots, the direction of legal substitutions, all-three-slot
+Full-Round spending, and stable menu records with typed costs and source links.
+Dynamic costs come from reviewed reload, power, recovery and skill metadata.
+Manual records account for declared action time and do not automate their
+effects. Custom routines require confirmation of their action cost. The record list is a menu contract, not a complete action catalog.
+
+Optional `character.actionState` version 1 stores tracking status, turn/round slots,
+normalized reaction trigger IDs, one-point round spending, Recover progress,
+queued action IDs/options, and bounded completed results. A plan snapshots choices,
+not opportunity history, Cleave tickets, per-round use counts or other resources.
+Execution rereads those resources, validates on a cloned character, and commits
+resource spending and results together. Resolved failures keep their action cost.
+A saved waiting power check resumes its optional FP decision without rerolling.
+See actions.md for supported operations and remaining manual effects.

@@ -64,8 +64,9 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
+export function newEncounter(c){resetActionTurn(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
+ resetActionTurn(c);
  startNextTurn(c);startNextRound(c);
  const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.naturalHealingUsed=false;
  const regrown=[];
@@ -141,3 +142,4 @@ export function setLimbPersistent(c,id,on){
  const r=state(c),limb=r.limbs.find(l=>l.id===id);if(!limb)return;
  limb.persistent=on;setPersistent(c,'limb-loss',r.limbs.some(l=>l.persistent));
 }
+import {resetActionTurn} from './action-economy.js';

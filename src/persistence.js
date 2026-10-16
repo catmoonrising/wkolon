@@ -75,6 +75,7 @@ function replaceCharacterId(c){
  if(c.followUp)Object.assign(c.followUp,{tickets:[],selected:null,dropped:false,immediate:false,inReach:false});
  // The permanent unarmed attack uses the character's ID; physical item IDs stay intact.
  for(const r of c.routines||[])for(const s of r.steps)if(s.attackId===previous)s.attackId=c.id;
+ for(const step of [...(c.actionState?.plan||[]),...(c.actionState?.history||[])])if(step.options.uid===previous)step.options.uid=c.id;
 }
 
 export function downloadJSON(value, filename) {

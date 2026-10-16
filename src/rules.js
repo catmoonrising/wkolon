@@ -1,3 +1,4 @@
+import {validateActionState} from './action-economy.js';
 import {activeLightsabers,powerActions} from './power-activation.js';
 import {defenseAbilityDetails,thresholdDetails,validateDefenseAbilities} from './defense-abilities.js';
 import {teamSkillDetails,validateTeamAllies} from './team-skills.js';
@@ -126,6 +127,7 @@ export function validateCharacter(c, pack) {
   if (!obj(c.modifiers) || !['reflex', 'fortitude', 'will', 'hp', 'threshold', 'attack', 'damage'].every(k => num(c.modifiers[k], -1000, 1000))) bad('modifiers');
   validateFinishing(c,pack,bad);
   validateCombatState(c,bad);
+  validateActionState(c,bad);
   return c;
 }
 

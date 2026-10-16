@@ -326,3 +326,25 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .feature-tree-node.owned .automation-badge { color: inherit; }
 .choice-field > .automation-badge { display: inline-block; margin-bottom: .25rem; }
 .manual-prerequisites { font-size: .9em; max-width: 30rem; }
+
+/* Actions share the sheet's theme, type and native controls. */
+.action-types { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .5rem; }
+.action-used { opacity: .55; text-decoration: line-through; }
+#actions-modal { padding: 0; border: 0; background: transparent; color: var(--fg); width: min(48rem, calc(100vw - 2rem)); max-height: calc(100vh - 2rem); }
+#actions-body { overflow: auto; max-height: calc(100dvh - 9rem); }
+.action-menu { display: grid; gap: .3rem; }
+.action-menu > button { display: flex; justify-content: space-between; gap: 1rem; text-align: left; }
+.action-menu small { white-space: nowrap; }
+.action-fields { display: flex; flex-wrap: wrap; gap: .65rem 1rem; margin-bottom: .5rem; align-items: center; }
+.action-fields label { display: inline-flex; align-items: center; gap: .35rem; max-width: 100%; }
+.action-fields input[type=number] { width: 5rem; }
+.action-fields input:not([type]), .action-fields select { max-width: 100%; min-width: 0; }
+.action-fields details { flex-basis: 100%; }
+.action-error { color: var(--fg); font-style: italic; }
+.action-error:empty { display: none; }
+.turn-plan { padding-left: 1.5rem; }
+.turn-plan li { margin: .5rem 0; }
+.turn-plan li > .action-error { display: block; }
+@media (max-width: 600px) { .action-fields label { flex-wrap: wrap; } #actions-modal { margin: auto; } }
+
+#actions-modal .modal-box { width: 100%; max-width: none; min-width: 0; box-sizing: border-box; }

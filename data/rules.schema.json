@@ -1932,9 +1932,116 @@
               }
             }
           }
+        },
+        "actionEconomy": {
+          "type": "object",
+          "required": [
+            "referenceId",
+            "normal",
+            "fullRound",
+            "substitutions",
+            "actions"
+          ],
+          "properties": {
+            "referenceId": {
+              "type": "string"
+            },
+            "referenceRevision": {
+              "type": "integer"
+            },
+            "forceReferenceId": {
+              "type": "string"
+            },
+            "normal": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "standard",
+                  "move",
+                  "swift"
+                ]
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "uniqueItems": true
+            },
+            "fullRound": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "standard",
+                  "move",
+                  "swift"
+                ]
+              },
+              "minItems": 3,
+              "maxItems": 3,
+              "uniqueItems": true
+            },
+            "substitutions": {
+              "type": "object",
+              "required": ["standard", "move", "swift"],
+              "properties": {
+                "standard": {"const": ["standard"]},
+                "move": {"const": ["move", "standard"]},
+                "swift": {"const": ["swift", "move", "standard"]}
+              },
+              "additionalProperties": false
+            },
+            "recoverActions": {
+              "const": 3
+            },
+            "forcePointsPerRound": {
+              "const": 1
+            },
+            "actions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "name",
+                  "type",
+                  "count"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "enum": [
+                      "full",
+                      "standard",
+                      "move",
+                      "swift",
+                      "free",
+                      "reaction"
+                    ]
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3
+                  },
+                  "also": {
+                    "enum": [
+                      "move"
+                    ]
+                  },
+                  "ruleId": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
         }
       },
       "required": [
+        "actionEconomy",
         "combat",
         "resources",
         "sizeStealth",

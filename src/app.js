@@ -1,3 +1,4 @@
+import {createActionsUI} from './actions-ui.js';
 import {spendDestinyPoint} from './heroic-traits.js';
 import {MODULES,moduleDefinition,moduleRelevant} from './sheet-modules.js';
 import {featureEntries} from './feature-views.js';
@@ -62,6 +63,7 @@ const title = value => value.replaceAll('-', ' ').replace(/\b\w/g, c => c.toUppe
 const SECTIONS = ['overview','creation','skills','features','equipment','advancement','rules'];
 let section = SECTIONS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
 let pack, ix, store, derived, speciesBrowser, featureTrees, combatControls, rulesCatalog,speciesChecks,recoveryControls;
+let actionsUI;
 let treeTarget=null, houseRules, creationOptions,forcePowersUI,powerManageLevel=0;
 const referenceLibrary=createReferenceLibrary();
 let referenceRequest=0;
@@ -498,7 +500,7 @@ function sheet() {
    bab:`<div class="stat-big">${signed(derived.bab)}</div>`,
    speed:`<div class="stat-big">${derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armor&&derived.armor.category!=='light'?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${escapeBondsControls(c,derived,pack)}${fallingControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,
    force:statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${species.forceImmune?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`,
-   'dark-side':statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'),condition:conditionTrack()+recoveryControls.condition(),skills:skillTable(),attacks:attackTable(),
+   'dark-side':statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'),condition:conditionTrack()+recoveryControls.condition(),skills:skillTable(),actions:actionsUI.render(),attacks:attackTable(),
    'force-powers':forcePowersUI.sheet(),routines:combatControls.renderRoutines(),
    inventory:`${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')} <span class="hint">${totalWeight()}</span>${carryingDisplay()}<details class="shop" id="equipment-catalog"><summary>Catalog</summary>${panelBody(inventoryPanels[0]).replace(/<div class="actions">[\s\S]*?<\/div>$/, '')}</details>${panelBody(inventoryPanels[1])}`,
    'species-features':`${recoveryControls.species()}<div class="feature-list"><article>${ruleReference(species,species.name,null,'sheet-species')}</article></div>`,
@@ -609,6 +611,7 @@ function route() {
   }
 }
 function render() {
+  actionsUI?.refresh();
   derived = derive(current(),pack);
   const scroll = window.scrollY;
   const openDetails = [...document.querySelectorAll('.modules details[open][id]')].map(el=>el.id);
@@ -700,6 +703,7 @@ function events() {
     if(el.hasAttribute('data-class-dss')){const n=Number(el.value);if(Number.isInteger(n)&&n>=0&&n<=1000)c.levels[Number(el.dataset.classDss)].acquisitionDSS=n;changed();return;}
     if(el.hasAttribute('data-class-entry')){const target=el.dataset.classEntry==='next'?nextClassDraft():c.levels[Number(el.dataset.classEntry)];target.entryDeclarations??={};target.entryDeclarations[el.dataset.entryId]=el.checked;if(el.dataset.classEntry==='next')renderEditor();else changed();return;}
     if(el.hasAttribute('data-class-choice')||el.hasAttribute('data-class-choice-power')){const l=c.levels[Number(el.dataset.classChoice??el.dataset.classChoicePower)],slot=Number(el.dataset.classSlot);l.classChoices??=[];if(el.hasAttribute('data-class-choice'))l.classChoices[slot]=el.value?{id:el.value}:null;else if(l.classChoices[slot]){if(el.value)l.classChoices[slot].choice=el.value;else delete l.classChoices[slot].choice;}changed();return;}
+    if(actionsUI.change(el))return;
     if(forcePowersUI.change(el))return;
     if(el.hasAttribute('data-power-manage-level')){powerManageLevel=Number(el.value);renderEditor();return;}
     if(el.hasAttribute('data-generation-manual')) return;
@@ -858,7 +862,7 @@ function events() {
     } else return;
     changed();
   });
-  document.addEventListener('submit',event=>{if(['recovery-healing','recovery-limb'].includes(event.target.id)){event.preventDefault();recoveryControls.submit(event.target);return;}if(event.target.id==='bellow-controls'){event.preventDefault();recoveryControls.bellow(event.target);return;}if(event.target.id==='apply-damage'){event.preventDefault();const el=event.target.querySelector('[data-incoming-damage]');commitMath(el);combatControls.damage(event.target);return;}if(event.target.matches('form[data-equipment-scope]')){event.preventDefault();purchase(true,event.target);}});
+  document.addEventListener('submit',event=>{if(['recovery-healing','recovery-limb'].includes(event.target.id)){event.preventDefault();recoveryControls.submit(event.target);return;}if(event.target.id==='bellow-controls'){event.preventDefault();if(!actionsUI.bellow(event.target))recoveryControls.bellow(event.target);return;}if(event.target.id==='apply-damage'){event.preventDefault();const el=event.target.querySelector('[data-incoming-damage]');commitMath(el);combatControls.damage(event.target);return;}if(event.target.matches('form[data-equipment-scope]')){event.preventDefault();purchase(true,event.target);}});
   document.addEventListener('click',event=>{
     if(event.composedPath().some(node=>node.id==='lay-bar')||event.target.closest('.lay-collapse-btn,.lay-tab,.lay-handle'))return;
     if(event.target.closest('[data-reference-retry]')){loadReferences();return;}
@@ -866,6 +870,7 @@ function events() {
     const referenceLink=event.target.closest('[data-rule-reference]');
     if(referenceLink&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();openReference(referenceLink.dataset.ruleReference);return;}
     if(event.target.closest('[data-spend-destiny]')){const c=current();if(c.story?.kind==='destiny'&&c.story.points>0&&derived.level>0){spendDestinyPoint(c,derived);logEvent('resource','Destiny Point: '+c.story.points+' remaining');changed();}return;}
+    const actionButton=event.target.closest('button');if(actionButton&&(actionsUI.click(actionButton)||actionsUI.legacy(actionButton)))return;
     if(event.target.closest('[data-next-turn]')){startNextTurn(current());changed();return;}
     if(event.target.closest('[data-flurry]')){try{declareFlurry(current(),derived);}catch(err){notify(err.message);}changed();return;}
     const stance=event.target.closest('[data-defense-stance]');if(stance){try{declareDefenseStance(current(),derived,stance.dataset.defenseStance);}catch(err){notify(err.message);}changed();return;}
@@ -965,7 +970,7 @@ function events() {
 async function boot(){
   try{
     const response=await fetch(new URL('../data/core.json',import.meta.url));if(!response.ok)throw new Error(`Rules could not load (${response.status})`);
-    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);speciesChecks=createSpeciesChecks({current,derived:()=>derived,log:(...args)=>{render();logEvent(...args);}});combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});recoveryControls=createRecoveryControls(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});events();render();route();
+    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);speciesChecks=createSpeciesChecks({current,derived:()=>derived,log:(...args)=>{render();logEvent(...args);}});combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});recoveryControls=createRecoveryControls(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});actionsUI=createActionsUI(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});events();render();route();
     if(!saveState[1])status('Saved',false);
   }catch(error){$('main').innerHTML=`<h1>Unable to open the sheet</h1><p>${escape(error.message)}</p><p><a href="./">Reload</a></p>`;status('Sheet unavailable',true);}
 }

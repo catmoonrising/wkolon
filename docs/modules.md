@@ -1,6 +1,6 @@
 # Sheet modules
 
-The registry in src/sheet-modules.js defines 31 independent views. Languages and
+The registry in src/sheet-modules.js defines 32 independent views. Languages and
 Species Features are separate from Character. Feats, Talents, Class Features,
 Force Techniques, Force Secrets and Medical Secrets each have their own module.
 Feature views retain earned order, source text, secondary choices, inactivity and
@@ -43,8 +43,7 @@ arranged canvas taller, and newly relevant modules receive positions when needed
 The menu stays inside the viewport and supports Escape/outside-click dismissal.
 
 The registry, visibility and feature extraction are independent of action spending.
-The forthcoming Actions module must use shared execution rather than derive action
-costs from labels or simulate clicks on another module. Other missing systems and
+The Actions module uses shared execution and typed costs; see actions.md. Other missing systems and
 layout presets are tracked in modules-roadmap.md and TODO.md.
 
 Validation for this batch: 569 JavaScript tests, the full Chromium browser

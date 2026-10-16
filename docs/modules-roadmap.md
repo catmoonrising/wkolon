@@ -92,6 +92,6 @@ starship and piloting catalogs with reviewed data formats before calculations.
 Do not delay selectable official content for exhaustive ambiguity searches.
 
 The first registry/migration batch is implemented; see modules.md. It includes the
-feature/language split and dedicated story, point and tradition modules. Actions,
-additional systems, saved activity presets and repeated filtered instances remain
-work to implement, not completed features.
+feature/language split and dedicated story, point and tradition modules. Actions now provides turn accounting, shared execution and queued plans; see
+actions.md. Additional systems, saved activity presets and repeated filtered
+instances remain work to implement.

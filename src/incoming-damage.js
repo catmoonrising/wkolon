@@ -30,7 +30,7 @@ export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spen
  // It leaves special-damage knockout and recovery rules otherwise intact.
  const generalDeath=ambiguityValue(c,pack,'ambiguity:stun-ion-death')==='general-death';
  const fatal=exceeded&&(type==='normal'?(afterDamage===0||wasUnconscious):generalDeath&&afterDamage===0);
- const canSurvive=fatal&&beforeHP>0&&afterDamage===0&&d.forceCurrent>=rule.forcePointCost;
+ const canSurvive=fatal&&beforeHP>0&&afterDamage===0&&d.forceCurrent>=rule.forcePointCost&&(!c.actionState?.active||!c.actionState.forceSpent);
  if(spendForcePoint&&fatal&&!canSurvive)throw new Error('A Force Point cannot prevent this death');
  const forcePointSpent=spendForcePoint&&canSurvive?rule.forcePointCost:0,dead=fatal&&!forcePointSpent;
  return {...protection,threshold,shieldSource:shield.source,type,immune:false,hpDamage,beforeHP,afterHP:dead?0:afterDamage,conditionAfter:dead?rule.helplessStep:conditionAfter,conditionSteps:(dead?rule.helplessStep:conditionAfter)-c.condition,dead,canSurvive,forcePointSpent,knockout:!wasUnconscious&&(conditionAfter===rule.helplessStep||afterDamage===0),balanceCheckRequired:!!c.balance?.active&&penetrating>0};
@@ -39,7 +39,7 @@ export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spen
 export function applyIncomingDamage(c,d,pack,amount,options){
  const result=damageOutcome(c,d,pack,amount,options);
  c.currentHP=result.afterHP;if(result.shieldSource)c.inventory.find(e=>e.uid===result.shieldSource).shield.sr=result.srAfter;else c.protection.sr=result.srAfter;c.condition=result.conditionAfter;
- if(result.forcePointSpent)c.forcePoints-=result.forcePointSpent;
+ if(result.forcePointSpent){c.forcePoints-=result.forcePointSpent;if(c.actionState?.active)c.actionState.forceSpent=true;}
  if(result.dead)setDead(c,true);
  else if(result.knockout)recordKnockout(c,result.type);
  return result;

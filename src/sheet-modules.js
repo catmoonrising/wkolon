@@ -3,7 +3,7 @@ export const FEATURE_MODULES=['species-features','feats','talents','class-featur
 export const MODULES=[
  ['header','Character','wide'],['languages','Languages'],['classes','Classes','wide'],
  ['abilities','Ability Scores'],['defenses','Defenses'],['hp','HP'],['threshold','Damage Threshold','small'],['bab','Base Attack','small'],['speed','Speed','small'],
- ['force','Force Points'],['dark-side','Dark Side Score'],['condition','Condition Track'],['skills','Skills'],['attacks','Attacks'],['force-powers','Force Powers','wide'],['routines','Offensive Routines','wide'],
+ ['force','Force Points'],['dark-side','Dark Side Score'],['condition','Condition Track'],['skills','Skills'],['actions','Actions','wide'],['attacks','Attacks'],['force-powers','Force Powers','wide'],['routines','Offensive Routines','wide'],
  ['inventory','Inventory'],['species-features','Species Features'],['feats','Feats'],['talents','Talents'],['class-features','Class Features'],['force-techniques','Force Techniques'],['force-secrets','Force Secrets'],['medical-secrets','Medical Secrets'],
  ['destiny','Destiny / Background'],['destiny-points','Destiny Points'],['traditions','Force Traditions'],['modifiers','Modifiers'],['notes','Notes'],['house-rules','House Rules','wide'],['dice','Event Log']
 ].map(([id,title,classes=''])=>Object.freeze({id,title,classes}));

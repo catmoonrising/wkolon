@@ -66676,7 +66676,337 @@
           ]
         }
       }
-    ]
+    ],
+    "actionEconomy": {
+      "referenceId": "reference:ff8059dc6752afdd",
+      "referenceRevision": 24963,
+      "forceReferenceId": "reference:67fe90e919b74d0f",
+      "normal": [
+        "standard",
+        "move",
+        "swift"
+      ],
+      "fullRound": [
+        "standard",
+        "move",
+        "swift"
+      ],
+      "substitutions": {
+        "standard": [
+          "standard"
+        ],
+        "move": [
+          "move",
+          "standard"
+        ],
+        "swift": [
+          "swift",
+          "move",
+          "standard"
+        ]
+      },
+      "recoverActions": 3,
+      "forcePointsPerRound": 1,
+      "actions": [
+        {
+          "id": "attack",
+          "name": "Attack",
+          "type": "standard",
+          "count": 1,
+          "ruleId": "rule:attacks"
+        },
+        {
+          "id": "full-attack",
+          "name": "Full Attack",
+          "type": "full",
+          "count": 1,
+          "ruleId": "rule:full-attacks"
+        },
+        {
+          "id": "full-attack-step",
+          "name": "Full Attack (Step)",
+          "type": "full",
+          "count": 1,
+          "ruleId": "rule:full-attacks"
+        },
+        {
+          "id": "charge",
+          "name": "Charge",
+          "type": "standard",
+          "count": 1,
+          "ruleId": "rule:charge"
+        },
+        {
+          "id": "running-attack",
+          "name": "Running Attack",
+          "type": "standard",
+          "count": 1,
+          "ruleId": "rule:running-attack",
+          "also": "move"
+        },
+        {
+          "id": "move",
+          "name": "Move",
+          "type": "move",
+          "count": 1,
+          "ruleId": "rule:move"
+        },
+        {
+          "id": "withdraw",
+          "name": "Withdraw",
+          "type": "move",
+          "count": 1,
+          "ruleId": "rule:withdraw"
+        },
+        {
+          "id": "prone",
+          "name": "Fall Prone",
+          "type": "swift",
+          "count": 1,
+          "ruleId": "rule:prone"
+        },
+        {
+          "id": "stand",
+          "name": "Stand Up",
+          "type": "move",
+          "count": 1,
+          "ruleId": "rule:prone"
+        },
+        {
+          "id": "acrobatics-prone",
+          "name": "Acrobatics",
+          "type": "free",
+          "count": 1,
+          "ruleId": "rule:acrobatics"
+        },
+        {
+          "id": "aim",
+          "name": "Aim",
+          "type": "swift",
+          "count": 2,
+          "ruleId": "rule:aim"
+        },
+        {
+          "id": "brace",
+          "name": "Brace",
+          "type": "swift",
+          "count": 2,
+          "ruleId": "rule:bracing"
+        },
+        {
+          "id": "mighty-swing",
+          "name": "Mighty Swing",
+          "type": "swift",
+          "count": 2,
+          "ruleId": "rule:mighty-swing"
+        },
+        {
+          "id": "recover",
+          "name": "Recover",
+          "type": "swift",
+          "count": 1,
+          "ruleId": "rule:recover"
+        },
+        {
+          "id": "second-wind",
+          "name": "Second Wind",
+          "type": "swift",
+          "count": 1,
+          "ruleId": "rule:catch-a-second-wind"
+        },
+        {
+          "id": "rage",
+          "name": "Rage",
+          "type": "swift",
+          "count": 1
+        },
+        {
+          "id": "bellow",
+          "name": "Bellow",
+          "type": "standard",
+          "count": 1,
+          "ruleId": "rule:bellow"
+        },
+        {
+          "id": "reload",
+          "name": "Reload",
+          "type": "move",
+          "count": 1
+        },
+        {
+          "id": "total-defense",
+          "name": "Total Defense",
+          "type": "standard",
+          "count": 1,
+          "ruleId": "rule:total-defense"
+        },
+        {
+          "id": "power",
+          "name": "Force Power",
+          "type": "standard",
+          "count": 1,
+          "ruleId": "rule:force-powers"
+        },
+        {
+          "id": "recover-power",
+          "name": "Recover Force Power",
+          "type": "reaction",
+          "count": 1,
+          "ruleId": "rule:force-powers"
+        },
+        {
+          "id": "opportunity",
+          "name": "Attack of Opportunity",
+          "type": "free",
+          "count": 1,
+          "ruleId": "rule:attacks-of-opportunity"
+        },
+        {
+          "id": "cleave",
+          "name": "Cleave",
+          "type": "free",
+          "count": 1,
+          "ruleId": "rule:cleave"
+        },
+        {
+          "id": "follow-through",
+          "name": "Follow Through",
+          "type": "move",
+          "count": 1,
+          "ruleId": "rule:follow-through"
+        },
+        {
+          "id": "shield",
+          "name": "Activate Shield",
+          "type": "swift",
+          "count": 1
+        },
+        {
+          "id": "shield-recharge",
+          "name": "Recharge Shield",
+          "type": "swift",
+          "count": 3
+        },
+        {
+          "id": "manual-full",
+          "name": "Other",
+          "type": "full",
+          "count": 1
+        },
+        {
+          "id": "manual-standard",
+          "name": "Other",
+          "type": "standard",
+          "count": 1
+        },
+        {
+          "id": "manual-move",
+          "name": "Other",
+          "type": "move",
+          "count": 1
+        },
+        {
+          "id": "manual-swift",
+          "name": "Other",
+          "type": "swift",
+          "count": 1
+        },
+        {
+          "id": "manual-free",
+          "name": "Other",
+          "type": "free",
+          "count": 1
+        },
+        {
+          "id": "manual-reaction",
+          "name": "Other",
+          "type": "reaction",
+          "count": 1
+        },
+        {
+          "id": "force-bonus",
+          "name": "Force Point Bonus",
+          "type": "free",
+          "count": 1
+        },
+        {
+          "id": "balance",
+          "name": "Balance",
+          "type": "move",
+          "count": 1,
+          "ruleId": "rule:acrobatics"
+        },
+        {
+          "id": "balance-recheck",
+          "name": "Balance Recheck",
+          "type": "reaction",
+          "count": 1,
+          "ruleId": "rule:acrobatics"
+        },
+        {
+          "id": "escape-bonds",
+          "name": "Escape Bonds",
+          "type": "full",
+          "count": 1,
+          "ruleId": "rule:acrobatics"
+        },
+        {
+          "id": "manual-run",
+          "name": "Run",
+          "type": "full",
+          "count": 1,
+          "referenceId": "reference:00d60e31a4e6b834"
+        },
+        {
+          "id": "manual-ready",
+          "name": "Ready",
+          "type": "standard",
+          "count": 1,
+          "referenceId": "reference:ff8059dc6752afdd"
+        },
+        {
+          "id": "manual-draw",
+          "name": "Draw or Holster a Weapon",
+          "type": "move",
+          "count": 1,
+          "referenceId": "reference:2f721b5ad4f7aaff"
+        },
+        {
+          "id": "manual-manipulate",
+          "name": "Manipulate an Item",
+          "type": "move",
+          "count": 1,
+          "referenceId": "reference:2db269965918049c"
+        },
+        {
+          "id": "manual-speak",
+          "name": "Speak",
+          "type": "free",
+          "count": 1,
+          "referenceId": "reference:ff8059dc6752afdd"
+        },
+        {
+          "id": "routine",
+          "name": "Offensive Routine",
+          "type": "full",
+          "count": 1,
+          "ruleId": "rule:attacks"
+        },
+        {
+          "id": "routine-step",
+          "name": "Offensive Routine (Step)",
+          "type": "full",
+          "count": 1,
+          "ruleId": "rule:attacks"
+        }
+      ],
+      "powerRequirements": {
+        "power:negate-energy": {
+          "notFlatFooted": true,
+          "aware": true
+        }
+      }
+    }
   },
   "heroicTraits": {
     "sourceIds": [
