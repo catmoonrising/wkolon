@@ -1351,3 +1351,10 @@ unpurchasable equipment keeps its existing handling. Unknown weights retain
 manual overrides. Known purchase prices and availability use existing license and
 market calculations. Detailed table variants, ammunition and item effects remain
 work to review and automate.
+
+Holster (Hip/Concealed), Datapad (Basic/Standard), and Recording Unit
+(Audiorecorder/Videorecorder/Holorecorder) now have separately priced and weighted
+variants from their pinned tables. Purchasing groups each family once and offers
+the variant selector. The original IDs remain Unspecified profiles with unknown
+prices, preserving saved ownership and weight overrides without silently assigning
+a variant. Item effects remain Manual.

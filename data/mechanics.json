@@ -65415,7 +65415,7 @@
     {"id":"equipment:darter","name":"Darter","sourceId":"source:wiki-darter","kind":"weapon","cost":150,"weight":3,"availability":["licensed"],"automation":"manual","manualAttack":true,"group":"simple-weapons","mode":"ranged","size":"medium","damage":null,"damageType":"Piercing"},
     {"id":"equipment:datacard","name":"Datacard","sourceId":"source:wiki-datacard","kind":"gear","cost":10,"weight":0.1,"availability":[],"automation":"manual"},
     {"id":"equipment:datadagger","name":"Datadagger","sourceId":"source:wiki-datadagger","kind":"weapon","cost":500,"weight":0.1,"availability":["illegal"],"automation":"manual","manualAttack":true,"group":"simple-weapons","mode":"melee","size":"tiny","damage":"1d4","damageType":"Piercing"},
-    {"id":"equipment:datapad","name":"Datapad","sourceId":"source:wiki-datapad","kind":"gear","cost":null,"weight":null,"availability":[],"automation":"manual","purchasePending":true},
+    {"id":"equipment:datapad","name":"Datapad","sourceId":"source:wiki-datapad","kind":"gear","cost":null,"weight":null,"availability":[],"automation":"manual","purchasePending":true,"family":"Datapad","variant":"Unspecified"},
     {"id":"equipment:death-sticks","name":"Death Sticks","sourceId":"source:wiki-death-sticks","kind":"gear","cost":null,"weight":null,"availability":[],"automation":"manual","purchasePending":true},
     {"id":"equipment:deck-sweeper","name":"Deck Sweeper","sourceId":"source:wiki-deck-sweeper","kind":"weapon","cost":5000,"weight":4.5,"availability":["restricted"],"automation":"manual","manualAttack":true,"group":"exotic-ranged","mode":"ranged","size":"large","damage":null,"damageType":"Energy"},
     {"id":"equipment:decoy-glow-rod","name":"Decoy Glow Rod","sourceId":"source:wiki-decoy-glow-rod","kind":"gear","cost":100,"weight":4,"availability":[],"automation":"manual"},
@@ -65493,7 +65493,7 @@
     {"id":"equipment:hibaka-2000-mem-stik","name":"HiBaka 2000 Mem-Stik","sourceId":"source:wiki-hibaka-2000-mem-stik","kind":"gear","cost":50,"weight":null,"availability":[],"automation":"manual"},
     {"id":"equipment:holo-converter","name":"Holo Converter","sourceId":"source:wiki-holo-converter","kind":"gear","cost":3000,"weight":2,"availability":[],"automation":"manual"},
     {"id":"equipment:holoshroud","name":"Holoshroud","sourceId":"source:wiki-holoshroud","kind":"gear","cost":null,"weight":0.5,"availability":["restricted","rare"],"automation":"manual","purchasePending":true},
-    {"id":"equipment:holster","name":"Holster","sourceId":"source:wiki-holster","kind":"gear","cost":null,"weight":null,"availability":[],"automation":"manual","purchasePending":true},
+    {"id":"equipment:holster","name":"Holster","sourceId":"source:wiki-holster","kind":"gear","cost":null,"weight":null,"availability":[],"automation":"manual","purchasePending":true,"family":"Holster","variant":"Unspecified"},
     {"id":"equipment:hunting-blaster-carbine","name":"Hunting Blaster Carbine","sourceId":"source:wiki-hunting-blaster-carbine","kind":"weapon","cost":1000,"weight":2.1,"availability":["restricted"],"automation":"manual","manualAttack":true,"group":"rifles","mode":"ranged","size":"medium","damage":"3d8","damageType":"Energy"},
     {"id":"equipment:hush-about-personal-jet-pack","name":"Hush-About Personal Jet Pack","sourceId":"source:wiki-hush-about-personal-jet-pack","kind":"gear","cost":3750,"weight":30,"availability":[],"automation":"manual"},
     {"id":"equipment:hypoinjector-wristband","name":"Hypoinjector Wristband","sourceId":"source:wiki-hypoinjector-wristband","kind":"gear","cost":350,"weight":0.1,"availability":[],"automation":"manual"},
@@ -65576,7 +65576,7 @@
     {"id":"equipment:ration-pack","name":"Ration Pack","sourceId":"source:wiki-ration-pack","kind":"gear","cost":5,"weight":0.1,"availability":[],"automation":"manual"},
     {"id":"equipment:razor-bug","name":"Razor Bug","sourceId":"source:wiki-razor-bug","kind":"weapon","cost":800,"weight":0.5,"availability":["illegal","rare"],"automation":"manual","manualAttack":true,"group":"simple-weapons","mode":"ranged","size":"small","damage":"2d8","damageType":"Slashing"},
     {"id":"equipment:razor-wire","name":"Razor Wire","sourceId":"source:wiki-razor-wire","kind":"gear","cost":null,"weight":null,"availability":["restricted"],"automation":"manual","purchasePending":true},
-    {"id":"equipment:recording-unit","name":"Recording Unit","sourceId":"source:wiki-recording-unit","kind":"gear","cost":null,"weight":null,"availability":[],"automation":"manual","purchasePending":true},
+    {"id":"equipment:recording-unit","name":"Recording Unit","sourceId":"source:wiki-recording-unit","kind":"gear","cost":null,"weight":null,"availability":[],"automation":"manual","purchasePending":true,"family":"Recording Unit","variant":"Unspecified"},
     {"id":"equipment:redirection-crystal","name":"Redirection Crystal","sourceId":"source:wiki-redirection-crystal","kind":"gear","cost":500,"weight":null,"availability":[],"automation":"manual"},
     {"id":"equipment:regenerative-implant","name":"Regenerative Implant","sourceId":"source:wiki-regenerative-implant","kind":"gear","cost":4250,"weight":null,"availability":[],"automation":"manual"},
     {"id":"equipment:remote-grenade","name":"Remote Grenade","sourceId":"source:wiki-remote-grenade","kind":"weapon","cost":300,"weight":1,"availability":["military"],"automation":"manual","manualAttack":true,"group":"simple-weapons","mode":"ranged","size":"tiny","damage":"4d6","damageType":"Energy"},
@@ -65698,7 +65698,14 @@
     {"id":"equipment:xcalq-stealth-pack","name":"Xcalq Stealth Pack","sourceId":"source:wiki-xcalq-stealth-pack","kind":"gear","cost":1500,"weight":null,"availability":[],"automation":"manual"},
     {"id":"equipment:xcalq-3ga-portable-computer","name":"Xcalq-3GA Portable Computer","sourceId":"source:wiki-xcalq-3ga-portable-computer","kind":"gear","cost":7500,"weight":2,"availability":[],"automation":"manual"},
     {"id":"equipment:xerrol-nightstinger","name":"Xerrol Nightstinger","sourceId":"source:wiki-xerrol-nightstinger","kind":"weapon","cost":1500,"weight":4.5,"availability":["illegal"],"automation":"manual","manualAttack":true,"group":"rifles","mode":"ranged","size":"medium","damage":"3d6","damageType":"Energy"},
-    {"id":"equipment:zhaboka","name":"Zhaboka","sourceId":"source:wiki-zhaboka","kind":"weapon","cost":165,"weight":2,"availability":["rare"],"automation":"manual","manualAttack":true,"group":"exotic-melee","mode":"melee","size":"large","damage":null,"damageType":"Slashing"}
+    {"id":"equipment:zhaboka","name":"Zhaboka","sourceId":"source:wiki-zhaboka","kind":"weapon","cost":165,"weight":2,"availability":["rare"],"automation":"manual","manualAttack":true,"group":"exotic-melee","mode":"melee","size":"large","damage":null,"damageType":"Slashing"},
+    {"id":"equipment:holster-hip","name":"Holster (Hip)","sourceId":"source:wiki-holster","kind":"gear","cost":25,"weight":0.5,"availability":[],"automation":"manual","family":"Holster","variant":"Hip"},
+    {"id":"equipment:holster-concealed","name":"Holster (Concealed)","sourceId":"source:wiki-holster","kind":"gear","cost":50,"weight":0.2,"availability":[],"automation":"manual","family":"Holster","variant":"Concealed"},
+    {"id":"equipment:datapad-basic","name":"Datapad (Basic)","sourceId":"source:wiki-datapad","kind":"gear","cost":100,"weight":0.3,"availability":[],"automation":"manual","family":"Datapad","variant":"Basic"},
+    {"id":"equipment:datapad-standard","name":"Datapad (Standard)","sourceId":"source:wiki-datapad","kind":"gear","cost":1000,"weight":0.5,"availability":[],"automation":"manual","family":"Datapad","variant":"Standard"},
+    {"id":"equipment:recording-unit-audiorecorder","name":"Recording Unit (Audiorecorder)","sourceId":"source:wiki-recording-unit","kind":"gear","cost":25,"weight":0.1,"availability":[],"automation":"manual","family":"Recording Unit","variant":"Audiorecorder"},
+    {"id":"equipment:recording-unit-videorecorder","name":"Recording Unit (Videorecorder)","sourceId":"source:wiki-recording-unit","kind":"gear","cost":50,"weight":0.1,"availability":[],"automation":"manual","family":"Recording Unit","variant":"Videorecorder"},
+    {"id":"equipment:recording-unit-holorecorder","name":"Recording Unit (Holorecorder)","sourceId":"source:wiki-recording-unit","kind":"gear","cost":100,"weight":0.1,"availability":[],"automation":"manual","family":"Recording Unit","variant":"Holorecorder"}
   ],
   "rules": {
     "resources": {

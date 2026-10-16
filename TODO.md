@@ -147,3 +147,5 @@
 - [x] Selectable entries for all 217 weapon and 206 gear pages in the pinned official index, preserving reviewed mappings and full text.
 - [ ] Review supplemental weapon attack profiles, ammunition, activated effects and passive modifiers.
 - [ ] Parse remaining equipment table variants and unresolved prices/weights; preserve Manual markers until reviewed.
+
+- [x] Priced table variants for Holster, Datapad and Recording Unit, with original unassigned inventory retained.
