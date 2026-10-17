@@ -1404,3 +1404,22 @@ Species reroll scope `keenSmell` labels the Ssi-Ruu Persuasion reroll and expose
 its within-six-squares/same-area condition in the control's tooltip. Using it
 asserts that condition. The ordinary check is rolled first; a native pending
 check can then be rerolled once, keeping the better result.
+
+## Fixed species ability scores
+
+`species.fixedAbilities` is a complete six-score starting array. Progression uses
+these scores, then the selected species adjustments, level increases and existing
+equipment calculations. Generated scores and their assignment state remain saved
+for other species, but contribute neither scores nor generation errors while the
+fixed profile is active. Point-buy spending is zero for that profile.
+
+Generation controls and sheet base-score inputs become read-only values. Ordinary
+generation methods, pool edits, assignments and rolls cannot change the fixed
+array through their normal controls. Species choices share the same control
+renderer in the Species and Abilities tabs. A required +2 choice remains explicit
+and is preserved independently of the ordinary generation state.
+
+Republic Clone revision 20034 uses STR 15, DEX 13, CON 10, INT 12, WIS 10, CHA 8,
+plus one selected +2. Its bonus Feat and bonus class-skill slot use the existing
+species allowances. Later advancement starts from this fixed array and selected
+increase; switching species does not rewrite a saved score pool.

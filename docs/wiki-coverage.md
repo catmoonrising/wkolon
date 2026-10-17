@@ -6,11 +6,11 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 
 **Mapped** means a selectable option or implemented rule uses the page; it does not mean every rule on that page is automated. **Reference** means embedded text without a reviewed mechanical mapping. **Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.
 
-Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or rule: **1,462 / 4,400 pages (33.2%)**. A mechanical mapping alone does not count as embedded text.
+Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or rule: **1,463 / 4,400 pages (33.2%)**. A mechanical mapping alone does not count as embedded text.
 
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Clone Wars Campaign Guide | 571 | 130 | 441 | 0 | 1 |
+| Clone Wars Campaign Guide | 571 | 131 | 440 | 0 | 1 |
 | Core Rulebook | 654 | 326 | 328 | 0 | 1 |
 | Dawn of Defiance | 244 | 5 | 239 | 0 | 0 |
 | Force Unleashed Campaign Guide | 356 | 133 | 223 | 0 | 0 |
@@ -35,7 +35,7 @@ These counts ignore effect automation. Entries include book variants; page cover
 
 | Content | Entries | Inventoried pages represented |
 | --- | ---: | ---: |
-| Species | 138 | 126 / 132 (95.5%) |
+| Species | 139 | 127 / 132 (96.2%) |
 | Heroic classes | 5 | - |
 | Prestige classes | 32 | 32 / 32 (100.0%) |
 | Skills (Knowledge fields separately) | 25 | - |
@@ -58,7 +58,7 @@ Partial means some mechanics are implemented, not that the whole option is autom
 
 | Content | Partial | Manual |
 | --- | ---: | ---: |
-| Species | 138 | 0 |
+| Species | 139 | 0 |
 | Heroic classes | 5 | 0 |
 | Prestige classes | 32 | 0 |
 | Skills (Knowledge fields separately) | 25 | 0 |

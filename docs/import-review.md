@@ -1866,3 +1866,21 @@ or open area; the player asserts the scope when using that control.
 
 Both profiles are Partial. Six inventoried species pages remain without profiles:
 Killik, Near-Human, Replica Droid, Republic Clone, Shard and Sorcerer of Rhand.
+
+## Republic Clone
+
+Republic Clone revision 20034 is selectable with its complete original article.
+It starts from STR 15, DEX 13, CON 10, INT 12, WIS 10 and CHA 8, with one explicit
++2 ability choice. Its Medium size, Speed 6, Basic language, bonus Feat and extra
+trained class skill follow the printed traits. It is not restricted to Soldier
+or Scout by the descriptive discussion of common Clone careers.
+
+Fixed starting scores override ordinary generation for calculations and
+prerequisites. The normal pool, assignments, method and budget remain saved for
+switching species. The builder and sheet show the fixed bases; the +2 choice is
+shared by the Species and Abilities tabs. Advancement, Constitution-based HP,
+Intelligence-based skill slots, equipment bonuses, stat blocks and save/reload
+use the resulting scores.
+
+Five inventoried species pages remain without selectable profiles: Killik,
+Near-Human, Replica Droid, Shard and Sorcerer of Rhand.

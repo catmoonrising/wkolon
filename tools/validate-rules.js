@@ -104,6 +104,7 @@ export function validatePack(p) {
       if (r.isDroid !== undefined) assert.equal(typeof r.isDroid,'boolean',`Invalid droid classification: ${r.id}`);
       assert(p.rules.sizeReflex[r.size] !== undefined && Number.isInteger(r.speed));
       for(const [k,v] of Object.entries(r.abilityAdjustments)) assert(ABILITIES.includes(k) && Number.isInteger(v));
+      if(r.fixedAbilities!==undefined){assert(r.fixedAbilities&&typeof r.fixedAbilities==='object'&&!Array.isArray(r.fixedAbilities),'Invalid fixed ability scores');assert.deepEqual(Object.keys(r.fixedAbilities).sort(),[...ABILITIES].sort());assert(Object.values(r.fixedAbilities).every(n=>Number.isInteger(n)&&n>=3&&n<=30),'Invalid fixed ability scores');}
       assert(Array.isArray(r.languages) && Array.isArray(r.reminders));
       for(const key of ['damageReduction','damageThresholdBonus'])if(r[key]!==undefined)assert(Number.isInteger(r[key])&&r[key]>=0,'Invalid species '+key);
       if(r.naturalArmor!==undefined)assert(Number.isInteger(r.naturalArmor)&&r.naturalArmor>=0,'Invalid natural armor');

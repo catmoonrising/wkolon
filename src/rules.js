@@ -222,7 +222,7 @@ export function levelSlots(levelNumber, classLevel, species, cls, pack) {
 export function progression(c, pack, through = c.levels.length) {
   const ix = indexPack(pack), species = resolveSpecies(c,pack);
   const background=activeBackground(c,pack);
-  const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, c.abilities[a] + (species.abilityAdjustments[a] || 0)])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
+  const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, (species.fixedAbilities?.[a]??c.abilities[a]) + (species.abilityAdjustments[a] || 0)])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
   Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,speciesClassSkills:species.bonusClassSkills||[],forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
   Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0,speciesTraining:new Set()});
   ctx.forceRestrictions=species.forceRestrictions||{};
@@ -528,10 +528,10 @@ export function derive(c, pack) {
       damageBonus, damageDisplay:display(damage),...criticalDisplay(damage),
       breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficiencyPenalty} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} ${bracing.active?'Bracing':technique.selected==='normal'?'autofire':technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected}${grip?' + '+grip+' one-handed':''}${aimBonus?' + '+aimBonus+' Careful Shot':''}${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${technique.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}${diceBonus?'; +'+diceBonus+' damage '+(diceBonus===1?'die':'dice'):''}${aimed?'; Aim: ignores cover':''}${w.mode==='melee'&&powerAttack.selected?'; Power Attack: '+power.penalty+' attack, +'+power.damage+' damage ('+power.target+')':''}${fullAttackPenalty?'; Full Attack: '+fullAttackPenalty+' attack':''}${flurryBonus?'; Flurry: +'+flurryBonus+' attack':''}${defensiveCombat.attackPenalty?'; Defense: '+defensiveCombat.attackPenalty+' attack':''}`};
   }).map(a=>applyAttackTarget(a,c,pack,ctx,visionSpecies));
-  const missingAssignments=c.abilityGeneration && Object.values(c.abilityGeneration.assign).some(i=>i===null);
+  const missingAssignments=!species.fixedAbilities && c.abilityGeneration && Object.values(c.abilityGeneration.assign).some(i=>i===null);
   if (missingAssignments) issues.push('Assign all six ability scores');
-  if (c.abilityMethod === 'standard' && !missingAssignments && [...Object.values(c.abilities)].sort((a,b) => a-b).join() !== [...pack.rules.standardArray].sort((a,b) => a-b).join()) issues.push('Standard package must use 15, 14, 13, 12, 10, 8 once each');
-  const pointCost = (c.abilityMethod==='point-buy' && c.abilityGeneration ? c.abilityGeneration.pool : Object.values(c.abilities)).reduce((n, v) => n + (pack.rules.pointBuyCosts[v] ?? Infinity), 0);
+  if (!species.fixedAbilities && c.abilityMethod === 'standard' && !missingAssignments && [...Object.values(c.abilities)].sort((a,b) => a-b).join() !== [...pack.rules.standardArray].sort((a,b) => a-b).join()) issues.push('Standard package must use 15, 14, 13, 12, 10, 8 once each');
+  const pointCost = species.fixedAbilities?0:(c.abilityMethod==='point-buy' && c.abilityGeneration ? c.abilityGeneration.pool : Object.values(c.abilities)).reduce((n, v) => n + (pack.rules.pointBuyCosts[v] ?? Infinity), 0);
   if (c.abilityMethod === 'point-buy' && pointCost > c.pointBudget) issues.push('Point-buy budget exceeded or a base score is outside 8–18');
   const movement = pack.rules.armorMovement;
   const unrestrictedArmor = total('armorMovement') > 0;

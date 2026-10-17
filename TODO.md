@@ -155,3 +155,4 @@
 - [ ] Miraluka Force Sight environment, Force-invisible targets and suppression conditions.
 - [x] Rakata/Ssi-Ruu selectable profiles, separate Force restrictions, Rakata Ancient Knowledge penalties/bonus Weapon Focus/Rage, Ssi-Ruu armor/conditional Focus/Keen Smell.
 - [ ] Rakata once-per-encounter trained-only skill application and Rakatan weapon conversions.
+- [x] Republic Clone fixed ability array and explicit +2 choice, shared builder controls, retained ordinary generation, bonus feat/skill slots and advancement.

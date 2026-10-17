@@ -3177,6 +3177,18 @@
           "items": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}
         },
         "conditionalForceTraining": {"type": "boolean"},
+        "fixedAbilities": {
+          "type": "object", "additionalProperties": false,
+          "required": ["str", "dex", "con", "int", "wis", "cha"],
+          "properties": {
+            "str": {"type": "integer", "minimum": 3, "maximum": 30},
+            "dex": {"type": "integer", "minimum": 3, "maximum": 30},
+            "con": {"type": "integer", "minimum": 3, "maximum": 30},
+            "int": {"type": "integer", "minimum": 3, "maximum": 30},
+            "wis": {"type": "integer", "minimum": 3, "maximum": 30},
+            "cha": {"type": "integer", "minimum": 3, "maximum": 30}
+          }
+        },
         "forceRestrictions": {
           "type": "object", "additionalProperties": false, "minProperties": 1,
           "properties": {

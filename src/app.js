@@ -33,7 +33,7 @@ import {createForcePowers} from './force-powers-ui.js';
 import {createHouseRules} from './house-rules.js';
 import {equipmentFamilies,resolveEquipment,purchaseQuote,startingEquipmentGrants,claimStartingEquipment,canRollStartingCredits} from './equipment.js';
 import {createFeatureTrees} from './feature-trees.js';
-import {createSpeciesBrowser} from './species-browser.js';
+import {createSpeciesBrowser,speciesChoiceControls} from './species-browser.js';
 import {createRulesCatalog} from './rules-catalog.js';
 import {createReferenceLibrary} from './reference-library.js';
 import {renderArticle,displayText} from './wiki-content.js';
@@ -256,6 +256,7 @@ function abilityPool(state, used=false) {
 }
 function generateAbilities() {
   const c=current(), state=generationState(c,pack);
+  if(state.fixed)return '';
   const methods=[['standard','Standard array'],['point-buy','Point buy'],['rolled','Roll 4d6 drop lowest'],['manual','Enter manually']];
   const controls=`<div class="actions">${methods.map(([method,label])=>`<button type="button" class="cr-method${method===c.abilityMethod?' active':''}" data-crmethod="${method}" aria-pressed="${method===c.abilityMethod}">${label}</button>`).join('')}</div>`;
   if(c.abilityMethod==='standard')return controls;
@@ -263,14 +264,17 @@ function generateAbilities() {
   const budget=c.abilityMethod==='point-buy'?`<div class="actions">${field('Budget','pointBudget',c.pointBudget,'number','min="0" max="100"')}<span class="budget ${derived.pointCost>c.pointBudget?'error':''}">${Number.isFinite(derived.pointCost)?derived.pointCost:'Invalid'} / ${c.pointBudget} points</span></div>`:'';
   return controls+budget+`<table class="cr-generated"><tbody>${state.pool.map((n,i)=>`<tr><td>${i+1}</td><td>${c.abilityMethod==='point-buy'?`<select class="cr-points" aria-label="Score ${i+1}" data-generation-pool="${i}">${Object.entries(pack.rules.pointBuyCosts).map(([value,cost])=>option(value,`${value} (${cost} pt)`,n)).join('')}</select>`:`<input type="number" class="tiny cr-manual" aria-label="Score ${i+1}" data-generation-manual="${i}" min="3" max="30" required value="${n}">`}</td></tr>`).join('')}</tbody></table>`;
 }
+function baseAbilityControl(c,species,a) {
+  return species.fixedAbilities?`<span data-fixed-ability="${a}">${species.fixedAbilities[a]}</span>`:`<input type="number" min="3" max="30" aria-label="Base ${a.toUpperCase()}" data-ability="${a}" value="${c.abilities[a]}">`;
+}
 function abilityCards() {
   const c=current(), state=generationState(c,pack),species=resolveSpecies(c,pack);
   const rows=ABILITIES.map(a=>{
     const taken=new Set(Object.entries(state.assign).filter(([key,i])=>key!==a && i!==null).map(([,i])=>i));
-    const control=`<select class="cr-assign" aria-label="Base ${a.toUpperCase()}" data-generation-assign="${a}">${option('','-',state.assign[a]??'')}${state.pool.map((n,i)=>option(i,n,state.assign[a],taken.has(i))).join('')}</select>`;
+    const control=state.fixed?baseAbilityControl(c,species,a):`<select class="cr-assign" aria-label="Base ${a.toUpperCase()}" data-generation-assign="${a}">${option('','-',state.assign[a]??'')}${state.pool.map((n,i)=>option(i,n,state.assign[a],taken.has(i))).join('')}</select>`;
     return `<tr><td>${a.toUpperCase()}</td><td>${control}</td><td>${signed(species.abilityAdjustments[a]||0)}</td><td id="cr-final-${a}">${derived.scores[a]}</td><td id="cr-mod-${a}">${signed(derived.mods[a])}</td></tr>`;
   }).join('');
-  return abilityPool(state,true)+`<table class="cr-scores"><thead><tr><th>Ability</th><th>Base</th><th>Species</th><th>Score</th><th>Mod</th></tr></thead><tbody>${rows}</tbody></table>`;
+  return (state.fixed?speciesChoiceControls(species,speciesChoiceDetails(c,pack,derived.ctx,derived.rows[0]?.ctx||derived.ctx).filter(g=>g.kind==='ability'),{legend:false}):abilityPool(state,true))+`<table class="cr-scores"><thead><tr><th>Ability</th><th>Base</th><th>Species</th><th>Score</th><th>Mod</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 function calculations(id, entries) {
   return `<details id="${id}" class="calculation-details"><summary>Calculations</summary><dl>${entries.map(([name,value])=>`<dt>${escape(name)}</dt><dd>${escape(value)}</dd>`).join('')}</dl></details>`;
@@ -489,7 +493,7 @@ function sheet() {
   const languages=`<div>${escape(automaticLanguages.join(', '))}</div><label><span class="sr-only">Additional languages (${languageCount()})</span><input type="text" data-field="languages" value="${escape(c.languages)}" maxlength="100000"></label>`;
 
   const classes = `<table id="class-table"><thead><tr><th>Class</th><th>Level</th><th>Hit die</th><th>Base attack</th></tr></thead><tbody>${[...derived.ctx.classLevels].map(([id,n])=>{const cls=ix.classes.get(id);return `<tr><td>${ruleReference(cls)}</td><td class="derived">${n}</td><td>d${cls.hitDie}</td><td>${signed(cls.bab[n-1])}</td></tr>`;}).join('')}</tbody></table><div class="class-summary"><a href="#advancement" class="button">Level Up</a></div>`;
-  const abilities = `<table><thead><tr><th>Ability</th><th>Mod</th><th>Score</th><th>Base</th><th>Species</th></tr></thead><tbody>${ABILITIES.map(a=>`<tr><td>${a.toUpperCase()}</td><td><button class="roll" data-roll="${derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0)}" data-roll-label="${a.toUpperCase()}" aria-label="${a.toUpperCase()} check ${signed(derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0))}" ${derived.incapacitated?'disabled':''}>${signed(derived.mods[a])}</button></td><td class="derived" title="${derived.ctx.scores[a]}${derived.equipmentAbilities[a]?` + ${derived.equipmentAbilities[a]} ${escape(derived.armor.name)}`:''}">${derived.scores[a]}</td><td><input type="number" min="3" max="30" aria-label="Base ${a.toUpperCase()}" data-ability="${a}" value="${c.abilities[a]}"></td><td>${signed(species.abilityAdjustments[a]||0)}</td></tr>`).join('')}</tbody></table>${Object.keys(derived.equipmentAbilities).length?`<details><summary class="hint">Calculations</summary>${Object.entries(derived.equipmentAbilities).map(([a,n])=>`<div class="hint">${a.toUpperCase()}: ${derived.ctx.scores[a]} + ${n} ${escape(derived.armor.name)}</div>`).join('')}</details>`:''}`;
+  const abilities = `<table><thead><tr><th>Ability</th><th>Mod</th><th>Score</th><th>Base</th><th>Species</th></tr></thead><tbody>${ABILITIES.map(a=>`<tr><td>${a.toUpperCase()}</td><td><button class="roll" data-roll="${derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0)}" data-roll-label="${a.toUpperCase()}" aria-label="${a.toUpperCase()} check ${signed(derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0))}" ${derived.incapacitated?'disabled':''}>${signed(derived.mods[a])}</button></td><td class="derived" title="${derived.ctx.scores[a]}${derived.equipmentAbilities[a]?` + ${derived.equipmentAbilities[a]} ${escape(derived.armor.name)}`:''}">${derived.scores[a]}</td><td>${baseAbilityControl(c,species,a)}</td><td>${signed(species.abilityAdjustments[a]||0)}</td></tr>`).join('')}</tbody></table>${Object.keys(derived.equipmentAbilities).length?`<details><summary class="hint">Calculations</summary>${Object.entries(derived.equipmentAbilities).map(([a,n])=>`<div class="hint">${a.toUpperCase()}: ${derived.ctx.scores[a]} + ${n} ${escape(derived.armor.name)}</div>`).join('')}</details>`:''}`;
   const defenses = `<div class="actions"><label class="checkbox"><input type="checkbox" data-flat-footed ${derived.flatFooted?'checked':''} ${derived.balancingFlatFooted?'disabled title="Balancing"':''}>Flat-footed</label><label class="checkbox"><input type="checkbox" data-prone ${c.prone?'checked':''}>Prone</label><label class="checkbox"><input type="checkbox" data-helpless ${derived.helpless?'checked':''} ${c.condition===5||c.currentHP===0||derived.recovery.dead?'disabled':''}>Helpless</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:helpless'),'ⓘ',null,'defenses-helpless')}</div><table><thead><tr><th>Defense</th><th>Total</th></tr></thead><tbody>${['reflex','fortitude','will'].map(k=>`<tr title="${escape(derived.breakdowns[k])}"><td>${title(k)}</td><td class="derived defense-total" data-defense="${k}">${derived.defenses[k]}</td></tr>`).join('')}${derived.conditionalDefenses.map(e=>`<tr><td>${title(e.defense)} ${escape(conditionalDefenseLabel(e))}</td><td class="derived defense-total" data-defense="${e.defense}-${e.against}">${e.total}</td></tr>`).join('')}</tbody></table>${proneActionControls(c,derived,pack)}${defensiveCombatControls(c,derived)}<details><summary class="hint">Calculations</summary>${['reflex','fortitude','will'].map(k=>`<div class="hint">${title(k)}: ${escape(derived.breakdowns[k])}</div>`).join('')}</details>`;
   const hp = healthBars(c,derived)+recoveryControls.health();
 
@@ -800,6 +804,7 @@ function events() {
     } else if (el.hasAttribute('data-generation-pool')) {
       setPoolScore(c,Number(el.dataset.generationPool),Number(el.value),pack);
     } else if (el.dataset.ability) {
+      if(resolveSpecies(c,pack).fixedAbilities){render();return;}
       const value=Number(el.value); if(!Number.isInteger(value)||value<3||value>30) {notify('Base abilities must be whole numbers from 3 to 30.');render();return;}
       c.abilities[el.dataset.ability]=value;delete c.abilityGeneration;
     } else if(el.dataset.class) {
@@ -934,7 +939,7 @@ function events() {
     switch(el.dataset.action){
       case 'manage-powers':openEditor('powers');return;
       case 'clear-log': if(store.roster.logs) delete store.roster.logs[c.id];store.schedule();paintLogs();return;
-      case 'roll-abilities': {const sets=ABILITIES.map(()=>{const dice=[d(6),d(6),d(6),d(6)].sort((a,b)=>b-a);return {dice,value:dice.slice(0,3).reduce((a,b)=>a+b)};});setRolledPool(c,sets.map(s=>s.value));logEvent('roll',`Ability scores: 4d6 drop lowest ×6: ${sets.map(s=>`${s.value} (${s.dice.join(',')})`).join(' | ')}`,`Ability scores: 4d6 drop lowest ×6: ${sets.map((s,i)=>`${totalHtml({value:s.value,coeffs:[1],rollId:i+1})} (${s.dice.map((value,j)=>dieHTML(value,6,`data-roll="${i+1}" data-ops="kh3"`,j===3)).join(', ')})`).join(' | ')}`);break;}
+      case 'roll-abilities': {if(resolveSpecies(c,pack).fixedAbilities)break;const sets=ABILITIES.map(()=>{const dice=[d(6),d(6),d(6),d(6)].sort((a,b)=>b-a);return {dice,value:dice.slice(0,3).reduce((a,b)=>a+b)};});setRolledPool(c,sets.map(s=>s.value),pack);logEvent('roll',`Ability scores: 4d6 drop lowest ×6: ${sets.map(s=>`${s.value} (${s.dice.join(',')})`).join(' | ')}`,`Ability scores: 4d6 drop lowest ×6: ${sets.map((s,i)=>`${totalHtml({value:s.value,coeffs:[1],rollId:i+1})} (${s.dice.map((value,j)=>dieHTML(value,6,`data-roll="${i+1}" data-ops="kh3"`,j===3)).join(', ')})`).join(' | ')}`);break;}
       case 'starting-credits': {if(!canRollStartingCredits(c))return;const r=ix.classes.get(c.levels[0].classId).credits;const rolls=Array.from({length:r.dice},()=>d(r.sides));c.credits=rolls.reduce((a,b)=>a+b)*r.multiplier;c.startingCreditsRolled=true;logEvent('roll',`${rolls.join(' + ')} × ${r.multiplier} = ${c.credits} credits`,`${rolls.map(value=>dieHTML(value,r.sides)).join(' + ')} × ${r.multiplier} = ${totalHtml({value:c.credits,coeffs:[r.multiplier]})} credits`);break;}
       case 'add-gear': purchase(false,el.closest('form'));return;
       case 'force-point-roll': {if(derived.forceCurrent<=0||derived.incapacitated)return;const expr=`${derived.forcePointDice}d${derived.forcePointDie}kh1`,r=evalExpr(expr);c.forcePoints--;logEvent('roll',`Force Point: ${expr} = ${r.value}`,`Force Point: ${r.display} = ${totalHtml(r)}`);break;}

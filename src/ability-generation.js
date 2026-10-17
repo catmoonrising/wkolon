@@ -1,6 +1,9 @@
 // pmcrwf's pool assignment, separated into Saga's generation and assignment steps.
 import {ABILITIES} from './rules.js';
+const fixedAbilities=(c,pack)=>pack?.species.find(r=>r.id===c.species)?.fixedAbilities;
 export function generationState(c, pack) {
+  const fixed=fixedAbilities(c,pack);
+  if(fixed)return {fixed:true,pool:ABILITIES.map(a=>fixed[a]),assign:Object.fromEntries(ABILITIES.map((a,i)=>[a,i]))};
   if (c.abilityGeneration) return c.abilityGeneration;
   const pool = c.abilityMethod === 'standard' ? [...pack.rules.standardArray] : ABILITIES.map(a => c.abilities[a]);
   const assign = {}, used = new Set();
@@ -12,12 +15,14 @@ export function generationState(c, pack) {
   return {pool, assign};
 }
 export function setGenerationMethod(c, method, pack) {
+  if(fixedAbilities(c,pack))return false;
   c.abilityMethod = method;
   const pool = method === 'standard' ? [...pack.rules.standardArray] : method === 'rolled' ? [] : Array(6).fill(method === 'point-buy' ? 8 : 10);
   c.abilities = Object.fromEntries(ABILITIES.map(a => [a,10]));
   c.abilityGeneration = {pool, assign: Object.fromEntries(ABILITIES.map(a => [a,null]))};
 }
 export function assignScore(c, ability, index, pack) {
+  if(fixedAbilities(c,pack))return false;
   const state = generationState(c, pack);
   if (index !== null && (!Number.isInteger(index) || !Number.isInteger(state.pool[index]) || Object.entries(state.assign).some(([a,i]) => a !== ability && i === index))) return false;
   state.assign[ability] = index;
@@ -26,13 +31,15 @@ export function assignScore(c, ability, index, pack) {
   return true;
 }
 export function setPoolScore(c, index, value, pack) {
+  if(fixedAbilities(c,pack))return false;
   if (!['point-buy','manual'].includes(c.abilityMethod) || !Number.isInteger(index) || index<0 || index>5 || !Number.isInteger(value) || value<3 || value>30 || (c.abilityMethod==='point-buy' && pack.rules.pointBuyCosts[value]===undefined)) return false;
   const state=generationState(c,pack);
   state.pool[index]=value;c.abilityGeneration=state;
   for(const a of ABILITIES) if(state.assign[a]===index)c.abilities[a]=value;
   return true;
 }
-export function setRolledPool(c, pool) {
+export function setRolledPool(c, pool, pack) {
+  if(fixedAbilities(c,pack))return false;
   c.abilityGeneration = {pool: [...pool], assign: Object.fromEntries(ABILITIES.map(a => [a,null]))};
   c.abilities = Object.fromEntries(ABILITIES.map(a => [a,10]));
 }
