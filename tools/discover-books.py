@@ -53,6 +53,8 @@ def selectable_options(pack, reference):
     rows = []
     def add(label, records, kind=None):
         row = dict(name=label, entries=len(records))
+        row['manual'] = sum(r.get('automation') == 'manual' for r in records)
+        row['partial'] = sum(r.get('automation') == 'partial' for r in records)
         candidates = [r for r in (reference or {}).get('records', [])
                       if kind and r.get('kind') == kind]
         if candidates:
@@ -69,7 +71,9 @@ def selectable_options(pack, reference):
     add('Talents', pack.get('talents', []), 'talentTree')
     equipment = pack.get('equipment', [])
     add('Equipment', equipment)
+    add('Weapons (included above)', [r for r in equipment if r.get('kind') == 'weapon'], 'weapon')
     add('Armor (included above)', [r for r in equipment if r.get('kind') == 'armor'], 'armor')
+    add('General gear (included above)', [r for r in equipment if r.get('kind') == 'gear'], 'gear')
     add('Force powers', pack.get('forcePowers', []), 'forcePower')
     for kind, label in [('forceTechnique', 'Force Techniques'), ('forceSecret', 'Force Secrets'), ('medicalSecret', 'Medical Secrets')]:
         add(label, [r for r in pack.get('classChoices', []) if r['kind'] == kind])
@@ -135,14 +139,14 @@ def coverage(snapshot, pack, reference=None):
 
 def markdown(result):
     lines = ['# Wiki coverage', '',
-        'Captured ' + result['capturedAt'] + '.', '',
+        'Category snapshot captured ' + result['capturedAt'] + '. Option counts are rebuilt from the current compiled rules pack.', '',
         'Direct page membership in the wiki’s [Reference Books categories](https://swse.miraheze.org/wiki/Category:Reference_Books) supplies the review queue. '
         'Pages in [Homebrew Content](https://swse.miraheze.org/wiki/Category:Homebrew_Content) or any of its descendant categories are excluded, even when also tagged with a sourcebook.', '',
-        '**Mapped** means at least one reviewed mechanic uses the page; it does not mean every rule on that page is automated. '
+        '**Mapped** means a selectable option or implemented rule uses the page; it does not mean every rule on that page is automated. '
         '**Reference** means embedded text without a reviewed mechanical mapping. '
         '**Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.', '',
         f"Embedded text: **{result['uniqueImportedPages']:,} / {result['uniquePages']:,} pages ({result['uniqueImportedPages']/result['uniquePages']:.1%})**. "
-        f"At least one mapped mechanic: **{result['uniqueMappedPages']:,} / {result['uniquePages']:,} pages ({result['uniqueMappedPages']/result['uniquePages']:.1%})**. "
+        f"At least one mapped option or rule: **{result['uniqueMappedPages']:,} / {result['uniquePages']:,} pages ({result['uniqueMappedPages']/result['uniquePages']:.1%})**. "
         'A mechanical mapping alone does not count as embedded text.', '',
         '| Source | Pages | Mapped | Reference | Unimported | Excluded |',
         '| --- | ---: | ---: | ---: | ---: | ---: |']
@@ -161,6 +165,13 @@ def markdown(result):
         pages = (f"{row['pages']} / {row['totalPages']} ({row['pages']/row['totalPages']:.1%})"
                  if row.get('totalPages') else '-')
         lines.append(f"| {row['name']} | {row['entries']} | {pages} |")
+    lines += ['', '## Automation markers', '',
+        'Partial means some mechanics are implemented, not that the whole option is automated. '
+        'Manual options retain their rules text for manual resolution. These markers do not measure overall completion.', '',
+        '| Content | Partial | Manual |', '| --- | ---: | ---: |']
+    for row in result['selectableOptions']:
+        if row['manual'] or row['partial']:
+            lines.append(f"| {row['name']} | {row['partial']} | {row['manual']} |")
     lines += ['',
         'Rebuild with `python tools/discover-books.py` or `--offline` after a captured refresh. '
         'The complete title/status queue and category snapshot are saved under `.build/`; this report adds no unreviewed options to the character sheet.', '']

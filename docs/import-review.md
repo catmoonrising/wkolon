@@ -1794,3 +1794,27 @@ catalog reimport preserving prior IDs/effects, the full Chromium regression with
 55 independent helpers, and focused Firefox checks pass. Browser checks include
 actual DSS spending with/without Many Shades, membership timing, saved choices,
 full source popups and mobile themes.
+
+## Bacta and mixed-version equipment purchase facts
+
+Bacta Tank revision 21876 supplies Empty (100,000 credits, 500 kg), Full
+(130,000 credits, 1,100 kg), and Bacta (per liter, 100 credits, 2 kg).
+The superscript on the bacta row is a footnote, not part of the quantity.
+The full tank includes 300 liters; buying a full tank does not add a second
+bacta inventory stack. Treatment, depletion and tank contents remain Manual.
+
+Camouflage Netting revision 19835 keeps Clone Wars Campaign Guide
+(6,000 credits, 40 kg) and Galaxy at War (2,000 credits, 5 kg) versions
+separate. The former discusses powered and unpowered netting without separate
+prices; it is not split into invented price profiles. Conditional Stealth
+benefits, deployment and power duration remain Manual.
+
+Holoshroud revision 19461 keeps General Equipment (25,000 credits, 0.5 kg)
+separate from Armor Upgrade (5,000 credits, Restricted, Rare). The upgrade has
+no stated standalone weight; it does not inherit the general item's weight.
+The existing licensing and market rules apply to the selected version.
+Installation, upgrade slots and illusion effects remain Manual.
+
+Original unspecific IDs remain available as Unspecified and cannot be bought
+at a guessed price. Saved possessions and weight overrides keep their identity.
+All versions retain their full pinned article and original wiki links.

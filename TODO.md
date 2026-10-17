@@ -149,3 +149,5 @@
 - [ ] Parse remaining equipment table variants and unresolved prices/weights; preserve Manual markers until reviewed.
 
 - [x] Priced table variants for Holster, Datapad and Recording Unit, with original unassigned inventory retained.
+- [x] Bacta Tank Empty/Full, Bacta per liter, and separate Camouflage Netting/Holoshroud purchase versions without mixing price, weight or availability.
+- [x] Refresh wiki coverage from the compiled pack, with weapon/gear page counts and separate Manual/Partial marker counts.

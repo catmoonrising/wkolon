@@ -79,3 +79,17 @@ class WikiCoverageTests(unittest.TestCase):
         self.assertEqual(result['uniqueImportedPages'], 2)
         self.assertEqual(result['uniqueMappedPages'], 1)
         self.assertEqual(next(p['status'] for p in result['books'][0]['pages'] if p['title']=='Missing'), 'reference')
+
+    def test_selectable_page_coverage_deduplicates_variants_and_separates_automation(self):
+        pack = self.pack()
+        pack['equipment'] = [dict(sourceId='source:mapped', kind='gear', automation='manual'),
+                             dict(sourceId='source:mapped', kind='gear', automation='partial')]
+        reference = {'records':[dict(name='Mapped', kind='gear'), dict(name='Missing', kind='gear')]}
+        result = coverage.coverage(dict(capturedAt='fixture', categories=self.fixture()), pack, reference)
+        row = next(r for r in result['selectableOptions'] if r['name'] == 'General gear (included above)')
+        self.assertEqual((row['entries'], row['pages'], row['totalPages']), (2, 1, 2))
+        self.assertEqual((row['manual'], row['partial']), (1, 1))
+        report = coverage.markdown(result)
+        self.assertIn('| General gear (included above) | 2 | 1 / 2 (50.0%) |', report)
+        self.assertIn('| General gear (included above) | 1 | 1 |', report)
+        self.assertIn('not that the whole option is automated', report)
