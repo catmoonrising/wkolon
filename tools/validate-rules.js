@@ -115,6 +115,8 @@ export function validatePack(p) {
       }
       if(r.bonusClassSkills){assert(Array.isArray(r.bonusClassSkills)&&new Set(r.bonusClassSkills).size===r.bonusClassSkills.length,'Invalid species class skills');r.bonusClassSkills.forEach(id=>requireRef('skills',id));}
       if(r.startingTrainedSkills!==undefined){assert(Array.isArray(r.startingTrainedSkills)&&new Set(r.startingTrainedSkills).size===r.startingTrainedSkills.length,'Invalid species training');r.startingTrainedSkills.forEach(id=>requireRef('skills',id));}
+      if(r.startingTrainingFeats!==undefined){assert(Array.isArray(r.startingTrainingFeats)&&new Set(r.startingTrainingFeats).size===r.startingTrainingFeats.length,'Invalid species training feats');r.startingTrainingFeats.forEach(id=>{requireRef('skills',id);assert(!(r.startingTrainedSkills||[]).includes(id),'Duplicate species training');});requireRef('feats','feat:skill-training');}
+      if(r.conditionalForceTraining!==undefined){assert.equal(typeof r.conditionalForceTraining,'boolean');requireRef('feats','feat:force-training');}
       if(r.conditionalFocus) requireRef('skills',r.conditionalFocus);
       if(r.conditionalFocuses){assert(Array.isArray(r.conditionalFocuses)&&new Set(r.conditionalFocuses).size===r.conditionalFocuses.length);r.conditionalFocuses.forEach(id=>requireRef('skills',id));}
       for(const key of ['forceImmune','technophobic','biotechProficiency'])if(r[key]!==undefined)assert.equal(typeof r[key],'boolean');

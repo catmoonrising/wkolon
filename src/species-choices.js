@@ -3,7 +3,7 @@ const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value)
 function duplicateGrant(species,c,group,option){
  if(!['trainedSkill','startingFeat'].includes(group.kind))return false;
  const field=group.kind==='trainedSkill'?'skillId':'featId';
- if((group.kind==='trainedSkill'?species.startingTrainedSkills||[]:[...(species.startingFeats||[]),...(species.conditionalStartingFeats||[])]).includes(option[field]))return true;
+ if((group.kind==='trainedSkill'?[...(species.startingTrainedSkills||[]),...(species.startingTrainingFeats||[])]:[...(species.startingFeats||[]),...(species.conditionalStartingFeats||[])]).includes(option[field]))return true;
  return (species.creationChoices||[]).some(other=>other!==group&&other.kind===group.kind&&other.options.some(o=>o.id===c.speciesChoices?.[species.id]?.[other.id]&&o[field]===option[field]));
 }
 

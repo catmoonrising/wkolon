@@ -1818,3 +1818,28 @@ Installation, upgrade slots and illusion effects remain Manual.
 Original unspecific IDs remain available as Unspecified and cannot be bought
 at a guessed price. Saved possessions and weight overrides keep their identity.
 All versions retain their full pinned article and original wiki links.
+
+## O'reenian, Phindian and Miraluka
+
+Three additional pinned species are selectable with full original articles.
+O'reenian has no ability adjustments, Speed 6 and O'reenian as its automatic
+language. Its Perception and Endurance rerolls use the replacement result even
+when worse.
+
+Phindian has +2 Intelligence, -2 Charisma, Speed 6, Basic and Phindian. Its free
+Skill Training (Knowledge (Technology)) is recorded as an actual bonus Feat and
+trains the skill independently of the regular pool and class list. Mechanics
+training grants conditional Skill Focus (Mechanics). Neither grant consumes a
+Heroic Feat slot.
+
+Miraluka has +2 Intelligence, -2 Dexterity, Speed 6, Basic and Miralukese.
+Training Use the Force grants one bonus Force Training, alongside any instances
+selected normally. Power slots, later Wisdom increases and acquisition levels
+replay automatically. The full Force Sight text remains available. Its living
+surroundings, Force-invisible targets and Force-suppression conditions remain
+Manual; it is not replaced with unconditional Darkvision.
+
+All three retain Partial markers. These additions leave eight inventoried
+species pages without selectable profiles: Killik, Near-Human, Rakata, Replica
+Droid, Republic Clone, Shard, Sorcerer of Rhand and Ssi-Ruu. Droid creation,
+size profiles and restricted grants still need their own data contracts.

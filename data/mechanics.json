@@ -24253,7 +24253,10 @@
     {"id":"source:wiki-xcalq-stealth-pack","title":"Xcalq Stealth Pack","revision":20347,"timestamp":"2024-08-25T23:40:34Z","sha256":"3e8426dc6e86d7a640b1328048a860ca5f87402c0b2ec9095b0672527029ecbf","url":"https://swse.miraheze.org/w/index.php?oldid=20347","history":"https://swse.miraheze.org/w/index.php?title=Xcalq%20Stealth%20Pack&action=history","section":null},
     {"id":"source:wiki-xcalq-3ga-portable-computer","title":"Xcalq-3GA Portable Computer","revision":20348,"timestamp":"2024-08-25T23:40:40Z","sha256":"6d16a51b8912a714fde78c65607141e665c5737e18c18ceda3cb4bcf7a679839","url":"https://swse.miraheze.org/w/index.php?oldid=20348","history":"https://swse.miraheze.org/w/index.php?title=Xcalq-3GA%20Portable%20Computer&action=history","section":null},
     {"id":"source:wiki-xerrol-nightstinger","title":"Xerrol Nightstinger","revision":21279,"timestamp":"2024-08-26T01:29:12Z","sha256":"3d8ce2c07fce3fbd955b143d18fb23e4adb9b7df5e973a85d873e0d9ae533ac0","url":"https://swse.miraheze.org/w/index.php?oldid=21279","history":"https://swse.miraheze.org/w/index.php?title=Xerrol%20Nightstinger&action=history","section":null},
-    {"id":"source:wiki-zhaboka","title":"Zhaboka","revision":19378,"timestamp":"2024-08-25T21:50:45Z","sha256":"4b734221cfaea9c8fcd1d0f0b2e5ba1eb564c48dcb67ac6f80e0de8645717ab6","url":"https://swse.miraheze.org/w/index.php?oldid=19378","history":"https://swse.miraheze.org/w/index.php?title=Zhaboka&action=history","section":null}
+    {"id":"source:wiki-zhaboka","title":"Zhaboka","revision":19378,"timestamp":"2024-08-25T21:50:45Z","sha256":"4b734221cfaea9c8fcd1d0f0b2e5ba1eb564c48dcb67ac6f80e0de8645717ab6","url":"https://swse.miraheze.org/w/index.php?oldid=19378","history":"https://swse.miraheze.org/w/index.php?title=Zhaboka&action=history","section":null},
+    {"id":"source:wiki-o-reenian","title":"O'reenian","revision":21397,"timestamp":"2024-08-26T01:43:52Z","sha256":"4492e58eebe5223f1e932aa81a5faad0274bc2f298c14dd3137c08866bdd1763","url":"https://swse.miraheze.org/w/index.php?oldid=21397","history":"https://swse.miraheze.org/w/index.php?title=O%27reenian&action=history","section":null},
+    {"id":"source:wiki-phindian","title":"Phindian","revision":23372,"timestamp":"2024-09-24T12:11:04Z","sha256":"0e5350ebfddadaea313c6083ecd76508cee7c159db581ec1a0eaf622ac1cb5d9","url":"https://swse.miraheze.org/w/index.php?oldid=23372","history":"https://swse.miraheze.org/w/index.php?title=Phindian&action=history","section":null},
+    {"id":"source:wiki-miraluka","title":"Miraluka","revision":26746,"timestamp":"2025-07-09T19:12:04Z","sha256":"c3b01eda8226dc515c715321397e54e0bf2887834a16f9b297b989048c9e63c1","url":"https://swse.miraheze.org/w/index.php?oldid=26746","history":"https://swse.miraheze.org/w/index.php?title=Miraluka&action=history","section":null}
   ],
   "species": [
     {
@@ -27937,7 +27940,10 @@
       "conditionalFeats": [
         "feat:tech-specialist"
       ]
-    }
+    },
+    {"id":"species:o-reenian","name":"O'reenian","sourceId":"source:wiki-o-reenian","abilityAdjustments":{},"defenses":{},"size":"medium","speed":6,"languages":["O'reenian"],"bonusFeats":0,"bonusSkills":0,"conditionalFocus":null,"reminders":[],"automation":"partial","skillRerolls":[{"skill":"skill:perception","keep":"replace"},{"skill":"skill:endurance","keep":"replace"}]},
+    {"id":"species:phindian","name":"Phindian","sourceId":"source:wiki-phindian","abilityAdjustments":{"int":2,"cha":-2},"defenses":{},"size":"medium","speed":6,"languages":["Basic","Phindian"],"bonusFeats":0,"bonusSkills":0,"conditionalFocus":"skill:mechanics","reminders":[],"automation":"partial","startingTrainingFeats":["skill:knowledge-technology"]},
+    {"id":"species:miraluka","name":"Miraluka","sourceId":"source:wiki-miraluka","abilityAdjustments":{"int":2,"dex":-2},"defenses":{},"size":"medium","speed":6,"languages":["Basic","Miralukese"],"bonusFeats":0,"bonusSkills":0,"conditionalFocus":null,"reminders":[],"automation":"partial","conditionalForceTraining":true}
   ],
   "classes": [
     {

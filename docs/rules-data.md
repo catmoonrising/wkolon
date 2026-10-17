@@ -1358,3 +1358,22 @@ variants from their pinned tables. Purchasing groups each family once and offers
 the variant selector. The original IDs remain Unspecified profiles with unknown
 prices, preserving saved ownership and weight overrides without silently assigning
 a variant. Item effects remain Manual.
+
+## Species training feats
+
+`species.startingTrainingFeats: [skillId]` grants actual Skill Training selections
+at first level, including their fixed secondary choice and species origin. These
+skills join `ctx.speciesTraining`, independently of the class list and normal
+skill pool. A duplicated regular pick remains editable and unresolved. This is
+distinct from `startingTrainedSkills`, which grants training without a Feat.
+
+`species.conditionalForceTraining: true` grants one automatic Force Training
+selection once its normal prerequisites are met, including trained Use the Force.
+The grant carries `grantedBy: speciesId`, so it coexists with purchased instances
+of the repeatable Feat without creating repeated species grants. It contributes
+real power slots and participates in later Wisdom increases. Earlier level edits
+and species changes replay the grant rather than persisting an extra free Feat.
+
+Powers earned by talent-triggered training are selectable at that same level.
+Earlier power choices remain available to talent prerequisites; newly earned
+slots are collected after the talent, without deferring them to the next level.

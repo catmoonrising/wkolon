@@ -3171,6 +3171,11 @@
           "type": "array", "uniqueItems": true,
           "items": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}
         },
+        "startingTrainingFeats": {
+          "type": "array", "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}
+        },
+        "conditionalForceTraining": {"type": "boolean"},
         "conditionalFeats": {
           "type": "array", "uniqueItems": true,
           "items": {"type": "string", "pattern": "^feat:[a-z0-9-]+$"}

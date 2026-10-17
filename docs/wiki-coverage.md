@@ -6,7 +6,7 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 
 **Mapped** means a selectable option or implemented rule uses the page; it does not mean every rule on that page is automated. **Reference** means embedded text without a reviewed mechanical mapping. **Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.
 
-Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or rule: **1,457 / 4,400 pages (33.1%)**. A mechanical mapping alone does not count as embedded text.
+Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or rule: **1,460 / 4,400 pages (33.2%)**. A mechanical mapping alone does not count as embedded text.
 
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -17,15 +17,15 @@ Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or r
 | Galaxy at War | 274 | 143 | 131 | 0 | 0 |
 | Galaxy of Intrigue | 229 | 68 | 161 | 0 | 0 |
 | Jedi Academy Training Manual | 301 | 143 | 158 | 0 | 0 |
-| Knights of the Old Republic Campaign Guide | 512 | 191 | 321 | 0 | 0 |
+| Knights of the Old Republic Campaign Guide | 512 | 192 | 320 | 0 | 0 |
 | Legacy Era Campaign Guide | 413 | 132 | 281 | 0 | 1 |
 | Rebellion Era Campaign Guide | 344 | 164 | 180 | 0 | 0 |
 | Scavenger's Guide to Droids | 211 | 23 | 188 | 0 | 0 |
 | Scum and Villainy | 317 | 103 | 214 | 0 | 0 |
 | Starships of the Galaxy | 253 | 26 | 227 | 0 | 0 |
-| Threats of the Galaxy | 256 | 33 | 223 | 0 | 0 |
-| Unknown Regions Campaign Guide | 355 | 95 | 260 | 0 | 0 |
-| Web Enhancements | 519 | 74 | 445 | 0 | 0 |
+| Threats of the Galaxy | 256 | 34 | 222 | 0 | 0 |
+| Unknown Regions Campaign Guide | 355 | 96 | 259 | 0 | 0 |
+| Web Enhancements | 519 | 75 | 444 | 0 | 0 |
 
 4,400 distinct candidate pages across 16 sources. Shared pages appear in more than one row. The exclusion tree contains 367 pages in 5 categories.
 
@@ -35,7 +35,7 @@ These counts ignore effect automation. Entries include book variants; page cover
 
 | Content | Entries | Inventoried pages represented |
 | --- | ---: | ---: |
-| Species | 133 | 121 / 132 (91.7%) |
+| Species | 136 | 124 / 132 (93.9%) |
 | Heroic classes | 5 | - |
 | Prestige classes | 32 | 32 / 32 (100.0%) |
 | Skills (Knowledge fields separately) | 25 | - |
@@ -58,7 +58,7 @@ Partial means some mechanics are implemented, not that the whole option is autom
 
 | Content | Partial | Manual |
 | --- | ---: | ---: |
-| Species | 133 | 0 |
+| Species | 136 | 0 |
 | Heroic classes | 5 | 0 |
 | Prestige classes | 32 | 0 |
 | Skills (Knowledge fields separately) | 25 | 0 |

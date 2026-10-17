@@ -238,6 +238,10 @@ export function progression(c, pack, through = c.levels.length) {
     const ids=[...(species.conditionalFeats||[]),...(ctx.characterLevel===1?species.conditionalStartingFeats||[]:[])];
     let added=true;
     while(added){added=false;for(const id of ids)if(!ctx.feats.some(f=>f.id===id)&&eligible(ix.feats.get(id),{id},ctx,ix,'feats')){recordFeature({id,automatic:true},'feats',ctx.characterLevel);added=true;}}
+    if(species.conditionalForceTraining&&!ctx.feats.some(f=>f.id===F('force-training')&&f.grantedBy===species.id)&&eligible(ix.feats.get(F('force-training')),{id:F('force-training')},ctx,ix,'feats')){
+      recordFeature({id:F('force-training'),automatic:true,grantedBy:species.id},'feats',ctx.characterLevel);
+      for(const e of ix.feats.get(F('force-training')).effects)if(e.target==='forcePowerSlots')ctx.powerSlots+=Math.max(e.minimum,e.amount+modifier(ctx.scores[e.ability]));
+    }
   }
   const issue = (i, text) => issues.push(`Level ${i + 1}: ${text}`);
   function grant(s, type, i, label, allow = () => true) {
@@ -283,6 +287,7 @@ export function progression(c, pack, through = c.levels.length) {
     ctx.powerSlots+=wisdomGain*ctx.feats.filter(s=>ix.feats.get(s.id).effects.some(e=>e.target==='forcePowerSlots')).length;
     if (i === 0) {
       for(const id of species.startingTrainedSkills||[]){ctx.trained.add(id);ctx.speciesTraining.add(id);ordinaryTraining.add(id);}
+      for(const id of species.startingTrainingFeats||[]){ctx.trained.add(id);ctx.speciesTraining.add(id);ordinaryTraining.add(id);recordFeature({id:F('skill-training'),choice:id,automatic:true,grantedBy:species.id},'feats',1);}
       for (const id of species.startingFeats||[]) recordFeature({id,automatic:true},'feats',1);
       for (const id of cls.startingFeats) if (!(species.excludedStartingFeats||[]).includes(id) && !ctx.feats.some(f=>f.id===id) && !['feat:linguist', 'feat:shake-it-off'].includes(id) && eligible(ix.feats.get(id),{id},ctx,ix,'feats')) recordFeature({id,automatic:true},'feats',1);
       conditionalSpeciesGrants();
@@ -314,9 +319,8 @@ export function progression(c, pack, through = c.levels.length) {
     const slots = levelSlots(n, cl, species, cls, pack);
     for (const [j, slot] of slots.entries()) grant(l.feats[j], 'feats', i, slot.label, (r, s) => slot.kind === 'general' || (cls.bonusFeats.includes(r?.id) || cls.startingFeats.includes(r?.id)) && (!cls.bonusRestrictions[r?.id] || cls.bonusRestrictions[r.id].includes(s.choice)));
     if (l.feats.slice(slots.length).some(Boolean)) issue(i, 'extra feat selections are not available');
-    const powerChoices=Math.max(0,ctx.powerSlots-ctx.forcePowers.length),chosenPowers=l.forcePowers||[];
-    if(chosenPowers.length!==powerChoices)issue(i,`choose ${powerChoices} Force powers (${chosenPowers.length} selected)`);
-    for(const p of chosenPowers.slice(0,powerChoices))if(ix.forcePowers.has(p.powerId))ctx.forcePowers.push({...p,level:n});
+    const priorPowerCount=ctx.forcePowers.length,initialPowerChoices=Math.max(0,ctx.powerSlots-priorPowerCount),chosenPowers=l.forcePowers||[];
+    for(const p of chosenPowers.slice(0,initialPowerChoices))if(ix.forcePowers.has(p.powerId))ctx.forcePowers.push({...p,level:n});
     for(const membership of (c.forceTraditions||[]).filter(s=>s.level===n)){
       const record=(pack.rules.traditionTalentAccess||[]).find(r=>r.id===membership.id);
       if(record&&prerequisite(record.prerequisite,{...ctx,darkSideScore:membership.darkSideScore},ix))ctx.forceTraditions.add(record.id);
@@ -328,6 +332,12 @@ export function progression(c, pack, through = c.levels.length) {
     const choiceSlots=(cls.classFeatureChoices||[]).filter(s=>s.level===cl);
     for(const [j,slot]of choiceSlots.entries()){const selection=l.classChoices?.[j],r=selection&&ix.classChoices.get(selection.id);const duplicate=r&&ctx.classChoices.some(s=>s.id===r.id&&(r.repeat==='never'||s.choice===selection.choice));if(!r||selection.pending||r.kind!==slot.kind||duplicate||r.choiceType==='power'&&!ix.forcePowers.has(selection.choice)){issue(i,'choose '+slot.kind.replace(/([A-Z])/g,' $1'));continue;}ctx.classChoices.push({...selection,kind:r.kind,classId:cls.id,level:n});}
     if((l.classChoices||[]).slice(choiceSlots.length).some(Boolean))issue(i,'extra class feature choices are not available');
+    // Talent-granted training can trigger a species bonus during this level.
+    // Keep earlier powers available to talent prerequisites, then collect any
+    // newly earned slots without postponing them to the following level.
+    const powerChoices=Math.max(0,ctx.powerSlots-priorPowerCount);
+    for(const p of chosenPowers.slice(initialPowerChoices,powerChoices))if(ix.forcePowers.has(p.powerId))ctx.forcePowers.push({...p,level:n});
+    if(chosenPowers.length!==powerChoices)issue(i,`choose ${powerChoices} Force powers (${chosenPowers.length} selected)`);
     rows.push({number: n, classLevel: cl, cls, ...(i===0?{initialClassSkills}:{}),slots,powerChoices,valid:true,choiceSlots, scores: {...ctx.scores}, ctx: {...ctx,forceTraditions:new Set(ctx.forceTraditions),classChoices:[...ctx.classChoices],classFeatures:[...ctx.classFeatures], classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers]}});
   }
   ctx.inactiveClasses=new Set([...ctx.classLevels.keys()].filter(id=>ix.classes.get(id).continuousDarkSide&&ctx.darkSideScore<ctx.scores.wis));
