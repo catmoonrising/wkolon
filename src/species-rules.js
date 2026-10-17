@@ -14,8 +14,8 @@ export function createSpeciesChecks({current,derived,log},roller=evalExpr){
    const native=s.id===s.checkSource,disabled=incapacitated||!s.available;
    const p=checks.get(key(s.id));
    const reroll=species.skillRerolls?.find(r=>r.skill===s.id);
-   const scope=r=>r.when==='intimidate'?' (Intimidate)':r.when==='searchYourFeelingsOrSenseForce'?' (Search Your Feelings / Sense Force)':'';
-   return `${reroll&&native?`<button type="button" data-species-reroll="${s.id}" ${disabled||!valid(s,p)?'disabled':''} aria-label="Reroll ${escape(s.name+scope(reroll))}">Reroll${scope(reroll)}</button>`:''}${species.take10Skills?.includes(s.id)&&native?`<button type="button" data-species-take10="${s.id}" ${disabled?'disabled':''} aria-label="Take 10 on ${escape(s.name)}">Take 10</button>`:''}`;
+   const scope=r=>r.when==='keenSmell'?' (Keen Smell)':r.when==='intimidate'?' (Intimidate)':r.when==='searchYourFeelingsOrSenseForce'?' (Search Your Feelings / Sense Force)':'';
+   return `${reroll&&native?`<button type="button" data-species-reroll="${s.id}" ${reroll.when==='keenSmell'?'title="Target within 6 squares, same room or open area"':''} ${disabled||!valid(s,p)?'disabled':''} aria-label="Reroll ${escape(s.name+scope(reroll))}">Reroll${scope(reroll)}</button>`:''}${species.take10Skills?.includes(s.id)&&native?`<button type="button" data-species-take10="${s.id}" ${disabled?'disabled':''} aria-label="Take 10 on ${escape(s.name)}">Take 10</button>`:''}`;
   },
   click(el,species){
    const id=el.dataset.skillRoll||el.dataset.speciesReroll||el.dataset.speciesTake10;

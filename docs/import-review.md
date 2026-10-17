@@ -1843,3 +1843,26 @@ All three retain Partial markers. These additions leave eight inventoried
 species pages without selectable profiles: Killik, Near-Human, Rakata, Replica
 Droid, Republic Clone, Shard, Sorcerer of Rhand and Ssi-Ruu. Droid creation,
 size profiles and restricted grants still need their own data contracts.
+
+## Rakata and Ssi-Ruu
+
+Rakata revision 19296 adds +2 Intelligence, -2 Wisdom, Speed 6, Rakata language,
+Primitive starting proficiency exclusions, Rage and its daily recovery. Ancient
+Knowledge changes weapon nonproficiency from -5 to -2 and unproficient armor
+penalties to Light 0, Medium -2 and Heavy -5. Other penalties remain applicable.
+A saved bonus Weapon Focus choice offers Simple Weapons or an inventoried exotic
+melee weapon. It becomes active when the printed proficiency condition is met,
+including proficiency acquired at a later level. It consumes no Heroic Feat slot.
+Rakata cannot acquire Force Sensitivity but retain Force Points. Its once-per-
+encounter trained-only skill application and Rakatan weapon conversions remain
+Manual; their complete source text is retained.
+
+Ssi-Ruu revision 27391 adds +2 Strength, -2 Wisdom, Speed 6, Ssi-Ruuvi, +2 Natural
+Armor and conditional Skill Focus (Persuasion). Force Sensitivity, Use the Force
+checks and Force Points are independently prohibited. This does not provide
+immunity to Force powers, talents or skill effects. Keen Smell offers a
+keep-the-better Persuasion reroll for a target within 6 squares in the same room
+or open area; the player asserts the scope when using that control.
+
+Both profiles are Partial. Six inventoried species pages remain without profiles:
+Killik, Near-Human, Replica Droid, Republic Clone, Shard and Sorcerer of Rhand.

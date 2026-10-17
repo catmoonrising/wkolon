@@ -17,6 +17,7 @@ export function resolveSpecies(c,pack){
   if(group.kind==='ability')for(const [ability,amount]of Object.entries(selected.adjustments))species.abilityAdjustments[ability]=(species.abilityAdjustments[ability]||0)+amount;
   if(group.kind==='language'&&!species.languages.includes(selected.language))species.languages.push(selected.language);
   if(group.kind==='skillFocus'&&!species.conditionalFocuses.includes(selected.skillId))species.conditionalFocuses.push(selected.skillId);
+  if(group.kind==='weaponFocus'){species.conditionalWeaponFocuses??=[];species.conditionalWeaponFocuses.push(selected);}
   if(group.kind==='trainedSkill'&&!species.startingTrainedSkills.includes(selected.skillId))species.startingTrainedSkills.push(selected.skillId);
   if(group.kind==='startingFeat'&&!species.conditionalStartingFeats.includes(selected.featId))species.conditionalStartingFeats.push(selected.featId);
  }
@@ -31,10 +32,11 @@ export function speciesChoiceDetails(c,pack,ctx,firstLevel=ctx){
   const selected=c.speciesChoices?.[species.id]?.[group.id]??null;
   const options=group.options.map(option=>{
    const duplicate=duplicateGrant(species,c,group,option);
-   const available=!duplicate&&(group.kind==='startingFeat'?firstLevel.characterLevel===1&&eligible(ix.feats.get(option.featId),{id:option.featId},{...firstLevel,feats:firstLevel.feats.filter(f=>f.id!==option.featId)},ix,'feats'):group.kind!=='skillFocus'||ctx.trained.has(option.skillId));
+   const focusContext={...ctx,feats:ctx.feats.filter(f=>f.id!=='feat:weapon-focus'||f.choice!==option.choice)};
+   const available=!duplicate&&(group.kind==='weaponFocus'?(!option.requiresFeat||ctx.feats.some(f=>f.id===option.requiresFeat))&&eligible(ix.feats.get('feat:weapon-focus'),{id:'feat:weapon-focus',choice:option.choice},focusContext,ix,'feats'):group.kind==='startingFeat'?firstLevel.characterLevel===1&&eligible(ix.feats.get(option.featId),{id:option.featId},{...firstLevel,feats:firstLevel.feats.filter(f=>f.id!==option.featId)},ix,'feats'):group.kind!=='skillFocus'||ctx.trained.has(option.skillId));
    return {...option,available};
   });
-  const active=!['skillFocus','startingFeat'].includes(group.kind)||options.some(option=>option.available);
+  const active=!['skillFocus','weaponFocus','startingFeat'].includes(group.kind)||options.some(option=>option.available);
   return {...group,options,selected,active,issue:active&&!options.some(o=>o.id===selected&&o.available)?'Choose '+species.name+' '+group.name:null};
  });
 }

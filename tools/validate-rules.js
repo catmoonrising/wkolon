@@ -1,6 +1,7 @@
 import {WIKI_TAGS, wikiURL} from '../src/wiki-content.js';
 import fs from 'node:fs';
 import {ABILITIES, GROUPS, indexPack} from '../src/rules.js';
+import {featureChoices} from '../src/feature-choices.js';
 import assert from 'node:assert/strict';
 
 export function validatePack(p) {
@@ -78,22 +79,23 @@ export function validatePack(p) {
         assert(Array.isArray(r.creationChoices)&&r.creationChoices.length>0,'Invalid species choice groups');
         const groupIds=new Set();
         for(const g of r.creationChoices){
-          assert(g&&Object.keys(g).every(k=>['id','name','kind','options'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus','trainedSkill','startingFeat'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
+          assert(g&&Object.keys(g).every(k=>['id','name','kind','options'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus','weaponFocus','trainedSkill','startingFeat'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
           assert(Array.isArray(g.options)&&g.options.length>=2,'Invalid species options');const optionIds=new Set();
           for(const o of g.options){
-            const field={ability:'adjustments',language:'language',skillFocus:'skillId',trainedSkill:'skillId',startingFeat:'featId'}[g.kind];
-            assert(o&&Object.keys(o).every(k=>['id','name',field].includes(k))&&typeof o.id==='string'&&/^[a-z][a-z0-9-]*$/.test(o.id)&&!optionIds.has(o.id)&&typeof o.name==='string'&&o.name.trim(),'Invalid species option');optionIds.add(o.id);
+            const field={ability:'adjustments',language:'language',skillFocus:'skillId',weaponFocus:'choice',trainedSkill:'skillId',startingFeat:'featId'}[g.kind];
+            assert(o&&Object.keys(o).every(k=>['id','name',field,...(g.kind==='weaponFocus'?['requiresFeat']:[])].includes(k))&&typeof o.id==='string'&&/^[a-z][a-z0-9-]*$/.test(o.id)&&!optionIds.has(o.id)&&typeof o.name==='string'&&o.name.trim(),'Invalid species option');optionIds.add(o.id);
             if(g.kind==='ability')assert(o.adjustments&&typeof o.adjustments==='object'&&!Array.isArray(o.adjustments)&&Object.keys(o.adjustments).length>0&&Object.entries(o.adjustments).every(([a,n])=>ABILITIES.includes(a)&&Number.isInteger(n)&&n!==0&&n>=-10&&n<=10),'Invalid species ability option');
             if(g.kind==='language')assert(typeof o.language==='string'&&o.language.trim()&&o.language.length<=100,'Invalid species language option');
             if(['skillFocus','trainedSkill'].includes(g.kind))requireRef('skills',o.skillId);
             if(g.kind==='startingFeat')speciesStartingFeat(o.featId);
+            if(g.kind==='weaponFocus'){requireRef('feats','feat:weapon-focus');assert(featureChoices(ix.feats.get('feat:weapon-focus'),p).includes(o.choice),'Invalid species Weapon Focus');if(o.requiresFeat!==undefined)requireRef('feats',o.requiresFeat);}
           }
         }
       }
       if(r.limbRegeneration){assert.deepEqual(Object.keys(r.limbRegeneration).sort(),['die','sourceId']);assert.equal(r.limbRegeneration.die,10);assert(sources.has(r.limbRegeneration.sourceId),'Missing limb regeneration source');}
       if(r.bellow)assert.deepEqual(r.bellow,{damageDice:3,die:6,coneSquares:6,conditionCost:1,extraDieCost:1,defense:'fortitude'});
       if(r.rage){assert.deepEqual(Object.keys(r.rage).sort(),['blockedSkills','bonus','dailyUses','durationBase','restMinutes']);assert(r.rage.dailyUses===1&&r.rage.bonus===2&&r.rage.durationBase===5&&r.rage.restMinutes===10);assert.deepEqual(r.rage.blockedSkills,['skill:mechanics','skill:stealth','skill:use-the-force']);r.rage.blockedSkills.forEach(id=>requireRef('skills',id));}
-      if(r.skillRerolls){assert(Array.isArray(r.skillRerolls));for(const e of r.skillRerolls){requireRef('skills',e.skill);assert(Object.keys(e).every(k=>['skill','keep','when'].includes(k))&&['replace','best'].includes(e.keep)&&(!e.when||['intimidate','searchYourFeelingsOrSenseForce'].includes(e.when)),'Unsupported species reroll');}}
+      if(r.skillRerolls){assert(Array.isArray(r.skillRerolls));for(const e of r.skillRerolls){requireRef('skills',e.skill);assert(Object.keys(e).every(k=>['skill','keep','when'].includes(k))&&['replace','best'].includes(e.keep)&&(!e.when||['intimidate','searchYourFeelingsOrSenseForce','keenSmell'].includes(e.when)),'Unsupported species reroll');}}
       if(r.take10Skills){assert(Array.isArray(r.take10Skills)&&new Set(r.take10Skills).size===r.take10Skills.length);r.take10Skills.forEach(id=>requireRef('skills',id));}
       if(r.vision)assert(['low-light','darkvision'].includes(r.vision));
       for(const k of ['breatheUnderwater','knockdownImmune','flightHeavyLoadForbidden'])if(r[k]!==undefined)assert.equal(typeof r[k],'boolean');
@@ -120,6 +122,9 @@ export function validatePack(p) {
       if(r.conditionalFocus) requireRef('skills',r.conditionalFocus);
       if(r.conditionalFocuses){assert(Array.isArray(r.conditionalFocuses)&&new Set(r.conditionalFocuses).size===r.conditionalFocuses.length);r.conditionalFocuses.forEach(id=>requireRef('skills',id));}
       for(const key of ['forceImmune','technophobic','biotechProficiency'])if(r[key]!==undefined)assert.equal(typeof r[key],'boolean');
+      if(r.forceRestrictions!==undefined){assert(r.forceRestrictions&&typeof r.forceRestrictions==='object'&&!Array.isArray(r.forceRestrictions)&&Object.keys(r.forceRestrictions).length>0&&Object.entries(r.forceRestrictions).every(([k,v])=>['forbidSensitivity','forbidChecks','forbidPoints'].includes(k)&&typeof v==='boolean'),'Invalid species Force restrictions');}
+      if(r.unproficientWeaponPenalty!==undefined)assert(Number.isInteger(r.unproficientWeaponPenalty)&&r.unproficientWeaponPenalty>=-5&&r.unproficientWeaponPenalty<=0,'Invalid species weapon penalty');
+      if(r.unproficientArmorPenalties!==undefined){assert.deepEqual(Object.keys(r.unproficientArmorPenalties).sort(),['heavy','light','medium']);assert(Object.values(r.unproficientArmorPenalties).every(n=>Number.isInteger(n)&&n>=-10&&n<=0),'Invalid species armor penalties');}
       if(r.bookVariant!==undefined)assert.equal(typeof r.bookVariant,'string');
       if(r.forbiddenClasses){assert(Array.isArray(r.forbiddenClasses));r.forbiddenClasses.forEach(id=>requireRef('classes',id));}
       if(r.weaponFamiliarity)for(const [id,group] of Object.entries(r.weaponFamiliarity)){requireRef('equipment',id);assert(GROUPS.includes(group));}

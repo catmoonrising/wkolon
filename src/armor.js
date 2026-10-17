@@ -17,7 +17,7 @@ export function armorSkillBonus(items,ctx,checks,id){
  return Math.max(0,...amounts);
 }
 export function armorPenalty(items,ctx,pack,checks,skills=false,extra=0){
- const raw=extra+items.reduce((sum,item)=>sum+(armorProficient(item,ctx)||skills&&item.skillPenaltyExempt?0:pack.rules.armorPenalties[item.category]),0);
+ const raw=extra+items.reduce((sum,item)=>sum+(armorProficient(item,ctx)||skills&&item.skillPenaltyExempt?0:(ctx.unproficientArmorPenalties?.[item.category]??pack.rules.armorPenalties[item.category])),0);
  return checks?.noncombat&&items.some(item=>item.noncombatPenaltyDivisor)?Math.floor(raw/2):raw;
 }
 export function armorVision(species,items,ctx){

@@ -3027,7 +3027,8 @@
               "when": {
                 "enum": [
                   "intimidate",
-                  "searchYourFeelingsOrSenseForce"
+                  "searchYourFeelingsOrSenseForce",
+                  "keenSmell"
                 ]
               }
             }
@@ -3176,6 +3177,24 @@
           "items": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}
         },
         "conditionalForceTraining": {"type": "boolean"},
+        "forceRestrictions": {
+          "type": "object", "additionalProperties": false, "minProperties": 1,
+          "properties": {
+            "forbidSensitivity": {"type": "boolean"},
+            "forbidChecks": {"type": "boolean"},
+            "forbidPoints": {"type": "boolean"}
+          }
+        },
+        "unproficientWeaponPenalty": {"type": "integer", "minimum": -5, "maximum": 0},
+        "unproficientArmorPenalties": {
+          "type": "object", "additionalProperties": false,
+          "required": ["light", "medium", "heavy"],
+          "properties": {
+            "light": {"type": "integer", "minimum": -10, "maximum": 0},
+            "medium": {"type": "integer", "minimum": -10, "maximum": 0},
+            "heavy": {"type": "integer", "minimum": -10, "maximum": 0}
+          }
+        },
         "conditionalFeats": {
           "type": "array", "uniqueItems": true,
           "items": {"type": "string", "pattern": "^feat:[a-z0-9-]+$"}
@@ -3197,7 +3216,7 @@
       "properties": {
         "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
         "name": {"type": "string", "minLength": 1},
-        "kind": {"enum": ["ability", "language", "skillFocus", "trainedSkill", "startingFeat"]},
+        "kind": {"enum": ["ability", "language", "skillFocus", "weaponFocus", "trainedSkill", "startingFeat"]},
         "options": {
           "type": "array", "minItems": 2,
           "items": {
@@ -3240,6 +3259,17 @@
             "additionalProperties": false,
             "required": ["id", "name", "skillId"],
             "properties": {"id": {}, "name": {}, "skillId": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}}
+          }}}}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "weaponFocus"}}},
+          "then": {"properties": {"options": {"items": {
+            "additionalProperties": false,
+            "required": ["id", "name", "choice"],
+            "properties": {
+              "id": {}, "name": {}, "choice": {"type": "string"},
+              "requiresFeat": {"type": "string", "pattern": "^feat:[a-z0-9-]+$"}
+            }
           }}}}
         },
         {

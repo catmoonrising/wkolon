@@ -1377,3 +1377,30 @@ and species changes replay the grant rather than persisting an extra free Feat.
 Powers earned by talent-triggered training are selectable at that same level.
 Earlier power choices remain available to talent prerequisites; newly earned
 slots are collected after the talent, without deferring them to the next level.
+
+## Force restrictions and conditional Weapon Focus
+
+`species.forceRestrictions` has independent optional booleans `forbidSensitivity`,
+`forbidChecks` and `forbidPoints`. These do not grant Force immunity. Sensitivity
+eligibility and Use the Force access check the relevant restrictions. Forbidden
+Force Points expose zero available/capacity, disable editing and spending, and
+remain zero on advancement. A stored raw counter never authorizes expenditure.
+Rakata forbids Sensitivity only; Ssi-Ruu forbids all three.
+
+`unproficientWeaponPenalty` replaces the ordinary -5 only for attacks without
+proficiency. `unproficientArmorPenalties` declares the Light/Medium/Heavy body
+armor penalties independently, including a valid zero. Proficient armor,
+separate shield penalties, Dexterity caps and other restrictions are unchanged.
+
+Species creation choices of `kind: weaponFocus` have a fixed `choice` per
+option and optional `requiresFeat`. Their normal Weapon Focus prerequisites
+must also be met. `resolveSpecies` carries the chosen option to chronological
+replay; the bonus Feat is added once when eligible, without a selectable slot.
+Unavailable selections stay saved and unresolved. Rakata's Simple Weapons
+option requires the actual Weapon Proficiency Feat; exotic melee options require
+proficiency with that weapon. Jedi Counseling's normal Focus rules still apply.
+
+Species reroll scope `keenSmell` labels the Ssi-Ruu Persuasion reroll and exposes
+its within-six-squares/same-area condition in the control's tooltip. Using it
+asserts that condition. The ordinary check is rolled first; a native pending
+check can then be rerolled once, keeping the better result.

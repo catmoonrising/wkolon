@@ -136,7 +136,8 @@ export function classSkills(ctx, ix) {
   (ctx.backgroundSkills||[]).forEach(id=>skills.add(id));
   (ctx.speciesClassSkills||[]).forEach(id=>skills.add(id));
   for(const selection of ctx.talents||[])if(!ctx.inactiveTalents?.has(selection.id)&&(!ix.classes.get(selection.classId)?.continuousDarkSide||ctx.darkSideScore>=ctx.scores.wis))for(const effect of ix.talents.get(selection.id)?.effects||[])if(effect.target==='classSkill')skills.add(effect.skill);
-  if (!ctx.forceImmune && ctx.feats.some(f => f.id === F('force-sensitivity'))) skills.add('skill:use-the-force');
+  if (!ctx.forceImmune && !ctx.forceRestrictions?.forbidChecks && ctx.feats.some(f => f.id === F('force-sensitivity'))) skills.add('skill:use-the-force');
+  if(ctx.forceImmune||ctx.forceRestrictions?.forbidChecks)skills.delete('skill:use-the-force');
   return skills;
 }
 
@@ -177,7 +178,7 @@ export function eligible(record, selection, ctx, ix, type, {ignoreManual=false}=
   selection=resolveFeatureSelection(record,selection,{talents:[...ix.talents.values()]});
   if(record.manualPrerequisites?.length&&!selection.manualRequirements&&!ignoreManual)return false;
   if(record.requiresLightSide&&ctx.darkSideScore!==0)return false;
-  if(ctx.forceImmune&&record.id===F('force-sensitivity'))return false;
+  if((ctx.forceImmune||ctx.forceRestrictions?.forbidSensitivity)&&record.id===F('force-sensitivity'))return false;
   if(record.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing')&&!ctx.feats.some(f=>f.id===F('force-sensitivity')))return false;
   if (record.choiceType === 'skill' && !ix.skills.has(selection.choice)) return false;
   if(record.choiceType==='manual'&&!(typeof selection.choice==='string'&&selection.choice.startsWith('manual:')&&selection.choice.slice(7).trim()&&selection.choice.length<=307&&!/[\r\n|]/.test(selection.choice)))return false;
@@ -224,6 +225,8 @@ export function progression(c, pack, through = c.levels.length) {
   const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, c.abilities[a] + (species.abilityAdjustments[a] || 0)])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
   Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,speciesClassSkills:species.bonusClassSkills||[],forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
   Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0,speciesTraining:new Set()});
+  ctx.forceRestrictions=species.forceRestrictions||{};
+  ctx.unproficientArmorPenalties=species.unproficientArmorPenalties;
   const issues = [], rows = [], ordinaryTraining=new Set(),talentTraining=new Map();
   ctx.forceTraditions=new Set();
   ctx.forceTalentTrees=[...ctx.forceTalentTrees,...(pack.rules.traditionTalentAccess||[]).map(r=>r.tree)];
@@ -235,6 +238,7 @@ export function progression(c, pack, through = c.levels.length) {
   function conditionalSpeciesGrants() {
     if(!ctx.characterLevel)return;
     for(const id of [species.conditionalFocus,...(species.conditionalFocuses||[]),background?.conditionalFocus])if (id && ctx.trained.has(id) && !ctx.feats.some(f => f.id === F('skill-focus') && f.choice === id)) recordFeature({id: F('skill-focus'), choice: id, automatic: true},'feats',[...ctx.classLevels.values()].reduce((sum,n)=>sum+n,0));
+    for(const o of species.conditionalWeaponFocuses||[])if((!o.requiresFeat||ctx.feats.some(f=>f.id===o.requiresFeat))&&eligible(ix.feats.get(F('weapon-focus')),{id:F('weapon-focus'),choice:o.choice},ctx,ix,'feats'))recordFeature({id:F('weapon-focus'),choice:o.choice,automatic:true,grantedBy:species.id},'feats',ctx.characterLevel);
     const ids=[...(species.conditionalFeats||[]),...(ctx.characterLevel===1?species.conditionalStartingFeats||[]:[])];
     let added=true;
     while(added){added=false;for(const id of ids)if(!ctx.feats.some(f=>f.id===id)&&eligible(ix.feats.get(id),{id},ctx,ix,'feats')){recordFeature({id,automatic:true},'feats',ctx.characterLevel);added=true;}}
@@ -345,9 +349,9 @@ export function progression(c, pack, through = c.levels.length) {
   for(const [skill,grants]of talentTraining)if(!ordinaryTraining.has(skill)&&[...grants].every(id=>ctx.inactiveTalents.has(id)))ctx.trained.delete(skill);
   // Replay species grants after training and at their permitted acquisition level.
   conditionalSpeciesGrants();
-  if (ctx.trained.has('skill:use-the-force') && !ctx.feats.some(f => f.id === F('force-sensitivity'))) {
+  if (ctx.trained.has('skill:use-the-force') && (ctx.forceRestrictions.forbidChecks||!ctx.feats.some(f => f.id === F('force-sensitivity')))) {
     ctx.trained.delete('skill:use-the-force');
-    issues.push('Use the Force training requires Force Sensitivity');
+    issues.push(ctx.forceRestrictions.forbidChecks?species.name+' cannot make Use the Force checks':'Use the Force training requires Force Sensitivity');
   }
   return {ctx, rows, issues};
 }
@@ -449,7 +453,7 @@ export function derive(c, pack) {
     const tools=species.technophobic&&c.mechanicalSkills?.includes(s.id)?-5:0;
     const misc=c.skillModifiers?.[s.id]||0;
     const encumbrance=load.heavy&&pack.rules.encumbrance.skills.includes(s.id)?pack.rules.encumbrance.skillPenalty:0;
-    return {...s, trained, focus, available: !(raging&&species.rage.blockedSkills.includes(s.id)) && !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || ctx.feats.some(f => f.id === F('force-sensitivity'))),
+    return {...s, trained, focus, available: !(raging&&species.rage.blockedSkills.includes(s.id)) && !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || !ctx.forceRestrictions.forbidChecks && ctx.feats.some(f => f.id === F('force-sensitivity'))),
       total: half + mods[s.ability] + (trained ? pack.rules.trainingBonus : 0) + Math.max(focus,backgroundBonus,teamBonus) + equipment + penalty + size + condition + tools + misc + encumbrance,
       breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${Math.max(focus,backgroundBonus,teamBonus)} competence + ${equipment} equipment + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools + ${misc} misc + ${encumbrance} load`};
   });
@@ -477,6 +481,7 @@ export function derive(c, pack) {
   const attacks = weaponEntries.map(e => {
     const w = e.id===UNARMED_ID?unarmed:resolveEquipment(e,pack,c);
     const proficient = weaponProficient(w,ctx,ix);
+    const proficiencyPenalty=proficient?0:species.unproficientWeaponPenalty??-5;
     const group=weaponEffectGroup(w,ctx);
     const allowFocus=!counselingEnabled(c,'jc:112-weapon-focus-proficiency')||proficient;
     const mechanical=species.technophobic&&(e.mechanical??w.mechanical)&&!w.biotech?-5:0;
@@ -509,7 +514,7 @@ export function derive(c, pack) {
     const diceBonus=Math.max(technique.extraDice,aimed&&featHas('deadeye')?accessories.deadeyeDice:0,mightySwing?pack.rules.mightySwing.extraDice:0);
     const damage=extraDamageDice(w.damage,diceBonus);
     const criticalDice=dice=>w.unarmed&&total('unarmedCriticalDieStep')?dice?.replace(/d([0-9]+)/,(_,die)=>'d'+pack.rules.unarmed.dieSteps[Math.min(pack.rules.unarmed.dieSteps.indexOf(12),pack.rules.unarmed.dieSteps.indexOf(Number(die))+total('unarmedCriticalDieStep'))]):dice;
-    const attack=ctx.bab + ability + focus + (proficient ? 0 : -5) + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + grip + aimBonus + c.modifiers.attack + e.attackMod + power.penalty + fullAttackPenalty + defensiveCombat.attackPenalty + flurryBonus;
+    const attack=ctx.bab + ability + focus + proficiencyPenalty + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + grip + aimBonus + c.modifiers.attack + e.attackMod + power.penalty + fullAttackPenalty + defensiveCombat.attackPenalty + flurryBonus;
     const inactiveLightsaber=w.group==='lightsabers'&&e.activated===false;
     const powerIssue=w.mode==='melee'&&powerAttack.selected&&!powerAttack.available?powerAttack.reason:'';
     const display=dice=>dice?dice+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
@@ -521,7 +526,7 @@ export function derive(c, pack) {
       ...(aimed?{unAimed:{aimed:false,attack:attack-aimBonus-range.penalty+unAimedRange.penalty,damage:extraDamageDice(w.damage,technique.extraDice),damageDisplay:display(extraDamageDice(w.damage,technique.extraDice)),...criticalDisplay(extraDamageDice(w.damage,technique.extraDice)),ignoresCover:false,ignoresDarkness:false}}:{}),
       ...(mightySwing?{unSwing:{mightySwing:false,damage:extraDamageDice(w.damage,technique.extraDice),damageDisplay:display(extraDamageDice(w.damage,technique.extraDice)),...criticalDisplay(extraDamageDice(w.damage,technique.extraDice))}}:{}),
       damageBonus, damageDisplay:display(damage),...criticalDisplay(damage),
-      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficient ? 0 : -5} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} ${bracing.active?'Bracing':technique.selected==='normal'?'autofire':technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected}${grip?' + '+grip+' one-handed':''}${aimBonus?' + '+aimBonus+' Careful Shot':''}${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${technique.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}${diceBonus?'; +'+diceBonus+' damage '+(diceBonus===1?'die':'dice'):''}${aimed?'; Aim: ignores cover':''}${w.mode==='melee'&&powerAttack.selected?'; Power Attack: '+power.penalty+' attack, +'+power.damage+' damage ('+power.target+')':''}${fullAttackPenalty?'; Full Attack: '+fullAttackPenalty+' attack':''}${flurryBonus?'; Flurry: +'+flurryBonus+' attack':''}${defensiveCombat.attackPenalty?'; Defense: '+defensiveCombat.attackPenalty+' attack':''}`};
+      breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficiencyPenalty} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} ${bracing.active?'Bracing':technique.selected==='normal'?'autofire':technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected}${grip?' + '+grip+' one-handed':''}${aimBonus?' + '+aimBonus+' Careful Shot':''}${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${technique.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}${diceBonus?'; +'+diceBonus+' damage '+(diceBonus===1?'die':'dice'):''}${aimed?'; Aim: ignores cover':''}${w.mode==='melee'&&powerAttack.selected?'; Power Attack: '+power.penalty+' attack, +'+power.damage+' damage ('+power.target+')':''}${fullAttackPenalty?'; Full Attack: '+fullAttackPenalty+' attack':''}${flurryBonus?'; Flurry: +'+flurryBonus+' attack':''}${defensiveCombat.attackPenalty?'; Defense: '+defensiveCombat.attackPenalty+' attack':''}`};
   }).map(a=>applyAttackTarget(a,c,pack,ctx,visionSpecies));
   const missingAssignments=c.abilityGeneration && Object.values(c.abilityGeneration.assign).some(i=>i===null);
   if (missingAssignments) issues.push('Assign all six ability scores');
@@ -555,7 +560,7 @@ export function derive(c, pack) {
     conditionalDefenses,conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,type==='fly'&&species.flightHeavyLoadForbidden&&load.heavy?0:move(n+(type==='swim'?total('swimSpeed'):0))])),
-    incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forceMaximum: !level||species.forceImmune||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:!level||species.forceImmune?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
+    incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forcePointsForbidden:!!(species.forceImmune||ctx.forceRestrictions.forbidPoints), forceMaximum: !level||species.forceImmune||ctx.forceRestrictions.forbidPoints||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:!level||species.forceImmune||ctx.forceRestrictions.forbidPoints?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
     weightUnknown:carried.some(e=>resolveEquipment(e,pack,c).weight===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};
 }
