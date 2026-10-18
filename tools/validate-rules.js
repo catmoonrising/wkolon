@@ -1,3 +1,4 @@
+import {validateSpeciesProfileData} from '../src/species-profiles.js';
 import {validateCustomizationData} from '../src/species-customization.js';
 import {validateDroidSystemData} from '../src/droid-systems.js';
 import {WIKI_TAGS, wikiURL} from '../src/wiki-content.js';
@@ -89,6 +90,7 @@ export function validatePack(p) {
     }
     if (key === 'species') {
       validateCustomizationData(r,p,message=>{throw new Error(message);});
+      validateSpeciesProfileData(r,p,message=>{throw new Error(message);});
       if(r.droidStartingPackage!==undefined){
         const d=r.droidStartingPackage;assert(r.isDroid&&d&&Object.keys(d).sort().join(',')==='appendages,credits,locomotionBySize,processor','Invalid Droid starting package');
         assert.equal(d.processor,'equipment:heuristic-processor');assert.equal(d.appendages,2);assert.equal(d.credits,1000);assert.deepEqual(d.locomotionBySize,{small:'equipment:tracked',medium:'equipment:walking'});
@@ -98,15 +100,15 @@ export function validatePack(p) {
         assert(Array.isArray(r.creationChoices)&&r.creationChoices.length>0,'Invalid species choice groups');
         const groupIds=new Set();
         for(const g of r.creationChoices){
-          assert(g&&Object.keys(g).every(k=>['id','name','kind','options','defaultOption'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus','weaponFocus','size','droidDegree','understoodLanguage','trainedSkill','startingFeat'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
+          assert(g&&Object.keys(g).every(k=>['id','name','kind','options','defaultOption'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus','weaponFocus','size','droidDegree','understoodLanguage','spokenLanguage','trainedSkill','startingFeat'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
           assert(Array.isArray(g.options)&&g.options.length>=2,'Invalid species options');const optionIds=new Set();
           for(const o of g.options){
-            const field={ability:'adjustments',size:'adjustments',droidDegree:'adjustments',understoodLanguage:'language',language:'language',skillFocus:'skillId',weaponFocus:'choice',trainedSkill:'skillId',startingFeat:'featId'}[g.kind];
+            const field={ability:'adjustments',size:'adjustments',droidDegree:'adjustments',understoodLanguage:'language',spokenLanguage:'language',language:'language',skillFocus:'skillId',weaponFocus:'choice',trainedSkill:'skillId',startingFeat:'featId'}[g.kind];
             assert(o&&Object.keys(o).every(k=>['id','name',field,...(g.kind==='weaponFocus'?['requiresFeat']:g.kind==='size'?['size','speed']:g.kind==='droidDegree'?['degree','talentTrees']:[])].includes(k))&&typeof o.id==='string'&&/^[a-z][a-z0-9-]*$/.test(o.id)&&!optionIds.has(o.id)&&typeof o.name==='string'&&o.name.trim(),'Invalid species option');optionIds.add(o.id);
             if(g.kind==='droidDegree')assert(r.noConstitution&&r.isDroid&&Number.isInteger(o.degree)&&o.degree>=1&&o.degree<=5&&Array.isArray(o.talentTrees)&&o.talentTrees.length&&o.talentTrees.every(t=>typeof t==='string'&&t.length>0),'Invalid droid degree');
             if(g.kind==='size'){assert(p.rules.sizeReflex[o.size]!==undefined&&Number.isInteger(o.speed)&&o.speed>=0,'Invalid species size profile');}
             if(['ability','size','droidDegree'].includes(g.kind))assert(o.adjustments&&typeof o.adjustments==='object'&&!Array.isArray(o.adjustments)&&(g.kind==='size'||Object.keys(o.adjustments).length>0)&&Object.entries(o.adjustments).every(([a,n])=>ABILITIES.includes(a)&&Number.isInteger(n)&&n!==0&&n>=(g.kind==='size'?-32:-10)&&n<=(g.kind==='size'?32:10)),'Invalid species ability option');
-            if(['language','understoodLanguage'].includes(g.kind))assert(typeof o.language==='string'&&o.language.trim()&&o.language.length<=100,'Invalid species language option');
+            if(['language','understoodLanguage','spokenLanguage'].includes(g.kind))assert(typeof o.language==='string'&&o.language.trim()&&o.language.length<=100,'Invalid species language option');
             if(['skillFocus','trainedSkill'].includes(g.kind))requireRef('skills',o.skillId);
             if(g.kind==='startingFeat')speciesStartingFeat(o.featId);
             if(g.kind==='weaponFocus'){requireRef('feats','feat:weapon-focus');assert(featureChoices(ix.feats.get('feat:weapon-focus'),p).includes(o.choice),'Invalid species Weapon Focus');if(o.requiresFeat!==undefined)requireRef('feats',o.requiresFeat);}
@@ -126,7 +128,7 @@ export function validatePack(p) {
       if (r.isDroid !== undefined) assert.equal(typeof r.isDroid,'boolean',`Invalid droid classification: ${r.id}`);
       for(const k of ['noConstitution','heuristicProcessor'])if(r[k]!==undefined)assert.equal(typeof r[k],'boolean','Invalid '+k);
       if(r.noConstitution)assert(r.isDroid&&p.rules.droidAbilities&&r.abilityAdjustments.con===undefined,'Missing droid ability contract');
-      assert(p.rules.sizeReflex[r.size] !== undefined && Number.isInteger(r.speed));
+      assert(p.rules.sizeReflex[r.size] !== undefined && (Number.isInteger(r.speed)||r.speed===null&&r.droidBody?.speed==='manual'));
       for(const [k,v] of Object.entries(r.abilityAdjustments)) assert(ABILITIES.includes(k) && Number.isInteger(v));
       if(r.fixedAbilities!==undefined){assert(r.fixedAbilities&&typeof r.fixedAbilities==='object'&&!Array.isArray(r.fixedAbilities),'Invalid fixed ability scores');assert.deepEqual(Object.keys(r.fixedAbilities).sort(),[...(r.noConstitution?p.rules.droidAbilities.abilities:ABILITIES)].sort());assert(Object.values(r.fixedAbilities).every(n=>Number.isInteger(n)&&n>=3&&n<=30),'Invalid fixed ability scores');}
       assert(Array.isArray(r.languages) && Array.isArray(r.reminders));
@@ -142,7 +144,7 @@ export function validatePack(p) {
         assert(Array.isArray(r.conditionalDefenses));
         for(const e of r.conditionalDefenses){
           assert(Object.keys(e).every(k=>['defense','against','amount','type'].includes(k)));
-          assert(e.defense==='will'&&e.against==='use-the-force'&&e.type==='untyped'&&Number.isInteger(e.amount),'Unsupported conditional defense');
+          assert(e.defense==='will'&&['use-the-force','persuasion'].includes(e.against)&&e.type==='untyped'&&Number.isInteger(e.amount),'Unsupported conditional defense');
         }
         assert(new Set(r.conditionalDefenses.map(e=>e.defense+':'+e.against)).size===r.conditionalDefenses.length,'Duplicate conditional defense');
       }

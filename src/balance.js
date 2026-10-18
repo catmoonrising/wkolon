@@ -20,6 +20,7 @@ export function validateBalance(c,bad){
 export const balanceDC=(c,pack)=>{const p=balanceState(c),r=pack.rules.balance;return r.widthDCs[p.width]+(p.unstable?r.unstableDCIncrease:0);};
 export function planBalance(c,d,pack,recheck=false){
  validateBalance(c,message=>{throw new Error('Invalid '+message);});
+ if(d.speedUnknown)throw new Error('Set shell speed');
  const p=balanceState(c),r=pack.rules.balance,skill=d.skills.find(s=>s.id===r.skillId);
  if(d.incapacitated||d.helpless||!skill?.available)throw new Error('Balance unavailable');
  if(recheck&&!p.active)throw new Error('Not balancing');

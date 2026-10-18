@@ -39,7 +39,7 @@ export function defensiveConditionalTotals(state,reflex){
 }
 
 export function conditionalDefenseLabel(row){
- return row.against==='extreme-temperatures'?'vs. Extreme Temperatures':row.against==='deception-or-persuasion'?'vs. Deception/Persuasion':row.against==='dodge-opponent'?`vs. ${row.opponent}`:row.against==='movement-opportunity'?'vs. movement AoO':
+ return row.against==='persuasion'?'vs. Persuasion':row.against==='extreme-temperatures'?'vs. Extreme Temperatures':row.against==='deception-or-persuasion'?'vs. Deception/Persuasion':row.against==='dodge-opponent'?`vs. ${row.opponent}`:row.against==='movement-opportunity'?'vs. movement AoO':
   row.against==='opponent-movement-opportunity'?`vs. ${row.opponent} movement AoO`:row.against==='running-attack-opportunity'?'vs. Running Attack AoO':row.against==='running-attack-movement-opportunity'?'vs. Running Attack movement AoO':'vs. Use the Force';
 }
 

@@ -2061,3 +2061,44 @@ Validation: 675 JavaScript tests, 44 Python tests, source/library validation,
 full Chromium regression and focused Firefox checks cover grants, allowance
 receipts, weight exemptions, bulk fees, installations, movement, attack identities,
 combined armor, saved state, hidden modules and Dracula mobile.
+
+
+## Remaining species
+
+The final three inventoried species pages now map to selectable profiles.
+There are 145 species entries covering 132 of 132 official species pages,
+including separately named sourcebook versions. This completes this inventory's
+selection coverage, not automation of every species effect.
+
+`tools/import-remaining-species.py` adds Replica Droid, Shard and Sorcerer of
+Rhand from their pinned primary articles. It is idempotent, preserves existing
+mechanics and records the two category revisions used for Shard's allowed
+communications and sensor equipment. No wiki Homebrew is imported.
+
+Replica Droid keeps its printed ability modifiers at either size, a fixed
+fourth degree, a native spoken language and two choices from its exact bonus
+system list. It receives a Basic Processor, independently of Custom Droid's
+package. There is no invented 1,000-credit allowance or free locomotion/arms.
+The conditional Deception Focus uses the ordinary trained-skill grant machinery.
+Compartment capacity follows size and reports an unresolved choice when a body
+edit leaves a larger compartment than the new size permits.
+
+Shard retains Constitution and Force access, gets trained Use Computer without
+spending a class slot, and permits its printed equipment categories. It has no
+printed shell speed: the sheet displays an unknown value and requires a manual
+speed declaration before movement automation. It counts as cybernetic for Ion
+damage, without becoming immune to Stun or gaining a required Droid processor.
+Ordinary natural healing and Second Wind are disabled; the Force Repair talent's
+specific healing exceptions remain Manual.
+
+Sorcerer of Rhand grants Force Sensitivity and restricted Force Training without
+spending ordinary feat selections. Power selection and replay enforce enough
+non-Light powers and the rounded-down half Dark Side powers while permitting
+Light Side powers from separate ordinary training. Its Intimidate reroll and
+Will bonus against Persuasion use the existing contextual controls. One to three
+GM-supplied Special Qualities retain their supplied names/rules and Manual effects.
+
+Validation: 685 JavaScript tests and 46 Python tests, pinned reference validation,
+full Chromium regression and focused Firefox checks cover physiology, grants,
+restrictions, mixed power pools, unknown speeds, saved per-species declarations,
+GM text editing and Dracula mobile layout.

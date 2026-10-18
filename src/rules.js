@@ -24,6 +24,7 @@ import {weaponCanOpportunity} from './opportunity.js';
 import {balanceFlatFooted} from './balance.js';
 import {applyAttackTarget,canAimAtTarget} from './attack-targets.js';
 import {resolveSpecies,speciesChoiceDetails,validateSpeciesChoices} from './species-choices.js';
+import {validateSpeciesProfileCharacter,speciesPowerIssue,eligibleSpeciesPowers,speciesQualities} from './species-profiles.js';
 import {droidSystemsState,droidCarryingWeight,droidAppendageWeapons,validateDroidInstallation} from './droid-installation.js';
 export {ABILITIES};
 export const GROUPS = WEAPON_GROUPS;
@@ -120,6 +121,7 @@ export function validateCharacter(c, pack) {
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
   validateDroidInstallation(c,pack,bad);
+  validateSpeciesProfileCharacter(c,pack,bad);
   c.inventory.forEach(e=>validateAmmunition(e,pack,bad));
   c.inventory.forEach(e=>validateEnergyShield(e,ix.equipment.get(e.id),bad));
   c.inventory.forEach(e=>validateAttackTechnique(e,pack,bad));
@@ -303,6 +305,7 @@ export function progression(c, pack, through = c.levels.length) {
       for(const id of species.startingTrainedSkills||[]){ctx.trained.add(id);ctx.speciesTraining.add(id);ordinaryTraining.add(id);}
       for(const id of species.startingTrainingFeats||[]){ctx.trained.add(id);ctx.speciesTraining.add(id);ordinaryTraining.add(id);recordFeature({id:F('skill-training'),choice:id,automatic:true,grantedBy:species.id},'feats',1);}
       for (const id of species.startingFeats||[]) recordFeature({id,automatic:true},'feats',1);
+      if(species.bonusForceTraining){recordFeature({id:F('force-training'),automatic:true,grantedBy:species.id},'feats',1);ctx.powerSlots+=Math.max(1,1+modifier(ctx.scores.wis));}
       for (const id of cls.startingFeats) if (!(species.excludedStartingFeats||[]).includes(id) && !ctx.feats.some(f=>f.id===id) && !['feat:linguist', 'feat:shake-it-off'].includes(id) && eligible(ix.feats.get(id),{id},ctx,ix,'feats')) recordFeature({id,automatic:true},'feats',1);
       conditionalSpeciesGrants();
       // Initial Force Sensitivity can enable training during the same creation step.
@@ -335,6 +338,7 @@ export function progression(c, pack, through = c.levels.length) {
     if (l.feats.slice(slots.length).some(Boolean)) issue(i, 'extra feat selections are not available');
     const priorPowerCount=ctx.forcePowers.length,initialPowerChoices=Math.max(0,ctx.powerSlots-priorPowerCount),chosenPowers=l.forcePowers||[];
     for(const p of chosenPowers.slice(0,initialPowerChoices))if(ix.forcePowers.has(p.powerId))ctx.forcePowers.push({...p,level:n});
+    ctx.forcePowers=eligibleSpeciesPowers(species,ctx,pack);
     for(const membership of (c.forceTraditions||[]).filter(s=>s.level===n)){
       const record=(pack.rules.traditionTalentAccess||[]).find(r=>r.id===membership.id);
       if(record&&prerequisite(record.prerequisite,{...ctx,darkSideScore:membership.darkSideScore},ix))ctx.forceTraditions.add(record.id);
@@ -352,6 +356,8 @@ export function progression(c, pack, through = c.levels.length) {
     const powerChoices=Math.max(0,ctx.powerSlots-priorPowerCount);
     for(const p of chosenPowers.slice(initialPowerChoices,powerChoices))if(ix.forcePowers.has(p.powerId))ctx.forcePowers.push({...p,level:n});
     if(chosenPowers.length!==powerChoices)issue(i,`choose ${powerChoices} Force powers (${chosenPowers.length} selected)`);
+    ctx.forcePowers=eligibleSpeciesPowers(species,ctx,pack);
+    const restrictedPowers=speciesPowerIssue(species,ctx,pack);if(restrictedPowers)issue(i,restrictedPowers);
     rows.push({number: n, classLevel: cl, cls, ...(i===0?{initialClassSkills}:{}),slots,powerChoices,valid:true,choiceSlots, scores: {...ctx.scores}, ctx: {...ctx,forceTraditions:new Set(ctx.forceTraditions),classChoices:[...ctx.classChoices],classFeatures:[...ctx.classFeatures], classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers]}});
   }
   ctx.inactiveClasses=new Set([...ctx.classLevels.keys()].filter(id=>ix.classes.get(id).continuousDarkSide&&ctx.darkSideScore<ctx.scores.wis));
@@ -370,6 +376,8 @@ export function derive(c, pack) {
   const ix = indexPack(pack), species = resolveSpecies(c,pack);
   const {ctx, rows, issues} = progression(c, pack);
   const droidSystems=droidSystemsState(c,pack);issues.push(...droidSystems.issues);
+  if(droidSystems.speedUnknown)issues.push('Set shell speed');
+  if(species.gmQualities&&speciesQualities(c,species).filter(r=>r.name.trim()).length<species.gmQualities.minimum)issues.push('Choose 1-3 GM Special Qualities');
   const level = ctx.characterLevel, half = Math.floor(level / 2), background=activeBackground(c,pack);
   issues.push(...speciesChoiceDetails(c,pack,ctx,rows[0]?.ctx||ctx).map(g=>g.issue).filter(Boolean),...customizationIssues(c,species));
   const story=c.story;
@@ -391,7 +399,7 @@ export function derive(c, pack) {
   const allDeclaredArmor=wornArmor(c,pack);
   for(const r of allDeclaredArmor)if(r.wearerSize&&r.wearerSize!==species.size)issues.push(r.name+' fits '+r.wearerSize+' creatures');
   for(const r of allDeclaredArmor)if(r.droidSystem?.builtIn&&!species.isDroid&&!species.usesDroidSystems)issues.push(r.name+' requires a Droid body');
-  const humanoidArmorRequired=species.isDroid&&!!(species.droidStartingPackage||c.droidSystems?.[species.id]);
+  const humanoidArmorRequired=(species.isDroid||species.usesDroidSystems)&&!!(species.droidStartingPackage||c.droidSystems?.[species.id]);
   if(humanoidArmorRequired&&!droidSystems.humanoidArmor&&allDeclaredArmor.some(r=>!r.droidSystem?.builtIn))issues.push('Humanoid armor requires a bipedal body and two Hands');
   const declaredArmor=allDeclaredArmor.filter(r=>(!r.wearerSize||r.wearerSize===species.size)&&(!r.droidSystem?.builtIn||species.isDroid||species.usesDroidSystems)&&(r.droidSystem?.builtIn||!humanoidArmorRequired||droidSystems.humanoidArmor)),bodyArmor=declaredArmor.filter(r=>(r.armorSlot||'body')==='body');
   const externalArmor=bodyArmor.filter(r=>!r.droidSystem?.builtIn),builtInArmor=bodyArmor.filter(r=>r.droidSystem?.builtIn);
@@ -572,8 +580,8 @@ export function derive(c, pack) {
   const runWithArmor = sprintAllowed ? Math.max(armorRunMultiplier,talentRunMultiplier) : armorRunMultiplier;
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
-  const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} base + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
-  return {level, half, scores, droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+  const speedBreakdown = droidSystems.speedUnknown?'Shell speed unspecified':load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} base + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
+  return {level, half, scores, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),

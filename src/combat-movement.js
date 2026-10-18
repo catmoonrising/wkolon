@@ -32,6 +32,7 @@ export function validateCombatMovement(c,bad){
  }
 }
 export function movementSpeed(d,mode='normal'){
+ if(mode==='normal'&&d.speedUnknown)throw new Error('Set shell speed');
  const speed=mode==='normal'?d.speed:d.speeds?.[mode];
  if(!Number.isFinite(speed)||speed<0)throw new Error('Movement mode unavailable');
  return speed;

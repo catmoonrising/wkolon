@@ -158,7 +158,7 @@
 - [ ] Rakata once-per-encounter trained-only skill application and Rakatan weapon conversions.
 - [x] Republic Clone fixed ability array and explicit +2 choice, shared builder controls, retained ordinary generation, bonus feat/skill slots and advancement.
 - [x] Printed natural weapons for 12 species, including Killik's nine optional size profiles; independent modifiers, Martial Arts, routines, Actions and saved references.
-- [ ] Review remaining species pages: Replica Droid, Shard and Sorcerer of Rhand, including their distinct physiology and restricted choices.
+- [x] Review remaining species pages: Replica Droid, Shard and Sorcerer of Rhand, including their distinct physiology and restricted choices.
 - [x] Near-Human creation: 24 exact trait descriptions, 10 cosmetic variants, replacement bonuses, secondary options, saved customization and reusable species effects.
 - [ ] Automate remaining Near-Human contextual/activated traits and installed augmentation effects, including explicit installation and inventory handling.
 - [x] Custom Droid creation: five-score generation and 21-point budget, absent Constitution, Strength Fortitude, degree/size/language choices, source restrictions and independent saved ability profiles.
@@ -167,4 +167,5 @@
 - [x] Droid starting equipment and separate 1,000-credit allowance; explicit arm and anatomy choices, weight exemptions and persistent installation state.
 - [x] Core locomotion speed/terrain/Climb, processor skill and proficiency restrictions, appendage attacks/Martial Arts/routines, sensor vision/Perception and combined worn/built-in armor.
 - [ ] Remaining Droid upgrades, remote processor links, maintenance/reprogramming/shutdown and complete immunity handling.
-- [ ] Standard droid models and stock chassis; complete Replica Droid and Shard creation with their distinct physiology and systems.
+- [x] Replica Droid and Shard creation with their distinct physiology, bonus systems and shell declarations.
+- [ ] Standard droid models and stock chassis.

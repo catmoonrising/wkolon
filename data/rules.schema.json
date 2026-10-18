@@ -3720,6 +3720,108 @@
               "const": 1000
             }
           }
+        },
+        "usesDroidSystems": {
+          "type": "boolean"
+        },
+        "cybernetic": {
+          "type": "boolean"
+        },
+        "repairOnly": {
+          "type": "boolean"
+        },
+        "maintenance": {
+          "type": "boolean"
+        },
+        "droidDegree": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "droidTalentTrees": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "droidBody": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "speed"
+          ],
+          "properties": {
+            "speed": {
+              "enum": [
+                "species",
+                "manual"
+              ]
+            },
+            "processor": {
+              "const": "equipment:basic-processor"
+            },
+            "bonusSystems": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/id"
+              }
+            },
+            "bonusSystemCount": {
+              "const": 2
+            },
+            "allowedSystems": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/id"
+              }
+            },
+            "sourceIds": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/id"
+              }
+            }
+          }
+        },
+        "bonusForceTraining": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "requiredDescriptor",
+            "fraction",
+            "forbiddenDescriptors"
+          ],
+          "properties": {
+            "requiredDescriptor": {
+              "const": "dark-side"
+            },
+            "fraction": {
+              "const": 0.5
+            },
+            "forbiddenDescriptors": {
+              "const": [
+                "light-side"
+              ]
+            }
+          }
+        },
+        "gmQualities": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "minimum",
+            "maximum"
+          ],
+          "properties": {
+            "minimum": {
+              "const": 1
+            },
+            "maximum": {
+              "const": 3
+            }
+          }
         }
       }
     },
@@ -3803,7 +3905,8 @@
             "trainedSkill",
             "startingFeat",
             "droidDegree",
-            "understoodLanguage"
+            "understoodLanguage",
+            "spokenLanguage"
           ]
         },
         "defaultOption": {
@@ -3968,7 +4071,8 @@
               "kind": {
                 "enum": [
                   "language",
-                  "understoodLanguage"
+                  "understoodLanguage",
+                  "spokenLanguage"
                 ]
               }
             }

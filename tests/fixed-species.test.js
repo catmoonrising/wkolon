@@ -16,7 +16,7 @@ test('fixed modifiers follow numeric rules without treating descriptive ability 
  const d=derive(hero('gen-dai'),pack);assert.deepEqual(d.scores,{str:10,dex:10,con:14,int:10,wis:8,cha:8});assert.equal(d.size,'large');assert.equal(d.speed,8);assert.equal(d.threshold,20);
  assert.deepEqual(record('chiss').languages,['Cheunh']);assert.equal(record('chiss').bonusSkills,1);assert(derive(hero('chiss'),pack).issues.some(t=>t.includes('choose 5 starting trained skills')));
  assert.deepEqual(record('ubese').languages,['Basic','Ubese','Ubeninal']);assert.deepEqual(record('skakoan').languages,['Skakoverbal (spoken)','Skakoform (written)','Basic']);
- assert(!record('sorcerer-of-rhand'),'Restricted bonus Force Training needs its own creation model');
+ assert.equal(record('sorcerer-of-rhand').bonusForceTraining.requiredDescriptor,'dark-side');
 });
 test('innate DR protects incoming damage, combines by maximum and retains ordinary bypass handling',()=>{
  for(const id of ['chistori','givin','nautolan']){

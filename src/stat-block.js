@@ -1,3 +1,4 @@
+import {speciesQualities} from './species-profiles.js';
 import {customizationEntries} from './species-customization.js';
 import {ABILITIES, indexPack, signed, derive} from './rules.js';
 import {TRAIT_FIELDS, backgroundLanguage} from './heroic-traits.js';
@@ -46,8 +47,8 @@ export function renderStatBlock(c,d,pack){
  <h2>Defenses</h2><p><b>Reflex Defense:</b> ${defenseTotal('reflex')}, <b>Fortitude Defense:</b> ${defenseTotal('fortitude')}, <b>Will Defense:</b> ${defenseTotal('will')}</p>${textLine('Defensive Abilities',defensiveOptions)}
  <p><b>Hit Points:</b> ${c.currentHP??d.hp}/${d.hp}; <b>Damage Threshold:</b> ${d.threshold}${(d.conditionalThresholds||[]).map(r=>` (${r.total} ${escape(conditionalDefenseLabel(r))})`).join('')}${protection.dr?`; <b>DR:</b> ${protection.dr}${protection.drBypass?' ('+escape(protection.drBypass)+')':''}`:''}${protection.srMax||energySR?`; <b>SR:</b> ${[protection.srMax?protection.sr+'/'+protection.srMax:'',energySR].filter(Boolean).join(', ')}`:''}</p>
  ${d.recovery?.dead?textLine('Status',species.isDroid?'Destroyed':'Dead'):d.helpless&&c.condition!==5?textLine('Status',c.helpless?'Helpless':species.isDroid?'Disabled':'Unconscious'):''}${textLine('Condition Track',condition)}${d.recovery?.persistent.length?textLine('Persistent Conditions',d.recovery.persistent.map(persistentName).join(', ')):''}
- <h2>Offense</h2>${line('Speed',d.speed+' Squares'+Object.entries(d.speeds||{}).map(([type,n])=>`, ${escape(type)} ${n} Squares`).join('')+(d.runMultiplier!==4?` (Run ${d.runSpeed} Squares)`:''))}${attacks}${routines}${species.bellow?line('Special Attacks',`Bellow ${signed(d.level+d.specialAttackPenalty)} (${species.bellow.damageDice+(d.bellowBonuses?.dice||0)}d${species.bellow.die} Sonic; ${species.bellow.coneSquares}-Square Cone; Fortitude)`):''}${line('Base Attack Bonus',signed(d.bab))}
- ${textLine('Special Qualities',classFeatureNames.join(', '))}
+ <h2>Offense</h2>${line('Speed',(d.speedUnknown?'Manual':d.speed+' Squares')+Object.entries(d.speeds||{}).map(([type,n])=>`, ${escape(type)} ${n} Squares`).join('')+(!d.speedUnknown&&d.runMultiplier!==4?` (Run ${d.runSpeed} Squares)`:''))}${attacks}${routines}${species.bellow?line('Special Attacks',`Bellow ${signed(d.level+d.specialAttackPenalty)} (${species.bellow.damageDice+(d.bellowBonuses?.dice||0)}d${species.bellow.die} Sonic; ${species.bellow.coneSquares}-Square Cone; Fortitude)`):''}${line('Base Attack Bonus',signed(d.bab))}
+ ${textLine('Special Qualities',[...classFeatureNames,...(species.gmQualities?speciesQualities(c,species).filter(r=>r.name.trim()).map(r=>r.name+' (Manual)'):[])].join(', '))}
  <h2>Base Stats</h2>${line('Abilities',ABILITIES.map(a=>`${a[0].toUpperCase()+a.slice(1)} ${d.scores[a]===null?'-':d.scores[a]}`).join(', '))}
  ${line('Force Powers',d.forcePowers?.map(p=>escape(p.name)).join(', '))}
  ${textLine('Species Traits',customizationEntries(c,species).map(r=>r.name).join(', '))}${line('Talents',d.ctx.talents.map(s=>featureName('talents',s)).join(', '))}${line('Feats',d.ctx.feats.map(s=>featureName('feats',s)).join(', '))}

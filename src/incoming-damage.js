@@ -23,7 +23,7 @@ export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spen
  const threshold=d.thresholdContext&&contexts.length?d.threshold+thresholdForContext(d.thresholdContext,contexts).total-thresholdForContext(d.thresholdContext).total:d.threshold;
  const exceeded=penetrating>0&&penetrating>=threshold;
  const wasUnconscious=c.condition===rule.helplessStep||beforeHP===0;
- const electronic=isDroid||!!c.cybernetic;
+ const electronic=isDroid||!!c.cybernetic||!!pack.species.find(s=>s.id===c.species).cybernetic;
  const thresholdSteps=exceeded?(type==='normal'?rule.normalThresholdSteps:type==='stun'||electronic?rule[type].thresholdSteps:0):0;
  const conditionAfter=penetrating>0&&afterDamage===0?rule.helplessStep:Math.min(rule.helplessStep,c.condition+thresholdSteps);
  // The optional general-death reading concerns the attack reaching zero HP.

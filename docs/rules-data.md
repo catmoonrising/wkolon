@@ -13,6 +13,8 @@ linked species feats and redirects. Offline imports require that list; missing
 category captures and embedded Homebrew fail rather than silently importing it.
 
 Protection and attack sequences follow the [combat data contract](combat.md).
+Species bodies, restricted Force Training and GM qualities follow the
+[remaining species contract](species-bodies.md).
 
 Book-specific species are separate records with `bookVariant` and distinct IDs.
 Their articles retain common characteristics and only the selected book's traits.

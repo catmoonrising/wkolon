@@ -1,3 +1,5 @@
+import {speciesQualities,changeSpeciesQuality} from './species-profiles.js';
+import {speciesQualityControls} from './species-profiles-ui.js';
 import {activeAbilities,abilityRecord,activeBudget,setAbilityBudget,setBaseAbility} from './ability-profiles.js';
 import {customizationState,setSpeciesCustomization} from './species-customization.js';
 import {customizationControls,customizationFeatures} from './species-customization-ui.js';
@@ -398,7 +400,7 @@ function creation() {
  switch(CREATOR_TABS[creatorStep].id){
   case 'levels':return levelPlanTable(c,derived,pack,{choice:selectChoice,reference:(r,label,s,key)=>ruleReference(r,label||r.name+(s?.choice?' ('+choiceName(s.choice,pack)+')':''),s,key)});
   case 'abilities':return generateAbilities()+abilityCards();
-  case 'species':return customizationControls(c,resolveSpecies(c,pack),pack)+speciesBrowser.render(c.species,speciesChoiceDetails(c,pack,derived.ctx,derived.rows[0]?.ctx||derived.ctx));
+  case 'species':return customizationControls(c,resolveSpecies(c,pack),pack)+speciesBrowser.render(c.species,speciesChoiceDetails(c,pack,derived.ctx,derived.rows[0]?.ctx||derived.ctx),speciesQualityControls(c,pack));
   case 'skills':{const allowed=row.valid===false?new Set():row.initialClassSkills||classSkills(row.ctx,ix),budget=row.valid===false?0:Math.max(1,cls.trainedSkills+Math.floor((row.scores.int-10)/2))+species.bonusSkills;return skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`);}
   case 'equipment':{const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));gear[0].querySelector('.panel-heading')?.remove();return `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${derived.droidSystems.enabled?droidSystemsUI.render(true):''}${gear.map(p=>p.outerHTML).join('')}`;}
   case 'character':return finishing();
@@ -511,13 +513,13 @@ function sheet() {
    header:character,languages,classes:classes+xpBar(c,derived,pack.rules.resources),abilities,defenses,hp,
    threshold:`<div class="stat-big">${derived.threshold}</div>${derived.conditionalThresholds.map(r=>`<div>${r.total} ${escape(conditionalDefenseLabel(r))}</div>`).join('')}`,
    bab:`<div class="stat-big">${signed(derived.bab)}</div>`,
-   speed:`<div class="stat-big">${derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armorItems.some(r=>r.category!=='light')?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${escapeBondsControls(c,derived,pack)}${fallingControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,
+   speed:`<div class="stat-big">${derived.speedUnknown?'?':derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${!derived.speedUnknown&&derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armorItems.some(r=>r.category!=='light')?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${escapeBondsControls(c,derived,pack)}${fallingControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,
    force:statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${derived.forcePointsForbidden?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`,
    'dark-side':statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'),condition:conditionTrack()+recoveryControls.condition(),skills:skillTable(),actions:actionsUI.render(),attacks:attackTable(),
    'force-powers':forcePowersUI.sheet(),routines:combatControls.renderRoutines(),
    'droid-systems':droidSystemsUI.render(),
    inventory:`${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')} <span class="hint">${totalWeight()}</span>${carryingDisplay()}<details class="shop" id="equipment-catalog"><summary>Catalog</summary>${panelBody(inventoryPanels[0]).replace(/<div class="actions">[\s\S]*?<\/div>$/, '')}</details>${panelBody(inventoryPanels[1])}`,
-   'species-features':`${recoveryControls.species()}<div class="feature-list"><article>${ruleReference(species,species.name,null,'sheet-species')}</article>${customizationFeatures(c,species)}</div>`,
+   'species-features':`${recoveryControls.species()}<div class="feature-list"><article>${ruleReference(species,species.name,null,'sheet-species')}</article>${customizationFeatures(c,species)}${speciesQualityControls(c,pack,'sheet')}</div>`,
    ...Object.fromEntries(['feats','talents','class-features','force-techniques','force-secrets','medical-secrets'].map(id=>[id,featureModule(id,entries)])),
    destiny:storyEditor('sheet'),
    'destiny-points':c.story?.kind==='destiny'?statBar('destiny','',c.story.points,c.levels.length,'story.points')+`<button type="button" data-spend-destiny ${c.story.points>0&&derived.level>0?'':'disabled'}>Spend</button>`:'',
@@ -676,6 +678,7 @@ function events() {
   $('rule-detail-modal').addEventListener('close',()=>{referenceRequest++;classRequirementTarget=null;});
   document.addEventListener('input',event=>{
     const el=event.target;
+    if(el.hasAttribute('data-species-quality')){try{changeSpeciesQuality(current(),pack,Number(el.dataset.speciesQuality),el.dataset.qualityField,el.value);document.querySelectorAll(`[data-species-quality="${el.dataset.speciesQuality}"][data-quality-field="${el.dataset.qualityField}"]`).forEach(other=>{if(other!==el)other.value=el.value;});derived=derive(current(),pack);renderCreatorIssues();$('build-status').innerHTML=derived.issues.length?`<details class="validation"><summary>${derived.issues.length} unresolved choice${derived.issues.length===1?'':'s'}</summary><ul>${derived.issues.map(t=>`<li>${escape(t)}</li>`).join('')}</ul></details>`:'';$('print-stat-block').innerHTML=renderStatBlock(current(),derived,pack);store.schedule();}catch(e){notify(e.message);}return;}
     if(el.hasAttribute('data-counseling-search')){houseRules.search(el.value);const root=$('module-house-rules');root.querySelector('.counseling-topics').outerHTML=new DOMParser().parseFromString(houseRules.render(current()),'text/html').querySelector('.counseling-topics').outerHTML;return;}
     if(creationOptions.input(event))return;
     if(el.id==='rules-search'){rulesCatalog.search(el.value);$('rules-results').innerHTML=rulesCatalog.results();return;}
@@ -723,6 +726,7 @@ function events() {
     if(el.hasAttribute('data-class-dss')){const n=Number(el.value);if(Number.isInteger(n)&&n>=0&&n<=1000)c.levels[Number(el.dataset.classDss)].acquisitionDSS=n;changed();return;}
     if(el.hasAttribute('data-class-entry')){const target=el.dataset.classEntry==='next'?nextClassDraft():c.levels[Number(el.dataset.classEntry)];target.entryDeclarations??={};target.entryDeclarations[el.dataset.entryId]=el.checked;if(el.dataset.classEntry==='next')renderEditor();else changed();return;}
     if(el.hasAttribute('data-class-choice')||el.hasAttribute('data-class-choice-power')){const l=c.levels[Number(el.dataset.classChoice??el.dataset.classChoicePower)],slot=Number(el.dataset.classSlot);l.classChoices??=[];if(el.hasAttribute('data-class-choice'))l.classChoices[slot]=el.value?{id:el.value}:null;else if(l.classChoices[slot]){if(el.value)l.classChoices[slot].choice=el.value;else delete l.classChoices[slot].choice;}changed();return;}
+    if(el.hasAttribute('data-species-quality'))return;
     if(droidSystemsUI.change(el))return;
     if(actionsUI.change(el))return;
     if(forcePowersUI.change(el))return;
@@ -889,6 +893,7 @@ function events() {
   document.addEventListener('submit',event=>{if(['recovery-healing','recovery-limb'].includes(event.target.id)){event.preventDefault();recoveryControls.submit(event.target);return;}if(event.target.id==='bellow-controls'){event.preventDefault();if(!actionsUI.bellow(event.target))recoveryControls.bellow(event.target);return;}if(event.target.id==='apply-damage'){event.preventDefault();const el=event.target.querySelector('[data-incoming-damage]');commitMath(el);combatControls.damage(event.target);return;}if(event.target.matches('form[data-equipment-scope]')){event.preventDefault();purchase(true,event.target);}});
   document.addEventListener('click',event=>{
     if(event.composedPath().some(node=>node.id==='lay-bar')||event.target.closest('.lay-collapse-btn,.lay-tab,.lay-handle'))return;
+    const qualityButton=event.target.closest('[data-add-species-quality],[data-remove-species-quality]');if(qualityButton){const c=current(),s=pack.species.find(s=>s.id===c.species);if(!s.gmQualities)return;const rows=structuredClone(speciesQualities(c,s));if(qualityButton.hasAttribute('data-add-species-quality')){if(rows.length>=s.gmQualities.maximum)return;rows.push({name:'',text:''});}else rows.splice(Number(qualityButton.dataset.removeSpeciesQuality),1);c.speciesQualities??={};c.speciesQualities[s.id]=rows;changed();return;}
     if(event.target.closest('[data-reference-retry]')){loadReferences();return;}
     const rulesPage=event.target.closest('[data-rules-page]');if(rulesPage){rulesCatalog.page(rulesPage.dataset.rulesPage);$('rules-results').innerHTML=rulesCatalog.results();return;}
     const referenceLink=event.target.closest('[data-rule-reference]');

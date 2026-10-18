@@ -16,13 +16,13 @@ export function resolveSpecies(c,pack){
  const species={...base,abilityAdjustments:{...base.abilityAdjustments},languages:[...base.languages],understoodLanguages:[...(base.understoodLanguages||[])],conditionalFocuses:[...(base.conditionalFocuses||[])],startingTrainedSkills:[...(base.startingTrainedSkills||[])],conditionalStartingFeats:[...(base.conditionalStartingFeats||[])]};
  for(const group of base.creationChoices){
   const value=c.speciesChoices?.[base.id]?.[group.id]??group.defaultOption;
-  const selected=group.options.find(o=>o.id===value)||(group.kind==='understoodLanguage'&&languageValue(value)?{language:value.trim()}:null);
+  const selected=group.options.find(o=>o.id===value)||(['understoodLanguage','spokenLanguage'].includes(group.kind)&&languageValue(value)?{language:value.trim()}:null);
   if(!selected||duplicateGrant(base,c,group,selected))continue;
   if(group.kind==='droidDegree'){species.droidDegree=selected.degree;species.droidTalentTrees=[...selected.talentTrees];}
   if(group.kind==='size'){species.size=selected.size;species.speed=selected.speed;}
   if(['ability','size','droidDegree'].includes(group.kind))for(const [ability,amount]of Object.entries(selected.adjustments))species.abilityAdjustments[ability]=(species.abilityAdjustments[ability]||0)+amount;
   if(group.kind==='understoodLanguage'&&!species.understoodLanguages.includes(selected.language))species.understoodLanguages.push(selected.language);
-  if(group.kind==='language'&&!species.languages.includes(selected.language))species.languages.push(selected.language);
+  if(['language','spokenLanguage'].includes(group.kind)&&!species.languages.includes(selected.language))species.languages.push(selected.language);
   if(group.kind==='skillFocus'&&!species.conditionalFocuses.includes(selected.skillId))species.conditionalFocuses.push(selected.skillId);
   if(group.kind==='weaponFocus'){species.conditionalWeaponFocuses??=[];species.conditionalWeaponFocuses.push(selected);}
   if(group.kind==='trainedSkill'&&!species.startingTrainedSkills.includes(selected.skillId))species.startingTrainedSkills.push(selected.skillId);
@@ -37,7 +37,7 @@ export function speciesChoiceDetails(c,pack,ctx,firstLevel=ctx){
  const ix=indexPack(pack);
  return (species.creationChoices||[]).map(group=>{
   const selected=c.speciesChoices?.[species.id]?.[group.id]??group.defaultOption??null;
-  const values=[...group.options];if(group.kind==='understoodLanguage'&&languageValue(selected)&&!values.some(o=>o.id===selected))values.push({id:selected,name:selected,language:selected});
+  const values=[...group.options];if(['understoodLanguage','spokenLanguage'].includes(group.kind)&&languageValue(selected)&&!values.some(o=>o.id===selected))values.push({id:selected,name:selected,language:selected});
   const options=values.map(option=>{
    const duplicate=duplicateGrant(species,c,group,option);
    const focusContext={...ctx,feats:ctx.feats.filter(f=>f.id!=='feat:weapon-focus'||f.choice!==option.choice)};
@@ -51,9 +51,9 @@ export function speciesChoiceDetails(c,pack,ctx,firstLevel=ctx){
 
 export function chooseSpeciesOption(c,pack,groupId,optionId){
  const species=pack.species.find(r=>r.id===c.species),group=species.creationChoices?.find(g=>g.id===groupId);
- if(group?.kind==='understoodLanguage'&&typeof optionId==='string')optionId=optionId.trim()||null;
- if(!group||optionId!==null&&!group.options.some(o=>o.id===optionId)&&!(group.kind==='understoodLanguage'&&languageValue(optionId)))throw new Error('Unknown species choice');
- if(group.kind==='understoodLanguage'&&optionId!==null)optionId=group.options.find(o=>o.id===optionId||o.language.toLocaleLowerCase()===optionId.trim().toLocaleLowerCase())?.id||optionId.trim();
+ if(['understoodLanguage','spokenLanguage'].includes(group?.kind)&&typeof optionId==='string')optionId=optionId.trim()||null;
+ if(!group||optionId!==null&&!group.options.some(o=>o.id===optionId)&&!(['understoodLanguage','spokenLanguage'].includes(group.kind)&&languageValue(optionId)))throw new Error('Unknown species choice');
+ if(['understoodLanguage','spokenLanguage'].includes(group.kind)&&optionId!==null)optionId=group.options.find(o=>o.id===optionId||o.language.toLocaleLowerCase()===optionId.trim().toLocaleLowerCase())?.id||optionId.trim();
  c.speciesChoices||={};c.speciesChoices[species.id]||={};c.speciesChoices[species.id][groupId]=optionId;
 }
 
@@ -65,7 +65,7 @@ export function validateSpeciesChoices(c,pack,bad){
   if(!species||!object(choices))bad('species choices');
   for(const [key,value]of Object.entries(choices)){
    const group=species.creationChoices?.find(g=>g.id===key);
-   if(!group||value!==null&&!group.options.some(o=>o.id===value)&&!(group.kind==='understoodLanguage'&&languageValue(value)))bad('species choice');
+   if(!group||value!==null&&!group.options.some(o=>o.id===value)&&!(['understoodLanguage','spokenLanguage'].includes(group.kind)&&languageValue(value)))bad('species choice');
   }
  }
 }
