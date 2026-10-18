@@ -1912,3 +1912,40 @@ and imports rebind their routine and planned-action references to the new
 character. Modifiers are separate for claws, bite, horns, beak and tail, and do
 not alter the ordinary unarmed attack. Full attacks, opportunity attacks, Cleave,
 Actions and stat blocks use the same derived natural attacks.
+
+## Near-Human customization
+
+Near-Human revision 26005 supplies 24 traits and 10 cosmetic variants. The
+character replaces either the Human bonus feat or bonus trained skill and
+selects one trait and one to three variants. Original table descriptions and
+wiki links are retained verbatim. Ability Adjustment selects distinct increase
+and decrease abilities, applying +2/-2 without changing generated base scores.
+Existing feats and ordinary training remain saved when changing the replaced
+bonus; excess selections become unresolved choices instead of being deleted.
+
+Additional Arms reduces the aggregate multiple-attack penalty by 2 without
+granting attacks. Conductive supplies a 1d6 Energy natural attack; Natural Weapon
+supplies 1d6 Slashing claws. Natural Armor, Quick, Darkvision, Low-Light Vision,
+Naturally Acrobatic, Expert Swimmer, Heightened Awareness, Persistent and Weapon
+Familiarity reuse the reviewed species calculation/control paths. Naturally
+Acrobatic grants training outside class lists without spending the ordinary
+pool or inventing a Skill Training feat. Cosmetic variants add no size or other
+bonuses. Scent's range and underwater breathing are recorded; contextual checks
+and drowning are not automated by recording those traits.
+
+Climate Adaptation, Empath, Quick Healing, Resistant, Spring Step, Strength
+Surge and Visually Striking retain Manual markers for their conditional or
+activated effects. Biotech Augmentation and Cultural Cybernetics record an
+explicit implant choice and show its full rules; installation, derived implant
+effects and inventory synchronization remain manual. These choices do not
+silently buy equipment, charge credits, or perform surgery. Primary traits and
+all secondary selections remain available and survive species changes and
+save/import. Species Features and printed stat blocks include selected traits,
+secondary options and cosmetic variants.
+
+Bio-Implant redirects to Category:Bio-Implants (revision 20354). Cybernetics
+redirects to Category:Cybernetics (revision 26008). The reviewed membership
+snapshot supplies seven Bio-Implants and nineteen cybernetic options across
+Cybernetics, Advanced Cybernetics and Implants, all already imported official
+gear records. No Homebrew options or effects are included. The snapshot informs
+option lists without substituting category prose for individual item mechanics.

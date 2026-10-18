@@ -348,3 +348,17 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 @media (max-width: 600px) { .action-fields label { flex-wrap: wrap; } #actions-modal { margin: auto; } }
 
 #actions-modal .modal-box { width: 100%; max-width: none; min-width: 0; box-sizing: border-box; }
+.species-customization { margin-block-end: 1rem; min-width: 0; }
+.species-customization > details { margin-block: .5rem; }
+.species-customization .table-scroll td:first-child { min-width: 13rem; }
+.species-customization .wiki-article p { margin-block: .3rem; }
+.species-customization .actions { align-items: start; }
+.species-customization > details[open] + .custom-trait-description { display: none; }
+@media (max-width: 600px) {
+  .species-customization .table-scroll table,
+  .species-customization .table-scroll tbody,
+  .species-customization .table-scroll tr,
+  .species-customization .table-scroll td { display: block; width: auto; }
+  .species-customization .table-scroll td:first-child { min-width: 0; }
+  .species-customization .table-scroll tr { margin-block: .75rem; }
+}

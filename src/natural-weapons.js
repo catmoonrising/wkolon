@@ -18,7 +18,7 @@ export function naturalWeapons(c,species,pack,steps=0){
 
 export function validateNaturalModifiers(c,pack,bad){
  if(c.naturalModifiers===undefined)return;
- const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v),ids=new Set(pack.species.flatMap(s=>(s.naturalWeapons||[]).map(w=>w.id)));
+ const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v),ids=new Set(pack.species.flatMap(s=>[...(s.naturalWeapons||[]),...(s.customization?.traits||[]).flatMap(t=>t.effects.naturalWeapons||[])].map(w=>w.id)));
  if(!object(c.naturalModifiers)||Object.keys(c.naturalModifiers).length>ids.size)bad('natural attack modifiers');
  for(const [id,v]of Object.entries(c.naturalModifiers)){
   if(!ids.has(id)||!object(v)||Object.keys(v).some(k=>!['attackMod','damageMod','attackTechnique','targetKind'].includes(k))||!['attackMod','damageMod'].every(k=>Number.isInteger(v[k])&&v[k]>=-100&&v[k]<=100)||v.attackTechnique!==undefined&&!['normal','rapid-strike'].includes(v.attackTechnique)||v.targetKind!==undefined&&!['creature','object','vehicle'].includes(v.targetKind))bad('natural attack modifiers');

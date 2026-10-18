@@ -1,3 +1,4 @@
+import {validateSpeciesCustomizations,customizationIssues} from './species-customization.js';
 import {naturalWeapons,increaseNaturalDie,validateNaturalModifiers} from './natural-weapons.js';
 import {validateActionState} from './action-economy.js';
 import {activeLightsabers,powerActions} from './power-activation.js';
@@ -63,6 +64,7 @@ export function validateCharacter(c, pack) {
   if (!/^[a-f0-9-]{36}$/.test(c.id)) bad('character ID');
   if (!ix.species.has(c.species)) bad('unknown species');
   validateSpeciesChoices(c,pack,bad);
+  validateSpeciesCustomizations(c,pack,bad);
   if (!['standard', 'point-buy', 'manual', 'rolled'].includes(c.abilityMethod)) bad('ability method');
   if (!obj(c.abilities) || !ABILITIES.every(a => num(c.abilities[a], 3, 30))) bad('ability scores');
   if (c.abilityGeneration !== undefined) {
@@ -363,7 +365,7 @@ export function derive(c, pack) {
   const ix = indexPack(pack), species = resolveSpecies(c,pack);
   const {ctx, rows, issues} = progression(c, pack);
   const level = ctx.characterLevel, half = Math.floor(level / 2), background=activeBackground(c,pack);
-  issues.push(...speciesChoiceDetails(c,pack,ctx,rows[0]?.ctx||ctx).map(g=>g.issue).filter(Boolean));
+  issues.push(...speciesChoiceDetails(c,pack,ctx,rows[0]?.ctx||ctx).map(g=>g.issue).filter(Boolean),...customizationIssues(c,species));
   const story=c.story;
   if(story?.kind==='destiny' && !story.id)issues.push('Choose a Destiny');
   if(story?.kind==='background') {

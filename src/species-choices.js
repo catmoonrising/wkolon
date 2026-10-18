@@ -1,3 +1,4 @@
+import {applySpeciesCustomization} from './species-customization.js';
 import {eligible,indexPack} from './rules.js';
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 function duplicateGrant(species,c,group,option){
@@ -8,7 +9,7 @@ function duplicateGrant(species,c,group,option){
 }
 
 export function resolveSpecies(c,pack){
- const base=pack.species.find(r=>r.id===c.species);
+ const base=applySpeciesCustomization(pack.species.find(r=>r.id===c.species),c);
  if(!base.creationChoices?.length)return base;
  const species={...base,abilityAdjustments:{...base.abilityAdjustments},languages:[...base.languages],conditionalFocuses:[...(base.conditionalFocuses||[])],startingTrainedSkills:[...(base.startingTrainedSkills||[])],conditionalStartingFeats:[...(base.conditionalStartingFeats||[])]};
  for(const group of base.creationChoices){

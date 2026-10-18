@@ -1,3 +1,5 @@
+import {customizationState,setSpeciesCustomization} from './species-customization.js';
+import {customizationControls,customizationFeatures} from './species-customization-ui.js';
 import {setNaturalModifier} from './natural-weapons.js';
 import {createActionsUI} from './actions-ui.js';
 import {spendDestinyPoint} from './heroic-traits.js';
@@ -281,7 +283,7 @@ function calculations(id, entries) {
   return `<details id="${id}" class="calculation-details"><summary>Calculations</summary><dl>${entries.map(([name,value])=>`<dt>${escape(name)}</dt><dd>${escape(value)}</dd>`).join('')}</dl></details>`;
 }
 function skillTable() {
-  const species=ix.species.get(current().species),technophobic=species.technophobic;
+  const species=resolveSpecies(current(),pack),technophobic=species.technophobic;
   const ability=s=>s.checkSources.length>1?`<select data-skill-source="${s.id}" aria-label="${escape(s.name)} check modifier" ${s.checkSources.some(r=>r.when==='perceptionApplications')?'title="Use the Force: Avoid Surprise, Notice Targets, Sense Deception, Sense Influence"':''}>${s.checkSources.map(r=>option(r.id,`${r.id===s.id?r.ability.toUpperCase():r.name}${r.when==='computerNetwork'?' (network)':r.when==='perceptionApplications'?' (specific uses)':''} ${signed(r.total)}`,s.checkSource)).join('')}</select>`:s.ability.toUpperCase();
   return `<div class="table-scroll"><table><thead><tr><th>Skill</th><th>Ability</th><th>Trained</th>${technophobic?'<th>Mechanical tools</th>':''}<th>Check</th></tr></thead><tbody>${derived.skills.map(s=>`<tr><td>${ruleReference(ix.skills.get(s.id))}</td><td>${ability(s)}</td><td>${s.trained ? '✓' : '-'}</td>${technophobic?`<td><input type="checkbox" data-mechanical-skill="${s.id}" ${(current().mechanicalSkills||[]).includes(s.id)?'checked':''} aria-label="${escape(s.name)} uses mechanical tools"></td>`:''}<td><button class="roll" data-roll="${s.total}" data-skill-roll="${s.id}" data-roll-label="${escape(s.name)}" ${!s.available || derived.incapacitated ? 'disabled' : ''}>${s.available ? signed(s.total) : '-'}</button>${speciesChecks.controls(s,species,derived.incapacitated)}</td></tr>`).join('')}</tbody></table></div>${calculations('skill-calculations',derived.skills.map(s=>[s.name,s.breakdown]))}${teamSkillControls(derived.teamSkills)}<details id="skill-modifiers"><summary>Modifiers</summary><div class="form-grid">${pack.skills.map(s=>`<label>${escape(s.name)}<input type="number" min="-1000" max="1000" data-skill-modifier="${s.id}" value="${current().skillModifiers?.[s.id]||0}"></label>`).join('')}</div></details>`;
 }
@@ -387,11 +389,11 @@ function traitsSummary() {
  return `<details id="character-traits"><summary>Heroic Traits</summary><dl class="traits-display">${values.map(([key,label])=>`<dt>${label}</dt><dd>${escape(c.heroicTraits[key])}</dd>`).join('')}</dl></details>`;
 }
 function creation() {
- const c=current(),species=ix.species.get(c.species),cls=ix.classes.get(c.levels[0].classId),row=derived.rows[0];
+ const c=current(),species=resolveSpecies(c,pack),cls=ix.classes.get(c.levels[0].classId),row=derived.rows[0];
  switch(CREATOR_TABS[creatorStep].id){
   case 'levels':return levelPlanTable(c,derived,pack,{choice:selectChoice,reference:(r,label,s,key)=>ruleReference(r,label||r.name+(s?.choice?' ('+choiceName(s.choice,pack)+')':''),s,key)});
   case 'abilities':return generateAbilities()+abilityCards();
-  case 'species':return speciesBrowser.render(c.species,speciesChoiceDetails(c,pack,derived.ctx,derived.rows[0]?.ctx||derived.ctx));
+  case 'species':return customizationControls(c,resolveSpecies(c,pack),pack)+speciesBrowser.render(c.species,speciesChoiceDetails(c,pack,derived.ctx,derived.rows[0]?.ctx||derived.ctx));
   case 'skills':{const allowed=row.valid===false?new Set():row.initialClassSkills||classSkills(row.ctx,ix),budget=row.valid===false?0:Math.max(1,cls.trainedSkills+Math.floor((row.scores.int-10)/2))+species.bonusSkills;return skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`);}
   case 'equipment':{const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));gear[0].querySelector('.panel-heading')?.remove();return `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${gear.map(p=>p.outerHTML).join('')}`;}
   case 'character':return finishing();
@@ -424,7 +426,7 @@ function featureRows(entries,scope,prefixes=false){
 }
 function featureList() {
  const species=resolveSpecies(current(),pack);
- return panel('Features',`<div class="feature-list"><article>${ruleReference(species,species.name,null,'features-species')}</article>${featureRows(featureEntries(current(),derived,pack),'feature',true)}</div>`);
+ return panel('Features',`<div class="feature-list"><article>${ruleReference(species,species.name,null,'features-species')}</article>${customizationFeatures(current(),species)}${featureRows(featureEntries(current(),derived,pack),'feature',true)}</div>`);
 }
 function featureModule(id,entries){
  return `<div class="feature-list">${featureRows(entries.filter(e=>e.module===id),id)}</div><a href="#advancement" class="screen-only">Edit</a>`;
@@ -451,7 +453,7 @@ function refreshShop(form){
  $(prefix+'equipment-reference').innerHTML=ruleReference(ix.equipment.get(shopDraft(scope).id),'ⓘ',null,prefix+'catalog');
 }
 function equipment(scope='') {
- const c=current(),prefix=scope?'cr-':'',species=ix.species.get(c.species);
+ const c=current(),prefix=scope?'cr-':'',species=resolveSpecies(c,pack);
  return `${panel('Equipment catalog',`${shopForm(scope)}<div id="${prefix}equipment-reference">${ruleReference(ix.equipment.get(shopDraft(scope).id),'ⓘ',null,prefix+'catalog')}</div><div class="actions">${scope?'':field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<div class="weight"><strong>${totalWeight()}</strong></div></div>`)}
  ${panel('Inventory',c.inventory.length?`<div class="inventory-list">${c.inventory.map((e,i)=>{
   const r=resolveEquipment(e,pack,c),rating=(r.availability||[]).some(id=>pack.rules.licensing.ratings[id]);
@@ -509,7 +511,7 @@ function sheet() {
    'dark-side':statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'),condition:conditionTrack()+recoveryControls.condition(),skills:skillTable(),actions:actionsUI.render(),attacks:attackTable(),
    'force-powers':forcePowersUI.sheet(),routines:combatControls.renderRoutines(),
    inventory:`${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')} <span class="hint">${totalWeight()}</span>${carryingDisplay()}<details class="shop" id="equipment-catalog"><summary>Catalog</summary>${panelBody(inventoryPanels[0]).replace(/<div class="actions">[\s\S]*?<\/div>$/, '')}</details>${panelBody(inventoryPanels[1])}`,
-   'species-features':`${recoveryControls.species()}<div class="feature-list"><article>${ruleReference(species,species.name,null,'sheet-species')}</article></div>`,
+   'species-features':`${recoveryControls.species()}<div class="feature-list"><article>${ruleReference(species,species.name,null,'sheet-species')}</article>${customizationFeatures(c,species)}</div>`,
    ...Object.fromEntries(['feats','talents','class-features','force-techniques','force-secrets','medical-secrets'].map(id=>[id,featureModule(id,entries)])),
    destiny:storyEditor('sheet'),
    'destiny-points':c.story?.kind==='destiny'?statBar('destiny','',c.story.points,c.levels.length,'story.points')+`<button type="button" data-spend-destiny ${c.story.points>0&&derived.level>0?'':'disabled'}>Spend</button>`:'',
@@ -742,6 +744,7 @@ function events() {
       changed();return;
     }
 
+    if(el.hasAttribute('data-customization')){try{const kind=el.dataset.customization;if(kind==='variant'){const prior=customizationState(c,resolveSpecies(c,pack)).variants;setSpeciesCustomization(c,pack,'variants',el.checked?[...prior,el.value]:prior.filter(v=>v!==el.value));}else setSpeciesCustomization(c,pack,kind,el.value,{traitId:el.dataset.customTrait,choiceId:el.dataset.customChoice});if(kind==='trait')$('custom-trait-picker').open=false;changed();}catch(e){notify(e.message);render();}return;}
     if(el.hasAttribute('data-species-choice')){chooseSpeciesOption(c,pack,el.dataset.speciesChoice,el.value||null);changed();return;}
     if(el.dataset.naturalId){const key=el.dataset.naturalModifier|| (el.hasAttribute('data-natural-technique')?'attackTechnique':el.hasAttribute('data-natural-target')?'targetKind':null);if(!key)return;try{setNaturalModifier(c,pack,el.dataset.naturalId,key,el.dataset.naturalModifier?Number(el.value):el.value);changed();}catch(e){notify(e.message);render();}return;}
     if(el.hasAttribute('data-unarmed-technique')){if(!['normal','rapid-strike'].includes(el.value))return;c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers.attackTechnique=el.value;changed();return;}
@@ -935,7 +938,7 @@ function events() {
     }
     if(el.dataset.addKnowledge){const key=knowledgeKey(el.dataset.addKnowledge);knowledgeDrafts.set(key,(knowledgeDrafts.get(key)||0)+1);changed();return;}
     if(el.dataset.crmethod){setGenerationMethod(c,el.dataset.crmethod,pack);changed();return;}
-    if(speciesChecks.click(el,ix.species.get(c.species)))return;
+    if(speciesChecks.click(el,resolveSpecies(c,pack)))return;
     if(el.dataset.damage){const rolled=evalExpr(el.dataset.damage);logEvent('roll',`${el.dataset.rollLabel}: ${el.dataset.damage} = ${rolled.value}`,`${escape(el.dataset.rollLabel)}: ${rolled.display} = ${totalHtml(rolled)}`);return;}
     if(el.hasAttribute('data-roll') && !el.classList.contains('die')){const die=d(20),bonus=Number(el.dataset.roll),total=die+bonus;logEvent('roll',`${el.dataset.rollLabel}: ${die} ${signed(bonus)} = ${total}`,`${escape(el.dataset.rollLabel)}: ${dieHTML(die,20)} ${signed(bonus)} = ${totalHtml({value:total,coeffs:[1]})}`);return;}
     if(el.hasAttribute('data-remove-item')){const [removed]=c.inventory.splice(Number(el.dataset.removeItem),1);for(const item of c.inventory)if(item.scopeUid===removed.uid){delete item.scopeUid;item.aimed=false;}changed();return;}

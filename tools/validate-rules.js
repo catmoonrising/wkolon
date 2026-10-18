@@ -1,3 +1,4 @@
+import {validateCustomizationData} from '../src/species-customization.js';
 import {WIKI_TAGS, wikiURL} from '../src/wiki-content.js';
 import fs from 'node:fs';
 import {ABILITIES, GROUPS, indexPack} from '../src/rules.js';
@@ -75,6 +76,7 @@ export function validatePack(p) {
       }
     }
     if (key === 'species') {
+      validateCustomizationData(r,p,message=>{throw new Error(message);});
       if(r.creationChoices!==undefined){
         assert(Array.isArray(r.creationChoices)&&r.creationChoices.length>0,'Invalid species choice groups');
         const groupIds=new Set();
@@ -113,7 +115,7 @@ export function validatePack(p) {
       if(r.naturalWeapons!==undefined){
         assert(Array.isArray(r.naturalWeapons)&&r.naturalWeapons.length>0&&r.naturalWeapons.length<=20,'Invalid natural weapons');const ids=new Set();
         const damage=v=>typeof v==='string'&&/^(1|[1-9][0-9]?d(2|3|4|6|8|10|12))$/.test(v);
-        for(const w of r.naturalWeapons){assert(w&&Object.keys(w).every(k=>['id','name','damage','damageType','damageBySize'].includes(k))&&typeof w.id==='string'&&/^[a-z][a-z0-9-]{0,39}$/.test(w.id)&&!ids.has(w.id)&&typeof w.name==='string'&&w.name.trim()&&damage(w.damage)&&['Slashing','Piercing','Bludgeoning'].includes(w.damageType),'Invalid natural weapon');ids.add(w.id);if(w.damageBySize!==undefined){assert(w.damageBySize&&typeof w.damageBySize==='object'&&!Array.isArray(w.damageBySize));for(const [size,value]of Object.entries(w.damageBySize))assert(p.rules.weaponSizeOrder.includes(size)&&damage(value),'Invalid natural weapon size damage');}}
+        for(const w of r.naturalWeapons){assert(w&&Object.keys(w).every(k=>['id','name','damage','damageType','damageBySize'].includes(k))&&typeof w.id==='string'&&/^[a-z][a-z0-9-]{0,39}$/.test(w.id)&&!ids.has(w.id)&&typeof w.name==='string'&&w.name.trim()&&damage(w.damage)&&['Slashing','Piercing','Bludgeoning','Energy'].includes(w.damageType),'Invalid natural weapon');ids.add(w.id);if(w.damageBySize!==undefined){assert(w.damageBySize&&typeof w.damageBySize==='object'&&!Array.isArray(w.damageBySize));for(const [size,value]of Object.entries(w.damageBySize))assert(p.rules.weaponSizeOrder.includes(size)&&damage(value),'Invalid natural weapon size damage');}}
       }
       if(r.naturalArmor!==undefined)assert(Number.isInteger(r.naturalArmor)&&r.naturalArmor>=0,'Invalid natural armor');
       if(r.conditionalDefenses!==undefined){

@@ -1443,3 +1443,25 @@ Natural attacks use `natural:<character UUID>:<weapon slug>` references. Saved
 `naturalModifiers` are keyed by weapon slug and use independent attack/damage,
 technique and target settings. Character duplication/import rebinds references
 in routines and planned actions. Inventory references remain UUIDs.
+
+### Species customization
+
+A species `customization` record defines `replacements`, `traits` and `variants`.
+Each replacement declares its resulting `bonusFeats` and `bonusSkills`. Each
+trait contains its exact source `article`, an automation marker, a closed
+`effects` map and optional secondary `choices`. Cosmetic variants contain only
+names and source articles and grant no inferred modifiers.
+
+Effects reuse reviewed species fields for movement, senses, natural attacks,
+natural armor, skill training, rerolls and multiple-attack penalties. Secondary
+choices enumerate their actual options. `abilityAdjustment` declares its signed
+amount; `weaponFamiliarity` maps the selected exotic weapon to Simple Weapons.
+Other secondary choices record the selection without executing manual effects.
+
+Characters save `speciesCustomizations` by species ID. A record contains
+`replacement`, `trait`, up to three unique `variants`, and secondary `options`
+keyed by trait and choice IDs. Missing required selections and identical ability
+increase/decrease choices are unresolved drafts. Selecting a different trait or
+species retains earlier choices but removes their effects from derivation.
+Original ability generation, saved feats, ordinary training and inventory are
+preserved. Installed implant effects are not inferred from a recorded choice.

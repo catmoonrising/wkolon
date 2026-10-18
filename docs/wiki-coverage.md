@@ -6,7 +6,7 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 
 **Mapped** means a selectable option or implemented rule uses the page; it does not mean every rule on that page is automated. **Reference** means embedded text without a reviewed mechanical mapping. **Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.
 
-Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or rule: **1,464 / 4,400 pages (33.3%)**. A mechanical mapping alone does not count as embedded text.
+Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or rule: **1,465 / 4,400 pages (33.3%)**. A mechanical mapping alone does not count as embedded text.
 
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -24,7 +24,7 @@ Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or r
 | Scum and Villainy | 317 | 103 | 214 | 0 | 0 |
 | Starships of the Galaxy | 253 | 26 | 227 | 0 | 0 |
 | Threats of the Galaxy | 256 | 34 | 222 | 0 | 0 |
-| Unknown Regions Campaign Guide | 355 | 98 | 257 | 0 | 0 |
+| Unknown Regions Campaign Guide | 355 | 99 | 256 | 0 | 0 |
 | Web Enhancements | 519 | 75 | 444 | 0 | 0 |
 
 4,400 distinct candidate pages across 16 sources. Shared pages appear in more than one row. The exclusion tree contains 367 pages in 5 categories.
@@ -35,7 +35,7 @@ These counts ignore effect automation. Entries include book variants; page cover
 
 | Content | Entries | Inventoried pages represented |
 | --- | ---: | ---: |
-| Species | 140 | 128 / 132 (97.0%) |
+| Species | 141 | 129 / 132 (97.7%) |
 | Heroic classes | 5 | - |
 | Prestige classes | 32 | 32 / 32 (100.0%) |
 | Skills (Knowledge fields separately) | 25 | - |
@@ -58,7 +58,7 @@ Partial means some mechanics are implemented, not that the whole option is autom
 
 | Content | Partial | Manual |
 | --- | ---: | ---: |
-| Species | 140 | 0 |
+| Species | 141 | 0 |
 | Heroic classes | 5 | 0 |
 | Prestige classes | 32 | 0 |
 | Skills (Knowledge fields separately) | 25 | 0 |
