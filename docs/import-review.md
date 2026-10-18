@@ -2102,3 +2102,29 @@ Validation: 685 JavaScript tests and 46 Python tests, pinned reference validatio
 full Chromium regression and focused Firefox checks cover physiology, grants,
 restrictions, mixed power pools, unknown speeds, saved per-species declarations,
 GM text editing and Dracula mobile layout.
+
+
+## Starship Maneuvers
+
+All 27 maneuvers in the pinned Starship Maneuvers table are selectable. The
+idempotent importer checks the official reference index and recursive Homebrew
+exclusion list, cross-checks each printed action against the individual article,
+and retains full original wording. Intercept's Starship Maneuver section is
+scoped independently of its same-named Force power.
+
+Starship Tactics now has a typed choice-capacity effect. Acquisition follows
+the feat's existing prerequisites, permits repeated training, grants one plus
+the Wisdom modifier (minimum one), and grants additional choices at later
+permanent Wisdom increases for each previously earned feat. Invalidated choices
+remain saved but are excluded from the active suite.
+
+The level table and advancement editor expose the maneuver manager. A dedicated
+Starship Maneuvers module retains independently spent copies, source text, search
+and folding controls. It shares the existing module visibility and layout rules.
+Maneuver target effects, vehicle-dependent Pilot checks, activation costs and
+recovery remain Manual. The interface does not manufacture a complete vehicle
+check from the character's Pilot skill total.
+
+Validation covers official source scoping, importer idempotence, capacity, repeated
+feats, Wisdom growth, prerequisite replay, duplicate identities, invalid saved
+copies, stat blocks, hidden modules, Firefox, Dracula mobile and offline use.

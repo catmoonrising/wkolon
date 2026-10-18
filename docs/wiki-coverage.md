@@ -6,7 +6,7 @@ Direct page membership in the wiki’s [Reference Books categories](https://swse
 
 **Mapped** means a selectable option or implemented rule uses the page; it does not mean every rule on that page is automated. **Reference** means embedded text without a reviewed mechanical mapping. **Unimported** means no embedded article. Category membership supplies candidates; individual revisions, official sections and contradictions still need review.
 
-Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or rule: **1,582 / 4,400 pages (36.0%)**. A mechanical mapping alone does not count as embedded text.
+Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or rule: **1,608 / 4,400 pages (36.5%)**. A mechanical mapping alone does not count as embedded text.
 
 | Source | Pages | Mapped | Reference | Unimported | Excluded |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -22,7 +22,7 @@ Embedded text: **4,400 / 4,400 pages (100.0%)**. At least one mapped option or r
 | Rebellion Era Campaign Guide | 344 | 164 | 180 | 0 | 0 |
 | Scavenger's Guide to Droids | 211 | 96 | 115 | 0 | 0 |
 | Scum and Villainy | 317 | 105 | 212 | 0 | 0 |
-| Starships of the Galaxy | 253 | 26 | 227 | 0 | 0 |
+| Starships of the Galaxy | 253 | 52 | 201 | 0 | 0 |
 | Threats of the Galaxy | 256 | 35 | 221 | 0 | 0 |
 | Unknown Regions Campaign Guide | 355 | 100 | 255 | 0 | 0 |
 | Web Enhancements | 519 | 77 | 442 | 0 | 0 |
@@ -46,6 +46,7 @@ These counts ignore effect automation. Entries include book variants; page cover
 | Armor (included above) | 87 | 66 / 66 (100.0%) |
 | General gear (included above) | 350 | 206 / 206 (100.0%) |
 | Force powers | 90 | 88 / 88 (100.0%) |
+| Starship Maneuvers | 27 | - |
 | Force Techniques | 57 | - |
 | Force Secrets | 15 | - |
 | Medical Secrets | 7 | - |
@@ -62,13 +63,14 @@ Partial means some mechanics are implemented, not that the whole option is autom
 | Heroic classes | 5 | 0 |
 | Prestige classes | 32 | 0 |
 | Skills (Knowledge fields separately) | 25 | 0 |
-| Feats | 81 | 277 |
+| Feats | 82 | 276 |
 | Talents | 40 | 1151 |
 | Equipment | 172 | 483 |
 | Weapons (included above) | 50 | 168 |
 | Armor (included above) | 87 | 0 |
 | General gear (included above) | 35 | 315 |
 | Force powers | 90 | 0 |
+| Starship Maneuvers | 0 | 27 |
 | Force Techniques | 1 | 56 |
 | Force Secrets | 0 | 15 |
 | Medical Secrets | 0 | 7 |

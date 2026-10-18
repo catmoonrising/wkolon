@@ -61,7 +61,7 @@ export function validatePack(p) {
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
     if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
-  for (const key of ['species','classes','skills','feats','talents','equipment','destinies','backgrounds','forcePowers','classChoices','rulePages']) for (const r of p[key]||[]) {
+  for (const key of ['species','classes','skills','feats','talents','equipment','destinies','backgrounds','forcePowers','starshipManeuvers','classChoices','rulePages']) for (const r of p[key]||[]) {
     assert(!ids.has(r.id), `Duplicate ID ${r.id}`); ids.add(r.id);
     assert(/^[a-z]+:[a-z0-9-]+$/.test(r.id)); assert.equal(typeof r.name,'string'); assert(sources.has(r.sourceId), `Missing source ${r.id}`);
     if(r.article !== undefined) {
@@ -187,6 +187,7 @@ export function validatePack(p) {
     }
     if(key==='classChoices'){prerequisite(r.prerequisite);assert(Array.isArray(r.effects));for(const e of r.effects)assert(Object.keys(e).length===1&&e.target==='powerTake10'&&r.choiceType==='power'&&r.id==='classchoice:force-power-mastery');assert(['forceTechnique','forceSecret','medicalSecret'].includes(r.kind)&&['never','choice'].includes(r.repeat));if(r.choiceType!==undefined)assert(r.choiceType==='power'&&r.repeat==='choice');}
     if (key === 'skills') assert(ABILITIES.includes(r.ability) && typeof r.trainedOnly==='boolean' && typeof r.armorCheck==='boolean');
+    if(key==='starshipManeuvers'){assert(['standard-action','swift-action','move-action','full-round-action','reaction'].includes(r.action));assert(Array.isArray(r.descriptors)&&new Set(r.descriptors).size===r.descriptors.length&&r.descriptors.every(d=>['attack-pattern','dogfight','force','gunner'].includes(d)));assert(typeof r.actionText==='string'&&r.actionText.length>0);assert(r.automation==='manual');}
     if(key==='forcePowers'){const actions=['standard-action','swift-action','move-action','full-round-action','free-action','reaction'];assert(actions.includes(r.action));assert(Array.isArray(r.descriptors)&&new Set(r.descriptors).size===r.descriptors.length&&r.descriptors.every(d=>['dark-side','light-side','mind-affecting','telekinetic','lightsaber-form'].includes(d)));if(r.actionText!==undefined)assert(typeof r.actionText==='string'&&r.actionText.length>0);if(r.actions!==undefined)assert(Array.isArray(r.actions)&&r.actions.length>1&&new Set(r.actions).size===r.actions.length&&r.actions.every(a=>actions.includes(a))&&r.actions[0]===r.action,'Invalid alternative power actions');}
     if (['feats','talents'].includes(key)) {
       if(r.additionalTrees!==undefined)assert(key==='talents'&&Array.isArray(r.additionalTrees)&&r.additionalTrees.length>0&&new Set(r.additionalTrees).size===r.additionalTrees.length&&r.additionalTrees.every(id=>id!==r.tree&&/^tree:[a-z0-9-]+$/.test(id)),'Invalid additional talent trees');
@@ -230,8 +231,8 @@ export function validatePack(p) {
           continue;
         }
         assert(Object.keys(e).every(k=>['target','amount','type','perLevel','when','weaponGroup','ability','minimum'].includes(k)),'Unsupported effect field');
-        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots','forcePoints','rageUses','secondWinds','weaponFinesse','criticalMultiplier','forcePointDie','rageBonus','reflexDodge','unarmedDieSteps','unarmedCriticalDieStep','rangedOpportunity','secondWindFreeAction','secondWindMultipleUses','secondWindAboveHalf','secondWindCondition','secondWindConstitution','bellowDice','bellowConditionReduction','swimSpeed','lightsaberDexDamage','exoticProficiency','multiattackReduction','controlledBurst','rapidShotPenalty','lightsaberReflex','lightsaberWill','criticalThreat','tumbleSokan',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
-        if(e.target==='forcePowerSlots')assert(e.amount===1&&e.ability==='wis'&&e.minimum===1&&e.type==='untyped'&&!e.perLevel,'Unsupported Force power capacity');
+        assert(['defenses','hp','threshold','skillFocus','skillTraining','weaponFocus','weaponSpecialization','runMultiplier','licenseAllowance','blackMarketReduction','forcePowerSlots','starshipManeuverSlots','forcePoints','rageUses','secondWinds','weaponFinesse','criticalMultiplier','forcePointDie','rageBonus','reflexDodge','unarmedDieSteps','unarmedCriticalDieStep','rangedOpportunity','secondWindFreeAction','secondWindMultipleUses','secondWindAboveHalf','secondWindCondition','secondWindConstitution','bellowDice','bellowConditionReduction','swimSpeed','lightsaberDexDamage','exoticProficiency','multiattackReduction','controlledBurst','rapidShotPenalty','lightsaberReflex','lightsaberWill','criticalThreat','tumbleSokan',...Object.keys(passiveConditions)].includes(e.target),'Unsupported effect target');
+        if(['forcePowerSlots','starshipManeuverSlots'].includes(e.target))assert(e.amount===1&&e.ability==='wis'&&e.minimum===1&&e.type==='untyped'&&!e.perLevel,'Unsupported Force power capacity');
         else assert(e.ability===undefined&&e.minimum===undefined,'Unsupported effect ability');
         assert(Number.isFinite(e.amount));assert(['untyped','competence','dodge'].includes(e.type));
         if(e.target==='armorFortitudeToWill')assert(e.amount===1&&e.type==='untyped'&&!e.perLevel,'Unsupported armor defense copy');
@@ -502,7 +503,7 @@ export function validatePack(p) {
     assert.equal(p.catalog.schemaVersion,1);
     assert.equal(p.catalog.book,'Core Rulebook');
     assert(Array.isArray(p.catalog.records));
-    const kinds=['species','class','prestigeClass','classFeature','skill','feat','talent','talentTree','weapon','armor','gear','forcePower'];
+    const kinds=['species','class','prestigeClass','classFeature','skill','feat','talent','talentTree','weapon','armor','gear','forcePower','starshipManeuver'];
     const catalogIds=new Set(), pages=new Map(p.rulePages.map(r=>[r.id,r]));
     for(const r of p.catalog.records) {
       assert(/^catalog:[a-z0-9-]+$/.test(r.id)&&!catalogIds.has(r.id),'Invalid catalog ID');catalogIds.add(r.id);
@@ -512,7 +513,7 @@ export function validatePack(p) {
       assert.equal(pages.get(r.ruleId).sourceId,r.sourceId,'Catalog source mismatch');
       assert(Array.isArray(r.books)&&r.books.every(b=>typeof b==='string'));
       assert(Array.isArray(r.mechanicsIds)&&new Set(r.mechanicsIds).size===r.mechanicsIds.length,'Invalid catalog mechanics');
-      const collection={species:'species',class:'classes',prestigeClass:'classes',classFeature:'classChoices',skill:'skills',feat:'feats',talent:'talents',weapon:'equipment',armor:'equipment',gear:'equipment',forcePower:'forcePowers'}[r.kind];
+      const collection={species:'species',class:'classes',prestigeClass:'classes',classFeature:'classChoices',skill:'skills',feat:'feats',talent:'talents',weapon:'equipment',armor:'equipment',gear:'equipment',forcePower:'forcePowers',starshipManeuver:'starshipManeuvers'}[r.kind];
       r.mechanicsIds.forEach(id=>{assert(collection,'Unsupported catalog mechanics');requireRef(collection,id);});
       assert.equal(r.status,r.mechanicsIds.length?'available':'reference','Unreviewed catalog entry enabled');
       if(r.classIds){assert(Array.isArray(r.classIds));r.classIds.forEach(id=>requireRef('classes',id));}

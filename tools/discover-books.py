@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 BOOK_ROOT = 'Category:Reference Books'
 HOMEBREW_ROOT = 'Category:Homebrew Content'
 COLLECTIONS = ['species', 'classes', 'skills', 'feats', 'talents', 'equipment',
-               'destinies', 'backgrounds', 'forcePowers', 'classChoices']
+               'destinies', 'backgrounds', 'forcePowers', 'starshipManeuvers', 'classChoices']
 
 
 def descendants(categories, root):
@@ -75,6 +75,7 @@ def selectable_options(pack, reference):
     add('Armor (included above)', [r for r in equipment if r.get('kind') == 'armor'], 'armor')
     add('General gear (included above)', [r for r in equipment if r.get('kind') == 'gear'], 'gear')
     add('Force powers', pack.get('forcePowers', []), 'forcePower')
+    add('Starship Maneuvers', pack.get('starshipManeuvers', []))
     for kind, label in [('forceTechnique', 'Force Techniques'), ('forceSecret', 'Force Secrets'), ('medicalSecret', 'Medical Secrets')]:
         add(label, [r for r in pack.get('classChoices', []) if r['kind'] == kind])
     add('Destinies', pack.get('destinies', []))

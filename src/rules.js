@@ -1,3 +1,4 @@
+import {validateStarshipManeuvers} from './starship-maneuvers.js';
 import {ABILITIES,activeAbilities,abilityRecord,standardArray,validateDroidAbilities} from './ability-profiles.js';
 import {validateSpeciesCustomizations,customizationIssues} from './species-customization.js';
 import {naturalWeapons,increaseNaturalDie,validateNaturalModifiers} from './natural-weapons.js';
@@ -34,7 +35,7 @@ export const selectionKey = s => `${s.id}:${s.choice || ''}`;
 const F = name => `feat:${name}`;
 
 export function indexPack(pack) {
-  return Object.fromEntries(['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds','forcePowers','classChoices'].map(key => [key, new Map((pack[key]||[]).map(r => [r.id, r]))]));
+  return Object.fromEntries(['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds','forcePowers','starshipManeuvers','classChoices'].map(key => [key, new Map((pack[key]||[]).map(r => [r.id, r]))]));
 }
 
 export function newCharacter(pack, {classId=null}={}) {
@@ -101,6 +102,7 @@ export function validateCharacter(c, pack) {
     if(l.talent&&!l.talent.pending&&ix.talents.get(l.talent.id).requiresDarkSide&&!num(l.talent.darkSideScore,1,1000))bad('talent acquisition DSS');
     if(l.talent&&!l.talent.pending&&ix.talents.get(l.talent.id).requiresLightSide&&l.talent.darkSideScore!==0)bad('talent acquisition DSS');
   }
+  validateStarshipManeuvers(c,pack,bad);
   const powerIds=new Set();
   for(const l of c.levels)if(l.forcePowers!==undefined){
     if(!Array.isArray(l.forcePowers)||l.forcePowers.length>200)bad('Force powers');
@@ -234,7 +236,7 @@ export function progression(c, pack, through = c.levels.length) {
   const background=activeBackground(c,pack);
   const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, species.noConstitution&&a==='con'?null:Math.max(species.noConstitution?pack.rules.droidAbilities.minimumScore:-Infinity,(species.fixedAbilities?.[a]??abilityRecord(c,pack).abilities[a])+(species.abilityAdjustments[a]||0))])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
   Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,speciesClassSkills:species.bonusClassSkills||[],forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,droidTalentTrees:species.droidTalentTrees||[],forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
-  Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0,speciesTraining:new Set()});
+  Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0,starshipManeuvers:[],maneuverSlots:0,speciesTraining:new Set()});
   ctx.forceRestrictions=species.forceRestrictions||{};
   ctx.unproficientArmorPenalties=species.unproficientArmorPenalties;
   const issues = [], rows = [], ordinaryTraining=new Set(),talentTraining=new Map();
@@ -274,6 +276,7 @@ export function progression(c, pack, through = c.levels.length) {
       if(e.target==='skillTraining'){ctx.trained.add(s.choice);ordinaryTraining.add(s.choice);}
       if(!ctx.inactiveTalents.has(r.id)&&(e.target==='trainedSkill'||e.target==='skillSubstitution'&&e.grantsTraining)){ctx.trained.add(e.skill);if(type==='talents'){if(!talentTraining.has(e.skill))talentTraining.set(e.skill,new Set());talentTraining.get(e.skill).add(r.id);}else ordinaryTraining.add(e.skill);}
       if(e.target==='forcePowerSlots')ctx.powerSlots+=Math.max(e.minimum,e.amount+modifier(ctx.scores[e.ability]));
+      if(e.target==='starshipManeuverSlots')ctx.maneuverSlots+=Math.max(e.minimum,e.amount+modifier(ctx.scores[e.ability]));
     }
     for(const effect of r.effects)if(effect.target==='chosenTalent'&&!ctx.talents.some(t=>t.id===s.choice))grant({id:s.choice,automatic:true,grantedBy:r.id},'talents',i,'a granted talent');
     conditionalSpeciesGrants();
@@ -301,6 +304,7 @@ export function progression(c, pack, through = c.levels.length) {
     // including increases between negative modifiers. Temporary bonuses do not.
     const wisdomGain=Math.max(0,modifier(ctx.scores.wis)-priorWis);
     ctx.powerSlots+=wisdomGain*ctx.feats.filter(s=>ix.feats.get(s.id).effects.some(e=>e.target==='forcePowerSlots')).length;
+    ctx.maneuverSlots+=wisdomGain*ctx.feats.filter(s=>ix.feats.get(s.id).effects.some(e=>e.target==='starshipManeuverSlots')).length;
     if (i === 0) {
       for(const id of species.startingTrainedSkills||[]){ctx.trained.add(id);ctx.speciesTraining.add(id);ordinaryTraining.add(id);}
       for(const id of species.startingTrainingFeats||[]){ctx.trained.add(id);ctx.speciesTraining.add(id);ordinaryTraining.add(id);recordFeature({id:F('skill-training'),choice:id,automatic:true,grantedBy:species.id},'feats',1);}
@@ -358,7 +362,10 @@ export function progression(c, pack, through = c.levels.length) {
     if(chosenPowers.length!==powerChoices)issue(i,`choose ${powerChoices} Force powers (${chosenPowers.length} selected)`);
     ctx.forcePowers=eligibleSpeciesPowers(species,ctx,pack);
     const restrictedPowers=speciesPowerIssue(species,ctx,pack);if(restrictedPowers)issue(i,restrictedPowers);
-    rows.push({number: n, classLevel: cl, cls, ...(i===0?{initialClassSkills}:{}),slots,powerChoices,valid:true,choiceSlots, scores: {...ctx.scores}, ctx: {...ctx,forceTraditions:new Set(ctx.forceTraditions),classChoices:[...ctx.classChoices],classFeatures:[...ctx.classFeatures], classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers]}});
+    const maneuverChoices=Math.max(0,ctx.maneuverSlots-ctx.starshipManeuvers.length),maneuvers=l.starshipManeuvers||[];
+    ctx.starshipManeuvers.push(...maneuvers.slice(0,maneuverChoices).filter(p=>ix.starshipManeuvers.has(p.maneuverId)).map(p=>({...p,level:n})));
+    if(maneuvers.length!==maneuverChoices)issue(i,`choose ${maneuverChoices} Starship Maneuvers (${maneuvers.length} selected)`);
+    rows.push({number: n, classLevel: cl, cls, ...(i===0?{initialClassSkills}:{}),slots,powerChoices,maneuverChoices,valid:true,choiceSlots, scores: {...ctx.scores}, ctx: {...ctx,forceTraditions:new Set(ctx.forceTraditions),classChoices:[...ctx.classChoices],classFeatures:[...ctx.classFeatures], classLevels: new Map(ctx.classLevels), feats: [...ctx.feats], talents: [...ctx.talents], features: [...ctx.features], trained: new Set(ctx.trained),inactiveTalents:new Set(ctx.inactiveTalents),forcePowers:[...ctx.forcePowers],starshipManeuvers:[...ctx.starshipManeuvers]}});
   }
   ctx.inactiveClasses=new Set([...ctx.classLevels.keys()].filter(id=>ix.classes.get(id).continuousDarkSide&&ctx.darkSideScore<ctx.scores.wis));
   for(const t of ctx.talents)if(ctx.inactiveClasses.has(t.classId))ctx.inactiveTalents.add(t.id);
@@ -581,7 +588,7 @@ export function derive(c, pack) {
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = droidSystems.speedUnknown?'Shell speed unspecified':load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} base + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
-  return {level, half, scores, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+  return {level, half, scores,starshipManeuvers:ctx.starshipManeuvers.map(p=>({...ix.starshipManeuvers.get(p.maneuverId),copyId:p.id,spent:p.spent,level:p.level})),maneuverSlots:ctx.maneuverSlots, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),

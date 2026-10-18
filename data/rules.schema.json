@@ -2439,6 +2439,48 @@
           }
         }
       }
+    },
+    "starshipManeuvers": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/record"
+          }
+        ],
+        "required": [
+          "action",
+          "descriptors"
+        ],
+        "properties": {
+          "action": {
+            "enum": [
+              "standard-action",
+              "swift-action",
+              "full-round-action",
+              "free-action",
+              "reaction",
+              "move-action"
+            ]
+          },
+          "descriptors": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "attack-pattern",
+                "dogfight",
+                "force",
+                "gunner"
+              ]
+            }
+          },
+          "actionText": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
     }
   },
   "$defs": {
@@ -2688,7 +2730,8 @@
             "armor",
             "gear",
             "forcePower",
-            "classFeature"
+            "classFeature",
+            "starshipManeuver"
           ]
         },
         "sourceId": {
@@ -4531,7 +4574,8 @@
                 "secondWindConstitution",
                 "bellowDice",
                 "bellowConditionReduction",
-                "swimSpeed"
+                "swimSpeed",
+                "starshipManeuverSlots"
               ]
             },
             "amount": {

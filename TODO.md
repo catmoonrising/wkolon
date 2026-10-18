@@ -109,7 +109,8 @@
   - [x] Actions module: six action menus, shared action dispatcher, optional costs/choices, rolls, immediate execution and queued turn plans.
   - [x] Reuse existing New Turn and expiry functions; preserve round/encounter limits and completed rolls when plans change.
 - [ ] Starships and vehicles.
-- [ ] Piloting maneuvers.
+- [x] All 27 official Starship Maneuvers selectable through Starship Tactics, with duplicate suites, level/Wisdom choices, exact rules and manual spent tracking.
+- [ ] Piloting maneuver activation, vehicle-dependent checks/effects and recovery.
 - [ ] Droid systems and modifications.
 - [ ] Followers, companions and minions.
 - [ ] Crafting and upgrade projects.

@@ -50,7 +50,7 @@ export function renderStatBlock(c,d,pack){
  <h2>Offense</h2>${line('Speed',(d.speedUnknown?'Manual':d.speed+' Squares')+Object.entries(d.speeds||{}).map(([type,n])=>`, ${escape(type)} ${n} Squares`).join('')+(!d.speedUnknown&&d.runMultiplier!==4?` (Run ${d.runSpeed} Squares)`:''))}${attacks}${routines}${species.bellow?line('Special Attacks',`Bellow ${signed(d.level+d.specialAttackPenalty)} (${species.bellow.damageDice+(d.bellowBonuses?.dice||0)}d${species.bellow.die} Sonic; ${species.bellow.coneSquares}-Square Cone; Fortitude)`):''}${line('Base Attack Bonus',signed(d.bab))}
  ${textLine('Special Qualities',[...classFeatureNames,...(species.gmQualities?speciesQualities(c,species).filter(r=>r.name.trim()).map(r=>r.name+' (Manual)'):[])].join(', '))}
  <h2>Base Stats</h2>${line('Abilities',ABILITIES.map(a=>`${a[0].toUpperCase()+a.slice(1)} ${d.scores[a]===null?'-':d.scores[a]}`).join(', '))}
- ${line('Force Powers',d.forcePowers?.map(p=>escape(p.name)).join(', '))}
+ ${line('Starship Maneuvers',d.starshipManeuvers?.map(p=>escape(p.name)).join(', '))}${line('Force Powers',d.forcePowers?.map(p=>escape(p.name)).join(', '))}
  ${textLine('Species Traits',customizationEntries(c,species).map(r=>r.name).join(', '))}${line('Talents',d.ctx.talents.map(s=>featureName('talents',s)).join(', '))}${line('Feats',d.ctx.feats.map(s=>featureName('feats',s)).join(', '))}
  ${line('Skills',d.skills.filter(s=>s.trained&&s.available).map(s=>`${escape(s.name)} ${signed(s.total)}`).join(', '))}
  ${line('Possessions',c.inventory.map(e=>`${escape(resolveEquipment(e,pack,c).name)}${e.quantity>1?' (×'+e.quantity+')':''}`).concat(c.credits?`${c.credits.toLocaleString()} Credits`:[]).join(', '))}
