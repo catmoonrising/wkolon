@@ -2020,3 +2020,44 @@ and catalog references, repeat imports, homebrew exclusions, compartment limits,
 save validation and built-in armor speed/running. Browser checks cover sheet and
 builder purchases, debit amounts, retained configuration, manual prices and
 Dracula mobile. The worker caches the new resolver for offline use.
+
+### Starting and installed Droid Systems
+
+Connected the Custom Droid package to explicit arm choices, free Heuristic
+Processor and size-dependent locomotion entries. Grants are claimed once and keep
+stable identities. Starting-system receipts use a separate 1,000-credit allowance;
+class credits are unchanged and no unused balance becomes cash. Starting
+locomotion, appendages and accessories are exempt from carrying weight, while the
+provided processor retains its printed 5 kg under the literal exemption wording.
+
+A shared creation/sheet Droid Systems module declares installations, active
+locomotion and bipedal anatomy. Its visibility never changes mechanics. The six
+Core locomotion profiles, two processors, five appendages and two sensor packages
+now have Partial markers. Other system effects remain Manual. Remote processor
+links, maintenance, shutdown, reprogramming and complex upgrade effects are not
+inferred from a checkbox.
+
+Core locomotion changes speeds and terrain costs throughout existing movement
+previews and actions. Tracked's Climb penalty and Wheeled's Climb prohibition
+apply after skill-source selection. Sensors grant the strongest Equipment bonus
+and vision. Basic processors restrict untrained checks and nonproficient weapons;
+removing the primary processor prevents actions. Appendages use their printed
+unarmed dice, Bludgeoning damage, Martial Arts die steps and persistent routine
+references. Additional appendages do not create additional attack actions.
+
+Bipedal anatomy and two installed Hands permit humanoid armor. Built-in and
+worn armor coexist without adding their bonuses. Reflex chooses the best eligible
+armor/talent result, Fortitude chooses the best proficient Equipment bonus, and
+worn armor still contributes caps, penalties and movement restrictions even when
+built-in armor supplies the larger Reflex bonus. The user's literal heavy-armor
+speed ruling for Droid speeds other than 4 and 6 remains intact.
+
+Bulk system purchases create independently installed parts. Locomotion batches
+advance the numbered system fee for each part, and starting receipts retain each
+part's share of the actual quote. Earlier stacks retain the first identity and
+installation while splitting additional copies into uninstalled parts.
+
+Validation: 675 JavaScript tests, 44 Python tests, source/library validation,
+full Chromium regression and focused Firefox checks cover grants, allowance
+receipts, weight exemptions, bulk fees, installations, movement, attack identities,
+combined armor, saved state, hidden modules and Dracula mobile.

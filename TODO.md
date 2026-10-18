@@ -164,5 +164,7 @@
 - [x] Custom Droid creation: five-score generation and 21-point budget, absent Constitution, Strength Fortitude, degree/size/language choices, source restrictions and independent saved ability profiles.
 - [x] All 35 official degree talents selectable in their matching degree trees, exact articles, Task Optimization secondary choice and Heavy-Duty Actuators size prerequisite.
 - [x] Selectable Droid Systems: 109 official pages and 133 profiles, source tables, variant grouping, size/speed pricing, locomotion surcharges, license fees, compartment capacity and built-in armor movement.
-- [ ] Droid Systems: starting equipment and separate 1,000-credit allowance, locomotion (including Tracked terrain/Climb), upgrades, maintenance/reprogramming/shutdown and complete immunity handling.
+- [x] Droid starting equipment and separate 1,000-credit allowance; explicit arm and anatomy choices, weight exemptions and persistent installation state.
+- [x] Core locomotion speed/terrain/Climb, processor skill and proficiency restrictions, appendage attacks/Martial Arts/routines, sensor vision/Perception and combined worn/built-in armor.
+- [ ] Remaining Droid upgrades, remote processor links, maintenance/reprogramming/shutdown and complete immunity handling.
 - [ ] Standard droid models and stock chassis; complete Replica Droid and Shard creation with their distinct physiology and systems.

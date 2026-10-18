@@ -106,5 +106,6 @@ export function attackTechnique(w,entry,pack,has,{proficient,scores,light}){
 export function validateAttackTechnique(entry,pack,bad,unarmed=false){
  if(entry.attackTechnique===undefined)return;
  const weapon=pack.equipment.find(w=>w.id===entry.id);
+ if(weapon?.droidSystem?.appendageDamage)unarmed=true;
  if(!['normal',...pack.rules.attackTechniques.filter(t=>!unarmed||t.mode==='melee').map(t=>t.id)].includes(entry.attackTechnique)||!unarmed&&(weapon?.kind!=='weapon'||weapon.unarmed))bad('attack technique');
 }

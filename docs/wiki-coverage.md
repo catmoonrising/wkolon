@@ -64,10 +64,10 @@ Partial means some mechanics are implemented, not that the whole option is autom
 | Skills (Knowledge fields separately) | 25 | 0 |
 | Feats | 81 | 277 |
 | Talents | 40 | 1151 |
-| Equipment | 157 | 498 |
+| Equipment | 172 | 483 |
 | Weapons (included above) | 50 | 168 |
 | Armor (included above) | 87 | 0 |
-| General gear (included above) | 20 | 330 |
+| General gear (included above) | 35 | 315 |
 | Force powers | 90 | 0 |
 | Force Techniques | 1 | 56 |
 | Force Secrets | 0 | 15 |

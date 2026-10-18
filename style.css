@@ -362,3 +362,7 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
   .species-customization .table-scroll td:first-child { min-width: 0; }
   .species-customization .table-scroll tr { margin-block: .75rem; }
 }
+
+.droid-system-row { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: start; gap: .4rem; margin: .4rem 0; }
+.droid-system-row > details { min-width: 0; }
+.droid-systems .actions { margin-bottom: .6rem; }

@@ -18,13 +18,13 @@ export function validateAcrobaticsMovement(c,bad){
   for(const n of [lowObjects,diagonalLowObjects])if(n!==undefined&&(!Number.isInteger(n)||n<0||n>100000))bad('low object squares');
  }
 }
-export function acrobaticsTerrainCost(segment,pack,crossTerrain=false){
- return terrainMovementCost(acrobaticsSegment(segment),pack.rules.combatMovement,crossTerrain);
+export function acrobaticsTerrainCost(segment,pack,crossTerrain=false,d=null,mode='normal'){
+ return terrainMovementCost(acrobaticsSegment(segment),pack.rules.combatMovement,crossTerrain,d,mode);
 }
 export function acrobaticsMoveCost(c,pack,crossTerrain=acrobaticsPath(c).crossTerrain,d=null){
- const p=acrobaticsPath(c),base=acrobaticsTerrainCost(p.path,pack,crossTerrain);
- if(p.tumble&&d?.tumbleSokan)return base-acrobaticsTerrainCost(p.tumbled,pack,crossTerrain)+p.tumbled.squares;
- return base+(p.tumble?acrobaticsTerrainCost(p.tumbled,pack,crossTerrain)*(pack.rules.acrobaticsMovement.tumble.movementMultiplier-1):0);
+ const p=acrobaticsPath(c),base=acrobaticsTerrainCost(p.path,pack,crossTerrain,d,p.mode);
+ if(p.tumble&&d?.tumbleSokan)return base-acrobaticsTerrainCost(p.tumbled,pack,crossTerrain,d,p.mode)+p.tumbled.squares;
+ return base+(p.tumble?acrobaticsTerrainCost(p.tumbled,pack,crossTerrain,d,p.mode)*(pack.rules.acrobaticsMovement.tumble.movementMultiplier-1):0);
 }
 const categories=p=>[regular(p),p.diagonal,p.difficult-p.lowObjects,p.diagonalDifficult-p.diagonalLowObjects,p.lowObjects,p.diagonalLowObjects];
 export function acrobaticsMovementSkill(d,pack){

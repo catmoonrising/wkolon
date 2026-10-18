@@ -1,6 +1,6 @@
 # Sheet modules
 
-The registry in src/sheet-modules.js defines 32 independent views. Languages and
+The registry in src/sheet-modules.js defines 33 independent views. Languages and
 Species Features are separate from Character. Feats, Talents, Class Features,
 Force Techniques, Force Secrets and Medical Secrets each have their own module.
 Feature views retain earned order, source text, secondary choices, inactivity and
@@ -51,3 +51,8 @@ regression (including all 56 independent scenario helpers), and focused Firefox
 checks passed. Checks cover module visibility without character mutation, saved
 preferences, layout migration/import, stacks, theme/mobile menus, source popups,
 Destiny Point spending and shared builder/sheet story choices.
+
+Droid Systems shares the starting arm choices between creation and the sheet. It
+declares installed parts, the active locomotion system and bipedal anatomy.
+The separate starting allowance is available in the creation equipment shop.
+Hiding the module does not remove parts or suspend their effects.

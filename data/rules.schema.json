@@ -5397,6 +5397,9 @@
         },
         "builtIn": {
           "const": true
+        },
+        "startingEligible": {
+          "const": true
         }
       }
     }

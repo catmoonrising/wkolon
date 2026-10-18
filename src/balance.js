@@ -23,7 +23,7 @@ export function planBalance(c,d,pack,recheck=false){
  const p=balanceState(c),r=pack.rules.balance,skill=d.skills.find(s=>s.id===r.skillId);
  if(d.incapacitated||d.helpless||!skill?.available)throw new Error('Balance unavailable');
  if(recheck&&!p.active)throw new Error('Not balancing');
- const cost=movementCost(p.path,pack.rules[r.movementCostRule]),maximum=Math.floor(d.speed*r.speedMultiplier);
+ const cost=movementCost(p.path,pack.rules[r.movementCostRule],d),maximum=Math.floor(d.speed*r.speedMultiplier);
  if(!recheck){
   if(c.prone)throw new Error('Stand up before balancing');
   if(d.load?.overloaded)throw new Error('Straining requires full-round movement');

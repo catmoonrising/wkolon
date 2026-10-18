@@ -47,7 +47,7 @@ export function planFollowThrough(c,d,pack,{beforeCleave=false}={}){
  if(beforeCleave&&!q.cleave)throw new Error('Requires Cleave');
  if(p.followThroughSpent||q.claim?.followThrough)throw new Error('Follow Through already used this turn');
  if(d.load?.overloaded)throw new Error('Straining requires full-round movement');
- const cost=movementCost(p.path,pack.rules.combatMovement),maximum=movementSpeed(d,p.mode)*pack.rules.cleave.followThrough.speedMultiplier;
+ const cost=movementCost(p.path,pack.rules.combatMovement,d,p.mode),maximum=movementSpeed(d,p.mode)*pack.rules.cleave.followThrough.speedMultiplier;
  if(!p.path.squares)throw new Error('Choose movement squares');
  if(cost>maximum)throw new Error('Follow Through movement exceeds Speed');
  return {...q,cost,maximum};

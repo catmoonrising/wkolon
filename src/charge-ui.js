@@ -3,7 +3,7 @@ import {movementSpeed} from './combat-movement.js';
 import {escapeHTML as escape} from './wiki-content.js';
 
 const number=(key,value,label,min=0)=>`<input type="number" min="${min}" max="100000" data-charge-path="${key}" value="${value}" aria-label="${label}">`;
-export function chargeCostLabel(c,d,pack){let speed;try{speed=movementSpeed(d,chargePath(c).mode);}catch{speed='-';}return `${chargeMovementCost(c,pack)}/${speed} squares`;}
+export function chargeCostLabel(c,d,pack){let speed;try{speed=movementSpeed(d,chargePath(c).mode);}catch{speed='-';}return `${chargeMovementCost(c,pack,undefined,d)}/${speed} squares`;}
 export function chargeControls(c,d,pack,uid,scope=''){
  const p=chargePath(c),dc=chargeAcrobaticsDC(c,pack,p),trained=d.ctx.trained.has(pack.rules.charge.acrobatics),improved=d.ctx.feats.some(f=>f.id===pack.rules.charge.improved.featId),id=scope+'charge-'+uid;
  const modes=[['normal','Normal'],...Object.keys(d.speeds).map(k=>[k,k[0].toUpperCase()+k.slice(1)])];

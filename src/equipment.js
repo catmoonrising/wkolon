@@ -51,11 +51,14 @@ export function resolveEquipment(e,pack,c={}){
 export function purchaseQuote(e,quantity,pack,c,{license=true,market='normal',benefits={}}={}){
  const item=resolveEquipment(e,pack,c);
  const rating=(item.availability||[]).map(id=>pack.rules.licensing.ratings[id]).find(Boolean);
+ if(!Number.isInteger(quantity)||quantity<1||quantity>999)return {item,rating,fee:0,connections:false,total:null,licenseStatus:'none'};
+ const components=item.droidSystem?.category==='locomotion'&&quantity>1?Array.from({length:quantity},(_,i)=>resolveEquipment({...e,systemOrdinal:Math.min(6,(e.systemOrdinal||6)+i)},pack,c)):[item];
+ const baseTotal=components.some(r=>r.cost===null)?null:components.length===1?item.cost*quantity:components.reduce((n,r)=>n+r.cost,0);
  const multiplier=market==='black-market'&&rating?Math.max(1,rating.blackMarket-(benefits.blackMarketReduction||0)):market==='offworld'&&item.availability.includes('rare')?2:1;
- const price=item.cost===null?null:item.cost*multiplier;
- const connections=!!rating&&price!==null&&market!=='black-market'&&(benefits.licenseAllowance||0)>0&&price*quantity<=benefits.licenseAllowance;
- const fee=rating&&license&&market!=='black-market'&&!connections&&item.cost!==null?item.cost*rating.percent/100:0;
- return {item,rating,fee,connections,total:price===null?null:(price+fee)*quantity,licenseStatus:connections?'approved':fee?'pending':'none'};
+ const price=baseTotal===null?null:baseTotal*multiplier;
+ const connections=!!rating&&price!==null&&market!=='black-market'&&(benefits.licenseAllowance||0)>0&&price<=benefits.licenseAllowance;
+ const fee=rating&&license&&market!=='black-market'&&!connections&&baseTotal!==null?baseTotal*rating.percent/100/quantity:0;
+ return {item:components.length>1&&baseTotal===null?{...item,purchasePending:true}:item,rating,fee,connections,total:price===null?null:price+fee*quantity,licenseStatus:connections?'approved':fee?'pending':'none'};
 }
 export function validateInventoryOptions(e,pack,bad){
  const r=pack.equipment.find(r=>r.id===e.id);
@@ -78,7 +81,7 @@ export function validateInventoryOptions(e,pack,bad){
  if(e.oneHanded!==undefined&&(r.kind!=='weapon'||r.mode!=='ranged'||typeof e.oneHanded!=='boolean'))bad('weapon grip');
  if(e.aimed!==undefined&&(r.kind!=='weapon'||typeof e.aimed!=='boolean'))bad('aim');
  if(e.damageSetting!==undefined&&(!r.stunDamage||!['normal','stun'].includes(e.damageSetting)))bad('damage setting');
- if(e.targetKind!==undefined&&(r.kind!=='weapon'||!['creature','object','vehicle'].includes(e.targetKind)))bad('attack target');
+ if(e.targetKind!==undefined&&((r.kind!=='weapon'&&!r.droidSystem?.appendageDamage)||!['creature','object','vehicle'].includes(e.targetKind)))bad('attack target');
  if(e.scopeUid!==undefined&&(!['pistols','rifles'].includes(r.group)||typeof e.scopeUid!=='string'||!/^[a-f0-9-]{36}$/.test(e.scopeUid)))bad('targeting scope');
 }
 
@@ -118,7 +121,7 @@ export function claimStartingEquipment(c,pack,id){
  return additions;
 }
 export function canRollStartingCredits(c){
- return c.levels.length===1&&!c.levels[0].pendingClass&&!c.startingCreditsRolled&&!c.credits&&!c.inventory.some(e=>!e.startingGrant);
+ return c.levels.length===1&&!c.levels[0].pendingClass&&!c.startingCreditsRolled&&!c.credits&&!c.inventory.some(e=>!e.startingGrant&&!e.droidGrant&&!e.droidStarting);
 }
 export function validateStartingEquipment(c,pack,bad){
  const grants=new Map([...pack.species,...pack.classes].filter(r=>r.startingEquipment).map(r=>[r.id,r.startingEquipment]));

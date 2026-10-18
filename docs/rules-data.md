@@ -1516,16 +1516,71 @@ manual pending a reviewed replacement/credit model.
 
 Inventory stores `systemSize`, optional `systemUnits` for compartment capacity,
 and `systemOrdinal` for locomotion installation number. Six represents an
-unspecified price for a sixth or later system, not a prohibition. Missing
-locomotion installation numbers also require manual pricing. Saved parts retain
+unspecified price for a sixth or later system, not a prohibition. Bulk locomotion purchases advance the numbered fees for
+each part. Missing locomotion installation numbers also require manual pricing. Saved parts retain
 their size when the character's species changes. Quotes without an explicit
 part size use the species' selected physical size. Licenses and market prices
 apply after resolving the system's base price.
 
 `movement`, `processor`, `appendageDamage`, `vision` and `capacityBySize` retain
-reviewed system facts for installation automation. Gear effects remain Manual
-until connected to installed-system state. Built-in armor already uses the
-ordinary armor engine, except it never reduces movement speed and still limits
-running in Heavy Armor. `species.droidStartingPackage` records the provided
-processor, number of arms, locomotion by size and separate starting allowance;
-its grants and allowance are pending runtime integration.
+reviewed system facts. The six Core locomotion systems, two Core processors,
+five Core appendages and two sensor packages have Partial effect markers.
+Other systems retain Manual effects even when their prices are automated.
+`startingEligible: true` records membership in the official locomotion,
+appendage or accessory categories, including built-in armor. Internal processors
+are outside the separate starting allowance.
+
+### Installed Droid Systems
+
+Characters save `droidSystems` by species ID. Each claimed package records
+`prepared: true`, an active `locomotion` inventory UID (or null), and optional
+`bipedal` anatomy. A missing state is an unclaimed creation draft. Pure derivation
+includes its provided processor and locomotion without changing the character.
+The application prepares those entries independently of module visibility.
+Preparation is idempotent; deleted grants are not regenerated. Body-size edits
+refit provided parts, keeping their UIDs, while purchased parts retain their size.
+
+Provided inventory entries carry `droidGrant: {speciesId, slot}`, with slots
+`processor`, `locomotion`, `arm-1`, `arm-2`. The two arm types are explicit choices.
+Starting purchases carry `droidStarting: {speciesId, paid}` with the actual quoted
+total, including any license fee. Their receipt totals cannot exceed the species'
+1,000-credit allowance. The allowance never becomes cash and leaves class credits
+unchanged. Editing/removing a starting purchase restores that creation allowance,
+not cash. Starting systems do not prevent rolling ordinary class starting credits.
+
+Starting locomotion, appendages and accessories contribute zero carrying weight;
+physical weights remain available in inventory. The source omits processors from
+that exemption, so the provided processor contributes 5 kg. Later purchases count their physical weight.
+
+Unknown nonexempt weights remain unresolved. Provenance, inventory identities,
+unique grant slots, receipt totals and anatomy are validated on import.
+
+An installed part must be carried and fit the current body. Processor selection
+replaces the active processor; an absent or conflicting primary processor prevents
+actions. Basic processors retain the four allowed untrained skills and prohibit
+nonproficient weapons. Installed sensor Equipment bonuses use the best value,
+not a sum. Darkvision takes precedence over low-light vision. Declaring a part
+installed does not perform an installation action or its Mechanics check.
+
+The active locomotion supplies speed and terrain policy. Tracked ignores extra
+terrain cost and applies -5 to Climb; Wheeled prevents Climb and doubles the stated
+difficult-terrain costs (4 for a normal difficult square, 8 for a diagonal one).
+Hovering and Flying ignore extra terrain cost. This policy reaches Move/Tumble,
+Charge, Withdraw, Running Attack, Follow Through and Balance, including previews.
+Other movement types keep their own terrain costs.
+
+Droid appendages replace an assumed organic fist. Each uses its printed damage
+and Bludgeoning type; Martial Arts adds die steps. They do not become natural
+weapons or grant extra attack actions. The first provided arm retains the
+character's permanent unarmed attack UID for old routines. Other appendages use
+their inventory UIDs. Bulk system purchases create independent entries. Earlier
+stacks split into individual parts with total weight and receipts preserved; the
+first UID and installation survive, and the additional copies start uninstalled. Modifiers and technique/target declarations remain separate.
+An unreviewed Multifunction Apparatus attack remains Manual.
+
+Humanoid armor requires declared bipedal anatomy and two installed Hands.
+Built-in and worn armor can coexist; their armor and Equipment bonuses use the
+best eligible value, not a sum. Armor talents apply to each proficient suit when
+choosing Reflex, and Dexterity caps and penalties still account for worn items.
+Built-in armor never slows movement, but Heavy Armor still limits running.
+Maintenance, remote processor links, shutdown and complex upgrades remain pending.

@@ -24,6 +24,7 @@ import {weaponCanOpportunity} from './opportunity.js';
 import {balanceFlatFooted} from './balance.js';
 import {applyAttackTarget,canAimAtTarget} from './attack-targets.js';
 import {resolveSpecies,speciesChoiceDetails,validateSpeciesChoices} from './species-choices.js';
+import {droidSystemsState,droidCarryingWeight,droidAppendageWeapons,validateDroidInstallation} from './droid-installation.js';
 export {ABILITIES};
 export const GROUPS = WEAPON_GROUPS;
 export const modifier = score => score===null?0:Math.floor((score - 10) / 2);
@@ -118,6 +119,7 @@ export function validateCharacter(c, pack) {
   }
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
+  validateDroidInstallation(c,pack,bad);
   c.inventory.forEach(e=>validateAmmunition(e,pack,bad));
   c.inventory.forEach(e=>validateEnergyShield(e,ix.equipment.get(e.id),bad));
   c.inventory.forEach(e=>validateAttackTechnique(e,pack,bad));
@@ -367,6 +369,7 @@ export function progression(c, pack, through = c.levels.length) {
 export function derive(c, pack) {
   const ix = indexPack(pack), species = resolveSpecies(c,pack);
   const {ctx, rows, issues} = progression(c, pack);
+  const droidSystems=droidSystemsState(c,pack);issues.push(...droidSystems.issues);
   const level = ctx.characterLevel, half = Math.floor(level / 2), background=activeBackground(c,pack);
   issues.push(...speciesChoiceDetails(c,pack,ctx,rows[0]?.ctx||ctx).map(g=>g.issue).filter(Boolean),...customizationIssues(c,species));
   const story=c.story;
@@ -388,33 +391,36 @@ export function derive(c, pack) {
   const allDeclaredArmor=wornArmor(c,pack);
   for(const r of allDeclaredArmor)if(r.wearerSize&&r.wearerSize!==species.size)issues.push(r.name+' fits '+r.wearerSize+' creatures');
   for(const r of allDeclaredArmor)if(r.droidSystem?.builtIn&&!species.isDroid&&!species.usesDroidSystems)issues.push(r.name+' requires a Droid body');
-  const declaredArmor=allDeclaredArmor.filter(r=>(!r.wearerSize||r.wearerSize===species.size)&&(!r.droidSystem?.builtIn||species.isDroid||species.usesDroidSystems)),bodyArmor=declaredArmor.filter(r=>(r.armorSlot||'body')==='body');
-  if(bodyArmor.length>1)issues.push('Only one suit of armor can be equipped');
-  const armorItems=[...bodyArmor.slice(0,1),...declaredArmor.filter(r=>r.armorSlot==='tandem')];
-  const armor=bodyArmor[0]||armorItems.slice().sort((a,b)=>b.armorBonus-a.armorBonus)[0]||null;
-  const effectiveSize=armor?.sizeOverride||species.size;ctx.size=effectiveSize;
-  const vision=armorVision({...species,...(effects.some(e=>e.target==='vision'&&e.value==='darkvision')?{vision:'darkvision'}:{})},armorItems,ctx),blind=armorItems.some(r=>r.blinds),visionSpecies={...species,vision,blind};
+  const humanoidArmorRequired=species.isDroid&&!!(species.droidStartingPackage||c.droidSystems?.[species.id]);
+  if(humanoidArmorRequired&&!droidSystems.humanoidArmor&&allDeclaredArmor.some(r=>!r.droidSystem?.builtIn))issues.push('Humanoid armor requires a bipedal body and two Hands');
+  const declaredArmor=allDeclaredArmor.filter(r=>(!r.wearerSize||r.wearerSize===species.size)&&(!r.droidSystem?.builtIn||species.isDroid||species.usesDroidSystems)&&(r.droidSystem?.builtIn||!humanoidArmorRequired||droidSystems.humanoidArmor)),bodyArmor=declaredArmor.filter(r=>(r.armorSlot||'body')==='body');
+  const externalArmor=bodyArmor.filter(r=>!r.droidSystem?.builtIn),builtInArmor=bodyArmor.filter(r=>r.droidSystem?.builtIn);
+  if(externalArmor.length>1)issues.push('Only one suit of armor can be equipped');
+  if(builtInArmor.length>1)issues.push('Only one built-in armor can be installed');
+  const armorItems=[...externalArmor.slice(0,1),...builtInArmor.slice(0,1),...declaredArmor.filter(r=>r.armorSlot==='tandem')];
   const has = id => ctx.talents.some(t => !ctx.inactiveTalents.has(t.id)&& t.id === `talent:${id}`);
-  const proficientArmor = armor && ctx.feats.some(f => f.id === F(`armor-proficiency-${armor.category}`));
-  const applies = (e,attack) => !e.when || e.when==='proficientArmor'&&proficientArmor || e.when==='lightOrNoArmor'&&(!armor||armor.category==='light') || e.when==='meleeAttack'&&attack?.mode==='melee';
+  const armorEffect=(r,target)=>effects.filter(e=>e.target===target&&(!e.when||e.when==='proficientArmor'&&armorProficient(r,ctx))).reduce((n,e)=>n+e.amount*(e.perLevel?level:1),0);
+  const armorValue=r=>{const bonus=r.armorBonus+armorEffect(r,'armorBonus');return armorProficient(r,ctx)&&has('improved-armored-defense')?Math.max(bonus,level+Math.floor(bonus/2)):armorProficient(r,ctx)&&has('armored-defense')?Math.max(level,bonus):bonus;};
+  const armor=armorItems.slice().sort((a,b)=>armorValue(b)-armorValue(a))[0]||null;
+  const effectiveSize=armorItems.find(r=>r.sizeOverride)?.sizeOverride||species.size;ctx.size=effectiveSize;
+  const vision=armorVision({...species,...(effects.some(e=>e.target==='vision'&&e.value==='darkvision')?{vision:'darkvision'}:{})},armorItems,ctx),blind=armorItems.some(r=>r.blinds),visionSpecies={...species,vision,blind};
+  const proficientArmor=armorItems.some(r=>armorProficient(r,ctx));
+  const applies = (e,attack) => !e.when || e.when==='proficientArmor'&&proficientArmor || e.when==='lightOrNoArmor'&&armorItems.every(r=>r.category==='light') || e.when==='meleeAttack'&&attack?.mode==='melee';
   const total = (target,attack) => effects.filter(e => e.target === target && applies(e,attack)).reduce((n, e) => n + e.amount * (e.perLevel ? level : 1), 0);
-  const equipmentAbilities = Object.fromEntries(Object.entries(proficientArmor?armor.abilityBonuses||{}:{}).filter(([a])=>ctx.scores[a]!==null));
+  const equipmentAbilities=Object.fromEntries(ABILITIES.filter(a=>ctx.scores[a]!==null).map(a=>[a,Math.max(0,...armorItems.filter(r=>armorProficient(r,ctx)).map(r=>r.abilityBonuses?.[a]||0))]).filter(([,n])=>n!==0));
   const scores = Object.fromEntries(ABILITIES.map(a => [a, ctx.scores[a]===null?null:Math.max(species.noConstitution?pack.rules.droidAbilities.minimumScore:-Infinity,ctx.scores[a]+(equipmentAbilities[a]||0))]));
   const mods = Object.fromEntries(ABILITIES.map(a => [a, modifier(scores[a])]));
   const raging=!!species.rage&&recoveryState(c).rageRounds>0;
   const rageBonus=raging?species.rage.bonus+total('rageBonus'):0;
   const carried=c.inventory.filter(e=>e.carried!==false);
-  const weight=carried.reduce((n,e)=>n+(resolveEquipment(e,pack,c).weight||0)*e.quantity,0);
+  const weight=carried.reduce((n,e)=>n+(droidCarryingWeight(c,pack,e,resolveEquipment(e,pack,c).weight)||0)*e.quantity,0)+droidSystems.virtual.reduce((n,e)=>n+(droidCarryingWeight(c,pack,e,ix.equipment.get(e.id).weight)||0)*e.quantity,0);
   const load=carryingLimits(scores.str,effectiveSize,weight,pack.rules.encumbrance);
   const armorPenalty=armorCheckPenalty(armorItems,ctx,pack,c.armorChecks,false,shieldLimits.checkPenalty),armorSkillPenalty=armorCheckPenalty(armorItems,ctx,pack,c.armorChecks,true,shieldLimits.checkPenalty);
-  const armorBonus = armor ? armor.armorBonus + total('armorBonus') : 0;
   const dexImprovement=effects.filter(e=>e.target==='armorMaxDex').reduce((n,e)=>n+e.amount,0);
   const caps=[...energyShields.map(r=>r.maxDex+(armorProficient(r,ctx)?dexImprovement:0)),...armorItems.filter(r=>r.maxDex!==null).map(r=>r.maxDex+(armorProficient(r,ctx)?dexImprovement:0))];
   const armorMaxDex=caps.length?Math.min(...caps):null;
-  let reflexBase = armor ? armorBonus : level;
-  if (armor && proficientArmor && has('improved-armored-defense')) reflexBase = Math.max(armorBonus, level + Math.floor(armorBonus / 2));
-  else if (armor && proficientArmor && has('armored-defense')) reflexBase = Math.max(level, armorBonus);
-  const helpless=!!c.helpless||c.condition===5||c.currentHP===0||recoveryState(c).dead;
+  const reflexBase=armor?armorValue(armor):level;
+  const helpless=droidSystems.inoperative||!!c.helpless||c.condition===5||c.currentHP===0||recoveryState(c).dead;
   const balancingFlatFooted=balanceFlatFooted(c,ctx),flatFooted=!!c.flatFooted||balancingFlatFooted;
   const dexDenied=!!shieldLimits.unproficient||helpless||flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
   const dex = helpless?pack.rules.defensiveCombat.helplessDexterityModifier:dexDenied?Math.min(0,mods.dex):armorMaxDex!==null ? Math.min(mods.dex, armorMaxDex) : mods.dex;
@@ -429,7 +435,7 @@ export function derive(c, pack) {
     const base = key === 'reflex' ? reflexBase : level;
     const ability=defenseAbilities[key].modifier;
     const sp = species.defenses[key] || 0;
-    const armorFortitude=proficientArmor?armor.fortitudeBonus+total('armorFortitude'):0;
+    const armorFortitude=Math.max(0,...armorItems.filter(r=>armorProficient(r,ctx)).map(r=>r.fortitudeBonus+armorEffect(r,'armorFortitude')));
     const equipment=key==='fortitude'?armorFortitude:key==='will'&&total('armorFortitudeToWill')?armorFortitude:0;
     const featTypes=new Map();let featPenalties=0;
     for(const e of effects.filter(e=>(e.target==='defenses'||e.target==='defenseBonus'&&e.defense===key)&&(e.when==='fightDefensively'?defensiveCombat.stance!=='none':applies(e)))){const amount=e.amount*(e.perLevel?level:1);if(amount<0)featPenalties+=amount;else featTypes.set(e.type,['untyped','dodge','circumstance'].includes(e.type)?(featTypes.get(e.type)||0)+amount:Math.max(featTypes.get(e.type)||0,amount));}
@@ -456,7 +462,7 @@ export function derive(c, pack) {
     const focus = Math.max(0, ...effects.filter(e => e.target === 'skillFocus' && e.selection.choice === s.id && trained).map(e => e.amount));
     const teamBonus=trained?Math.max(0,...teamSkills.filter(e=>e.skill===s.id).map(e=>e.bonus)):0;
     const backgroundBonus=!trained && background?.relevantSkills.includes(s.id)?background.untrainedBonus:0;
-    const equipment=armorSkillBonus(armorItems,ctx,c.armorChecks,s.id);
+    const equipment=Math.max(armorSkillBonus(armorItems,ctx,c.armorChecks,s.id),s.id==='skill:perception'?droidSystems.perceptionBonus:0);
     const penalty = s.armorCheck ? armorSkillPenalty : 0;
     const size = s.id === 'skill:stealth' ? pack.rules.sizeStealth[effectiveSize] : 0;
     const tools=species.technophobic&&c.mechanicalSkills?.includes(s.id)?-5:0;
@@ -477,14 +483,17 @@ export function derive(c, pack) {
     const source=saved?(sources.find(r=>r.id===saved)||sources[0]):automatic;
     const native=nativeById.get(source.id);
     const scope=source.when==='computerNetwork'?'computer network':source.when==='perceptionApplications'?'Avoid Surprise, Notice Targets, Sense Deception, Sense Influence':'';
-    return {...s,available:s.available&&native.available,total:source.total,checkSource:source.id,checkSources:sources,breakdown:source.id===s.id?s.breakdown+(circumstance?'; +'+circumstance+' Intimidate':''):`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}${circumstance?'; +'+circumstance+' Intimidate':''}`};
+    const climb=s.id==='skill:climb'?droidSystems.movement?.climbPenalty||0:0;
+    return {...s,available:s.available&&native.available&&!(s.id==='skill:climb'&&droidSystems.movement?.climbAllowed===false),total:source.total+climb,checkSource:source.id,checkSources:sources.map(r=>({...r,total:r.total+climb})),breakdown:(source.id===s.id?s.breakdown+(circumstance?'; +'+circumstance+' Intimidate':''):`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}${circumstance?'; +'+circumstance+' Intimidate':''}`)+(climb?'; '+climb+' Tracked':'')};
   });
-  const unarmed=unarmedWeapon(pack,effectiveSize,total('unarmedDieSteps'));
+  const unarmed=species.isDroid||species.usesDroidSystems?null:unarmedWeapon(pack,effectiveSize,total('unarmedDieSteps'));
   const gloves=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).unarmed);
   const manualAttacks=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).manualAttack).map(e=>({...resolveEquipment(e,pack,c),uid:e.uid}));
-  if(!unarmed)manualAttacks.push({id:UNARMED_ID,name:'Unarmed Attack',mode:'melee',sourceId:pack.rules.unarmed.sourceIds[0],article:pack.rulePages.find(r=>r.name==='Unarmed Attacks')?.article,automation:'manual',uid:c.id});
+  if(!unarmed&&!species.isDroid&&!species.usesDroidSystems)manualAttacks.push({id:UNARMED_ID,name:'Unarmed Attack',mode:'melee',sourceId:pack.rules.unarmed.sourceIds[0],article:pack.rulePages.find(r=>r.name==='Unarmed Attacks')?.article,automation:'manual',uid:c.id});
+  for(const e of droidSystems.installed.filter(e=>e.uid&&ix.equipment.get(e.id).droidSystem.appendageDamage&&Object.keys(ix.equipment.get(e.id).droidSystem.appendageDamage).length===0)){const r=ix.equipment.get(e.id);manualAttacks.push({...r,mode:'melee',uid:e.droidGrant?.slot==='arm-1'?c.id:e.uid});}
   const weaponEntries=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).kind==='weapon'&&!ix.equipment.get(e.id).unarmed&&!ix.equipment.get(e.id).manualAttack);
   if(unarmed)weaponEntries.push({id:UNARMED_ID,uid:c.id,twoHanded:false,targetKind:c.unarmedModifiers?.targetKind,attackTechnique:c.unarmedModifiers?.attackTechnique,attackMod:c.unarmedModifiers?.attackMod||0,damageMod:(c.unarmedModifiers?.damageMod||0)+Math.max(0,...gloves.map(e=>ix.equipment.get(e.id).damageBonus||0))});
+  for(const w of droidAppendageWeapons(c,pack,total('unarmedDieSteps'))){const arm=c.inventory.find(e=>e.uid===w.inventoryUid),settings=w.primaryAppendage?c.unarmedModifiers:arm;weaponEntries.push({id:UNARMED_ID,uid:w.uid,virtualWeapon:w,twoHanded:false,targetKind:settings?.targetKind,attackTechnique:settings?.attackTechnique,attackMod:settings?.attackMod||0,damageMod:(settings?.damageMod||0)+Math.max(0,...gloves.map(e=>ix.equipment.get(e.id).damageBonus||0))});}
   for(const w of naturalWeapons(c,species,pack,total('unarmedDieSteps'))){const settings=c.naturalModifiers?.[w.naturalWeaponId];weaponEntries.push({id:UNARMED_ID,uid:w.uid,virtualWeapon:w,twoHanded:false,targetKind:settings?.targetKind,attackTechnique:settings?.attackTechnique,attackMod:settings?.attackMod||0,damageMod:(settings?.damageMod||0)+Math.max(0,...gloves.map(e=>ix.equipment.get(e.id).damageBonus||0))});}
   const featHas=id=>ctx.feats.some(f=>f.id===F(id));
   const powerAttack=powerAttackState(c,pack,{bab:ctx.bab,owned:featHas('power-attack')});
@@ -527,8 +536,8 @@ export function derive(c, pack) {
     const criticalDice=dice=>w.unarmed&&total('unarmedCriticalDieStep')?increaseNaturalDie(dice,total('unarmedCriticalDieStep'),pack):dice;
     const attack=ctx.bab + ability + focus + proficiencyPenalty + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + grip + aimBonus + c.modifiers.attack + e.attackMod + power.penalty + fullAttackPenalty + defensiveCombat.attackPenalty + flurryBonus;
     const inactiveLightsaber=w.group==='lightsabers'&&e.activated===false;
-    const powerIssue=w.mode==='melee'&&powerAttack.selected&&!powerAttack.available?powerAttack.reason:'';
-    const display=dice=>dice?(w.natural?dice.replace(/(\d+)d1(?!\d)/g,'$1'):dice)+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
+    const powerIssue=droidSystems.inoperative?'Install a Processor':species.isDroid&&!species.heuristicProcessor&&!proficient?'Basic Processor requires weapon proficiency':w.mode==='melee'&&powerAttack.selected&&!powerAttack.available?powerAttack.reason:'';
+    const display=dice=>dice?(w.natural||w.droidAppendage?dice.replace(/(\d+)d1(?!\d)/g,'$1'):dice)+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
     const criticalDisplay=dice=>criticalDice(dice)!==dice?{criticalDamageDisplay:display(criticalDice(dice))}:{};
     const unAimedRange=weaponRange(w,{...e,aimed:false},pack,featHas,c);
     return {...w,name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,criticalThreat,multiattackReduction,fullAttackPenalty,effectGroup:group,ammunition,technique,powerAttack:power,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,flatFooted,issue:(defensiveCombat.attacksBlocked?defensiveCombat.reason||'Total Defense forbids attacks':'')||(inactiveLightsaber?'Activate Lightsaber':'')||powerIssue||technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:!inactiveLightsaber&&!defensiveCombat.attacksBlocked&&!powerIssue&&technique.available&&range.available&&(!ammunition||ammunition.available),
@@ -546,24 +555,25 @@ export function derive(c, pack) {
   const pointCost=species.fixedAbilities?0:(generation.abilityMethod==='point-buy'&&generation.abilityGeneration?generation.abilityGeneration.pool:Object.values(generation.abilities)).reduce((n,v)=>n+(pack.rules.pointBuyCosts[v]??Infinity),0);
   if(generation.abilityMethod==='point-buy'&&pointCost>generation.pointBudget)issues.push('Point-buy budget exceeded or a base score is outside 8–18');
   const movement = pack.rules.armorMovement;
-  const unrestrictedArmor = total('armorMovement') > 0;
-  const armorSpeedMultiplier = n => armor && !armor.droidSystem?.builtIn && !unrestrictedArmor && !(ctx.isDroid&&armor.category==='heavy'&&!movement.droidHeavySlowedSpeeds.includes(n)) ? movement.speedMultipliers[armor.category] : 1;
+  const movementFree=r=>effects.some(e=>e.target==='armorMovement'&&(e.when==='proficientArmor'?armorProficient(r,ctx):applies(e)));
+  const movementArmor=armorItems.filter(r=>!r.droidSystem?.builtIn&&!movementFree(r)).sort((a,b)=>movement.speedMultipliers[a.category]-movement.speedMultipliers[b.category])[0];
+  const armorSpeedMultiplier = n => movementArmor && !(ctx.isDroid&&movementArmor.category==='heavy'&&!movement.droidHeavySlowedSpeeds.includes(n)) ? movement.speedMultipliers[movementArmor.category] : 1;
   const speedMultiplier = armorSpeedMultiplier(species.speed);
   const stride = total('speed');
   const loadMultiplier=load.heavy?pack.rules.encumbrance.speedMultiplier:1;
-  const flatArmorPenalty=unrestrictedArmor?0:armorItems.reduce((n,r)=>n+(r.speedPenalty||0),0);
-  const magneticPenalty=unrestrictedArmor||!c.armorChecks?.magneticSoles?0:armorItems.reduce((n,r)=>n+(r.magneticSolesPenalty||0),0);
+  const flatArmorPenalty=armorItems.filter(r=>!movementFree(r)).reduce((n,r)=>n+(r.speedPenalty||0),0);
+  const magneticPenalty=!c.armorChecks?.magneticSoles?0:armorItems.filter(r=>!movementFree(r)).reduce((n,r)=>n+(r.magneticSolesPenalty||0),0);
   const move=(n,normal=false)=>n===0||load.tooHeavy?0:load.overloaded?1:Math.floor(Math.max(0,Math.floor((n + stride) * Math.min(armorSpeedMultiplier(n),loadMultiplier))-flatArmorPenalty-(normal?magneticPenalty:0)) / (c.condition >= 4 ? 2 : 1));
   const speed = move(species.speed,true);
-  const restrictedRunningArmor=[...(unrestrictedArmor?[]:armorItems),...energyShields.filter(r=>!effects.some(e=>e.target==='armorMovement'&&(applies(e)||e.when==='proficientArmor'&&armorProficient(r,ctx))))];
+  const restrictedRunningArmor=[...armorItems,...energyShields].filter(r=>!movementFree(r));
   const armorRunMultiplier=Math.min(movement.runMultipliers.light,...restrictedRunningArmor.map(r=>movement.runMultipliers[r.category]));
   const sprintAllowed = !restrictedRunningArmor.some(r=>r.category==='heavy') || ambiguityValue(c,pack,'ambiguity:sprint-heavy-armor')==='sprint-limit';
   const talentRunMultiplier = Math.max(0,...effects.filter(e=>e.target==='runMultiplier'&&applies(e)).map(e=>e.amount));
   const runWithArmor = sprintAllowed ? Math.max(armorRunMultiplier,talentRunMultiplier) : armorRunMultiplier;
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
-  const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} species + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
-  return {level, half, scores, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+  const speedBreakdown = load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} base + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
+  return {level, half, scores, droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty,
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
@@ -572,7 +582,7 @@ export function derive(c, pack) {
     conditionalDefenses,conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,type==='fly'&&species.flightHeavyLoadForbidden&&load.heavy?0:move(n+(type==='swim'?total('swimSpeed'):0))])),
-    incapacitated: c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forcePointsForbidden:!!(species.forceImmune||ctx.forceRestrictions.forbidPoints), forceMaximum: !level||species.forceImmune||ctx.forceRestrictions.forbidPoints||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:!level||species.forceImmune||ctx.forceRestrictions.forbidPoints?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
-    weightUnknown:carried.some(e=>resolveEquipment(e,pack,c).weight===null),weight,load,
+    incapacitated: droidSystems.inoperative || c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forcePointsForbidden:!!(species.forceImmune||ctx.forceRestrictions.forbidPoints), forceMaximum: !level||species.forceImmune||ctx.forceRestrictions.forbidPoints||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:!level||species.forceImmune||ctx.forceRestrictions.forbidPoints?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
+    weightUnknown:carried.some(e=>droidCarryingWeight(c,pack,e,resolveEquipment(e,pack,c).weight)===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};
 }

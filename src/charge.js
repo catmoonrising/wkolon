@@ -3,7 +3,7 @@ import {terrainMovementCost,movementSpeed,validateSegment} from './combat-moveme
 
 export const chargePath=c=>({mode:'normal',squares:2,diagonalSquares:0,difficultSquares:0,diagonalDifficultSquares:0,lowObjectSquares:0,diagonalLowObjectSquares:0,turns:false,lowObjects:false,crossTerrain:false,acrobatics:null,...c.chargePath});
 export const chargeSegment=p=>({squares:p.squares,diagonal:p.diagonalSquares,difficult:p.difficultSquares,diagonalDifficult:p.diagonalDifficultSquares,lowObjects:p.lowObjectSquares,diagonalLowObjects:p.diagonalLowObjectSquares});
-export const chargeMovementCost=(c,pack,crossTerrain=chargePath(c).crossTerrain)=>terrainMovementCost(chargeSegment(chargePath(c)),pack.rules[pack.rules.charge.movementCostRule],crossTerrain);
+export const chargeMovementCost=(c,pack,crossTerrain=chargePath(c).crossTerrain,d=null)=>terrainMovementCost(chargeSegment(chargePath(c)),pack.rules[pack.rules.charge.movementCostRule],crossTerrain,d,chargePath(c).mode);
 
 export const chargeNimbleRequired=(c,pack,p=chargePath(c))=>p.lowObjects||p.lowObjectSquares>0||p.diagonalLowObjectSquares>0||(p.difficultSquares+p.diagonalDifficultSquares)>0&&ambiguityValue(c,pack,pack.rules.charge.difficultTerrainAmbiguityId)==='nimble-check';
 export function chargeAcrobaticsDC(c,pack,p=chargePath(c)){const r=pack.rules.charge;return chargeNimbleRequired(c,pack,p)?(p.crossTerrain?r.combinedDC:r.lowObjectsDC):p.crossTerrain?r.crossTerrainDC:null;}
@@ -26,7 +26,7 @@ export function planCharge(c,d,pack,uid){
  if(path.crossTerrain&&base.difficult-lowObjects+base.diagonalDifficult-diagonalLowObjects===0)throw new Error('Choose difficult squares');
  const nimbleRequired=chargeNimbleRequired(c,pack,path),check=nimbleRequired||path.crossTerrain,skill=d.skills.find(s=>s.id===rule.acrobatics);
  if(check&&(!d.ctx.trained.has(rule.acrobatics)||!skill.available))throw new Error('Requires trained Acrobatics');
- const normalCost=chargeMovementCost(c,pack,false),successfulCost=chargeMovementCost(c,pack);
+ const normalCost=chargeMovementCost(c,pack,false,d),successfulCost=chargeMovementCost(c,pack,undefined,d);
  if(successfulCost>maximum)throw new Error('Charge exceeds Speed');
  const dc=chargeAcrobaticsDC(c,pack,path);
  const attackBonus=rule.attackBonus+(powerful?rule.powerful.attackBonus:0),damageBonus=powerful?Math.floor(d.level*rule.powerful.damagePerLevel):0;

@@ -6,7 +6,7 @@ import {escapeHTML as escape} from './wiki-content.js';
 export function followThroughIssue(c,d,pack){try{planFollowThrough(c,d,pack);return '';}catch(e){return e.message;}}
 export function followUpCostLabel(c,d,pack){
  const p=followUpState(c);let speed;try{speed=movementSpeed(d,p.mode);}catch{speed='-';}
- return `${movementCost(p.path,pack.rules.combatMovement)}/${speed} squares`;
+ return `${movementCost(p.path,pack.rules.combatMovement,d,p.mode)}/${speed} squares`;
 }
 const text=(key,value,label)=>`<label>${label} <input data-follow-up="${key}" maxlength="200" value="${escape(value)}"></label>`;
 const check=(key,on,label,title=label)=>`<label class="checkbox" title="${escape(title)}"><input type="checkbox" data-follow-up="${key}" ${on?'checked':''}>${label}</label>`;

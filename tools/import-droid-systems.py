@@ -93,18 +93,19 @@ def build(mechanics,catalog,index,pins,tables,members):
   if name in EXTERNAL:category='external'
   if name in UPGRADES:category='upgrade'
   model=dict(category=category,costModel=cm,weightModel='accessory' if wm=='factor' and name in members['accessory'] else wm)
+  if any(name in members[k] for k in ['accessory','appendage','locomotion']):model['startingEligible']=True
   base=dict(id='equipment:'+slug(name),name=name,kind='gear',sourceId=sid,cost=cost,weight=weight,availability=[k for k in ['licensed','restricted','military','illegal','rare'] if re.search(r'\b'+k+r'\b',generic.single(fields.get('Availability')) or '',re.I)],automation='manual',droidSystem=model)
   if name in LOCOMOTIONS:
-   speeds,base_cost,terrain,climb,climb_allowed=LOCOMOTIONS[name];base.update(cost=base_cost);model.update(costModel='locomotion' if name!='Stationary' else 'flat',movement=dict(small=speeds[0],medium=speeds[1],large=speeds[2],terrain=terrain,climbPenalty=climb,climbAllowed=climb_allowed))
-  if name in ['Basic Processor','Heuristic Processor']:model['processor']=name.split()[0].lower()
-  if name in APPENDAGES:model['appendageDamage']=dict(zip(SIZES,APPENDAGES[name]))
+   speeds,base_cost,terrain,climb,climb_allowed=LOCOMOTIONS[name];base.update(cost=base_cost,automation='partial');model.update(costModel='locomotion' if name!='Stationary' else 'flat',movement=dict(small=speeds[0],medium=speeds[1],large=speeds[2],terrain=terrain,climbPenalty=climb,climbAllowed=climb_allowed))
+  if name in ['Basic Processor','Heuristic Processor']:model['processor']=name.split()[0].lower();base['automation']='partial'
+  if name in APPENDAGES:model['appendageDamage']=dict(zip(SIZES,APPENDAGES[name]));base['automation']='partial'
   if name=='Multifunction Apparatus':model['appendageDamage']={};model['category']='appendage'
-  if name in ['Improved Sensor Package','Darkvision Package']:model['vision']='darkvision' if name=='Darkvision Package' else 'low-light'
+  if name in ['Improved Sensor Package','Darkvision Package']:model['vision']='darkvision' if name=='Darkvision Package' else 'low-light';base['automation']='partial'
   if name=='Improved Sensor Package':base['skillBonuses']={'skill:perception':2}
   if name=='Compartment Space':base.update(cost=50,weight=None);model.update(costModel='capacity',capacityBySize={'small':5,'medium':10,'large':20,'huge':50,'gargantuan':500,'colossal':5000})
   if cm=='locomotion' and name not in LOCOMOTIONS:base['cost']=None;model['costModel']='manual'
   if name in DROID_ARMOR:
-   kind,cost,armor,dex,weight,availability=DROID_ARMOR[name];base.update(kind='armor',category=kind,cost=cost,weight=weight,armorBonus=armor,fortitudeBonus=0,maxDex=dex,skillBonuses={},availability=availability,automation='partial');model.update(category='armor',costModel='factor',weightModel='accessory',builtIn=True)
+   kind,cost,armor,dex,weight,availability=DROID_ARMOR[name];base.update(kind='armor',category=kind,cost=cost,weight=weight,armorBonus=armor,fortitudeBonus=0,maxDex=dex,skillBonuses={},availability=availability,automation='partial');model.update(category='armor',costModel='factor',weightModel='accessory',builtIn=True,startingEligible=True)
   group=[]
   for item in variants(name,article,base):
    if item['id'] in known:
@@ -114,7 +115,7 @@ def build(mechanics,catalog,index,pins,tables,members):
   cid='catalog:droid-system-'+slug(name);records[cid]=dict(id=cid,name=name,kind='armor' if base['kind']=='armor' else 'gear',sourceId=sid,ruleId=rid,books=entry['books'],mechanicsIds=group)
  category=next(r for r in tables['records'] if r['source']['title']=='Category:Droid Accessories');sid=category['source']['id'];rid='rule:'+sid.removeprefix('source:wiki-')
  for name,kind,cost,armor,dex,weight,availability in CORE_ARMOR:
-  eid='equipment:'+slug(name);item=dict(id=eid,name=name,kind='armor',category=kind,sourceId=sid,cost=cost,weight=weight,armorBonus=armor,fortitudeBonus=0,maxDex=dex,skillBonuses={},availability=availability,automation='partial',droidSystem=dict(category='armor',costModel='factor',weightModel='accessory',builtIn=True))
+  eid='equipment:'+slug(name);item=dict(id=eid,name=name,kind='armor',category=kind,sourceId=sid,cost=cost,weight=weight,armorBonus=armor,fortitudeBonus=0,maxDex=dex,skillBonuses={},availability=availability,automation='partial',droidSystem=dict(category='armor',costModel='factor',weightModel='accessory',builtIn=True,startingEligible=True))
   if eid not in known:m['equipment'].append(item);known.add(eid);report.append(item)
   else:assert next(r for r in m['equipment'] if r['id']==eid)==item
   cid='catalog:droid-system-'+slug(name);records[cid]=dict(id=cid,name=name,kind='armor',sourceId=sid,ruleId=rid,books=['Core Rulebook'],mechanicsIds=[eid])

@@ -42,7 +42,8 @@ export function validateDroidSystemData(record,pack,bad){
  const d=record.droidSystem;if(d===undefined)return;
  if(!pack.rules.droidSystems)bad('Missing Droid System rules');
  const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v),sizes=Object.keys(pack.rules.droidSystems?.costFactors||{});
- if(!object(d)||!Object.keys(d).every(k=>['category','costModel','weightModel','movement','processor','appendageDamage','vision','capacityBySize','builtIn'].includes(k)))bad('Droid System fields');
+ if(!object(d)||!Object.keys(d).every(k=>['category','costModel','weightModel','movement','processor','appendageDamage','vision','capacityBySize','builtIn','startingEligible'].includes(k)))bad('Droid System fields');
+ if(d.startingEligible!==undefined&&d.startingEligible!==true)bad('Droid starting eligibility');
  if(!['locomotion','processor','appendage','accessory','upgrade','external','armor'].includes(d.category)||!['flat','factor','locomotion','capacity','manual'].includes(d.costModel)||!['flat','factor','accessory','manual'].includes(d.weightModel))bad('Droid System pricing model');
  if(d.costModel==='manual'&&record.cost!==null||d.weightModel==='manual'&&record.weight!==null)bad('Droid System manual price or weight');
  if(d.movement!==undefined){

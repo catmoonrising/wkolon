@@ -6,7 +6,7 @@ export function validateArmorChecks(c,bad){
 }
 export function wornArmor(c,pack){return c.inventory.filter(e=>e.equipped&&e.carried!==false&&pack.equipment.find(r=>r.id===e.id)?.kind==='armor'&&!pack.equipment.find(r=>r.id===e.id)?.energyShield).map(e=>({...resolveEquipment(e,pack,c),uid:e.uid}));}
 export const armorProficient=(armor,ctx)=>ctx.feats.some(f=>f.id==='feat:armor-proficiency-'+armor.category);
-export function armorExclusive(candidate,other){return candidate.kind==='armor'&&other.kind==='armor'&&(candidate.armorSlot||'body')==='body'&&(other.armorSlot||'body')==='body';}
+export function armorExclusive(candidate,other){return candidate.kind==='armor'&&other.kind==='armor'&&!!candidate.droidSystem?.builtIn===!!other.droidSystem?.builtIn&&(candidate.armorSlot||'body')==='body'&&(other.armorSlot||'body')==='body';}
 export function armorSkillBonus(items,ctx,checks,id){
  const amounts=[];
  for(const item of items){

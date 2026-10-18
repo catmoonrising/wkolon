@@ -1,4 +1,5 @@
 import {applySpeciesCustomization} from './species-customization.js';
+import {applyInstalledDroidSystems} from './droid-installation.js';
 import {eligible,indexPack} from './rules.js';
 const languageValue=v=>typeof v==='string'&&v.trim().length>0&&v.length<=100&&!/[\r\n\x00]/.test(v);
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
@@ -11,7 +12,7 @@ function duplicateGrant(species,c,group,option){
 
 export function resolveSpecies(c,pack){
  const base=applySpeciesCustomization(pack.species.find(r=>r.id===c.species),c);
- if(!base.creationChoices?.length)return base;
+ if(!base.creationChoices?.length)return applyInstalledDroidSystems(base,c,pack);
  const species={...base,abilityAdjustments:{...base.abilityAdjustments},languages:[...base.languages],understoodLanguages:[...(base.understoodLanguages||[])],conditionalFocuses:[...(base.conditionalFocuses||[])],startingTrainedSkills:[...(base.startingTrainedSkills||[])],conditionalStartingFeats:[...(base.conditionalStartingFeats||[])]};
  for(const group of base.creationChoices){
   const value=c.speciesChoices?.[base.id]?.[group.id]??group.defaultOption;
@@ -27,7 +28,7 @@ export function resolveSpecies(c,pack){
   if(group.kind==='trainedSkill'&&!species.startingTrainedSkills.includes(selected.skillId))species.startingTrainedSkills.push(selected.skillId);
   if(group.kind==='startingFeat'&&!species.conditionalStartingFeats.includes(selected.featId))species.conditionalStartingFeats.push(selected.featId);
  }
- return species;
+ return applyInstalledDroidSystems(species,c,pack);
 }
 
 export function speciesChoiceDetails(c,pack,ctx,firstLevel=ctx){
