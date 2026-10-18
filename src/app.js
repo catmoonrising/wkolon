@@ -35,6 +35,7 @@ import {attackTarget,validateAttackTarget,canAimAtTarget} from './attack-targets
 import {chargePath,validateCharge} from './charge.js';
 import {createForcePowers} from './force-powers-ui.js';
 import {createHouseRules} from './house-rules.js';
+import {droidSystemUsesSize} from './droid-systems.js';
 import {equipmentFamilies,resolveEquipment,purchaseQuote,startingEquipmentGrants,claimStartingEquipment,canRollStartingCredits} from './equipment.js';
 import {createFeatureTrees} from './feature-trees.js';
 import {createSpeciesBrowser,speciesChoiceControls} from './species-browser.js';
@@ -435,8 +436,8 @@ function featureModule(id,entries){
 }
 function shopDraft(scope){
  const key=current().id+':'+scope,bodySize=resolveSpecies(current(),pack).size;
- if(!equipmentDrafts.has(key))equipmentDrafts.set(key,{id:pack.equipment.find(r=>r.kind==='armor').id,options:[],armorSize:bodySize,bodySize,license:true,market:'normal',quantity:1});
- const draft=equipmentDrafts.get(key);if(draft.bodySize!==bodySize){draft.bodySize=bodySize;draft.armorSize=ix.equipment.get(draft.id).wearerSize||bodySize;}
+ if(!equipmentDrafts.has(key))equipmentDrafts.set(key,{id:pack.equipment.find(r=>r.kind==='armor').id,options:[],armorSize:bodySize,bodySize,systemSize:bodySize,systemOrdinal:1,systemUnits:1,license:true,market:'normal',quantity:1});
+ const draft=equipmentDrafts.get(key);if(draft.bodySize!==bodySize){draft.bodySize=bodySize;draft.systemSize=bodySize;draft.armorSize=ix.equipment.get(draft.id).wearerSize||bodySize;}
  return draft;
 }
 const shopQuote=(draft,quantity,c)=>purchaseQuote(draft,quantity,pack,c,{...draft,benefits:derived.purchaseBenefits});
@@ -444,7 +445,7 @@ function shopForm(scope){
  const c=current(),prefix=scope?'cr-':'',draft=shopDraft(scope),r=ix.equipment.get(draft.id);
  const quote=shopQuote(draft,draft.quantity,c),family=equipmentFamilies(pack,r.kind).find(f=>f.records.some(r=>r.id===draft.id));
  const equipmentRule=pack.rulePages.find(r=>r.name==='Equipment');
- return `<form id="${prefix}purchase" data-equipment-scope="${scope||'sheet'}" class="purchase-form"><label>Item<select id="${prefix}purchase-item" data-catalog-item>${['armor','gear','weapon'].map(kind=>`<optgroup label="${title(kind)}">${equipmentFamilies(pack,kind).map(f=>option(f.id,f.name,family.id)).join('')}</optgroup>`).join('')}</select></label>${family.records.length>1?`<label>Variant<select data-catalog-variant>${family.records.map(r=>option(r.id,r.variant,draft.id)).join('')}</select></label>`:''}${r.retractableStock?`<label class="checkbox"><input type="checkbox" data-shop-field="stockPosition" ${draft.stockPosition!=='none'?'checked':''}>Retractable stock</label>`:''}${r.kind==='armor'&&!r.energyShield?`<label>Size<select data-shop-field="armorSize">${(r.wearerSize?[r.wearerSize]:pack.rules.weaponSizeOrder).map(size=>option(size,title(size),r.wearerSize||draft.armorSize)).join('')}</select></label>`:''}${(r.upgrades||[]).map(u=>`<label class="checkbox"><input type="checkbox" data-shop-upgrade="${u.id}" ${draft.options.includes(u.id)?'checked':''}>${escape(u.name)}</label>`).join('')}<label>Quantity<input id="${prefix}purchase-quantity" data-catalog-quantity type="number" min="1" max="999" value="${draft.quantity}" required></label>${quote.rating||r.availability?.includes('rare')?`<label>Market<select data-shop-field="market">${option('normal','Normal',draft.market)}${quote.rating?option('black-market','Black market',draft.market):''}${r.availability?.includes('rare')?option('offworld','Offworld (×2)',draft.market):''}</select></label>`:''}${quote.rating&&!quote.connections&&draft.market!=='black-market'&&quote.item.cost!==null?`<label class="checkbox"><input type="checkbox" data-shop-field="license" ${draft.license?'checked':''}>License fee (+${(quote.item.cost*quote.rating.percent/100).toLocaleString()} cr each)</label>`:''}<span data-shop-quote>${quote.total===null?(quote.item.purchasePending?'Manual price':'No market price'):quote.total.toLocaleString()+' cr'}, ${weightText(quote.item.weight===null?null:quote.item.weight*draft.quantity)}${quote.connections?', Connections':''}</span><button class="primary" type="submit" ${quote.total===null?'disabled':''}>Buy</button><button type="button" data-action="add-gear">Add owned</button></form>${quote.rating&&equipmentRule?ruleReference(equipmentRule,'Licensing',null,prefix+'licensing'):''}`;
+ return `<form id="${prefix}purchase" data-equipment-scope="${scope||'sheet'}" class="purchase-form"><label>Item<select id="${prefix}purchase-item" data-catalog-item>${['armor','gear','weapon'].map(kind=>`<optgroup label="${title(kind)}">${equipmentFamilies(pack,kind).map(f=>option(f.id,f.name,family.id)).join('')}</optgroup>`).join('')}</select></label>${family.records.length>1?`<label>Variant<select data-catalog-variant>${family.records.map(r=>option(r.id,r.variant,draft.id)).join('')}</select></label>`:''}${r.retractableStock?`<label class="checkbox"><input type="checkbox" data-shop-field="stockPosition" ${draft.stockPosition!=='none'?'checked':''}>Retractable stock</label>`:''}${r.droidSystem?`${droidSystemUsesSize(r)?`<label>Size<select data-shop-field="systemSize">${Object.keys(pack.rules.droidSystems.costFactors).map(size=>option(size,title(size),draft.systemSize)).join('')}</select></label>`:''}${r.droidSystem.category==='locomotion'?`<label>Locomotion system<select data-shop-field="systemOrdinal">${[1,2,3,4,5,6].map(n=>option(n,n===6?'6+':String(n),draft.systemOrdinal)).join('')}</select></label>`:''}${r.droidSystem.costModel==='capacity'?`<label>Capacity (kg)<input data-shop-field="systemUnits" type="number" min="1" max="${r.droidSystem.capacityBySize[draft.systemSize]||5000}" value="${draft.systemUnits}" required></label>`:''}`:r.kind==='armor'&&!r.energyShield?`<label>Size<select data-shop-field="armorSize">${(r.wearerSize?[r.wearerSize]:pack.rules.weaponSizeOrder).map(size=>option(size,title(size),r.wearerSize||draft.armorSize)).join('')}</select></label>`:''}${(r.upgrades||[]).map(u=>`<label class="checkbox"><input type="checkbox" data-shop-upgrade="${u.id}" ${draft.options.includes(u.id)?'checked':''}>${escape(u.name)}</label>`).join('')}<label>Quantity<input id="${prefix}purchase-quantity" data-catalog-quantity type="number" min="1" max="999" value="${draft.quantity}" required></label>${quote.rating||r.availability?.includes('rare')?`<label>Market<select data-shop-field="market">${option('normal','Normal',draft.market)}${quote.rating?option('black-market','Black market',draft.market):''}${r.availability?.includes('rare')?option('offworld','Offworld (×2)',draft.market):''}</select></label>`:''}${quote.rating&&!quote.connections&&draft.market!=='black-market'&&quote.item.cost!==null?`<label class="checkbox"><input type="checkbox" data-shop-field="license" ${draft.license?'checked':''}>License fee (+${(quote.item.cost*quote.rating.percent/100).toLocaleString()} cr each)</label>`:''}<span data-shop-quote>${quote.total===null?(quote.item.purchasePending?'Manual price':'No market price'):quote.total.toLocaleString()+' cr'}, ${weightText(quote.item.weight===null?null:quote.item.weight*draft.quantity)}${quote.connections?', Connections':''}</span><button class="primary" type="submit" ${quote.total===null?'disabled':''}>Buy</button><button type="button" data-action="add-gear">Add owned</button></form>${quote.rating&&equipmentRule?ruleReference(equipmentRule,'Licensing',null,prefix+'licensing'):''}`;
 }
 function refreshShop(form){
  const scope=form.dataset.equipmentScope==='cr'?'cr':'',prefix=scope?'cr-':'';
@@ -639,10 +640,13 @@ function render() {
 function changed() { const next=derive(current(),pack);recordPrivateerFall(current(),next);if(derived&&next.forceMaximum!==derived.forceMaximum){const bonus=3*(Number(next.ctx.feats.some(f=>f.id==='feat:force-boon'))-Number(derived.ctx.feats.some(f=>f.id==='feat:force-boon')));if(bonus>0)current().forcePoints+=bonus;else current().forcePoints=Math.min(current().forcePoints,next.forceMaximum);}store.schedule(); queueMicrotask(render); }
 function d(sides) { const a=new Uint32Array(1); const ceiling=Math.floor(2**32/sides)*sides; do { crypto.getRandomValues(a); } while(a[0]>=ceiling); return a[0]%sides+1; }
 function addInventory(id,quantity=1,options={}) {
-  current().inventory.filter(e=>armorExclusive(ix.equipment.get(id),ix.equipment.get(e.id))).forEach(e=>e.equipped=false);
-  for(let n=0;n<(ix.equipment.get(id).energyShield?quantity:1);n++)current().inventory.push({...options,id,uid:crypto.randomUUID(),quantity:ix.equipment.get(id).energyShield?1:quantity,equipped:ix.equipment.get(id).kind!=='gear'&&(!ix.equipment.get(id).wearerSize||ix.equipment.get(id).wearerSize===ix.species.get(current().species).size),twoHanded:false,attackMod:0,damageMod:0});
+  const c=current(),r=resolveEquipment({id,...options},pack,c),species=resolveSpecies(c,pack);
+  const equipped=r.kind!=='gear'&&(!r.wearerSize||r.wearerSize===species.size)&&(!r.droidSystem?.builtIn||species.isDroid||species.usesDroidSystems);
+  if(equipped)c.inventory.filter(e=>armorExclusive(r,ix.equipment.get(e.id))).forEach(e=>e.equipped=false);
+  for(let n=0;n<(r.energyShield?quantity:1);n++)c.inventory.push({...options,id,uid:crypto.randomUUID(),quantity:r.energyShield?1:quantity,equipped,twoHanded:false,attackMod:0,damageMod:0});
 }
 function purchase(debit, form=$('purchase')) {
+ if(!form.reportValidity())return;
  const scope=form.dataset.equipmentScope==='cr'?'cr':'',draft=shopDraft(scope),quantity=Number(form.querySelector('[data-catalog-quantity]').value);
  if(!Number.isInteger(quantity)||quantity<1||quantity>999)return notify('Choose a quantity from 1 to 999.');
  const quote=shopQuote(draft,quantity,current());
@@ -651,7 +655,7 @@ function purchase(debit, form=$('purchase')) {
  if(current().inventory.length+(ix.equipment.get(draft.id).energyShield?quantity:1)>1000)return notify('Inventory limit reached.');
  if(debit)current().credits=Math.round((current().credits-quote.total)*100)/100;
  const r=ix.equipment.get(draft.id);
- addInventory(draft.id,quantity,{options:[...draft.options],...(r.retractableStock?{stockPosition:draft.stockPosition||'extended'}:{}),...(r.kind==='armor'&&!r.energyShield?{armorSize:draft.armorSize}:{}),licenseStatus:debit?quote.licenseStatus:'none'});changed();
+ addInventory(draft.id,quantity,{options:[...draft.options],...(r.retractableStock?{stockPosition:draft.stockPosition||'extended'}:{}),...(r.droidSystem?{systemSize:draft.systemSize,...(r.droidSystem.category==='locomotion'?{systemOrdinal:draft.systemOrdinal}:{}),...(r.droidSystem.costModel==='capacity'?{systemUnits:draft.systemUnits}:{})}:r.kind==='armor'&&!r.energyShield?{armorSize:draft.armorSize}:{}),licenseStatus:debit?quote.licenseStatus:'none'});changed();
 }
 function confirmDelete(titleText, text, callback) {
   $('confirm-title').textContent=titleText; $('confirm-text').textContent=text;
@@ -775,7 +779,7 @@ function events() {
       const form=el.closest('form'),scope=form.dataset.equipmentScope==='cr'?'cr':'',draft=shopDraft(scope);
       draft.quantity=Number(form.querySelector('[data-catalog-quantity]').value);
       if(el.hasAttribute('data-catalog-item')||el.hasAttribute('data-catalog-variant')){draft.id=el.value;const selectedItem=ix.equipment.get(draft.id);if(selectedItem.wearerSize)draft.armorSize=selectedItem.wearerSize;draft.options=[];draft.market='normal';draft.license=true;draft.stockPosition='extended';}
-      if(el.dataset.shopField)draft[el.dataset.shopField]=el.dataset.shopField==='stockPosition'?(el.checked?'extended':'none'):el.type==='checkbox'?el.checked:el.value;
+      if(el.dataset.shopField)draft[el.dataset.shopField]=el.dataset.shopField==='stockPosition'?(el.checked?'extended':'none'):el.type==='checkbox'?el.checked:['systemUnits','systemOrdinal'].includes(el.dataset.shopField)?Number(el.value):el.value;
       if(el.dataset.shopUpgrade)draft.options=el.checked?[...draft.options,el.dataset.shopUpgrade]:draft.options.filter(id=>id!==el.dataset.shopUpgrade);
       if(el.hasAttribute('data-catalog-quantity')){
         if(derived.purchaseBenefits.licenseAllowance){refreshShop(form);return;}

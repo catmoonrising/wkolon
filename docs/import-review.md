@@ -1988,3 +1988,35 @@ reprogramming, shutdown, detailed immunities and other system interactions remai
 on the follow-up queue. No unreviewed system prices, installation effects or
 extra equipment are inferred. Standard models, stock chassis, Replica Droid
 and Shard creation remain separate pending work.
+
+### Droid System catalog and pricing
+
+Imported 109 official pinned system pages and four category tables as 133
+equipment profiles, including 15 built-in armor profiles. The importer checks
+the official reference index and exclusion list, preserves revision pins and
+exact articles, scopes Jump Servos to its Droid System section, and groups the
+printed translator, remote processor, shield, hardened-system and image-disguiser
+variants. Repeating the import makes no data changes.
+
+The purchase resolver now handles Cost Factor, locomotion speed squared,
+additional-system fees, fixed and size-dependent weights, the Small-or-smaller
+accessory weight exception, compartment capacity and ordinary license fees.
+Each part retains its chosen size in inventory. An explicit locomotion system
+number supplies the printed additional-system fee. A sixth or later system has
+manual pricing because the source provides no further fee; it is not forbidden.
+Built-in armor uses the existing armor calculations without movement slowdown,
+retaining the Heavy Armor running limit. Organic bodies cannot gain its effects.
+
+Unspecified prices and weights remain null. Remote Receiver's printed -500
+credits is not treated as a purchase that creates credits. Extra Legs, Jump
+Servos and other host-dependent upgrades retain Manual pricing until their
+host/configuration is modeled. Published gear retains Manual effect markers:
+purchasing a system does not silently install it or grant processor, appendage,
+sensor or locomotion effects. Starting grants, the separate starting allowance,
+installed-system controls and those effects remain the next implementation batch.
+
+Validation covers all body sizes, the five printed locomotion fees, exact source
+and catalog references, repeat imports, homebrew exclusions, compartment limits,
+save validation and built-in armor speed/running. Browser checks cover sheet and
+builder purchases, debit amounts, retained configuration, manual prices and
+Dracula mobile. The worker caches the new resolver for offline use.

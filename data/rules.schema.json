@@ -51,63 +51,63 @@
       "type": "object",
       "properties": {
         "droidAbilities": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "sourceIds",
-          "abilities",
-          "standardArray",
-          "pointBudget",
-          "minimumScore",
-          "fortitudeAbility",
-          "untrainedSkills"
-        ],
-        "properties": {
-          "sourceIds": {
-            "type": "array",
-            "minItems": 1,
-            "items": {
-              "type": "string"
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "abilities",
+            "standardArray",
+            "pointBudget",
+            "minimumScore",
+            "fortitudeAbility",
+            "untrainedSkills"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string"
+              }
+            },
+            "abilities": {
+              "const": [
+                "str",
+                "dex",
+                "int",
+                "wis",
+                "cha"
+              ]
+            },
+            "standardArray": {
+              "const": [
+                15,
+                14,
+                13,
+                12,
+                10
+              ]
+            },
+            "pointBudget": {
+              "const": 21
+            },
+            "minimumScore": {
+              "const": 1
+            },
+            "fortitudeAbility": {
+              "const": "str"
+            },
+            "untrainedSkills": {
+              "const": [
+                "skill:acrobatics",
+                "skill:climb",
+                "skill:jump",
+                "skill:perception"
+              ]
             }
-          },
-          "abilities": {
-            "const": [
-              "str",
-              "dex",
-              "int",
-              "wis",
-              "cha"
-            ]
-          },
-          "standardArray": {
-            "const": [
-              15,
-              14,
-              13,
-              12,
-              10
-            ]
-          },
-          "pointBudget": {
-            "const": 21
-          },
-          "minimumScore": {
-            "const": 1
-          },
-          "fortitudeAbility": {
-            "const": "str"
-          },
-          "untrainedSkills": {
-            "const": [
-              "skill:acrobatics",
-              "skill:climb",
-              "skill:jump",
-              "skill:perception"
-            ]
           }
-        }
-      },
-      "combat": {
+        },
+        "combat": {
           "type": "object",
           "required": [
             "sourceIds",
@@ -515,8 +515,13 @@
               }
             },
             "naturalDieSteps": {
-              "type": "array", "uniqueItems": true,
-              "items": {"type": "integer", "minimum": 1, "maximum": 12}
+              "type": "array",
+              "uniqueItems": true,
+              "items": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 12
+              }
             },
             "dieSteps": {
               "type": "array",
@@ -2042,11 +2047,30 @@
             },
             "substitutions": {
               "type": "object",
-              "required": ["standard", "move", "swift"],
+              "required": [
+                "standard",
+                "move",
+                "swift"
+              ],
               "properties": {
-                "standard": {"const": ["standard"]},
-                "move": {"const": ["move", "standard"]},
-                "swift": {"const": ["swift", "move", "standard"]}
+                "standard": {
+                  "const": [
+                    "standard"
+                  ]
+                },
+                "move": {
+                  "const": [
+                    "move",
+                    "standard"
+                  ]
+                },
+                "swift": {
+                  "const": [
+                    "swift",
+                    "move",
+                    "standard"
+                  ]
+                }
               },
               "additionalProperties": false
             },
@@ -2098,6 +2122,47 @@
                   }
                 }
               }
+            }
+          }
+        },
+        "droidSystems": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "sourceIds",
+            "costFactors",
+            "additionalLocomotionCosts"
+          ],
+          "properties": {
+            "sourceIds": {
+              "type": "array",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "$ref": "#/$defs/id"
+              }
+            },
+            "costFactors": {
+              "const": {
+                "fine": 20,
+                "diminutive": 10,
+                "tiny": 5,
+                "small": 2,
+                "medium": 1,
+                "large": 2,
+                "huge": 5,
+                "gargantuan": 10,
+                "colossal": 20
+              }
+            },
+            "additionalLocomotionCosts": {
+              "const": [
+                0,
+                500,
+                1000,
+                2000,
+                5000
+              ]
             }
           }
         }
@@ -2715,8 +2780,12 @@
           ],
           "minimum": 0
         },
-        "manualAttack": {"const": true},
-        "purchasePending": {"const": true},
+        "manualAttack": {
+          "const": true
+        },
+        "purchasePending": {
+          "const": true
+        },
         "family": {
           "type": "string"
         },
@@ -3012,6 +3081,9 @@
         },
         "stunDamageType": {
           "type": "string"
+        },
+        "droidSystem": {
+          "$ref": "#/$defs/droidSystem"
         }
       }
     },
@@ -3101,7 +3173,8 @@
                 "required": [],
                 "properties": {
                   "speed": {
-                    "type": "integer", "minimum": 0
+                    "type": "integer",
+                    "minimum": 0
                   },
                   "multiattackReduction": {
                     "$ref": "#/$defs/species/properties/multiattackReduction"
@@ -3119,7 +3192,8 @@
                     "$ref": "#/$defs/species/properties/take10Skills"
                   },
                   "naturalArmor": {
-                    "type": "integer", "minimum": 0
+                    "type": "integer",
+                    "minimum": 0
                   },
                   "naturalWeapons": {
                     "$ref": "#/$defs/species/properties/naturalWeapons"
@@ -3266,7 +3340,9 @@
         "creationChoices": {
           "type": "array",
           "minItems": 1,
-          "items": { "$ref": "#/$defs/speciesCreationChoice" }
+          "items": {
+            "$ref": "#/$defs/speciesCreationChoice"
+          }
         },
         "bookVariant": {
           "type": "string"
@@ -3472,19 +3548,46 @@
           "type": "boolean"
         },
         "startingTrainedSkills": {
-          "type": "array", "uniqueItems": true,
-          "items": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^skill:[a-z0-9-]+$"
+          }
         },
         "startingTrainingFeats": {
-          "type": "array", "uniqueItems": true,
-          "items": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^skill:[a-z0-9-]+$"
+          }
         },
-        "conditionalForceTraining": {"type": "boolean"},
-        "naturalWeapons": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"$ref": "#/$defs/naturalWeapon"}},
-        "multiattackReduction": {"type": "integer", "minimum": 1, "maximum": 10},
-        "customization": {"$ref": "#/$defs/speciesCustomization"},
-        "noConstitution": {"type": "boolean"},
-        "heuristicProcessor": {"type": "boolean"},
+        "conditionalForceTraining": {
+          "type": "boolean"
+        },
+        "naturalWeapons": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "items": {
+            "$ref": "#/$defs/naturalWeapon"
+          }
+        },
+        "multiattackReduction": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "customization": {
+          "$ref": "#/$defs/speciesCustomization"
+        },
+        "noConstitution": {
+          "type": "boolean"
+        },
+        "heuristicProcessor": {
+          "type": "boolean"
+        },
         "fixedAbilities": {
           "type": "object",
           "additionalProperties": false,
@@ -3529,26 +3632,59 @@
           }
         },
         "forceRestrictions": {
-          "type": "object", "additionalProperties": false, "minProperties": 1,
+          "type": "object",
+          "additionalProperties": false,
+          "minProperties": 1,
           "properties": {
-            "forbidSensitivity": {"type": "boolean"},
-            "forbidChecks": {"type": "boolean"},
-            "forbidPoints": {"type": "boolean"}
+            "forbidSensitivity": {
+              "type": "boolean"
+            },
+            "forbidChecks": {
+              "type": "boolean"
+            },
+            "forbidPoints": {
+              "type": "boolean"
+            }
           }
         },
-        "unproficientWeaponPenalty": {"type": "integer", "minimum": -5, "maximum": 0},
+        "unproficientWeaponPenalty": {
+          "type": "integer",
+          "minimum": -5,
+          "maximum": 0
+        },
         "unproficientArmorPenalties": {
-          "type": "object", "additionalProperties": false,
-          "required": ["light", "medium", "heavy"],
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "light",
+            "medium",
+            "heavy"
+          ],
           "properties": {
-            "light": {"type": "integer", "minimum": -10, "maximum": 0},
-            "medium": {"type": "integer", "minimum": -10, "maximum": 0},
-            "heavy": {"type": "integer", "minimum": -10, "maximum": 0}
+            "light": {
+              "type": "integer",
+              "minimum": -10,
+              "maximum": 0
+            },
+            "medium": {
+              "type": "integer",
+              "minimum": -10,
+              "maximum": 0
+            },
+            "heavy": {
+              "type": "integer",
+              "minimum": -10,
+              "maximum": 0
+            }
           }
         },
         "conditionalFeats": {
-          "type": "array", "uniqueItems": true,
-          "items": {"type": "string", "pattern": "^feat:[a-z0-9-]+$"}
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^feat:[a-z0-9-]+$"
+          }
         },
         "conditionalStartingFeats": {
           "type": "array",
@@ -3557,21 +3693,85 @@
             "type": "string",
             "pattern": "^feat:[a-z0-9-]+$"
           }
+        },
+        "droidStartingPackage": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "processor",
+            "appendages",
+            "locomotionBySize",
+            "credits"
+          ],
+          "properties": {
+            "processor": {
+              "const": "equipment:heuristic-processor"
+            },
+            "appendages": {
+              "const": 2
+            },
+            "locomotionBySize": {
+              "const": {
+                "small": "equipment:tracked",
+                "medium": "equipment:walking"
+              }
+            },
+            "credits": {
+              "const": 1000
+            }
+          }
         }
       }
     },
     "naturalWeapon": {
-      "type": "object", "additionalProperties": false,
-      "required": ["id", "name", "damage", "damageType"],
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "damage",
+        "damageType"
+      ],
       "properties": {
-        "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,39}$"},
-        "name": {"type": "string", "minLength": 1},
-        "damage": {"type": "string", "pattern": "^(1|[1-9][0-9]?d(2|3|4|6|8|10|12))$"},
-        "damageType": {"enum": ["Slashing", "Piercing", "Bludgeoning", "Energy"]},
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]{0,39}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "damage": {
+          "type": "string",
+          "pattern": "^(1|[1-9][0-9]?d(2|3|4|6|8|10|12))$"
+        },
+        "damageType": {
+          "enum": [
+            "Slashing",
+            "Piercing",
+            "Bludgeoning",
+            "Energy"
+          ]
+        },
         "damageBySize": {
           "type": "object",
-          "propertyNames": {"enum": ["fine", "diminutive", "tiny", "small", "medium", "large", "huge", "gargantuan", "colossal"]},
-          "additionalProperties": {"type": "string", "pattern": "^(1|[1-9][0-9]?d(2|3|4|6|8|10|12))$"}
+          "propertyNames": {
+            "enum": [
+              "fine",
+              "diminutive",
+              "tiny",
+              "small",
+              "medium",
+              "large",
+              "huge",
+              "gargantuan",
+              "colossal"
+            ]
+          },
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^(1|[1-9][0-9]?d(2|3|4|6|8|10|12))$"
+          }
         }
       }
     },
@@ -3996,7 +4196,7 @@
               "enum": [
                 "species",
                 "trained",
-              "feat"
+                "feat"
               ]
             },
             "value": {
@@ -5081,6 +5281,122 @@
           "items": {
             "$ref": "#/$defs/classEntryRequirement"
           }
+        }
+      }
+    },
+    "droidSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "costModel",
+        "weightModel"
+      ],
+      "properties": {
+        "category": {
+          "enum": [
+            "locomotion",
+            "processor",
+            "appendage",
+            "accessory",
+            "upgrade",
+            "external",
+            "armor"
+          ]
+        },
+        "costModel": {
+          "enum": [
+            "flat",
+            "factor",
+            "locomotion",
+            "capacity",
+            "manual"
+          ]
+        },
+        "weightModel": {
+          "enum": [
+            "flat",
+            "factor",
+            "accessory",
+            "manual"
+          ]
+        },
+        "movement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "small",
+            "medium",
+            "large",
+            "terrain",
+            "climbPenalty",
+            "climbAllowed"
+          ],
+          "properties": {
+            "small": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "medium": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "large": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "terrain": {
+              "enum": [
+                "normal",
+                "ignore",
+                "double"
+              ]
+            },
+            "climbPenalty": {
+              "enum": [
+                -5,
+                0
+              ]
+            },
+            "climbAllowed": {
+              "type": "boolean"
+            }
+          }
+        },
+        "processor": {
+          "enum": [
+            "basic",
+            "heuristic"
+          ]
+        },
+        "appendageDamage": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "vision": {
+          "enum": [
+            "darkvision",
+            "low-light"
+          ]
+        },
+        "capacityBySize": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 5000
+          }
+        },
+        "builtIn": {
+          "const": true
         }
       }
     }

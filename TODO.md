@@ -126,7 +126,8 @@
 - [x] Manual/Partial coverage markers for current options; saved manual prerequisite confirmation.
 - [x] Enable all 1,036 talent sections in 146 class/common Force trees as 1,034 mechanical options, with published class access and source text.
 - [x] All 26 Force Tradition trees: 122 talent choices, membership declarations, acquisition levels, exact admission articles and typed access.
-- [ ] Remaining five degree-specific droid trees, species, equipment and other official catalogs.
+- [x] Remaining five degree-specific droid trees.
+- [ ] Remaining species, equipment and other official catalogs.
 - [x] Automate Watchful Step, Engineer Lineage, Dark Deception, Commanding Presence and Stolen Form permanent grants, including legacy form choices and prerequisite replay.
 - [x] Dedicated Destiny/Background, Destiny Points and Force Traditions modules, shared builder/sheet choices and a bounded Destiny Point counter.
 - [ ] Automate Destiny Point effects, ongoing Destiny benefits/penalties and fulfillment rewards.
@@ -162,5 +163,6 @@
 - [ ] Automate remaining Near-Human contextual/activated traits and installed augmentation effects, including explicit installation and inventory handling.
 - [x] Custom Droid creation: five-score generation and 21-point budget, absent Constitution, Strength Fortitude, degree/size/language choices, source restrictions and independent saved ability profiles.
 - [x] All 35 official degree talents selectable in their matching degree trees, exact articles, Task Optimization secondary choice and Heavy-Duty Actuators size prerequisite.
+- [x] Selectable Droid Systems: 109 official pages and 133 profiles, source tables, variant grouping, size/speed pricing, locomotion surcharges, license fees, compartment capacity and built-in armor movement.
 - [ ] Droid Systems: starting equipment and separate 1,000-credit allowance, locomotion (including Tracked terrain/Climb), upgrades, maintenance/reprogramming/shutdown and complete immunity handling.
 - [ ] Standard droid models and stock chassis; complete Replica Droid and Shard creation with their distinct physiology and systems.

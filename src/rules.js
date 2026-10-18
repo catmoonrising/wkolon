@@ -387,7 +387,8 @@ export function derive(c, pack) {
   const energyShields=activeShields(c,pack),shieldLimits=shieldRestrictions(energyShields,ctx,pack);
   const allDeclaredArmor=wornArmor(c,pack);
   for(const r of allDeclaredArmor)if(r.wearerSize&&r.wearerSize!==species.size)issues.push(r.name+' fits '+r.wearerSize+' creatures');
-  const declaredArmor=allDeclaredArmor.filter(r=>!r.wearerSize||r.wearerSize===species.size),bodyArmor=declaredArmor.filter(r=>(r.armorSlot||'body')==='body');
+  for(const r of allDeclaredArmor)if(r.droidSystem?.builtIn&&!species.isDroid&&!species.usesDroidSystems)issues.push(r.name+' requires a Droid body');
+  const declaredArmor=allDeclaredArmor.filter(r=>(!r.wearerSize||r.wearerSize===species.size)&&(!r.droidSystem?.builtIn||species.isDroid||species.usesDroidSystems)),bodyArmor=declaredArmor.filter(r=>(r.armorSlot||'body')==='body');
   if(bodyArmor.length>1)issues.push('Only one suit of armor can be equipped');
   const armorItems=[...bodyArmor.slice(0,1),...declaredArmor.filter(r=>r.armorSlot==='tandem')];
   const armor=bodyArmor[0]||armorItems.slice().sort((a,b)=>b.armorBonus-a.armorBonus)[0]||null;
@@ -546,7 +547,7 @@ export function derive(c, pack) {
   if(generation.abilityMethod==='point-buy'&&pointCost>generation.pointBudget)issues.push('Point-buy budget exceeded or a base score is outside 8–18');
   const movement = pack.rules.armorMovement;
   const unrestrictedArmor = total('armorMovement') > 0;
-  const armorSpeedMultiplier = n => armor && !unrestrictedArmor && !(ctx.isDroid&&armor.category==='heavy'&&!movement.droidHeavySlowedSpeeds.includes(n)) ? movement.speedMultipliers[armor.category] : 1;
+  const armorSpeedMultiplier = n => armor && !armor.droidSystem?.builtIn && !unrestrictedArmor && !(ctx.isDroid&&armor.category==='heavy'&&!movement.droidHeavySlowedSpeeds.includes(n)) ? movement.speedMultipliers[armor.category] : 1;
   const speedMultiplier = armorSpeedMultiplier(species.speed);
   const stride = total('speed');
   const loadMultiplier=load.heavy?pack.rules.encumbrance.speedMultiplier:1;

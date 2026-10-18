@@ -14,7 +14,7 @@ function hero(cls='soldier'){const c=newCharacter(pack,{classId:'class:scoundrel
 const skill=(d,id)=>d.skills.find(s=>s.id==='skill:'+id).total;
 
 test('supplemental armor has reviewed stats, source articles and unlisted prices stay owned-only',()=>{
- assert.equal(pack.equipment.filter(r=>r.kind==='armor'&&!r.energyShield).length,66);
+ assert.equal(pack.equipment.filter(r=>r.kind==='armor'&&!r.energyShield&&!r.droidSystem).length,66);
  for(const name of ['AV-1C Combat Armor','Katarn-Class Commando Armor','Dark Armor','Orbalisk Armor','Darth Revan\'s Armor']){
   const r=pack.equipment.find(r=>r.name===name);assert(r?.article?.blocks.length);assert(pack.sources.some(s=>s.id===r.sourceId));
  }

@@ -1496,3 +1496,36 @@ including languages not native to an imported species. The saved value is a
 known option ID or a nonblank name of up to 100 characters; line breaks and null
 characters are rejected. This remains language understanding, not a grant of
 spoken proficiency or a vocabulator.
+
+### Droid Systems
+
+`equipment.droidSystem` separates system category, price formula and weight
+formula. `rules.droidSystems` pins the nine body-size cost factors and the
+additional-locomotion fees (0, 500, 1,000, 2,000 and 5,000 times Cost Factor).
+The base `cost` and `weight` fields are coefficients when their model requires
+multiplication. Always use `resolveEquipment` or `purchaseQuote` for prices;
+never charge a coefficient directly.
+
+Price models are `flat`, `factor`, `locomotion` (factor times base speed squared),
+`capacity` (50 credits per kg) and `manual`. Weight models are `flat`, `factor`,
+`accessory` and `manual`. Small and smaller accessory weights use 2 divided by
+Cost Factor; their prices and appendage weights retain the ordinary factor.
+Droid armor uses accessory scaling, independently of humanoid armor scaling.
+Unknown values remain null. Remote Receiver's negative printed price remains
+manual pending a reviewed replacement/credit model.
+
+Inventory stores `systemSize`, optional `systemUnits` for compartment capacity,
+and `systemOrdinal` for locomotion installation number. Six represents an
+unspecified price for a sixth or later system, not a prohibition. Missing
+locomotion installation numbers also require manual pricing. Saved parts retain
+their size when the character's species changes. Quotes without an explicit
+part size use the species' selected physical size. Licenses and market prices
+apply after resolving the system's base price.
+
+`movement`, `processor`, `appendageDamage`, `vision` and `capacityBySize` retain
+reviewed system facts for installation automation. Gear effects remain Manual
+until connected to installed-system state. Built-in armor already uses the
+ordinary armor engine, except it never reduces movement speed and still limits
+running in Heavy Armor. `species.droidStartingPackage` records the provided
+processor, number of arms, locomotion by size and separate starting allowance;
+its grants and allowance are pending runtime integration.

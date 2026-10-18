@@ -1,4 +1,5 @@
 import {validateCustomizationData} from '../src/species-customization.js';
+import {validateDroidSystemData} from '../src/droid-systems.js';
 import {WIKI_TAGS, wikiURL} from '../src/wiki-content.js';
 import fs from 'node:fs';
 import {ABILITIES, GROUPS, indexPack} from '../src/rules.js';
@@ -18,6 +19,12 @@ export function validatePack(p) {
     const d=p.rules.droidAbilities;assert(d&&Object.keys(d).every(k=>['sourceIds','abilities','standardArray','pointBudget','minimumScore','fortitudeAbility','untrainedSkills'].includes(k)),'Invalid droid abilities');
     assert(Array.isArray(d.sourceIds)&&d.sourceIds.length&&d.sourceIds.every(id=>p.sources.some(s=>s.id===id)),'Missing droid ability sources');
     assert.deepEqual(d.abilities,['str','dex','int','wis','cha']);assert.deepEqual(d.standardArray,[15,14,13,12,10]);assert.equal(d.pointBudget,21);assert.equal(d.minimumScore,1);assert.equal(d.fortitudeAbility,'str');assert.deepEqual(d.untrainedSkills,['skill:acrobatics','skill:climb','skill:jump','skill:perception']);
+  }
+  if(p.rules.droidSystems!==undefined){
+    const d=p.rules.droidSystems;assert(d&&Object.keys(d).sort().join(',')==='additionalLocomotionCosts,costFactors,sourceIds','Invalid Droid System rules');
+    assert(Array.isArray(d.sourceIds)&&d.sourceIds.length&&d.sourceIds.every(id=>p.sources.some(s=>s.id===id)),'Missing Droid System sources');
+    assert.deepEqual(d.costFactors,{fine:20,diminutive:10,tiny:5,small:2,medium:1,large:2,huge:5,gargantuan:10,colossal:20});
+    assert.deepEqual(d.additionalLocomotionCosts,[0,500,1000,2000,5000]);
   }
   for (const k of ['id','version','name']) assert.equal(typeof p[k], 'string', k);
   for (const k of ['species','classes','skills','feats','talents','equipment','sources']) assert(Array.isArray(p[k]), k);
@@ -82,6 +89,11 @@ export function validatePack(p) {
     }
     if (key === 'species') {
       validateCustomizationData(r,p,message=>{throw new Error(message);});
+      if(r.droidStartingPackage!==undefined){
+        const d=r.droidStartingPackage;assert(r.isDroid&&d&&Object.keys(d).sort().join(',')==='appendages,credits,locomotionBySize,processor','Invalid Droid starting package');
+        assert.equal(d.processor,'equipment:heuristic-processor');assert.equal(d.appendages,2);assert.equal(d.credits,1000);assert.deepEqual(d.locomotionBySize,{small:'equipment:tracked',medium:'equipment:walking'});
+        for(const id of [d.processor,...Object.values(d.locomotionBySize)])requireRef('equipment',id);
+      }
       if(r.creationChoices!==undefined){
         assert(Array.isArray(r.creationChoices)&&r.creationChoices.length>0,'Invalid species choice groups');
         const groupIds=new Set();
@@ -250,6 +262,7 @@ export function validatePack(p) {
     }
     if (key === 'equipment') {
       assert(['weapon','armor','gear'].includes(r.kind)); assert((r.cost===null || Number.isFinite(r.cost) && r.cost>=0) && (r.weight===null || Number.isFinite(r.weight) && r.weight>=0));
+      validateDroidSystemData(r,p,message=>{throw new Error(r.id+': '+message);});
       if(r.retractableStock){assert(r.kind==='weapon'&&r.group==='rifles');assert.deepEqual(Object.keys(r.retractableStock),['withoutCost']);assert(Number.isFinite(r.retractableStock.withoutCost)&&r.retractableStock.withoutCost>=0&&r.retractableStock.withoutCost<r.cost,'Invalid stockless cost');}
       if(r.scope){assert(r.kind==='gear');assert.deepEqual(Object.keys(r.scope).sort(),['ignoresDarkness','rangeReduction']);assert(r.scope.rangeReduction===1&&typeof r.scope.ignoresDarkness==='boolean','Invalid targeting scope');}
       if(r.ammunitionProfiles!==undefined){

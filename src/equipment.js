@@ -1,3 +1,4 @@
+import {droidSystemQuote,droidSystemUsesSize,validateDroidInventory} from './droid-systems.js';
 export const armorScale=size=>size===undefined?1:({small:.5,medium:1,large:2})[size]??null;
 export function equipmentFamilies(pack,kind){
  const families=new Map();
@@ -11,9 +12,10 @@ export function equipmentFamilies(pack,kind){
 export function resolveEquipment(e,pack,c={}){
  const r=pack.equipment.find(r=>r.id===e.id);
  if(!r)throw new Error('Unknown equipment');
+ const system=r.droidSystem?droidSystemQuote(r,e,pack,c):null;
  const options=(r.upgrades||[]).filter(u=>(e.options||[]).includes(u.id));
- const scale=r.kind==='armor'&&!r.energyShield?armorScale(r.wearerSize||e.armorSize):1;
- const base=r.cost===null||scale===null?null:(r.retractableStock&&e.stockPosition==='none'?r.retractableStock.withoutCost:r.cost)*scale;
+ const scale=r.kind==='armor'&&!r.energyShield&&!system?armorScale(r.wearerSize||e.armorSize):1;
+ const base=system?system.cost:r.cost===null||scale===null?null:(r.retractableStock&&e.stockPosition==='none'?r.retractableStock.withoutCost:r.cost)*scale;
  let cost=base;
  if(cost!==null){
   const mini=options.find(u=>u.id==='miniaturized');
@@ -25,9 +27,12 @@ export function resolveEquipment(e,pack,c={}){
   else cost+=functional.reduce((n,u)=>n+base*u.costMultiplier,0);
  }
  const unknownWeight=options.some(u=>u.changesWeight);
- const weight=e.weightOverride??(unknownWeight||r.weight===null||scale===null?null:r.weight*scale);
- const tags=[r.variant,...options.map(u=>u.name),...(r.kind==='armor'&&!r.energyShield&&(r.wearerSize||e.armorSize)&&(r.wearerSize||e.armorSize)!=='medium'?[(r.wearerSize||e.armorSize).replace(/^./,s=>s.toUpperCase())]:[])].filter(Boolean);
+ const weight=e.weightOverride??(system?system.weight:unknownWeight||r.weight===null||scale===null?null:r.weight*scale);
+ const partSize=system?.systemSize||r.wearerSize||e.armorSize;
+ const tags=[r.variant,...options.map(u=>u.name),...(r.kind==='armor'&&!r.energyShield&&partSize&&partSize!=='medium'?[partSize.replace(/^./,s=>s.toUpperCase())]:[])].filter(Boolean);
  const mode=r.modes?.find(m=>m.id===(e.weaponMode||r.modes[0].id));
+ if(system&&droidSystemUsesSize(r)&&r.kind!=='armor'&&system.systemSize!=='medium')tags.push(system.systemSize.replace(/^./,s=>s.toUpperCase()));
+ if(system?.systemCapacity!==undefined)tags.push(system.systemCapacity+' kg');
  const launcher=r.launchers?.find(l=>l.id===(e.launcher||r.launchers[0].id));
  const ammunition=r.ammunition&&pack.equipment.find(w=>w.id===e.ammunitionId);
  if(mode)tags.push(mode.name);
@@ -41,7 +46,7 @@ export function resolveEquipment(e,pack,c={}){
  const stun=!!ammunition?.stunOnly||!!r.stunOnly||e.damageSetting==='stun';
  const damageType=stun?(r.stunDamageType||ammunition?.damageType||r.damageType)+' (Stun)':ammunition?.damageType||r.damageType;
  if(stun&&!r.stunOnly&&!ammunition?.stunOnly)tags.push('Stun');
- return {...r,...(r.kind==='armor'&&!r.energyShield?{wearerSize:r.wearerSize||e.armorSize,...(scale===null?{purchasePending:true,manualSize:true}:{})}:{}),...mode,...(launcher?{rangeType:launcher.rangeType,accurate:launcher.accurate}:{}),...(ammunition?{damage:ammunition.damage,areaType:ammunition.areaType,stunDamage:ammunition.stunDamage}:{}),...(stun&&r.stunDamage?{damage:r.stunDamage}:{}),...(r.retractableStock&&e.stockPosition==='folded'?{group:'pistols',rangeType:'pistols'}:{}),...(throwing?{mode:'ranged',rangeType:'thrown'}:{}),damageType,damageEffect:stun?'stun':damageType==='Ion'?'ion':'normal',id:r.id,cost,weight,name:r.family?`${r.family} (${tags.join(', ')})`:r.name+(tags.length?` (${tags.join(', ')})`:'')};
+ return {...r,...system,...(r.kind==='armor'&&!r.energyShield?{wearerSize:system?.systemSize||r.wearerSize||e.armorSize,...(scale===null?{purchasePending:true,manualSize:true}:{})}:{}),...mode,...(launcher?{rangeType:launcher.rangeType,accurate:launcher.accurate}:{}),...(ammunition?{damage:ammunition.damage,areaType:ammunition.areaType,stunDamage:ammunition.stunDamage}:{}),...(stun&&r.stunDamage?{damage:r.stunDamage}:{}),...(r.retractableStock&&e.stockPosition==='folded'?{group:'pistols',rangeType:'pistols'}:{}),...(throwing?{mode:'ranged',rangeType:'thrown'}:{}),damageType,damageEffect:stun?'stun':damageType==='Ion'?'ion':'normal',id:r.id,cost,weight,name:r.family?`${r.family} (${tags.join(', ')})`:r.name+(tags.length?` (${tags.join(', ')})`:'')};
 }
 export function purchaseQuote(e,quantity,pack,c,{license=true,market='normal',benefits={}}={}){
  const item=resolveEquipment(e,pack,c);
@@ -54,6 +59,7 @@ export function purchaseQuote(e,quantity,pack,c,{license=true,market='normal',be
 }
 export function validateInventoryOptions(e,pack,bad){
  const r=pack.equipment.find(r=>r.id===e.id);
+ validateDroidInventory(e,r,pack,bad);
  if(e.options!==undefined&&(!Array.isArray(e.options)||new Set(e.options).size!==e.options.length||e.options.some(id=>!r.upgrades?.some(u=>u.id===id))))bad('equipment options');
  if(e.armorSize!==undefined&&(r.kind!=='armor'||r.energyShield||!pack.rules.weaponSizeOrder.includes(e.armorSize)))bad('armor size');
  if(r.wearerSize&&e.armorSize!==undefined&&e.armorSize!==r.wearerSize)bad('stock armor size');
