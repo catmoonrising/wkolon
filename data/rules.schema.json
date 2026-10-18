@@ -50,7 +50,64 @@
     "rules": {
       "type": "object",
       "properties": {
-        "combat": {
+        "droidAbilities": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "sourceIds",
+          "abilities",
+          "standardArray",
+          "pointBudget",
+          "minimumScore",
+          "fortitudeAbility",
+          "untrainedSkills"
+        ],
+        "properties": {
+          "sourceIds": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "abilities": {
+            "const": [
+              "str",
+              "dex",
+              "int",
+              "wis",
+              "cha"
+            ]
+          },
+          "standardArray": {
+            "const": [
+              15,
+              14,
+              13,
+              12,
+              10
+            ]
+          },
+          "pointBudget": {
+            "const": 21
+          },
+          "minimumScore": {
+            "const": 1
+          },
+          "fortitudeAbility": {
+            "const": "str"
+          },
+          "untrainedSkills": {
+            "const": [
+              "skill:acrobatics",
+              "skill:climb",
+              "skill:jump",
+              "skill:perception"
+            ]
+          }
+        }
+      },
+      "combat": {
           "type": "object",
           "required": [
             "sourceIds",
@@ -3171,6 +3228,38 @@
       "allOf": [
         {
           "$ref": "#/$defs/record"
+        },
+        {
+          "if": {
+            "required": [
+              "noConstitution"
+            ],
+            "properties": {
+              "noConstitution": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "fixedAbilities": {
+                "not": {
+                  "required": [
+                    "con"
+                  ]
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "fixedAbilities": {
+                "required": [
+                  "con"
+                ]
+              }
+            }
+          }
         }
       ],
       "properties": {
@@ -3394,16 +3483,49 @@
         "naturalWeapons": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"$ref": "#/$defs/naturalWeapon"}},
         "multiattackReduction": {"type": "integer", "minimum": 1, "maximum": 10},
         "customization": {"$ref": "#/$defs/speciesCustomization"},
+        "noConstitution": {"type": "boolean"},
+        "heuristicProcessor": {"type": "boolean"},
         "fixedAbilities": {
-          "type": "object", "additionalProperties": false,
-          "required": ["str", "dex", "con", "int", "wis", "cha"],
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "str",
+            "dex",
+            "int",
+            "wis",
+            "cha"
+          ],
           "properties": {
-            "str": {"type": "integer", "minimum": 3, "maximum": 30},
-            "dex": {"type": "integer", "minimum": 3, "maximum": 30},
-            "con": {"type": "integer", "minimum": 3, "maximum": 30},
-            "int": {"type": "integer", "minimum": 3, "maximum": 30},
-            "wis": {"type": "integer", "minimum": 3, "maximum": 30},
-            "cha": {"type": "integer", "minimum": 3, "maximum": 30}
+            "str": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 30
+            },
+            "dex": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 30
+            },
+            "con": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 30
+            },
+            "int": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 30
+            },
+            "wis": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 30
+            },
+            "cha": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 30
+            }
           }
         },
         "forceRestrictions": {
@@ -3456,95 +3578,388 @@
     "speciesCreationChoice": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "name", "kind", "options"],
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "options"
+      ],
       "properties": {
-        "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
-        "name": {"type": "string", "minLength": 1},
-        "kind": {"enum": ["ability", "language", "skillFocus", "weaponFocus", "size", "trainedSkill", "startingFeat"]},
-        "defaultOption": {"type": "string"},
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "ability",
+            "language",
+            "skillFocus",
+            "weaponFocus",
+            "size",
+            "trainedSkill",
+            "startingFeat",
+            "droidDegree",
+            "understoodLanguage"
+          ]
+        },
+        "defaultOption": {
+          "type": "string"
+        },
         "options": {
-          "type": "array", "minItems": 2,
+          "type": "array",
+          "minItems": 2,
           "items": {
             "type": "object",
-            "required": ["id", "name"],
+            "required": [
+              "id",
+              "name"
+            ],
             "properties": {
-              "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
-              "name": {"type": "string", "minLength": 1}
+              "id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "name": {
+                "type": "string",
+                "minLength": 1
+              }
             }
           }
         }
       },
       "allOf": [
         {
-          "if": {"required": ["defaultOption"]},
-          "then": {"properties": {"kind": {"const": "size"}}}
-        },
-        {
-          "if": {"properties": {"kind": {"const": "size"}}},
-          "then": {"properties": {"options": {"items": {
-            "additionalProperties": false,
-            "required": ["id", "name", "size", "speed", "adjustments"],
+          "if": {
+            "required": [
+              "defaultOption"
+            ]
+          },
+          "then": {
             "properties": {
-              "id": {}, "name": {},
-              "size": {"enum": ["fine", "diminutive", "tiny", "small", "medium", "large", "huge", "gargantuan", "colossal"]},
-              "speed": {"type": "integer", "minimum": 0},
-              "adjustments": {
-                "type": "object",
-                "propertyNames": {"enum": ["str", "dex", "con", "int", "wis", "cha"]},
-                "additionalProperties": {"type": "integer", "minimum": -32, "maximum": 32, "not": {"const": 0}}
+              "kind": {
+                "const": "size"
               }
             }
-          }}}}
+          }
         },
         {
-          "if": {"properties": {"kind": {"const": "ability"}}},
-          "then": {"properties": {"options": {"items": {
-            "additionalProperties": false,
-            "required": ["id", "name", "adjustments"],
+          "if": {
             "properties": {
-              "id": {}, "name": {},
-              "adjustments": {
-                "type": "object", "minProperties": 1,
-                "propertyNames": {"enum": ["str", "dex", "con", "int", "wis", "cha"]},
-                "additionalProperties": {"type": "integer", "minimum": -10, "maximum": 10, "not": {"const": 0}}
+              "kind": {
+                "const": "size"
               }
             }
-          }}}}
-        },
-        {
-          "if": {"properties": {"kind": {"const": "language"}}},
-          "then": {"properties": {"options": {"items": {
-            "additionalProperties": false,
-            "required": ["id", "name", "language"],
-            "properties": {"id": {}, "name": {}, "language": {"type": "string", "minLength": 1, "maxLength": 100}}
-          }}}}
-        },
-        {
-          "if": {"properties": {"kind": {"enum": ["skillFocus", "trainedSkill"]}}},
-          "then": {"properties": {"options": {"items": {
-            "additionalProperties": false,
-            "required": ["id", "name", "skillId"],
-            "properties": {"id": {}, "name": {}, "skillId": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}}
-          }}}}
-        },
-        {
-          "if": {"properties": {"kind": {"const": "weaponFocus"}}},
-          "then": {"properties": {"options": {"items": {
-            "additionalProperties": false,
-            "required": ["id", "name", "choice"],
+          },
+          "then": {
             "properties": {
-              "id": {}, "name": {}, "choice": {"type": "string"},
-              "requiresFeat": {"type": "string", "pattern": "^feat:[a-z0-9-]+$"}
+              "options": {
+                "items": {
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "name",
+                    "size",
+                    "speed",
+                    "adjustments"
+                  ],
+                  "properties": {
+                    "id": {},
+                    "name": {},
+                    "size": {
+                      "enum": [
+                        "fine",
+                        "diminutive",
+                        "tiny",
+                        "small",
+                        "medium",
+                        "large",
+                        "huge",
+                        "gargantuan",
+                        "colossal"
+                      ]
+                    },
+                    "speed": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "adjustments": {
+                      "type": "object",
+                      "propertyNames": {
+                        "enum": [
+                          "str",
+                          "dex",
+                          "con",
+                          "int",
+                          "wis",
+                          "cha"
+                        ]
+                      },
+                      "additionalProperties": {
+                        "type": "integer",
+                        "minimum": -32,
+                        "maximum": 32,
+                        "not": {
+                          "const": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
-          }}}}
+          }
         },
         {
-          "if": {"properties": {"kind": {"const": "startingFeat"}}},
-          "then": {"properties": {"options": {"items": {
-            "additionalProperties": false,
-            "required": ["id", "name", "featId"],
-            "properties": {"id": {}, "name": {}, "featId": {"type": "string", "pattern": "^feat:[a-z0-9-]+$"}}
-          }}}}
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "ability"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "options": {
+                "items": {
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "name",
+                    "adjustments"
+                  ],
+                  "properties": {
+                    "id": {},
+                    "name": {},
+                    "adjustments": {
+                      "type": "object",
+                      "minProperties": 1,
+                      "propertyNames": {
+                        "enum": [
+                          "str",
+                          "dex",
+                          "con",
+                          "int",
+                          "wis",
+                          "cha"
+                        ]
+                      },
+                      "additionalProperties": {
+                        "type": "integer",
+                        "minimum": -10,
+                        "maximum": 10,
+                        "not": {
+                          "const": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "language",
+                  "understoodLanguage"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "options": {
+                "items": {
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "name",
+                    "language"
+                  ],
+                  "properties": {
+                    "id": {},
+                    "name": {},
+                    "language": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "skillFocus",
+                  "trainedSkill"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "options": {
+                "items": {
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "name",
+                    "skillId"
+                  ],
+                  "properties": {
+                    "id": {},
+                    "name": {},
+                    "skillId": {
+                      "type": "string",
+                      "pattern": "^skill:[a-z0-9-]+$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "weaponFocus"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "options": {
+                "items": {
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "name",
+                    "choice"
+                  ],
+                  "properties": {
+                    "id": {},
+                    "name": {},
+                    "choice": {
+                      "type": "string"
+                    },
+                    "requiresFeat": {
+                      "type": "string",
+                      "pattern": "^feat:[a-z0-9-]+$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "startingFeat"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "options": {
+                "items": {
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "name",
+                    "featId"
+                  ],
+                  "properties": {
+                    "id": {},
+                    "name": {},
+                    "featId": {
+                      "type": "string",
+                      "pattern": "^feat:[a-z0-9-]+$"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "droidDegree"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "options": {
+                "items": {
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "name",
+                    "adjustments",
+                    "degree",
+                    "talentTrees"
+                  ],
+                  "properties": {
+                    "id": {},
+                    "name": {},
+                    "adjustments": {
+                      "type": "object",
+                      "minProperties": 1,
+                      "propertyNames": {
+                        "enum": [
+                          "str",
+                          "dex",
+                          "con",
+                          "int",
+                          "wis",
+                          "cha"
+                        ]
+                      },
+                      "additionalProperties": {
+                        "type": "integer",
+                        "minimum": -10,
+                        "maximum": 10,
+                        "not": {
+                          "const": 0
+                        }
+                      }
+                    },
+                    "degree": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 5
+                    },
+                    "talentTrees": {
+                      "type": "array",
+                      "minItems": 1,
+                      "uniqueItems": true,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       ]
     },

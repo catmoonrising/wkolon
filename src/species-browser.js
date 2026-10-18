@@ -5,13 +5,14 @@ import {escapeHTML as escape, articleText, renderArticle} from './wiki-content.j
 const title=value=>value[0].toUpperCase()+value.slice(1);
 const modifiers=adjustments=>ABILITIES.filter(a=>adjustments[a]).map(a=>`${signed(adjustments[a])} ${title(a)}`).join(', ');
 function abilityText(r){
+ if(r.noConstitution&&(r.creationChoices||[]).some(g=>g.kind==='droidDegree'))return 'No CON; varies';
  const variable=(r.creationChoices||[]).filter(g=>g.kind==='ability').map(g=>g.options.map(o=>(Object.keys(o.adjustments).length>1?o.name+': ':'')+modifiers(o.adjustments)).join(' or '));
- return [r.fixedAbilities?ABILITIES.map(a=>a.toUpperCase()+' '+r.fixedAbilities[a]).join(', '):'',modifiers(r.abilityAdjustments),...variable].filter(Boolean).join('; ')||'-';
+ return [r.noConstitution?'No CON':'',r.fixedAbilities?ABILITIES.filter(a=>!r.noConstitution||a!=='con').map(a=>a.toUpperCase()+' '+r.fixedAbilities[a]).join(', '):'',modifiers(r.abilityAdjustments),...variable].filter(Boolean).join('; ')||'-';
 }
 const abilityTotal=r=>Object.values(r.abilityAdjustments).reduce((n,v)=>n+v,0)+(r.creationChoices||[]).filter(g=>g.kind==='ability').reduce((sum,g)=>sum+g.options.reduce((n,o)=>n+Object.values(o.adjustments).reduce((n,v)=>n+v,0),0)/g.options.length,0);
 export function speciesChoiceControls(species,groups,{legend=true}={}) {
   const active=groups.filter(g=>g.active||g.kind==='startingFeat');
-  return active.length?`<fieldset class="species-choices">${legend?`<legend>${escape(species.name)}</legend>`:''}<div class="actions">${active.map(g=>`<label>${escape(g.name)}<select data-species-choice="${g.id}" aria-label="${escape(species.name+' '+g.name)}">${g.defaultOption===undefined?`<option value="" ${g.selected===null?'selected':''}>Choose…</option>`:''}${g.options.map(o=>`<option value="${o.id}" ${o.id===g.selected?'selected':''} ${o.available?'':'disabled'}>${escape(o.name)}</option>`).join('')}</select></label>`).join('')}</div></fieldset>`:'';
+  return active.length?`<fieldset class="species-choices">${legend?`<legend>${escape(species.name)}</legend>`:''}<div class="actions">${active.map(g=>`<label>${escape(g.name)}${g.kind==='understoodLanguage'?`<input type="text" maxlength="100" data-species-choice="${g.id}" list="species-languages-${g.id}" aria-label="${escape(species.name+' '+g.name)}" value="${escape(g.options.find(o=>o.id===g.selected)?.name||g.selected||'')}"><datalist id="species-languages-${g.id}">${g.options.map(o=>`<option value="${escape(o.name)}"></option>`).join('')}</datalist>`:`<select data-species-choice="${g.id}" aria-label="${escape(species.name+' '+g.name)}">${g.defaultOption===undefined?`<option value="" ${g.selected===null?'selected':''}>Choose…</option>`:''}${g.options.map(o=>`<option value="${o.id}" ${o.id===g.selected?'selected':''} ${o.available?'':'disabled'}>${escape(o.name+(g.kind==='droidDegree'?' ('+modifiers(o.adjustments)+')':''))}</option>`).join('')}</select>`}</label>`).join('')}</div></fieldset>`:'';
 }
 export function createSpeciesBrowser(pack) {
   let query='';const expanded=new Set();

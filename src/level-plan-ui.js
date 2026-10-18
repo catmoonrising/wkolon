@@ -1,7 +1,8 @@
+import {activeAbilities} from './ability-profiles.js';
 import {classDeclarations} from './class-advancement-ui.js';
 import {choiceName} from './feature-choices.js';
 import {hasClassTalent} from './class-advancement.js';
-import {ABILITIES,indexPack,levelSlots} from './rules.js';
+import {indexPack,levelSlots} from './rules.js';
 import {escapeHTML as escape} from './wiki-content.js';
 import {optionArticle} from './creation-options.js';
 
@@ -19,7 +20,7 @@ export function levelPlanTable(c,d,pack,{choice,reference}){
   const startingGroups=new Map();
   for(const f of granted){const r=ix.feats.get(f.selection.id),family=r.name.match(/^(Armor Proficiency|Weapon Proficiency) \((.*)\)$/),key=family?.[1]||r.id;if(!startingGroups.has(key))startingGroups.set(key,[]);startingGroups.get(key).push({r,f,variant:family?.[2]});}
   const startingReferences=[...startingGroups].map(([name,entries])=>entries.length>1?`<button type="button" data-plan-rules="${entries.map(e=>e.r.id).join(',')}" data-plan-rules-title="${escape(name)}">${escape(name+' ('+entries.map(e=>e.variant).join(', ')+')')}</button>`:reference(entries[0].r,null,entries[0].f.selection,'plan-starting-'+entries[0].r.id)).join('');
-  const increases=pack.rules.abilityLevels.includes(i+1)?[0,1].map(j=>`<select data-increase="${j}" data-level="${i}" aria-label="Level ${i+1} ability increase ${j+1}"><option value="">Choose…</option>${ABILITIES.map(a=>`<option value="${a}" ${l.abilityIncreases[j]===a?'selected':''}>+1 ${a.toUpperCase()}</option>`).join('')}</select>`).join(''):'';
+  const increases=pack.rules.abilityLevels.includes(i+1)?[0,1].map(j=>`<select data-increase="${j}" data-level="${i}" aria-label="Level ${i+1} ability increase ${j+1}"><option value="">Choose…</option>${activeAbilities(c,pack).map(a=>`<option value="${a}" ${l.abilityIncreases[j]===a?'selected':''}>+1 ${a.toUpperCase()}</option>`).join('')}</select>`).join(''):'';
   const className=pending?'Choose…':cls.name+' ('+(blocked?plannedClassLevel||1:row.classLevel)+')';
   const starting=!blocked&&i>0&&row.classLevel===1&&cls.startingFeats.length?pick(i,'startingFeat',0,{label:'Starting feat'},l.startingFeat):'';
   const talents=blocked?readOnly(l.talent,'talents','plan-inactive-talent-'+i):hasClassTalent(cls,row.classLevel)?pick(i,'talent',0,{label:'Talent'},l.talent):'';

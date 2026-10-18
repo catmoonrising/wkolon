@@ -1,45 +1,33 @@
-// pmcrwf's pool assignment, separated into Saga's generation and assignment steps.
-import {ABILITIES} from './rules.js';
+// pmcrwf's generation pools, with a separate five-score nonliving profile.
+import {activeAbilities,standardArray,abilityRecord} from './ability-profiles.js';
 const fixedAbilities=(c,pack)=>pack?.species.find(r=>r.id===c.species)?.fixedAbilities;
-export function generationState(c, pack) {
-  const fixed=fixedAbilities(c,pack);
-  if(fixed)return {fixed:true,pool:ABILITIES.map(a=>fixed[a]),assign:Object.fromEntries(ABILITIES.map((a,i)=>[a,i]))};
-  if (c.abilityGeneration) return c.abilityGeneration;
-  const pool = c.abilityMethod === 'standard' ? [...pack.rules.standardArray] : ABILITIES.map(a => c.abilities[a]);
-  const assign = {}, used = new Set();
-  for (const a of ABILITIES) {
-    const i = pool.findIndex((n,i) => n === c.abilities[a] && !used.has(i));
-    assign[a] = i < 0 ? null : i;
-    if (i >= 0) used.add(i);
-  }
-  return {pool, assign};
+export function generationState(c,pack){
+ const abilities=activeAbilities(c,pack),fixed=fixedAbilities(c,pack);
+ if(fixed)return {fixed:true,pool:abilities.map(a=>fixed[a]),assign:Object.fromEntries(abilities.map((a,i)=>[a,i]))};
+ const record=abilityRecord(c,pack);if(record.abilityGeneration)return record.abilityGeneration;
+ const pool=record.abilityMethod==='standard'?[...standardArray(c,pack)]:abilities.map(a=>record.abilities[a]),assign={},used=new Set();
+ for(const a of abilities){const i=pool.findIndex((n,i)=>n===record.abilities[a]&&!used.has(i));assign[a]=i<0?null:i;if(i>=0)used.add(i);}
+ return {pool,assign};
 }
-export function setGenerationMethod(c, method, pack) {
-  if(fixedAbilities(c,pack))return false;
-  c.abilityMethod = method;
-  const pool = method === 'standard' ? [...pack.rules.standardArray] : method === 'rolled' ? [] : Array(6).fill(method === 'point-buy' ? 8 : 10);
-  c.abilities = Object.fromEntries(ABILITIES.map(a => [a,10]));
-  c.abilityGeneration = {pool, assign: Object.fromEntries(ABILITIES.map(a => [a,null]))};
+export function setGenerationMethod(c,method,pack){
+ if(fixedAbilities(c,pack)||!['standard','point-buy','manual','rolled'].includes(method))return false;
+ const abilities=activeAbilities(c,pack),record=abilityRecord(c,pack,true);record.abilityMethod=method;
+ const pool=method==='standard'?[...standardArray(c,pack)]:method==='rolled'?[]:Array(abilities.length).fill(method==='point-buy'?8:10);
+ record.abilities=Object.fromEntries(abilities.map(a=>[a,10]));record.abilityGeneration={pool,assign:Object.fromEntries(abilities.map(a=>[a,null]))};
 }
-export function assignScore(c, ability, index, pack) {
-  if(fixedAbilities(c,pack))return false;
-  const state = generationState(c, pack);
-  if (index !== null && (!Number.isInteger(index) || !Number.isInteger(state.pool[index]) || Object.entries(state.assign).some(([a,i]) => a !== ability && i === index))) return false;
-  state.assign[ability] = index;
-  c.abilityGeneration = state;
-  c.abilities[ability] = index === null ? 10 : state.pool[index];
-  return true;
+export function assignScore(c,ability,index,pack){
+ if(fixedAbilities(c,pack)||!activeAbilities(c,pack).includes(ability))return false;
+ const state=generationState(c,pack);
+ if(index!==null&&(!Number.isInteger(index)||!Number.isInteger(state.pool[index])||Object.entries(state.assign).some(([a,i])=>a!==ability&&i===index)))return false;
+ state.assign[ability]=index;const record=abilityRecord(c,pack,true);record.abilityGeneration=state;record.abilities[ability]=index===null?10:state.pool[index];return true;
 }
-export function setPoolScore(c, index, value, pack) {
-  if(fixedAbilities(c,pack))return false;
-  if (!['point-buy','manual'].includes(c.abilityMethod) || !Number.isInteger(index) || index<0 || index>5 || !Number.isInteger(value) || value<3 || value>30 || (c.abilityMethod==='point-buy' && pack.rules.pointBuyCosts[value]===undefined)) return false;
-  const state=generationState(c,pack);
-  state.pool[index]=value;c.abilityGeneration=state;
-  for(const a of ABILITIES) if(state.assign[a]===index)c.abilities[a]=value;
-  return true;
+export function setPoolScore(c,index,value,pack){
+ if(fixedAbilities(c,pack))return false;
+ const record=abilityRecord(c,pack),abilities=activeAbilities(c,pack);
+ if(!['point-buy','manual'].includes(record.abilityMethod)||!Number.isInteger(index)||index<0||index>=abilities.length||!Number.isInteger(value)||value<3||value>30||record.abilityMethod==='point-buy'&&pack.rules.pointBuyCosts[value]===undefined)return false;
+ const state=generationState(c,pack);state.pool[index]=value;const saved=abilityRecord(c,pack,true);saved.abilityGeneration=state;for(const a of abilities)if(state.assign[a]===index)saved.abilities[a]=value;return true;
 }
-export function setRolledPool(c, pool, pack) {
-  if(fixedAbilities(c,pack))return false;
-  c.abilityGeneration = {pool: [...pool], assign: Object.fromEntries(ABILITIES.map(a => [a,null]))};
-  c.abilities = Object.fromEntries(ABILITIES.map(a => [a,10]));
+export function setRolledPool(c,pool,pack){
+ if(fixedAbilities(c,pack))return false;
+ const abilities=activeAbilities(c,pack),record=abilityRecord(c,pack,true);record.abilityGeneration={pool:[...pool],assign:Object.fromEntries(abilities.map(a=>[a,null]))};record.abilities=Object.fromEntries(abilities.map(a=>[a,10]));
 }

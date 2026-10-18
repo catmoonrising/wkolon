@@ -1465,3 +1465,34 @@ increase/decrease choices are unresolved drafts. Selecting a different trait or
 species retains earlier choices but removes their effects from derivation.
 Original ability generation, saved feats, ordinary training and inventory are
 preserved. Installed implant effects are not inferred from a recorded choice.
+
+### Droid ability profiles
+
+`rules.droidAbilities` pins the five ability IDs, standard package
+15/14/13/12/10, 21-point budget, minimum adjusted score 1, Strength for Fortitude,
+and the four allowed untrained skills for nonheuristic droids. A species with
+`noConstitution: true` uses that profile and must be a droid. `isDroid` retains
+its other combat meanings; `heuristicProcessor` separately lifts the ordinary
+droid untrained-skill restriction. Force Sensitivity/check restrictions do not
+imply a prohibition on spending Force Points.
+
+Characters retain their six-score organic generation unchanged. Optional
+`droidAbilities` stores the independent five-score `abilities`, `abilityMethod`,
+`pointBudget` and `abilityGeneration` pool/assignment state. Constitution is
+absent from that saved record, derived as null, and has modifier zero. It cannot
+be assigned, increased or supplied by equipment. Organic and droid state both
+survive saves and species changes. Standard, point-buy, rolled and manual
+methods use the active profile, including roll count, validation and budget.
+
+Species creation choices with `kind: "droidDegree"` carry the degree number,
+ability adjustments and accessible talent tree IDs. Size choices independently
+apply their printed adjustments and speed. `understoodLanguage` records a
+language understood by the droid without silently adding it to spoken languages.
+Talent access follows the current degree, with earlier selections retained and
+reported as unresolved when no longer eligible.
+
+Designer-language choices accept suggestions or an entered language name,
+including languages not native to an imported species. The saved value is a
+known option ID or a nonblank name of up to 100 characters; line breaks and null
+characters are rejected. This remains language understanding, not a grant of
+spoken proficiency or a vocabulator.

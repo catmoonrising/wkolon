@@ -1,5 +1,6 @@
 import {applySpeciesCustomization} from './species-customization.js';
 import {eligible,indexPack} from './rules.js';
+const languageValue=v=>typeof v==='string'&&v.trim().length>0&&v.length<=100&&!/[\r\n\x00]/.test(v);
 const object=value=>value!==null&&typeof value==='object'&&!Array.isArray(value);
 function duplicateGrant(species,c,group,option){
  if(!['trainedSkill','startingFeat'].includes(group.kind))return false;
@@ -11,12 +12,15 @@ function duplicateGrant(species,c,group,option){
 export function resolveSpecies(c,pack){
  const base=applySpeciesCustomization(pack.species.find(r=>r.id===c.species),c);
  if(!base.creationChoices?.length)return base;
- const species={...base,abilityAdjustments:{...base.abilityAdjustments},languages:[...base.languages],conditionalFocuses:[...(base.conditionalFocuses||[])],startingTrainedSkills:[...(base.startingTrainedSkills||[])],conditionalStartingFeats:[...(base.conditionalStartingFeats||[])]};
+ const species={...base,abilityAdjustments:{...base.abilityAdjustments},languages:[...base.languages],understoodLanguages:[...(base.understoodLanguages||[])],conditionalFocuses:[...(base.conditionalFocuses||[])],startingTrainedSkills:[...(base.startingTrainedSkills||[])],conditionalStartingFeats:[...(base.conditionalStartingFeats||[])]};
  for(const group of base.creationChoices){
-  const selected=group.options.find(o=>o.id===(c.speciesChoices?.[base.id]?.[group.id]??group.defaultOption));
+  const value=c.speciesChoices?.[base.id]?.[group.id]??group.defaultOption;
+  const selected=group.options.find(o=>o.id===value)||(group.kind==='understoodLanguage'&&languageValue(value)?{language:value.trim()}:null);
   if(!selected||duplicateGrant(base,c,group,selected))continue;
+  if(group.kind==='droidDegree'){species.droidDegree=selected.degree;species.droidTalentTrees=[...selected.talentTrees];}
   if(group.kind==='size'){species.size=selected.size;species.speed=selected.speed;}
-  if(['ability','size'].includes(group.kind))for(const [ability,amount]of Object.entries(selected.adjustments))species.abilityAdjustments[ability]=(species.abilityAdjustments[ability]||0)+amount;
+  if(['ability','size','droidDegree'].includes(group.kind))for(const [ability,amount]of Object.entries(selected.adjustments))species.abilityAdjustments[ability]=(species.abilityAdjustments[ability]||0)+amount;
+  if(group.kind==='understoodLanguage'&&!species.understoodLanguages.includes(selected.language))species.understoodLanguages.push(selected.language);
   if(group.kind==='language'&&!species.languages.includes(selected.language))species.languages.push(selected.language);
   if(group.kind==='skillFocus'&&!species.conditionalFocuses.includes(selected.skillId))species.conditionalFocuses.push(selected.skillId);
   if(group.kind==='weaponFocus'){species.conditionalWeaponFocuses??=[];species.conditionalWeaponFocuses.push(selected);}
@@ -32,7 +36,8 @@ export function speciesChoiceDetails(c,pack,ctx,firstLevel=ctx){
  const ix=indexPack(pack);
  return (species.creationChoices||[]).map(group=>{
   const selected=c.speciesChoices?.[species.id]?.[group.id]??group.defaultOption??null;
-  const options=group.options.map(option=>{
+  const values=[...group.options];if(group.kind==='understoodLanguage'&&languageValue(selected)&&!values.some(o=>o.id===selected))values.push({id:selected,name:selected,language:selected});
+  const options=values.map(option=>{
    const duplicate=duplicateGrant(species,c,group,option);
    const focusContext={...ctx,feats:ctx.feats.filter(f=>f.id!=='feat:weapon-focus'||f.choice!==option.choice)};
    const available=!duplicate&&(group.kind==='weaponFocus'?(!option.requiresFeat||ctx.feats.some(f=>f.id===option.requiresFeat))&&eligible(ix.feats.get('feat:weapon-focus'),{id:'feat:weapon-focus',choice:option.choice},focusContext,ix,'feats'):group.kind==='startingFeat'?firstLevel.characterLevel===1&&eligible(ix.feats.get(option.featId),{id:option.featId},{...firstLevel,feats:firstLevel.feats.filter(f=>f.id!==option.featId)},ix,'feats'):group.kind!=='skillFocus'||ctx.trained.has(option.skillId));
@@ -45,7 +50,9 @@ export function speciesChoiceDetails(c,pack,ctx,firstLevel=ctx){
 
 export function chooseSpeciesOption(c,pack,groupId,optionId){
  const species=pack.species.find(r=>r.id===c.species),group=species.creationChoices?.find(g=>g.id===groupId);
- if(!group||optionId!==null&&!group.options.some(o=>o.id===optionId))throw new Error('Unknown species choice');
+ if(group?.kind==='understoodLanguage'&&typeof optionId==='string')optionId=optionId.trim()||null;
+ if(!group||optionId!==null&&!group.options.some(o=>o.id===optionId)&&!(group.kind==='understoodLanguage'&&languageValue(optionId)))throw new Error('Unknown species choice');
+ if(group.kind==='understoodLanguage'&&optionId!==null)optionId=group.options.find(o=>o.id===optionId||o.language.toLocaleLowerCase()===optionId.trim().toLocaleLowerCase())?.id||optionId.trim();
  c.speciesChoices||={};c.speciesChoices[species.id]||={};c.speciesChoices[species.id][groupId]=optionId;
 }
 
@@ -57,7 +64,7 @@ export function validateSpeciesChoices(c,pack,bad){
   if(!species||!object(choices))bad('species choices');
   for(const [key,value]of Object.entries(choices)){
    const group=species.creationChoices?.find(g=>g.id===key);
-   if(!group||value!==null&&!group.options.some(o=>o.id===value))bad('species choice');
+   if(!group||value!==null&&!group.options.some(o=>o.id===value)&&!(group.kind==='understoodLanguage'&&languageValue(value)))bad('species choice');
   }
  }
 }

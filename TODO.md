@@ -160,3 +160,7 @@
 - [ ] Review remaining species pages: Replica Droid, Shard and Sorcerer of Rhand, including their distinct physiology and restricted choices.
 - [x] Near-Human creation: 24 exact trait descriptions, 10 cosmetic variants, replacement bonuses, secondary options, saved customization and reusable species effects.
 - [ ] Automate remaining Near-Human contextual/activated traits and installed augmentation effects, including explicit installation and inventory handling.
+- [x] Custom Droid creation: five-score generation and 21-point budget, absent Constitution, Strength Fortitude, degree/size/language choices, source restrictions and independent saved ability profiles.
+- [x] All 35 official degree talents selectable in their matching degree trees, exact articles, Task Optimization secondary choice and Heavy-Duty Actuators size prerequisite.
+- [ ] Droid Systems: starting equipment and separate 1,000-credit allowance, locomotion (including Tracked terrain/Climb), upgrades, maintenance/reprogramming/shutdown and complete immunity handling.
+- [ ] Standard droid models and stock chassis; complete Replica Droid and Shard creation with their distinct physiology and systems.

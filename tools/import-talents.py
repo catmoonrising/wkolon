@@ -23,6 +23,7 @@ ABILITIES = dict(strength='str', dexterity='dex', constitution='con', intelligen
 SHARED_REPRINTS = {'Multiattack Proficiency (Rifles)', 'Multiattack Proficiency (Advanced Melee Weapons)'}
 TREE_RULES = {'Dark Side Talent Tree','Light Side Talent Tree','Gand Findsman Talent Tree','Imperial Inquisitor Talent Tree','Gunslinger Talent Tree','Implant Talent Tree','Inspiration Talent Tree','Leadership Talent Tree','Squad Leadership Talent Tree','Squadron Leader Talent Tree','Wingman Talent Tree'}
 CHOICES = {
+ 'Task Optimization':('skill','Skill','never'),
  'Signature Item':('manual','Item','choice'),
  'Vehicle Focus':('enum','Vehicle','never'),
  'Accurate Blow':('weaponGroup','Weapon','never'),
@@ -45,7 +46,7 @@ CHOICES = {
  'Skillful Recovery':('skill','Skill','choice'),
  'Many Shades of the Force':('power','Force power','never'),
 }
-TRAINED_CHOICES = {'Exceptional Skill','Skill Boon','Skill Confidence','Skillful Recovery'}
+TRAINED_CHOICES = {'Task Optimization','Exceptional Skill','Skill Boon','Skill Confidence','Skillful Recovery'}
 MANUAL_CHOICE_REQUIREMENTS = {'Brutal Attack','Share Force Secret','Share Force Technique','Share Jedi Talent','Coordinated Leadership','Done It All','Stolen Form','Squadron Maneuvers'}
 FORCE_ACTIVATION = {
  'Adversary Lore':'check', 'Entreat Aid':'forcePoint',
@@ -231,6 +232,8 @@ class PrerequisiteParser:
                     return skill_list(match[1])
                 except ValueError:
                     pass
+            if match := re.fullmatch(r'(Fine|Diminutive|Tiny|Small|Medium|Large|Huge|Gargantuan|Colossal) or larger(?: size)?', value, re.I):
+                return dict(kind='size', value=match[1].lower())
             # A feature name can itself contain 'and' or 'or'. Resolve the
             # entire feature before treating those words as conjunctions.
             match = re.fullmatch(r'(@@\d+@@)(?:\s*\((.*)\))?', value)
@@ -297,7 +300,7 @@ class PrerequisiteParser:
         return dict(kind='all', requirements=result), manual, failures
 
 
-def collect(mechanics, references, capture, include_traditions=False):
+def collect(mechanics, references, capture, include_traditions=False, droids_only=False):
     sources = {s['id']:s for s in mechanics['sources']}
     existing = collections.defaultdict(list)
     for record in mechanics['talents']:
@@ -307,17 +310,20 @@ def collect(mechanics, references, capture, include_traditions=False):
     rows, trees = [], []
     for reference in references:
         if reference['kind'] != 'talentTree':continue
-        title = reference['name'];raw = capture[title]['revisions'][0]['slots']['main']['content']
+        title = reference['name']
+        droid = title in {n + '-Degree Droid Talent Tree' for n in ['1st','2nd','3rd','4th','5th']}
+        if droids_only and not droid:continue
+        raw = capture[title]['revisions'][0]['slots']['main']['content']
         categories = re.findall(r'\[\[Category:([^]|]+)', raw)
         assigned = [name for name in classes if name + ' Talent Trees' in categories]
         common = 'Force Talent Trees' in categories
         tradition = 'Tradition Talent Trees' in categories
-        if not assigned and not common and not (include_traditions and tradition):continue
+        if not assigned and not common and not (include_traditions and tradition) and not (droids_only and droid):continue
         article = json.loads((ROOT / reference['path']).read_text())['article']
         tree = dict(name=title, id='tree:' + slug(title.removesuffix(' Talent Tree')), classes=assigned, commonForce=common, tradition=tradition, source=reference['source'], article=clean(article))
         trees.append(tree)
         scope_rules = []
-        if title in TREE_RULES or tradition:
+        if title in TREE_RULES or tradition or droid:
             for block in article['blocks']:
                 if isinstance(block, dict) and block['tag'] == 'h3':break
                 if isinstance(block, dict) and block['tag'] == 'p' and not text(block).strip().startswith('Reference Book'):
@@ -391,7 +397,7 @@ def collect(mechanics, references, capture, include_traditions=False):
     return rows, trees, sources
 
 
-def apply_import(mechanics, rows, trees, section_sources, capture, references):
+def apply_import(mechanics, rows, trees, section_sources, capture, references, droids_only=False):
     """Enable exact captured sections, preserving all existing mechanical IDs."""
     catalog_path = ROOT / 'data/wiki-catalog.json'
     catalog = json.loads(catalog_path.read_text())
@@ -483,7 +489,7 @@ def apply_import(mechanics, rows, trees, section_sources, capture, references):
 
     # The published overview tables define class access. Categories are only a
     # discovery cross-check, never a substitute for the class's explicit table.
-    for cls in mechanics['classes']:
+    for cls in ([] if droids_only else mechanics['classes']):
         title = sources[cls['talentAccessSourceId']]['title']
         source = copy.deepcopy(sources[cls['talentAccessSourceId']])
         parse_path = register_capture(title, source['revision'])
@@ -513,7 +519,7 @@ def apply_import(mechanics, rows, trees, section_sources, capture, references):
         pages[rid] = dict(id=rid,name=title,sourceId=sid,article=dict(sourceId=sid,blocks=article['blocks']))
 
     common = [t for t in trees if t['commonForce']]
-    mechanics['rules']['forceTalentAccess']['trees'] = sorted(t['id'] for t in common)
+    if not droids_only:mechanics['rules']['forceTalentAccess']['trees'] = sorted(t['id'] for t in common)
     mechanics['rules']['forceTalentAccess']['sourceIds'] = list(dict.fromkeys([
         *mechanics['rules']['forceTalentAccess']['sourceIds'],
         *('source:wiki-' + slug(t['name']) for t in common)]))
@@ -565,7 +571,21 @@ def apply_import(mechanics, rows, trees, section_sources, capture, references):
     catalog['rulePages'] = sorted(pages.values(),key=lambda r:r['id'])
     catalog['records'] = sorted(records.values(),key=lambda r:(r['kind'],r['name'],r['id']))
     extra['query']['pages'] = list(captures.values())
-    (ROOT / 'data/mechanics.json').write_text(json.dumps(mechanics,ensure_ascii=False,indent=2)+'\n')
+    mechanics_path = ROOT / 'data/mechanics.json'
+    if droids_only:
+        original = mechanics_path.read_text(); previous = json.loads(original)
+        for key in previous:
+            if key not in ['sources','talents'] and previous[key] != mechanics[key]:raise ValueError('Unexpected droid import mutation: '+key)
+        decoder = json.JSONDecoder()
+        for key in ['sources','talents']:
+            if mechanics[key][:len(previous[key])] != previous[key]:raise ValueError('Droid import changed existing '+key)
+            added = mechanics[key][len(previous[key]):]
+            if not added:continue
+            start = original.index('[',original.index('"'+key+'":'));_,end=decoder.raw_decode(original,start)
+            original=original[:end-1].rstrip()+',\n'+',\n'.join('    '+json.dumps(r,ensure_ascii=False,separators=(',',':')) for r in added)+'\n  '+original[end-1:]
+        if json.loads(original)!=mechanics:raise ValueError('Droid import format preservation failed')
+        mechanics_path.write_text(original)
+    else:mechanics_path.write_text(json.dumps(mechanics,ensure_ascii=False,indent=2)+'\n')
     catalog_path.write_text(json.dumps(catalog,ensure_ascii=False,separators=(',',':'))+'\n')
     pins_path.write_text(json.dumps(pins,ensure_ascii=False,indent=2)+'\n')
     extra_path.write_text(json.dumps(extra,ensure_ascii=False,indent=2)+'\n')
@@ -575,20 +595,21 @@ def apply_import(mechanics, rows, trees, section_sources, capture, references):
 def main():
     cli = argparse.ArgumentParser(description=__doc__)
     cli.add_argument('--apply', action='store_true', help='Apply the reviewed pinned import')
+    cli.add_argument('--droids', action='store_true', help='Import only the five official droid degree trees')
     cli.add_argument('--traditions', action='store_true', help='Include Force Tradition trees and reviewed membership access')
     cli.add_argument('--capture', type=Path, default=BUILD / 'reference/capture.json')
     args = cli.parse_args()
     mechanics = json.loads((ROOT / 'data/mechanics.json').read_text())
     references = json.loads((ROOT / 'data/reference-index.json').read_text())['records']
     capture = json.loads(args.capture.read_text())['pages']
-    rows, trees, sources = collect(mechanics, references, capture,args.traditions)
+    rows, trees, sources = collect(mechanics, references, capture,args.traditions,args.droids)
     review = dict(schemaVersion=1, trees=[{k:v for k,v in t.items() if k!='article'} for t in trees], records=[{**{k:v for k,v in r.items() if k!='existing'},'existing':bool(r['existing'])} for r in rows])
     (BUILD / 'talent-catalog-review.json').write_text(json.dumps(review,ensure_ascii=False,indent=2)+'\n')
     new = [r for r in rows if not r['existing'] and not r['reprint']]
     stats = dict(trees=len(trees), sections=len(rows), newTalents=len(new), typedRequirements=sum(not r['record'].get('manualPrerequisites') for r in new), manualRequirements=sum(bool(r['record'].get('manualPrerequisites')) for r in new), choices=sum(bool(r['record'].get('choiceType')) for r in new), repeatable=sum(r['record']['repeat']!='never' for r in new))
     print(json.dumps(stats,indent=2))
     if args.apply:
-        apply_import(mechanics, rows, trees, sources, capture, references)
+        apply_import(mechanics, rows, trees, sources, capture, references,args.droids)
 
 
 if __name__ == '__main__':

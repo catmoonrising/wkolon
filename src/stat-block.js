@@ -22,7 +22,7 @@ export function renderStatBlock(c,d,pack){
  };
  const classes=[...d.ctx.classLevels].map(([id,n])=>`${escape(ix.classes.get(id).name)} ${n}`).join('/');
  const skill=id=>d.skills.find(s=>s.id==='skill:'+id);
- const languages=[...species.languages,backgroundLanguage(c,pack),c.languages].filter(Boolean).map(escape).join(', ');
+ const languages=[...species.languages,backgroundLanguage(c,pack),c.languages].filter(Boolean).map(escape).join(', ')+(species.understoodLanguages?.length?'; understands '+species.understoodLanguages.map(escape).join(', '):'');
  const classFeatureNames=[...d.ctx.classFeatures.map(f=>f.name+(d.ctx.inactiveClasses.has(f.classId)?' (Inactive)':'')),...d.ctx.classChoices.map(s=>ix.classChoices.get(s.id).name+(s.choice?' ('+choiceName(s.choice,pack)+')':'' )+(d.ctx.inactiveClasses.has(s.classId)?' (Inactive)':''))];
  const points=[c.story?.kind==='destiny'?`<b>Destiny Points:</b> ${c.story.points}`:'',`<b>Force Points:</b> ${d.forceCurrent??c.forcePoints}`,`<b>Dark Side Score:</b> ${c.darkSideScore||0}`].filter(Boolean).join('; ');
  const energySR=(d.energyShields||[]).map(s=>`${s.sr} (Energy)`).join(', ');
@@ -48,7 +48,7 @@ export function renderStatBlock(c,d,pack){
  ${d.recovery?.dead?textLine('Status',species.isDroid?'Destroyed':'Dead'):d.helpless&&c.condition!==5?textLine('Status',c.helpless?'Helpless':species.isDroid?'Disabled':'Unconscious'):''}${textLine('Condition Track',condition)}${d.recovery?.persistent.length?textLine('Persistent Conditions',d.recovery.persistent.map(persistentName).join(', ')):''}
  <h2>Offense</h2>${line('Speed',d.speed+' Squares'+Object.entries(d.speeds||{}).map(([type,n])=>`, ${escape(type)} ${n} Squares`).join('')+(d.runMultiplier!==4?` (Run ${d.runSpeed} Squares)`:''))}${attacks}${routines}${species.bellow?line('Special Attacks',`Bellow ${signed(d.level+d.specialAttackPenalty)} (${species.bellow.damageDice+(d.bellowBonuses?.dice||0)}d${species.bellow.die} Sonic; ${species.bellow.coneSquares}-Square Cone; Fortitude)`):''}${line('Base Attack Bonus',signed(d.bab))}
  ${textLine('Special Qualities',classFeatureNames.join(', '))}
- <h2>Base Stats</h2>${line('Abilities',ABILITIES.map(a=>`${a[0].toUpperCase()+a.slice(1)} ${d.scores[a]}`).join(', '))}
+ <h2>Base Stats</h2>${line('Abilities',ABILITIES.map(a=>`${a[0].toUpperCase()+a.slice(1)} ${d.scores[a]===null?'-':d.scores[a]}`).join(', '))}
  ${line('Force Powers',d.forcePowers?.map(p=>escape(p.name)).join(', '))}
  ${textLine('Species Traits',customizationEntries(c,species).map(r=>r.name).join(', '))}${line('Talents',d.ctx.talents.map(s=>featureName('talents',s)).join(', '))}${line('Feats',d.ctx.feats.map(s=>featureName('feats',s)).join(', '))}
  ${line('Skills',d.skills.filter(s=>s.trained&&s.available).map(s=>`${escape(s.name)} ${signed(s.total)}`).join(', '))}

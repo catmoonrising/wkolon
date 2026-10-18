@@ -1,3 +1,4 @@
+import {ABILITIES,activeAbilities,abilityRecord,standardArray,validateDroidAbilities} from './ability-profiles.js';
 import {validateSpeciesCustomizations,customizationIssues} from './species-customization.js';
 import {naturalWeapons,increaseNaturalDie,validateNaturalModifiers} from './natural-weapons.js';
 import {validateActionState} from './action-economy.js';
@@ -23,9 +24,9 @@ import {weaponCanOpportunity} from './opportunity.js';
 import {balanceFlatFooted} from './balance.js';
 import {applyAttackTarget,canAimAtTarget} from './attack-targets.js';
 import {resolveSpecies,speciesChoiceDetails,validateSpeciesChoices} from './species-choices.js';
-export const ABILITIES = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+export {ABILITIES};
 export const GROUPS = WEAPON_GROUPS;
-export const modifier = score => Math.floor((score - 10) / 2);
+export const modifier = score => score===null?0:Math.floor((score - 10) / 2);
 export const signed = n => n >= 0 ? `+${n}` : String(n);
 export const selectionKey = s => `${s.id}:${s.choice || ''}`;
 const F = name => `feat:${name}`;
@@ -80,6 +81,7 @@ export function validateCharacter(c, pack) {
     }
     if(new Set(used).size!==used.length) bad('duplicate ability assignment');
   }
+  validateDroidAbilities(c,pack,bad);
   if (!num(c.pointBudget, 0, 100)) bad('point budget');
   const skillList = v => Array.isArray(v) && v.length <= pack.skills.length && new Set(v).size === v.length && v.every(id => ix.skills.has(id));
   if (!skillList(c.trainedSkills)) bad('trained skills');
@@ -150,7 +152,7 @@ export function prerequisite(p, ctx, ix, choice) {
   switch (p.kind) {
     case 'all': return p.requirements.every(r => prerequisite(r, ctx, ix, choice));
     case 'any': return p.requirements.some(r => prerequisite(r, ctx, ix, choice));
-    case 'ability': return ctx.scores[value] >= p.min;
+    case 'ability': return Number.isInteger(ctx.scores[value]) && ctx.scores[value] >= p.min;
     case 'feat': return ctx.feats.some(f => f.id === value);
     case 'featChoice': return ctx.feats.some(f=>f.id===value&&f.choice===(p.choice??choice));
     case 'trait': return ctx.traits?.includes(value)||false;
@@ -209,7 +211,7 @@ export function weaponProficient(w,ctx,ix){
 }
 
 export function talentTrees(cls,ctx,pack){
- return [...cls.talentTrees,...(!ctx.forceImmune&&ctx.feats.some(f=>f.id===F('force-sensitivity'))?[...(pack.rules.forceTalentAccess?.trees||[]),...(pack.rules.traditionTalentAccess||[]).filter(r=>ctx.forceTraditions?.has(r.id)).map(r=>r.tree)]:[])];
+ return [...cls.talentTrees,...(ctx.isDroid?ctx.droidTalentTrees||[]:[]),...(!ctx.forceImmune&&ctx.feats.some(f=>f.id===F('force-sensitivity'))?[...(pack.rules.forceTalentAccess?.trees||[]),...(pack.rules.traditionTalentAccess||[]).filter(r=>ctx.forceTraditions?.has(r.id)).map(r=>r.tree)]:[])];
 }
 
 const weaponEffectGroup=(w,ctx)=>counselingEnabled(ctx,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity?.[w.id]||(w.group?.startsWith('exotic-')?w.id:w.group):w.group?.startsWith('exotic-')?w.id:w.group;
@@ -226,8 +228,8 @@ export function levelSlots(levelNumber, classLevel, species, cls, pack) {
 export function progression(c, pack, through = c.levels.length) {
   const ix = indexPack(pack), species = resolveSpecies(c,pack);
   const background=activeBackground(c,pack);
-  const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, (species.fixedAbilities?.[a]??c.abilities[a]) + (species.abilityAdjustments[a] || 0)])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
-  Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,speciesClassSkills:species.bonusClassSkills||[],forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
+  const ctx = {isDroid:!!species.isDroid, backgroundSkills:new Set(background?(c.story.skills||[]).filter(id=>background.relevantSkills.includes(id)):[]), scores: Object.fromEntries(ABILITIES.map(a => [a, species.noConstitution&&a==='con'?null:Math.max(species.noConstitution?pack.rules.droidAbilities.minimumScore:-Infinity,(species.fixedAbilities?.[a]??abilityRecord(c,pack).abilities[a])+(species.abilityAdjustments[a]||0))])), classLevels: new Map(), feats: [], talents: [], features: [], trained: new Set(), bab: 0};
+  Object.assign(ctx,{characterLevel:0,classBans:c.classBans||[],classChoices:[],classFeatures:[],speciesName:species.name,speciesClassSkills:species.bonusClassSkills||[],forbiddenClasses:species.forbiddenClasses||[],forceTalentTrees:pack.rules.forceTalentAccess.trees,droidTalentTrees:species.droidTalentTrees||[],forceImmune:!!species.forceImmune,weaponFamiliarity:species.weaponFamiliarity||{},houseRules:c.houseRules,traits:species.traits||[],size:species.size,sizeOrder:pack.rules.weaponSizeOrder});
   Object.assign(ctx,{darkSideScore:c.darkSideScore||0,inactiveTalents:new Set(),forcePowers:[],powerSlots:0,speciesTraining:new Set()});
   ctx.forceRestrictions=species.forceRestrictions||{};
   ctx.unproficientArmorPenalties=species.unproficientArmorPenalties;
@@ -283,7 +285,8 @@ export function progression(c, pack, through = c.levels.length) {
     ctx.bab = [...ctx.classLevels].reduce((sum, [id, level]) => sum + ix.classes.get(id).bab[level - 1], 0);
     const priorInt = modifier(ctx.scores.int),priorWis=modifier(ctx.scores.wis);
     if (pack.rules.abilityLevels.includes(n)) {
-      if (l.abilityIncreases.length !== 2 || new Set(l.abilityIncreases).size !== 2 || !l.abilityIncreases.every(a => ABILITIES.includes(a))) issue(i, 'increase two different abilities');
+      if(species.noConstitution&&l.abilityIncreases.includes('con'))issue(i,'Droids have no Constitution score');
+      else if (l.abilityIncreases.length !== 2 || new Set(l.abilityIncreases).size !== 2 || !l.abilityIncreases.every(a => activeAbilities(c,pack).includes(a))) issue(i, 'increase two different abilities');
       else l.abilityIncreases.forEach(a => ctx.scores[a]++);
     } else if (l.abilityIncreases.length) issue(i, 'ability increases are not available');
     // A higher Wisdom score can suspend already earned Sith talents before
@@ -394,8 +397,8 @@ export function derive(c, pack) {
   const proficientArmor = armor && ctx.feats.some(f => f.id === F(`armor-proficiency-${armor.category}`));
   const applies = (e,attack) => !e.when || e.when==='proficientArmor'&&proficientArmor || e.when==='lightOrNoArmor'&&(!armor||armor.category==='light') || e.when==='meleeAttack'&&attack?.mode==='melee';
   const total = (target,attack) => effects.filter(e => e.target === target && applies(e,attack)).reduce((n, e) => n + e.amount * (e.perLevel ? level : 1), 0);
-  const equipmentAbilities = proficientArmor ? armor.abilityBonuses || {} : {};
-  const scores = Object.fromEntries(ABILITIES.map(a => [a, ctx.scores[a] + (equipmentAbilities[a] || 0)]));
+  const equipmentAbilities = Object.fromEntries(Object.entries(proficientArmor?armor.abilityBonuses||{}:{}).filter(([a])=>ctx.scores[a]!==null));
+  const scores = Object.fromEntries(ABILITIES.map(a => [a, ctx.scores[a]===null?null:Math.max(species.noConstitution?pack.rules.droidAbilities.minimumScore:-Infinity,ctx.scores[a]+(equipmentAbilities[a]||0))]));
   const mods = Object.fromEntries(ABILITIES.map(a => [a, modifier(scores[a])]));
   const raging=!!species.rage&&recoveryState(c).rageRounds>0;
   const rageBonus=raging?species.rage.bonus+total('rageBonus'):0;
@@ -416,7 +419,7 @@ export function derive(c, pack) {
   const dex = helpless?pack.rules.defensiveCombat.helplessDexterityModifier:dexDenied?Math.min(0,mods.dex):armorMaxDex!==null ? Math.min(mods.dex, armorMaxDex) : mods.dex;
   const defensiveCombat=defensiveCombatState(c,pack,ctx,dexDenied);
   const flurry=flurryState(c,pack,ctx,effectiveSize,helpless);
-  const defenseAbilities=defenseAbilityDetails(c,pack,effects,mods,{dex,armorMaxDex,dexDenied,helpless});
+  const defenseAbilities=defenseAbilityDetails(c,pack,effects,mods,{dex,armorMaxDex,dexDenied,helpless,fortitudeAbility:species.noConstitution?pack.rules.droidAbilities.fortitudeAbility:'con'});
   const wieldingLightsaber=activeLightsabers(c,pack).length>0;
   const condition = pack.rules.conditionPenalties[c.condition];
   const defenses = {}, breakdowns = {},equipmentDefenseBonuses={};
@@ -458,7 +461,7 @@ export function derive(c, pack) {
     const tools=species.technophobic&&c.mechanicalSkills?.includes(s.id)?-5:0;
     const misc=c.skillModifiers?.[s.id]||0;
     const encumbrance=load.heavy&&pack.rules.encumbrance.skills.includes(s.id)?pack.rules.encumbrance.skillPenalty:0;
-    return {...s, trained, focus, available: !(raging&&species.rage.blockedSkills.includes(s.id)) && !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || !ctx.forceRestrictions.forbidChecks && ctx.feats.some(f => f.id === F('force-sensitivity'))),
+    return {...s, trained, focus, available: !(raging&&species.rage.blockedSkills.includes(s.id)) && (!species.isDroid||species.heuristicProcessor||trained||pack.rules.droidAbilities.untrainedSkills.includes(s.id)) && !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || !ctx.forceRestrictions.forbidChecks && ctx.feats.some(f => f.id === F('force-sensitivity'))),
       total: half + mods[s.ability] + (trained ? pack.rules.trainingBonus : 0) + Math.max(focus,backgroundBonus,teamBonus) + equipment + penalty + size + condition + tools + misc + encumbrance,
       breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${Math.max(focus,backgroundBonus,teamBonus)} competence + ${equipment} equipment + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools + ${misc} misc + ${encumbrance} load`};
   });
@@ -535,11 +538,12 @@ export function derive(c, pack) {
       damageBonus, damageDisplay:display(damage),...criticalDisplay(damage),
       breakdown: `${ctx.bab} BAB + ${ability} ability${finesse?' (Finesse)':''} + ${focus} focus + ${proficiencyPenalty} proficiency + ${armorPenalty} armor + ${condition} condition + ${mechanical} mechanical weapon + ${range.penalty} range + ${pointBlank} Point-Blank Shot + ${firePenalty} ${bracing.active?'Bracing':technique.selected==='normal'?'autofire':technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected}${grip?' + '+grip+' one-handed':''}${aimBonus?' + '+aimBonus+' Careful Shot':''}${rage?' + '+rage+' Rage':''} + ${c.modifiers.attack + e.attackMod} misc; ${technique.areaType?'Area: no critical multiplier':'Critical ×'+criticalMultiplier}${diceBonus?'; +'+diceBonus+' damage '+(diceBonus===1?'die':'dice'):''}${aimed?'; Aim: ignores cover':''}${w.mode==='melee'&&powerAttack.selected?'; Power Attack: '+power.penalty+' attack, +'+power.damage+' damage ('+power.target+')':''}${fullAttackPenalty?'; Full Attack: '+fullAttackPenalty+' attack':''}${flurryBonus?'; Flurry: +'+flurryBonus+' attack':''}${defensiveCombat.attackPenalty?'; Defense: '+defensiveCombat.attackPenalty+' attack':''}`};
   }).map(a=>applyAttackTarget(a,c,pack,ctx,visionSpecies));
-  const missingAssignments=!species.fixedAbilities && c.abilityGeneration && Object.values(c.abilityGeneration.assign).some(i=>i===null);
-  if (missingAssignments) issues.push('Assign all six ability scores');
-  if (!species.fixedAbilities && c.abilityMethod === 'standard' && !missingAssignments && [...Object.values(c.abilities)].sort((a,b) => a-b).join() !== [...pack.rules.standardArray].sort((a,b) => a-b).join()) issues.push('Standard package must use 15, 14, 13, 12, 10, 8 once each');
-  const pointCost = species.fixedAbilities?0:(c.abilityMethod==='point-buy' && c.abilityGeneration ? c.abilityGeneration.pool : Object.values(c.abilities)).reduce((n, v) => n + (pack.rules.pointBuyCosts[v] ?? Infinity), 0);
-  if (c.abilityMethod === 'point-buy' && pointCost > c.pointBudget) issues.push('Point-buy budget exceeded or a base score is outside 8–18');
+  const generation=abilityRecord(c,pack),abilityNames=activeAbilities(c,pack),standard=standardArray(c,pack);
+  const missingAssignments=!species.fixedAbilities&&generation.abilityGeneration&&Object.values(generation.abilityGeneration.assign).some(i=>i===null);
+  if(missingAssignments)issues.push('Assign all '+(abilityNames.length===5?'five':'six')+' ability scores');
+  if(!species.fixedAbilities&&generation.abilityMethod==='standard'&&!missingAssignments&&Object.values(generation.abilities).sort((a,b)=>a-b).join()!==[...standard].sort((a,b)=>a-b).join())issues.push('Standard package must use '+standard.join(', ')+' once each');
+  const pointCost=species.fixedAbilities?0:(generation.abilityMethod==='point-buy'&&generation.abilityGeneration?generation.abilityGeneration.pool:Object.values(generation.abilities)).reduce((n,v)=>n+(pack.rules.pointBuyCosts[v]??Infinity),0);
+  if(generation.abilityMethod==='point-buy'&&pointCost>generation.pointBudget)issues.push('Point-buy budget exceeded or a base score is outside 8–18');
   const movement = pack.rules.armorMovement;
   const unrestrictedArmor = total('armorMovement') > 0;
   const armorSpeedMultiplier = n => armor && !unrestrictedArmor && !(ctx.isDroid&&armor.category==='heavy'&&!movement.droidHeavySlowedSpeeds.includes(n)) ? movement.speedMultipliers[armor.category] : 1;

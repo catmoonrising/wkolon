@@ -2,9 +2,9 @@ import {combineArmorDefenses} from './armor.js';
 import {ambiguityValue} from './house-rules.js';
 
 const base={reflex:'dex',fortitude:'con',will:'wis'};
-export function defenseAbilityDetails(c,pack,effects,mods,{dex,armorMaxDex,dexDenied,helpless}){
- return Object.fromEntries(Object.entries(base).map(([key,ability])=>{
-  const abilities=[ability,...new Set(effects.filter(e=>e.target==='defenseAbility'&&e.defense===key).map(e=>e.ability))];
+export function defenseAbilityDetails(c,pack,effects,mods,{dex,armorMaxDex,dexDenied,helpless,fortitudeAbility='con'}){
+ return Object.fromEntries(Object.entries({...base,fortitude:fortitudeAbility}).map(([key,ability])=>{
+  const abilities=[...new Set([ability,...effects.filter(e=>e.target==='defenseAbility'&&e.defense===key).map(e=>e.ability).filter(a=>fortitudeAbility==='con'||a!=='con')])];
   const options=abilities.map(ability=>{
    let modifier=key==='reflex'&&ability==='dex'?dex:mods[ability];
    if(key==='reflex'&&ability==='int'&&ambiguityValue(c,pack,'ambiguity:predictive-defense-dexterity-limits')==='dexterity-limits')modifier=helpless?-5:dexDenied?Math.min(0,modifier):armorMaxDex===null?modifier:Math.min(modifier,armorMaxDex);

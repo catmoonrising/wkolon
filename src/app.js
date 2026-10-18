@@ -1,3 +1,4 @@
+import {activeAbilities,abilityRecord,activeBudget,setAbilityBudget,setBaseAbility} from './ability-profiles.js';
 import {customizationState,setSpeciesCustomization} from './species-customization.js';
 import {customizationControls,customizationFeatures} from './species-customization-ui.js';
 import {setNaturalModifier} from './natural-weapons.js';
@@ -206,7 +207,7 @@ function renderTreeDialog() {
 function levelEditor(i) {
   const l = current().levels[i], row = derived.rows[i], cls = row.cls;
   return `<div class="level-editor">${i ? `<div class="form-grid">${field(`HP roll (d${cls.hitDie})`,'hpRoll',l.hpRoll,'number',`min="1" max="${cls.hitDie}" data-level="${i}"`)}</div>` : ''}
-    ${pack.rules.abilityLevels.includes(i+1) ? `<div class="form-grid">${[0,1].map(j => `<label>Ability increase ${j+1}<select data-increase="${j}" data-level="${i}">${option('','Choose…',l.abilityIncreases[j] || '')}${ABILITIES.map(a => option(a,a.toUpperCase(),l.abilityIncreases[j])).join('')}</select></label>`).join('')}</div>` : ''}
+    ${pack.rules.abilityLevels.includes(i+1) ? `<div class="form-grid">${[0,1].map(j => `<label>Ability increase ${j+1}<select data-increase="${j}" data-level="${i}">${option('','Choose…',l.abilityIncreases[j] || '')}${activeAbilities(current(),pack).map(a => option(a,a.toUpperCase(),l.abilityIncreases[j])).join('')}</select></label>`).join('')}</div>` : ''}
     ${i && row.classLevel === 1 &&cls.startingFeats.length? selectChoice(i,'startingFeat',0,null,l.startingFeat) : ''}
     <div class="form-grid">${row.slots.map((slot,j) => selectChoice(i,'feat',j,slot,l.feats[j])).join('')}${row.valid!==false&&hasClassTalent(cls,row.classLevel) ? selectChoice(i,'talent',0,null,l.talent) : ''}</div>
     ${cls.classType==='prestige'&&row.classLevel<=1?classDeclarations(cls,l,i):''}${cls.continuousDarkSide&&row.classLevel<=1?`<label>Acquisition DSS <input type="number" min="0" max="1000" data-class-dss="${i}" value="${l.acquisitionDSS??current().darkSideScore}"></label>`:''}${cls.advanceRestrictions?.length&&row.classLevel===1?`<label><input type="checkbox" data-class-ban="${cls.id}" ${current().classBans?.some(b=>b.classId===cls.id)?'checked':''}>Known pirate</label>`:''}${classChoiceControls(pack,row,l,i,selectChoice)}
@@ -258,21 +259,22 @@ function abilityPool(state, used=false) {
   return `<div class="ability-pool">${state.pool.map((n,i)=>`<span class="cr-pool${used && assigned.has(i)?' used':''}">${n}</span>`).join(' ')}</div>`;
 }
 function generateAbilities() {
-  const c=current(), state=generationState(c,pack);
+  const c=current(),record=abilityRecord(c,pack), state=generationState(c,pack);
   if(state.fixed)return '';
   const methods=[['standard','Standard array'],['point-buy','Point buy'],['rolled','Roll 4d6 drop lowest'],['manual','Enter manually']];
-  const controls=`<div class="actions">${methods.map(([method,label])=>`<button type="button" class="cr-method${method===c.abilityMethod?' active':''}" data-crmethod="${method}" aria-pressed="${method===c.abilityMethod}">${label}</button>`).join('')}</div>`;
-  if(c.abilityMethod==='standard')return controls;
-  if(c.abilityMethod==='rolled')return controls+'<button type="button" data-action="roll-abilities">Roll</button>';
-  const budget=c.abilityMethod==='point-buy'?`<div class="actions">${field('Budget','pointBudget',c.pointBudget,'number','min="0" max="100"')}<span class="budget ${derived.pointCost>c.pointBudget?'error':''}">${Number.isFinite(derived.pointCost)?derived.pointCost:'Invalid'} / ${c.pointBudget} points</span></div>`:'';
-  return controls+budget+`<table class="cr-generated"><tbody>${state.pool.map((n,i)=>`<tr><td>${i+1}</td><td>${c.abilityMethod==='point-buy'?`<select class="cr-points" aria-label="Score ${i+1}" data-generation-pool="${i}">${Object.entries(pack.rules.pointBuyCosts).map(([value,cost])=>option(value,`${value} (${cost} pt)`,n)).join('')}</select>`:`<input type="number" class="tiny cr-manual" aria-label="Score ${i+1}" data-generation-manual="${i}" min="3" max="30" required value="${n}">`}</td></tr>`).join('')}</tbody></table>`;
+  const controls=`<div class="actions">${methods.map(([method,label])=>`<button type="button" class="cr-method${method===record.abilityMethod?' active':''}" data-crmethod="${method}" aria-pressed="${method===record.abilityMethod}">${label}</button>`).join('')}</div>`;
+  if(record.abilityMethod==='standard')return controls;
+  if(record.abilityMethod==='rolled')return controls+'<button type="button" data-action="roll-abilities">Roll</button>';
+  const budget=record.abilityMethod==='point-buy'?`<div class="actions">${field('Budget','pointBudget',record.pointBudget,'number','min="0" max="100"')}<span class="budget ${derived.pointCost>record.pointBudget?'error':''}">${Number.isFinite(derived.pointCost)?derived.pointCost:'Invalid'} / ${record.pointBudget} points</span></div>`:'';
+  return controls+budget+`<table class="cr-generated"><tbody>${state.pool.map((n,i)=>`<tr><td>${i+1}</td><td>${record.abilityMethod==='point-buy'?`<select class="cr-points" aria-label="Score ${i+1}" data-generation-pool="${i}">${Object.entries(pack.rules.pointBuyCosts).map(([value,cost])=>option(value,`${value} (${cost} pt)`,n)).join('')}</select>`:`<input type="number" class="tiny cr-manual" aria-label="Score ${i+1}" data-generation-manual="${i}" min="3" max="30" required value="${n}">`}</td></tr>`).join('')}</tbody></table>`;
 }
 function baseAbilityControl(c,species,a) {
-  return species.fixedAbilities?`<span data-fixed-ability="${a}">${species.fixedAbilities[a]}</span>`:`<input type="number" min="3" max="30" aria-label="Base ${a.toUpperCase()}" data-ability="${a}" value="${c.abilities[a]}">`;
+  return species.noConstitution&&a==='con'?'<span data-absent-ability="con">-</span>':species.fixedAbilities?`<span data-fixed-ability="${a}">${species.fixedAbilities[a]}</span>`:`<input type="number" min="3" max="30" aria-label="Base ${a.toUpperCase()}" data-ability="${a}" value="${abilityRecord(c,pack).abilities[a]}">`;
 }
 function abilityCards() {
   const c=current(), state=generationState(c,pack),species=resolveSpecies(c,pack);
   const rows=ABILITIES.map(a=>{
+    if(species.noConstitution&&a==='con')return '<tr><td>CON</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>';
     const taken=new Set(Object.entries(state.assign).filter(([key,i])=>key!==a && i!==null).map(([,i])=>i));
     const control=state.fixed?baseAbilityControl(c,species,a):`<select class="cr-assign" aria-label="Base ${a.toUpperCase()}" data-generation-assign="${a}">${option('','-',state.assign[a]??'')}${state.pool.map((n,i)=>option(i,n,state.assign[a],taken.has(i))).join('')}</select>`;
     return `<tr><td>${a.toUpperCase()}</td><td>${control}</td><td>${signed(species.abilityAdjustments[a]||0)}</td><td id="cr-final-${a}">${derived.scores[a]}</td><td id="cr-mod-${a}">${signed(derived.mods[a])}</td></tr>`;
@@ -494,10 +496,10 @@ function sheet() {
   const inventoryPanels = panelParts(equipment());
   const character = `<div class="character-fields">${field('Name','name',c.name,'text','maxlength="200"')}${field('Player','player',c.player,'text','maxlength="200"')}${ruleReference(species,species.name,null,'header-species')}<span>Level ${derived.level}</span><a href="#creation">Edit</a></div>${traitsSummary()}`;
   const automaticLanguages=[...new Set([...species.languages,...(backgroundLanguage(c,pack)?[backgroundLanguage(c,pack)]:[])])];
-  const languages=`<div>${escape(automaticLanguages.join(', '))}</div><label><span class="sr-only">Additional languages (${languageCount()})</span><input type="text" data-field="languages" value="${escape(c.languages)}" maxlength="100000"></label>`;
+  const languages=`<div>${escape(automaticLanguages.join(', '))}${species.understoodLanguages?.length?'; understands '+escape(species.understoodLanguages.join(', ')):''}</div><label><span class="sr-only">Additional languages (${languageCount()})</span><input type="text" data-field="languages" value="${escape(c.languages)}" maxlength="100000"></label>`;
 
   const classes = `<table id="class-table"><thead><tr><th>Class</th><th>Level</th><th>Hit die</th><th>Base attack</th></tr></thead><tbody>${[...derived.ctx.classLevels].map(([id,n])=>{const cls=ix.classes.get(id);return `<tr><td>${ruleReference(cls)}</td><td class="derived">${n}</td><td>d${cls.hitDie}</td><td>${signed(cls.bab[n-1])}</td></tr>`;}).join('')}</tbody></table><div class="class-summary"><a href="#advancement" class="button">Level Up</a></div>`;
-  const abilities = `<table><thead><tr><th>Ability</th><th>Mod</th><th>Score</th><th>Base</th><th>Species</th></tr></thead><tbody>${ABILITIES.map(a=>`<tr><td>${a.toUpperCase()}</td><td><button class="roll" data-roll="${derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0)}" data-roll-label="${a.toUpperCase()}" aria-label="${a.toUpperCase()} check ${signed(derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0))}" ${derived.incapacitated?'disabled':''}>${signed(derived.mods[a])}</button></td><td class="derived" title="${derived.ctx.scores[a]}${derived.equipmentAbilities[a]?` + ${derived.equipmentAbilities[a]} ${escape(derived.armor.name)}`:''}">${derived.scores[a]}</td><td>${baseAbilityControl(c,species,a)}</td><td>${signed(species.abilityAdjustments[a]||0)}</td></tr>`).join('')}</tbody></table>${Object.keys(derived.equipmentAbilities).length?`<details><summary class="hint">Calculations</summary>${Object.entries(derived.equipmentAbilities).map(([a,n])=>`<div class="hint">${a.toUpperCase()}: ${derived.ctx.scores[a]} + ${n} ${escape(derived.armor.name)}</div>`).join('')}</details>`:''}`;
+  const abilities = `<table><thead><tr><th>Ability</th><th>Mod</th><th>Score</th><th>Base</th><th>Species</th></tr></thead><tbody>${ABILITIES.map(a=>species.noConstitution&&a==='con'?'<tr><td>CON</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>':`<tr><td>${a.toUpperCase()}</td><td><button class="roll" data-roll="${derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0)}" data-roll-label="${a.toUpperCase()}" aria-label="${a.toUpperCase()} check ${signed(derived.mods[a]+pack.rules.conditionPenalties[c.condition]+(derived.abilityCheckBonuses?.[a]||0))}" ${derived.incapacitated?'disabled':''}>${signed(derived.mods[a])}</button></td><td class="derived" title="${derived.ctx.scores[a]}${derived.equipmentAbilities[a]?` + ${derived.equipmentAbilities[a]} ${escape(derived.armor.name)}`:''}">${derived.scores[a]}</td><td>${baseAbilityControl(c,species,a)}</td><td>${signed(species.abilityAdjustments[a]||0)}</td></tr>`).join('')}</tbody></table>${Object.keys(derived.equipmentAbilities).length?`<details><summary class="hint">Calculations</summary>${Object.entries(derived.equipmentAbilities).map(([a,n])=>`<div class="hint">${a.toUpperCase()}: ${derived.ctx.scores[a]} + ${n} ${escape(derived.armor.name)}</div>`).join('')}</details>`:''}`;
   const defenses = `<div class="actions"><label class="checkbox"><input type="checkbox" data-flat-footed ${derived.flatFooted?'checked':''} ${derived.balancingFlatFooted?'disabled title="Balancing"':''}>Flat-footed</label><label class="checkbox"><input type="checkbox" data-prone ${c.prone?'checked':''}>Prone</label><label class="checkbox"><input type="checkbox" data-helpless ${derived.helpless?'checked':''} ${c.condition===5||c.currentHP===0||derived.recovery.dead?'disabled':''}>Helpless</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:helpless'),'ⓘ',null,'defenses-helpless')}</div><table><thead><tr><th>Defense</th><th>Total</th></tr></thead><tbody>${['reflex','fortitude','will'].map(k=>`<tr title="${escape(derived.breakdowns[k])}"><td>${title(k)}</td><td class="derived defense-total" data-defense="${k}">${derived.defenses[k]}</td></tr>`).join('')}${derived.conditionalDefenses.map(e=>`<tr><td>${title(e.defense)} ${escape(conditionalDefenseLabel(e))}</td><td class="derived defense-total" data-defense="${e.defense}-${e.against}">${e.total}</td></tr>`).join('')}</tbody></table>${proneActionControls(c,derived,pack)}${defensiveCombatControls(c,derived)}<details><summary class="hint">Calculations</summary>${['reflex','fortitude','will'].map(k=>`<div class="hint">${title(k)}: ${escape(derived.breakdowns[k])}</div>`).join('')}</details>`;
   const hp = healthBars(c,derived)+recoveryControls.health();
 
@@ -588,7 +590,7 @@ function openEditor(mode) {
 function refreshPointBudget() {
   derived=derive(current(),pack);
   const budget=$('cr-body').querySelector('.budget');
-  if(budget){budget.textContent=`${Number.isFinite(derived.pointCost)?derived.pointCost:'Invalid'} / ${current().pointBudget} points`;budget.classList.toggle('error',derived.pointCost>current().pointBudget);}
+  if(budget){budget.textContent=`${Number.isFinite(derived.pointCost)?derived.pointCost:'Invalid'} / ${activeBudget(current(),pack)} points`;budget.classList.toggle('error',derived.pointCost>activeBudget(current(),pack));}
   renderCreatorIssues();
 }
 function refreshCredits(el) {
@@ -691,7 +693,7 @@ function events() {
       return;
     }
     if(el.dataset.field==='credits' && el.closest('#cr-body')){const value=Number(el.value);if(el.value!=='' && Number.isFinite(value) && value>=0 && value<=1000000000){current().credits=value;store.schedule();refreshCredits(el);}return;}
-    if(el.dataset.field==='pointBudget' && el.closest('#cr-body')){const value=Number(el.value);if(el.value!=='' && Number.isInteger(value) && value>=0 && value<=100){current().pointBudget=value;store.schedule();refreshPointBudget();}return;}
+    if(el.dataset.field==='pointBudget' && el.closest('#cr-body')){const value=Number(el.value);if(el.value!=='' && Number.isInteger(value) && value>=0 && value<=100){setAbilityBudget(current(),pack,value);store.schedule();refreshPointBudget();}return;}
     if (el.dataset.field && ['name','player','notes','languages'].includes(el.dataset.field)) {
       current()[el.dataset.field]=el.value; store.schedule();
       if(el.dataset.field==='name') { document.querySelectorAll('[data-field="name"]').forEach(input=>{if(input!==el)input.value=el.value;}); document.querySelector(`[data-character="${current().id}"]`).textContent=el.value||'unnamed'; }
@@ -745,7 +747,7 @@ function events() {
     }
 
     if(el.hasAttribute('data-customization')){try{const kind=el.dataset.customization;if(kind==='variant'){const prior=customizationState(c,resolveSpecies(c,pack)).variants;setSpeciesCustomization(c,pack,'variants',el.checked?[...prior,el.value]:prior.filter(v=>v!==el.value));}else setSpeciesCustomization(c,pack,kind,el.value,{traitId:el.dataset.customTrait,choiceId:el.dataset.customChoice});if(kind==='trait')$('custom-trait-picker').open=false;changed();}catch(e){notify(e.message);render();}return;}
-    if(el.hasAttribute('data-species-choice')){chooseSpeciesOption(c,pack,el.dataset.speciesChoice,el.value||null);changed();return;}
+    if(el.hasAttribute('data-species-choice')){try{chooseSpeciesOption(c,pack,el.dataset.speciesChoice,el.value||null);changed();}catch(e){notify(e.message);render();}return;}
     if(el.dataset.naturalId){const key=el.dataset.naturalModifier|| (el.hasAttribute('data-natural-technique')?'attackTechnique':el.hasAttribute('data-natural-target')?'targetKind':null);if(!key)return;try{setNaturalModifier(c,pack,el.dataset.naturalId,key,el.dataset.naturalModifier?Number(el.value):el.value);changed();}catch(e){notify(e.message);render();}return;}
     if(el.hasAttribute('data-unarmed-technique')){if(!['normal','rapid-strike'].includes(el.value))return;c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers.attackTechnique=el.value;changed();return;}
     if(el.hasAttribute('data-charge-path')){if(el.hasAttribute('data-math'))commitMath(el);const path=chargePath(c),key=el.dataset.chargePath;path[key]=el.type==='checkbox'?el.checked:key==='mode'?el.value:el.value===''&&key==='acrobatics'?null:Number(el.value);if(['lowObjectSquares','diagonalLowObjectSquares'].includes(key))path.lowObjects=false;try{validateCharge({...c,chargePath:path},reason=>{throw new Error('Invalid '+reason);});c.chargePath=path;}catch(err){notify(err.message);}changed();return;}
@@ -797,7 +799,7 @@ function events() {
       const value=numeric?Number(el.value):el.value;
       if (numeric&&(!(key==='credits'?Number.isFinite(value):Number.isInteger(value))||value<Number(el.min||-1000)||value>Number(el.max||1000000000))) { notify('Enter a whole number within the field limits.'); render(); return; }
       if(key==='credits' && el.closest('#cr-body')){obj[key]=value;store.schedule();refreshCredits(el);return;}
-      if(key==='pointBudget' && el.closest('#cr-body')){obj[key]=value;store.schedule();refreshPointBudget();return;}
+      if(key==='pointBudget' && el.closest('#cr-body')){setAbilityBudget(c,pack,Number(value));store.schedule();refreshPointBudget();return;}
       const previousValue=obj[key];
       if(key==='hpRoll') c.levels[Number(el.dataset.level)].hpRoll=value; else obj[key]=value;
       if(el.dataset.field==='condition'&&value!==previousValue){if(value===5)recordKnockout(c);else if(c.currentHP!==0&&c.recovery)c.recovery.stunUnconscious=false;}
@@ -812,7 +814,7 @@ function events() {
     } else if (el.dataset.ability) {
       if(resolveSpecies(c,pack).fixedAbilities){render();return;}
       const value=Number(el.value); if(!Number.isInteger(value)||value<3||value>30) {notify('Base abilities must be whole numbers from 3 to 30.');render();return;}
-      c.abilities[el.dataset.ability]=value;delete c.abilityGeneration;
+      setBaseAbility(c,pack,el.dataset.ability,value);
     } else if(el.dataset.class) {
       const index=Number(el.dataset.class),l=c.levels[index];l.classId=el.value;delete l.pendingClass;const cls=ix.classes.get(el.value),cl=(progression(c,pack,index).ctx.classLevels.get(cls.id)||0)+1;l.feats=l.feats.slice(0,levelSlots(index+1,cl,ix.species.get(c.species),cls,pack).length);if(!hasClassTalent(cls,cl))l.talent=null;if(!cls.startingFeats.includes(l.startingFeat?.id))l.startingFeat=null;delete l.entryDeclarations;delete l.classChoices;if(ix.classes.get(el.value).classType==='prestige')l.acquisitionDSS=c.darkSideScore;else delete l.acquisitionDSS;
       if(Number(el.dataset.class)>0) l.hpRoll=Math.floor(ix.classes.get(el.value).hitDie/2)+1;
@@ -945,7 +947,7 @@ function events() {
     switch(el.dataset.action){
       case 'manage-powers':openEditor('powers');return;
       case 'clear-log': if(store.roster.logs) delete store.roster.logs[c.id];store.schedule();paintLogs();return;
-      case 'roll-abilities': {if(resolveSpecies(c,pack).fixedAbilities)break;const sets=ABILITIES.map(()=>{const dice=[d(6),d(6),d(6),d(6)].sort((a,b)=>b-a);return {dice,value:dice.slice(0,3).reduce((a,b)=>a+b)};});setRolledPool(c,sets.map(s=>s.value),pack);logEvent('roll',`Ability scores: 4d6 drop lowest ×6: ${sets.map(s=>`${s.value} (${s.dice.join(',')})`).join(' | ')}`,`Ability scores: 4d6 drop lowest ×6: ${sets.map((s,i)=>`${totalHtml({value:s.value,coeffs:[1],rollId:i+1})} (${s.dice.map((value,j)=>dieHTML(value,6,`data-roll="${i+1}" data-ops="kh3"`,j===3)).join(', ')})`).join(' | ')}`);break;}
+      case 'roll-abilities': {if(resolveSpecies(c,pack).fixedAbilities)break;const count=activeAbilities(c,pack).length,sets=Array.from({length:count},()=>{const dice=[d(6),d(6),d(6),d(6)].sort((a,b)=>b-a);return {dice,value:dice.slice(0,3).reduce((a,b)=>a+b)};});setRolledPool(c,sets.map(s=>s.value),pack);logEvent('roll',`Ability scores: 4d6 drop lowest ×${count}: ${sets.map(s=>`${s.value} (${s.dice.join(',')})`).join(' | ')}`,`Ability scores: 4d6 drop lowest ×${count}: ${sets.map((s,i)=>`${totalHtml({value:s.value,coeffs:[1],rollId:i+1})} (${s.dice.map((value,j)=>dieHTML(value,6,`data-roll="${i+1}" data-ops="kh3"`,j===3)).join(', ')})`).join(' | ')}`);break;}
       case 'starting-credits': {if(!canRollStartingCredits(c))return;const r=ix.classes.get(c.levels[0].classId).credits;const rolls=Array.from({length:r.dice},()=>d(r.sides));c.credits=rolls.reduce((a,b)=>a+b)*r.multiplier;c.startingCreditsRolled=true;logEvent('roll',`${rolls.join(' + ')} × ${r.multiplier} = ${c.credits} credits`,`${rolls.map(value=>dieHTML(value,r.sides)).join(' + ')} × ${r.multiplier} = ${totalHtml({value:c.credits,coeffs:[r.multiplier]})} credits`);break;}
       case 'add-gear': purchase(false,el.closest('form'));return;
       case 'force-point-roll': {if(derived.forceCurrent<=0||derived.incapacitated)return;const expr=`${derived.forcePointDice}d${derived.forcePointDie}kh1`,r=evalExpr(expr);c.forcePoints--;logEvent('roll',`Force Point: ${expr} = ${r.value}`,`Force Point: ${r.display} = ${totalHtml(r)}`);break;}

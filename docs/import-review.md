@@ -1949,3 +1949,42 @@ snapshot supplies seven Bio-Implants and nineteen cybernetic options across
 Cybernetics, Advanced Cybernetics and Implants, all already imported official
 gear records. No Homebrew options or effects are included. The snapshot informs
 option lists without substituting category prose for individual item mechanics.
+
+## Custom Droid creation and degree talents
+
+Droids revision 26658 supplies the Custom Droid rules. The player selects one
+of five degrees, Small or Medium size, and a designer-chosen understood language.
+Degree and size adjustments stack, and adjusted scores are never below 1.
+Small custom droids have speed 4 and the printed three-quarter carrying factor;
+Medium custom droids have speed 6. The five-score standard package and 21-point
+budget are independent of organic generation. Rolls generate five scores.
+Constitution remains absent rather than becoming a score of zero. It grants no
+HP or skill modifier, cannot qualify for a Constitution prerequisite, cannot be
+increased, and receives no equipment bonus. Strength supplies Fortitude.
+
+Custom droids have their stated Heuristic Processor, which removes the normal
+restriction on untrained checks. Nonheuristic droids retain the four Core
+exceptions. Custom droids cannot choose Jedi or gain Force Sensitivity or Force
+powers; their Force Points remain available. Existing droid Stun/Ion handling,
+disabled terminal state and repair-oriented recovery apply. Designer language
+understanding is displayed separately from spoken languages. No vocabulator or
+additional spoken language is inferred.
+
+All 35 talents in the five degree trees are selectable with complete pinned
+articles. The selected degree grants its tree in addition to class trees.
+Task Optimization has a trained-skill secondary choice. Heavy-Duty Actuators
+requires Medium or larger size. Four complex/equipment prerequisites remain
+explicit manual confirmations: Scomp Link Slicer, Supervising Droid, Just a
+Scratch and Weapons Power Surge. Talent effects are marked Manual rather than
+claiming effect automation. Import with `python tools/import-talents.py --droids
+--apply`; the targeted mode preserves existing mechanical records and formatting.
+
+The starting Heuristic Processor, two arms, and size-dependent locomotion are
+specified in the embedded source. Additional starting systems use a separate
+allowance of up to 1,000 credits, with no retained balance; this allowance,
+system upgrades and their non-speed effects are not yet automated. In particular,
+Tracked's difficult-terrain exemption and Climb penalty remain manual. Maintenance,
+reprogramming, shutdown, detailed immunities and other system interactions remain
+on the follow-up queue. No unreviewed system prices, installation effects or
+extra equipment are inferred. Standard models, stock chassis, Replica Droid
+and Shard creation remain separate pending work.

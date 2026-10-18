@@ -37,10 +37,10 @@ class TalentImportTest(unittest.TestCase):
     def parse(self, text, choice_type=None):
         return self.parser.parse([node('p', text)], choice_type)
 
-    def test_all_class_and_common_force_tree_sections_are_mapped_to_exact_pinned_sources(self):
+    def test_all_class_force_and_droid_tree_sections_are_mapped_to_exact_pinned_sources(self):
         tradition_trees = {r['tree'] for r in self.pack['rules']['traditionTalentAccess']}
         titles = {self.sources[r['sourceId']]['title'] for r in self.pack['catalog']['records'] if r['kind']=='talent' and r['mechanicsIds'] and r['tree'] not in tradition_trees}
-        self.assertEqual(len(titles), 146)
+        self.assertEqual(len(titles), 151)
         sections = 0
         for title in titles:
             article = json.loads((ROOT / self.references[title]['path']).read_text())['article']
@@ -48,8 +48,8 @@ class TalentImportTest(unittest.TestCase):
             actual = [self.sources[r['sourceId']]['section'] for r in self.pack['catalog']['records'] if r['kind']=='talent' and r['mechanicsIds'] and self.sources[r['sourceId']]['title']==title]
             self.assertCountEqual(actual,expected,title)
             sections += len(expected)
-        self.assertEqual(sections,1036)
-        self.assertEqual(len(self.pack['talents']),1156)  # two reviewed reprints
+        self.assertEqual(sections,1071)
+        self.assertEqual(len(self.pack['talents']),1191)  # two reviewed reprints
 
     def test_all_class_access_tables_match_enabled_trees(self):
         pages = {r['sourceId']:r for r in self.pack['rulePages']}
