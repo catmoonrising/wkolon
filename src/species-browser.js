@@ -11,7 +11,7 @@ function abilityText(r){
 const abilityTotal=r=>Object.values(r.abilityAdjustments).reduce((n,v)=>n+v,0)+(r.creationChoices||[]).filter(g=>g.kind==='ability').reduce((sum,g)=>sum+g.options.reduce((n,o)=>n+Object.values(o.adjustments).reduce((n,v)=>n+v,0),0)/g.options.length,0);
 export function speciesChoiceControls(species,groups,{legend=true}={}) {
   const active=groups.filter(g=>g.active||g.kind==='startingFeat');
-  return active.length?`<fieldset class="species-choices">${legend?`<legend>${escape(species.name)}</legend>`:''}<div class="actions">${active.map(g=>`<label>${escape(g.name)}<select data-species-choice="${g.id}" aria-label="${escape(species.name+' '+g.name)}"><option value="" ${g.selected===null?'selected':''}>Choose…</option>${g.options.map(o=>`<option value="${o.id}" ${o.id===g.selected?'selected':''} ${o.available?'':'disabled'}>${escape(o.name)}</option>`).join('')}</select></label>`).join('')}</div></fieldset>`:'';
+  return active.length?`<fieldset class="species-choices">${legend?`<legend>${escape(species.name)}</legend>`:''}<div class="actions">${active.map(g=>`<label>${escape(g.name)}<select data-species-choice="${g.id}" aria-label="${escape(species.name+' '+g.name)}">${g.defaultOption===undefined?`<option value="" ${g.selected===null?'selected':''}>Choose…</option>`:''}${g.options.map(o=>`<option value="${o.id}" ${o.id===g.selected?'selected':''} ${o.available?'':'disabled'}>${escape(o.name)}</option>`).join('')}</select></label>`).join('')}</div></fieldset>`:'';
 }
 export function createSpeciesBrowser(pack) {
   let query='';const expanded=new Set();

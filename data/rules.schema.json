@@ -439,7 +439,8 @@
           "required": [
             "sourceIds",
             "damage",
-            "dieSteps"
+            "dieSteps",
+            "naturalDieSteps"
           ],
           "properties": {
             "sourceIds": {
@@ -455,6 +456,10 @@
                 "type": "string",
                 "pattern": "^1d[0-9]+$"
               }
+            },
+            "naturalDieSteps": {
+              "type": "array", "uniqueItems": true,
+              "items": {"type": "integer", "minimum": 1, "maximum": 12}
             },
             "dieSteps": {
               "type": "array",
@@ -3177,6 +3182,8 @@
           "items": {"type": "string", "pattern": "^skill:[a-z0-9-]+$"}
         },
         "conditionalForceTraining": {"type": "boolean"},
+        "naturalWeapons": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"$ref": "#/$defs/naturalWeapon"}},
+        "multiattackReduction": {"type": "integer", "minimum": 1, "maximum": 10},
         "fixedAbilities": {
           "type": "object", "additionalProperties": false,
           "required": ["str", "dex", "con", "int", "wis", "cha"],
@@ -3221,6 +3228,21 @@
         }
       }
     },
+    "naturalWeapon": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "name", "damage", "damageType"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]{0,39}$"},
+        "name": {"type": "string", "minLength": 1},
+        "damage": {"type": "string", "pattern": "^(1|[1-9][0-9]?d(2|3|4|6|8|10|12))$"},
+        "damageType": {"enum": ["Slashing", "Piercing", "Bludgeoning"]},
+        "damageBySize": {
+          "type": "object",
+          "propertyNames": {"enum": ["fine", "diminutive", "tiny", "small", "medium", "large", "huge", "gargantuan", "colossal"]},
+          "additionalProperties": {"type": "string", "pattern": "^(1|[1-9][0-9]?d(2|3|4|6|8|10|12))$"}
+        }
+      }
+    },
     "speciesCreationChoice": {
       "type": "object",
       "additionalProperties": false,
@@ -3228,7 +3250,8 @@
       "properties": {
         "id": {"type": "string", "pattern": "^[a-z][a-z0-9-]*$"},
         "name": {"type": "string", "minLength": 1},
-        "kind": {"enum": ["ability", "language", "skillFocus", "weaponFocus", "trainedSkill", "startingFeat"]},
+        "kind": {"enum": ["ability", "language", "skillFocus", "weaponFocus", "size", "trainedSkill", "startingFeat"]},
+        "defaultOption": {"type": "string"},
         "options": {
           "type": "array", "minItems": 2,
           "items": {
@@ -3242,6 +3265,27 @@
         }
       },
       "allOf": [
+        {
+          "if": {"required": ["defaultOption"]},
+          "then": {"properties": {"kind": {"const": "size"}}}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "size"}}},
+          "then": {"properties": {"options": {"items": {
+            "additionalProperties": false,
+            "required": ["id", "name", "size", "speed", "adjustments"],
+            "properties": {
+              "id": {}, "name": {},
+              "size": {"enum": ["fine", "diminutive", "tiny", "small", "medium", "large", "huge", "gargantuan", "colossal"]},
+              "speed": {"type": "integer", "minimum": 0},
+              "adjustments": {
+                "type": "object",
+                "propertyNames": {"enum": ["str", "dex", "con", "int", "wis", "cha"]},
+                "additionalProperties": {"type": "integer", "minimum": -32, "maximum": 32, "not": {"const": 0}}
+              }
+            }
+          }}}}
+        },
         {
           "if": {"properties": {"kind": {"const": "ability"}}},
           "then": {"properties": {"options": {"items": {

@@ -12,9 +12,10 @@ export function resolveSpecies(c,pack){
  if(!base.creationChoices?.length)return base;
  const species={...base,abilityAdjustments:{...base.abilityAdjustments},languages:[...base.languages],conditionalFocuses:[...(base.conditionalFocuses||[])],startingTrainedSkills:[...(base.startingTrainedSkills||[])],conditionalStartingFeats:[...(base.conditionalStartingFeats||[])]};
  for(const group of base.creationChoices){
-  const selected=group.options.find(o=>o.id===c.speciesChoices?.[base.id]?.[group.id]);
+  const selected=group.options.find(o=>o.id===(c.speciesChoices?.[base.id]?.[group.id]??group.defaultOption));
   if(!selected||duplicateGrant(base,c,group,selected))continue;
-  if(group.kind==='ability')for(const [ability,amount]of Object.entries(selected.adjustments))species.abilityAdjustments[ability]=(species.abilityAdjustments[ability]||0)+amount;
+  if(group.kind==='size'){species.size=selected.size;species.speed=selected.speed;}
+  if(['ability','size'].includes(group.kind))for(const [ability,amount]of Object.entries(selected.adjustments))species.abilityAdjustments[ability]=(species.abilityAdjustments[ability]||0)+amount;
   if(group.kind==='language'&&!species.languages.includes(selected.language))species.languages.push(selected.language);
   if(group.kind==='skillFocus'&&!species.conditionalFocuses.includes(selected.skillId))species.conditionalFocuses.push(selected.skillId);
   if(group.kind==='weaponFocus'){species.conditionalWeaponFocuses??=[];species.conditionalWeaponFocuses.push(selected);}
@@ -29,7 +30,7 @@ export function speciesChoiceDetails(c,pack,ctx,firstLevel=ctx){
  if(!species.creationChoices?.length)return [];
  const ix=indexPack(pack);
  return (species.creationChoices||[]).map(group=>{
-  const selected=c.speciesChoices?.[species.id]?.[group.id]??null;
+  const selected=c.speciesChoices?.[species.id]?.[group.id]??group.defaultOption??null;
   const options=group.options.map(option=>{
    const duplicate=duplicateGrant(species,c,group,option);
    const focusContext={...ctx,feats:ctx.feats.filter(f=>f.id!=='feat:weapon-focus'||f.choice!==option.choice)};

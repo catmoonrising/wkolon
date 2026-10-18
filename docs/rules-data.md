@@ -1423,3 +1423,23 @@ Republic Clone revision 20034 uses STR 15, DEX 13, CON 10, INT 12, WIS 10, CHA 8
 plus one selected +2. Its bonus Feat and bonus class-skill slot use the existing
 species allowances. Later advancement starts from this fixed array and selected
 increase; switching species does not rewrite a saved score pool.
+
+### Natural weapons and size choices
+
+Species `naturalWeapons` records contain a stable slug `id`, `name`, `damage`
+and `damageType`, with optional `damageBySize` overrides. Damage accepts the
+constant `1` or a supported dice expression. `rules.unarmed.naturalDieSteps`
+advances natural damage for Martial Arts without replacing its printed base or
+changing the number of dice. `multiattackReduction` reduces the aggregate
+multiple-attack penalty, capped at zero.
+
+A species creation choice with `kind: "size"` provides `size`, `speed` and
+optional ability `adjustments` on each option. `defaultOption` selects an explicit
+printed default without modifying saved choices. Size defense, Stealth and
+threshold maps cover all nine sizes. Scores below zero produce an unresolved
+choice rather than being silently clamped.
+
+Natural attacks use `natural:<character UUID>:<weapon slug>` references. Saved
+`naturalModifiers` are keyed by weapon slug and use independent attack/damage,
+technique and target settings. Character duplication/import rebinds references
+in routines and planned actions. Inventory references remain UUIDs.

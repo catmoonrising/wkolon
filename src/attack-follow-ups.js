@@ -1,3 +1,4 @@
+import {validAttackReference} from './attack-refs.js';
 import {movementSegment,movementCost,movementSpeed,validateSegment} from './combat-movement.js';
 
 const identity=s=>s.trim().normalize('NFKC').toLowerCase();
@@ -86,7 +87,7 @@ export function validateFollowUps(c,bad){
  if(p.tickets!==undefined){
   if(!Array.isArray(p.tickets)||p.tickets.length>100)bad('follow-up tickets');const ids=new Set();
   for(const t of p.tickets){
-   if(!obj(t)||Object.keys(t).some(k=>!['id','uid','weaponId','name','mode','bonus','damage','blocked','claims'].includes(k))||!uuid(t.id)||ids.has(t.id)||!uuid(t.uid)||typeof t.weaponId!=='string'||!/^equipment:[a-z0-9-]+$/.test(t.weaponId)&&t.weaponId!=='attack:unarmed'||!name(t.name)||!['melee','ranged'].includes(t.mode)||!integer(t.bonus,-100000,100000)||!integer(t.damage,0,Number.MAX_SAFE_INTEGER)||typeof t.blocked!=='boolean'||!Array.isArray(t.claims)||t.claims.length>1000)bad('follow-up ticket');
+   if(!obj(t)||Object.keys(t).some(k=>!['id','uid','weaponId','name','mode','bonus','damage','blocked','claims'].includes(k))||!uuid(t.id)||ids.has(t.id)||!validAttackReference(t.uid)||typeof t.weaponId!=='string'||!/^equipment:[a-z0-9-]+$/.test(t.weaponId)&&t.weaponId!=='attack:unarmed'||!name(t.name)||!['melee','ranged'].includes(t.mode)||!integer(t.bonus,-100000,100000)||!integer(t.damage,0,Number.MAX_SAFE_INTEGER)||typeof t.blocked!=='boolean'||!Array.isArray(t.claims)||t.claims.length>1000)bad('follow-up ticket');
    ids.add(t.id);const opponents=new Set();
    for(const u of t.claims){if(!obj(u)||Object.keys(u).some(k=>!['opponent','cleave','followThrough'].includes(k))||!name(u.opponent)||!u.opponent.trim()||typeof u.cleave!=='boolean'||typeof u.followThrough!=='boolean'||!u.cleave&&!u.followThrough||opponents.has(identity(u.opponent)))bad('follow-up claim');opponents.add(identity(u.opponent));}
   }

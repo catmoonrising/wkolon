@@ -1,3 +1,4 @@
+import {naturalWeapons,increaseNaturalDie,validateNaturalModifiers} from './natural-weapons.js';
 import {validateActionState} from './action-economy.js';
 import {activeLightsabers,powerActions} from './power-activation.js';
 import {defenseAbilityDetails,thresholdDetails,validateDefenseAbilities} from './defense-abilities.js';
@@ -106,6 +107,7 @@ export function validateCharacter(c, pack) {
   if(c.mightySwing!==undefined&&typeof c.mightySwing!=='boolean')bad('Mighty Swing');
   if(c.powerAttack!==undefined&&!num(c.powerAttack,0,20))bad('Power Attack');
   if(c.skillModifiers!==undefined&&(!obj(c.skillModifiers)||Object.entries(c.skillModifiers).some(([id,n])=>!ix.skills.has(id)||!num(n,-1000,1000))))bad('skill modifiers');
+  validateNaturalModifiers(c,pack,bad);
   if(c.unarmedModifiers!==undefined){
     if(!obj(c.unarmedModifiers)||Object.keys(c.unarmedModifiers).some(k=>!['attackMod','damageMod','attackTechnique','targetKind'].includes(k))||!['attackMod','damageMod'].every(k=>num(c.unarmedModifiers[k],-100,100))||c.unarmedModifiers.targetKind!==undefined&&!['creature','object','vehicle'].includes(c.unarmedModifiers.targetKind))bad('unarmed modifiers');
     validateAttackTechnique(c.unarmedModifiers,pack,bad,true);
@@ -228,6 +230,7 @@ export function progression(c, pack, through = c.levels.length) {
   ctx.forceRestrictions=species.forceRestrictions||{};
   ctx.unproficientArmorPenalties=species.unproficientArmorPenalties;
   const issues = [], rows = [], ordinaryTraining=new Set(),talentTraining=new Map();
+  for(const [a,score]of Object.entries(ctx.scores))if(score<0)issues.push(a.toUpperCase()+' score is below 0');
   ctx.forceTraditions=new Set();
   ctx.forceTalentTrees=[...ctx.forceTalentTrees,...(pack.rules.traditionTalentAccess||[]).map(r=>r.tree)];
   let initialClassSkills;
@@ -473,13 +476,15 @@ export function derive(c, pack) {
   const unarmed=unarmedWeapon(pack,effectiveSize,total('unarmedDieSteps'));
   const gloves=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).unarmed);
   const manualAttacks=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).manualAttack).map(e=>({...resolveEquipment(e,pack,c),uid:e.uid}));
+  if(!unarmed)manualAttacks.push({id:UNARMED_ID,name:'Unarmed Attack',mode:'melee',sourceId:pack.rules.unarmed.sourceIds[0],article:pack.rulePages.find(r=>r.name==='Unarmed Attacks')?.article,automation:'manual',uid:c.id});
   const weaponEntries=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).kind==='weapon'&&!ix.equipment.get(e.id).unarmed&&!ix.equipment.get(e.id).manualAttack);
   if(unarmed)weaponEntries.push({id:UNARMED_ID,uid:c.id,twoHanded:false,targetKind:c.unarmedModifiers?.targetKind,attackTechnique:c.unarmedModifiers?.attackTechnique,attackMod:c.unarmedModifiers?.attackMod||0,damageMod:(c.unarmedModifiers?.damageMod||0)+Math.max(0,...gloves.map(e=>ix.equipment.get(e.id).damageBonus||0))});
+  for(const w of naturalWeapons(c,species,pack,total('unarmedDieSteps'))){const settings=c.naturalModifiers?.[w.naturalWeaponId];weaponEntries.push({id:UNARMED_ID,uid:w.uid,virtualWeapon:w,twoHanded:false,targetKind:settings?.targetKind,attackTechnique:settings?.attackTechnique,attackMod:settings?.attackMod||0,damageMod:(settings?.damageMod||0)+Math.max(0,...gloves.map(e=>ix.equipment.get(e.id).damageBonus||0))});}
   const featHas=id=>ctx.feats.some(f=>f.id===F(id));
   const powerAttack=powerAttackState(c,pack,{bab:ctx.bab,owned:featHas('power-attack')});
   const fullAttack=fullAttackState(c,pack,ctx);
   const attacks = weaponEntries.map(e => {
-    const w = e.id===UNARMED_ID?unarmed:resolveEquipment(e,pack,c);
+    const w = e.virtualWeapon||(e.id===UNARMED_ID?unarmed:resolveEquipment(e,pack,c));
     const proficient = weaponProficient(w,ctx,ix);
     const proficiencyPenalty=proficient?0:species.unproficientWeaponPenalty??-5;
     const group=weaponEffectGroup(w,ctx);
@@ -503,7 +508,7 @@ export function derive(c, pack) {
     const bracing=bracingState(w,e,pack,c,technique);
     const techniquePenalty=penalty=>total('controlledBurst')&&autofire?(bracing.active?0:total('controlledBurst')):technique.selected==='rapid-shot'&&effects.some(e=>e.target==='rapidShotPenalty')?0:penalty;
     const firePenalty=techniquePenalty(bracing.penalty??unBracedPenalty),unBracedTechniquePenalty=total('controlledBurst')&&autofire?total('controlledBurst'):techniquePenalty(unBracedPenalty);
-    const multiattackReduction=effects.filter(f=>f.target==='multiattackReduction'&&f.weaponGroup===group).reduce((n,f)=>n+f.amount,0),fullAttackPenalty=Math.min(0,fullAttack.penalty+multiattackReduction);
+    const multiattackReduction=(species.multiattackReduction||0)+effects.filter(f=>f.target==='multiattackReduction'&&f.weaponGroup===group).reduce((n,f)=>n+f.amount,0),fullAttackPenalty=Math.min(0,fullAttack.penalty+multiattackReduction);
     const criticalThreat=Math.min(20,...effects.filter(f=>f.target==='criticalThreat'&&f.weaponGroup===w.group).map(f=>f.amount));
     const criticalMultiplier=Math.max(pack.rules.combat.criticalMultiplier,...effects.filter(f=>f.target==='criticalMultiplier'&&f.selection.choice===w.id).map(f=>f.amount));
     const meleeBonus = total('meleeDamage',w);
@@ -513,11 +518,11 @@ export function derive(c, pack) {
     const mightySwingAvailable=w.mode==='melee'&&featHas('mighty-swing'),mightySwing=mightySwingAvailable&&!!c.mightySwing;
     const diceBonus=Math.max(technique.extraDice,aimed&&featHas('deadeye')?accessories.deadeyeDice:0,mightySwing?pack.rules.mightySwing.extraDice:0);
     const damage=extraDamageDice(w.damage,diceBonus);
-    const criticalDice=dice=>w.unarmed&&total('unarmedCriticalDieStep')?dice?.replace(/d([0-9]+)/,(_,die)=>'d'+pack.rules.unarmed.dieSteps[Math.min(pack.rules.unarmed.dieSteps.indexOf(12),pack.rules.unarmed.dieSteps.indexOf(Number(die))+total('unarmedCriticalDieStep'))]):dice;
+    const criticalDice=dice=>w.unarmed&&total('unarmedCriticalDieStep')?increaseNaturalDie(dice,total('unarmedCriticalDieStep'),pack):dice;
     const attack=ctx.bab + ability + focus + proficiencyPenalty + armorPenalty + condition + mechanical + range.penalty + pointBlank + firePenalty + rage + grip + aimBonus + c.modifiers.attack + e.attackMod + power.penalty + fullAttackPenalty + defensiveCombat.attackPenalty + flurryBonus;
     const inactiveLightsaber=w.group==='lightsabers'&&e.activated===false;
     const powerIssue=w.mode==='melee'&&powerAttack.selected&&!powerAttack.available?powerAttack.reason:'';
-    const display=dice=>dice?dice+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
+    const display=dice=>dice?(w.natural?dice.replace(/(\d+)d1(?!\d)/g,'$1'):dice)+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
     const criticalDisplay=dice=>criticalDice(dice)!==dice?{criticalDamageDisplay:display(criticalDice(dice))}:{};
     const unAimedRange=weaponRange(w,{...e,aimed:false},pack,featHas,c);
     return {...w,name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,criticalThreat,multiattackReduction,fullAttackPenalty,effectGroup:group,ammunition,technique,powerAttack:power,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,flatFooted,issue:(defensiveCombat.attacksBlocked?defensiveCombat.reason||'Total Defense forbids attacks':'')||(inactiveLightsaber?'Activate Lightsaber':'')||powerIssue||technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:!inactiveLightsaber&&!defensiveCombat.attacksBlocked&&!powerIssue&&technique.available&&range.available&&(!ammunition||ammunition.available),

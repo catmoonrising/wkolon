@@ -24259,7 +24259,8 @@
     {"id":"source:wiki-miraluka","title":"Miraluka","revision":26746,"timestamp":"2025-07-09T19:12:04Z","sha256":"c3b01eda8226dc515c715321397e54e0bf2887834a16f9b297b989048c9e63c1","url":"https://swse.miraheze.org/w/index.php?oldid=26746","history":"https://swse.miraheze.org/w/index.php?title=Miraluka&action=history","section":null},
     {"id":"source:wiki-rakata","title":"Rakata","revision":19296,"timestamp":"2024-08-25T21:40:59Z","sha256":"14a690dd6b3625409cc16610adc5bf85ce1a59f9cde8d1e868e37a00d5b03cde","url":"https://swse.miraheze.org/w/index.php?oldid=19296","history":"https://swse.miraheze.org/w/index.php?title=Rakata&action=history","section":null},
     {"id":"source:wiki-ssi-ruu","title":"Ssi-Ruu","revision":27391,"timestamp":"2026-03-04T16:15:41Z","sha256":"68bc20bdc6d21e5d208c0085b6ce05314103ffe69072fdc4ed5bd1be967c1b90","url":"https://swse.miraheze.org/w/index.php?oldid=27391","history":"https://swse.miraheze.org/w/index.php?title=Ssi-Ruu&action=history","section":null},
-    {"id":"source:wiki-republic-clone","title":"Republic Clone","revision":20034,"timestamp":"2024-08-25T23:04:12Z","sha256":"5492b8a85151628f2c6a1bc95cdecd0c65f8978f410f78addb08afb5fa195548","url":"https://swse.miraheze.org/w/index.php?oldid=20034","history":"https://swse.miraheze.org/w/index.php?title=Republic%20Clone&action=history","section":null}
+    {"id":"source:wiki-republic-clone","title":"Republic Clone","revision":20034,"timestamp":"2024-08-25T23:04:12Z","sha256":"5492b8a85151628f2c6a1bc95cdecd0c65f8978f410f78addb08afb5fa195548","url":"https://swse.miraheze.org/w/index.php?oldid=20034","history":"https://swse.miraheze.org/w/index.php?title=Republic%20Clone&action=history","section":null},
+    {"id":"source:wiki-killik","title":"Killik","revision":21359,"timestamp":"2024-08-26T01:39:18Z","sha256":"fdca6d27650af1afa5d9a2284f8d0678ffb1aa48746bf48a2f1b2d033b7f3800","url":"https://swse.miraheze.org/w/index.php?oldid=21359","history":"https://swse.miraheze.org/w/index.php?title=Killik&action=history","section":null}
   ],
   "species": [
     {
@@ -25262,6 +25263,14 @@
       "bonusClassSkills": [
         "skill:climb",
         "skill:stealth"
+      ],
+      "naturalWeapons": [
+        {
+          "id": "claws",
+          "name": "Claws",
+          "damage": "1d6",
+          "damageType": "Slashing"
+        }
       ]
     },
     {
@@ -25291,6 +25300,14 @@
         {
           "skill": "skill:survival",
           "keep": "replace"
+        }
+      ],
+      "naturalWeapons": [
+        {
+          "id": "horns",
+          "name": "Horns",
+          "damage": "1d6",
+          "damageType": "Piercing"
         }
       ]
     },
@@ -25346,6 +25363,14 @@
         {
           "skill": "skill:initiative",
           "keep": "replace"
+        }
+      ],
+      "naturalWeapons": [
+        {
+          "id": "claws",
+          "name": "Claws",
+          "damage": "1d6",
+          "damageType": "Slashing"
         }
       ]
     },
@@ -25429,7 +25454,27 @@
         "feat:weapon-proficiency-pistols",
         "feat:weapon-proficiency-rifles"
       ],
-      "naturalArmor": 2
+      "naturalArmor": 2,
+      "naturalWeapons": [
+        {
+          "id": "claws",
+          "name": "Claws",
+          "damage": "1d6",
+          "damageType": "Slashing"
+        },
+        {
+          "id": "bite",
+          "name": "Bite",
+          "damage": "1d6",
+          "damageType": "Piercing"
+        },
+        {
+          "id": "tail",
+          "name": "Tail",
+          "damage": "1d6",
+          "damageType": "Bludgeoning"
+        }
+      ]
     },
     {
       "name": "Blood Carver",
@@ -26011,7 +26056,15 @@
         "swim": 4
       },
       "vision": "low-light",
-      "breatheUnderwater": true
+      "breatheUnderwater": true,
+      "naturalWeapons": [
+        {
+          "id": "beak",
+          "name": "Beak",
+          "damage": "1d6",
+          "damageType": "Piercing"
+        }
+      ]
     },
     {
       "name": "Kaleesh",
@@ -26195,6 +26248,14 @@
       },
       "traits": [
         "rage"
+      ],
+      "naturalWeapons": [
+        {
+          "id": "claws",
+          "name": "Claws",
+          "damage": "1d6",
+          "damageType": "Slashing"
+        }
       ]
     },
     {
@@ -26551,7 +26612,15 @@
       "conditionalFocus": "skill:mechanics",
       "reminders": [],
       "automation": "partial",
-      "vision": "darkvision"
+      "vision": "darkvision",
+      "naturalWeapons": [
+        {
+          "id": "claws",
+          "name": "Claws",
+          "damage": "1d6",
+          "damageType": "Slashing"
+        }
+      ]
     },
     {
       "name": "Taung",
@@ -26700,7 +26769,15 @@
       "bonusSkills": 0,
       "conditionalFocus": null,
       "reminders": [],
-      "automation": "partial"
+      "automation": "partial",
+      "naturalWeapons": [
+        {
+          "id": "claws",
+          "name": "Claws",
+          "damage": "1d6",
+          "damageType": "Slashing"
+        }
+      ]
     },
     {
       "name": "Tusken Raider",
@@ -26897,7 +26974,15 @@
       "bonusSkills": 0,
       "conditionalFocus": null,
       "reminders": [],
-      "automation": "partial"
+      "automation": "partial",
+      "naturalWeapons": [
+        {
+          "id": "claws",
+          "name": "Claws",
+          "damage": "1d6",
+          "damageType": "Slashing"
+        }
+      ]
     },
     {
       "name": "Wroonian",
@@ -26938,7 +27023,15 @@
       "bonusSkills": 0,
       "conditionalFocus": null,
       "reminders": [],
-      "automation": "partial"
+      "automation": "partial",
+      "naturalWeapons": [
+        {
+          "id": "claws",
+          "name": "Claws",
+          "damage": "1d6",
+          "damageType": "Slashing"
+        }
+      ]
     },
     {
       "name": "Yuzzem",
@@ -26959,7 +27052,21 @@
       "bonusSkills": 0,
       "conditionalFocus": null,
       "reminders": [],
-      "automation": "partial"
+      "automation": "partial",
+      "naturalWeapons": [
+        {
+          "id": "bite",
+          "name": "Bite",
+          "damage": "1d8",
+          "damageType": "Piercing"
+        },
+        {
+          "id": "claws",
+          "name": "Claws",
+          "damage": "1d8",
+          "damageType": "Slashing"
+        }
+      ]
     },
     {
       "name": "Zygerrian",
@@ -27949,7 +28056,8 @@
     {"id":"species:miraluka","name":"Miraluka","sourceId":"source:wiki-miraluka","abilityAdjustments":{"int":2,"dex":-2},"defenses":{},"size":"medium","speed":6,"languages":["Basic","Miralukese"],"bonusFeats":0,"bonusSkills":0,"conditionalFocus":null,"reminders":[],"automation":"partial","conditionalForceTraining":true},
     {"id":"species:rakata","name":"Rakata","sourceId":"source:wiki-rakata","abilityAdjustments":{"int":2,"wis":-2},"defenses":{},"size":"medium","speed":6,"languages":["Rakata"],"bonusFeats":0,"bonusSkills":0,"conditionalFocus":null,"reminders":[],"automation":"partial","forceRestrictions":{"forbidSensitivity":true},"unproficientWeaponPenalty":-2,"unproficientArmorPenalties":{"light":0,"medium":-2,"heavy":-5},"excludedStartingFeats":["feat:weapon-proficiency-heavy-weapons","feat:weapon-proficiency-pistols","feat:weapon-proficiency-rifles"],"rage":{"dailyUses":1,"bonus":2,"durationBase":5,"restMinutes":10,"blockedSkills":["skill:mechanics","skill:stealth","skill:use-the-force"]},"traits":["rage"],"creationChoices":[{"id":"weapon-focus","name":"Weapon Focus","kind":"weaponFocus","options":[{"id":"simple-weapons","name":"Simple Weapons","choice":"simple-weapons","requiresFeat":"feat:weapon-proficiency-simple-weapons"},{"id":"atlatl","name":"Atlatl","choice":"equipment:atlatl"},{"id":"cesta","name":"Cesta","choice":"equipment:cesta"},{"id":"amphistaff","name":"Amphistaff","choice":"equipment:amphistaff"},{"id":"arg-garok","name":"Arg'garok","choice":"equipment:arg-garok"},{"id":"blastsword","name":"Blastsword","choice":"equipment:blastsword"},{"id":"darkstick","name":"Darkstick","choice":"equipment:darkstick"},{"id":"felucian-skullblade","name":"Felucian Skullblade","choice":"equipment:felucian-skullblade"},{"id":"fira","name":"Fira","choice":"equipment:fira"},{"id":"garrote","name":"Garrote","choice":"equipment:garrote"},{"id":"neuronic-whip","name":"Neuronic Whip","choice":"equipment:neuronic-whip"},{"id":"ryyk-blade","name":"Ryyk Blade","choice":"equipment:ryyk-blade"},{"id":"shyarn","name":"Shyarn","choice":"equipment:shyarn"},{"id":"tehk-la-blade","name":"Tehk'la Blade","choice":"equipment:tehk-la-blade"},{"id":"vibro-saw","name":"Vibro-Saw","choice":"equipment:vibro-saw"},{"id":"zhaboka","name":"Zhaboka","choice":"equipment:zhaboka"}]}]},
     {"id":"species:ssi-ruu","name":"Ssi-Ruu","sourceId":"source:wiki-ssi-ruu","abilityAdjustments":{"str":2,"wis":-2},"defenses":{},"size":"medium","speed":6,"languages":["Ssi-Ruuvi"],"bonusFeats":0,"bonusSkills":0,"conditionalFocus":"skill:persuasion","reminders":[],"automation":"partial","forceRestrictions":{"forbidSensitivity":true,"forbidChecks":true,"forbidPoints":true},"naturalArmor":2,"skillRerolls":[{"skill":"skill:persuasion","keep":"best","when":"keenSmell"}]},
-    {"id":"species:republic-clone","name":"Republic Clone","sourceId":"source:wiki-republic-clone","abilityAdjustments":{},"defenses":{},"size":"medium","speed":6,"languages":["Basic"],"bonusFeats":1,"bonusSkills":1,"conditionalFocus":null,"reminders":[],"automation":"partial","fixedAbilities":{"str":15,"dex":13,"con":10,"int":12,"wis":10,"cha":8},"creationChoices":[{"id":"ability","name":"Ability","kind":"ability","options":[{"id":"str","name":"+2 STR","adjustments":{"str":2}},{"id":"dex","name":"+2 DEX","adjustments":{"dex":2}},{"id":"con","name":"+2 CON","adjustments":{"con":2}},{"id":"int","name":"+2 INT","adjustments":{"int":2}},{"id":"wis","name":"+2 WIS","adjustments":{"wis":2}},{"id":"cha","name":"+2 CHA","adjustments":{"cha":2}}]}]}
+    {"id":"species:republic-clone","name":"Republic Clone","sourceId":"source:wiki-republic-clone","abilityAdjustments":{},"defenses":{},"size":"medium","speed":6,"languages":["Basic"],"bonusFeats":1,"bonusSkills":1,"conditionalFocus":null,"reminders":[],"automation":"partial","fixedAbilities":{"str":15,"dex":13,"con":10,"int":12,"wis":10,"cha":8},"creationChoices":[{"id":"ability","name":"Ability","kind":"ability","options":[{"id":"str","name":"+2 STR","adjustments":{"str":2}},{"id":"dex","name":"+2 DEX","adjustments":{"dex":2}},{"id":"con","name":"+2 CON","adjustments":{"con":2}},{"id":"int","name":"+2 INT","adjustments":{"int":2}},{"id":"wis","name":"+2 WIS","adjustments":{"wis":2}},{"id":"cha","name":"+2 CHA","adjustments":{"cha":2}}]}]},
+    {"id":"species:killik","name":"Killik","sourceId":"source:wiki-killik","abilityAdjustments":{"con":2,"int":-2},"defenses":{},"size":"medium","speed":6,"languages":["Killik","Sy Bisti"],"bonusFeats":0,"bonusSkills":0,"conditionalFocus":null,"reminders":[],"automation":"partial","vision":"low-light","naturalArmor":1,"multiattackReduction":2,"naturalWeapons":[{"id":"claws","name":"Claws","damage":"1d6","damageType":"Slashing","damageBySize":{"fine":"1","diminutive":"1d2","tiny":"1d3","small":"1d4","medium":"1d6","large":"1d8","huge":"2d6","gargantuan":"3d6","colossal":"4d6"}}],"creationChoices":[{"id":"size","name":"Size","kind":"size","defaultOption":"medium","options":[{"id":"fine","name":"Fine","size":"fine","speed":4,"adjustments":{"dex":8,"str":-8}},{"id":"diminutive","name":"Diminutive","size":"diminutive","speed":4,"adjustments":{"dex":6,"str":-6}},{"id":"tiny","name":"Tiny","size":"tiny","speed":4,"adjustments":{"dex":4,"str":-4}},{"id":"small","name":"Small","size":"small","speed":4,"adjustments":{"dex":2,"str":-2}},{"id":"medium","name":"Medium","size":"medium","speed":6,"adjustments":{}},{"id":"large","name":"Large","size":"large","speed":6,"adjustments":{"str":8,"con":8,"dex":-2}},{"id":"huge","name":"Huge","size":"huge","speed":4,"adjustments":{"str":16,"con":16,"dex":-4}},{"id":"gargantuan","name":"Gargantuan","size":"gargantuan","speed":4,"adjustments":{"str":24,"con":24,"dex":-4}},{"id":"colossal","name":"Colossal","size":"colossal","speed":4,"adjustments":{"str":32,"con":32,"dex":-4}}]}]}
   ],
   "classes": [
     {
@@ -65820,12 +65928,24 @@
     "sizeReflex": {
       "small": 1,
       "medium": 0,
-      "large": -1
+      "large": -1,
+      "fine": 10,
+      "diminutive": 5,
+      "tiny": 2,
+      "huge": -2,
+      "gargantuan": -5,
+      "colossal": -10
     },
     "sizeThreshold": {
       "small": 0,
       "medium": 0,
-      "large": 5
+      "large": 5,
+      "fine": 0,
+      "diminutive": 0,
+      "tiny": 0,
+      "huge": 10,
+      "gargantuan": 20,
+      "colossal": 50
     },
     "sourceIds": [
       "source:character-creation",
@@ -65843,7 +65963,13 @@
     "sizeStealth": {
       "small": 5,
       "medium": 0,
-      "large": -5
+      "large": -5,
+      "fine": 20,
+      "diminutive": 15,
+      "tiny": 10,
+      "huge": -10,
+      "gargantuan": -15,
+      "colossal": -20
     },
     "licensing": {
       "sourceIds": [
@@ -66367,7 +66493,8 @@
     },
     "unarmed": {
       "sourceIds": [
-        "source:wiki-unarmed-attacks"
+        "source:wiki-unarmed-attacks",
+        "source:wiki-martial-arts-i"
       ],
       "damage": {
         "small": "1d3",
@@ -66375,6 +66502,16 @@
         "large": "1d6"
       },
       "dieSteps": [
+        3,
+        4,
+        6,
+        8,
+        10,
+        12
+      ],
+      "naturalDieSteps": [
+        1,
+        2,
         3,
         4,
         6,

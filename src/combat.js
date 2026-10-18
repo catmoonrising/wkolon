@@ -1,3 +1,4 @@
+import {validAttackReference} from './attack-refs.js';
 import {evalExpr,totalHtml} from './dice.js';
 import {escapeHTML as escape} from './wiki-content.js';
 import {FULL_ATTACK_SOURCES,planFullAttack} from './full-attacks.js';
@@ -53,7 +54,7 @@ export function validateCombatState(c,bad){
   for(const s of r.steps){
    if(!s||Object.keys(s).some(k=>!['id','attackId','count','attackMod','damageMod','source'].includes(k))||
      (r.kind==='fullAttack'?!FULL_ATTACK_SOURCES.includes(s.source)||s.count!==1:s.source!==undefined)||
-     !uuid(s.id)||ids.has(s.id)||!uuid(s.attackId)||!integer(s.count,1,20)||!integer(s.attackMod,-1000,1000)||!integer(s.damageMod,-1000,1000))bad('routine step');
+     !uuid(s.id)||ids.has(s.id)||!validAttackReference(s.attackId)||!integer(s.count,1,20)||!integer(s.attackMod,-1000,1000)||!integer(s.damageMod,-1000,1000))bad('routine step');
    ids.add(s.id);count+=s.count;
   }
   if(r.kind==='fullAttack'&&(r.steps.filter(s=>s.source==='base').length!==1||new Set(r.steps.map(s=>s.source)).size!==r.steps.length))bad('Full Attack sources');

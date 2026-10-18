@@ -79,17 +79,19 @@ export function validatePack(p) {
         assert(Array.isArray(r.creationChoices)&&r.creationChoices.length>0,'Invalid species choice groups');
         const groupIds=new Set();
         for(const g of r.creationChoices){
-          assert(g&&Object.keys(g).every(k=>['id','name','kind','options'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus','weaponFocus','trainedSkill','startingFeat'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
+          assert(g&&Object.keys(g).every(k=>['id','name','kind','options','defaultOption'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus','weaponFocus','size','trainedSkill','startingFeat'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
           assert(Array.isArray(g.options)&&g.options.length>=2,'Invalid species options');const optionIds=new Set();
           for(const o of g.options){
-            const field={ability:'adjustments',language:'language',skillFocus:'skillId',weaponFocus:'choice',trainedSkill:'skillId',startingFeat:'featId'}[g.kind];
-            assert(o&&Object.keys(o).every(k=>['id','name',field,...(g.kind==='weaponFocus'?['requiresFeat']:[])].includes(k))&&typeof o.id==='string'&&/^[a-z][a-z0-9-]*$/.test(o.id)&&!optionIds.has(o.id)&&typeof o.name==='string'&&o.name.trim(),'Invalid species option');optionIds.add(o.id);
-            if(g.kind==='ability')assert(o.adjustments&&typeof o.adjustments==='object'&&!Array.isArray(o.adjustments)&&Object.keys(o.adjustments).length>0&&Object.entries(o.adjustments).every(([a,n])=>ABILITIES.includes(a)&&Number.isInteger(n)&&n!==0&&n>=-10&&n<=10),'Invalid species ability option');
+            const field={ability:'adjustments',size:'adjustments',language:'language',skillFocus:'skillId',weaponFocus:'choice',trainedSkill:'skillId',startingFeat:'featId'}[g.kind];
+            assert(o&&Object.keys(o).every(k=>['id','name',field,...(g.kind==='weaponFocus'?['requiresFeat']:g.kind==='size'?['size','speed']:[])].includes(k))&&typeof o.id==='string'&&/^[a-z][a-z0-9-]*$/.test(o.id)&&!optionIds.has(o.id)&&typeof o.name==='string'&&o.name.trim(),'Invalid species option');optionIds.add(o.id);
+            if(g.kind==='size'){assert(p.rules.sizeReflex[o.size]!==undefined&&Number.isInteger(o.speed)&&o.speed>=0,'Invalid species size profile');}
+            if(['ability','size'].includes(g.kind))assert(o.adjustments&&typeof o.adjustments==='object'&&!Array.isArray(o.adjustments)&&(g.kind==='size'||Object.keys(o.adjustments).length>0)&&Object.entries(o.adjustments).every(([a,n])=>ABILITIES.includes(a)&&Number.isInteger(n)&&n!==0&&n>=(g.kind==='size'?-32:-10)&&n<=(g.kind==='size'?32:10)),'Invalid species ability option');
             if(g.kind==='language')assert(typeof o.language==='string'&&o.language.trim()&&o.language.length<=100,'Invalid species language option');
             if(['skillFocus','trainedSkill'].includes(g.kind))requireRef('skills',o.skillId);
             if(g.kind==='startingFeat')speciesStartingFeat(o.featId);
             if(g.kind==='weaponFocus'){requireRef('feats','feat:weapon-focus');assert(featureChoices(ix.feats.get('feat:weapon-focus'),p).includes(o.choice),'Invalid species Weapon Focus');if(o.requiresFeat!==undefined)requireRef('feats',o.requiresFeat);}
           }
+          if(g.defaultOption!==undefined)assert(g.kind==='size'&&g.options.some(o=>o.id===g.defaultOption),'Invalid default size profile');
         }
       }
       if(r.limbRegeneration){assert.deepEqual(Object.keys(r.limbRegeneration).sort(),['die','sourceId']);assert.equal(r.limbRegeneration.die,10);assert(sources.has(r.limbRegeneration.sourceId),'Missing limb regeneration source');}
@@ -107,6 +109,12 @@ export function validatePack(p) {
       if(r.fixedAbilities!==undefined){assert(r.fixedAbilities&&typeof r.fixedAbilities==='object'&&!Array.isArray(r.fixedAbilities),'Invalid fixed ability scores');assert.deepEqual(Object.keys(r.fixedAbilities).sort(),[...ABILITIES].sort());assert(Object.values(r.fixedAbilities).every(n=>Number.isInteger(n)&&n>=3&&n<=30),'Invalid fixed ability scores');}
       assert(Array.isArray(r.languages) && Array.isArray(r.reminders));
       for(const key of ['damageReduction','damageThresholdBonus'])if(r[key]!==undefined)assert(Number.isInteger(r[key])&&r[key]>=0,'Invalid species '+key);
+      if(r.multiattackReduction!==undefined)assert(Number.isInteger(r.multiattackReduction)&&r.multiattackReduction>0&&r.multiattackReduction<=10,'Invalid innate multiple-attack reduction');
+      if(r.naturalWeapons!==undefined){
+        assert(Array.isArray(r.naturalWeapons)&&r.naturalWeapons.length>0&&r.naturalWeapons.length<=20,'Invalid natural weapons');const ids=new Set();
+        const damage=v=>typeof v==='string'&&/^(1|[1-9][0-9]?d(2|3|4|6|8|10|12))$/.test(v);
+        for(const w of r.naturalWeapons){assert(w&&Object.keys(w).every(k=>['id','name','damage','damageType','damageBySize'].includes(k))&&typeof w.id==='string'&&/^[a-z][a-z0-9-]{0,39}$/.test(w.id)&&!ids.has(w.id)&&typeof w.name==='string'&&w.name.trim()&&damage(w.damage)&&['Slashing','Piercing','Bludgeoning'].includes(w.damageType),'Invalid natural weapon');ids.add(w.id);if(w.damageBySize!==undefined){assert(w.damageBySize&&typeof w.damageBySize==='object'&&!Array.isArray(w.damageBySize));for(const [size,value]of Object.entries(w.damageBySize))assert(p.rules.weaponSizeOrder.includes(size)&&damage(value),'Invalid natural weapon size damage');}}
+      }
       if(r.naturalArmor!==undefined)assert(Number.isInteger(r.naturalArmor)&&r.naturalArmor>=0,'Invalid natural armor');
       if(r.conditionalDefenses!==undefined){
         assert(Array.isArray(r.conditionalDefenses));
@@ -402,7 +410,7 @@ export function validatePack(p) {
   assert.deepEqual(p.rules.weaponRanges.penalties,[0,-2,-5,-10],'Unsupported range penalties');
   assert.deepEqual(Object.keys(p.rules.weaponRanges.limits).sort(),['heavy-weapons','pistols','rifles','simple-weapons','thrown']);
   for(const limits of Object.values(p.rules.weaponRanges.limits))assert(limits.length===4&&limits.every((n,i)=>Number.isInteger(n)&&n>=0&&(!i||n>limits[i-1])),'Invalid weapon ranges');
-  assert.deepEqual(p.rules.unarmed.damage,{small:'1d3',medium:'1d4',large:'1d6'});assert.deepEqual(p.rules.unarmed.dieSteps,[3,4,6,8,10,12]);
+  assert.deepEqual(p.rules.unarmed.damage,{small:'1d3',medium:'1d4',large:'1d6'});assert.deepEqual(p.rules.unarmed.dieSteps,[3,4,6,8,10,12]);assert.deepEqual(p.rules.unarmed.naturalDieSteps,[1,2,3,4,6,8,10,12]);
   assert(p.rules.secondWind.hitPointFraction===.25&&p.rules.secondWind.maximumHitPointFraction===.5&&p.rules.secondWind.dailyUses===1,'Unsupported Second Wind rule');
   const wind=p.rules.secondWind;assert.deepEqual(Object.keys(wind).sort(),['dailyUses','exhaustionRestHours','exhaustionTopic','forceRecovery','hitPointFraction','maximumHitPointFraction','multipleUsesTopic','sourceIds','usesPerEncounter']);assert(wind.usesPerEncounter===1&&wind.exhaustionRestHours===8);assert.deepEqual(wind.forceRecovery,{talentId:'talent:force-recovery',die:6,maxDice:10});requireRef('talents',wind.forceRecovery.talentId);
   assert(wind.multipleUsesTopic==='jc:114-variant-rule-multiple-second-winds'&&wind.exhaustionTopic==='jc:114-optional-rule-the-edge-of-exhaustion');

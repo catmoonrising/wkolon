@@ -1,3 +1,4 @@
+import {rebindAttackReference} from './attack-refs.js';
 import {validateCharacter, newCharacter} from './rules.js';
 import {setGenerationMethod} from './ability-generation.js';
 import {prepareCombatState} from './combat.js';
@@ -74,8 +75,8 @@ function replaceCharacterId(c){
  delete c.routineProgress;
  if(c.followUp)Object.assign(c.followUp,{tickets:[],selected:null,dropped:false,immediate:false,inReach:false});
  // The permanent unarmed attack uses the character's ID; physical item IDs stay intact.
- for(const r of c.routines||[])for(const s of r.steps)if(s.attackId===previous)s.attackId=c.id;
- for(const step of [...(c.actionState?.plan||[]),...(c.actionState?.history||[])])if(step.options.uid===previous)step.options.uid=c.id;
+ for(const r of c.routines||[])for(const s of r.steps)s.attackId=rebindAttackReference(s.attackId,previous,c.id);
+ for(const step of [...(c.actionState?.plan||[]),...(c.actionState?.history||[])])if(step.options.uid!==undefined)step.options.uid=rebindAttackReference(step.options.uid,previous,c.id);
 }
 
 export function downloadJSON(value, filename) {

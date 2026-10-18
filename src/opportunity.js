@@ -11,6 +11,7 @@ export function opportunityState(c,pack,ctx,mods){
 }
 export function weaponCanOpportunity(w,entry,pack,ctx){
  const rule=pack.rules.opportunity;
+ if(w.natural)return true;
  if(w.unarmed)return ctx.feats.some(f=>f.id===rule.unarmedRequires);
  return w.mode==='melee'||rule.groups.includes(w.group)||rule.foldedStock&&!!w.retractableStock&&entry.stockPosition==='folded';
 }

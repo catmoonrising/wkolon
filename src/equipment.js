@@ -1,4 +1,4 @@
-export const armorScale=size=>({small:.5,medium:1,large:2})[size]??1;
+export const armorScale=size=>size===undefined?1:({small:.5,medium:1,large:2})[size]??null;
 export function equipmentFamilies(pack,kind){
  const families=new Map();
  for(const r of pack.equipment.filter(r=>r.kind===kind)){
@@ -13,7 +13,7 @@ export function resolveEquipment(e,pack,c={}){
  if(!r)throw new Error('Unknown equipment');
  const options=(r.upgrades||[]).filter(u=>(e.options||[]).includes(u.id));
  const scale=r.kind==='armor'&&!r.energyShield?armorScale(r.wearerSize||e.armorSize):1;
- const base=r.cost===null?null:(r.retractableStock&&e.stockPosition==='none'?r.retractableStock.withoutCost:r.cost)*scale;
+ const base=r.cost===null||scale===null?null:(r.retractableStock&&e.stockPosition==='none'?r.retractableStock.withoutCost:r.cost)*scale;
  let cost=base;
  if(cost!==null){
   const mini=options.find(u=>u.id==='miniaturized');
@@ -25,7 +25,7 @@ export function resolveEquipment(e,pack,c={}){
   else cost+=functional.reduce((n,u)=>n+base*u.costMultiplier,0);
  }
  const unknownWeight=options.some(u=>u.changesWeight);
- const weight=e.weightOverride??(unknownWeight||r.weight===null?null:r.weight*scale);
+ const weight=e.weightOverride??(unknownWeight||r.weight===null||scale===null?null:r.weight*scale);
  const tags=[r.variant,...options.map(u=>u.name),...(r.kind==='armor'&&!r.energyShield&&(r.wearerSize||e.armorSize)&&(r.wearerSize||e.armorSize)!=='medium'?[(r.wearerSize||e.armorSize).replace(/^./,s=>s.toUpperCase())]:[])].filter(Boolean);
  const mode=r.modes?.find(m=>m.id===(e.weaponMode||r.modes[0].id));
  const launcher=r.launchers?.find(l=>l.id===(e.launcher||r.launchers[0].id));
@@ -41,7 +41,7 @@ export function resolveEquipment(e,pack,c={}){
  const stun=!!ammunition?.stunOnly||!!r.stunOnly||e.damageSetting==='stun';
  const damageType=stun?(r.stunDamageType||ammunition?.damageType||r.damageType)+' (Stun)':ammunition?.damageType||r.damageType;
  if(stun&&!r.stunOnly&&!ammunition?.stunOnly)tags.push('Stun');
- return {...r,...mode,...(launcher?{rangeType:launcher.rangeType,accurate:launcher.accurate}:{}),...(ammunition?{damage:ammunition.damage,areaType:ammunition.areaType,stunDamage:ammunition.stunDamage}:{}),...(stun&&r.stunDamage?{damage:r.stunDamage}:{}),...(r.retractableStock&&e.stockPosition==='folded'?{group:'pistols',rangeType:'pistols'}:{}),...(throwing?{mode:'ranged',rangeType:'thrown'}:{}),damageType,damageEffect:stun?'stun':damageType==='Ion'?'ion':'normal',id:r.id,cost,weight,name:r.family?`${r.family} (${tags.join(', ')})`:r.name+(tags.length?` (${tags.join(', ')})`:'')};
+ return {...r,...(r.kind==='armor'&&!r.energyShield?{wearerSize:r.wearerSize||e.armorSize,...(scale===null?{purchasePending:true,manualSize:true}:{})}:{}),...mode,...(launcher?{rangeType:launcher.rangeType,accurate:launcher.accurate}:{}),...(ammunition?{damage:ammunition.damage,areaType:ammunition.areaType,stunDamage:ammunition.stunDamage}:{}),...(stun&&r.stunDamage?{damage:r.stunDamage}:{}),...(r.retractableStock&&e.stockPosition==='folded'?{group:'pistols',rangeType:'pistols'}:{}),...(throwing?{mode:'ranged',rangeType:'thrown'}:{}),damageType,damageEffect:stun?'stun':damageType==='Ion'?'ion':'normal',id:r.id,cost,weight,name:r.family?`${r.family} (${tags.join(', ')})`:r.name+(tags.length?` (${tags.join(', ')})`:'')};
 }
 export function purchaseQuote(e,quantity,pack,c,{license=true,market='normal',benefits={}}={}){
  const item=resolveEquipment(e,pack,c);
@@ -55,7 +55,7 @@ export function purchaseQuote(e,quantity,pack,c,{license=true,market='normal',be
 export function validateInventoryOptions(e,pack,bad){
  const r=pack.equipment.find(r=>r.id===e.id);
  if(e.options!==undefined&&(!Array.isArray(e.options)||new Set(e.options).size!==e.options.length||e.options.some(id=>!r.upgrades?.some(u=>u.id===id))))bad('equipment options');
- if(e.armorSize!==undefined&&(r.kind!=='armor'||r.energyShield||!['small','medium','large'].includes(e.armorSize)))bad('armor size');
+ if(e.armorSize!==undefined&&(r.kind!=='armor'||r.energyShield||!pack.rules.weaponSizeOrder.includes(e.armorSize)))bad('armor size');
  if(r.wearerSize&&e.armorSize!==undefined&&e.armorSize!==r.wearerSize)bad('stock armor size');
  if(e.weightOverride!==undefined&&(!Number.isFinite(e.weightOverride)||e.weightOverride<0||e.weightOverride>1000000))bad('equipment weight');
  if(e.licenseStatus!==undefined&&!['none','pending','approved','denied'].includes(e.licenseStatus))bad('license status');

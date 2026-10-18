@@ -1884,3 +1884,31 @@ use the resulting scores.
 
 Five inventoried species pages remain without selectable profiles: Killik,
 Near-Human, Replica Droid, Shard and Sorcerer of Rhand.
+
+## Natural weapons and Killik
+
+Printed claws, horns, beak, bite and tail attacks are available for Cathar,
+Nosaurian, Shistavanen, Barabel, Ishi Tib, Mantellian Savrip, Talz, Trianii,
+Whiphid, Yevetha and Yuzzem. Each attack preserves its printed damage and type,
+even where a Large species prints 1d6. Martial Arts advances the natural die
+from that base, following the Martial Arts I FAQ. Natural weapons count as armed
+for opportunity attacks without requiring Martial Arts I. Merely possessing
+several natural weapons does not grant extra attacks.
+
+Killik defaults to Medium. Its optional GM size profiles preserve all nine
+printed rows, including ability adjustments, Speed and natural damage. The
+Multiattack trait reduces the aggregate multiple-attack penalty by 2. Hive Mind,
+Joiners and additional GM-assigned qualities remain manual. Fine natural damage
+is the printed constant 1, with normal minimum damage and extra-die handling.
+Ordinary unarmed attacks outside Small, Medium and Large remain manual because
+the Core unarmed table provides no damage for those sizes. Armor prices and
+weights outside those three sizes also remain manual; no scaling is inferred.
+Explicit armor sizes participate in fit checks; older untagged inventory retains
+its existing interpretation. Lugubraa natural damage remains manual because the
+article prints ambiguous dice and does not specify the damage type.
+
+Natural attack references survive saves and species changes. Character copies
+and imports rebind their routine and planned-action references to the new
+character. Modifiers are separate for claws, bite, horns, beak and tail, and do
+not alter the ordinary unarmed attack. Full attacks, opportunity attacks, Cleave,
+Actions and stat blocks use the same derived natural attacks.
