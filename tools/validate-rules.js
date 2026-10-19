@@ -1,3 +1,4 @@
+import {validateVehicleData} from '../src/vehicles.js';
 import {validateSpeciesProfileData} from '../src/species-profiles.js';
 import {validateCustomizationData} from '../src/species-customization.js';
 import {validateDroidSystemData} from '../src/droid-systems.js';
@@ -61,7 +62,7 @@ export function validatePack(p) {
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
     if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
-  for (const key of ['species','classes','skills','feats','talents','equipment','destinies','backgrounds','forcePowers','starshipManeuvers','classChoices','rulePages']) for (const r of p[key]||[]) {
+  for (const key of ['species','classes','skills','feats','talents','equipment','destinies','backgrounds','forcePowers','starshipManeuvers','vehicles','classChoices','rulePages']) for (const r of p[key]||[]) {
     assert(!ids.has(r.id), `Duplicate ID ${r.id}`); ids.add(r.id);
     assert(/^[a-z]+:[a-z0-9-]+$/.test(r.id)); assert.equal(typeof r.name,'string'); assert(sources.has(r.sourceId), `Missing source ${r.id}`);
     if(r.article !== undefined) {
@@ -187,6 +188,7 @@ export function validatePack(p) {
     }
     if(key==='classChoices'){prerequisite(r.prerequisite);assert(Array.isArray(r.effects));for(const e of r.effects)assert(Object.keys(e).length===1&&e.target==='powerTake10'&&r.choiceType==='power'&&r.id==='classchoice:force-power-mastery');assert(['forceTechnique','forceSecret','medicalSecret'].includes(r.kind)&&['never','choice'].includes(r.repeat));if(r.choiceType!==undefined)assert(r.choiceType==='power'&&r.repeat==='choice');}
     if (key === 'skills') assert(ABILITIES.includes(r.ability) && typeof r.trainedOnly==='boolean' && typeof r.armorCheck==='boolean');
+    if(key==='vehicles')validateVehicleData(r,p,message=>{throw new Error(message);});
     if(key==='starshipManeuvers'){assert(['standard-action','swift-action','move-action','full-round-action','reaction'].includes(r.action));assert(Array.isArray(r.descriptors)&&new Set(r.descriptors).size===r.descriptors.length&&r.descriptors.every(d=>['attack-pattern','dogfight','force','gunner'].includes(d)));assert(typeof r.actionText==='string'&&r.actionText.length>0);assert(r.automation==='manual');}
     if(key==='forcePowers'){const actions=['standard-action','swift-action','move-action','full-round-action','free-action','reaction'];assert(actions.includes(r.action));assert(Array.isArray(r.descriptors)&&new Set(r.descriptors).size===r.descriptors.length&&r.descriptors.every(d=>['dark-side','light-side','mind-affecting','telekinetic','lightsaber-form'].includes(d)));if(r.actionText!==undefined)assert(typeof r.actionText==='string'&&r.actionText.length>0);if(r.actions!==undefined)assert(Array.isArray(r.actions)&&r.actions.length>1&&new Set(r.actions).size===r.actions.length&&r.actions.every(a=>actions.includes(a))&&r.actions[0]===r.action,'Invalid alternative power actions');}
     if (['feats','talents'].includes(key)) {
@@ -503,21 +505,22 @@ export function validatePack(p) {
     assert.equal(p.catalog.schemaVersion,1);
     assert.equal(p.catalog.book,'Core Rulebook');
     assert(Array.isArray(p.catalog.records));
-    const kinds=['species','class','prestigeClass','classFeature','skill','feat','talent','talentTree','weapon','armor','gear','forcePower','starshipManeuver'];
+    const kinds=['species','class','prestigeClass','classFeature','skill','feat','talent','talentTree','weapon','armor','gear','forcePower','starshipManeuver','vehicle'];
     const catalogIds=new Set(), pages=new Map(p.rulePages.map(r=>[r.id,r]));
     for(const r of p.catalog.records) {
       assert(/^catalog:[a-z0-9-]+$/.test(r.id)&&!catalogIds.has(r.id),'Invalid catalog ID');catalogIds.add(r.id);
       assert.equal(typeof r.name,'string');assert(kinds.includes(r.kind),'Unknown catalog kind');
       assert(['available','reference'].includes(r.status),'Invalid catalog status');
-      assert(sources.has(r.sourceId)&&pages.has(r.ruleId),'Missing catalog reference');
-      assert.equal(pages.get(r.ruleId).sourceId,r.sourceId,'Catalog source mismatch');
+      assert(sources.has(r.sourceId),'Missing catalog reference');
+      if(r.referenceId!==undefined){const v=ix.vehicles.get(r.mechanicsIds?.[0]);assert(r.kind==='vehicle'&&r.ruleId===undefined&&r.mechanicsIds.length===1&&v&&v.referenceId===r.referenceId&&v.sourceId===r.sourceId&&v.name===r.name,'Vehicle catalog reference mismatch');}
+      else{assert(pages.has(r.ruleId),'Missing catalog reference');assert.equal(pages.get(r.ruleId).sourceId,r.sourceId,'Catalog source mismatch');}
       assert(Array.isArray(r.books)&&r.books.every(b=>typeof b==='string'));
       assert(Array.isArray(r.mechanicsIds)&&new Set(r.mechanicsIds).size===r.mechanicsIds.length,'Invalid catalog mechanics');
-      const collection={species:'species',class:'classes',prestigeClass:'classes',classFeature:'classChoices',skill:'skills',feat:'feats',talent:'talents',weapon:'equipment',armor:'equipment',gear:'equipment',forcePower:'forcePowers',starshipManeuver:'starshipManeuvers'}[r.kind];
+      const collection={species:'species',class:'classes',prestigeClass:'classes',classFeature:'classChoices',skill:'skills',feat:'feats',talent:'talents',weapon:'equipment',armor:'equipment',gear:'equipment',forcePower:'forcePowers',starshipManeuver:'starshipManeuvers',vehicle:'vehicles'}[r.kind];
       r.mechanicsIds.forEach(id=>{assert(collection,'Unsupported catalog mechanics');requireRef(collection,id);});
       assert.equal(r.status,r.mechanicsIds.length?'available':'reference','Unreviewed catalog entry enabled');
       if(r.classIds){assert(Array.isArray(r.classIds));r.classIds.forEach(id=>requireRef('classes',id));}
-      assert(Object.keys(r).every(k=>['id','name','kind','ruleId','sourceId','books','tree','classIds','mechanicsIds','status'].includes(k)),'Invalid catalog attribute');
+      assert(Object.keys(r).every(k=>['id','name','kind','ruleId','referenceId','sourceId','books','tree','classIds','mechanicsIds','status'].includes(k)),'Invalid catalog attribute');
     }
   }
   return p;

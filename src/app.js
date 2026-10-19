@@ -1,3 +1,4 @@
+import {createVehiclesUI} from './vehicles-ui.js';
 import {createStarshipManeuvers} from './starship-maneuvers-ui.js';
 import {speciesQualities,changeSpeciesQuality} from './species-profiles.js';
 import {speciesQualityControls} from './species-profiles-ui.js';
@@ -73,7 +74,7 @@ const title = value => value.replaceAll('-', ' ').replace(/\b\w/g, c => c.toUppe
 const SECTIONS = ['overview','creation','skills','features','equipment','advancement','rules'];
 let section = SECTIONS.includes(location.hash.slice(1)) ? location.hash.slice(1) : 'overview';
 let pack, ix, store, derived, speciesBrowser, featureTrees, combatControls, rulesCatalog,speciesChecks,recoveryControls;
-let actionsUI,droidSystemsUI;
+let actionsUI,droidSystemsUI,vehiclesUI;
 let treeTarget=null, houseRules, creationOptions,forcePowersUI,powerManageLevel=0,starshipManeuversUI,maneuverManageLevel=0;
 const referenceLibrary=createReferenceLibrary();
 let referenceRequest=0;
@@ -203,6 +204,7 @@ function treeOptions(level,kind,slotIndex=0) {
 function renderTreeDialog() {
   if(!treeTarget || !$('feature-tree-modal').open)return;
   const {level,kind,slotIndex}=treeTarget;
+  if(kind==='vehicles'){$('feature-tree-title').textContent='Vehicles';$('feature-tree-body').innerHTML=vehiclesUI.manager();return;}
   if(kind==='maneuvers'){$('feature-tree-title').textContent='Starship Maneuvers (Level '+(level+1)+')';$('feature-tree-body').innerHTML=starshipManeuversUI.library(level);return;}
   if(kind==='powers'||kind==='training'){$('feature-tree-title').textContent=(kind==='powers'?'Force Powers':'Skills')+' (Level '+(level+1)+')';$('feature-tree-body').innerHTML=kind==='powers'?forcePowersUI.library(level):trainingAfterIncrease(level);numericFields($('feature-tree-body'));return;}
   const options=treeOptions(level,kind,slotIndex);
@@ -404,7 +406,7 @@ function creation() {
   case 'abilities':return generateAbilities()+abilityCards();
   case 'species':return customizationControls(c,resolveSpecies(c,pack),pack)+speciesBrowser.render(c.species,speciesChoiceDetails(c,pack,derived.ctx,derived.rows[0]?.ctx||derived.ctx),speciesQualityControls(c,pack));
   case 'skills':{const allowed=row.valid===false?new Set():row.initialClassSkills||classSkills(row.ctx,ix),budget=row.valid===false?0:Math.max(1,cls.trainedSkills+Math.floor((row.scores.int-10)/2))+species.bonusSkills;return skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`);}
-  case 'equipment':{const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));gear[0].querySelector('.panel-heading')?.remove();return `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${derived.droidSystems.enabled?droidSystemsUI.render(true):''}${gear.map(p=>p.outerHTML).join('')}`;}
+  case 'equipment':{const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));gear[0].querySelector('.panel-heading')?.remove();return `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button type="button" data-open-tree="vehicles:0:0">Vehicles</button><button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${derived.droidSystems.enabled?droidSystemsUI.render(true):''}${gear.map(p=>p.outerHTML).join('')}`;}
   case 'character':return finishing();
  }
 }
@@ -519,7 +521,7 @@ function sheet() {
    force:statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${derived.forcePointsForbidden?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`,
    'dark-side':statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'),condition:conditionTrack()+recoveryControls.condition(),skills:skillTable(),actions:actionsUI.render(),attacks:attackTable(),
    'force-powers':forcePowersUI.sheet(),'starship-maneuvers':starshipManeuversUI.sheet(),routines:combatControls.renderRoutines(),
-   'droid-systems':droidSystemsUI.render(),
+   'droid-systems':droidSystemsUI.render(),vehicles:vehiclesUI.sheet(),
    inventory:`${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')} <span class="hint">${totalWeight()}</span>${carryingDisplay()}<details class="shop" id="equipment-catalog"><summary>Catalog</summary>${panelBody(inventoryPanels[0]).replace(/<div class="actions">[\s\S]*?<\/div>$/, '')}</details>${panelBody(inventoryPanels[1])}`,
    'species-features':`${recoveryControls.species()}<div class="feature-list"><article>${ruleReference(species,species.name,null,'sheet-species')}</article>${customizationFeatures(c,species)}${speciesQualityControls(c,pack,'sheet')}</div>`,
    ...Object.fromEntries(['feats','talents','class-features','force-techniques','force-secrets','medical-secrets'].map(id=>[id,featureModule(id,entries)])),
@@ -553,7 +555,7 @@ function renderCreatorIssues() {
 function renderEditor() {
   if (!editorMode) return;
   featureTrees.remember();creationOptions.remember();
-  $('cr-title').textContent = {creation:'Character Creation',advancement:'Level up',rules:'Rules',powers:'Force Powers',maneuvers:'Starship Maneuvers'}[editorMode];
+  $('cr-title').textContent = {creation:'Character Creation',advancement:'Level up',rules:'Rules',powers:'Force Powers',maneuvers:'Starship Maneuvers',vehicles:'Vehicles'}[editorMode];
   const isCreation = editorMode === 'creation';
   $('cr-stepper').hidden = !isCreation;
   $('cr-prev').hidden = $('cr-next').hidden = true;
@@ -566,7 +568,7 @@ function renderEditor() {
   if (isCreation) $('cr-body').setAttribute('aria-labelledby',`cr-tab-${creatorStep}`); else $('cr-body').removeAttribute('aria-labelledby');
   const oldScroll = $('cr-body').scrollTop;
   const openDetails=[...$('cr-body').querySelectorAll('details[open][id]')].map(el=>el.id);
-  $('cr-body').innerHTML = isCreation ? creation() : editorMode==='powers'?forcePowersUI.manager(powerManageLevel):editorMode==='maneuvers'?starshipManeuversUI.manager(maneuverManageLevel):({advancement,rules}[editorMode])();
+  $('cr-body').innerHTML = isCreation ? creation() : editorMode==='powers'?forcePowersUI.manager(powerManageLevel):editorMode==='maneuvers'?starshipManeuversUI.manager(maneuverManageLevel):editorMode==='vehicles'?vehiclesUI.manager():({advancement,rules}[editorMode])();
   openDetails.forEach(id=>{const detail=$('cr-body').querySelector(`[id="${CSS.escape(id)}"]`);if(detail)detail.open=true;});
   numericFields($('cr-body')); $('cr-body').scrollTop=oldScroll;
   renderTreeDialog();if($('creator-modal').open)featureTrees.layout();requestAnimationFrame(()=>featureTrees.layout());
@@ -686,7 +688,7 @@ function events() {
     if(el.id==='rules-search'){rulesCatalog.search(el.value);$('rules-results').innerHTML=rulesCatalog.results();return;}
     if(el.matches('.hp-bar input, .resource-label input'))fitBarInput(el);
     if(combatControls.input(event))return;
-    if(starshipManeuversUI.input(el)||forcePowersUI.input(el))return;
+    if(vehiclesUI.input(el)||starshipManeuversUI.input(el)||forcePowersUI.input(el))return;
     if(featureTrees.input(event))return;
     if(el.id==='species-search'){speciesBrowser.search(el.value);$('species-results').innerHTML=speciesBrowser.results(current().species);return;}
     if(el.dataset.trait){current().heroicTraits||={};current().heroicTraits[el.dataset.trait]=el.value;store.schedule();return;}
@@ -731,7 +733,7 @@ function events() {
     if(el.hasAttribute('data-species-quality'))return;
     if(droidSystemsUI.change(el))return;
     if(actionsUI.change(el))return;
-    if(starshipManeuversUI.change(el)||forcePowersUI.change(el))return;
+    if(vehiclesUI.change(el)||starshipManeuversUI.change(el)||forcePowersUI.change(el))return;
     if(el.hasAttribute('data-maneuver-manage-level')){maneuverManageLevel=Number(el.value);renderEditor();return;}
     if(el.hasAttribute('data-power-manage-level')){powerManageLevel=Number(el.value);renderEditor();return;}
     if(el.hasAttribute('data-generation-manual')) return;
@@ -896,6 +898,7 @@ function events() {
   document.addEventListener('submit',event=>{if(['recovery-healing','recovery-limb'].includes(event.target.id)){event.preventDefault();recoveryControls.submit(event.target);return;}if(event.target.id==='bellow-controls'){event.preventDefault();if(!actionsUI.bellow(event.target))recoveryControls.bellow(event.target);return;}if(event.target.id==='apply-damage'){event.preventDefault();const el=event.target.querySelector('[data-incoming-damage]');commitMath(el);combatControls.damage(event.target);return;}if(event.target.matches('form[data-equipment-scope]')){event.preventDefault();purchase(true,event.target);}});
   document.addEventListener('click',event=>{
     if(event.composedPath().some(node=>node.id==='lay-bar')||event.target.closest('.lay-collapse-btn,.lay-tab,.lay-handle'))return;
+    if(vehiclesUI.click(event))return;
     const qualityButton=event.target.closest('[data-add-species-quality],[data-remove-species-quality]');if(qualityButton){const c=current(),s=pack.species.find(s=>s.id===c.species);if(!s.gmQualities)return;const rows=structuredClone(speciesQualities(c,s));if(qualityButton.hasAttribute('data-add-species-quality')){if(rows.length>=s.gmQualities.maximum)return;rows.push({name:'',text:''});}else rows.splice(Number(qualityButton.dataset.removeSpeciesQuality),1);c.speciesQualities??={};c.speciesQualities[s.id]=rows;changed();return;}
     if(event.target.closest('[data-reference-retry]')){loadReferences();return;}
     const rulesPage=event.target.closest('[data-rules-page]');if(rulesPage){rulesCatalog.page(rulesPage.dataset.rulesPage);$('rules-results').innerHTML=rulesCatalog.results();return;}
@@ -964,6 +967,7 @@ function events() {
     if(el.hasAttribute('data-roll') && !el.classList.contains('die')){const die=d(20),bonus=Number(el.dataset.roll),total=die+bonus;logEvent('roll',`${el.dataset.rollLabel}: ${die} ${signed(bonus)} = ${total}`,`${escape(el.dataset.rollLabel)}: ${dieHTML(die,20)} ${signed(bonus)} = ${totalHtml({value:total,coeffs:[1]})}`);return;}
     if(el.hasAttribute('data-remove-item')){const [removed]=c.inventory.splice(Number(el.dataset.removeItem),1);for(const item of c.inventory)if(item.scopeUid===removed.uid){delete item.scopeUid;item.aimed=false;}changed();return;}
     switch(el.dataset.action){
+      case 'manage-vehicles':openEditor('vehicles');return;
       case 'manage-maneuvers':openEditor('maneuvers');return;
       case 'manage-powers':openEditor('powers');return;
       case 'clear-log': if(store.roster.logs) delete store.roster.logs[c.id];store.schedule();paintLogs();return;
@@ -1003,7 +1007,7 @@ function events() {
 async function boot(){
   try{
     const response=await fetch(new URL('../data/core.json',import.meta.url));if(!response.ok)throw new Error(`Rules could not load (${response.status})`);
-    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);speciesChecks=createSpeciesChecks({current,derived:()=>derived,log:(...args)=>{render();logEvent(...args);}});combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});recoveryControls=createRecoveryControls(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});starshipManeuversUI=createStarshipManeuvers(pack,{current,derived:()=>derived,changed,error:notify});actionsUI=createActionsUI(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});droidSystemsUI=createDroidSystemsUI(pack,{current,derived:()=>derived,changed,error:notify,reference:ruleReference});events();render();route();
+    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);speciesChecks=createSpeciesChecks({current,derived:()=>derived,log:(...args)=>{render();logEvent(...args);}});combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});recoveryControls=createRecoveryControls(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});vehiclesUI=createVehiclesUI(pack,{current,changed,save:()=>store.schedule(),error:notify,library:referenceLibrary,refresh:html=>document.querySelectorAll('[data-vehicle-results]').forEach(el=>el.innerHTML=html)});starshipManeuversUI=createStarshipManeuvers(pack,{current,derived:()=>derived,changed,error:notify});actionsUI=createActionsUI(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});droidSystemsUI=createDroidSystemsUI(pack,{current,derived:()=>derived,changed,error:notify,reference:ruleReference});events();render();route();
     if(!saveState[1])status('Saved',false);
   }catch(error){$('main').innerHTML=`<h1>Unable to open the sheet</h1><p>${escape(error.message)}</p><p><a href="./">Reload</a></p>`;status('Sheet unavailable',true);}
 }

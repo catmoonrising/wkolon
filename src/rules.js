@@ -1,3 +1,4 @@
+import {validateOwnedVehicles} from './vehicles.js';
 import {validateStarshipManeuvers} from './starship-maneuvers.js';
 import {ABILITIES,activeAbilities,abilityRecord,standardArray,validateDroidAbilities} from './ability-profiles.js';
 import {validateSpeciesCustomizations,customizationIssues} from './species-customization.js';
@@ -35,7 +36,7 @@ export const selectionKey = s => `${s.id}:${s.choice || ''}`;
 const F = name => `feat:${name}`;
 
 export function indexPack(pack) {
-  return Object.fromEntries(['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds','forcePowers','starshipManeuvers','classChoices'].map(key => [key, new Map((pack[key]||[]).map(r => [r.id, r]))]));
+  return Object.fromEntries(['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds','forcePowers','starshipManeuvers','vehicles','classChoices'].map(key => [key, new Map((pack[key]||[]).map(r => [r.id, r]))]));
 }
 
 export function newCharacter(pack, {classId=null}={}) {
@@ -67,6 +68,7 @@ export function validateCharacter(c, pack) {
   for (const key of ['id', 'name', 'player', 'languages', 'notes']) if (typeof c[key] !== 'string' || c[key].length > 100000) bad(key);
   if (!/^[a-f0-9-]{36}$/.test(c.id)) bad('character ID');
   if (!ix.species.has(c.species)) bad('unknown species');
+  validateOwnedVehicles(c,pack,bad);
   validateSpeciesChoices(c,pack,bad);
   validateSpeciesCustomizations(c,pack,bad);
   if (!['standard', 'point-buy', 'manual', 'rolled'].includes(c.abilityMethod)) bad('ability method');

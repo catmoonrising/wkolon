@@ -2128,3 +2128,42 @@ check from the character's Pilot skill total.
 Validation covers official source scoping, importer idempotence, capacity, repeated
 feats, Wisdom growth, prerequisite replay, duplicate identities, invalid saved
 copies, stat blocks, hidden modules, Firefox, Dracula mobile and offline use.
+
+
+## Vehicle and starship catalog
+
+The nine official vehicle lists now provide 471 selectable primary pages:
+Airspeeders, Capital Ships, Space Transports, Speeders, Starfighters, Walkers,
+Tracked Vehicles, Wheeled Vehicles and Space Stations. Each Manual record retains
+its printed table listings and their pinned sources, including overlapping types
+and unknown values. No PC attack or skill modifiers are inferred from stock crews.
+
+`tools/import-vehicles.py --apply` is idempotent. Three redirect pages are pinned
+with their original text, revision, timestamp and checksum in
+`data/vehicle-redirects.json`. Resolving them restores the YX-1980 and Grievous'
+wheel bike and the Hardcell's Space Transport listing. The Crimson Axe's
+Starship listing links to an unwritten page; it remains in
+`data/vehicle-catalog-report.json` without invented statistics.
+
+Full vehicle articles use the existing hashed reference library rather than
+adding another 16 MiB of text to the initial rules pack. Only vehicle catalog
+records can substitute a verified `referenceId` for a bundled `ruleId`. Reference
+validation checks primary and listing-source revisions against the official
+index. Rules searches gain the lazy article text after the index loads.
+
+A separate Vehicles module and equipment-step manager provide full-text search,
+type filters, sorting and pagination. Adding an owned instance first reads and
+validates its full article, making that source available in the existing offline
+cache. Instances have independent names and identities; removal or hiding a
+module does not change character combat mechanics or credits. An asynchronous
+fetch cannot grant a vehicle to a different character after switching.
+
+Crew-quality and condition-adjusted statistics remain available verbatim in the
+source popup. Vehicle calculations, purchases and licenses, roles, actions,
+modifications and stock construction templates remain to implement.
+
+Validation: 698 JavaScript tests and 52 Python tests cover import idempotence,
+source exclusions, redirect integrity, lazy loading/retries, source/catalog
+validation, owned-instance limits, character switching and unchanged PC stats.
+Browser checks cover full-text search, source profiles, named copies, filtering,
+sorting, pagination, removal, visibility, saves, mobile and offline source access.

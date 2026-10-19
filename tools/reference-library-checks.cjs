@@ -39,7 +39,7 @@ module.exports=async(browser,base,root,transport={})=>{
   await page.locator('#rule-detail-close').click();
   await editor.locator('#rules-book').selectOption(record.books[0]);
   assert.equal(await link.count(),1);
-  await editor.locator('#rules-builder-only').check();assert.equal(await link.count(),0);
+  await editor.locator('#rules-builder-only').check();assert.equal(await link.count(),1,'Reviewed vehicle remains available in the builder filter');
   await editor.locator('#rules-builder-only').uncheck();
   await page.setViewportSize({width:390,height:844});
   await page.locator('#theme-select').selectOption({label:'Dracula Dark'});

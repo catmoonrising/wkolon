@@ -2481,6 +2481,86 @@
           }
         }
       }
+    },
+    "vehicles": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/record"
+          }
+        ],
+        "required": [
+          "referenceId",
+          "automation",
+          "listings"
+        ],
+        "properties": {
+          "referenceId": {
+            "type": "string",
+            "pattern": "^reference:[a-f0-9]{16}$"
+          },
+          "automation": {
+            "const": "manual"
+          },
+          "listings": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 100,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "size",
+                "challengeLevel",
+                "sourceId",
+                "section",
+                "url"
+              ],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "airspeeder",
+                    "capital-ship",
+                    "space-transport",
+                    "speeder",
+                    "starfighter",
+                    "walker",
+                    "tracked",
+                    "wheeled",
+                    "space-station"
+                  ]
+                },
+                "size": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "maxLength": 100
+                },
+                "challengeLevel": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "maxLength": 100
+                },
+                "sourceId": {
+                  "$ref": "#/$defs/id"
+                },
+                "section": {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "$defs": {
@@ -2704,7 +2784,6 @@
         "name",
         "kind",
         "sourceId",
-        "ruleId",
         "books",
         "status",
         "mechanicsIds"
@@ -2731,7 +2810,8 @@
             "gear",
             "forcePower",
             "classFeature",
-            "starshipManeuver"
+            "starshipManeuver",
+            "vehicle"
           ]
         },
         "sourceId": {
@@ -2768,8 +2848,39 @@
             "type": "string"
           },
           "uniqueItems": true
+        },
+        "referenceId": {
+          "type": "string",
+          "pattern": "^reference:[a-f0-9]{16}$"
         }
-      }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "ruleId"
+          ],
+          "not": {
+            "required": [
+              "referenceId"
+            ]
+          }
+        },
+        {
+          "required": [
+            "referenceId"
+          ],
+          "properties": {
+            "kind": {
+              "const": "vehicle"
+            }
+          },
+          "not": {
+            "required": [
+              "ruleId"
+            ]
+          }
+        }
+      ]
     },
     "licenseRating": {
       "type": "object",

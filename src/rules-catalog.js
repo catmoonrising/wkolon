@@ -1,12 +1,12 @@
 import {articleText,escapeHTML as escape} from './wiki-content.js';
 
-export const CATALOG_KINDS={species:'Species',class:'Classes',prestigeClass:'Prestige classes',classFeature:'Class features',skill:'Skills',feat:'Feats',talent:'Talents',talentTree:'Talent trees',weapon:'Weapons',armor:'Armor',gear:'Equipment',forcePower:'Force powers',starshipManeuver:'Starship Maneuvers',reference:'Rules'};
+export const CATALOG_KINDS={species:'Species',class:'Classes',prestigeClass:'Prestige classes',classFeature:'Class features',skill:'Skills',feat:'Feats',talent:'Talents',talentTree:'Talent trees',weapon:'Weapons',armor:'Armor',gear:'Equipment',forcePower:'Force powers',starshipManeuver:'Starship Maneuvers',vehicle:'Vehicles',reference:'Rules'};
 
 export function createRulesCatalog(pack) {
  const pages=new Map(pack.rulePages.map(r=>[r.id,r]));
  const records=(pack.catalog?.records||[]).map(r=>({...r,search:(r.name+' '+(r.books||[]).join(' ')+' '+articleText(pages.get(r.ruleId)?.article)).toLocaleLowerCase()}));
  let query='',kind='',builderOnly=false,book='',offset=0,referenceState='idle';
- const existing=new Set(records.map(r=>r.name+'|'+r.kind));
+ const existing=new Set(records.map(r=>r.name+'|'+r.kind)),representedReferences=new Set(records.map(r=>r.referenceId).filter(Boolean));
  let books=[];
  function matches() {
   const terms=query.trim().toLocaleLowerCase().split(/\s+/).filter(Boolean);
@@ -23,7 +23,8 @@ export function createRulesCatalog(pack) {
   source:value=>{book=value;offset=0;},
   referenceState:value=>{referenceState=value;},
   setReferences:index=>{
-   for(const r of index.records)if(!existing.has(r.name+'|'+r.kind)){existing.add(r.name+'|'+r.kind);records.push({...r,referenceId:r.id,status:'reference',search:(r.name+' '+r.aliases.join(' ')+' '+r.books.join(' ')+' '+r.searchText).toLocaleLowerCase()});}
+   const refs=new Map(index.records.map(r=>[r.id,r]));for(const r of records)if(r.referenceId&&refs.has(r.referenceId)){const ref=refs.get(r.referenceId);r.search=(r.name+' '+r.books.join(' ')+' '+ref.aliases.join(' ')+' '+ref.searchText).toLocaleLowerCase();}
+   for(const r of index.records)if(!representedReferences.has(r.id)&&!existing.has(r.name+'|'+r.kind)){existing.add(r.name+'|'+r.kind);records.push({...r,referenceId:r.id,status:'reference',search:(r.name+' '+r.aliases.join(' ')+' '+r.books.join(' ')+' '+r.searchText).toLocaleLowerCase()});}
    books=[...new Set(records.flatMap(r=>r.books))].sort();referenceState='loaded';
   },
   filter:(value,only=false)=>{kind=value;builderOnly=only;offset=0;},

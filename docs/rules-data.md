@@ -17,6 +17,7 @@ Species bodies, restricted Force Training and GM qualities follow the
 [remaining species contract](species-bodies.md).
 Starship Maneuver records and acquisition follow the
 [maneuver data contract](starship-maneuvers.md).
+Lazy vehicle references and owned instances follow the [vehicle contract](vehicles.md).
 
 Book-specific species are separate records with `bookVariant` and distinct IDs.
 Their articles retain common characteristics and only the selected book's traits.

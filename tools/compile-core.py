@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COLLECTIONS = ['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds', 'forcePowers', 'starshipManeuvers', 'classChoices']
+COLLECTIONS = ['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds', 'forcePowers', 'starshipManeuvers', 'vehicles', 'classChoices']
 
 
 def compile_pack(mechanics, catalog, reviewed):
@@ -46,7 +46,7 @@ def compile_pack(mechanics, catalog, reviewed):
             r['article'] = article['article']
     records = json.loads(json.dumps(catalog['records']))
     collections = {'species':'species', 'class':'classes', 'prestigeClass':'classes', 'classFeature':'classChoices', 'skill':'skills', 'feat':'feats',
-        'talent':'talents', 'weapon':'equipment', 'armor':'equipment', 'gear':'equipment', 'forcePower':'forcePowers', 'starshipManeuver':'starshipManeuvers'}
+        'talent':'talents', 'weapon':'equipment', 'armor':'equipment', 'gear':'equipment', 'forcePower':'forcePowers', 'starshipManeuver':'starshipManeuvers', 'vehicle':'vehicles'}
     for record in records:
         if any(id not in typed for id in record['mechanicsIds']):
             raise ValueError('Missing reviewed mechanics: ' + record['name'])

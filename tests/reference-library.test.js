@@ -29,7 +29,7 @@ test('reference requests are lazy, shared and retryable without granting any mec
  assert.equal(library.record(record.id).source.revision,page.source.revision);
  const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),before=JSON.stringify(pack);
  const catalog=createRulesCatalog(pack);catalog.setReferences(index);catalog.setReferences(index);
- assert.equal(JSON.stringify(pack),before);catalog.filter('',true);assert(catalog.matches().every(r=>r.status==='available'&&!r.referenceId));
+ assert.equal(JSON.stringify(pack),before);catalog.filter('',true);assert(catalog.matches().every(r=>r.status==='available'&&(!r.referenceId||r.kind==='vehicle'&&r.mechanicsIds.length===1)));
  catalog.filter('');catalog.search(record.searchText.split(' ').slice(0,4).join(' '));assert(catalog.matches().some(r=>r.name===record.name));
  catalog.search('');catalog.source(record.books[0]);assert(catalog.matches().every(r=>r.books.includes(record.books[0])));
  catalog.source('');assert(catalog.results().includes('data-rules-page="next"'));catalog.page('next');assert(catalog.results().includes('101–'));

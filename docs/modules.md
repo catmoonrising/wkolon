@@ -1,6 +1,6 @@
 # Sheet modules
 
-The registry in src/sheet-modules.js defines 33 independent views. Languages and
+The registry in src/sheet-modules.js defines 35 independent views. Languages and
 Species Features are separate from Character. Feats, Talents, Class Features,
 Force Techniques, Force Secrets and Medical Secrets each have their own module.
 Feature views retain earned order, source text, secondary choices, inactivity and
@@ -56,3 +56,8 @@ Droid Systems shares the starting arm choices between creation and the sheet. It
 declares installed parts, the active locomotion system and bipedal anatomy.
 The separate starting allowance is available in the creation equipment shop.
 Hiding the module does not remove parts or suspend their effects.
+
+Starship Maneuvers has its own manager and manually tracked suite, separate from
+Force Powers. Vehicles has a named owned-instance list and a lazy full-text
+catalog; see vehicles.md. It is initially relevant to trained Pilots and characters
+with owned vehicles, and is also accessible from creation's equipment tab.
