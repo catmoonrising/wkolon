@@ -2165,6 +2165,48 @@
               ]
             }
           }
+        },
+        "skillActions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "talentId",
+              "skillId",
+              "dc",
+              "effect",
+              "sourceIds"
+            ],
+            "properties": {
+              "id": {
+                "const": "force-focus"
+              },
+              "talentId": {
+                "const": "talent:force-focus"
+              },
+              "skillId": {
+                "const": "skill:use-the-force"
+              },
+              "dc": {
+                "const": 15
+              },
+              "effect": {
+                "const": "recover-power"
+              },
+              "sourceIds": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/id"
+                }
+              }
+            }
+          }
         }
       },
       "required": [

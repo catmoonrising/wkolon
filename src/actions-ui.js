@@ -19,7 +19,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
  let draft=null,editId=null,category=null,owner=null;
  const def=id=>pack.rules.actionEconomy.actions.find(r=>r.id===id);
  function options(id){const c=current(),o=defaultActionOptions(c,derived(),pack,id);if(id==='balance'||id==='balance-recheck')o.path=balanceState(c);if(id==='escape-bonds')o.path=escapeBondsState(c);if(id==='move')o.path=acrobaticsPath(c);if(id==='withdraw')o.path=withdrawPath(c);if(id==='charge')o.path=chargePath(c);if(id==='running-attack')o.path=runningPath(c);if(id==='opportunity')o.path=opportunityContext(c);if(['cleave','follow-through'].includes(id))o.path=followUpState(c);return o;}
- function relevant(id){const d=derived(),c=current();return id==='rage'?!!d.recovery.rage:id==='bellow'?pack.species.find(s=>s.id===c.species)?.bellow:id==='mighty-swing'?d.ctx.feats.some(f=>f.id==='feat:mighty-swing'):id==='brace'?d.attacks.some(a=>a.bracing?.available):id==='running-attack'?d.ctx.feats.some(f=>f.id==='feat:running-attack'):id==='cleave'?d.ctx.feats.some(f=>f.id==='feat:cleave'):id==='follow-through'?d.ctx.feats.some(f=>f.id==='feat:follow-through'):id.startsWith('shield')?c.inventory.some(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield):id==='acrobatics-prone'?d.ctx.trained.has('skill:acrobatics'):true;}
+ function relevant(id){const d=derived(),c=current(),skill=pack.rules.skillActions?.find(r=>r.id===id);if(skill)return d.ctx.talents.some(t=>t.id===skill.talentId)&&!d.ctx.inactiveTalents.has(skill.talentId);return id==='rage'?!!d.recovery.rage:id==='bellow'?pack.species.find(s=>s.id===c.species)?.bellow:id==='mighty-swing'?d.ctx.feats.some(f=>f.id==='feat:mighty-swing'):id==='brace'?d.attacks.some(a=>a.bracing?.available):id==='running-attack'?d.ctx.feats.some(f=>f.id==='feat:running-attack'):id==='cleave'?d.ctx.feats.some(f=>f.id==='feat:cleave'):id==='follow-through'?d.ctx.feats.some(f=>f.id==='feat:follow-through'):id.startsWith('shield')?c.inventory.some(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield):id==='acrobatics-prone'?d.ctx.trained.has('skill:acrobatics'):true;}
  function describe(id,o,budget=true){try{return describeAction(current(),pack,id,o,budget);}catch(e){return {name:def(id)?.name||id,cost:{type:def(id)?.type||'standard',count:def(id)?.count||1},...e.actionView,issue:e.message};}}
  function menu(type){
   category=type;draft=null;editId=null;owner=current().id;title.textContent=ACTION_NAMES[type];
@@ -61,6 +61,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
  function form(){
   if(owner!==current().id){modal.close();return;}
   const {id,o}=draft,c=current(),d=derived(),v=describe(id,o),r=def(id);title.textContent=r.name;
+  const skillAction=pack.rules.skillActions?.find(r=>r.id===id);
   let fields='';
   if(id==='encounter-talent'){
    const t=pack.talents.find(t=>t.id===o.talentId);title.textContent=t?.name||r.name;
@@ -74,12 +75,19 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   }
   if(['routine','routine-step'].includes(id))fields+=select('routineId','Routine',[['','Choose'],...c.routines.filter(r=>r.kind!=='fullAttack').map(r=>[r.id,r.name||'Routine'])],o.routineId)+select('cost','Action',ACTION_TYPES.map(t=>[t,ACTION_NAMES[t]]),o.cost||'full')+check('confirmed','Routine and action cost confirmed',o.confirmed);
   if(['full-attack','full-attack-step'].includes(id))fields+=select('routineId','Routine',[['','Choose'],...c.routines.filter(r=>r.kind==='fullAttack').map(r=>[r.id,r.name||'Full Attack'])],o.routineId);
-  if(['power','recover-power'].includes(id))fields+=select('powerId','Power',[['','Choose'],...d.forcePowers.filter(p=>id==='recover-power'?p.spent:true).map(p=>[p.copyId,p.name+(p.spent?' (Spent)':'')])],o.powerId);
+  if(['power','recover-power'].includes(id)||skillAction)fields+=select('powerId','Power',[['','Choose'],...d.forcePowers.filter(p=>id==='recover-power'||skillAction?p.spent:true).map(p=>[p.copyId,p.name+(p.spent?' (Spent)':'')])],o.powerId);
+  if(skillAction){
+   const skill=d.skills.find(s=>s.id===skillAction.skillId),talent=pack.talents.find(t=>t.id===skillAction.talentId),page=pack.rulePages.find(p=>p.name===talent.name);
+   fields+=select('rollMode','Check',[['roll','Roll'],...(skill.trained?[['take10','Take 10']]:[])],o.rollMode||'roll');
+   if(o.rollMode==='take10')fields+=check('safe','Not threatened or distracted',o.safe);
+   fields+=select('fp','Force Point',[['ask','Ask after check'],['none','None']],o.fp||'none');
+   fields+=`<span>DC ${skillAction.dc}</span>${page?`<button type="button" data-rule-page="${escape(page.id)}">ⓘ</button>`:''}`;
+  }
   if(id==='power'){
    const p=d.forcePowers.find(p=>p.copyId===o.powerId);
    if(p){fields+=select('action','Action',(p.actions||[p.action]).map(a=>[a,a.replaceAll('-',' ')]),o.action);
     fields+=select('rollMode','Check',[['roll','Roll'],...(p.take10?[['take10','Take 10']]:[]),...(p.adept?[['adept','Adept (1 FP)']]:[])],o.rollMode||'roll');
-    fields+=select('fp','Force Point',[['ask','Ask after roll'],['none','None']],o.fp||'none')+check('enhance','Ask about enhancement (1 FP, Manual)',o.enhance);
+    fields+=select('fp','Force Point',[['ask','Ask after check'],['none','None']],o.fp||'none')+check('enhance','Ask about enhancement (1 FP, Manual)',o.enhance);
     if(pack.rules.actionEconomy.powerRequirements?.[p.id]?.aware)fields+=check('aware','Aware of the attack',o.aware);
     fields+=`<button type="button" data-rule-page="${escape(p.ruleId||pack.rulePages.find(r=>r.sourceId===p.sourceId)?.id||'rule:force-powers')}">Mechanics</button><span class="badge">${p.automation?.status==='partial'?'Partial':'Manual'}</span>`;
    }
@@ -96,7 +104,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   body.querySelector('[data-action-queue]').addEventListener('click',()=>{try{read();if(editId){const step=c.actionState.plan.find(p=>p.id===editId);if(step?.status!=='queued')throw new Error('Action already resolved');step.options=structuredClone(draft.o);}else queueAction(c,id,draft.o);modal.close();changed();}catch(e){error(e.message);}});
   body.querySelector('form').addEventListener('submit',e=>{e.preventDefault();read();try{const result=editId?(c.actionState.plan.find(p=>p.id===editId).options=structuredClone(draft.o),executeAction(c,pack,editId)):takeAction(c,pack,id,draft.o);log('roll',result.text,result.html);modal.close();changed();}catch(e){error(e.message);}});
   body.querySelectorAll('input[data-action-option]').forEach(el=>el.addEventListener('input',()=>{read();const next=describe(id,draft.o);body.querySelector('[data-action-cost]').textContent=costLabel(next.cost);body.querySelector('[data-action-error]').textContent=next.issue||'';body.querySelector('[type="submit"]').disabled=!!next.issue;}));
-  body.querySelectorAll('[data-action-option]').forEach(el=>el.addEventListener('change',()=>{read();if(['powerId','rollMode','action'].includes(el.dataset.actionOption)){if(el.dataset.actionOption==='powerId'){const p=d.forcePowers.find(p=>p.copyId===draft.o.powerId);draft.o.action=p?.action;}form();}else{const next=describe(id,draft.o);body.querySelector('[data-action-cost]').textContent=costLabel(next.cost);body.querySelector('[data-action-error]').textContent=next.issue||'';body.querySelector('[type="submit"]').disabled=!!next.issue;}}));
+  body.querySelectorAll('[data-action-option]').forEach(el=>el.addEventListener('change',()=>{read();if(['powerId','rollMode','action'].includes(el.dataset.actionOption)){if(el.dataset.actionOption==='rollMode'&&draft.o.rollMode==='take10')draft.o.fp='none';if(el.dataset.actionOption==='powerId'&&id==='power'){const p=d.forcePowers.find(p=>p.copyId===draft.o.powerId);draft.o.action=p?.action;}form();}else{const next=describe(id,draft.o);body.querySelector('[data-action-cost]').textContent=costLabel(next.cost);body.querySelector('[data-action-error]').textContent=next.issue||'';body.querySelector('[type="submit"]').disabled=!!next.issue;}}));
  }
  function read(){for(const el of body.querySelectorAll('[data-action-option]')){const keys=el.dataset.actionOption.split('.');let obj=draft.o;for(const key of keys.slice(0,-1))obj=obj[key];const value=el.type==='checkbox'?el.checked:el.type==='number'||el.dataset.actionOption==='count'?(el.value===''?null:Number(el.value)):el.value;obj[keys.at(-1)]=value;}}
  function runPlan(){const c=current();for(const step of c.actionState?.plan||[]){if(step.status==='waiting')break;if(step.status!=='queued')continue;try{const r=executeAction(c,pack,step.id);log('roll',r.text,r.html);if(step.status==='waiting'||c.actionState.plan.find(p=>p.id===step.id)?.status==='waiting')break;}catch(e){error(e.message);break;}}changed();}
@@ -113,7 +121,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   if(action){if(el.dataset.attackId)o.uid=el.dataset.attackId;if(action==='reload'||action==='balance-recheck'){draft={id:action,o};category=action==='balance-recheck'?'reaction':'move';owner=c.id;form();modal.showModal();return true;}}
   else if(['run','step'].includes(id)){const r=c.routines.find(r=>r.id===el.closest('[data-routine]')?.dataset.routine);if(r?.kind!=='fullAttack'){action=id==='run'?'routine':'routine-step';o={...options(action),routineId:r?.id};draft={id:action,o};owner=c.id;category='full';form();modal.showModal();return true;}action=id==='run'?'full-attack':'full-attack-step';o={routineId:r.id};}
   else if(['recover','second-wind','rage'].includes(el.dataset.recovery)){action=el.dataset.recovery;o=options(action);if(action==='recover')o.count=3;}
-  else if(el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10){action='power';o=options(action);o.powerId=el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10;const p=derived().forcePowers.find(p=>p.copyId===o.powerId);o.action=p.action;o.rollMode=el.dataset.powerAdept?'adept':el.dataset.powerTake10?'take10':'roll';if(p.action==='reaction'||pack.rules.actionEconomy.powerRequirements?.[p.id]?.aware){draft={id:action,o};owner=c.id;category='reaction';form();modal.showModal();return true;}}
+  else if(el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10){action='power';o=options(action);o.powerId=el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10;const p=derived().forcePowers.find(p=>p.copyId===o.powerId);o.action=p.action;o.rollMode=el.dataset.powerAdept?'adept':el.dataset.powerTake10?'take10':'roll';if(o.rollMode==='take10')o.fp='none';if(p.action==='reaction'||pack.rules.actionEconomy.powerRequirements?.[p.id]?.aware){draft={id:action,o};owner=c.id;category='reaction';form();modal.showModal();return true;}}
   else if(el.dataset.recoverPower){action='recover-power';o={powerId:el.dataset.recoverPower};draft={id:action,o};owner=c.id;category='reaction';form();modal.showModal();return true;}
   else if(el.dataset.energyActivate||el.dataset.energyRecharge){action=el.dataset.energyActivate?'shield':'shield-recharge';o={uid:el.dataset.energyActivate||el.dataset.energyRecharge};}
   else if(el.dataset.defenseStance==='total'){action='total-defense';}

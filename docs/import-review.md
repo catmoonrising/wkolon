@@ -2197,3 +2197,23 @@ a new day. Earlier class/talent edits deactivate retained ineligible effects.
 The vehicle benefit remains Manual; the source's final sentence calls it a luck
 bonus even though the personal option explicitly says competence. That wording
 is retained, and no vehicle descriptor or calculation is invented in this batch.
+
+## Force Focus and reviewed skill actions
+
+Force Focus now uses a typed skill-action record: Full-Round Action, Use the
+Force DC 15, one selected spent Force Power copy recovered on success. It spends
+no Force Point unless the player adds a bonus after the roll. A failed check
+still spends the action and can be retried on a later turn. Check effects wait
+for the saved optional Force Point decision and resolve once without rerolling.
+Natural 1/20 follow ordinary skill-check rules; this is not power activation,
+so a natural 20 does not recover the suite and recovering a Dark Side power
+does not increase DSS or bar a Force Point bonus. Duplicate copies remain
+independent. Trained Take 10 requires a safe-check declaration; Take 20 is
+forbidden by Use the Force. Routine untrained Take 10 exceptions remain manual.
+
+The shared Force Point eligibility check now also covers Take 10. The Force
+allows a bonus to a Skill Check; neither Taking 10 nor Force Power Mastery
+removes that option. Both Force Focus and a mastered power can request the bonus
+before effects resolve. Taking 10 defaults to no optional expenditure, while
+the player can explicitly request the choice. Existing own-turn, Free Action,
+one-per-round, reaction and power-descriptor restrictions still apply.

@@ -1,9 +1,10 @@
 import {balance,planBalance} from './balance.js';
+import {skillActionPlan,rollSkillAction,finishSkillAction} from './skill-actions.js';
 import {talentActivation,applyTalentActivation,endEncounterTalents} from './talent-activations.js';
 import {escapeBonds,planEscapeBonds} from './escape-bonds.js';
 import {canAim} from './weapon-rules.js';
 import {derive,validateCharacter,signed} from './rules.js';
-import {ACTION_TYPES,actionState,emptyActionState,allocateActions,spendActions,archivePlan,queueAction,resetActionTurn} from './action-economy.js';
+import {ACTION_TYPES,actionState,emptyActionState,allocateActions,spendActions,archivePlan,queueAction,resetActionTurn,checkForcePointAvailable} from './action-economy.js';
 import {rollCombatRoutine,rollCharge,routinePlan} from './combat.js';
 import {planFullAttack} from './full-attacks.js';
 import {rollRoutineStep,routineStepPlan} from './routine-steps.js';
@@ -50,6 +51,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(paths[id]&&c[paths[id]])o.path=structuredClone(c[paths[id]]);
  if(id==='power'){const p=d.forcePowers.find(p=>!p.spent);o.powerId=p?.copyId||'';o.action=p?.action||'standard-action';o.rollMode='roll';o.fp='ask';}
  if(id==='recover-power')o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';
+ if(pack.rules.skillActions?.some(r=>r.id===id)){o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';o.rollMode='roll';o.fp='ask';o.safe=false;}
  if(['shield','shield-recharge'].includes(id))o.uid=c.inventory.find(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield)?.uid||'';
  if(id==='bellow'){o.extraDice=0;o.strong=false;}
  if(id==='encounter-talent'){const t=pack.talents.find(t=>t.activation&&d.ctx.talents.some(s=>s.id===t.id)&&!d.ctx.inactiveTalents.has(t.id));o.talentId=t?.id||'';o.choice=t?.activation.choices.find(o=>!c.talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||'';}
@@ -100,12 +102,13 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   if(o.action)p.action=o.action;assert(!powerActivationIssue(q,d,pack,p),powerActivationIssue(q,d,pack,p));view.power=p;view.name=p.name;view.manual=true;view.cost.type=typeOf(p.action);assert(view.cost.type,'Power duration requires manual resolution');
   assert(['roll','take10','adept'].includes(o.rollMode||'roll'),'Invalid power check');assert(o.rollMode!=='take10'||p.take10,'Power Mastery required');assert(o.rollMode!=='adept'||p.adept,'Force Power Adept required');
   view.forceCost=o.rollMode==='adept'?1:0;assert(!(o.rollMode==='adept'&&o.enhance),'Only one Force Point per round');
-  view.fpAllowed=!p.descriptors.includes('dark-side')&&!(p.descriptors.includes('light-side')&&q.darkSideScore>0)&&o.rollMode!=='take10'&&view.cost.type!=='reaction'&&!d.flatFooted&&!s.ended&&!s.forceSpent&&d.forceCurrent>0&&!view.forceCost;
+  view.fpAllowed=checkForcePointAvailable(q,d,{power:p,forceCost:view.forceCost,reaction:view.cost.type==='reaction'});
   const requirement=pack.rules.actionEconomy.powerRequirements?.[p.id];if(requirement?.notFlatFooted)assert(!d.flatFooted,'Power unavailable while flat-footed');if(requirement?.aware)assert(o.aware,'Confirm awareness of the attack');
   view.enhanceAllowed=!!o.enhance&&!s.forceSpent&&d.forceCurrent>0&&!view.forceCost;
   break;
  }
  case 'recover-power':assert(d.forcePowers.some(p=>p.copyId===o.powerId&&p.spent),'Choose a spent power');view.forceCost=pack.rules.forcePowerRecovery.forcePointCost;break;
+ case 'force-focus':view.skillAction=skillActionPlan(q,d,pack,id,o);view.fpAllowed=checkForcePointAvailable(q,d);break;
  case 'opportunity':planOpportunity(q,d,pack,o.uid);break;
  case 'cleave':{const p=planCleave(q,d,pack);assert(!d.flatFooted,'Free actions unavailable while flat-footed');if(p.move)view.cost={type:'move',count:1,also:'free'};break;}
  case 'follow-through':planFollowThrough(q,d,pack);break;
@@ -160,6 +163,9 @@ function resolve(c,pack,id,o,v,roller){
   else if(o.rollMode==='adept'){const rolls=[roller('1d20'+signed(bonus)),roller('1d20'+signed(bonus))],x=useAdeptPower(c,d,pack,o.powerId,rolls.map(r=>r.d20[0]));check={natural:x.selected,bonus,total:x.selected+bonus};r={html:rolls.map(r=>r.display+' = '+totalHtml(r)).join('; ')};}
   else {const x=roller('1d20'+signed(bonus));usePower(c,d,pack,o.powerId,x.d20[0]);check={natural:x.d20[0],bonus,total:x.value};r={html:x.display+' = '+totalHtml(x)};}
   r={...r,text:v.name+': Use the Force '+check.total+(v.forceCost?'; Force Points -1':'')+'; effects manual',check,fpAllowed:v.fpAllowed,enhanceAllowed:v.enhanceAllowed};
+ }else if(v.skillAction){
+  invalidate(c);const x=rollSkillAction(v.skillAction,roller);r={...x,text:v.name+': '+x.text,fpAllowed:v.fpAllowed};
+  if(!(r.fpAllowed&&o.fp==='ask'))r.text+='; '+finishSkillAction(c,d,pack,id,o,r.check);
  }else if(id==='recover-power'){const p=recoverPower(c,d,pack,o.powerId);r={text:p.name+' recovered; Force Points -1'};}
  else if(id==='opportunity'){r=rollOpportunity(c,pack,o.uid,roller);spendAttackResources(c,r);}
  else if(id==='cleave'){r=rollCleave(c,pack,roller);spendAttackResources(c,r);}
@@ -184,11 +190,12 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
  if(mode!=='none'){
   const d=derive(q,pack);assert(!s.forceSpent&&d.forceCurrent>0,'Force Point unavailable');
   if(mode==='bonus'){
-   const power=d.forcePowers.find(p=>p.copyId===step.options.powerId);assert(power&&!power.descriptors.includes('dark-side')&&!(power.descriptors.includes('light-side')&&q.darkSideScore>0),'Force Point bonus unavailable');
-   assert(step.result.fpAllowed&&!d.flatFooted&&!s.ended,'Force Point bonus unavailable');extra=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);assert(Number.isInteger(extra.value)&&extra.value>=1&&extra.value<=d.forcePointDie,'Invalid Force Point roll');step.result.check.total+=extra.value;step.result.text+='; Force Point +'+extra.value+' = '+step.result.check.total;
+   const skillAction=pack.rules.skillActions?.some(r=>r.id===step.action),power=skillAction?null:d.forcePowers.find(p=>p.copyId===step.options.powerId);
+   assert(step.result.fpAllowed&&(skillAction||power)&&checkForcePointAvailable(q,d,{power,reaction:step.options.action==='reaction'}),'Force Point bonus unavailable');extra=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);assert(Number.isInteger(extra.value)&&extra.value>=1&&extra.value<=d.forcePointDie,'Invalid Force Point roll');step.result.check.total+=extra.value;step.result.text+='; Force Point +'+extra.value+' = '+step.result.check.total;
   }else {assert(step.result.enhanceAllowed,'Enhancement unavailable');step.result.text+='; Force Points -1; enhancement manual';}
   q.forcePoints--;s.forceSpent=true;
  }
+ if(pack.rules.skillActions?.some(r=>r.id===step.action))step.result.text+='; '+finishSkillAction(q,derive(q,pack),pack,step.action,step.options,step.result.check);
  step.status='done';validateCharacter(q,pack);commit(c,q);return {text:step.result.text,...(extra?{html:extra.display+' = '+totalHtml(extra)}:{})};
 }
 

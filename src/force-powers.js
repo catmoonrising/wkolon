@@ -3,6 +3,11 @@ import {powerActivationIssue} from './power-activation.js';
 import {clearFollowUps} from './attack-follow-ups.js';
 import {clearAiming,clearBracing,startNextTurn} from './attack-techniques.js';
 export function powerCopy(c,id){return c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===id);}
+export function restorePowerCopy(c,d,id){
+ const power=d.forcePowers.find(p=>p.copyId===id),copy=powerCopy(c,id);
+ if(!power||!copy?.spent)throw new Error('Cannot recover power');
+ copy.spent=false;return power;
+}
 export function usePower(c,d,pack,id,natural){
  const power=d.forcePowers.find(p=>p.copyId===id),copy=powerCopy(c,id);
  const issue=powerActivationIssue(c,d,pack,power);
@@ -19,7 +24,7 @@ export function recoverPower(c,d,pack,id){
  const power=d.forcePowers.find(p=>p.copyId===id),copy=powerCopy(c,id),cost=pack.rules.forcePowerRecovery.forcePointCost;
  if(!power||!copy?.spent||d.forceCurrent<cost||d.incapacitated)throw new Error('Cannot recover power');
  clearFollowUps(c);clearAiming(c);clearBracing(c);
- c.forcePoints=d.forceCurrent-cost;copy.spent=false;return power;
+ c.forcePoints=d.forceCurrent-cost;return restorePowerCopy(c,d,id);
 }
 export function recoverSuite(c,d,{endTurn=false}={}){
  if(endTurn&&!c.forcePowerRecoveryPending)throw new Error('No turn-end recovery pending');

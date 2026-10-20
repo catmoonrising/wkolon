@@ -12,6 +12,8 @@ reviewed mapping is only partially covered until all of its rules are reviewed.
 linked species feats and redirects. Offline imports require that list; missing
 category captures and embedded Homebrew fail rather than silently importing it.
 
+Reviewed skill checks and their deferred effects follow the
+[skill action contract](skill-actions.md).
 Numeric bonus stacking and encounter talent activations follow the
 [modifier contract](modifiers.md).
 
@@ -31,7 +33,7 @@ feature-specific button. Specific printed exceptions remain explicit.
 | --- | --- |
 | Prerequisites and earned choices | Chronological progression replay in `src/rules.js` |
 | Numeric bonus stacking | `src/modifiers.js`, including conditional increases over a base total |
-| Action substitutions and budgets | `src/action-economy.js` |
+| Action substitutions, budgets and check Force Point eligibility | `src/action-economy.js` |
 | Planned or immediate execution | The transactional dispatcher in `src/action-engine.js` |
 | Ammunition preflight and spending | `src/ammunition.js` and routine plans |
 | Attacks, damage and criticals | `src/combat.js` and the attack modules |

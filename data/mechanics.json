@@ -42175,7 +42175,7 @@
       "repeat": "never",
       "reminder": "",
       "effects": [],
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:force-perception",
@@ -68385,6 +68385,7 @@
         }
       }
     ],
+    "skillActions": [{"id":"force-focus","talentId":"talent:force-focus","skillId":"skill:use-the-force","dc":15,"effect":"recover-power","sourceIds":["source:wiki-control-talent-tree-force-focus","source:use-the-force","source:wiki-skills"]}],
     "actionEconomy": {
       "referenceId": "reference:ff8059dc6752afdd",
       "referenceRevision": 24963,
@@ -68416,6 +68417,7 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
+        {"id":"force-focus","name":"Force Focus","type":"full","count":1},
         {"id":"encounter-talent","name":"Talent","type":"standard","count":1},
         {
           "id": "attack",

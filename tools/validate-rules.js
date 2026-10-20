@@ -62,6 +62,13 @@ export function validatePack(p) {
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
     if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
+  if(p.rules.skillActions!==undefined){
+    const t=p.talents.find(t=>t.id==='talent:force-focus'),skill=p.skills.find(s=>s.id==='skill:use-the-force');
+    assert(t?.automation==='partial'&&skill,'Missing skill action records');
+    assert.deepEqual(p.rules.skillActions,[{id:'force-focus',talentId:t.id,skillId:skill.id,dc:15,effect:'recover-power',sourceIds:[t.sourceId,skill.sourceId,'source:wiki-skills']}],'Changed Force Focus rule');
+    assert(p.rules.skillActions.every(r=>r.sourceIds.every(id=>sources.has(id))),'Missing skill action sources');
+    assert(p.rules.actionEconomy.actions.some(r=>r.id==='force-focus'&&r.type==='full'&&r.count===1),'Changed Force Focus action');
+  }
   for (const key of ['species','classes','skills','feats','talents','equipment','destinies','backgrounds','forcePowers','starshipManeuvers','vehicles','classChoices','rulePages']) for (const r of p[key]||[]) {
     assert(!ids.has(r.id), `Duplicate ID ${r.id}`); ids.add(r.id);
     assert(/^[a-z]+:[a-z0-9-]+$/.test(r.id)); assert.equal(typeof r.name,'string'); assert(sources.has(r.sourceId), `Missing source ${r.id}`);

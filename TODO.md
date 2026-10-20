@@ -176,3 +176,5 @@
 - [x] Shared numeric modifier resolution for typed stacking, circumstance groups, penalties and conditional defense increases.
 - [x] Fool's Luck personal Actions activation, Force Point/action costs, stacking, saved benefits and encounter expiry.
 - [ ] Fool's Luck vehicle defenses when vehicle statistics and occupancy are implemented.
+
+- [x] Force Focus: Full-Round Use the Force check, one-copy recovery, saved after-roll Force Point choice, safe trained Take 10 and shared skill-action planning.

@@ -3,6 +3,10 @@ export const ACTION_TYPES=['full','standard','move','swift','free','reaction'];
 export const ACTION_NAMES={full:'Full-Round',standard:'Standard',move:'Move',swift:'Swift',free:'Free',reaction:'Reaction'};
 export const emptyActionState=()=>({version:1,active:false,turn:1,spent:[],ended:false,reactions:[],forceSpent:false,recover:{count:0,lastTurn:0},plan:[],history:[]});
 export const actionState=c=>c.actionState||emptyActionState();
+export function checkForcePointAvailable(c,d,{power=null,forceCost=0,reaction=false}={}){
+ const s=actionState(c);
+ return !reaction&&!d.incapacitated&&!d.helpless&&!d.flatFooted&&!s.ended&&!s.forceSpent&&d.forceCurrent>0&&!forceCost&&(!power||!power.descriptors.includes('dark-side')&&!(power.descriptors.includes('light-side')&&c.darkSideScore>0));
+}
 const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
 const integer=(v,min,max)=>Number.isInteger(v)&&v>=min&&v<=max;
 const string=(v,max=2000)=>typeof v==='string'&&v.length<=max;
