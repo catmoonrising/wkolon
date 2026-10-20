@@ -2179,3 +2179,21 @@ Reference validation reads the original table and rejects changed names or sizes
 ordinary vehicle names must still match their primary page exactly. Ownership
 and source caching reuse the existing vehicle module. Construction calculations,
 purchases and licenses remain to implement.
+
+## Shared modifiers and Fool's Luck
+
+A shared numeric modifier resolver now applies the pinned Bonuses and Penalties
+wording: highest typed bonus, additive unnamed/dodge bonuses, circumstance
+grouping and additive penalties. Skill competence/equipment, defense effects
+and conditional defense/threshold increases reuse it. Numeric counters and
+replacement modifiers retain their distinct rules.
+
+Fool's Luck's personal benefits are automated through Actions: a Standard Action
+and one Force Point activate the selected competence bonus for the encounter.
+Skill Focus and team competence bonuses compete with its +5; its +1 attack bonus
+also applies to Bellow. Independently paid choices coexist across turns. Saved
+benefits survive reloads and turn changes but end with combat, a new encounter or
+a new day. Earlier class/talent edits deactivate retained ineligible effects.
+The vehicle benefit remains Manual; the source's final sentence calls it a luck
+bonus even though the personal option explicitly says competence. That wording
+is retained, and no vehicle descriptor or calculation is invented in this batch.

@@ -12,12 +12,39 @@ reviewed mapping is only partially covered until all of its rules are reviewed.
 linked species feats and redirects. Offline imports require that list; missing
 category captures and embedded Homebrew fail rather than silently importing it.
 
+Numeric bonus stacking and encounter talent activations follow the
+[modifier contract](modifiers.md).
+
 Protection and attack sequences follow the [combat data contract](combat.md).
 Species bodies, restricted Force Training and GM qualities follow the
 [remaining species contract](species-bodies.md).
 Starship Maneuver records and acquisition follow the
 [maneuver data contract](starship-maneuvers.md).
 Lazy vehicle references and owned instances follow the [vehicle contract](vehicles.md).
+
+## Shared rule implementations
+
+New automation reuses the following rules rather than duplicating them in a
+feature-specific button. Specific printed exceptions remain explicit.
+
+| Rule | Implementation |
+| --- | --- |
+| Prerequisites and earned choices | Chronological progression replay in `src/rules.js` |
+| Numeric bonus stacking | `src/modifiers.js`, including conditional increases over a base total |
+| Action substitutions and budgets | `src/action-economy.js` |
+| Planned or immediate execution | The transactional dispatcher in `src/action-engine.js` |
+| Ammunition preflight and spending | `src/ammunition.js` and routine plans |
+| Attacks, damage and criticals | `src/combat.js` and the attack modules |
+| SR before DR before HP | `protectedDamage` and `src/incoming-damage.js` |
+| Turn and round expiry | Existing turn, opportunity and action-state reset functions |
+| Encounter talent expiry | `src/talent-activations.js`, shared by combat/encounter/day resets |
+| Power copies and suite recovery | `src/force-powers.js` |
+
+A new feature declares its supported effects, costs and duration in reviewed
+data. Its activation uses the shared dispatcher, and its calculations consume
+only active, eligible effects. Character files save choices and remaining uses,
+not totals. Generalization is driven by implemented interactions; unreviewed
+prose and unsupported effects never gain fabricated calculations.
 
 Book-specific species are separate records with `bookVariant` and distinct IDs.
 Their articles retain common characteristics and only the selected book's traits.

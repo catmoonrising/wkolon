@@ -1,4 +1,5 @@
 import {speciesQualities} from './species-profiles.js';
+import {activeTalentActivations} from './talent-activations.js';
 import {customizationEntries} from './species-customization.js';
 import {ABILITIES, indexPack, signed, derive} from './rules.js';
 import {TRAIT_FIELDS, backgroundLanguage} from './heroic-traits.js';
@@ -41,6 +42,7 @@ export function renderStatBlock(c,d,pack){
  }).join(' and '));}).join('');
  const story=c.story?.kind!=='none'&&ix[c.story?.kind==='destiny'?'destinies':'backgrounds']?.get(c.story?.id);
  const traits=TRAIT_FIELDS.filter(([key])=>c.heroicTraits?.[key]).map(([key,label])=>textLine(label,c.heroicTraits[key])).join('');
+ const active=activeTalentActivations(c,pack,d.ctx),activeNames=[...new Set(active.map(a=>a.name))];
  return `<article class="stat-block"><h1>${escape(c.name||'unnamed')} <span>(CL ${d.level})</span></h1>
  <p>${escape((d.size||species.size).replace(/^./,ch=>ch.toUpperCase()))} ${escape(species.name)} ${classes}</p>
  <p>${points}</p>${line('Initiative',signed(skill('initiative').total)+'; <b>Senses:</b> Perception '+signed(skill('perception').total)+[(d.vision||species.vision)==='darkvision'?'Darkvision':(d.vision||species.vision)==='low-light'?'Low-Light Vision':'',species.scentRange?'Scent '+species.scentRange+' Squares':''].filter(Boolean).map(s=>', '+s).join(''))}${line('Languages',languages)}
@@ -48,7 +50,7 @@ export function renderStatBlock(c,d,pack){
  <p><b>Hit Points:</b> ${c.currentHP??d.hp}/${d.hp}; <b>Damage Threshold:</b> ${d.threshold}${(d.conditionalThresholds||[]).map(r=>` (${r.total} ${escape(conditionalDefenseLabel(r))})`).join('')}${protection.dr?`; <b>DR:</b> ${protection.dr}${protection.drBypass?' ('+escape(protection.drBypass)+')':''}`:''}${protection.srMax||energySR?`; <b>SR:</b> ${[protection.srMax?protection.sr+'/'+protection.srMax:'',energySR].filter(Boolean).join(', ')}`:''}</p>
  ${d.recovery?.dead?textLine('Status',species.isDroid?'Destroyed':'Dead'):d.helpless&&c.condition!==5?textLine('Status',c.helpless?'Helpless':species.isDroid?'Disabled':'Unconscious'):''}${textLine('Condition Track',condition)}${d.recovery?.persistent.length?textLine('Persistent Conditions',d.recovery.persistent.map(persistentName).join(', ')):''}
  <h2>Offense</h2>${line('Speed',(d.speedUnknown?'Manual':d.speed+' Squares')+Object.entries(d.speeds||{}).map(([type,n])=>`, ${escape(type)} ${n} Squares`).join('')+(!d.speedUnknown&&d.runMultiplier!==4?` (Run ${d.runSpeed} Squares)`:''))}${attacks}${routines}${species.bellow?line('Special Attacks',`Bellow ${signed(d.level+d.specialAttackPenalty)} (${species.bellow.damageDice+(d.bellowBonuses?.dice||0)}d${species.bellow.die} Sonic; ${species.bellow.coneSquares}-Square Cone; Fortitude)`):''}${line('Base Attack Bonus',signed(d.bab))}
- ${textLine('Special Qualities',[...classFeatureNames,...(species.gmQualities?speciesQualities(c,species).filter(r=>r.name.trim()).map(r=>r.name+' (Manual)'):[])].join(', '))}
+ ${textLine('Special Qualities',[...classFeatureNames,...(species.gmQualities?speciesQualities(c,species).filter(r=>r.name.trim()).map(r=>r.name+' (Manual)'):[])].join(', '))}${activeNames.map(name=>textLine(escape(name),active.filter(a=>a.name===name).map(a=>a.benefit).join(', '))).join('')}
  <h2>Base Stats</h2>${line('Abilities',ABILITIES.map(a=>`${a[0].toUpperCase()+a.slice(1)} ${d.scores[a]===null?'-':d.scores[a]}`).join(', '))}
  ${line('Starship Maneuvers',d.starshipManeuvers?.map(p=>escape(p.name)).join(', '))}${line('Force Powers',d.forcePowers?.map(p=>escape(p.name)).join(', '))}
  ${textLine('Species Traits',customizationEntries(c,species).map(r=>r.name).join(', '))}${line('Talents',d.ctx.talents.map(s=>featureName('talents',s)).join(', '))}${line('Feats',d.ctx.feats.map(s=>featureName('feats',s)).join(', '))}

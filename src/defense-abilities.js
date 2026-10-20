@@ -17,12 +17,12 @@ export function defenseAbilityDetails(c,pack,effects,mods,{dex,armorMaxDex,dexDe
 
 export function thresholdForContext(context,against=[]){
  const active=context.bonuses.filter(r=>against.includes(r.against)).map(r=>({...r,against:'damage'}));
- const conditional=combineArmorDefenses(active,[],context.base,context.equipment);
+ const conditional=combineArmorDefenses(active,[],context.base,context.equipment,context.baseModifiers);
  const options=context.allowed.map(defense=>({defense,total:context.base[defense]+context.bonus+(conditional.find(r=>r.defense===defense)?.amount||0)}));
  return options.find(o=>o.defense===context.override)||options.reduce((best,o)=>o.total>best.total?o:best);
 }
-export function thresholdDetails(c,effects,defenses,bonuses,equipment,bonus){
- const context={allowed:effects.some(e=>e.target==='thresholdDefense')?['fortitude','will']:['fortitude'],override:c.thresholdDefense||'auto',base:defenses,bonuses:bonuses.filter(r=>r.defense!=='reflex'),equipment,bonus};
+export function thresholdDetails(c,effects,defenses,bonuses,equipment,bonus,baseModifiers={}){
+ const context={allowed:effects.some(e=>e.target==='thresholdDefense')?['fortitude','will']:['fortitude'],override:c.thresholdDefense||'auto',base:defenses,bonuses:bonuses.filter(r=>r.defense!=='reflex'),equipment,bonus,baseModifiers};
  const normal=thresholdForContext(context);
  const conditional=[...new Set(context.bonuses.map(r=>r.against))].map(against=>({...thresholdForContext(context,[against]),against})).filter(r=>r.total>normal.total);
  return {...normal,context,conditional};

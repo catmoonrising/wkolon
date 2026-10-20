@@ -172,3 +172,7 @@
 - [ ] Remaining Droid upgrades, remote processor links, maintenance/reprogramming/shutdown and complete immunity handling.
 - [x] Replica Droid and Shard creation with their distinct physiology, bonus systems and shell declarations.
 - [ ] Standard droid models and stock chassis.
+
+- [x] Shared numeric modifier resolution for typed stacking, circumstance groups, penalties and conditional defense increases.
+- [x] Fool's Luck personal Actions activation, Force Point/action costs, stacking, saved benefits and encounter expiry.
+- [ ] Fool's Luck vehicle defenses when vehicle statistics and occupancy are implemented.

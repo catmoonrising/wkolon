@@ -1,4 +1,5 @@
 import {balance,planBalance} from './balance.js';
+import {talentActivation,applyTalentActivation,endEncounterTalents} from './talent-activations.js';
 import {escapeBonds,planEscapeBonds} from './escape-bonds.js';
 import {canAim} from './weapon-rules.js';
 import {derive,validateCharacter,signed} from './rules.js';
@@ -51,6 +52,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(id==='recover-power')o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';
  if(['shield','shield-recharge'].includes(id))o.uid=c.inventory.find(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield)?.uid||'';
  if(id==='bellow'){o.extraDice=0;o.strong=false;}
+ if(id==='encounter-talent'){const t=pack.talents.find(t=>t.activation&&d.ctx.talents.some(s=>s.id===t.id)&&!d.ctx.inactiveTalents.has(t.id));o.talentId=t?.id||'';o.choice=t?.activation.choices.find(o=>!c.talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||'';}
  if(id.startsWith('manual-'))o.note=pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name==='Other'?'':pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name||'';
  return o;
 }
@@ -91,6 +93,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'rage':assert(d.recovery.rage?.remaining&&!d.recovery.rage.active,'Rage unavailable');break;
  case 'bellow':assert(bellowDetails(q,d,pack,o.extraDice??0,{strong:o.strong??false})?.available,'Bellow unavailable');break;
  case 'total-defense':break;
+ case 'encounter-talent':{const t=talentActivation(q,pack,d,o.talentId,o.choice);view.name=t.talent.name+' ('+t.option.name+')';view.cost.type=t.activation.action;view.forceCost=t.activation.forcePoints;break;}
  case 'force-bonus':assert(!s.ended,'Force Point bonus requires your turn');view.forceCost=1;break;
  case 'power':{
   const p=d.forcePowers.find(p=>p.copyId===o.powerId);assert(p,'Choose a power');assert(!o.action||p.actions?.includes(o.action)||p.action===o.action,'Power action changed');
@@ -148,6 +151,7 @@ function resolve(c,pack,id,o,v,roller){
  else if(id==='rage'){startRage(c,d);r={text:'Rage: '+d.recovery.rage.duration+' rounds'};}
  else if(id==='bellow')r=rollBellow(c,d,pack,o.extraDice??0,o.damage??null,roller,{strong:o.strong??false});
  else if(id==='total-defense')declareDefenseStance(c,d,'total');
+ else if(id==='encounter-talent'){invalidate(c);applyTalentActivation(c,o.talentId,o.choice);c.forcePoints-=v.forceCost;r={text:v.name+'; Force Points -'+v.forceCost};}
  else if(id==='force-bonus'){const x=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);c.forcePoints--;r={text:'Force Point: +'+x.value,html:x.display+' = '+totalHtml(x)};}
  else if(id==='power'){
   const copy=c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===o.powerId);copy.action=v.power.action;
@@ -202,7 +206,7 @@ export function beginNextTurn(c,pack){
  validateCharacter(q,pack);commit(c,q);
 }
 export function endCurrentTurn(c,pack){const q=structuredClone(c);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');if(q.forcePowerRecoveryPending)recoverSuite(q,derive(q,pack),{endTurn:true});if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
-export function endTrackedCombat(c){assert(!c.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
+export function endTrackedCombat(c){assert(!c.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');endEncounterTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false;
  for(const step of q.actionState.plan){
@@ -216,6 +220,7 @@ export function previewPlan(c,pack){
    if(step.action==='total-defense')declareDefenseStance(q,v.derived,'total');
    if(step.action==='reload'){const e=q.inventory.find(e=>e.uid===step.options.uid);e.shotsRemaining=ammunitionProfile(e,pack).capacity;}
    if(step.action==='aim'){clearAiming(q);q.inventory.find(e=>e.uid===step.options.uid).aimed=true;}
+   if(step.action==='encounter-talent'){clearAiming(q);clearBracing(q);applyTalentActivation(q,step.options.talentId,step.options.choice);}
    if(v.forceCost){q.forcePoints-=v.forceCost;q.actionState.forceSpent=true;}
    if(step.action==='power')q.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===step.options.powerId).spent=true;
    if(step.action==='charge')q.actionState.ended=true;

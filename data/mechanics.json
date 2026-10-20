@@ -40552,7 +40552,8 @@
       "repeat": "never",
       "reminder": "Spend a standard action and Force Point: +1 competence to attacks or defenses, or +5 competence to skills, for the encounter.",
       "effects": [],
-      "automation": "manual"
+      "automation": "partial",
+      "activation": {"action":"standard","forcePoints":1,"duration":"encounter","choices":[{"id":"attacks","name":"Attack rolls","effects":[{"target":"attacks","amount":1,"type":"competence"}]},{"id":"skills","name":"Skill Checks","effects":[{"target":"skills","amount":5,"type":"competence"}]},{"id":"defenses","name":"Defenses","effects":[{"target":"defenses","amount":1,"type":"competence"}]}]}
     },
     {
       "id": "talent:improved-armored-defense",
@@ -68415,6 +68416,7 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
+        {"id":"encounter-talent","name":"Talent","type":"standard","count":1},
         {
           "id": "attack",
           "name": "Attack",

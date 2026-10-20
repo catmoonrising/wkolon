@@ -1,4 +1,5 @@
 import {resolveEquipment} from './equipment.js';
+import {modifierTotal,modifierIncrease} from './modifiers.js';
 
 export const ARMOR_CHECKS=['hiding','darkness','concealArmor','noncombat','magneticSoles','lifting','intimidating'];
 export function validateArmorChecks(c,bad){
@@ -14,7 +15,7 @@ export function armorSkillBonus(items,ctx,checks,id){
   amounts.push(item.skillBonuses?.[id]||0);
   for(const effect of item.skillEffects||[])if(effect.skillId===id&&(effect.when==='always'||checks?.[effect.when])&&(!effect.proficiency||ctx.feats.some(f=>f.id==='feat:armor-proficiency-'+effect.proficiency)))amounts.push(effect.amount);
  }
- return Math.max(0,...amounts);
+ return modifierTotal(amounts.map(amount=>({amount,type:'equipment'})));
 }
 export function armorPenalty(items,ctx,pack,checks,skills=false,extra=0){
  const raw=extra+items.reduce((sum,item)=>sum+(armorProficient(item,ctx)||skills&&item.skillPenaltyExempt?0:(ctx.unproficientArmorPenalties?.[item.category]??pack.rules.armorPenalties[item.category])),0);
@@ -25,15 +26,12 @@ export function armorVision(species,items,ctx){
  return species.vision==='low-light'||items.some(item=>item.vision==='low-light'&&(!item.visionProficiency||ctx.feats.some(f=>f.id==='feat:armor-proficiency-'+item.visionProficiency)))?'low-light':species.vision;
 }
 export function armorConditionalDefenses(items,ctx,defenses){
- const rows=new Map();
+ const rows=[];
  for(const item of items)for(const effect of item.conditionalDefenses||[]){
   if(effect.type==='equipment'&&!armorProficient(item,ctx))continue;
-  const key=effect.defense+'|'+effect.against+'|'+effect.type;
-  const old=rows.get(key);
-  if(effect.type==='untyped'&&old)old.amount+=effect.amount;
-  else if(!old||effect.amount>old.amount)rows.set(key,{...effect});
+  rows.push({...effect});
  }
- return [...rows.values()].map(row=>({...row,total:defenses[row.defense]+row.amount}));
+ return rows.map(row=>({...row,total:defenses[row.defense]+row.amount}));
 }
 export function armorProtection(c,d,{energy=false,fire=false,lightsaber=false,ignoreDR=false}={}){
  if([energy,fire,lightsaber,ignoreDR].some(value=>typeof value!=='boolean'))throw new Error('Invalid armor damage declaration');
@@ -44,10 +42,10 @@ export function armorProtection(c,d,{energy=false,fire=false,lightsaber=false,ig
  return {...protection,dr:ignoreDR?0:Math.max(manual,...sources.map(r=>r.armorDR.amount))};
 }
 
-export function combineArmorDefenses(species,armor,defenses,equipmentBonuses={}){
+export function combineArmorDefenses(species,armor,defenses,equipmentBonuses={},baseModifiers={}){
  const groups=new Map();
- for(const row of [...species,...armor]){const key=row.defense+'|'+row.against;const group=groups.get(key)||{...row,types:{}};group.types[row.type]=row.type==='untyped'?(group.types[row.type]||0)+row.amount:Math.max(group.types[row.type]||0,row.amount);groups.set(key,group);}
- return [...groups.values()].map(({types,...row})=>{if(types.equipment!==undefined)types.equipment=Math.max(0,types.equipment-(equipmentBonuses[row.defense]||0));const amount=Object.values(types).reduce((n,v)=>n+v,0);return {...row,amount,total:defenses[row.defense]+amount};});
+ for(const row of [...species,...armor]){const key=row.defense+'|'+row.against;const group=groups.get(key)||{...row,modifiers:[]};group.modifiers.push(row);groups.set(key,group);}
+ return [...groups.values()].map(({modifiers,...row})=>{const base=baseModifiers[row.defense]||[{type:'equipment',amount:equipmentBonuses[row.defense]||0}],amount=modifierIncrease(base,modifiers);return {...row,amount,total:defenses[row.defense]+amount};});
 }
 
 export function armorStrengthCheck(items,ctx,checks){return checks?.lifting?Math.max(0,...items.filter(item=>armorProficient(item,ctx)).map(item=>item.strengthCheckBonus||0)):0;}
