@@ -523,7 +523,7 @@ yet debited automatically. No optional Free Actions limit variant is enabled.
 **User ruling for bracing:** the extended retractable stock requirement
 applies to Pistols only. Heavy Weapons and Rifles do not require that stock. The
 weapon must still be autofire-only, and bracing requires two Swift Actions
-immediately before firing. The user explicitly declined an alternative stock-requirement setting. Bracing
+immediately before firing. The user initially declined an alternative stock-requirement setting, then reauthorized all past alternatives on 2026-10-20. The saved `bracing-stock` alternative now applies the stock clause to all three groups. Bracing
 was implemented in the subsequent batch below.
 
 Validation: 189 JavaScript and 19 Python tests, rules validation and the complete
@@ -818,7 +818,7 @@ remain separate from the ignored difficult terrain surcharge.
 The closed data mapping precedes calculations, with separate movement/check
 state and low-object subsets. Cross and Tumble are separate applications with
 no printed ordinary combined-check rule; the user chose separate checks with
-no Ambiguities alternative. Nimble Charge's explicit DC 35 is kept specific to
+a separately enabled shared-check alternative authorized on 2026-10-20. Nimble Charge's explicit DC 35 is kept specific to
 that combination. Failure restores ordinary costs. Above-budget routes and
 successful Tumble protection on untraversed squares are not automatically
 resolved. Route geometry and actual squares traversed remain player/GM state.

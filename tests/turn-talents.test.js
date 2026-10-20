@@ -67,3 +67,8 @@ test('legacy saves remain unchanged and turn state rejects unknown IDs, impossib
  const c=hero();validateCharacter(c,pack);derive(c,pack);assert.equal(c.turnTalents,undefined);
  for(const rows of [null,[{id:'invented',amount:1}],[{id:'lightsaber-defense',amount:5}],[{id:'lightsaber-defense',amount:1,rounds:4}],[{id:'lightsaber-defense',amount:1},{id:'lightsaber-defense',amount:2}]])assert.throws(()=>validateCharacter({...c,turnTalents:rows},pack),/turn talents/);
 });
+
+test('weapon-change ambiguity preserves activation-only default and can require a currently active wielded Lightsaber',()=>{
+ const c=hero();run(c);c.inventory[0].activated=false;assert(aware(derive(c,pack)));
+ c.houseRules={ambiguities:{'ambiguity:lightsaber-defense-weapon-change':'require-weapon'}};assert(!aware(derive(c,pack)));assert(c.turnTalents);validateCharacter(c,pack);c.inventory[0].activated=true;assert(aware(derive(c,pack)));startNextTurn(c);assert(!aware(derive(c,pack)));
+});

@@ -478,7 +478,7 @@ export function derive(c, pack) {
   const conditionalDefenses=[...combineArmorDefenses(conditionalEffects,[],defenses,equipmentDefenseBonuses,defenseModifiers).filter(r=>r.against!=='aware'||r.amount>0),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)];
   const thresholdState=thresholdDetails(c,effects,defenses,conditionalEffects,equipmentDefenseBonuses,pack.rules.sizeThreshold[effectiveSize]+(species.damageThresholdBonus||0)+total('threshold')+c.modifiers.threshold,defenseModifiers);
   const threshold=thresholdState.total,thresholdContext=thresholdState.context;
-  const teamSkills=teamSkillDetails(c,effects,ix);
+  const teamSkills=teamSkillDetails(c,effects,ix,pack);
   const hp = (rows[0].valid===false?0:ix.classes.get(c.levels[0].classId).startingHP + mods.con) + c.levels.slice(1).reduce((n, l,i) => n + (rows[i+1].valid===false?0:Math.max(1, l.hpRoll + (ix.classes.get(l.classId).hpConstitution===false?0:mods.con))), 0) + total('hp') + c.modifiers.hp;
   const nativeSkills = pack.skills.map(s => {
     const trained = ctx.trained.has(s.id);

@@ -67233,7 +67233,13 @@
             "name": "Keep until next turn"
           }
         ]
-      }
+      },
+      {"id":"ambiguity:lightsaber-defense-weapon-change","name":"Lightsaber Defense: weapon change","sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense"],"passages":[{"ruleId":"rule:lightsaber-defense","fullText":true}],"default":"activation-only","options":[{"value":"activation-only","name":"Keep until next turn"},{"value":"require-weapon","name":"Require active Lightsaber"}]},
+      {"id":"ambiguity:bracing-stock","name":"Bracing: stock requirement","sourceIds":["source:wiki-attacks-bracing"],"passages":[{"ruleId":"rule:bracing","fullText":true}],"default":"pistols-only","options":[{"value":"pistols-only","name":"Pistols only"},{"value":"all-groups","name":"All three groups"}]},
+      {"id":"ambiguity:tumble-cross-check","name":"Tumble + Cross Difficult Terrain","sourceIds":["source:wiki-acrobatics"],"passages":[{"ruleId":"rule:acrobatics","fullText":true}],"default":"separate","options":[{"value":"separate","name":"Separate checks"},{"value":"shared","name":"One shared check"}]},
+      {"id":"ambiguity:tumble-cost","name":"Tumble movement cost","sourceIds":["source:wiki-acrobatics"],"passages":[{"ruleId":"rule:acrobatics","fullText":true}],"default":"multiply","options":[{"value":"multiply","name":"Multiply terrain costs"},{"value":"flat-two","name":"Flat 2 per square"}]},
+      {"id":"ambiguity:predictive-defense-dexterity-limits","name":"Predictive Defense: Intelligence limits","sourceIds":["source:wiki-predictive-defense"],"passages":[{"ruleId":"rule:predictive-defense","fullText":true}],"default":"intelligence","options":[{"value":"intelligence","name":"Intelligence rules"},{"value":"dexterity-limits","name":"Dexterity restrictions"}]},
+      {"id":"ambiguity:team-feat-allies","name":"Team feats: allies","sourceIds":["source:wiki-aquatic-specialists"],"passages":[{"ruleId":"rule:aquatic-specialists","fullText":true}],"default":"others","options":[{"value":"others","name":"Other allies"},{"value":"include-self","name":"Include self"}]}
     ],
     "forceTalentAccess": {
       "trees": [

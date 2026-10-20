@@ -32,3 +32,9 @@ tracked New Turn, new encounter, New day and long-rest resets. End turn does not
 clear it. Ending tracked combat also clears it. Queueing and previews only mutate
 a copy, and invalid execution spends no actions or real resources. Active turn
 talents appear in Actions and in the printed stat block.
+
+The saved `lightsaber-defense-weapon-change` ambiguity defaults to the printed
+activation-only reading. Its alternative requires a currently wielded, activated
+Lightsaber throughout the benefit. It suppresses the bonus while none qualifies;
+wielding an active Lightsaber again can restore the benefit only within the
+original duration, never after the next-turn reset.

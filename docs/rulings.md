@@ -8,6 +8,7 @@ default-only decision remains here even though it adds no switch to the sheet.
 
 | Topic | Default | Available alternative(s) |
 | --- | --- | --- |
+| Lightsaber Defense weapon change | Activation requirement; keep until next turn | Require a currently wielded active Lightsaber |
 | Sprint and Heavy Armor | Armor limit (3×) | Sprint (5×) |
 | Sprint + Heavy Load | Heavy Load (×3) | Sprint (×5) |
 | Bellow: extra dice | RAW (uncapped) | Stop at Helpless |
@@ -22,7 +23,7 @@ default-only decision remains here even though it adds no switch to the sheet.
 | Acrobatics + Jump Down | Resolve both checks independently and combine successful reductions | Make the two reductions mutually exclusive |
 | Flurry weapon change | +2 melee only while eligible weapons remain wielded; −5 Reflex until the next turn | Keep the attack bonus after switching weapons; the declaration still requires eligible weapons |
 
-## Default-only choices
+## Earlier default-only choices (superseded)
 
 | Topic | Retained ruling | Alternative not added |
 | --- | --- | --- |
@@ -42,7 +43,7 @@ default-only decision remains here even though it adds no switch to the sheet.
 | Vonduun Crab Shells | Owned-only; no ordinary purchase. |
 | Comlink functions | Add each upgrade fee calculated from the base price: a 250-credit base with a 2× upgrade costs 250 + 500 = 750. |
 
-## Unanswered optional ruling
+## Previously unanswered options
 
 | Topic | Current behavior | Unanswered alternative |
 | --- | --- | --- |
@@ -62,3 +63,23 @@ Exact supporting wiki passages remain in House Rules → Ambiguities and
 [the import review](import-review.md). Implemented defaults and alternatives
 also have calculation/action tests; this register preserves decisions to
 leave an alternative out so they can be revisited without searching old turns.
+
+## Reopened alternatives (2026-10-20)
+
+The user authorized alternatives for all previously discussed ambiguities,
+including previously declined and unanswered alternatives. Existing defaults
+remain unchanged. This supersedes the default-only approvals above.
+
+- [x] Lightsaber Defense: require a currently active wielded Lightsaber.
+- [x] Bracing: apply the stock clause to all three weapon groups.
+- [ ] Cleave: recalculate target-specific modifiers.
+- [x] Tumble + Cross Difficult Terrain: one shared check.
+- [x] Tumble movement cost: flat two per tumbled square.
+- [x] Predictive Defense: apply Dexterity restrictions to Intelligence.
+- [x] Team feat allies: include self.
+- [ ] Tough as Durasteel: offer prose/table amounts when implementing its action.
+- [ ] Anointed Hunter: offer the species table's next-turn duration.
+
+Droid Heavy Armor's other-speed behavior and Manacles' omitted DC contain no
+concrete sourced alternative to enable. Their documented RAW/manual behavior
+remains intact; no extrapolated speed formula or invented DC is introduced.

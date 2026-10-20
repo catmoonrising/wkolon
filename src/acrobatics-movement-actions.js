@@ -1,4 +1,5 @@
 import {planAcrobaticsMove,planProneAction,acrobaticsMoveCost} from './acrobatics-movement.js';
+import {ambiguityValue} from './house-rules.js';
 import {clearAiming,clearBracing} from './attack-techniques.js';
 import {clearFollowUps} from './attack-follow-ups.js';
 import {evalExpr,totalHtml} from './dice.js';
@@ -16,9 +17,11 @@ function beginAction(c,moveAction){
 }
 export function acrobaticsMove(c,d,pack,roller=evalExpr){
  const plan=planAcrobaticsMove(c,d,pack),p=plan.path;
- // Independent applications: only Nimble Charge has a printed combined DC.
- const terrainRoll=p.crossTerrain?check({...plan,dc:pack.rules.acrobaticsMovement.crossTerrain.dc},p.terrainCheck,roller):null;
- const tumbleRoll=p.tumble?check(plan,p.checkMode==='take10'?10+plan.skill.total:p.check,roller):null;
+ const shared=p.crossTerrain&&p.tumble&&ambiguityValue(c,pack,'ambiguity:tumble-cross-check')==='shared';
+ const entered=p.tumble&&p.checkMode==='take10'?10+plan.skill.total:p.check??(shared?p.terrainCheck:null);
+ const sharedRoll=shared?check(plan,entered,roller):null;
+ const terrainRoll=shared?sharedRoll:p.crossTerrain?check({...plan,dc:pack.rules.acrobaticsMovement.crossTerrain.dc},p.terrainCheck,roller):null;
+ const tumbleRoll=shared?sharedRoll:p.tumble?check(plan,entered,roller):null;
  if(tumbleRoll&&p.checkMode==='take10')tumbleRoll.display='10 + '+plan.skill.total+' (Take 10)';
  const crossSucceeded=terrainRoll?.success??false,tumbleSucceeded=tumbleRoll?.success??true;
  const cost=acrobaticsMoveCost(c,pack,crossSucceeded,d),success=(terrainRoll?.success??true)&&tumbleSucceeded;
@@ -29,7 +32,7 @@ export function acrobaticsMove(c,d,pack,roller=evalExpr){
  if(tumbleRoll&&c.acrobaticsMovement?.check!==undefined)c.acrobaticsMovement.check=null;
  if(terrainRoll&&c.acrobaticsMovement?.terrainCheck!==undefined)c.acrobaticsMovement.terrainCheck=null;
  const name=p.tumble?'Tumble':'Move',note=`${p.path.squares} squares (${cost}/${plan.maximum} movement; ${p.mode})`;
- const checks=[...(terrainRoll?[{name:'Cross Difficult Terrain',roll:terrainRoll,dc:pack.rules.acrobaticsMovement.crossTerrain.dc}]:[]),...(tumbleRoll?[{name:terrainRoll?'Tumble':'Acrobatics',roll:tumbleRoll,dc:plan.dc}]:[])];
+ const checks=shared?[{name:'Tumble + Cross Difficult Terrain',roll:sharedRoll,dc:plan.dc}]:[...(terrainRoll?[{name:'Cross Difficult Terrain',roll:terrainRoll,dc:pack.rules.acrobaticsMovement.crossTerrain.dc}]:[]),...(tumbleRoll?[{name:terrainRoll?'Tumble':'Acrobatics',roll:tumbleRoll,dc:plan.dc}]:[])];
  const outcomes=[];
  if(terrainRoll&&!terrainRoll.success)outcomes.push('Cross Difficult Terrain failed; normal terrain costs');
  if(cost>plan.maximum)outcomes.push('route exceeds Speed; movement unconfirmed');

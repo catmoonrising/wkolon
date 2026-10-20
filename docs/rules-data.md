@@ -1622,3 +1622,17 @@ best eligible value, not a sum. Armor talents apply to each proficient suit when
 choosing Reflex, and Dexterity caps and penalties still account for worn items.
 Built-in armor never slows movement, but Heavy Armor still limits running.
 Maintenance, remote processor links, shutdown and complex upgrades remain pending.
+
+### Reopened ambiguity settings
+
+The 2026-10-20 instruction authorizes all previously declined and unanswered
+alternatives; `docs/rulings.md` tracks the remaining work. Existing defaults stay
+unchanged. `bracing-stock` extends the stock clause to all three allowed groups.
+`tumble-cross-check` can use one shared DC15 check, with the visible Tumble field
+and its check mode taking precedence over a legacy Terrain total. It reports
+one check and applies its result to both applications. `tumble-cost` can replace
+only the tumbled squares with flat two-square costs; Sokan retains its more
+specific one-square cost. `predictive-defense-dexterity-limits` connects the
+existing Intelligence restriction branch to its saved setting. `team-feat-allies`
+can add self while keeping the saved counter as other allies and preserving
+competence competition and printed caps.

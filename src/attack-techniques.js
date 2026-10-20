@@ -58,7 +58,7 @@ export function changeWeaponSetting(entry,pack,key,value){
 
 export function bracingState(w,entry,pack,c,technique){
  const rule=pack.rules.bracing;
- const reason=!w.autofireOnly?'Requires an autofire-only weapon':!rule.groups.includes(w.group)?'Requires Heavy Weapons, Rifles or Pistols':entry.stockPosition==='folded'?'Requires an extended stock':w.group==='pistols'&&(!w.retractableStock||entry.stockPosition==='none')?'Requires an extended retractable stock':'';
+ const reason=!w.autofireOnly?'Requires an autofire-only weapon':!rule.groups.includes(w.group)?'Requires Heavy Weapons, Rifles or Pistols':entry.stockPosition==='folded'?'Requires an extended stock':(w.group==='pistols'||ambiguityValue(c,pack,'ambiguity:bracing-stock')==='all-groups')&&(!w.retractableStock||entry.stockPosition==='none')?'Requires an extended retractable stock':'';
  const available=!reason,active=available&&!!entry.braced;
  const lowStrength=technique?.selected==='burst-fire'&&technique.penalty===pack.rules.attackTechniques.find(t=>t.id==='burst-fire').lowAbilityPenalty;
  const penalty=active&&!(lowStrength&&ambiguityValue(c,pack,'ambiguity:bracing-burst-fire')==='burst-penalty')?rule.penalty:null;

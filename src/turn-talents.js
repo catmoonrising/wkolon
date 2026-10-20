@@ -1,3 +1,4 @@
+import {ambiguityValue} from './house-rules.js';
 import {activeLightsabers} from './power-activation.js';
 
 export function validateTurnTalents(c,pack,bad){
@@ -6,6 +7,7 @@ export function validateTurnTalents(c,pack,bad){
  if(!Array.isArray(rows)||rows.length>(pack.rules.turnTalentActions||[]).length||new Set(rows.map(r=>r?.id)).size!==rows.length||rows.some(r=>!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).sort().join()!=='amount,id'||!pack.rules.turnTalentActions?.some(rule=>rule.id===r.id)||![1,2,3,4,6].includes(r.amount)))bad('turn talents');
 }
 export function activeTurnTalents(c,pack,ctx){
+ if(ambiguityValue(c,pack,'ambiguity:lightsaber-defense-weapon-change')==='require-weapon'&&!activeLightsabers(c,pack).length)return [];
  return (c.turnTalents||[]).flatMap(s=>{
   const rule=pack.rules.turnTalentActions.find(r=>r.id===s.id);
   if(!rule)return [];
