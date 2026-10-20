@@ -1,4 +1,5 @@
 import {validAttackReference} from './attack-refs.js';
+import {ambiguityValue} from './house-rules.js';
 import {movementSegment,movementCost,movementSpeed,validateSegment} from './combat-movement.js';
 
 const identity=s=>s.trim().normalize('NFKC').toLowerCase();
@@ -20,7 +21,7 @@ export function nextFollowUpRound(c){
 export function recordAttackFollowUps(c,result,append=false){
  const attack=result.results?.at(-1);
  if(!attack?.uid||!attack.weaponId||!['melee','ranged'].includes(attack.mode)){clearFollowUps(c);return;}
- const p=followUpState(c),ticket={id:crypto.randomUUID(),uid:attack.uid,weaponId:attack.weaponId,name:attack.name,mode:attack.mode,bonus:attack.attackBonus,damage:attack.damage,blocked:!!(attack.naturalMiss||attack.failedArea),claims:[]};
+ const p=followUpState(c),ticket={id:crypto.randomUUID(),uid:attack.uid,weaponId:attack.weaponId,name:attack.name,mode:attack.mode,bonus:attack.attackBonus,...(Number.isInteger(attack.targetBonus)?{targetBonus:attack.targetBonus}:{}),damage:attack.damage,blocked:!!(attack.naturalMiss||attack.failedArea),claims:[]};
  p.tickets=append?[...p.tickets,ticket]:[ticket];
  if(p.tickets.length>100)p.tickets.splice(1,p.tickets.length-100);
  p.selected=ticket.id;p.opponent=append?p.nextOpponent:'';p.nextOpponent='';p.dropped=false;p.immediate=false;p.inReach=false;
@@ -64,8 +65,11 @@ export function planCleave(c,d,pack){
  if(!attack)throw new Error('Requires the same weapon ready for a melee attack');
  if(!attack.available||!attack.damage)throw new Error(attack.issue||'Attack unavailable');
  const move=p.moveBefore?planFollowThrough(c,d,pack,{beforeCleave:true}):null;
- const bonus=t.bonus;
- return {...q,move,attack:{...attack,attack:bonus,...(attack.unSwing?{unSwing:{...attack.unSwing,attack:bonus}}:{})}};
+ const recalculate=ambiguityValue(c,pack,'ambiguity:cleave-target-bonus')==='recalculate';
+ if(recalculate&&!Number.isInteger(t.targetBonus))throw new Error('Roll a new triggering attack to record target modifiers');
+ const targetBonus=recalculate?attack.targetModifiers?.targetPenalty||0:t.targetBonus;
+ const bonus=t.bonus+(recalculate?targetBonus-t.targetBonus:0);
+ return {...q,move,attack:{...attack,attack:bonus,targetModifiers:{...attack.targetModifiers,targetPenalty:targetBonus},...(attack.unSwing?{unSwing:{...attack.unSwing,attack:bonus}}:{})}};
 }
 export function applyFollowUpClaim(c,consume){
  const p=followUpState(c),ticket=p.tickets.find(t=>t.id===consume.ticketId);
@@ -87,7 +91,7 @@ export function validateFollowUps(c,bad){
  if(p.tickets!==undefined){
   if(!Array.isArray(p.tickets)||p.tickets.length>100)bad('follow-up tickets');const ids=new Set();
   for(const t of p.tickets){
-   if(!obj(t)||Object.keys(t).some(k=>!['id','uid','weaponId','name','mode','bonus','damage','blocked','claims'].includes(k))||!uuid(t.id)||ids.has(t.id)||!validAttackReference(t.uid)||typeof t.weaponId!=='string'||!/^equipment:[a-z0-9-]+$/.test(t.weaponId)&&t.weaponId!=='attack:unarmed'||!name(t.name)||!['melee','ranged'].includes(t.mode)||!integer(t.bonus,-100000,100000)||!integer(t.damage,0,Number.MAX_SAFE_INTEGER)||typeof t.blocked!=='boolean'||!Array.isArray(t.claims)||t.claims.length>1000)bad('follow-up ticket');
+   if(!obj(t)||Object.keys(t).some(k=>!['id','uid','weaponId','name','mode','bonus','targetBonus','damage','blocked','claims'].includes(k))||!uuid(t.id)||ids.has(t.id)||!validAttackReference(t.uid)||typeof t.weaponId!=='string'||!/^equipment:[a-z0-9-]+$/.test(t.weaponId)&&t.weaponId!=='attack:unarmed'||!name(t.name)||!['melee','ranged'].includes(t.mode)||!integer(t.bonus,-100000,100000)||t.targetBonus!==undefined&&!integer(t.targetBonus,-100000,100000)||!integer(t.damage,0,Number.MAX_SAFE_INTEGER)||typeof t.blocked!=='boolean'||!Array.isArray(t.claims)||t.claims.length>1000)bad('follow-up ticket');
    ids.add(t.id);const opponents=new Set();
    for(const u of t.claims){if(!obj(u)||Object.keys(u).some(k=>!['opponent','cleave','followThrough'].includes(k))||!name(u.opponent)||!u.opponent.trim()||typeof u.cleave!=='boolean'||typeof u.followThrough!=='boolean'||!u.cleave&&!u.followThrough||opponents.has(identity(u.opponent)))bad('follow-up claim');opponents.add(identity(u.opponent));}
   }

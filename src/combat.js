@@ -152,7 +152,7 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Refle
    damage=Math.max(rules.minimumDamage*(critical?multiplier:1),damageRoll.value);
    damageRoll={...damageRoll,value:damage};
   }
-  results.push({uid:a.uid,weaponId:a.id,mode:a.mode,attackBonus:a.attack+s.attackMod,name:a.name,total:attackRoll.value,damage,naturalHit,naturalMiss,failedArea,critical,areaType:a.areaType,aimed:!!a.aimed,braced:!!a.braced,mightySwing:!!a.mightySwing,ignoresDarkness:!!a.ignoresDarkness,coverBonus:a.coverBonus||0,targetCover:!!a.targetCover,attackRoll,damageRoll});
+  results.push({uid:a.uid,weaponId:a.id,mode:a.mode,attackBonus:a.attack+s.attackMod,...(Number.isInteger(a.targetModifiers?.targetPenalty)?{targetBonus:a.targetModifiers.targetPenalty}:{}),name:a.name,total:attackRoll.value,damage,naturalHit,naturalMiss,failedArea,critical,areaType:a.areaType,aimed:!!a.aimed,braced:!!a.braced,mightySwing:!!a.mightySwing,ignoresDarkness:!!a.ignoresDarkness,coverBonus:a.coverBonus||0,targetCover:!!a.targetCover,attackRoll,damageRoll});
  }
  const rows=defenseRangeRows(results),range=r=>r.lo===null?(r.hi===null?'Any':`≤ ${r.hi}`):r.hi===null?`${r.lo}+`:r.lo===r.hi?String(r.lo):`${r.lo}–${r.hi}`;
  const area=results.some(r=>r.areaType),splash=results.some(r=>r.areaType==='splash'),defenseLabel=defense+(results.some(r=>r.coverBonus)?' (before cover)':'');

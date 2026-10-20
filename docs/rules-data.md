@@ -1636,3 +1636,15 @@ specific one-square cost. `predictive-defense-dexterity-limits` connects the
 existing Intelligence restriction branch to its saved setting. `team-feat-allies`
 can add self while keeping the saved counter as other allies and preserving
 competence competition and printed caps.
+
+`cleave-target-bonus` still copies the full triggering bonus by default. Its
+alternative subtracts the recorded opponent-specific component and adds the new
+opponent component, preserving Charge, own-Prone, routine adjustments and other
+triggering bonuses. Current Cleave is melee-only, so ranged Point-Blank/range
+modifiers are not part of this path. New results/tickets optionally record
+`targetBonus`; old tickets remain valid under the default but require a fresh
+triggering attack for recalculation. Great Cleave records the actual component
+in each newly generated ticket.
+
+Future opponent-specific attack effects must contribute to the recorded target
+component so follow-up recalculation remains consistent.

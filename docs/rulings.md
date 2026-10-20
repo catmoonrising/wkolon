@@ -9,6 +9,12 @@ default-only decision remains here even though it adds no switch to the sheet.
 | Topic | Default | Available alternative(s) |
 | --- | --- | --- |
 | Lightsaber Defense weapon change | Activation requirement; keep until next turn | Require a currently wielded active Lightsaber |
+| Bracing stock requirement | Pistols only | All three groups |
+| Cleave attack bonus | Copy full triggering bonus | Recalculate target-specific modifiers |
+| Tumble + Cross Difficult Terrain | Separate DC15 checks | One shared check |
+| Tumble movement cost | Multiply terrain costs | Flat 2 per tumbled square |
+| Predictive Defense | Intelligence rules | Apply Dexterity restrictions |
+| Team feat allies | Other allies | Include self |
 | Sprint and Heavy Armor | Armor limit (3×) | Sprint (5×) |
 | Sprint + Heavy Load | Heavy Load (×3) | Sprint (×5) |
 | Bellow: extra dice | RAW (uncapped) | Stop at Helpless |
@@ -50,7 +56,7 @@ default-only decision remains here even though it adds no switch to the sheet.
 | Tumble movement cost | Multiply Tumble with diagonal/difficult-terrain movement costs. | Every tumbled square costs a flat 2 regardless of terrain/diagonals. |
 | Predictive Defense | Intelligence is not subject to Dexterity-only caps or loss. | Apply Dexterity restrictions to the replacement Intelligence modifier. |
 | Team feat allies | Count other allies within 12 squares; solo competence bonus +3. | Count the character as an ally too, for a solo +4. The general Team Feats comparison with Skill Focus is unclear. |
-| Tough as Durasteel | Full reference text; activated action still pending. | Body class-level amount versus the table’s last even-level amount. |
+| Tough as Durasteel | Full reference text; bonus Hit Point trigger still pending. | Body class-level amount versus the table’s last even-level amount. |
 
 ## Source gaps and discrepancies
 
@@ -72,12 +78,12 @@ remain unchanged. This supersedes the default-only approvals above.
 
 - [x] Lightsaber Defense: require a currently active wielded Lightsaber.
 - [x] Bracing: apply the stock clause to all three weapon groups.
-- [ ] Cleave: recalculate target-specific modifiers.
+- [x] Cleave: recalculate target-specific modifiers.
 - [x] Tumble + Cross Difficult Terrain: one shared check.
 - [x] Tumble movement cost: flat two per tumbled square.
 - [x] Predictive Defense: apply Dexterity restrictions to Intelligence.
 - [x] Team feat allies: include self.
-- [ ] Tough as Durasteel: offer prose/table amounts when implementing its action.
+- [ ] Tough as Durasteel: offer prose/table amounts when implementing its bonus Hit Point trigger.
 - [ ] Anointed Hunter: offer the species table's next-turn duration.
 
 Droid Heavy Armor's other-speed behavior and Manacles' omitted DC contain no

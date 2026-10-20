@@ -747,7 +747,7 @@ Cleave's effect does not restrict its triggering attack to melee, although its
 extra attack must be melee with the identical weapon. Follow Through alone
 explicitly requires a melee trigger. The user chose the default only for Cleave:
 copy the full triggering modifier, including Charge and target-specific bonuses.
-No recalculation alternative is added to Ambiguities. Great Cleave chains and
+The original no-recalculation decision was superseded on 2026-10-20. The saved `cleave-target-bonus` alternative now replaces only the recorded opponent-specific component, retaining Charge and other triggering bonuses. Great Cleave chains and
 Follow Through's separate round/turn timing use explicit named HP-zero triggers.
 Routine stepping permits immediate follow-ups between attacks.
 

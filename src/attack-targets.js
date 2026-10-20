@@ -22,7 +22,7 @@ export function targetModifiers(c,pack,ctx,species,a){
  const cover=target.cover==='cover'?rule.coverBonus:target.cover==='improved'?rule.improvedCoverBonus:0;
  const coverBonus=a.ignoresCover&&!a.areaType?0:cover;
  const issue=target.cover==='total'?'Target has Total Cover':concealment==='total'&&!target.attackSquare?'Total Concealment: choose Attack square':'';
- return {penalty:prone+helpless+ownProne+intoMelee+conceal,coverBonus,targetCover:cover>0,issue,
+ return {penalty:prone+helpless+ownProne+intoMelee+conceal,targetPenalty:prone+helpless+intoMelee+conceal,coverBonus,targetCover:cover>0,issue,
   breakdown:[['Prone target',prone],['Helpless target',helpless],['Prone',ownProne],['Into melee',intoMelee],['Concealment',conceal]].filter(([,n])=>n).map(([name,n])=>`${name}: ${n>0?'+':''}${n}`).join('; ')};
 }
 // Apply once to each attack variant so losing Aim restores both range and darkness

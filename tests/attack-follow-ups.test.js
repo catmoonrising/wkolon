@@ -36,7 +36,7 @@ test('Cleave inherits the full triggering modifier, including Charge and routine
  const calls=[],extra=rollCleave(c,pack,roller(12,calls));assert.equal(calls[0],'1d20+'+result.results[0].attackBonus);spendAttackResources(c,extra);assert.equal(c.followUp.cleavesSpent,1);assert.equal(c.followUp.opponent,'B');assert.equal(c.followUp.tickets.at(-1).bonus,result.results[0].attackBonus);
  const charge=hero();charge.chargePath={squares:2};const charged=rollCharge(charge,derive(charge,pack),pack,charge.inventory[0].uid,roller());spendAttackResources(charge,charged);confirm(charge);assert.equal(cleavePlan(charge,pack).attack.attack,charged.results[0].attackBonus);
  const full=hero();full.fullAttackPenalties={twoWeapons:-10,doubleAttack:0,tripleAttack:0};attack(full,{mod:4});confirm(full);assert.equal(cleavePlan(full,pack).attack.attack,derive(full,pack).attacks[0].attack+4);
- assert(!pack.rules.ambiguities.some(a=>/cleave/i.test(a.id)));
+ assert.equal(pack.rules.ambiguities.find(a=>a.id==='ambiguity:cleave-target-bonus').default,'copy');
 });
 test('Cleave requires an immediate damaging hit, confirmed 0 HP, another target, reach and the same melee weapon',()=>{
  const c=hero();attack(c);confirm(c);assert.doesNotThrow(()=>cleavePlan(c,pack));
@@ -114,4 +114,16 @@ test('Swift Second Wind and supplied free-action reloads preserve a stepped rout
  const c=hero(),r=routine(c,0,2);c.routines=[r];spendAttackResources(c,rollRoutineStep(c,derive(c,pack),pack,r.id,roller()));c.currentHP=1;catchSecondWind(c,derive(c,pack),pack);assert.equal(c.routineProgress.index,1);assert.equal(c.followUp.tickets.length,0);
  c.inventory[1].id='equipment:bow';c.inventory[1].shotsRemaining=0;c.inventory[1].freeReloads=true;reloadWeapon(c,pack,c.inventory[1].uid);assert.equal(c.routineProgress.index,1);
  c.inventory[1].id='equipment:blaster-pistol';delete c.inventory[1].freeReloads;reloadWeapon(c,pack,c.inventory[1].uid);assert.equal(c.routineProgress,undefined);
+});
+
+test('Cleave target alternative replaces only opponent modifiers, preserving Charge and other copied bonuses',()=>{
+ const c=hero();c.attackTarget={prone:true,helpless:true};c.chargePath={squares:2};const charged=rollCharge(c,derive(c,pack),pack,c.inventory[0].uid,roller());spendAttackResources(c,charged);const original=c.followUp.tickets[0];assert.equal(original.targetBonus,10);const bonus=original.bonus;c.attackTarget={};c.prone=true;confirm(c);assert.equal(cleavePlan(c,pack).attack.attack,bonus);
+ c.houseRules={ambiguities:{'ambiguity:cleave-target-bonus':'recalculate'}};const plan=cleavePlan(c,pack);assert.equal(plan.attack.attack,bonus-10);const result=rollCleave(c,pack,roller());assert.equal(result.results[0].attackBonus,bonus-10);assert.equal(result.results[0].targetBonus,0);spendAttackResources(c,result);assert.equal(c.followUp.tickets.at(-1).targetBonus,0);validateCharacter(c,pack);
+});
+test('legacy Cleave tickets retain default compatibility and cannot guess missing target components under the alternative',()=>{
+ const c=hero();attack(c);confirm(c);delete c.followUp.tickets[0].targetBonus;validateCharacter(c,pack);assert(cleavePlan(c,pack));c.houseRules={ambiguities:{'ambiguity:cleave-target-bonus':'recalculate'}};const before=structuredClone(c);assert.throws(()=>rollCleave(c,pack,noDice),/new triggering attack/);assert.deepEqual(c,before);
+});
+
+test('Great Cleave chains recalculate each new target and persist the component actually used',()=>{
+ const c=hero({great:true});c.attackTarget={prone:true};const first=attack(c).results[0].attackBonus;assert.equal(c.followUp.tickets[0].targetBonus,5);c.attackTarget={};confirm(c);c.houseRules={ambiguities:{'ambiguity:cleave-target-bonus':'recalculate'}};let r=rollCleave(c,pack,roller());assert.equal(r.results[0].attackBonus,first-5);spendAttackResources(c,r);c.attackTarget={helpless:true};confirm(c,'B','C');r=rollCleave(c,pack,roller());assert.equal(r.results[0].attackBonus,first);assert.equal(r.results[0].targetBonus,5);spendAttackResources(c,r);validateCharacter(JSON.parse(JSON.stringify(c)),pack);
 });
