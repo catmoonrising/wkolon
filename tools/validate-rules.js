@@ -62,6 +62,12 @@ export function validatePack(p) {
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
     if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
+  if(p.rules.conditionRecoveryActions!==undefined){
+    const rows=p.rules.conditionRecoveryActions;
+    assert.deepEqual(rows,[['equilibrium',1,true,0,'source:wiki-control-talent-tree-equilibrium'],['indomitable',0,false,1,'source:wiki-commando-talent-tree-indomitable']].map(([id,forcePoints,removePersistent,dailyUsesPerSelection,sourceId])=>({id,talentId:'talent:'+id,steps:5,forcePoints,removePersistent,dailyUsesPerSelection,sourceIds:[sourceId,'source:wiki-conditions',...(id==='equilibrium'?['source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions']:[])]})),'Changed condition recovery rules');
+    for(const r of rows){assert(r.sourceIds.every(id=>sources.has(id)),'Missing condition recovery source');assert(p.talents.some(t=>t.id===r.talentId&&t.automation==='partial'),'Missing condition recovery talent');assert(p.rules.actionEconomy.actions.some(a=>a.id===r.id&&a.type==='swift'&&a.count===1),'Changed condition recovery action');}
+    assert.equal(p.rules.counselingApplications['jc:114-equilibrium-and-persistent-conditions'],'raw-equivalent');
+  }
   if(p.rules.skillActions!==undefined){
     const t=p.talents.find(t=>t.id==='talent:force-focus'),skill=p.skills.find(s=>s.id==='skill:use-the-force');
     assert(t?.automation==='partial'&&skill,'Missing skill action records');

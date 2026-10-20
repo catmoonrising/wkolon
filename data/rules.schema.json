@@ -2166,6 +2166,62 @@
             }
           }
         },
+        "conditionRecoveryActions": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "talentId",
+              "steps",
+              "forcePoints",
+              "removePersistent",
+              "dailyUsesPerSelection",
+              "sourceIds"
+            ],
+            "properties": {
+              "id": {
+                "enum": [
+                  "equilibrium",
+                  "indomitable"
+                ]
+              },
+              "talentId": {
+                "enum": [
+                  "talent:equilibrium",
+                  "talent:indomitable"
+                ]
+              },
+              "steps": {
+                "const": 5
+              },
+              "forcePoints": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "removePersistent": {
+                "type": "boolean"
+              },
+              "dailyUsesPerSelection": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "sourceIds": {
+                "type": "array",
+                "minItems": 2,
+                "uniqueItems": true,
+                "items": {
+                  "$ref": "#/$defs/id"
+                }
+              }
+            }
+          }
+        },
         "skillActions": {
           "type": "array",
           "minItems": 1,

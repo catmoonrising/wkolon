@@ -12,6 +12,7 @@ reviewed mapping is only partially covered until all of its rules are reviewed.
 linked species feats and redirects. Offline imports require that list; missing
 category captures and embedded Homebrew fail rather than silently importing it.
 
+Personal recovery talents follow the [Condition recovery contract](condition-recovery.md).
 Ordered skill rerolls follow the [reroll contract](skill-rerolls.md).
 Reviewed skill checks and their deferred effects follow the
 [skill action contract](skill-actions.md).
@@ -41,6 +42,7 @@ feature-specific button. Specific printed exceptions remain explicit.
 | SR before DR before HP | `protectedDamage` and `src/incoming-damage.js` |
 | Turn and round expiry | Existing turn, opportunity and action-state reset functions |
 | Encounter talent expiry | `src/talent-activations.js`, shared by combat/encounter/day resets |
+| Talent Condition Track recovery and daily uses | `src/condition-recovery.js`, using `src/recovery.js` saved state |
 | Power copies and suite recovery | `src/force-powers.js` |
 
 A new feature declares its supported effects, costs and duration in reviewed

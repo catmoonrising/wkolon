@@ -41171,7 +41171,7 @@
       "repeat": "stack",
       "effects": [],
       "reminder": "Once per day as a Swift Action, you can move +5 steps on the Condition Track. This does not remove any Persistent Conditions that may be affecting you. This Talent does not affect the Condition Track of a Vehicle. You can select this talent multiple times. Each time you select this Talent, you can use it one additional time per day.",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:tough-as-nails",
@@ -42156,7 +42156,7 @@
       "repeat": "never",
       "reminder": "",
       "effects": [],
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:force-focus",
@@ -66817,6 +66817,7 @@
       }
     },
     "counselingApplications": {
+      "jc:114-equilibrium-and-persistent-conditions":"raw-equivalent",
       "jc:106-jedi-multiclassing": "talent-activation",
       "jc:112-weapon-familiarity-with-feats-and-talents": "weapon-familiarity",
       "jc:112-weapon-focus-proficiency": "partial-proficiency",
@@ -68385,6 +68386,7 @@
         }
       }
     ],
+    "conditionRecoveryActions": [{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]}],
     "skillActions": [{"id":"force-focus","talentId":"talent:force-focus","skillId":"skill:use-the-force","dc":15,"effect":"recover-power","sourceIds":["source:wiki-control-talent-tree-force-focus","source:use-the-force","source:wiki-skills"]}],
     "actionEconomy": {
       "referenceId": "reference:ff8059dc6752afdd",
@@ -68417,7 +68419,7 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
-        {"id":"force-focus","name":"Force Focus","type":"full","count":1},
+        {"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},
         {"id":"encounter-talent","name":"Talent","type":"standard","count":1},
         {
           "id": "attack",

@@ -19,7 +19,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
  let draft=null,editId=null,category=null,owner=null;
  const def=id=>pack.rules.actionEconomy.actions.find(r=>r.id===id);
  function options(id){const c=current(),o=defaultActionOptions(c,derived(),pack,id);if(id==='balance'||id==='balance-recheck')o.path=balanceState(c);if(id==='escape-bonds')o.path=escapeBondsState(c);if(id==='move')o.path=acrobaticsPath(c);if(id==='withdraw')o.path=withdrawPath(c);if(id==='charge')o.path=chargePath(c);if(id==='running-attack')o.path=runningPath(c);if(id==='opportunity')o.path=opportunityContext(c);if(['cleave','follow-through'].includes(id))o.path=followUpState(c);return o;}
- function relevant(id){const d=derived(),c=current(),skill=pack.rules.skillActions?.find(r=>r.id===id);if(skill)return d.ctx.talents.some(t=>t.id===skill.talentId)&&!d.ctx.inactiveTalents.has(skill.talentId);return id==='rage'?!!d.recovery.rage:id==='bellow'?pack.species.find(s=>s.id===c.species)?.bellow:id==='mighty-swing'?d.ctx.feats.some(f=>f.id==='feat:mighty-swing'):id==='brace'?d.attacks.some(a=>a.bracing?.available):id==='running-attack'?d.ctx.feats.some(f=>f.id==='feat:running-attack'):id==='cleave'?d.ctx.feats.some(f=>f.id==='feat:cleave'):id==='follow-through'?d.ctx.feats.some(f=>f.id==='feat:follow-through'):id.startsWith('shield')?c.inventory.some(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield):id==='acrobatics-prone'?d.ctx.trained.has('skill:acrobatics'):true;}
+ function relevant(id){const d=derived(),c=current(),skill=[...(pack.rules.skillActions||[]),...(pack.rules.conditionRecoveryActions||[])].find(r=>r.id===id);if(skill)return d.ctx.talents.some(t=>t.id===skill.talentId)&&!d.ctx.inactiveTalents.has(skill.talentId);return id==='rage'?!!d.recovery.rage:id==='bellow'?pack.species.find(s=>s.id===c.species)?.bellow:id==='mighty-swing'?d.ctx.feats.some(f=>f.id==='feat:mighty-swing'):id==='brace'?d.attacks.some(a=>a.bracing?.available):id==='running-attack'?d.ctx.feats.some(f=>f.id==='feat:running-attack'):id==='cleave'?d.ctx.feats.some(f=>f.id==='feat:cleave'):id==='follow-through'?d.ctx.feats.some(f=>f.id==='feat:follow-through'):id.startsWith('shield')?c.inventory.some(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield):id==='acrobatics-prone'?d.ctx.trained.has('skill:acrobatics'):true;}
  function describe(id,o,budget=true){try{return describeAction(current(),pack,id,o,budget);}catch(e){return {name:def(id)?.name||id,cost:{type:def(id)?.type||'standard',count:def(id)?.count||1},...e.actionView,issue:e.message};}}
  function menu(type){
   category=type;draft=null;editId=null;owner=current().id;title.textContent=ACTION_NAMES[type];
@@ -62,7 +62,14 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   if(owner!==current().id){modal.close();return;}
   const {id,o}=draft,c=current(),d=derived(),v=describe(id,o),r=def(id);title.textContent=r.name;
   const skillAction=pack.rules.skillActions?.find(r=>r.id===id);
+  const conditionRecovery=pack.rules.conditionRecoveryActions?.find(r=>r.id===id);
   let fields='';
+  if(conditionRecovery){
+   const t=pack.talents.find(t=>t.id===conditionRecovery.talentId),page=pack.rulePages.find(p=>p.name===t.name);
+   if(conditionRecovery.forcePoints)fields+=`<span>${conditionRecovery.forcePoints} FP</span>`;
+   if(conditionRecovery.dailyUsesPerSelection){const owned=d.ctx.talents.filter(t=>t.id===conditionRecovery.talentId&&!d.ctx.inactiveTalents.has(t.id)).length;fields+=`<span>${Math.max(0,owned*conditionRecovery.dailyUsesPerSelection-(c.recovery?.indomitableSpent||0))} / ${owned*conditionRecovery.dailyUsesPerSelection}</span>`;}
+   if(page)fields+=`<button type="button" data-rule-page="${escape(page.id)}" aria-label="${escape(t.name)} rules">ⓘ</button>`;
+  }
   if(id==='encounter-talent'){
    const t=pack.talents.find(t=>t.id===o.talentId);title.textContent=t?.name||r.name;
    fields+=select('choice','Benefit',[['','Choose'],...(t?.activation.choices||[]).map(o=>[o.id,o.name])],o.choice);
