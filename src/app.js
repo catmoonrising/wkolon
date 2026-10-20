@@ -578,7 +578,8 @@ function paintLogs() {
   $('dicelog').innerHTML=logEntries().map(e=>`<div class="ev ev-${escape(e.kind)}">${rollEntryHTML(e)}</div>`).join('');
   window.repaintRollMirror();
 }
-function logEvent(kind,text,html) {
+function logEvent(kind,text,html,preserveSkillCheck=false) {
+  if(!preserveSkillCheck&&speciesChecks?.invalidate())render();
   store.roster.logs ||= {}; const entries = store.roster.logs[current().id] ||= [];
   const entry={kind,text:String(text).slice(0,2000)};
   if(html)rollMarkup.set(entry,html);
@@ -647,7 +648,7 @@ function render() {
   numericFields($('main'));window.__layout.refresh();paintLogs();renderEditor();
   window.scrollTo({top:scroll});
 }
-function changed() { const next=derive(current(),pack);recordPrivateerFall(current(),next);if(derived&&next.forceMaximum!==derived.forceMaximum){const bonus=3*(Number(next.ctx.feats.some(f=>f.id==='feat:force-boon'))-Number(derived.ctx.feats.some(f=>f.id==='feat:force-boon')));if(bonus>0)current().forcePoints+=bonus;else current().forcePoints=Math.min(current().forcePoints,next.forceMaximum);}store.schedule(); queueMicrotask(render); }
+function changed() { speciesChecks?.invalidate();const next=derive(current(),pack);recordPrivateerFall(current(),next);if(derived&&next.forceMaximum!==derived.forceMaximum){const bonus=3*(Number(next.ctx.feats.some(f=>f.id==='feat:force-boon'))-Number(derived.ctx.feats.some(f=>f.id==='feat:force-boon')));if(bonus>0)current().forcePoints+=bonus;else current().forcePoints=Math.min(current().forcePoints,next.forceMaximum);}store.schedule(); queueMicrotask(render); }
 function d(sides) { const a=new Uint32Array(1); const ceiling=Math.floor(2**32/sides)*sides; do { crypto.getRandomValues(a); } while(a[0]>=ceiling); return a[0]%sides+1; }
 function addInventory(id,quantity=1,options={}) {
   const c=current(),r=resolveEquipment({id,...options},pack,c),species=resolveSpecies(c,pack);
@@ -984,7 +985,7 @@ function events() {
   $('roster').addEventListener('click',event=>{
     const del=event.target.closest('[data-delid]');
     if(del){const id=del.dataset.delid,c=store.roster.characters.find(c=>c.id===id);if(c&&store.roster.characters.length>1)confirmDelete('Delete character?',c.name||'unnamed',()=>{store.remove(id);render();});return;}
-    const el=event.target.closest('[data-character]');if(el){store.switch(el.dataset.character);render();}
+    const el=event.target.closest('[data-character]');if(el){speciesChecks?.invalidate();store.switch(el.dataset.character);render();}
   });
   $('new-character').onclick=()=>{store.add();creatorStep=0;render();location.hash='creation';openEditor('creation');};
   $('duplicate').onclick=()=>{store.duplicate();render();};
@@ -1007,7 +1008,7 @@ function events() {
 async function boot(){
   try{
     const response=await fetch(new URL('../data/core.json',import.meta.url));if(!response.ok)throw new Error(`Rules could not load (${response.status})`);
-    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);speciesChecks=createSpeciesChecks({current,derived:()=>derived,log:(...args)=>{render();logEvent(...args);}});combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});recoveryControls=createRecoveryControls(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});vehiclesUI=createVehiclesUI(pack,{current,changed,save:()=>store.schedule(),error:notify,library:referenceLibrary,refresh:html=>document.querySelectorAll('[data-vehicle-results]').forEach(el=>el.innerHTML=html)});starshipManeuversUI=createStarshipManeuvers(pack,{current,derived:()=>derived,changed,error:notify});actionsUI=createActionsUI(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});droidSystemsUI=createDroidSystemsUI(pack,{current,derived:()=>derived,changed,error:notify,reference:ruleReference});events();render();route();
+    pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);speciesChecks=createSpeciesChecks({current,derived:()=>derived,log:(kind,text,html)=>{render();logEvent(kind,text,html,true);}});combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});recoveryControls=createRecoveryControls(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});vehiclesUI=createVehiclesUI(pack,{current,changed,save:()=>store.schedule(),error:notify,library:referenceLibrary,refresh:html=>document.querySelectorAll('[data-vehicle-results]').forEach(el=>el.innerHTML=html)});starshipManeuversUI=createStarshipManeuvers(pack,{current,derived:()=>derived,changed,error:notify});actionsUI=createActionsUI(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});droidSystemsUI=createDroidSystemsUI(pack,{current,derived:()=>derived,changed,error:notify,reference:ruleReference});events();render();route();
     if(!saveState[1])status('Saved',false);
   }catch(error){$('main').innerHTML=`<h1>Unable to open the sheet</h1><p>${escape(error.message)}</p><p><a href="./">Reload</a></p>`;status('Sheet unavailable',true);}
 }

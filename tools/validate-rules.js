@@ -229,6 +229,11 @@ export function validatePack(p) {
         if(e.target==='chosenTalent'){assert.deepEqual(e,{target:'chosenTalent'});assert(r.choiceType==='talent'&&key==='talents','Invalid chosen talent effect');continue;}
         if(e.target==='powerDescriptorRemoval'){assert.deepEqual(Object.keys(e).sort(),['descriptors','target']);assert(key==='talents'&&r.choiceType==='power'&&Array.isArray(e.descriptors)&&e.descriptors.length>0&&new Set(e.descriptors).size===e.descriptors.length&&e.descriptors.every(d=>['dark-side','light-side'].includes(d)),'Invalid descriptor removal');assert.deepEqual(e.descriptors,r.choicePowerDescriptors);assert(p.forcePowers.every(power=>power.descriptors.filter(d=>e.descriptors.includes(d)).length<=1),'Ambiguous aligned power descriptor choice');continue;}
         if(e.target==='vision'){assert.deepEqual(e,{target:'vision',value:'darkvision'});continue;}
+        if(e.target==='skillReroll'){
+          assert(key==='talents'&&r.automation==='partial','Unsupported skill reroll record');assert.deepEqual(Object.keys(e).sort(),['keep','skill','target','when']);requireRef('skills',e.skill);assert(['new','best'].includes(e.keep),'Invalid reroll policy');
+          const skills={sensors:'skill:use-computer',haggle:'skill:persuasion','jury-rig':'skill:mechanics','oppose-sense-force':'skill:use-the-force','sense-dark-side':'skill:use-the-force','improve-access':'skill:use-computer','intimidate-undisguised':'skill:persuasion','locate-individual':'skill:gather-information'};
+          assert(e.when==='always'||Object.hasOwn(skills,e.when)&&skills[e.when]===e.skill,'Invalid reroll scope');continue;
+        }
         if(e.target==='skillRerollBest'){assert.deepEqual(Object.keys(e).sort(),['skill','target']);requireRef('skills',e.skill);continue;}
         if(e.target==='defenseAbility'){assert.deepEqual(Object.keys(e).sort(),['ability','defense','target']);assert(({reflex:'int',fortitude:'str',will:'cha'})[e.defense]===e.ability,'Unsupported defense ability');continue;}
         if(e.target==='thresholdDefense'){assert.deepEqual(e,{target:'thresholdDefense',defense:'will'});continue;}

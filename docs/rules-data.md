@@ -12,6 +12,7 @@ reviewed mapping is only partially covered until all of its rules are reviewed.
 linked species feats and redirects. Offline imports require that list; missing
 category captures and embedded Homebrew fail rather than silently importing it.
 
+Ordered skill rerolls follow the [reroll contract](skill-rerolls.md).
 Reviewed skill checks and their deferred effects follow the
 [skill action contract](skill-actions.md).
 Numeric bonus stacking and encounter talent activations follow the

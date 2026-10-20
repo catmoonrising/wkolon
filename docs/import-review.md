@@ -2217,3 +2217,23 @@ removes that option. Both Force Focus and a mastered power can request the bonus
 before effects resolve. Taking 10 defaults to no optional expenditure, while
 the player can explicitly request the choice. Existing own-turn, Free Action,
 one-per-round, reaction and power-descriptor restrictions still apply.
+
+## Ordered skill rerolls
+
+Thirteen talents now supply reviewed sheet reroll sources: Acute Senses (also
+Sensors), Improved Initiative, Improved Stealth, Barter, Jury-Rigger, Clear Mind,
+Dark Side Sense, Master Slicer, both Notorious entries, Nowhere to Hide, Steady
+Under Pressure and Difficult to Sense. Each retains its exact article and typed
+application restriction. Intimidate via Notorious explicitly declares that the
+character is undisguised. Vehicle applications remain Partial.
+
+Species and talent rerolls can now be used independently in the player's chosen
+order. Keeping the better result compares with the current roll, not every
+earlier roll. Replacements can discard a formerly better result. Each source is
+used once per check; species upgrade feats do not improve unrelated talents.
+The check snapshots its eligible sources. Intervening rolls, state edits and
+reloads cannot authorize a reroll of an earlier check. Incompatible applications
+are excluded from the same check. Kel Dor's broader Search Your Feelings/Sense
+Force permission can combine with sensing Dark Side users, while opposing
+Sense Force remains a distinct application. Daily and enemy-forced rerolls
+remain manual pending their resource/target formats.

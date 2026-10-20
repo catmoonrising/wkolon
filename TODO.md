@@ -178,3 +178,6 @@
 - [ ] Fool's Luck vehicle defenses when vehicle statistics and occupancy are implemented.
 
 - [x] Force Focus: Full-Round Use the Force check, one-copy recovery, saved after-roll Force Point choice, safe trained Take 10 and shared skill-action planning.
+
+- [x] Thirteen skill-reroll talents, explicit application scopes, independent species/talent uses, ordered keeping/replacement and immediate-check eligibility.
+- [ ] Daily/encounter reroll resources, enemy-forced rerolls and their interactions with deferred action effects.

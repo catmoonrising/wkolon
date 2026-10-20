@@ -5119,6 +5119,44 @@
               "const": "chosenTalent"
             }
           }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "skill",
+            "keep",
+            "when"
+          ],
+          "properties": {
+            "target": {
+              "const": "skillReroll"
+            },
+            "skill": {
+              "type": "string",
+              "pattern": "^skill:[a-z0-9-]+$"
+            },
+            "keep": {
+              "enum": [
+                "new",
+                "best"
+              ]
+            },
+            "when": {
+              "enum": [
+                "always",
+                "haggle",
+                "improve-access",
+                "intimidate-undisguised",
+                "jury-rig",
+                "locate-individual",
+                "oppose-sense-force",
+                "sense-dark-side",
+                "sensors"
+              ]
+            }
+          }
         }
       ]
     },

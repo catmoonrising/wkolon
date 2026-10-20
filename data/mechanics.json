@@ -40446,8 +40446,8 @@
       },
       "repeat": "never",
       "reminder": "Perception rerolls must use the new result. Also applies to Use Sensors.",
-      "effects": [],
-      "automation": "manual"
+      "effects":[{"target":"skillReroll","skill":"skill:perception","keep":"new","when":"always"},{"target":"skillReroll","skill":"skill:use-computer","keep":"new","when":"sensors"}],
+      "automation":"partial"
     },
     {
       "id": "talent:armored-defense",
@@ -40590,8 +40590,8 @@
       },
       "repeat": "never",
       "reminder": "Initiative rerolls must use the new result.",
-      "effects": [],
-      "automation": "manual"
+      "effects":[{"target":"skillReroll","skill":"skill:initiative","keep":"new","when":"always"}],
+      "automation":"partial"
     },
     {
       "id": "talent:inspire-confidence",
@@ -40814,9 +40814,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects":[{"target":"skillReroll","skill":"skill:stealth","keep":"new","when":"always"}],
       "reminder": "You may choose to reroll any Stealth check, but the result of the reroll must be accepted, even if it is worse. This Talent applies to Stealth checks made while Piloting a Starship (see Starship Stealth).",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:improved-concealment",
@@ -40842,9 +40842,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects":[{"target":"skillReroll","skill":"skill:persuasion","keep":"new","when":"haggle"}],
       "reminder": "You may reroll any Persuasion check made to Haggle, but the result of the reroll must be accepted, even if it is worse.",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:fringe-savant",
@@ -40891,9 +40891,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects":[{"target":"skillReroll","skill":"skill:mechanics","keep":"new","when":"jury-rig"}],
       "reminder": "You may reroll any Mechanics check made to Jury-Rig, but the result of the reroll must be accepted, even if it is worse.",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:extreme-effort",
@@ -41286,9 +41286,9 @@
       },
       "repeat": "never",
       "reminder": "",
-      "effects": [],
+      "effects":[{"target":"skillReroll","skill":"skill:use-the-force","keep":"new","when":"oppose-sense-force"}],
       "forceActivation": "check",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:dark-side-scourge",
@@ -41320,9 +41320,9 @@
       },
       "repeat": "never",
       "reminder": "",
-      "effects": [],
+      "effects":[{"target":"skillReroll","skill":"skill:use-the-force","keep":"new","when":"sense-dark-side"}],
       "forceActivation": "check",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:elusive-target",
@@ -41958,8 +41958,8 @@
       },
       "repeat": "never",
       "reminder": "",
-      "effects": [],
-      "automation": "manual"
+      "effects":[{"target":"skillReroll","skill":"skill:use-computer","keep":"best","when":"improve-access"}],
+      "automation":"partial"
     },
     {
       "id": "talent:skirmisher",
@@ -43558,9 +43558,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects":[{"target":"skillReroll","skill":"skill:persuasion","keep":"best","when":"intimidate-undisguised"}],
       "reminder": "",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:notorious-crime-lord",
@@ -43572,9 +43572,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects":[{"target":"skillReroll","skill":"skill:persuasion","keep":"best","when":"intimidate-undisguised"}],
       "reminder": "",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:nowhere-to-hide",
@@ -43586,9 +43586,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects":[{"target":"skillReroll","skill":"skill:gather-information","keep":"new","when":"locate-individual"}],
       "reminder": "",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:one-for-the-team",
@@ -44245,9 +44245,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects":[{"target":"skillReroll","skill":"skill:treat-injury","keep":"best","when":"always"}],
       "reminder": "",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:aversion",
@@ -51227,9 +51227,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects":[{"target":"skillReroll","skill":"skill:use-the-force","keep":"best","when":"oppose-sense-force"}],
       "reminder": "",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:force-veil",
