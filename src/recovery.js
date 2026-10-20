@@ -1,3 +1,4 @@
+import {clearTurnFeatEffects} from './turn-feat-effects.js';
 import {clearBonusHP} from './bonus-hit-points.js';
 import {endEncounterTalents} from './talent-activations.js';
 import {endShieldEncounter} from './energy-shields.js';
@@ -68,8 +69,9 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
+export function newEncounter(c){clearTurnFeatEffects(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
+ clearTurnFeatEffects(c);
  clearBonusHP(c);
  resetActionTurn(c);
  endEncounterTalents(c);
@@ -88,7 +90,7 @@ export function setPersistent(c,cause,on){
 }
 export function setDead(c,on){
  state(c).dead=on;
- if(on){clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
+ if(on){clearTurnFeatEffects(c);clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
 }
 export function receiveHealing(c,d,pack,amount){
  if(!Number.isInteger(amount)||amount<1||amount>100000)throw new Error('Enter healing from 1 to 100,000');
@@ -101,7 +103,7 @@ export function receiveHealing(c,d,pack,amount){
 }
 export function restEightHours(c,d,pack){
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
- clearBonusHP(c);startNextTurn(c);startNextRound(c);
+ clearTurnFeatEffects(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
  if(recoveryState(c).rageRounds)endRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;
  r.persistent=r.persistent.filter(p=>!rule.removablePersistent.includes(p));

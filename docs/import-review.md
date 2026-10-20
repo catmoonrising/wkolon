@@ -1104,8 +1104,9 @@ advancement ceiling, including after atonement; existing earned levels remain.
 This is the prestige-class progression foundation, not complete automation of
 all 32 classes. Many class-specific talents, supplemental prerequisite feats,
 Force Tradition access and activated class effects remain pending. Tough as
-Durasteel's prose/table conflict is awaiting the user's ruling before its action
-is implemented.
+Durasteel's prose/table conflict was reopened on 2026-10-20. Its confirmed
+unarmed damage trigger now grants class-level bonus HP by default, with a
+last-even-level table alternative and a shared nonstacking temporary pool.
 
 Validation: 407 JavaScript tests and 27 Python importer tests; exact comparisons
 of all 32 printed Base Attack Bonus/Force Point tables and talent-access lists;
@@ -1267,14 +1268,14 @@ Thirteen team feats grant a +3 competence skill bonus, increased by declared
 same-feat allies within 12 squares to a maximum +7. It competes with Skill Focus
 rather than stacking. Counts are saved per character; additional movement and
 other benefits in those feat articles remain pending. The default counts other
-allies; the general Team Feats page's Skill Focus comparison is retained as an
-unanswered ruling topic.
+allies; the saved include-self alternative now permits counting the character too,
+following the user's 2026-10-20 authorization.
 
 Force of Personality, Predictive Defense and Resilient Strength add their optional
 defense abilities. Auto selects the highest effective modifier; explicit lower
 choices are supported and saved. Predictive Defense uses Intelligence literally
-without Dexterity-only caps or denial; Dodge losses still apply. The alternative
-reading is awaiting the user's answer. These choices do not change attacks, HP
+without Dexterity-only caps or denial; Dodge losses still apply. The saved alternative applies Dexterity restrictions to the replacement
+Intelligence modifier, authorized on 2026-10-20. These choices do not change attacks, HP
 or unrelated ability checks.
 
 Fight Through Pain chooses Fortitude or Will for threshold, using the better
@@ -2237,3 +2238,13 @@ are excluded from the same check. Kel Dor's broader Search Your Feelings/Sense
 Force permission can combine with sensing Dark Side users, while opposing
 Sense Force remains a distinct application. Daily and enemy-forced rerolls
 remain manual pending their resource/target formats.
+
+## Reopened turn-end duration (2026-10-20)
+
+Anointed Hunter uses the full feat body: after a completed Move ending at least
+two squares from its start, +1 competence on thrown attacks until the end of
+the current turn. A saved alternative uses the Nelvaanian table's end of next
+turn. Net displacement is declared separately from path length. Move/Tumble,
+tracked actions, end-turn/implicit new-turn expiry, saved effects, typed bonus
+stacking and printed active benefits are covered. Other movement endpoints
+remain manual for this feat; no qualifying displacement is assumed.

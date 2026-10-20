@@ -2,12 +2,13 @@ import {ambiguityValue} from './house-rules.js';
 import {movementSegment,terrainMovementCost,movementSpeed,validateSegment} from './combat-movement.js';
 
 export const acrobaticsSegment=p=>movementSegment({lowObjects:0,diagonalLowObjects:0,...p});
-export const acrobaticsPath=c=>({mode:'normal',tumble:false,crossTerrain:false,occupied:0,check:null,checkMode:'roll',terrainCheck:null,...c.acrobaticsMovement,path:acrobaticsSegment({squares:1,...c.acrobaticsMovement?.path}),tumbled:acrobaticsSegment({squares:1,...c.acrobaticsMovement?.tumbled})});
+export const acrobaticsPath=c=>({displacement:0,mode:'normal',tumble:false,crossTerrain:false,occupied:0,check:null,checkMode:'roll',terrainCheck:null,...c.acrobaticsMovement,path:acrobaticsSegment({squares:1,...c.acrobaticsMovement?.path}),tumbled:acrobaticsSegment({squares:1,...c.acrobaticsMovement?.tumbled})});
 const regular=p=>p.squares-p.diagonal-p.difficult-p.diagonalDifficult;
 export function validateAcrobaticsMovement(c,bad){
  if(c.acrobaticsMovement===undefined)return;
  const p=c.acrobaticsMovement;
- if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['mode','tumble','crossTerrain','occupied','check','checkMode','terrainCheck','path','tumbled'].includes(k)))bad('Acrobatics movement');
+ if(!p||typeof p!=='object'||Array.isArray(p)||Object.keys(p).some(k=>!['displacement','mode','tumble','crossTerrain','occupied','check','checkMode','terrainCheck','path','tumbled'].includes(k)))bad('Acrobatics movement');
+ if(p.displacement!==undefined&&(!Number.isInteger(p.displacement)||p.displacement<0||p.displacement>(p.path?.squares??1)))bad('movement displacement');
  if(p.checkMode!==undefined&&!['roll','take10'].includes(p.checkMode))bad('Tumble check mode');
  if(p.mode!==undefined&&(typeof p.mode!=='string'||!/^[a-z][a-z-]{0,29}$/.test(p.mode)))bad('Acrobatics movement mode');
  for(const key of ['tumble','crossTerrain'])if(p[key]!==undefined&&typeof p[key]!=='boolean')bad(key+' declaration');

@@ -10,6 +10,7 @@ default-only decision remains here even though it adds no switch to the sheet.
 | --- | --- | --- |
 | Lightsaber Defense weapon change | Activation requirement; keep until next turn | Require a currently wielded active Lightsaber |
 | Bracing stock requirement | Pistols only | All three groups |
+| Anointed Hunter | End of current turn (feat) | End of next turn (species table) |
 | Tough as Durasteel | Current class level (prose) | Last even class level (table) |
 | Cleave attack bonus | Copy full triggering bonus | Recalculate target-specific modifiers |
 | Tumble + Cross Difficult Terrain | Separate DC15 checks | One shared check |
@@ -50,20 +51,20 @@ default-only decision remains here even though it adds no switch to the sheet.
 | Vonduun Crab Shells | Owned-only; no ordinary purchase. |
 | Comlink functions | Add each upgrade fee calculated from the base price: a 250-credit base with a 2× upgrade costs 250 + 500 = 750. |
 
-## Previously unanswered options
+## Earlier unanswered options (superseded)
 
 | Topic | Current behavior | Unanswered alternative |
 | --- | --- | --- |
 | Tumble movement cost | Multiply Tumble with diagonal/difficult-terrain movement costs. | Every tumbled square costs a flat 2 regardless of terrain/diagonals. |
 | Predictive Defense | Intelligence is not subject to Dexterity-only caps or loss. | Apply Dexterity restrictions to the replacement Intelligence modifier. |
 | Team feat allies | Count other allies within 12 squares; solo competence bonus +3. | Count the character as an ally too, for a solo +4. The general Team Feats comparison with Skill Focus is unclear. |
-| Tough as Durasteel | Full reference text; bonus Hit Point trigger still pending. | Body class-level amount versus the table’s last even-level amount. |
+| Tough as Durasteel | Class-level bonus HP after confirmed unarmed damage. | Body class-level amount versus the table’s last even-level amount. |
 
 ## Source gaps and discrepancies
 
 | Topic | Source gap | Implemented behavior |
 | --- | --- | --- |
-| Anointed Hunter duration | Nelvaanian’s species-feat table says the end of the next turn; the full feat says the end of the current turn. | Retain both articles; use the full feat body when its action is implemented. |
+| Anointed Hunter duration | Nelvaanian’s species-feat table says the end of the next turn; the full feat says the end of the current turn. | Use the full feat body by default; a saved alternative uses the species table. |
 | Escape Bonds: Manacles | Acrobatics revision 27350 gives one minute/five rounds but omits a DC from its restraint table. | Require a manual DC; do not copy Binder Cuffs' DC25. No alternative was requested or invented. |
 
 Exact supporting wiki passages remain in House Rules → Ambiguities and
@@ -85,7 +86,8 @@ remain unchanged. This supersedes the default-only approvals above.
 - [x] Predictive Defense: apply Dexterity restrictions to Intelligence.
 - [x] Team feat allies: include self.
 - [x] Tough as Durasteel: prose/table amounts with a confirmed unarmed damage trigger.
-- [ ] Anointed Hunter: offer the species table's next-turn duration.
+- [x] Anointed Hunter: offer the species table's next-turn duration.
+- [ ] Ion damage: offer normal HP damage to electronic/cybernetic targets from the ion weapon descriptions (additional older conflict found during the audit).
 
 Droid Heavy Armor's other-speed behavior and Manacles' omitted DC contain no
 concrete sourced alternative to enable. Their documented RAW/manual behavior

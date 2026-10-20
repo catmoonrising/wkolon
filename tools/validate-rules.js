@@ -62,6 +62,8 @@ export function validatePack(p) {
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
     if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
+  assert.deepEqual(p.rules.turnFeatEffects,[{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],'Changed turn feat effects');
+  assert(p.rules.turnFeatEffects.every(r=>r.sourceIds.every(id=>sources.has(id))),'Missing turn feat sources');
   assert.deepEqual(p.rules.bonusHitPoints,{"sourceIds":["source:wiki-hit-points"],"toughAsDurasteel":{"classId":"class:martial-arts-master","minimumLevel":2,"armorCategory":"light","ambiguityId":"ambiguity:tough-as-durasteel-amount","sourceIds":["source:wiki-martial-arts-master"]}},'Changed bonus HP rules');
   assert(p.rules.bonusHitPoints.sourceIds.every(id=>sources.has(id))&&p.rules.bonusHitPoints.toughAsDurasteel.sourceIds.every(id=>sources.has(id)),'Missing bonus HP sources');
   if(p.rules.turnTalentActions!==undefined){

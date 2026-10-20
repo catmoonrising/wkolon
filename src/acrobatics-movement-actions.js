@@ -1,3 +1,4 @@
+import {applyMoveFeatEffects} from './turn-feat-effects.js';
 import {planAcrobaticsMove,planProneAction,acrobaticsMoveCost} from './acrobatics-movement.js';
 import {ambiguityValue} from './house-rules.js';
 import {clearAiming,clearBracing} from './attack-techniques.js';
@@ -29,6 +30,7 @@ export function acrobaticsMove(c,d,pack,roller=evalExpr){
  const qualifiedSquares=tumbleRoll?.success?p.tumbled.squares:0,protectedSquares=movementComplete?qualifiedSquares:0;
  const protectionUnconfirmed=qualifiedSquares>0&&!movementComplete,rolled=tumbleRoll||terrainRoll;
  beginAction(c,true);
+ const featEffects=movementComplete?applyMoveFeatEffects(c,d,pack,p.displacement):[];
  if(tumbleRoll&&c.acrobaticsMovement?.check!==undefined)c.acrobaticsMovement.check=null;
  if(terrainRoll&&c.acrobaticsMovement?.terrainCheck!==undefined)c.acrobaticsMovement.terrainCheck=null;
  const name=p.tumble?'Tumble':'Move',note=`${p.path.squares} squares (${cost}/${plan.maximum} movement; ${p.mode})`;
@@ -39,7 +41,7 @@ export function acrobaticsMove(c,d,pack,roller=evalExpr){
  if(tumbleRoll)outcomes.push(tumbleRoll.success?(protectionUnconfirmed?'Tumble succeeded; protection applies only to squares actually tumbled':`${protectedSquares} squares avoid attacks of opportunity`):'Failure; movement can provoke'+(p.occupied?'; passage through occupied squares unconfirmed':''));
  const outcome=outcomes.join('; '),text=`${name}: ${checks.map(c=>`${c.name} ${c.roll.value} / DC ${c.dc}; `).join('')}${note}${outcome?'; '+outcome:''}`;
  const html=`<b>${name}</b>: ${checks.map(c=>`${c.name} ${c.roll.display} = ${totalHtml(c.roll)} / DC ${c.dc}; `).join('')}${escape(note)}${outcome?'; '+escape(outcome):''}`;
- return {...plan,plannedCost:plan.cost,cost,terrainRoll,tumbleRoll,rolled,checks,success,qualifiedSquares,protectedSquares,protectionUnconfirmed,movementComplete,text,html};
+ return {...plan,featEffects,plannedCost:plan.cost,cost,terrainRoll,tumbleRoll,rolled,checks,success,qualifiedSquares,protectedSquares,protectionUnconfirmed,movementComplete,text,html};
 }
 export function proneAction(c,d,pack,acrobatics=false,roller=evalExpr){
  const plan=planProneAction(c,d,pack,acrobatics),rolled=check(plan,null,roller),success=rolled?.success??true;

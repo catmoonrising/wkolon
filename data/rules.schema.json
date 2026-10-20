@@ -2166,6 +2166,25 @@
             }
           }
         },
+        "turnFeatEffects": {
+          "const": [
+            {
+              "id": "anointed-hunter",
+              "featId": "feat:anointed-hunter",
+              "displacement": 2,
+              "effect": {
+                "target": "attacks",
+                "amount": 1,
+                "type": "competence"
+              },
+              "ambiguityId": "ambiguity:anointed-hunter-duration",
+              "sourceIds": [
+                "source:wiki-anointed-hunter",
+                "source:wiki-nelvaanian"
+              ]
+            }
+          ]
+        },
         "bonusHitPoints": {
           "const": {
             "sourceIds": [

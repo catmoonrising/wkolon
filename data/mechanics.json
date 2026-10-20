@@ -35156,7 +35156,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:artillery-shot",
@@ -67241,7 +67241,8 @@
       {"id":"ambiguity:predictive-defense-dexterity-limits","name":"Predictive Defense: Intelligence limits","sourceIds":["source:wiki-predictive-defense"],"passages":[{"ruleId":"rule:predictive-defense","fullText":true}],"default":"intelligence","options":[{"value":"intelligence","name":"Intelligence rules"},{"value":"dexterity-limits","name":"Dexterity restrictions"}]},
       {"id":"ambiguity:team-feat-allies","name":"Team feats: allies","sourceIds":["source:wiki-aquatic-specialists"],"passages":[{"ruleId":"rule:aquatic-specialists","fullText":true}],"default":"others","options":[{"value":"others","name":"Other allies"},{"value":"include-self","name":"Include self"}]},
       {"id":"ambiguity:cleave-target-bonus","name":"Cleave: attack bonus","sourceIds":["source:wiki-cleave"],"passages":[{"ruleId":"rule:cleave","fullText":true}],"default":"copy","options":[{"value":"copy","name":"Copy full attack bonus"},{"value":"recalculate","name":"Recalculate target modifiers"}]},
-      {"id":"ambiguity:tough-as-durasteel-amount","name":"Tough as Durasteel: bonus HP","sourceIds":["source:wiki-martial-arts-master"],"passages":[{"ruleId":"rule:martial-arts-master","fullText":true}],"default":"prose","options":[{"value":"prose","name":"Current class level"},{"value":"table","name":"Last even class level"}]}
+      {"id":"ambiguity:tough-as-durasteel-amount","name":"Tough as Durasteel: bonus HP","sourceIds":["source:wiki-martial-arts-master"],"passages":[{"ruleId":"rule:martial-arts-master","fullText":true}],"default":"prose","options":[{"value":"prose","name":"Current class level"},{"value":"table","name":"Last even class level"}]},
+      {"id":"ambiguity:anointed-hunter-duration","name":"Anointed Hunter: duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"],"passages":[{"ruleId":"rule:anointed-hunter","fullText":true},{"ruleId":"rule:nelvaanian","fullText":true}],"default":"current-turn","options":[{"value":"current-turn","name":"End of current turn"},{"value":"next-turn","name":"End of next turn"}]}
     ],
     "forceTalentAccess": {
       "trees": [
@@ -68394,6 +68395,7 @@
         }
       }
     ],
+    "turnFeatEffects": [{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],
     "bonusHitPoints": {"sourceIds":["source:wiki-hit-points"],"toughAsDurasteel":{"classId":"class:martial-arts-master","minimumLevel":2,"armorCategory":"light","ambiguityId":"ambiguity:tough-as-durasteel-amount","sourceIds":["source:wiki-martial-arts-master"]}},
     "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]}],
     "conditionRecoveryActions": [{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]}],
