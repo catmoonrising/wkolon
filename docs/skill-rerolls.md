@@ -30,5 +30,26 @@ This batch automates sheet checks for thirteen talents: Acute Senses, Improved
 Initiative, Improved Stealth, Barter, Jury-Rigger, Clear Mind, Dark Side Sense,
 Master Slicer, both Notorious entries, Nowhere to Hide, Steady Under Pressure
 and Difficult to Sense. Uses tied to unimplemented applications or vehicle
-systems remain Partial. Daily/encounter rerolls and enemy-forced rerolls require
+systems remain Partial. Other daily/encounter rerolls and enemy-forced rerolls require
 additional reviewed resource and target handling.
+
+## Daily rerolls
+
+Knack extends the reviewed effect with `skill: "any"` and
+`dailyUsesPerSelection: 1`. It keeps the better result and has no action or Force
+Point cost. Each active selection adds one daily use. Optional saved
+`recovery.knacksSpent` counts spending, defaults to zero for old files and resets
+only on New day. Reloads, encounter changes and selection edits never refill it.
+
+The Skills module offers Knack for any available rolled skill, including a
+substituted skill check. Specific species/talent rerolls remain restricted to
+their native check source. Each source still rerolls a particular check once;
+extra Knack selections increase daily capacity rather than replaying one source
+on the same check. Spending occurs only after a valid eligible reroll, even if
+the original result is retained. A new check, intervening action, character
+switch or reload invalidates old reroll opportunities. Source checks and daily
+counts are refreshed before rolling, so stale controls cannot overspend.
+
+Checks with already resolved automatic effects, including Force Power and
+Force Focus execution, do not yet expose a Knack decision. Knack remains Partial
+until those checks support the same before-resolution reroll decision.

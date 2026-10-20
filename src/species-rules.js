@@ -1,4 +1,4 @@
-import {skillRerollSources,compatibleReroll,useSkillReroll} from './skill-rerolls.js';
+import {skillRerollSources,compatibleReroll,useSkillReroll,rerollUsesAvailable,spendRerollUse} from './skill-rerolls.js';
 import {evalExpr,totalHtml} from './dice.js';
 import {escapeHTML as escape} from './wiki-content.js';
 
@@ -15,7 +15,7 @@ export function createSpeciesChecks({current,derived,log},roller=evalExpr){
   invalidate,
   controls(s,species,incapacitated){
    const native=s.id===s.checkSource,disabled=incapacitated||!s.available,p=checks.get(key(s.id)),sources=skillRerollSources(s,species,derived());
-   return sources.map(r=>{const suffix=r.label?(sources.filter(s=>s.label===r.label).length>1?r.name+', '+r.label:r.label):r.kind==='talent'&&sources.length>1?r.name:'',off=disabled||!valid(s,p)||!p.allowed.has(r.id)||p.used.has(r.id)||!compatibleReroll(p,r);return `<button type="button" ${r.kind==='species'?`data-species-reroll="${s.id}"`:`data-talent-reroll="${r.talentId}" data-reroll-skill="${s.id}"`} data-reroll-source="${escape(r.id)}" title="${escape(r.name+(r.detail?'; '+r.detail:'')+'; keep '+(r.keep==='best'?'the better result':'the new result'))}" ${off?'disabled':''} aria-label="Reroll ${escape(s.name+' using '+r.name+(r.label?' ('+r.label+')':''))}">Reroll${suffix?' ('+escape(suffix)+')':''}</button>`;}).join('')+`${species.take10Skills?.includes(s.id)&&native?`<button type="button" data-species-take10="${s.id}" ${disabled?'disabled':''} aria-label="Take 10 on ${escape(s.name)}">Take 10</button>`:''}`;
+   return sources.map(r=>{const suffix=r.label?(sources.filter(s=>s.label===r.label).length>1?r.name+', '+r.label:r.label):r.kind==='talent'&&sources.length>1?r.name:'',off=disabled||!rerollUsesAvailable(r)||!valid(s,p)||!p.allowed.has(r.id)||p.used.has(r.id)||!compatibleReroll(p,r),label=r.daily?r.name+' '+Math.max(0,r.daily-r.spent)+'/'+r.daily:'Reroll'+(suffix?' ('+suffix+')':'');return `<button type="button" ${r.kind==='species'?`data-species-reroll="${s.id}"`:`data-talent-reroll="${r.talentId}" data-reroll-skill="${s.id}"`} data-reroll-source="${escape(r.id)}" title="${escape(r.name+(r.detail?'; '+r.detail:'')+'; keep '+(r.keep==='best'?'the better result':'the new result'))}" ${off?'disabled':''} aria-label="Reroll ${escape(s.name+' using '+r.name+(r.label?' ('+r.label+')':''))}">${escape(label)}</button>`;}).join('')+`${species.take10Skills?.includes(s.id)&&native?`<button type="button" data-species-take10="${s.id}" ${disabled?'disabled':''} aria-label="Take 10 on ${escape(s.name)}">Take 10</button>`:''}`;
   },
   click(el,species){
    const id=el.dataset.skillRoll||el.dataset.speciesReroll||el.dataset.speciesTake10||el.dataset.rerollSkill;
@@ -25,8 +25,9 @@ export function createSpeciesChecks({current,derived,log},roller=evalExpr){
    const expression='1d20'+(s.total>=0?'+':'')+s.total,sources=skillRerollSources(s,species,derived());
    if(el.dataset.skillRoll){const roll=roller(expression);invalidate();checks.set(key(id),{source:s.checkSource,bonus:s.total,roll,allowed:new Set(sources.map(r=>r.id)),used:new Set(),applications:null});log('roll',`${s.name}: ${expression} = ${roll.value}`,`${escape(s.name)}: ${roll.display} = ${totalHtml(roll)}`);return true;}
    const p=checks.get(key(id)),source=sources.find(r=>el.dataset.rerollSource?r.id===el.dataset.rerollSource:el.dataset.talentReroll?r.talentId===el.dataset.talentReroll:r.kind==='species');
-   if((el.dataset.speciesReroll||el.dataset.talentReroll)&&source&&valid(s,p)&&p.allowed.has(source.id)&&!p.used.has(source.id)&&compatibleReroll(p,source)){
+   if((el.dataset.speciesReroll||el.dataset.talentReroll)&&source&&rerollUsesAvailable(source)&&valid(s,p)&&p.allowed.has(source.id)&&!p.used.has(source.id)&&compatibleReroll(p,source)){
     const roll=roller(expression),{before,kept}=useSkillReroll(p,source,roll),name=source.name+(source.label?' ('+source.label+')':'');
+    spendRerollUse(current(),source);
     log('roll',`${s.name}: ${before} → ${roll.value}; kept ${kept}; ${name}`,`${escape(s.name)}: ${before} → ${roll.display} = ${totalHtml(roll)}; kept <b>${kept}</b>; ${escape(name)}`);return true;
    }
    if(el.dataset.speciesTake10&&s.checkSource===id&&species.take10Skills?.includes(id)){invalidate();log('roll',`${s.name}: 10 ${s.total>=0?'+':'−'} ${Math.abs(s.total)} = ${10+s.total}`);return true;}

@@ -40637,8 +40637,8 @@
       },
       "repeat": "stack",
       "reminder": "Once per day per selection, reroll a skill check and keep the better roll.",
-      "effects": [],
-      "automation": "manual"
+      "effects": [{"target":"skillReroll","skill":"any","keep":"best","when":"always","dailyUsesPerSelection":1}],
+      "automation": "partial"
     },
     {
       "id": "talent:reset-initiative",

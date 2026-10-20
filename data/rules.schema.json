@@ -5183,6 +5183,34 @@
             "target",
             "skill",
             "keep",
+            "when",
+            "dailyUsesPerSelection"
+          ],
+          "properties": {
+            "target": {
+              "const": "skillReroll"
+            },
+            "skill": {
+              "const": "any"
+            },
+            "keep": {
+              "const": "best"
+            },
+            "when": {
+              "const": "always"
+            },
+            "dailyUsesPerSelection": {
+              "const": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "skill",
+            "keep",
             "when"
           ],
           "properties": {

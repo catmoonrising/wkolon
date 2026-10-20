@@ -16,7 +16,7 @@ function tracker(c,values){
  return {logs,checks,roll:id=>checks.click({dataset:{skillRoll:'skill:'+id}},species()),talent:(id,skill)=>checks.click({dataset:{talentReroll:'talent:'+id,rerollSkill:'skill:'+skill}},species()),species:id=>checks.click({dataset:{speciesReroll:'skill:'+id}},species()),controls:id=>checks.controls(derive(c,pack).skills.find(s=>s.id==='skill:'+id),species(),false)};
 }
 test('thirteen reviewed talents preserve fourteen explicitly scoped reroll effects and exact sources',()=>{
- validatePack(pack);const rows=pack.talents.filter(t=>t.effects.some(e=>e.target==='skillReroll'));assert.equal(rows.length,13);assert.equal(rows.flatMap(t=>t.effects).length,14);for(const t of rows){assert.equal(t.automation,'partial');assert(t.article);}
+ validatePack(pack);const rows=pack.talents.filter(t=>t.id!=='talent:knack'&&t.effects.some(e=>e.target==='skillReroll'));assert.equal(rows.length,13);assert.equal(rows.flatMap(t=>t.effects).length,14);for(const t of rows){assert.equal(t.automation,'partial');assert(t.article);}
  for(const mutate of [e=>e.keep='lowest',e=>e.when='haggle',e=>e.skill='skill:invented',e=>e.amount=20]){const p=structuredClone(pack);mutate(p.talents.find(t=>t.id==='talent:acute-senses').effects[0]);assert.throws(()=>validatePack(p));}
 });
 test('species and talent rerolls remain independently available, with mandatory replacements in order',()=>{

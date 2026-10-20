@@ -6,7 +6,7 @@ import {counselingEnabled,ambiguityValue} from './house-rules.js';
 import {evalExpr} from './dice.js';
 import {clearAiming,clearBracing,startNextTurn} from './attack-techniques.js';
 
-const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,strongBellowUsed:false,ragesSpent:0,rageRounds:0,indomitableSpent:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
+const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,strongBellowUsed:false,ragesSpent:0,rageRounds:0,indomitableSpent:0,knacksSpent:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
 export const recoveryState=c=>({...empty(),...c.recovery});
 const state=c=>{c.recovery??={};Object.assign(c.recovery,recoveryState(c));return c.recovery;};
 const causes=Object.freeze({'rage':'Rage','second-wind':'Second Wind','injury':'Injury','limb-loss':'Lost limb','other':'Other'});
@@ -15,6 +15,7 @@ export function validateRecovery(c,bad){
  if(c.recovery===undefined)return;
  const r=c.recovery,integer=n=>Number.isInteger(n)&&n>=0&&n<=100000;
  if(r?.strongBellowUsed!==undefined&&typeof r.strongBellowUsed!=='boolean')bad('recovery state');
+ if(r?.knacksSpent!==undefined&&!integer(r.knacksSpent))bad('recovery state');
  if(r?.indomitableSpent!==undefined&&!integer(r.indomitableSpent))bad('recovery state');
  if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).some(k=>!Object.keys(empty()).includes(k))||!['secondWindsSpent','ragesSpent','rageRounds'].every(k=>integer(r[k]))||typeof r.secondWindEncounter!=='boolean'||!Array.isArray(r.persistent)||new Set(r.persistent).size!==r.persistent.length||r.persistent.some(p=>!persistentName(p))||['naturalHealingUsed','unconsciousRetry','stunUnconscious','dead'].some(k=>r[k]!==undefined&&typeof r[k]!=='boolean'))bad('recovery state');
  if(r.limbs!==undefined&&(!Array.isArray(r.limbs)||r.limbs.length>20||new Set(r.limbs.map(l=>l?.id)).size!==r.limbs.length||r.limbs.some(l=>!l||Object.keys(l).some(k=>!['id','name','days','persistent'].includes(k))||typeof l.id!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(l.id)||typeof l.name!=='string'||!l.name.trim()||l.name.length>100||typeof l.persistent!=='boolean'||!Number.isInteger(l.days)||l.days<1||l.days>10)))bad('limb regeneration');
@@ -71,7 +72,7 @@ export function newDay(c,pack){
  resetActionTurn(c);
  endEncounterTalents(c);
  startNextTurn(c);startNextRound(c);
- const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.indomitableSpent=0;r.naturalHealingUsed=false;
+ const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.indomitableSpent=0;r.knacksSpent=0;r.naturalHealingUsed=false;
  const regrown=[];
  if(pack?.species.find(s=>s.id===c.species)?.limbRegeneration&&!r.dead){
   r.limbs=r.limbs.filter(l=>{l.days--;if(l.days)return true;regrown.push(l.name);return false;});
