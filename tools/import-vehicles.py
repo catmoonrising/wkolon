@@ -53,9 +53,21 @@ def build(mechanics,catalog,index,pins,redirects):
      else:assert found[vid]['referenceId']==rid
      if listing not in found[vid]['listings']:found[vid]['listings'].append(listing)
   assert table_count>0,name
- items=sorted(found.values(),key=lambda r:r['name']);assert len(items)==471,len(items)
- if 'vehicles' in m:assert m['vehicles']==items
- else:m['vehicles']=items
+ assert len(found)==471,len(found)
+ ref=names['Stock Starships'];official(ref);pin=json.loads((ROOT/ref['path']).read_text());assert pin['source']==ref['source'];sid=source(ref);tables=list(nodes(pin['article']['blocks'],'table'));assert len(tables)==2
+ header=next(nodes(tables[0],'tr'));assert [text(c).strip() for c in header['children'] if isinstance(c,dict) and c.get('tag')=='th'][:2]==['STOCK SHIP','SIZE']
+ stock=[]
+ for row in nodes(tables[0],'tr'):
+  cells=[text(n).strip() for n in row['children'] if isinstance(n,dict) and n.get('tag')=='td']
+  if not cells:continue
+  assert len(cells)==11,cells
+  name,size=cells[:2];vid='vehicle:stock-'+generic.slug(name);assert vid not in found
+  found[vid]=dict(id=vid,name='Stock '+name,sourceId=sid,referenceId=ref['id'],automation='manual',stockTemplate=name,listings=[dict(type='stock',size=size,challengeLevel=None,sourceId=sid,section='Stock Starships',url='https://swse.miraheze.org/wiki/Stock_Starships')]);stock.append(name)
+ assert len(stock)==12 and len(set(stock))==12
+ second=[text(next(n for n in row['children'] if isinstance(n,dict) and n.get('tag')=='td')).strip() for row in nodes(tables[1],'tr') if any(isinstance(n,dict) and n.get('tag')=='td' for n in row['children'])];assert second==stock
+ items=sorted(found.values(),key=lambda r:r['name']);assert len(items)==483,len(items)
+ if 'vehicles' in m:assert [v for v in m['vehicles'] if not v.get('stockTemplate')]==[v for v in items if not v.get('stockTemplate')]
+ m['vehicles']=items
  for item in items:
   ref=refs[item['referenceId']];cid='catalog:vehicle-'+item['id'][8:];records[cid]=dict(id=cid,name=item['name'],kind='vehicle',sourceId=item['sourceId'],referenceId=ref['id'],books=ref['books'],mechanicsIds=[item['id']])
  c['sources']=sorted(sources.values(),key=lambda s:s['id']);c['records']=sorted(records.values(),key=lambda r:(r['kind'],r['name']));return m,c,pins,dict(schemaVersion=1,pending=pending)
@@ -63,6 +75,8 @@ def append(original,updated):
  old=json.loads(original);original=generic.append_mechanics(original,{**old,'sources':updated['sources']})
  if 'vehicles' not in old:
   end=original.rfind('}');original=original[:end].rstrip()+',\n  "vehicles": '+json.dumps(updated['vehicles'],ensure_ascii=False,separators=(',',':'))+'\n'+original[end:]
+ elif old['vehicles']!=updated['vehicles']:
+  assert all(v in updated['vehicles'] for v in old['vehicles']);start=original.index('[',original.index('\"vehicles\":'));_,end=json.JSONDecoder().raw_decode(original,start);original=original[:start]+json.dumps(updated['vehicles'],ensure_ascii=False,separators=(',',':'))+original[end:]
  assert json.loads(original)==updated;return original
 def main():
  cli=argparse.ArgumentParser(description=__doc__);cli.add_argument('--apply',action='store_true');args=cli.parse_args();load=lambda p:json.loads((ROOT/p).read_text());m,c,p,report=build(load('data/mechanics.json'),load('data/wiki-catalog.json'),load('data/reference-index.json'),load('tools/reviewed-revisions.json'),load('data/vehicle-redirects.json'));print('Vehicle pages:',len(m['vehicles']),'unwritten listings:',len(report['pending']))

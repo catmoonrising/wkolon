@@ -108,8 +108,9 @@
   - [x] Independent visibility, layout and collapse state without disabling mechanics.
   - [x] Actions module: six action menus, shared action dispatcher, optional costs/choices, rolls, immediate execution and queued turn plans.
   - [x] Reuse existing New Turn and expiry functions; preserve round/encounter limits and completed rolls when plans change.
+- [x] Twelve stock starship construction templates selectable with source-row validation and independent owned instances.
 - [x] Selectable vehicle/starship catalog: 471 pinned pages, nine source lists, full lazy articles, named owned vehicles, source/type/search controls and selected-article offline caching.
-- [ ] Vehicle/Starship statistics, crew roles, purchases/license fees, modifications, combat and stock construction templates.
+- [ ] Vehicle/Starship statistics, crew roles, purchases/license fees, modifications, combat and stock construction.
 - [x] All 27 official Starship Maneuvers selectable through Starship Tactics, with duplicate suites, level/Wisdom choices, exact rules and manual spent tracking.
 - [ ] Piloting maneuver activation, vehicle-dependent checks/effects and recovery.
 - [ ] Droid systems and modifications.

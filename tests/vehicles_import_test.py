@@ -6,10 +6,10 @@ load=lambda p:json.loads((ROOT/p).read_text())
 class VehicleImport(unittest.TestCase):
  def inputs(self):return [load(p) for p in ['data/mechanics.json','data/wiki-catalog.json','data/reference-index.json','tools/reviewed-revisions.json','data/vehicle-redirects.json']]
  def test_idempotence_official_provenance_and_missing_page_report(self):
-  m,c,index,pins,redirects=self.inputs();new_m,new_c,new_pins,report=module.build(m,c,index,pins,redirects);self.assertEqual((new_m,new_c,new_pins),(m,c,pins));self.assertEqual(report,load('data/vehicle-catalog-report.json'));self.assertEqual(len(m['vehicles']),471);self.assertEqual([p['name'] for p in report['pending']],['The Crimson Axe']);self.assertTrue(all(p['reason']=='redlink' for p in report['pending']));self.assertEqual(json.loads(module.append((ROOT/'data/mechanics.json').read_text(),m)),m)
+  m,c,index,pins,redirects=self.inputs();new_m,new_c,new_pins,report=module.build(m,c,index,pins,redirects);self.assertEqual((new_m,new_c,new_pins),(m,c,pins));self.assertEqual(report,load('data/vehicle-catalog-report.json'));self.assertEqual(len(m['vehicles']),483);self.assertEqual(sum(not v.get('stockTemplate') for v in m['vehicles']),471);self.assertEqual([p['name'] for p in report['pending']],['The Crimson Axe']);self.assertTrue(all(p['reason']=='redlink' for p in report['pending']));self.assertEqual(json.loads(module.append((ROOT/'data/mechanics.json').read_text(),m)),m)
   refs={r['id']:r for r in index['records']}
   for v in m['vehicles']:
-   ref=refs[v['referenceId']];self.assertEqual(v['name'],ref['name']);self.assertNotIn(v['name'],index['excluded']);self.assertNotIn(v['referenceId'],index['excluded']);self.assertEqual(pins[v['name']],ref['source']['revision']);self.assertNotIn('article',v)
+   ref=refs[v['referenceId']];self.assertEqual('Stock Starships' if v.get('stockTemplate') else v['name'],ref['name']);self.assertNotIn(v['name'],index['excluded']);self.assertNotIn(v['referenceId'],index['excluded']);self.assertEqual(pins[ref['name']],ref['source']['revision']);self.assertNotIn('article',v)
  def test_first_import_adds_the_collection_without_changing_any_existing_mechanics(self):
   m,c,index,pins,redirects=self.inputs();original=copy.deepcopy(m);original.pop('vehicles');rebuilt,_,_,_=module.build(original,c,index,pins,redirects);self.assertEqual(rebuilt,m);self.assertEqual(json.loads(module.append(json.dumps(original,indent=2)+'\n',rebuilt)),m)
  def test_redirects_are_pinned_and_cannot_be_silently_retargeted(self):

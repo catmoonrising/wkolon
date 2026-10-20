@@ -30,3 +30,14 @@ filtering, sorting and pagination. Module visibility never removes ownership.
 Vehicle HP, SR, DR, crew roles, purchases, modifications and actions require
 later reviewed formats and remain Manual. In particular, a printed NPC crew's
 attack bonus is never copied into a player attack calculation.
+
+## Stock construction templates
+
+Twelve stock templates share the pinned Stock Starships article. Their explicit
+`stockTemplate` field is the printed table row name, their displayed name is
+`Stock ` plus that name, and their listing type is `stock`. Their size comes
+from that row; Challenge Level is null because the template supplies none.
+Only this explicit format may differ from its reference page's title. Reference
+validation checks both the complete pinned article and the template's exact row.
+Owned instances use the same independent identities and names as other vehicles.
+Construction, prices, licenses and combat effects remain Manual.

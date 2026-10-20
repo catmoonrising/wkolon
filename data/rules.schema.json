@@ -2529,7 +2529,8 @@
                     "walker",
                     "tracked",
                     "wheeled",
-                    "space-station"
+                    "space-station",
+                    "stock"
                   ]
                 },
                 "size": {
@@ -2558,6 +2559,11 @@
                 }
               }
             }
+          },
+          "stockTemplate": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
           }
         }
       }

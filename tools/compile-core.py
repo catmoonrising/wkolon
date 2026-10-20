@@ -56,7 +56,7 @@ def compile_pack(mechanics, catalog, reviewed):
             same_name = item['name'] == record['name']
             same_source = source_key(sources[item['sourceId']]) == source_key(sources[record['sourceId']])
             reviewed_reprint = record['kind'] == 'talent' and same_name and record.get('tree') in item.get('additionalTrees', [])
-            if (same_source or reviewed_reprint or same_name and record['kind'] != 'talent') and item['id'] not in record['mechanicsIds']:
+            if (same_source or reviewed_reprint or same_name and record['kind'] != 'talent') and (record['kind'] != 'vehicle' or same_name) and item['id'] not in record['mechanicsIds']:
                 record['mechanicsIds'].append(item['id'])
         record['status'] = 'available' if record['mechanicsIds'] else 'reference'
     pack['catalog'] = dict(schemaVersion=1, book=catalog['book'], records=records)

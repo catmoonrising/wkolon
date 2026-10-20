@@ -2167,3 +2167,15 @@ source exclusions, redirect integrity, lazy loading/retries, source/catalog
 validation, owned-instance limits, character switching and unchanged PC stats.
 Browser checks cover full-text search, source profiles, named copies, filtering,
 sorting, pagination, removal, visibility, saves, mobile and offline source access.
+
+
+## Stock starship templates
+
+The twelve Stock Starships table rows are separate Manual choices in the vehicle
+catalog, bringing it to 483 entries (471 vehicle pages plus twelve templates).
+All templates retain their shared pinned article, printed size and explicit
+`stockTemplate` row name. No Challenge Level or crew modifiers are invented.
+Reference validation reads the original table and rejects changed names or sizes;
+ordinary vehicle names must still match their primary page exactly. Ownership
+and source caching reuse the existing vehicle module. Construction calculations,
+purchases and licenses remain to implement.
