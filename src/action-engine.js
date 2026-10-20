@@ -1,3 +1,4 @@
+import {turnTalentPlan,applyTurnTalent,clearTurnTalents} from './turn-talents.js';
 import {balance,planBalance} from './balance.js';
 import {conditionRecoveryPlan,applyConditionRecovery} from './condition-recovery.js';
 import {skillActionPlan,rollSkillAction,finishSkillAction} from './skill-actions.js';
@@ -94,6 +95,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'recover':assert(d.recovery.recoverable,'Recover unavailable');view.cost.count=o.count??1;assert(Number.isInteger(view.cost.count)&&view.cost.count>=1&&view.cost.count<=3,'Choose 1 to 3 Swift actions');break;
  case 'second-wind':view.cost.type=d.recovery.secondWind.action.startsWith('Free')?'free':'swift';assert(d.recovery.secondWind.available,d.recovery.secondWind.reason);assert(!s.ended,'Second Wind requires your turn');break;
  case 'rage':assert(d.recovery.rage?.remaining&&!d.recovery.rage.active,'Rage unavailable');break;
+ case 'lightsaber-defense':view.turnTalent=turnTalentPlan(q,d,pack,id);break;
  case 'equilibrium':case 'indomitable':view.conditionRecovery=conditionRecoveryPlan(q,d,pack,id);view.forceCost=view.conditionRecovery.rule.forcePoints;break;
  case 'bellow':assert(bellowDetails(q,d,pack,o.extraDice??0,{strong:o.strong??false})?.available,'Bellow unavailable');break;
  case 'total-defense':break;
@@ -154,6 +156,7 @@ function resolve(c,pack,id,o,v,roller){
   r={text:'Recover: '+(steps?'+1 condition step':s.recover.count+' / 3 Swift')};
  }else if(id==='second-wind'){const x=catchSecondWind(c,d,pack,roller);r={text:'Second Wind: +'+x.healed+' HP'+(x.conditionRecovery?'; +'+x.conditionRecovery+' condition step':'')+(x.exhaustion?'; exhaustion':'')};}
  else if(id==='rage'){startRage(c,d);r={text:'Rage: '+d.recovery.rage.duration+' rounds'};}
+ else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': Reflex +'+v.turnTalent.amount+' (while aware)'};}
  else if(v.conditionRecovery){invalidate(c);applyConditionRecovery(c,v.conditionRecovery);c.forcePoints-=v.forceCost;r={text:v.name+': Normal State'+(v.conditionRecovery.rule.removePersistent?'; persistent conditions removed':'')+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
  else if(id==='bellow')r=rollBellow(c,d,pack,o.extraDice??0,o.damage??null,roller,{strong:o.strong??false});
  else if(id==='total-defense')declareDefenseStance(c,d,'total');
@@ -216,7 +219,7 @@ export function beginNextTurn(c,pack){
  validateCharacter(q,pack);commit(c,q);
 }
 export function endCurrentTurn(c,pack){const q=structuredClone(c);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');if(q.forcePowerRecoveryPending)recoverSuite(q,derive(q,pack),{endTurn:true});if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
-export function endTrackedCombat(c){assert(!c.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');endEncounterTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
+export function endTrackedCombat(c){assert(!c.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');endEncounterTalents(c);clearTurnTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false;
  for(const step of q.actionState.plan){
@@ -227,6 +230,7 @@ export function previewPlan(c,pack){
    if(['full-attack-step','routine-step'].includes(step.action)){if(v.nextRoutineProgress)q.routineProgress=v.nextRoutineProgress;else delete q.routineProgress;step.status='done';step.turn=q.actionState.turn;step.result={text:'Preview'};}
    if(step.action==='second-wind'){q.recovery=recoveryState(q);q.recovery.secondWindsSpent++;q.recovery.secondWindEncounter=true;}
    if(step.action==='rage'){q.recovery=recoveryState(q);q.recovery.ragesSpent++;q.recovery.rageRounds=v.derived.recovery.rage.duration;}
+   if(v.turnTalent){clearAiming(q);clearBracing(q);applyTurnTalent(q,step.action,v.turnTalent.amount);}
    if(v.conditionRecovery){clearAiming(q);clearBracing(q);applyConditionRecovery(q,v.conditionRecovery);}
    if(step.action==='total-defense')declareDefenseStance(q,v.derived,'total');
    if(step.action==='reload'){const e=q.inventory.find(e=>e.uid===step.options.uid);e.shotsRemaining=ammunitionProfile(e,pack).capacity;}

@@ -12,6 +12,7 @@ reviewed mapping is only partially covered until all of its rules are reviewed.
 linked species feats and redirects. Offline imports require that list; missing
 category captures and embedded Homebrew fail rather than silently importing it.
 
+Talents lasting until the next turn follow the [turn talent contract](turn-talents.md).
 Personal recovery talents follow the [Condition recovery contract](condition-recovery.md).
 Ordered skill rerolls follow the [reroll contract](skill-rerolls.md).
 Reviewed skill checks and their deferred effects follow the

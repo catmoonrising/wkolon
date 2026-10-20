@@ -41420,7 +41420,7 @@
       "reminder": "",
       "effects": [],
       "maxSelections": 3,
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:lightsaber-throw",
@@ -43339,7 +43339,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:juke",
@@ -68386,6 +68386,7 @@
         }
       }
     ],
+    "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]}],
     "conditionRecoveryActions": [{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]}],
     "skillActions": [{"id":"force-focus","talentId":"talent:force-focus","skillId":"skill:use-the-force","dc":15,"effect":"recover-power","sourceIds":["source:wiki-control-talent-tree-force-focus","source:use-the-force","source:wiki-skills"]}],
     "actionEconomy": {
@@ -68419,7 +68420,7 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
-        {"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},
+        {"id":"lightsaber-defense","name":"Lightsaber Defense","type":"swift","count":1},{"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},
         {"id":"encounter-talent","name":"Talent","type":"standard","count":1},
         {
           "id": "attack",

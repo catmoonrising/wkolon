@@ -2166,6 +2166,32 @@
             }
           }
         },
+        "turnTalentActions": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "const": {
+              "id": "lightsaber-defense",
+              "talentId": "talent:lightsaber-defense",
+              "amountPerSelection": 1,
+              "maximum": 3,
+              "weaponGroup": "lightsabers",
+              "doubleTalentId": "talent:jar-kai",
+              "doubleWeaponCount": 2,
+              "effect": {
+                "target": "conditionalDefense",
+                "defense": "reflex",
+                "against": "aware",
+                "type": "deflection"
+              },
+              "sourceIds": [
+                "source:wiki-lightsaber-combat-talent-tree-lightsaber-defense",
+                "source:wiki-lightsaber-forms-talent-tree-jar-kai"
+              ]
+            }
+          }
+        },
         "conditionRecoveryActions": {
           "type": "array",
           "minItems": 2,

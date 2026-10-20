@@ -62,6 +62,12 @@ export function validatePack(p) {
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
     if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
+  if(p.rules.turnTalentActions!==undefined){
+    assert.deepEqual(p.rules.turnTalentActions,[{id:'lightsaber-defense',talentId:'talent:lightsaber-defense',amountPerSelection:1,maximum:3,weaponGroup:'lightsabers',doubleTalentId:'talent:jar-kai',doubleWeaponCount:2,effect:{target:'conditionalDefense',defense:'reflex',against:'aware',type:'deflection'},sourceIds:['source:wiki-lightsaber-combat-talent-tree-lightsaber-defense','source:wiki-lightsaber-forms-talent-tree-jar-kai']}],'Changed turn talent rules');
+    const r=p.rules.turnTalentActions[0];assert(r.sourceIds.every(id=>sources.has(id)),'Missing turn talent source');
+    for(const id of [r.talentId,r.doubleTalentId])assert(p.talents.some(t=>t.id===id&&t.automation==='partial'),'Missing turn talent');
+    assert(p.rules.actionEconomy.actions.some(a=>a.id===r.id&&a.type==='swift'&&a.count===1),'Changed turn talent action');
+  }
   if(p.rules.conditionRecoveryActions!==undefined){
     const rows=p.rules.conditionRecoveryActions;
     assert.deepEqual(rows,[['equilibrium',1,true,0,'source:wiki-control-talent-tree-equilibrium'],['indomitable',0,false,1,'source:wiki-commando-talent-tree-indomitable']].map(([id,forcePoints,removePersistent,dailyUsesPerSelection,sourceId])=>({id,talentId:'talent:'+id,steps:5,forcePoints,removePersistent,dailyUsesPerSelection,sourceIds:[sourceId,'source:wiki-conditions',...(id==='equilibrium'?['source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions']:[])]})),'Changed condition recovery rules');

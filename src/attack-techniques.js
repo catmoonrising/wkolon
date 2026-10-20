@@ -1,3 +1,4 @@
+import {clearTurnTalents} from './turn-talents.js';
 import {clearFollowUps,nextCombatantTurn} from './attack-follow-ups.js';
 import {resolveEquipment} from './equipment.js';
 import {ambiguityValue} from './house-rules.js';
@@ -26,6 +27,7 @@ export function declarePowerAttack(c,d,amount){
 }
 
 export function startNextTurn(c){
+ clearTurnTalents(c);
  nextCombatantTurn(c);
  clearBracing(c);
  if(c.defenseStance!==undefined)c.defenseStance='none';

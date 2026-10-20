@@ -1,3 +1,4 @@
+import {validateTurnTalents,turnTalentEffects} from './turn-talents.js';
 import {modifierTotal,resolveModifiers} from './modifiers.js';
 import {validateTalentActivations,encounterTalentEffects} from './talent-activations.js';
 import {validateOwnedVehicles} from './vehicles.js';
@@ -120,6 +121,7 @@ export function validateCharacter(c, pack) {
   if(c.mightySwing!==undefined&&typeof c.mightySwing!=='boolean')bad('Mighty Swing');
   if(c.powerAttack!==undefined&&!num(c.powerAttack,0,20))bad('Power Attack');
   if(c.skillModifiers!==undefined&&(!obj(c.skillModifiers)||Object.entries(c.skillModifiers).some(([id,n])=>!ix.skills.has(id)||!num(n,-1000,1000))))bad('skill modifiers');
+  validateTurnTalents(c,pack,bad);
   validateNaturalModifiers(c,pack,bad);
   if(c.unarmedModifiers!==undefined){
     if(!obj(c.unarmedModifiers)||Object.keys(c.unarmedModifiers).some(k=>!['attackMod','damageMod','attackTechnique','targetKind'].includes(k))||!['attackMod','damageMod'].every(k=>num(c.unarmedModifiers[k],-100,100))||c.unarmedModifiers.targetKind!==undefined&&!['creature','object','vehicle'].includes(c.unarmedModifiers.targetKind))bad('unarmed modifiers');
@@ -472,8 +474,8 @@ export function derive(c, pack) {
     breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability (${defenseAbilities[key].ability.toUpperCase()}) + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${featDefense} feats + ${lightsaberBonus} Lightsaber + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc${charge?' + '+charge+' Charge':''}${shieldPenalty?' + '+shieldPenalty+' energy shield':''}${key==='reflex'&&flurry.reflexPenalty?' + '+flurry.reflexPenalty+' Flurry':''}`;
   }
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
-  const conditionalEffects=[...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='conditionalDefense'),...armorConditionalDefenses(armorItems,ctx,defenses)];
-  const conditionalDefenses=[...combineArmorDefenses(conditionalEffects,[],defenses,equipmentDefenseBonuses,defenseModifiers),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)];
+  const conditionalEffects=[...turnTalentEffects(c,pack,ctx,{flatFooted,helpless}),...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='conditionalDefense'),...armorConditionalDefenses(armorItems,ctx,defenses)];
+  const conditionalDefenses=[...combineArmorDefenses(conditionalEffects,[],defenses,equipmentDefenseBonuses,defenseModifiers).filter(r=>r.against!=='aware'||r.amount>0),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)];
   const thresholdState=thresholdDetails(c,effects,defenses,conditionalEffects,equipmentDefenseBonuses,pack.rules.sizeThreshold[effectiveSize]+(species.damageThresholdBonus||0)+total('threshold')+c.modifiers.threshold,defenseModifiers);
   const threshold=thresholdState.total,thresholdContext=thresholdState.context;
   const teamSkills=teamSkillDetails(c,effects,ix);
