@@ -2166,6 +2166,22 @@
             }
           }
         },
+        "bonusHitPoints": {
+          "const": {
+            "sourceIds": [
+              "source:wiki-hit-points"
+            ],
+            "toughAsDurasteel": {
+              "classId": "class:martial-arts-master",
+              "minimumLevel": 2,
+              "armorCategory": "light",
+              "ambiguityId": "ambiguity:tough-as-durasteel-amount",
+              "sourceIds": [
+                "source:wiki-martial-arts-master"
+              ]
+            }
+          }
+        },
         "turnTalentActions": {
           "type": "array",
           "minItems": 1,

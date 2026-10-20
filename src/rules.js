@@ -1,3 +1,4 @@
+import {validateBonusHP,toughAsDurasteelLevel} from './bonus-hit-points.js';
 import {validateTurnTalents,turnTalentEffects} from './turn-talents.js';
 import {modifierTotal,resolveModifiers} from './modifiers.js';
 import {validateTalentActivations,encounterTalentEffects} from './talent-activations.js';
@@ -122,6 +123,7 @@ export function validateCharacter(c, pack) {
   if(c.powerAttack!==undefined&&!num(c.powerAttack,0,20))bad('Power Attack');
   if(c.skillModifiers!==undefined&&(!obj(c.skillModifiers)||Object.entries(c.skillModifiers).some(([id,n])=>!ix.skills.has(id)||!num(n,-1000,1000))))bad('skill modifiers');
   validateTurnTalents(c,pack,bad);
+  validateBonusHP(c,bad);
   validateNaturalModifiers(c,pack,bad);
   if(c.unarmedModifiers!==undefined){
     if(!obj(c.unarmedModifiers)||Object.keys(c.unarmedModifiers).some(k=>!['attackMod','damageMod','attackTechnique','targetKind'].includes(k))||!['attackMod','damageMod'].every(k=>num(c.unarmedModifiers[k],-100,100))||c.unarmedModifiers.targetKind!==undefined&&!['creature','object','vehicle'].includes(c.unarmedModifiers.targetKind))bad('unarmed modifiers');
@@ -563,8 +565,9 @@ export function derive(c, pack) {
     const powerIssue=droidSystems.inoperative?'Install a Processor':species.isDroid&&!species.heuristicProcessor&&!proficient?'Basic Processor requires weapon proficiency':w.mode==='melee'&&powerAttack.selected&&!powerAttack.available?powerAttack.reason:'';
     const display=dice=>dice?(w.natural||w.droidAppendage?dice.replace(/(\d+)d1(?!\d)/g,'$1'):dice)+(damageBonus?signed(damageBonus):''):w.damageAction||'Choose ammunition';
     const criticalDisplay=dice=>criticalDice(dice)!==dice?{criticalDamageDisplay:display(criticalDice(dice))}:{};
+    const bonusHPOnDamage=w.unarmed?toughAsDurasteelLevel(c,pack,ctx,armorItems):0;
     const unAimedRange=weaponRange(w,{...e,aimed:false},pack,featHas,c);
-    return {...w,name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,criticalThreat,multiattackReduction,fullAttackPenalty,effectGroup:group,ammunition,technique,powerAttack:power,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,flatFooted,issue:(defensiveCombat.attacksBlocked?defensiveCombat.reason||'Total Defense forbids attacks':'')||(inactiveLightsaber?'Activate Lightsaber':'')||powerIssue||technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:!inactiveLightsaber&&!defensiveCombat.attacksBlocked&&!powerIssue&&technique.available&&range.available&&(!ammunition||ammunition.available),
+    return {...w,...(bonusHPOnDamage?{bonusHPOnDamage}:{}),name:w.name+(technique.selected==='normal'?'':` (${technique.choices.find(t=>t.id===technique.selected)?.name||technique.selected})`),damage,uid:e.uid,proficient,range,criticalMultiplier,criticalThreat,multiattackReduction,fullAttackPenalty,effectGroup:group,ammunition,technique,powerAttack:power,mightySwing,mightySwingAvailable,mode:w.mode,areaType:technique.areaType,flatFooted,issue:(defensiveCombat.attacksBlocked?defensiveCombat.reason||'Total Defense forbids attacks':'')||(inactiveLightsaber?'Activate Lightsaber':'')||powerIssue||technique.issue||(ammunition&&ammunition.cost>ammunition.capacity&&!ammunition.freeReloads?'Free reloads required':''),available:!inactiveLightsaber&&!defensiveCombat.attacksBlocked&&!powerIssue&&technique.available&&range.available&&(!ammunition||ammunition.available),
       attack,aimed,bracing,braced:bracing.active,opportunityWeapon:weaponCanOpportunity(w,e,pack,ctx),fullAttackGrip:fullAttackGrip(w,e,pack,effectiveSize),ignoresCover:aimed,ignoresDarkness:aimed&&!!attachedScope(e,c,pack)?.scope.ignoresDarkness,
       ...(bracing.active?{unBraced:{braced:false,attack:attack-firePenalty+unBracedTechniquePenalty}}:{}),
       ...(aimed?{unAimed:{aimed:false,attack:attack-aimBonus-range.penalty+unAimedRange.penalty,damage:extraDamageDice(w.damage,technique.extraDice),damageDisplay:display(extraDamageDice(w.damage,technique.extraDice)),...criticalDisplay(extraDamageDice(w.damage,technique.extraDice)),ignoresCover:false,ignoresDarkness:false}}:{}),

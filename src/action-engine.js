@@ -1,3 +1,4 @@
+import {clearBonusHP} from './bonus-hit-points.js';
 import {turnTalentPlan,applyTurnTalent,clearTurnTalents} from './turn-talents.js';
 import {balance,planBalance} from './balance.js';
 import {conditionRecoveryPlan,applyConditionRecovery} from './condition-recovery.js';
@@ -219,7 +220,7 @@ export function beginNextTurn(c,pack){
  validateCharacter(q,pack);commit(c,q);
 }
 export function endCurrentTurn(c,pack){const q=structuredClone(c);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');if(q.forcePowerRecoveryPending)recoverSuite(q,derive(q,pack),{endTurn:true});if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
-export function endTrackedCombat(c){assert(!c.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');endEncounterTalents(c);clearTurnTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
+export function endTrackedCombat(c){assert(!c.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false;
  for(const step of q.actionState.plan){

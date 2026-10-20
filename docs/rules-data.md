@@ -12,6 +12,8 @@ reviewed mapping is only partially covered until all of its rules are reviewed.
 linked species feats and redirects. Offline imports require that list; missing
 category captures and embedded Homebrew fail rather than silently importing it.
 
+Bonus HP pools and confirmed Tough as Durasteel triggers follow the [bonus HP contract](bonus-hit-points.md).
+
 Talents lasting until the next turn follow the [turn talent contract](turn-talents.md).
 Personal recovery talents follow the [Condition recovery contract](condition-recovery.md).
 Ordered skill rerolls follow the [reroll contract](skill-rerolls.md).

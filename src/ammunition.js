@@ -1,3 +1,4 @@
+import {recordBonusHPTrigger} from './bonus-hit-points.js';
 import {routineSignature} from './routine-progress.js';
 import {progression} from './rules.js';
 import {balanceFlatFooted} from './balance.js';
@@ -61,6 +62,7 @@ export function spendAttackResources(c,result){
  if(result.chargeReflexPenalty!==undefined)c.chargeReflexPenalty=result.chargeReflexPenalty;
  if(result.results){
   recordAttackFollowUps(c,result,!!result.followUpConsume?.cleave);
+  recordBonusHPTrigger(c,result);
   if(Object.hasOwn(result,'routineProgress')){if(result.routineProgress)c.routineProgress=result.routineProgress;else delete c.routineProgress;}
   else if(!result.followUpConsume?.cleave)delete c.routineProgress;
  }

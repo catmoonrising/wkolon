@@ -1,3 +1,4 @@
+import {clearBonusHPTrigger} from './bonus-hit-points.js';
 import {validAttackReference} from './attack-refs.js';
 import {ambiguityValue} from './house-rules.js';
 import {movementSegment,movementCost,movementSpeed,validateSegment} from './combat-movement.js';
@@ -5,6 +6,7 @@ import {movementSegment,movementCost,movementSpeed,validateSegment} from './comb
 const identity=s=>s.trim().normalize('NFKC').toLowerCase();
 export const followUpState=c=>({tickets:[],selected:null,opponent:'',nextOpponent:'',dropped:false,immediate:false,inReach:false,cleavesSpent:0,followThroughSpent:false,moveBefore:false,mode:'normal',...c.followUp,path:movementSegment({squares:1,...c.followUp?.path})});
 export function clearFollowUps(c){
+ clearBonusHPTrigger(c);
  if(!c.followUp)return;
  Object.assign(c.followUp,{tickets:[],selected:null,dropped:false,immediate:false,inReach:false});
 }

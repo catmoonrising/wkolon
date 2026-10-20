@@ -1,3 +1,4 @@
+import {bonusHP} from './bonus-hit-points.js';
 import {thresholdForContext} from './defense-abilities.js';
 import {shieldProtection} from './energy-shields.js';
 import {armorProtection} from './armor.js';
@@ -16,8 +17,9 @@ export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spen
  // threshold comparison retains penetrating damage before that halving.
  const shield=shieldProtection(c,d,pack,{energy,fire,lightsaber,otherDamage});
  const protection=protectedDamage({...armorProtection(c,d,{energy,fire,lightsaber,ignoreDR}),sr:shield.sr},amount,pack.rules.combat,ignoreDR);
- if(immunity)return {type,immune:true,hpDamage:0,srBlocked:0,drBlocked:0,srAfter:c.protection.sr,beforeHP:c.currentHP??d.hp,afterHP:c.currentHP??d.hp,conditionAfter:c.condition,conditionSteps:0,dead:false,forcePointSpent:0,canSurvive:false,knockout:false};
- const penetrating=protection.hpDamage,hpDamage=type==='normal'?penetrating:Math.floor(penetrating/rule[type].hpDivisor);
+ if(immunity)return {type,immune:true,bonusHPBlocked:0,bonusHPBefore:bonusHP(c),bonusHPAfter:bonusHP(c),hpDamage:0,srBlocked:0,drBlocked:0,srAfter:c.protection.sr,beforeHP:c.currentHP??d.hp,afterHP:c.currentHP??d.hp,conditionAfter:c.condition,conditionSteps:0,dead:false,forcePointSpent:0,canSurvive:false,knockout:false};
+ const penetrating=protection.hpDamage,hpLoss=type==='normal'?penetrating:Math.floor(penetrating/rule[type].hpDivisor);
+ const bonusHPBefore=bonusHP(c),bonusHPBlocked=Math.min(bonusHPBefore,hpLoss),bonusHPAfter=bonusHPBefore-bonusHPBlocked,hpDamage=hpLoss-bonusHPBlocked;
  const beforeHP=c.currentHP??d.hp,afterDamage=Math.max(0,beforeHP-hpDamage);
  const contexts=[...new Set([...against,...(requiresUseTheForce?['use-the-force']:[])])];
  const threshold=d.thresholdContext&&contexts.length?d.threshold+thresholdForContext(d.thresholdContext,contexts).total-thresholdForContext(d.thresholdContext).total:d.threshold;
@@ -33,11 +35,12 @@ export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spen
  const canSurvive=fatal&&beforeHP>0&&afterDamage===0&&d.forceCurrent>=rule.forcePointCost&&(!c.actionState?.active||!c.actionState.forceSpent);
  if(spendForcePoint&&fatal&&!canSurvive)throw new Error('A Force Point cannot prevent this death');
  const forcePointSpent=spendForcePoint&&canSurvive?rule.forcePointCost:0,dead=fatal&&!forcePointSpent;
- return {...protection,threshold,shieldSource:shield.source,type,immune:false,hpDamage,beforeHP,afterHP:dead?0:afterDamage,conditionAfter:dead?rule.helplessStep:conditionAfter,conditionSteps:(dead?rule.helplessStep:conditionAfter)-c.condition,dead,canSurvive,forcePointSpent,knockout:!wasUnconscious&&(conditionAfter===rule.helplessStep||afterDamage===0),balanceCheckRequired:!!c.balance?.active&&penetrating>0};
+ return {...protection,threshold,shieldSource:shield.source,type,immune:false,bonusHPBlocked,bonusHPBefore,bonusHPAfter,hpDamage,beforeHP,afterHP:dead?0:afterDamage,conditionAfter:dead?rule.helplessStep:conditionAfter,conditionSteps:(dead?rule.helplessStep:conditionAfter)-c.condition,dead,canSurvive,forcePointSpent,knockout:!wasUnconscious&&(conditionAfter===rule.helplessStep||afterDamage===0),balanceCheckRequired:!!c.balance?.active&&penetrating>0};
 }
 
 export function applyIncomingDamage(c,d,pack,amount,options){
  const result=damageOutcome(c,d,pack,amount,options);
+ if(c.bonusHP!==undefined||result.bonusHPBlocked)c.bonusHP=result.bonusHPAfter;
  c.currentHP=result.afterHP;if(result.shieldSource)c.inventory.find(e=>e.uid===result.shieldSource).shield.sr=result.srAfter;else c.protection.sr=result.srAfter;c.condition=result.conditionAfter;
  if(result.forcePointSpent){c.forcePoints-=result.forcePointSpent;if(c.actionState?.active)c.actionState.forceSpent=true;}
  if(result.dead)setDead(c,true);

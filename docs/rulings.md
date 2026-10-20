@@ -10,6 +10,7 @@ default-only decision remains here even though it adds no switch to the sheet.
 | --- | --- | --- |
 | Lightsaber Defense weapon change | Activation requirement; keep until next turn | Require a currently wielded active Lightsaber |
 | Bracing stock requirement | Pistols only | All three groups |
+| Tough as Durasteel | Current class level (prose) | Last even class level (table) |
 | Cleave attack bonus | Copy full triggering bonus | Recalculate target-specific modifiers |
 | Tumble + Cross Difficult Terrain | Separate DC15 checks | One shared check |
 | Tumble movement cost | Multiply terrain costs | Flat 2 per tumbled square |
@@ -83,7 +84,7 @@ remain unchanged. This supersedes the default-only approvals above.
 - [x] Tumble movement cost: flat two per tumbled square.
 - [x] Predictive Defense: apply Dexterity restrictions to Intelligence.
 - [x] Team feat allies: include self.
-- [ ] Tough as Durasteel: offer prose/table amounts when implementing its bonus Hit Point trigger.
+- [x] Tough as Durasteel: prose/table amounts with a confirmed unarmed damage trigger.
 - [ ] Anointed Hunter: offer the species table's next-turn duration.
 
 Droid Heavy Armor's other-speed behavior and Manacles' omitted DC contain no
