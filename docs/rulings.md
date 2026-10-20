@@ -10,6 +10,7 @@ default-only decision remains here even though it adds no switch to the sheet.
 | --- | --- | --- |
 | Lightsaber Defense weapon change | Activation requirement; keep until next turn | Require a currently wielded active Lightsaber |
 | Bracing stock requirement | Pistols only | All three groups |
+| Ion damage to electronic targets | Half HP damage (Ion Damage) | Full HP damage (weapon descriptions) |
 | Anointed Hunter | End of current turn (feat) | End of next turn (species table) |
 | Tough as Durasteel | Current class level (prose) | Last even class level (table) |
 | Cleave attack bonus | Copy full triggering bonus | Recalculate target-specific modifiers |
@@ -87,7 +88,7 @@ remain unchanged. This supersedes the default-only approvals above.
 - [x] Team feat allies: include self.
 - [x] Tough as Durasteel: prose/table amounts with a confirmed unarmed damage trigger.
 - [x] Anointed Hunter: offer the species table's next-turn duration.
-- [ ] Ion damage: offer normal HP damage to electronic/cybernetic targets from the ion weapon descriptions (additional older conflict found during the audit).
+- [x] Ion damage: offer normal HP damage to electronic/cybernetic targets from the ion weapon descriptions (additional older conflict found during the audit).
 
 Droid Heavy Armor's other-speed behavior and Manacles' omitted DC contain no
 concrete sourced alternative to enable. Their documented RAW/manual behavior

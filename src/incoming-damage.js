@@ -18,14 +18,15 @@ export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spen
  const shield=shieldProtection(c,d,pack,{energy,fire,lightsaber,otherDamage});
  const protection=protectedDamage({...armorProtection(c,d,{energy,fire,lightsaber,ignoreDR}),sr:shield.sr},amount,pack.rules.combat,ignoreDR);
  if(immunity)return {type,immune:true,bonusHPBlocked:0,bonusHPBefore:bonusHP(c),bonusHPAfter:bonusHP(c),hpDamage:0,srBlocked:0,drBlocked:0,srAfter:c.protection.sr,beforeHP:c.currentHP??d.hp,afterHP:c.currentHP??d.hp,conditionAfter:c.condition,conditionSteps:0,dead:false,forcePointSpent:0,canSurvive:false,knockout:false};
- const penetrating=protection.hpDamage,hpLoss=type==='normal'?penetrating:Math.floor(penetrating/rule[type].hpDivisor);
+ const electronic=isDroid||!!c.cybernetic||!!pack.species.find(s=>s.id===c.species).cybernetic;
+ const hpDivisor=type==='normal'||type==='ion'&&electronic&&ambiguityValue(c,pack,'ambiguity:ion-electronic-damage')==='full-electronic'?1:rule[type].hpDivisor;
+ const penetrating=protection.hpDamage,hpLoss=Math.floor(penetrating/hpDivisor);
  const bonusHPBefore=bonusHP(c),bonusHPBlocked=Math.min(bonusHPBefore,hpLoss),bonusHPAfter=bonusHPBefore-bonusHPBlocked,hpDamage=hpLoss-bonusHPBlocked;
  const beforeHP=c.currentHP??d.hp,afterDamage=Math.max(0,beforeHP-hpDamage);
  const contexts=[...new Set([...against,...(requiresUseTheForce?['use-the-force']:[])])];
  const threshold=d.thresholdContext&&contexts.length?d.threshold+thresholdForContext(d.thresholdContext,contexts).total-thresholdForContext(d.thresholdContext).total:d.threshold;
  const exceeded=penetrating>0&&penetrating>=threshold;
  const wasUnconscious=c.condition===rule.helplessStep||beforeHP===0;
- const electronic=isDroid||!!c.cybernetic||!!pack.species.find(s=>s.id===c.species).cybernetic;
  const thresholdSteps=exceeded?(type==='normal'?rule.normalThresholdSteps:type==='stun'||electronic?rule[type].thresholdSteps:0):0;
  const conditionAfter=penetrating>0&&afterDamage===0?rule.helplessStep:Math.min(rule.helplessStep,c.condition+thresholdSteps);
  // The optional general-death reading concerns the attack reaching zero HP.

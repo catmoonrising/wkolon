@@ -34,3 +34,12 @@ natural 1 misses and zero damage cannot create one.
 Manual pool edits support other sources whose targeting or activation is not yet
 automated. Neither a manual pool nor this one class feature implies that all
 bonus HP granting features are automated.
+
+The saved `ion-electronic-damage` ambiguity keeps Ion Damage's HP divisor of 2
+by default. Its alternative uses Ion Pistol/Ion Rifle's full damage against
+droids and cybernetically enhanced characters. The same resolved droid or saved
+Cybernetic declaration used for ion track effects determines that eligibility.
+SR/DR precede this choice, and the bonus HP buffer follows it. Damage Threshold
+always uses the pre-division penetrating damage. The separate stun/ion death
+interpretation remains independent. Ordinary biological targets still take half
+ion HP damage under either option; stun and normal damage do not change.
