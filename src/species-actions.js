@@ -1,3 +1,4 @@
+import {withBattleStrike,checkBattleStrikeState,consumeBattleStrike} from './self-power-effects.js';
 import {clearFollowUps} from './attack-follow-ups.js';
 import {ambiguityValue} from './house-rules.js';
 import {rollRoutine} from './combat.js';
@@ -20,8 +21,10 @@ export function rollBellow(c,d,pack,extraDice=0,manualDamage=null,roller=evalExp
  const b=bellowDetails(c,d,pack,extraDice,options);
  if(!b?.available)throw new Error('Bellow unavailable');
  if(b.manual&&(!Number.isSafeInteger(manualDamage)||manualDamage<b.dice||manualDamage>b.dice*6))throw new Error(`Enter ${b.damage} damage (${b.dice}–${Math.min(Number.MAX_SAFE_INTEGER,b.dice*6)})`);
- const attack={uid:c.id,name:'Bellow',attack:b.attack,damage:b.manual?String(manualDamage):b.damage,damageDisplay:b.manual?String(manualDamage):b.damage,areaType:'burst'};
+ checkBattleStrikeState(c,d.battleStrike?.previous);
+ const attack=withBattleStrike({uid:c.id,name:'Bellow',attack:b.attack,damage:b.manual?String(manualDamage):b.damage,damageDisplay:b.manual?String(manualDamage):b.damage,areaType:'burst'},d.battleStrike);
  const result=rollRoutine({name:`Bellow (${b.damage}${b.manual?'; entered damage':''})`,steps:[{attackId:c.id,count:1,attackMod:0,damageMod:0}]},[attack],pack.rules.combat,roller,'Fortitude');
+ if(result.battleStrikePrevious!==undefined)consumeBattleStrike(c);
  if(b.strong)c.recovery={...recoveryState(c),strongBellowUsed:true};
  clearFollowUps(c);delete c.routineProgress;
  c.condition=Math.min(5,c.condition+b.cost);

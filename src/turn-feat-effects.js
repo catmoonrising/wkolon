@@ -1,3 +1,4 @@
+import {endTurnEffects,startTurnEffects} from './effect-duration.js';
 import {ambiguityValue} from './house-rules.js';
 
 export function validateTurnFeatEffects(c,pack,bad){
@@ -25,11 +26,12 @@ export function applyMoveFeatEffects(c,d,pack,displacement){
 }
 export function endTurnFeatEffects(c){
  if(!c.turnFeatEffects)return;
- c.turnFeatEffects=c.turnFeatEffects.flatMap(s=>s.ended?[s]:s.endsRemaining>1?[{...s,endsRemaining:s.endsRemaining-1,ended:true}]:[]);
+ c.turnFeatEffects=endTurnEffects(c.turnFeatEffects);
  if(!c.turnFeatEffects.length)delete c.turnFeatEffects;
 }
 export function startTurnFeatEffects(c){
- endTurnFeatEffects(c);
- if(c.turnFeatEffects)c.turnFeatEffects=c.turnFeatEffects.map(s=>({...s,ended:false}));
+ if(!c.turnFeatEffects)return;
+ c.turnFeatEffects=startTurnEffects(c.turnFeatEffects);
+ if(!c.turnFeatEffects.length)delete c.turnFeatEffects;
 }
 export function clearTurnFeatEffects(c){delete c.turnFeatEffects;}

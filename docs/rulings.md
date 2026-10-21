@@ -93,3 +93,11 @@ remain unchanged. This supersedes the default-only approvals above.
 Droid Heavy Armor's other-speed behavior and Manacles' omitted DC contain no
 concrete sourced alternative to enable. Their documented RAW/manual behavior
 remains intact; no extrapolated speed formula or invented DC is introduced.
+
+## Pending self-power ruling (2026-10-21)
+
+Battle Strike repeated uses: +1 Force bonuses to attack do not stack. The
+additional damage dice have no stated descriptor and currently stack under
+Bonuses and Penalties. The user has been asked whether Ambiguities should also
+offer only the strongest active use. This question does not block the default
+calculation. No unprinted same-power stacking prohibition is assumed.

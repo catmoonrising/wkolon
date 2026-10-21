@@ -62,6 +62,8 @@ export function validatePack(p) {
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
     if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
+  assert.deepEqual(p.rules.selfPowerEffects,[{"powerId":"power:battle-strike","kind":"next-attack","thresholds":[{"dc":15,"dice":1},{"dc":20,"dice":2},{"dc":25,"dice":3}],"attackBonus":1,"type":"force","die":6,"enhancementDice":2,"hitOnly":true,"duration":"end-next-turn","sourceIds":["source:wiki-battle-strike","source:wiki-force-powers","source:wiki-bonuses-and-penalties","source:wiki-attacks"]}],'Changed self power effects');
+  assert(p.rules.selfPowerEffects.every(r=>r.sourceIds.every(id=>sources.has(id))),'Missing self power sources');
   assert.deepEqual(p.rules.timedTalentActions,[{"id":"damage-reduction-10","talentId":"talent:damage-reduction-10","forcePoints":1,"durationRounds":10,"damageReduction":10,"sourceIds":["source:wiki-control-talent-tree-damage-reduction-10","source:wiki-combat-sequence","source:wiki-attacks"]}],'Changed timed talent rules');
   assert(p.rules.timedTalentActions.every(r=>r.sourceIds.every(id=>sources.has(id))),'Missing timed talent sources');
   assert.deepEqual(p.rules.turnFeatEffects,[{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],'Changed turn feat effects');

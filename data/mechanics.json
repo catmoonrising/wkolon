@@ -68391,6 +68391,7 @@
         }
       }
     ],
+    "selfPowerEffects": [{"powerId":"power:battle-strike","kind":"next-attack","thresholds":[{"dc":15,"dice":1},{"dc":20,"dice":2},{"dc":25,"dice":3}],"attackBonus":1,"type":"force","die":6,"enhancementDice":2,"hitOnly":true,"duration":"end-next-turn","sourceIds":["source:wiki-battle-strike","source:wiki-force-powers","source:wiki-bonuses-and-penalties","source:wiki-attacks"]}],
     "timedTalentActions": [{"id":"damage-reduction-10","talentId":"talent:damage-reduction-10","forcePoints":1,"durationRounds":10,"damageReduction":10,"sourceIds":["source:wiki-control-talent-tree-damage-reduction-10","source:wiki-combat-sequence","source:wiki-attacks"]}],
     "turnFeatEffects": [{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],
     "bonusHitPoints": {"sourceIds":["source:wiki-hit-points"],"toughAsDurasteel":{"classId":"class:martial-arts-master","minimumLevel":2,"armorCategory":"light","ambiguityId":"ambiguity:tough-as-durasteel-amount","sourceIds":["source:wiki-martial-arts-master"]}},

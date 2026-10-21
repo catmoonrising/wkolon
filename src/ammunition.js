@@ -1,3 +1,4 @@
+import {checkBattleStrikeState,consumeBattleStrike} from './self-power-effects.js';
 import {recordBonusHPTrigger} from './bonus-hit-points.js';
 import {routineSignature} from './routine-progress.js';
 import {progression} from './rules.js';
@@ -43,6 +44,7 @@ export function reloadWeapon(c,pack,uid,flatFooted){
 
 export function spendAttackResources(c,result){
  // Check all references and quantities before making any change.
+ checkBattleStrikeState(c,result.battleStrikePrevious);
  if(result.routineDefinition){const r=c.routines?.find(r=>r.id===result.routineDefinition.id);if(!r||routineSignature(r)!==result.routineDefinition.signature)throw new Error('Routine changed; roll again.');}
  if(result.followUpConsume&&JSON.stringify(followUpState(c))!==JSON.stringify(result.followUpPrevious))throw new Error('Follow-up changed; roll again.');
  if(Object.hasOwn(result,'routineProgressPrevious')&&JSON.stringify(c.routineProgress??null)!==JSON.stringify(result.routineProgressPrevious))throw new Error('Routine progress changed; roll again.');
@@ -52,6 +54,7 @@ export function spendAttackResources(c,result){
   if(!entry||!Number.isInteger(shots)||shots<0||!Number.isInteger(reloadShots)||reloadShots<0||!Number.isInteger(entry.shotsRemaining)||entry.shotsRemaining+reloadShots<shots||reloadShots&&(entry.freeReloads!==true||c.flatFooted||result.flatFooted||reloadShots!==Math.max(0,shots-entry.shotsRemaining)))throw new Error('Ammunition changed; roll again.');
   return {entry,shots,reloadShots};
  });
+ if(result.battleStrikePrevious!==undefined)consumeBattleStrike(c);
  if(result.followUpConsume)applyFollowUpClaim(c,result.followUpConsume);
  if(result.opportunitySpent){c.opportunity??={};c.opportunity.used??=[];c.opportunity.used.push({...result.opportunitySpent});c.opportunity.provoked=false;}
  for(const {entry,shots,reloadShots} of spending)entry.shotsRemaining+=reloadShots-shots;

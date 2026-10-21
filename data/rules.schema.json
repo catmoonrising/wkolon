@@ -2167,6 +2167,40 @@
             }
           }
         },
+        "selfPowerEffects": {
+          "const": [
+            {
+              "powerId": "power:battle-strike",
+              "kind": "next-attack",
+              "thresholds": [
+                {
+                  "dc": 15,
+                  "dice": 1
+                },
+                {
+                  "dc": 20,
+                  "dice": 2
+                },
+                {
+                  "dc": 25,
+                  "dice": 3
+                }
+              ],
+              "attackBonus": 1,
+              "type": "force",
+              "die": 6,
+              "enhancementDice": 2,
+              "hitOnly": true,
+              "duration": "end-next-turn",
+              "sourceIds": [
+                "source:wiki-battle-strike",
+                "source:wiki-force-powers",
+                "source:wiki-bonuses-and-penalties",
+                "source:wiki-attacks"
+              ]
+            }
+          ]
+        },
         "timedTalentActions": {
           "const": [
             {

@@ -12,6 +12,8 @@ reviewed mapping is only partially covered until all of its rules are reviewed.
 linked species feats and redirects. Offline imports require that list; missing
 category captures and embedded Homebrew fail rather than silently importing it.
 
+Self-targeted power effects follow the [self power contract](self-power-effects.md).
+
 Activations with round-based durations follow the [timed talent contract](timed-talents.md).
 
 Feat effects expiring at turn ends follow the [turn feat effects contract](turn-feat-effects.md).

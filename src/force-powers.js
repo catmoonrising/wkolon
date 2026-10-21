@@ -1,6 +1,7 @@
+import {clearSelfPowerEffects} from './self-power-effects.js';
 import {advanceTimedTalents,ROUNDS_PER_MINUTE} from './timed-talents.js';
 import {powerActivationIssue} from './power-activation.js';
-// Power effects stay in pinned articles. These operations track individual suite copies.
+// Suite operations track copies; reviewed effects resolve in the action engine.
 import {clearFollowUps} from './attack-follow-ups.js';
 import {clearAiming,clearBracing,startNextTurn} from './attack-techniques.js';
 export function powerCopy(c,id){return c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===id);}
@@ -30,7 +31,7 @@ export function recoverPower(c,d,pack,id){
 export function recoverSuite(c,d,{endTurn=false}={}){
  if(endTurn&&!c.forcePowerRecoveryPending)throw new Error('No turn-end recovery pending');
  if(endTurn){clearBracing(c);if(c.mightySwing!==undefined)c.mightySwing=false;}
- else {advanceTimedTalents(c,ROUNDS_PER_MINUTE);startNextTurn(c);}
+ else {clearSelfPowerEffects(c);advanceTimedTalents(c,ROUNDS_PER_MINUTE);startNextTurn(c);}
  const ids=new Set(d.forcePowers.map(p=>p.copyId));
  for(const l of c.levels)for(const p of l.forcePowers||[])if(ids.has(p.id))p.spent=false;
  c.forcePowerRecoveryPending=false;

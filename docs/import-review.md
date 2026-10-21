@@ -2265,3 +2265,25 @@ markers now say Partial. Existing armor/proficiency and flat-footed tests cover
 those personal effects. Vehicle pilot protection and additional awareness/
 immobilization declarations still require further integration; the markers do
 not claim complete automation.
+
+
+## Battle Strike (2026-10-21)
+
+The reviewed self-power contract now drives Battle Strike from its final Use the
+Force check. Saved effects retain their achieved tier, optional lesser effect,
+Force Point enhancement and end-of-next-turn expiry. Suite Use, Take 10 and
+Force Power Adept share the same Actions execution and resource limits.
+
+The existing typed-bonus resolver supplies its Force attack bonus. Unnamed damage
+dice stack across active uses by default; a strongest-use alternative has been
+asked about and remains pending in the rulings register. Effects are consumed by
+the next committed attack, including misses, Bellow, Charge, moving attacks and
+opportunity attacks. Queue previews and failed resource preflights consume none.
+Hit-only dice remain separate from area miss damage, critical hits multiply them,
+and minimum damage applies after combining the roll. Powerful Charge retains its
+flat damage when an active power supplies separate base-damage expressions.
+
+Turn expiry reuses the end-turn duration helper without changing Anointed Hunter.
+Repeated End turn clicks, automatic tracking restarts, saved pending Force Point
+decisions, rest expiry and lesser-tier selection are covered. Live roll markup
+also retains Take 10, Adept and Force Point cost details.

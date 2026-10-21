@@ -77,7 +77,7 @@ export function defenseRangeRows(results){
    const defense=row.hi??Infinity;let damage=0,evasion=0,cover=0,splash=0;
    for(const r of results){
     if(r.failedArea||r.naturalMiss&&!r.areaType)continue;
-    const hit=!r.naturalMiss&&(r.naturalHit||total(r)>=defense),half=Math.floor(r.damage/2);
+    const hit=!r.naturalMiss&&(r.naturalHit||total(r)>=defense),half=Math.floor((r.damage-(hit?0:r.hitOnlyDamage||0))/2);
     damage+=hit?r.damage:r.areaType&&!r.targetCover?half:0;
     evasion+=r.areaType?(hit?half:0):(hit?r.damage:0);
     cover+=hit?r.damage:0;
@@ -141,23 +141,31 @@ export function rollRoutine(routine,attacks,rules,roller=evalExpr,defense='Refle
   if(results.length){expire(original.unAimed);expire(original.unBraced);}
   if(mightySwingConsumed)expire(original.unSwing);
   if(a.mightySwing)mightySwingConsumed=true;
+  const strike=results.length?null:a.battleStrike;
+  if(results.length&&a.battleStrike)a.attack-=a.battleStrike.attackBonus;
   const attackRoll=roller('1d20'+signed(a.attack+s.attackMod)),die=attackRoll.d20[0];
   const naturalHit=die===rules.naturalHit,naturalMiss=die===rules.naturalMiss;
   const failedArea=!!a.areaType&&attackRoll.value<rules.areaMinimumRoll;
   const critical=!naturalMiss&&die>=(a.criticalThreat||rules.naturalHit)&&!a.areaType,multiplier=a.criticalMultiplier||rules.criticalMultiplier;
-  let damageRoll=null,damage=0;
+  let damageRoll=null,damage=0,hitOnlyDamage=0;
   if(!failedArea&&(!naturalMiss||a.areaType)){
-   const expr=(critical?(a.criticalDamageDisplay||a.damageDisplay):a.damageDisplay)+(s.damageMod?signed(s.damageMod):'');
+   const expr=(critical?(a.rollCriticalDamageDisplay||a.criticalDamageDisplay||a.rollDamageDisplay||a.damageDisplay):(a.rollDamageDisplay||a.damageDisplay))+(s.damageMod?signed(s.damageMod):'');
    damageRoll=roller(critical?`(${expr})*${multiplier}`:expr);
-   damage=Math.max(rules.minimumDamage*(critical?multiplier:1),damageRoll.value);
+   const baseValue=damageRoll.value;
+   damage=Math.max(rules.minimumDamage*(critical?multiplier:1),baseValue);
    damageRoll={...damageRoll,value:damage};
+   if(strike&&!naturalMiss){
+    const expr=strike.dice+'d'+strike.die,extra=roller(critical?'('+expr+')*'+multiplier:expr);
+    if(!Number.isSafeInteger(extra.value)||extra.value<strike.dice*(critical?multiplier:1)||extra.value>strike.dice*strike.die*(critical?multiplier:1)||!Number.isSafeInteger(baseValue+extra.value))throw new Error('Invalid power damage roll');
+    const combined=Math.max(rules.minimumDamage*(critical?multiplier:1),baseValue+extra.value);hitOnlyDamage=combined-damage;damage=combined;damageRoll={...damageRoll,value:damage,display:damageRoll.display+' + '+extra.display};
+   }
   }
-  results.push({uid:a.uid,weaponId:a.id,mode:a.mode,...(a.bonusHPOnDamage?{bonusHPOnDamage:a.bonusHPOnDamage}:{}),attackBonus:a.attack+s.attackMod,...(Number.isInteger(a.targetModifiers?.targetPenalty)?{targetBonus:a.targetModifiers.targetPenalty}:{}),name:a.name,total:attackRoll.value,damage,naturalHit,naturalMiss,failedArea,critical,areaType:a.areaType,aimed:!!a.aimed,braced:!!a.braced,mightySwing:!!a.mightySwing,ignoresDarkness:!!a.ignoresDarkness,coverBonus:a.coverBonus||0,targetCover:!!a.targetCover,attackRoll,damageRoll});
+  results.push({uid:a.uid,weaponId:a.id,mode:a.mode,...(a.bonusHPOnDamage?{bonusHPOnDamage:a.bonusHPOnDamage}:{}),attackBonus:a.attack+s.attackMod,...(Number.isInteger(a.targetModifiers?.targetPenalty)?{targetBonus:a.targetModifiers.targetPenalty}:{}),name:a.name,total:attackRoll.value,damage,...(hitOnlyDamage?{hitOnlyDamage}:{}),...(strike?{battleStrikePrevious:strike.previous}:{}),naturalHit,naturalMiss,failedArea,critical,areaType:a.areaType,aimed:!!a.aimed,braced:!!a.braced,mightySwing:!!a.mightySwing,ignoresDarkness:!!a.ignoresDarkness,coverBonus:a.coverBonus||0,targetCover:!!a.targetCover,attackRoll,damageRoll});
  }
  const rows=defenseRangeRows(results),range=r=>r.lo===null?(r.hi===null?'Any':`≤ ${r.hi}`):r.hi===null?`${r.lo}+`:r.lo===r.hi?String(r.lo):`${r.lo}–${r.hi}`;
  const area=results.some(r=>r.areaType),splash=results.some(r=>r.areaType==='splash'),defenseLabel=defense+(results.some(r=>r.coverBonus)?' (before cover)':'');
  const details=results.map(r=>`<div><b>${escape(r.name)}</b>: ${r.attackRoll.display} = ${totalHtml(r.attackRoll)}${r.naturalMiss||r.failedArea?', Miss':r.critical?(r.naturalHit?', Critical':', Critical if hits'):r.naturalHit?', Hit':''}${r.damageRoll?` | ${r.damageRoll.display} = ${totalHtml(r.damageRoll)}`:''}${r.aimed?', Ignores cover':''}${r.coverBonus?', Target Reflex +'+r.coverBonus+' cover':''}${r.braced?', Braced':''}${r.mightySwing?', Mighty Swing':''}${r.ignoresDarkness?', Ignores Concealment from darkness':''}</div>`).join('');
  const reloads=ammunitionSpent.filter(s=>s.reloadShots).map(s=>`${attacks.find(a=>a.uid===s.uid).name}: ${s.reloadShots}`).join('; ');
- return {results,rows,aimConsumed:[...aimConsumed],bracingConsumed:attacks.some(a=>a.braced),mightySwingConsumed,ammunitionSpent,...(attacks.some(a=>typeof a.flatFooted==='boolean')?{flatFooted:attacks.some(a=>a.flatFooted)}:{}),text:`${routine.name||'Routine'}: ${rows.map(r=>`${defenseLabel} ${range(r)}: ${r.damage} damage`).join('; ')}`,
+ return {...(results[0]?.battleStrikePrevious!==undefined?{battleStrikePrevious:results[0].battleStrikePrevious}:{}),results,rows,aimConsumed:[...aimConsumed],bracingConsumed:attacks.some(a=>a.braced),mightySwingConsumed,ammunitionSpent,...(attacks.some(a=>typeof a.flatFooted==='boolean')?{flatFooted:attacks.some(a=>a.flatFooted)}:{}),text:`${routine.name||'Routine'}: ${rows.map(r=>`${defenseLabel} ${range(r)}: ${r.damage} damage`).join('; ')}`,
   html:`<b>${escape(routine.name||'Routine')}</b><table class="routine-result"><thead><tr><th>${defenseLabel}</th><th title="Rolled damage, before target damage-type effects, DR and SR">Damage</th>${area?'<th>Evasion</th><th>Cover</th>':''}${splash?'<th>Splash</th>':''}</tr></thead><tbody>${rows.map(r=>`<tr><td>${range(r)}</td><td>${r.damage}</td>${area?`<td>${r.evasion}</td><td>${r.cover}</td>`:''}${splash?`<td>${r.splash}</td>`:''}</tr>`).join('')}</tbody></table><details><summary>Rolls</summary>${details}${reloads?`<div>Free reloads: ${escape(reloads)}</div>`:''}</details>`};
 }
