@@ -63,7 +63,7 @@ export function layoutFeatureGraph(nodes, sizes) {
  }
  components.sort((a,b)=>(b.keys.length>1)-(a.keys.length>1));
  for(const [rank,keys] of columns)columns.set(rank,components.flatMap(c=>keys.filter(key=>componentOf.get(key)===c.id)));
- const pad=20,gap=72,rowGap=24,positions=new Map();let width=pad,height=pad;
+ const pad=20,gap=72,rowGap=24,maxSlope=Math.tan(Math.PI/3),positions=new Map();let width=pad,height=pad;
  const rowHeight=Math.max(0,...[...sizes.values()].map(s=>s.height));
  // Fit each column toward its neighbours, preserving the crossing-minimizing
  // order and minimum row separation. Pooling conflicting targets avoids simply
@@ -101,9 +101,9 @@ export function layoutFeatureGraph(nodes, sizes) {
     const right=Math.max(...previous.map(key=>positions.get(key).exitX));let run=gap-12;
     for(const key of keys)for(const parent of byKey.get(key).parents){
      const from=positions.get(parent.key),to=positions.get(key);
-     // A horizontal-tangent cubic's steepest slope is twice rise/run.
-     // Allow at least twice the rise, keeping even smoothed lines within 45°.
-     run=Math.max(run,2*Math.abs(to.center-from.center));
+     // Short horizontal handles need rise / tan(60°) + handle length
+     // to stay within 60 degrees. Half-run handles doubled the required space for tall branches.
+     run=Math.max(run,Math.abs(to.center-from.center)/maxSlope+16);
     }
     x=right+run+4;
    }
@@ -123,9 +123,10 @@ export function featureEdgePath(a,b,via=[]){
  const x=a.x+a.width,y=a.center,exit=a.exitX??x,tx=b.x-4,ty=b.center;
  const points=[{x,y},{x:exit,y}];let shaft=`M${x},${y} H${exit}`,prior={x:exit,y},mid;
  for(const target of [...via,b]){
-  const tip={x:target.x-4,y:target.center};mid=(prior.x+tip.x)/2;
-  shaft+=` C${mid},${prior.y} ${mid},${tip.y} ${tip.x},${tip.y}`;
-  flattenCurve([prior,{x:mid,y:prior.y},{x:mid,y:tip.y},tip],points);
+  const tip={x:target.x-4,y:target.center},handle=Math.min(16,Math.max(0,(tip.x-prior.x)/3));mid=(prior.x+tip.x)/2;
+  const first={x:prior.x+handle,y:prior.y},last={x:tip.x-handle,y:tip.y};
+  shaft+=` C${first.x},${first.y} ${last.x},${last.y} ${tip.x},${tip.y}`;
+  flattenCurve([prior,first,last,tip],points);
   if(target!==b){prior={x:target.exitX,y:target.center};shaft+=` H${prior.x}`;points.push(prior);}
  }
  // The head and shaft share the exact tip, with a horizontal tangent at the join.

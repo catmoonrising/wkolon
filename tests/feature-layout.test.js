@@ -55,7 +55,7 @@ test('long prerequisite routes reserve intermediate rows and avoid all interveni
  }
 });
 
-test('ranged feat joins center on their prerequisites and keep every curve within 45 degrees',()=>{
+test('ranged feat joins center on their prerequisites and keep every curve within 60 degrees',()=>{
  const node=(key,rank,parents=[])=>({key,rank,parents:parents.map(key=>({key}))});
  const nodes=[node('BAB 2',0),node('Point-Blank Shot',0),node('Careful Shot',1,['BAB 2','Point-Blank Shot']),node('Far Shot',1,['Point-Blank Shot']),node('Precise Shot',1,['Point-Blank Shot']),node('Deadeye BAB 4',1),node('Sniper BAB 4',1),node('Deadeye',2,['Careful Shot','Point-Blank Shot','Deadeye BAB 4']),node('Sniper',2,['Precise Shot','Point-Blank Shot','Sniper BAB 4'])];
  const sizes=new Map(nodes.map(n=>[n.key,{width:n.key.includes('BAB')?130:n.key==='Point-Blank Shot'?225:180,height:n.key.includes('BAB')?38:54}]));
@@ -67,7 +67,7 @@ test('ranged feat joins center on their prerequisites and keep every curve withi
   for(let i=1;i<path.points.length;i++){
    const a=path.points[i-1],b=path.points[i];
    assert(b.x>=a.x,`${edge.from}→${edge.to} doubles back`);
-   assert(Math.abs(b.y-a.y)<=b.x-a.x+1e-8,`${edge.from}→${edge.to} exceeds 45 degrees`);
+   assert(Math.abs(b.y-a.y)<=Math.sqrt(3)*(b.x-a.x)+1e-8,`${edge.from}→${edge.to} exceeds 60 degrees`);
   }
  }
  // Layout does not change the source data or depend on prior render/zoom state.
@@ -85,6 +85,19 @@ test('curved crossings get one underpass; shared branches, joins and separated p
  assert.deepEqual(featureCrossings([a,edge('b','c',pos(0,200),pos(200,300))]),[]);
  const flat=edge('e','f',pos(0,70),pos(200,70));assert.equal(featureCrossings([a,flat]).length,1);
  assert.deepEqual(featureCrossings([flat,{...flat,from:'g',to:'h'}]),[]);
+});
+
+test('wide fan-outs use a 60-degree limit and short handles, without doubling column gaps',()=>{
+ const nodes=[{key:'root',rank:0,parents:[]},...Array.from({length:24},(_,i)=>({key:'child'+i,rank:1,parents:[{key:'root'}]}))];
+ const sizes=new Map(nodes.map(n=>[n.key,{width:160,height:40}]));
+ const graph=layoutFeatureGraph(nodes,sizes),root=graph.positions.get('root');
+ const rise=Math.max(...nodes.slice(1).map(n=>Math.abs(graph.positions.get(n.key).center-root.center)));
+ const run=graph.positions.get('child0').x-4-root.exitX;
+ assert(rise>500);assert(run<=rise/Math.sqrt(3)+16.00001);assert(run>=rise/Math.sqrt(3)+15.99999);
+ for(const edge of graph.edges){
+  const p=featureEdgePath(root,graph.positions.get(edge.to)).points;
+  for(let i=1;i<p.length;i++)assert(Math.abs(p[i].y-p[i-1].y)<=Math.sqrt(3)*(p[i].x-p[i-1].x)+1e-8);
+ }
 });
 
 test('crossing detection preserves vertical and backward segment intersections',()=>{

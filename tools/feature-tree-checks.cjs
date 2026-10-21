@@ -31,7 +31,7 @@ module.exports=async function checkTrees(browser,base,root){
   });assert.deepEqual(blocked,[]);
   const steep=await body.locator('.feature-tree-arrows .feature-edge').evaluateAll(edges=>edges.filter(edge=>{
    const length=edge.getTotalLength();let prior=edge.getPointAtLength(0);
-   for(let l=3;l<length+3;l+=3){const next=edge.getPointAtLength(Math.min(l,length));if(Math.abs(next.y-prior.y)>next.x-prior.x+.01)return true;prior=next;}
+   for(let l=3;l<length+3;l+=3){const next=edge.getPointAtLength(Math.min(l,length));if(Math.abs(next.y-prior.y)>Math.sqrt(3)*(next.x-prior.x)+.01)return true;prior=next;}
    return false;
   }).length);assert.equal(steep,0);
   await page.screenshot({path:path.join(root,'.build/feat-tree-folded.png')});
