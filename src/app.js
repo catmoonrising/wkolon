@@ -911,7 +911,7 @@ function events() {
     const referenceLink=event.target.closest('[data-rule-reference]');
     if(referenceLink&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();openReference(referenceLink.dataset.ruleReference);return;}
     if(event.target.closest('[data-spend-destiny]')){const c=current();if(c.story?.kind==='destiny'&&c.story.points>0&&derived.level>0){spendDestinyPoint(c,derived);logEvent('resource','Destiny Point: '+c.story.points+' remaining');changed();}return;}
-    const actionButton=event.target.closest('button');if(actionButton&&(actionsUI.click(actionButton)||actionsUI.legacy(actionButton)))return;
+    const actionButton=event.target.closest('button');if(actionButton&&(actionsUI.click(actionButton,event)||actionsUI.legacy(actionButton,event)))return;
     if(event.target.closest('[data-next-turn]')){advanceTimedTalents(current());startNextTurn(current());changed();return;}
     if(event.target.closest('[data-flurry]')){try{declareFlurry(current(),derived);}catch(err){notify(err.message);}changed();return;}
     const stance=event.target.closest('[data-defense-stance]');if(stance){try{declareDefenseStance(current(),derived,stance.dataset.defenseStance);}catch(err){notify(err.message);}changed();return;}

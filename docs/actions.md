@@ -13,6 +13,14 @@ turn is tracked, shared execution covers both the module and matching sheet
 controls. Ending combat returns to untracked play without refreshing daily uses or deleting
 completed history. Planning alone does not begin turn tracking.
 
+Action buttons open a compact themed panel beside the pointer. Keyboard activation
+anchors it below the button. Menus, options, queued-action edits and maintenance
+choices share this panel, which stays within the visual viewport as content changes.
+Outside clicks, page scrolling and Escape dismiss it; Escape returns focus to the
+opening button. Arrow keys, Home and End navigate action lists. Opening a rules
+reference preserves the underlying form and its entered choices. No backdrop blocks
+the sheet. The panel controller is bundled for offline use.
+
 Character actionState stores bounded, validated turn slots, reaction trigger IDs,
 per-round Force Point use, Recover progress, a queue of stable action IDs/options,
 and completed results. Full Attack stepping reserves its time once. Custom

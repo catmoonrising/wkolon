@@ -110,6 +110,7 @@
   - [x] Separate Languages, Feats, Talents, Class Features and Species Features.
   - [x] Independent visibility, layout and collapse state without disabling mechanics.
   - [x] Actions module: six action menus, shared action dispatcher, optional costs/choices, rolls, immediate execution and queued turn plans.
+  - [x] Pointer-anchored action panels, shared in-place forms, outside/Escape dismissal, keyboard navigation, viewport clamping and preserved choices behind rules references.
   - [x] Reuse existing New Turn and expiry functions; preserve round/encounter limits and completed rolls when plans change.
 - [x] Twelve stock starship construction templates selectable with source-row validation and independent owned instances.
 - [x] Selectable vehicle/starship catalog: 471 pinned pages, nine source lists, full lazy articles, named owned vehicles, source/type/search controls and selected-article offline caching.
