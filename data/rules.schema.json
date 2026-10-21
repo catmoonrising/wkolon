@@ -2541,6 +2541,51 @@
               ]
             }
           ]
+        },
+        "resistancePowers": {
+          "const": [
+            {
+              "powerId": "power:energy-resistance",
+              "thresholds": [
+                {
+                  "dc": 20,
+                  "dr": 5
+                },
+                {
+                  "dc": 25,
+                  "dr": 10
+                },
+                {
+                  "dc": 30,
+                  "dr": 15
+                },
+                {
+                  "dc": 35,
+                  "dr": 20
+                }
+              ],
+              "damageTypes": [
+                "energy"
+              ],
+              "duration": "start-next-turn",
+              "maintenance": "swift",
+              "quickening": {
+                "action": "swift",
+                "forcePoints": 1,
+                "timing": "before-check"
+              },
+              "damageCheck": {
+                "skillId": "skill:use-the-force",
+                "baseDC": 15,
+                "damage": "post-protection-before-hp-halving"
+              },
+              "sourceIds": [
+                "source:wiki-energy-resistance",
+                "source:wiki-attacks",
+                "source:wiki-force-powers"
+              ]
+            }
+          ]
         }
       },
       "required": [

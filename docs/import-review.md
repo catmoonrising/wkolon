@@ -2446,3 +2446,19 @@ The graph measures expanded cards individually, preserves separation, and avoids
 allocating the tallest article's height to every folded card. Theme links remain
 readable inside owned cards, including Dracula, and expanded widths fit mobile
 viewports. No rules text or reference revisions changed in this UI update.
+
+
+## Energy Resistance contract and primitives (2026-10-21)
+
+Pinned Energy Resistance 19120, Attacks 27406 and Force Powers 18202 now define
+closed resistancePowers metadata, separate from shield SR. The lifecycle primitives
+cover achieved/lower DR tiers, incoming-damage locks, due-only Swift renewal,
+initial-versus-maintained checks, independently persisted original rolls and
+resolution of multiple maintained copies. These helpers are not yet connected to
+live character validation, action execution, damage or UI. Energy Resistance remains
+Partial; no automated protection or early-FP payment is claimed. See
+resistance-powers.md for the integration contract and remaining verification gates.
+
+The introduction's listed damage sources differ from the table's Energy wording.
+Record both readings for the forthcoming Ambiguities switch. Sonic explicitly counts
+as Energy in pinned Sonic Damage 26734; Fire 18174 does not establish that equivalence.
