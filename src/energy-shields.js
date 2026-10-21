@@ -1,3 +1,4 @@
+import {activeShieldPowers} from './shield-powers.js';
 import {clearFollowUps} from './attack-follow-ups.js';
 import {clearAiming,clearBracing} from './attack-techniques.js';
 import {evalExpr} from './dice.js';
@@ -37,8 +38,8 @@ export function rechargeEnergyShield(c,d,pack,uid,roller=evalExpr){
 }
 export function shieldProtection(c,d,pack,{energy=false,otherDamage=false,fire=false,lightsaber=false}={}){
  if(typeof otherDamage!=='boolean')throw new Error('Invalid mixed damage declaration');
- const manual={source:null,sr:c.protection.sr,srMax:c.protection.srMax};
- if(!energy||otherDamage||fire||lightsaber)return manual;
- const strongest=(d.energyShields||activeShields(c,pack)).slice().sort((a,b)=>b.sr-a.sr)[0];
- return strongest&&strongest.sr>manual.sr?{source:strongest.uid,sr:strongest.sr,srMax:strongest.energyShield.rating}:manual;
+ const sources=[{kind:'manual',source:null,sr:c.protection.sr,srMax:c.protection.srMax}];
+ if(energy&&!otherDamage&&!fire&&!lightsaber)sources.push(...activeShields(c,pack).map(s=>({kind:'equipment',source:s.uid,sr:s.sr,srMax:s.energyShield.rating})));
+ sources.push(...activeShieldPowers(c,pack).map(s=>({kind:'power',source:s.id,sr:s.sr,srMax:s.srMax})));
+ return sources.reduce((best,s)=>s.sr>best.sr?s:best,sources[0]);
 }

@@ -1,3 +1,4 @@
+import {clearShieldPowers} from './shield-powers.js';
 import {clearRagePowers} from './rage-powers.js';
 import {clearMovementPowers} from './movement-powers.js';
 import {clearSelfPowerEffects} from './self-power-effects.js';
@@ -12,6 +13,7 @@ export function restorePowerCopy(c,d,id){
  if(!power||!copy?.spent)throw new Error('Cannot recover power');
  copy.spent=false;return power;
 }
+export const turnEndRecoveryDue=c=>!!c.forcePowerRecoveryPending&&(c.forcePowerRecoveryTurn===undefined||c.forcePowerRecoveryTurn<=(c.actionState?.turn||1));
 export function usePower(c,d,pack,id,natural){
  const power=d.forcePowers.find(p=>p.copyId===id),copy=powerCopy(c,id);
  const issue=powerActivationIssue(c,d,pack,power);
@@ -21,7 +23,7 @@ export function usePower(c,d,pack,id,natural){
  if(['standard-action','move-action','full-round-action'].includes(power.action))delete c.routineProgress;
  copy.spent=true;
  if(power.descriptors.includes('dark-side'))c.darkSideScore=Math.min(d.scores.wis,(c.darkSideScore||0)+1);
- if(natural===pack.rules.forcePowerRecovery.naturalRoll)c.forcePowerRecoveryPending=true;
+ if(natural===pack.rules.forcePowerRecovery.naturalRoll){if(c.actionState?.active){const due=c.actionState.turn+(c.actionState.ended?1:0);c.forcePowerRecoveryTurn=c.forcePowerRecoveryPending?Math.min(c.forcePowerRecoveryTurn??c.actionState.turn,due):due;}else delete c.forcePowerRecoveryTurn;c.forcePowerRecoveryPending=true;}
  return power;
 }
 export function recoverPower(c,d,pack,id){
@@ -31,12 +33,12 @@ export function recoverPower(c,d,pack,id){
  c.forcePoints=d.forceCurrent-cost;return restorePowerCopy(c,d,id);
 }
 export function recoverSuite(c,d,{endTurn=false}={}){
- if(endTurn&&!c.forcePowerRecoveryPending)throw new Error('No turn-end recovery pending');
+ if(endTurn&&!turnEndRecoveryDue(c))throw new Error('No turn-end recovery pending');
  if(endTurn){clearBracing(c);if(c.mightySwing!==undefined)c.mightySwing=false;}
- else {clearSelfPowerEffects(c);clearRagePowers(c);clearMovementPowers(c);advanceTimedTalents(c,ROUNDS_PER_MINUTE);startNextTurn(c);}
+ else {clearSelfPowerEffects(c);clearShieldPowers(c);clearRagePowers(c);clearMovementPowers(c);advanceTimedTalents(c,ROUNDS_PER_MINUTE);startNextTurn(c);}
  const ids=new Set(d.forcePowers.map(p=>p.copyId));
  for(const l of c.levels)for(const p of l.forcePowers||[])if(ids.has(p.id))p.spent=false;
- c.forcePowerRecoveryPending=false;
+ c.forcePowerRecoveryPending=false;delete c.forcePowerRecoveryTurn;
 }
 
 export function take10Power(c,d,pack,id){

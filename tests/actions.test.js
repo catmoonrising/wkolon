@@ -55,7 +55,7 @@ test('Dark Side powers and corrupted Light Side powers do not offer check bonuse
  const c=jedi('force-lightning'),id=c.levels[0].forcePowers[0].id;const v=describeAction(c,pack,'power',{powerId:id,fp:'ask'});assert(!v.fpAllowed);takeAction(c,pack,'power',{powerId:id,fp:'ask'},roller());assert.equal(c.actionState.plan[0].status,'done');assert.equal(c.darkSideScore,1);
 });
 test('mandatory power recovery and other FP spending share the one-per-round limit',()=>{
- const c=jedi();c.levels[0].forcePowers[0].spent=true;takeAction(c,pack,'recover-power',{powerId:c.levels[0].forcePowers[0].id,trigger:'Power used'});assert.equal(c.forcePoints,4);assert.throws(()=>takeAction(c,pack,'force-bonus',{},roller()),/already spent/);beginNextTurn(c,pack);takeAction(c,pack,'force-bonus',{},roller());assert.equal(c.forcePoints,3);
+ const c=jedi();beginNextTurn(c,pack);c.levels[0].forcePowers[0].spent=true;takeAction(c,pack,'recover-power',{powerId:c.levels[0].forcePowers[0].id,trigger:'Power used'});assert.equal(c.forcePoints,4);assert.throws(()=>takeAction(c,pack,'force-bonus',{},roller()),/already spent/);beginNextTurn(c,pack);takeAction(c,pack,'force-bonus',{},roller());assert.equal(c.forcePoints,3);
 });
 test('manual actions require a description and never claim a skill result',()=>{
  const c=hero(),before=structuredClone(c);assert.throws(()=>takeAction(c,pack,'manual-standard',{}),/Describe/);assert.deepEqual(c,before);const r=manual(c,'standard','Persuade guard');assert.equal(r.text,'Persuade guard (Manual)');assert(!r.check);assert.deepEqual(c.actionState.spent,['standard']);

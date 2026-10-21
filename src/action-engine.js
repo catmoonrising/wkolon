@@ -1,3 +1,4 @@
+import {activeShieldPowers,shieldMaintenancePlan,renewShieldPower} from './shield-powers.js';
 import {ragePowerRule,hasRageTechnique,endRagePowerTurn,clearRagePowers} from './rage-powers.js';
 import {actionPhase,surpriseActionIssue} from './surprise-round.js';
 import {jumpState,planJump,rollJump,finishJump} from './jump.js';
@@ -29,7 +30,7 @@ import {planWithdraw} from './combat-movement.js';
 import {planCharge} from './charge.js';
 import {catchSecondWind,startRage,recoverCondition,recoverActions,advanceRage,recoveryState} from './recovery.js';
 import {declareDefenseStance} from './defensive-combat.js';
-import {usePower,take10Power,useAdeptPower,recoverPower,recoverSuite} from './force-powers.js';
+import {usePower,take10Power,useAdeptPower,recoverPower,recoverSuite,turnEndRecoveryDue} from './force-powers.js';
 import {powerActivationIssue} from './power-activation.js';
 import {rollOpportunity} from './opportunity-actions.js';
 import {planOpportunity,startNextRound,opportunityContext} from './opportunity.js';
@@ -60,6 +61,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(['routine','routine-step'].includes(id)){o.routineId=c.routines.find(r=>r.kind!=='fullAttack')?.id||'';o.cost='full';o.confirmed=false;}
  if(['full-attack','full-attack-step'].includes(id))o.routineId=c.routines.find(r=>r.kind==='fullAttack')?.id||'';
  if(paths[id]&&c[paths[id]])o.path=structuredClone(c[paths[id]]);
+ if(id==='maintain-power')o.effectId=c.shieldPowerEffects?.find(s=>s.untilTurn===actionState(c).turn)?.id||'';
  if(id==='jump'){o.path=jumpState(c);o.fp='ask';}
  if(id==='power'){const p=d.forcePowers.find(p=>!p.spent);o.powerId=p?.copyId||'';o.action=p?.action||'standard-action';o.rollMode='roll';o.fp='ask';o.enhance=!!selfPowerRule(pack,p?.id);}
  if(id==='recover-power')o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';
@@ -93,6 +95,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'running-attack':{const p=runningAttackPlan(q,pack,o.uid);view.attackPlan=routinePlan(p.routine,[p.attack]);break;}
  case 'balance':case 'balance-recheck':planBalance(q,d,pack,id==='balance-recheck');break;
  case 'escape-bonds':{const p=planEscapeBonds(q,d,pack);view.cost.type=typeOf(p.duration);assert(view.cost.type,'Resolve this duration outside turn tracking');break;}
+ case 'maintain-power':{const p=shieldMaintenancePlan(q,d,pack,o.effectId);view.maintenance=p;view.name='Maintain '+p.name;view.cost.type=p.rule.maintenance;break;}
  case 'jump':{const p=planJump(q,d,pack);assert(p.timeMultiplier===1,'Take 20 requires time outside tracked turns');view.jump=p;view.name=p.name;view.cost.count=p.path.moves;view.fpAllowed=!p.noCheck&&p.path.checkMode==='roll'&&p.path.check===null&&checkForcePointAvailable(q,d);break;}
  case 'move':planAcrobaticsMove(q,d,pack);break;
  case 'withdraw':planWithdraw(q,d,pack);break;
@@ -117,7 +120,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   const p=d.forcePowers.find(p=>p.copyId===o.powerId);assert(p,'Choose a power');assert(!o.action||p.actions?.includes(o.action)||p.action===o.action,'Power action changed');
   if(o.action)p.action=o.action;assert(!powerActivationIssue(q,d,pack,p),powerActivationIssue(q,d,pack,p));view.power=p;view.name=p.name;view.selfPower=selfPowerRule(pack,p.id);view.manual=!view.selfPower;view.cost.type=typeOf(p.action);assert(view.cost.type,'Power duration requires manual resolution');
   assert(['roll','take10','adept'].includes(o.rollMode||'roll'),'Invalid power check');assert(o.rollMode!=='take10'||p.take10,'Power Mastery required');assert(o.rollMode!=='adept'||p.adept,'Force Power Adept required');
-  if(view.selfPower)assert((q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)<1000,'Too many active effects');
+  if(view.selfPower)assert((q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)+(q.shieldPowerEffects?.length||0)<1000,'Too many active effects');
   assert(o.destiny===undefined||typeof o.destiny==='boolean','Invalid Destiny choice');
   if(movementPowerRule(pack,p.id))assert(!s.ended,'Turn ended');
   if(o.destiny){assert(movementPowerRule(pack,p.id),'Power has no Destiny option');assert(q.story?.kind==='destiny'&&q.story.points>0&&d.level,'Destiny Point unavailable');view.destinyCost=1;}
@@ -165,6 +168,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(id==='running-attack'){r=rollRunningAttack(c,pack,o.uid,roller);spendAttackResources(c,r);}
  else if(id==='balance'||id==='balance-recheck')r=balance(c,d,pack,id==='balance-recheck',roller);
  else if(id==='escape-bonds')r=escapeBonds(c,d,pack,roller);
+ else if(id==='maintain-power'){renewShieldPower(c,o.effectId);invalidate(c);r={text:'Maintain '+v.maintenance.name+': SR '+v.maintenance.row.sr};}
  else if(id==='jump'){r=rollJump(v.jump,roller);o.jumpResolution={dc:v.jump.dc,cost:v.jump.cost,maximum:v.jump.maximum,noCheck:v.jump.noCheck};const finished=finishJump(c,v.jump,r.check);r.fpAllowed=v.fpAllowed;r.enhanceAllowed=false;if(!(r.fpAllowed&&o.fp==='ask')){r.text+='; '+finished.text;r.html=escape(r.text)+(r.html?'<div>'+r.html+'</div>':'');}}
  else if(id==='move')r=acrobaticsMove(c,d,pack,roller);
  else if(id==='withdraw')r=withdraw(c,d,pack);
@@ -210,7 +214,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
 function commit(c,q){for(const k of Object.keys(c))if(!Object.hasOwn(q,k))delete c[k];Object.assign(c,q);}
 export function executeAction(c,pack,stepId,roller=evalExpr){
  const original=c.actionState?.plan.find(p=>p.id===stepId);assert(original?.status==='queued','Action already resolved or unavailable');assert(!c.actionState.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');
- const v=describeAction(c,pack,original.action,original.options),q=v.character;q.actionState??=emptyActionState();if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')&&reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;const step=q.actionState.plan.find(p=>p.id===stepId);
+ const v=describeAction(c,pack,original.action,original.options),q=v.character;q.actionState??=emptyActionState();if(!q.actionState.active&&v.cost.type==='reaction')q.actionState.ended=true;if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')&&reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;const step=q.actionState.plan.find(p=>p.id===stepId);
  if(v.selfPower)step.options.effectPowerId=v.power.id;else delete step.options.effectPowerId;
  if(v.power&&ragePowerRule(pack,v.power.id))step.options.rageFocusAllowed=hasRageTechnique(v.derived.ctx,pack);else delete step.options.rageFocusAllowed;
  const result=resolve(q,pack,step.action,step.options,v,roller,step.id);spendActions(q.actionState,v.allocation);
@@ -239,17 +243,19 @@ export function takeAction(c,pack,id,o={},roller=evalExpr){
  // Invalid immediate actions must not even create a queued step.
  describeAction(c,pack,id,o);const q=structuredClone(c);if(q.actionState?.plan.length>=30)archivePlan(q);const step=queueAction(q,id,o),result=executeAction(q,pack,step.id,roller);commit(c,q);return result;
 }
-export function beginNextTurn(c,pack){
- const q=structuredClone(c),previous=q.actionState;if(actionPhase(previous)!=='normal')q.flatFooted=false;assert(!previous?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');
- if(q.forcePowerRecoveryPending)recoverSuite(q,derive(q,pack),{endTurn:true});
+export function beginNextTurn(c,pack,{maintain=[]}={}){
+ const q=structuredClone(c),previous=q.actionState;assert(Array.isArray(maintain)&&maintain.every(id=>typeof id==='string')&&new Set(maintain).size===maintain.length,'Invalid maintenance choices');const live=activeShieldPowers(q,pack);assert(maintain.every(id=>live.some(s=>s.id===id)),'Shield maintenance unavailable');const carry=(q.shieldPowerEffects||[]).filter(s=>maintain.includes(s.id)).map(s=>structuredClone(s));if(actionPhase(previous)!=='normal')q.flatFooted=false;assert(!previous?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');
+ if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});
  if(previous?.active)advanceTimedTalents(q);
  startNextTurn(q);startNextRound(q);
  if(previous){advanceRage(q);resetActionTurn(q);}
  else q.actionState=emptyActionState();
  q.actionState.active=true;
- validateCharacter(q,pack);commit(c,q);
+ if(carry.length)q.shieldPowerEffects=carry;
+ const results=maintain.map(effectId=>takeAction(q,pack,'maintain-power',{effectId}));
+ validateCharacter(q,pack);commit(c,q);return results;
 }
-export function endCurrentTurn(c,pack){const q=structuredClone(c);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');if(q.forcePowerRecoveryPending)recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endRagePowerTurn(q);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
+export function endCurrentTurn(c,pack){const q=structuredClone(c);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endRagePowerTurn(q);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
 export function endTrackedCombat(c){assert(!c.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false,uncertainMovement=false;

@@ -1,3 +1,5 @@
+import {activeShieldPowers,lockShieldPowers,spendShieldPower} from './shield-powers.js';
+import {activeShields} from './energy-shields.js';
 import {bonusHP} from './bonus-hit-points.js';
 import {thresholdForContext} from './defense-abilities.js';
 import {shieldProtection} from './energy-shields.js';
@@ -36,13 +38,18 @@ export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spen
  const canSurvive=fatal&&beforeHP>0&&afterDamage===0&&d.forceCurrent>=rule.forcePointCost&&(!c.actionState?.active||!c.actionState.forceSpent);
  if(spendForcePoint&&fatal&&!canSurvive)throw new Error('A Force Point cannot prevent this death');
  const forcePointSpent=spendForcePoint&&canSurvive?rule.forcePointCost:0,dead=fatal&&!forcePointSpent;
- return {...protection,threshold,shieldSource:shield.source,type,immune:false,bonusHPBlocked,bonusHPBefore,bonusHPAfter,hpDamage,beforeHP,afterHP:dead?0:afterDamage,conditionAfter:dead?rule.helplessStep:conditionAfter,conditionSteps:(dead?rule.helplessStep:conditionAfter)-c.condition,dead,canSurvive,forcePointSpent,knockout:!wasUnconscious&&(conditionAfter===rule.helplessStep||afterDamage===0),balanceCheckRequired:!!c.balance?.active&&penetrating>0};
+ return {...protection,threshold,shieldSource:shield.source,shieldKind:shield.kind,shieldBefore:shield.sr,type,immune:false,bonusHPBlocked,bonusHPBefore,bonusHPAfter,hpDamage,beforeHP,afterHP:dead?0:afterDamage,conditionAfter:dead?rule.helplessStep:conditionAfter,conditionSteps:(dead?rule.helplessStep:conditionAfter)-c.condition,dead,canSurvive,forcePointSpent,knockout:!wasUnconscious&&(conditionAfter===rule.helplessStep||afterDamage===0),balanceCheckRequired:!!c.balance?.active&&penetrating>0};
 }
 
 export function applyIncomingDamage(c,d,pack,amount,options){
  const result=damageOutcome(c,d,pack,amount,options);
+ if(result.immune){c.currentHP=result.afterHP;return result;}
+ let equipmentShield;
+ if(result.shieldKind==='equipment'){equipmentShield=c.inventory.find(e=>e.uid===result.shieldSource);if(!equipmentShield?.shield?.active||equipmentShield.shield.sr!==result.shieldBefore||!activeShields(c,pack).some(s=>s.uid===result.shieldSource))throw new Error('Shield changed; apply damage again');}
+ else if(result.shieldKind==='power'&&!activeShieldPowers(c,pack).some(s=>s.id===result.shieldSource&&s.sr===result.shieldBefore))throw new Error('Shield changed; apply damage again');
+ else if(result.shieldKind==='manual'&&c.protection.sr!==result.shieldBefore)throw new Error('Shield changed; apply damage again');
  if(c.bonusHP!==undefined||result.bonusHPBlocked)c.bonusHP=result.bonusHPAfter;
- c.currentHP=result.afterHP;if(result.shieldSource)c.inventory.find(e=>e.uid===result.shieldSource).shield.sr=result.srAfter;else c.protection.sr=result.srAfter;c.condition=result.conditionAfter;
+ c.currentHP=result.afterHP;if(amount>0)lockShieldPowers(c);if(result.shieldKind==='power')spendShieldPower(c,result.shieldSource,result.srAfter);else if(result.shieldKind==='equipment')equipmentShield.shield.sr=result.srAfter;else c.protection.sr=result.srAfter;c.condition=result.conditionAfter;
  if(result.forcePointSpent){c.forcePoints-=result.forcePointSpent;if(c.actionState?.active)c.actionState.forceSpent=true;}
  if(result.dead)setDead(c,true);
  else if(result.knockout)recordKnockout(c,result.type);

@@ -8,3 +8,5 @@ export function energyShieldControls(c,d,pack,entry,prefix=''){
 export function energyShieldBars(d){
  return (d.energyShields||[]).map(s=>`<div class="resource-bar sr-bar"><div class="resource-fill" style="width:${s.sr/s.energyShield.rating*100}%"></div><span class="resource-label"><abbr title="${escape(s.name)}; pure Energy damage only">SR (Energy)</abbr> <input type="number" min="0" max="${s.energyShield.rating}" value="${s.sr}" data-energy-sr="${s.uid}" aria-label="${escape(s.name)} current SR"><span>/</span><span class="derived">${s.energyShield.rating}</span></span></div>`).join('');
 }
+
+export function powerShieldBars(d){return (d.shieldPowers||[]).map(s=>`<div class="resource-bar sr-bar"><div class="resource-fill" style="width:${s.sr/s.srMax*100}%"></div><span class="resource-label"><abbr title="${escape(s.name)}">SR (Force)</abbr><span class="derived">${s.sr}</span><span>/</span><span class="derived">${s.srMax}</span></span></div>`).join('');}

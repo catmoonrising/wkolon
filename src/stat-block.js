@@ -1,3 +1,4 @@
+import {activeShieldPowers} from './shield-powers.js';
 import {activeRagePowers} from './rage-powers.js';
 import {activeMovementPowers} from './movement-powers.js';
 import {activeSelfPowerEffects} from './self-power-effects.js';
@@ -33,7 +34,7 @@ export function renderStatBlock(c,d,pack){
  const languages=[...species.languages,backgroundLanguage(c,pack),c.languages].filter(Boolean).map(escape).join(', ')+(species.understoodLanguages?.length?'; understands '+species.understoodLanguages.map(escape).join(', '):'');
  const classFeatureNames=[...d.ctx.classFeatures.map(f=>f.name+(d.ctx.inactiveClasses.has(f.classId)?' (Inactive)':'')),...d.ctx.classChoices.map(s=>ix.classChoices.get(s.id).name+(s.choice?' ('+choiceName(s.choice,pack)+')':'' )+(d.ctx.inactiveClasses.has(s.classId)?' (Inactive)':''))];
  const points=[c.story?.kind==='destiny'?`<b>Destiny Points:</b> ${c.story.points}`:'',`<b>Force Points:</b> ${d.forceCurrent??c.forcePoints}`,`<b>Dark Side Score:</b> ${c.darkSideScore||0}`].filter(Boolean).join('; ');
- const energySR=(d.energyShields||[]).map(s=>`${s.sr} (Energy)`).join(', ');
+ const energySR=[...(d.energyShields||[]).map(s=>`${s.sr} (Energy)`),...(d.shieldPowers||[]).map(s=>`${s.sr}/${s.srMax} (Force)`)].join(', ');
  const protection=d.normalProtection||c.protection||{dr:0,sr:0,srMax:0,drBypass:''};
  const condition=c.condition===5?`Helpless (${species.isDroid?'Disabled':'Unconscious'})`:c.condition?`${signed(pack.rules.conditionPenalties[c.condition])} Penalty${c.condition===4?'; Move at Half Speed':''}`:'';
  const defenseTotal=key=>d.defenses[key]+(d.conditionalDefenses||[]).filter(e=>e.defense===key).map(e=>` (${e.total} ${escape(conditionalDefenseLabel(e))})`).join('');
@@ -48,7 +49,7 @@ export function renderStatBlock(c,d,pack){
  }).join(' and '));}).join('');
  const story=c.story?.kind!=='none'&&ix[c.story?.kind==='destiny'?'destinies':'backgrounds']?.get(c.story?.id);
  const traits=TRAIT_FIELDS.filter(([key])=>c.heroicTraits?.[key]).map(([key,label])=>textLine(label,c.heroicTraits[key])).join('');
- const active=[...activeRagePowers(c,pack).map(s=>({...s,benefit:'Melee attack/damage +'+s.bonus+' Rage ('+(s.enhanced?'encounter':'turn')+')'})),...activeMovementPowers(c,pack).map(s=>({...s,benefit:'Speed +'+s.speedBonus+'; Jump +'+s.jumpBonus+' Force'+(s.destiny?'; Jump without check':'')})),...activeSelfPowerEffects(c,pack).map(s=>({...s,benefit:'Attack +'+s.rule.attackBonus+' Force; +'+s.dice+'d'+s.rule.die+' on hit'})),...activeTimedTalents(c,pack,d.ctx),...activeTurnFeatEffects(c,pack,d.ctx),...activeTalentActivations(c,pack,d.ctx),...activeTurnTalents(c,pack,d.ctx).map(a=>({...a,benefit:'Reflex +'+a.amount+' (while aware)'}))],activeNames=[...new Set(active.map(a=>a.name))];
+ const active=[...activeShieldPowers(c,pack).map(s=>({...s,benefit:'SR '+s.sr+'/'+s.srMax})),...activeRagePowers(c,pack).map(s=>({...s,benefit:'Melee attack/damage +'+s.bonus+' Rage ('+(s.enhanced?'encounter':'turn')+')'})),...activeMovementPowers(c,pack).map(s=>({...s,benefit:'Speed +'+s.speedBonus+'; Jump +'+s.jumpBonus+' Force'+(s.destiny?'; Jump without check':'')})),...activeSelfPowerEffects(c,pack).map(s=>({...s,benefit:'Attack +'+s.rule.attackBonus+' Force; +'+s.dice+'d'+s.rule.die+' on hit'})),...activeTimedTalents(c,pack,d.ctx),...activeTurnFeatEffects(c,pack,d.ctx),...activeTalentActivations(c,pack,d.ctx),...activeTurnTalents(c,pack,d.ctx).map(a=>({...a,benefit:'Reflex +'+a.amount+' (while aware)'}))],activeNames=[...new Set(active.map(a=>a.name))];
  return `<article class="stat-block"><h1>${escape(c.name||'unnamed')} <span>(CL ${d.level})</span></h1>
  <p>${escape((d.size||species.size).replace(/^./,ch=>ch.toUpperCase()))} ${escape(species.name)} ${classes}</p>
  <p>${points}</p>${line('Initiative',signed(skill('initiative').total)+'; <b>Senses:</b> Perception '+signed(skill('perception').total)+[(d.vision||species.vision)==='darkvision'?'Darkvision':(d.vision||species.vision)==='low-light'?'Low-Light Vision':'',species.scentRange?'Scent '+species.scentRange+' Squares':''].filter(Boolean).map(s=>', '+s).join(''))}${line('Languages',languages)}

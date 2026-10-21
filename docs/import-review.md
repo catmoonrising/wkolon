@@ -2347,3 +2347,31 @@ question is pending. Saved pending FP decisions, lesser-tier choices, repeated
 melee attacks/criticals, normal/encounter expiry, character isolation, source
 technique validity and retained native Rage costs are covered. Feature-specific
 reroll prompts and context-dependent focus restrictions still need further work.
+
+
+## Force Shield and maintained SR (2026-10-21)
+
+Force Shield revision 19448 now has a saved, nonrechargeable SR source. Final
+reaction checks and the optional FP enhancement share the existing transaction.
+Manual, equipment and power sources retain independent current ratings; the
+strongest applicable source protects damage before DR. Existing manual/equipment
+tie priority is retained. Every resolved incoming attack locks power-tier
+corrections; only the selected source loses five SR when overcome. Exhaustion
+removes the effect. Damage previews spend nothing, and source preflight happens
+before HP, CT, SR, bonus HP or survival points change.
+
+The HP module displays a read-only Force SR bar. Actions exposes lesser-tier
+correction before damage and manual expiry without refunds. New Turn previews
+maintenance/release on a clone, then renews selected live shields and pays the
+printed Standard costs together. It preserves depleted SR, permits no prepaid or
+repeated mid-turn renewal, and rolls no new check. No one-power limit or Energy
+Resistance damage check is invented. Improved Force Shield's adjacent allies and
+vehicle targets remain Manual pending their target-state integration.
+
+The first tracked reaction starts between own turns. Natural-20 recovery now
+records the due owner turn, so repeated End turn or beginning the next turn
+cannot recover an off-turn result early. Old undated pending recovery remains
+compatible. Pending decisions, multiple-source damage, renewal budgets, expiry,
+strict saved state, stat blocks, mobile layout and offline persistence are
+covered. Context-specific concentration judgments and feature reroll prompts
+retain the power's Partial marker.

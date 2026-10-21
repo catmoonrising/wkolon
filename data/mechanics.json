@@ -68391,6 +68391,7 @@
         }
       }
     ],
+    "shieldPowers": [{"powerId":"power:force-shield","thresholds":[{"dc":15,"sr":5},{"dc":20,"sr":10},{"dc":25,"sr":15},{"dc":30,"sr":20}],"enhancementSR":5,"duration":"start-next-turn","maintenance":"standard","recharge":false,"endsAtZero":true,"sourceIds":["source:wiki-force-shield","source:wiki-attacks","source:wiki-force-powers"]}],
     "ragePowers": [{"powerId":"power:dark-rage","thresholds":[{"dc":15,"bonus":2},{"dc":20,"bonus":4},{"dc":25,"bonus":6}],"type":"rage","mode":"melee","duration":"end-turn","enhancement":"encounter","focusSkills":["skill:mechanics","skill:stealth","skill:use-the-force"],"techniqueId":"classchoice:improved-dark-rage","sourceIds":["source:wiki-dark-rage","source:wiki-improved-dark-rage","source:wiki-wookiee","source:wiki-bonuses-and-penalties"]}],
     "surpriseRound": {"types":["standard","move","swift"],"maximumActions":1,"flatFootedUntil":"first-regular-turn","exception":{"powerId":"power:dark-rage","techniqueId":"classchoice:improved-dark-rage"},"sourceIds":["source:wiki-combat-sequence","source:wiki-improved-dark-rage"]},
     "jumpMovement": {"skillId":"skill:jump","metersPerSquare":1.5,"runningStartSquares":4,"dcPerMeter":{"long":3,"high":12},"standingMultiplier":2,"poleMultiplier":0.5,"maximumMoveActions":2,"take20TimeMultiplier":20,"sourceIds":["source:wiki-jump","source:wiki-skills","source:wiki-move"]},
@@ -68433,6 +68434,7 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
+        {"id":"maintain-power","name":"Maintain","type":"standard","count":1},
         {"id":"jump","name":"Jump","type":"move","count":1,"ruleId":"rule:jump"},
         {"id":"damage-reduction-10","name":"Damage Reduction 10","type":"standard","count":1},
         {"id":"lightsaber-defense","name":"Lightsaber Defense","type":"swift","count":1},{"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},

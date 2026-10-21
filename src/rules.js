@@ -1,3 +1,4 @@
+import {validateShieldPowers,activeShieldPowers} from './shield-powers.js';
 import {validateRagePowers,ragePowerModifiers,rageBlockedSkills} from './rage-powers.js';
 import {validateJump} from './jump.js';
 import {validateMovementPowerEffects,movementPowerBonuses} from './movement-powers.js';
@@ -121,6 +122,7 @@ export function validateCharacter(c, pack) {
     if(!Array.isArray(l.forcePowers)||l.forcePowers.length>200)bad('Force powers');
     for(const p of l.forcePowers){if(!obj(p)||Object.keys(p).some(k=>!['id','powerId','spent','action'].includes(k))||typeof p.id!=='string'||!/^[a-f0-9-]{36}$/.test(p.id)||powerIds.has(p.id)||!ix.forcePowers.has(p.powerId)||typeof p.spent!=='boolean')bad('Force power copy');if(p.action!==undefined&&!powerActions(ix.forcePowers.get(p.powerId)).includes(p.action))bad('Force power action');powerIds.add(p.id);}
   }
+  if(c.forcePowerRecoveryTurn!==undefined&&(!c.forcePowerRecoveryPending||!c.actionState||!Number.isInteger(c.forcePowerRecoveryTurn)||c.forcePowerRecoveryTurn<1||c.forcePowerRecoveryTurn>c.actionState.turn+1))bad('Force power recovery turn');
   if(c.forcePowerRecoveryPending!==undefined&&typeof c.forcePowerRecoveryPending!=='boolean')bad('Force power recovery');
   validateArmorChecks(c,bad);
   if(c.flatFooted!==undefined&&typeof c.flatFooted!=='boolean')bad('flat-footed state');
@@ -135,6 +137,7 @@ export function validateCharacter(c, pack) {
   validateSelfPowerEffects(c,pack,bad);
   validateMovementPowerEffects(c,pack,bad);
   validateRagePowers(c,pack,bad);
+  validateShieldPowers(c,pack,bad);
   validateJump(c,bad);
   validateNaturalModifiers(c,pack,bad);
   if(c.unarmedModifiers!==undefined){
@@ -615,7 +618,7 @@ export function derive(c, pack) {
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = droidSystems.speedUnknown?'Shell speed unspecified':load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} base + ${stride} bonuses) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
-  return {level, half, scores,starshipManeuvers:ctx.starshipManeuvers.map(p=>({...ix.starshipManeuvers.get(p.maneuverId),copyId:p.id,spent:p.spent,level:p.level})),maneuverSlots:ctx.maneuverSlots, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,timedDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR,timedDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+  return {shieldPowers:activeShieldPowers(c,pack),level, half, scores,starshipManeuvers:ctx.starshipManeuvers.map(p=>({...ix.starshipManeuvers.get(p.maneuverId),copyId:p.id,spent:p.spent,level:p.level})),maneuverSlots:ctx.maneuverSlots, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,timedDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR,timedDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerolls:effects.filter(e=>e.target==='skillReroll').map(e=>({...e,id:e.selection.id,name:ix.talents.get(e.selection.id).name,...(e.dailyUsesPerSelection?{daily:ctx.talents.filter(t=>t.id===e.selection.id&&!ctx.inactiveTalents.has(t.id)).length*e.dailyUsesPerSelection,spent:recoveryState(c).knacksSpent}:{})})),skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     movementPowers,
     battleStrike:battleStrike(c,pack,effects.filter(e=>e.target==='attacks')),

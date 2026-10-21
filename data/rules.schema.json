@@ -2506,6 +2506,41 @@
               "source:wiki-improved-dark-rage"
             ]
           }
+        },
+        "shieldPowers": {
+          "const": [
+            {
+              "powerId": "power:force-shield",
+              "thresholds": [
+                {
+                  "dc": 15,
+                  "sr": 5
+                },
+                {
+                  "dc": 20,
+                  "sr": 10
+                },
+                {
+                  "dc": 25,
+                  "sr": 15
+                },
+                {
+                  "dc": 30,
+                  "sr": 20
+                }
+              ],
+              "enhancementSR": 5,
+              "duration": "start-next-turn",
+              "maintenance": "standard",
+              "recharge": false,
+              "endsAtZero": true,
+              "sourceIds": [
+                "source:wiki-force-shield",
+                "source:wiki-attacks",
+                "source:wiki-force-powers"
+              ]
+            }
+          ]
         }
       },
       "required": [
