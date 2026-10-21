@@ -1,3 +1,5 @@
+import {clearSurprisePhase} from './action-economy.js';
+import {endRagePowerTurn} from './rage-powers.js';
 import {clearMovementPowers} from './movement-powers.js';
 import {startSelfPowerTurn} from './self-power-effects.js';
 import {startTurnFeatEffects} from './turn-feat-effects.js';
@@ -30,8 +32,10 @@ export function declarePowerAttack(c,d,amount){
 }
 
 export function startNextTurn(c){
+ clearSurprisePhase(c);
  startTurnFeatEffects(c);
  startSelfPowerTurn(c);
+ endRagePowerTurn(c);
  clearMovementPowers(c);
  clearTurnTalents(c);
  nextCombatantTurn(c);

@@ -1,3 +1,5 @@
+import {ragePowerRule,hasRageTechnique,endRagePowerTurn,clearRagePowers} from './rage-powers.js';
+import {actionPhase,surpriseActionIssue} from './surprise-round.js';
 import {jumpState,planJump,rollJump,finishJump} from './jump.js';
 import {reviewedPowerRule as selfPowerRule,reviewedPowerTier as selfPowerTier,finishPowerEffect} from './power-effects.js';
 import {movementPowerRule} from './movement-powers.js';
@@ -115,7 +117,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   const p=d.forcePowers.find(p=>p.copyId===o.powerId);assert(p,'Choose a power');assert(!o.action||p.actions?.includes(o.action)||p.action===o.action,'Power action changed');
   if(o.action)p.action=o.action;assert(!powerActivationIssue(q,d,pack,p),powerActivationIssue(q,d,pack,p));view.power=p;view.name=p.name;view.selfPower=selfPowerRule(pack,p.id);view.manual=!view.selfPower;view.cost.type=typeOf(p.action);assert(view.cost.type,'Power duration requires manual resolution');
   assert(['roll','take10','adept'].includes(o.rollMode||'roll'),'Invalid power check');assert(o.rollMode!=='take10'||p.take10,'Power Mastery required');assert(o.rollMode!=='adept'||p.adept,'Force Power Adept required');
-  if(view.selfPower)assert((q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)<1000,'Too many active effects');
+  if(view.selfPower)assert((q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)<1000,'Too many active effects');
   assert(o.destiny===undefined||typeof o.destiny==='boolean','Invalid Destiny choice');
   if(movementPowerRule(pack,p.id))assert(!s.ended,'Turn ended');
   if(o.destiny){assert(movementPowerRule(pack,p.id),'Power has no Destiny option');assert(q.story?.kind==='destiny'&&q.story.points>0&&d.level,'Destiny Point unavailable');view.destinyCost=1;}
@@ -134,6 +136,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'shield-recharge':assert(energyShieldDetails(q,d,pack,o.uid).rechargeAvailable,'Shield recharge unavailable');view.cost.count=pack.rules.combat.rechargeActions;break;
  default:assert(view.manual,'Action unavailable');assert(typeof o.note==='string'&&o.note.trim(),'Describe the action');view.name=o.note.trim();
  }
+ const phaseIssue=surpriseActionIssue(q,d,pack,view);assert(!phaseIssue,phaseIssue);
  assert(ACTION_TYPES.includes(view.cost.type),'Unsupported action duration');
  if(view.cost.type==='free'&&id!=='opportunity')assert(!d.flatFooted,'Free actions unavailable while flat-footed');
  if(view.forceCost){assert(!s.forceSpent,'Force Point already spent this round');assert(d.forceCurrent>=view.forceCost,'Not enough Force Points');}
@@ -158,7 +161,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   if(o.fp==='before'){fp=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);routine.steps[0].attackMod+=fp.value;c.forcePoints--;c.actionState.forceSpent=true;}
   r=rollCombatRoutine(routine,d,pack,roller);spendAttackResources(c,r);if(fp){r.text+='; Force Point +'+fp.value;r.html+='<div>Force Point: '+fp.display+' = '+totalHtml(fp)+'</div>';}
  }else if(id==='full-attack-step'||id==='routine-step'){r=rollRoutineStep(c,d,pack,o.routineId,roller);spendAttackResources(c,r);}
- else if(id==='charge'){r=rollCharge(c,d,pack,o.uid,roller);spendAttackResources(c,r);endTurnFeatEffects(c);endSelfPowerTurn(c);c.actionState.ended=true;}
+ else if(id==='charge'){r=rollCharge(c,d,pack,o.uid,roller);spendAttackResources(c,r);endTurnFeatEffects(c);endSelfPowerTurn(c);endRagePowerTurn(c);c.actionState.ended=true;}
  else if(id==='running-attack'){r=rollRunningAttack(c,pack,o.uid,roller);spendAttackResources(c,r);}
  else if(id==='balance'||id==='balance-recheck')r=balance(c,d,pack,id==='balance-recheck',roller);
  else if(id==='escape-bonds')r=escapeBonds(c,d,pack,roller);
@@ -189,7 +192,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   else if(o.rollMode==='adept'){const rolls=[roller('1d20'+signed(bonus)),roller('1d20'+signed(bonus))],x=useAdeptPower(c,d,pack,o.powerId,rolls.map(r=>r.d20[0]));check={natural:x.selected,bonus,total:x.selected+bonus};r={html:rolls.map(r=>r.display+' = '+totalHtml(r)).join('; ')};}
   else {const x=roller('1d20'+signed(bonus));usePower(c,d,pack,o.powerId,x.d20[0]);check={natural:x.d20[0],bonus,total:x.value};r={html:x.display+' = '+totalHtml(x)};}
   r={...r,text:v.name+': Use the Force '+check.total+(o.rollMode==='take10'?' (Take 10)':o.rollMode==='adept'?' (Force Power Adept)':'')+(v.forceCost?'; Force Points -1':'')+(v.selfPower?'':'; effects manual'),check,fpAllowed:v.fpAllowed,enhanceAllowed:v.enhanceAllowed&&(!v.selfPower||!!selfPowerTier(pack,v.power.id,check.total))};
-  if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed))r.text+='; '+finishPowerEffect(c,d,pack,activationId,v.power.id,check,false,!!o.destiny);
+  if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed))r.text+='; '+finishPowerEffect(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed});
   r.html=escape(r.text)+(r.html?'<div>'+r.html+'</div>':'');
  }else if(v.skillAction){
   invalidate(c);const x=rollSkillAction(v.skillAction,roller);r={...x,text:v.name+': '+x.text,fpAllowed:v.fpAllowed};
@@ -209,6 +212,7 @@ export function executeAction(c,pack,stepId,roller=evalExpr){
  const original=c.actionState?.plan.find(p=>p.id===stepId);assert(original?.status==='queued','Action already resolved or unavailable');assert(!c.actionState.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');
  const v=describeAction(c,pack,original.action,original.options),q=v.character;q.actionState??=emptyActionState();if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')&&reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;const step=q.actionState.plan.find(p=>p.id===stepId);
  if(v.selfPower)step.options.effectPowerId=v.power.id;else delete step.options.effectPowerId;
+ if(v.power&&ragePowerRule(pack,v.power.id))step.options.rageFocusAllowed=hasRageTechnique(v.derived.ctx,pack);else delete step.options.rageFocusAllowed;
  const result=resolve(q,pack,step.action,step.options,v,roller,step.id);spendActions(q.actionState,v.allocation);
  step.result={text:result.text.slice(0,2000),...(result.check?{check:result.check,fpAllowed:result.fpAllowed,enhanceAllowed:result.enhanceAllowed}:{})};step.turn=q.actionState.turn;step.status=(result.fpAllowed&&step.options.fp==='ask'||result.enhanceAllowed)?'waiting':'done';
  validateCharacter(q,pack);commit(c,q);return result;
@@ -227,7 +231,7 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
  }
  if(pack.rules.skillActions?.some(r=>r.id===step.action))step.result.text+='; '+finishSkillAction(q,derive(q,pack),pack,step.action,step.options,step.result.check);
  if(step.action==='jump'){const snapshot=step.options.jumpResolution;assert(snapshot&&Number.isFinite(snapshot.dc)&&snapshot.dc>=0&&snapshot.dc<=2400000&&Number.isFinite(snapshot.cost)&&snapshot.cost>=0&&Number.isFinite(snapshot.maximum)&&snapshot.maximum>=snapshot.cost&&typeof snapshot.noCheck==='boolean','Invalid saved Jump');step.result.text+='; '+finishJump(q,{...snapshot,path:step.options.path},step.result.check).text;}
- if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id))step.result.text+='; '+finishPowerEffect(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny);}
+ if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id))step.result.text+='; '+finishPowerEffect(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed});}
   step.status='done';validateCharacter(q,pack);commit(c,q);return {text:step.result.text,...(extra?{html:escape(step.result.text)+'<div>'+extra.display+' = '+totalHtml(extra)+'</div>'}:{})};
 }
 
@@ -236,7 +240,7 @@ export function takeAction(c,pack,id,o={},roller=evalExpr){
  describeAction(c,pack,id,o);const q=structuredClone(c);if(q.actionState?.plan.length>=30)archivePlan(q);const step=queueAction(q,id,o),result=executeAction(q,pack,step.id,roller);commit(c,q);return result;
 }
 export function beginNextTurn(c,pack){
- const q=structuredClone(c),previous=q.actionState;assert(!previous?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');
+ const q=structuredClone(c),previous=q.actionState;if(actionPhase(previous)!=='normal')q.flatFooted=false;assert(!previous?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');
  if(q.forcePowerRecoveryPending)recoverSuite(q,derive(q,pack),{endTurn:true});
  if(previous?.active)advanceTimedTalents(q);
  startNextTurn(q);startNextRound(q);
@@ -245,8 +249,8 @@ export function beginNextTurn(c,pack){
  q.actionState.active=true;
  validateCharacter(q,pack);commit(c,q);
 }
-export function endCurrentTurn(c,pack){const q=structuredClone(c);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');if(q.forcePowerRecoveryPending)recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
-export function endTrackedCombat(c){assert(!c.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
+export function endCurrentTurn(c,pack){const q=structuredClone(c);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');if(q.forcePowerRecoveryPending)recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endRagePowerTurn(q);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
+export function endTrackedCombat(c){assert(!c.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false,uncertainMovement=false;
  for(const step of q.actionState.plan){
@@ -271,7 +275,7 @@ export function previewPlan(c,pack){
    if(v.destinyCost)q.story.points-=v.destinyCost;
    if(step.action==='power'){q.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===step.options.powerId).spent=true;if(movementPowerRule(pack,v.power.id))uncertainMovement=true;}
    if(step.action==='move'&&!v.character.acrobaticsMovement?.tumble&&!v.character.acrobaticsMovement?.crossTerrain)applyMoveFeatEffects(q,v.derived,pack,v.character.acrobaticsMovement?.displacement||0);
-   if(step.action==='charge'){endTurnFeatEffects(q);endSelfPowerTurn(q);q.actionState.ended=true;}
+   if(step.action==='charge'){endTurnFeatEffects(q);endSelfPowerTurn(q);endRagePowerTurn(q);q.actionState.ended=true;}
    rows.push({id:step.id,name:v.name,cost:v.cost,manual:v.manual});
   }catch(e){rows.push({id:step.id,issue:e.message});stopped=true;}
  }

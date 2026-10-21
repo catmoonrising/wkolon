@@ -68391,6 +68391,8 @@
         }
       }
     ],
+    "ragePowers": [{"powerId":"power:dark-rage","thresholds":[{"dc":15,"bonus":2},{"dc":20,"bonus":4},{"dc":25,"bonus":6}],"type":"rage","mode":"melee","duration":"end-turn","enhancement":"encounter","focusSkills":["skill:mechanics","skill:stealth","skill:use-the-force"],"techniqueId":"classchoice:improved-dark-rage","sourceIds":["source:wiki-dark-rage","source:wiki-improved-dark-rage","source:wiki-wookiee","source:wiki-bonuses-and-penalties"]}],
+    "surpriseRound": {"types":["standard","move","swift"],"maximumActions":1,"flatFootedUntil":"first-regular-turn","exception":{"powerId":"power:dark-rage","techniqueId":"classchoice:improved-dark-rage"},"sourceIds":["source:wiki-combat-sequence","source:wiki-improved-dark-rage"]},
     "jumpMovement": {"skillId":"skill:jump","metersPerSquare":1.5,"runningStartSquares":4,"dcPerMeter":{"long":3,"high":12},"standingMultiplier":2,"poleMultiplier":0.5,"maximumMoveActions":2,"take20TimeMultiplier":20,"sourceIds":["source:wiki-jump","source:wiki-skills","source:wiki-move"]},
     "movementPowers": [{"powerId":"power:surge","action":"free-action","thresholds":[{"dc":10,"jumpBonus":10,"speedBonus":2},{"dc":15,"jumpBonus":20,"speedBonus":4},{"dc":20,"jumpBonus":30,"speedBonus":6}],"jumpType":"force","speedType":"untyped","runningStart":true,"includesSpeedAdjustment":true,"enhancement":{"forcePoints":1,"jumpBonus":10,"speedBonus":2},"destiny":{"points":1,"speedBonus":4,"jumpWithoutCheck":true},"duration":"start-next-turn","sourceIds":["source:wiki-surge","source:wiki-force-powers","source:wiki-bonuses-and-penalties","source:wiki-jump","source:wiki-combat-sequence"]}],
     "selfPowerEffects": [{"powerId":"power:battle-strike","kind":"next-attack","thresholds":[{"dc":15,"dice":1},{"dc":20,"dice":2},{"dc":25,"dice":3}],"attackBonus":1,"type":"force","die":6,"enhancementDice":2,"hitOnly":true,"duration":"end-next-turn","sourceIds":["source:wiki-battle-strike","source:wiki-force-powers","source:wiki-bonuses-and-penalties","source:wiki-attacks"]}],
@@ -71483,7 +71485,7 @@
         "kind": "all",
         "requirements": []
       },
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "classchoice:improved-dark-transfer",

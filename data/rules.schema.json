@@ -2450,6 +2450,62 @@
               "source:wiki-move"
             ]
           }
+        },
+        "ragePowers": {
+          "const": [
+            {
+              "powerId": "power:dark-rage",
+              "thresholds": [
+                {
+                  "dc": 15,
+                  "bonus": 2
+                },
+                {
+                  "dc": 20,
+                  "bonus": 4
+                },
+                {
+                  "dc": 25,
+                  "bonus": 6
+                }
+              ],
+              "type": "rage",
+              "mode": "melee",
+              "duration": "end-turn",
+              "enhancement": "encounter",
+              "focusSkills": [
+                "skill:mechanics",
+                "skill:stealth",
+                "skill:use-the-force"
+              ],
+              "techniqueId": "classchoice:improved-dark-rage",
+              "sourceIds": [
+                "source:wiki-dark-rage",
+                "source:wiki-improved-dark-rage",
+                "source:wiki-wookiee",
+                "source:wiki-bonuses-and-penalties"
+              ]
+            }
+          ]
+        },
+        "surpriseRound": {
+          "const": {
+            "types": [
+              "standard",
+              "move",
+              "swift"
+            ],
+            "maximumActions": 1,
+            "flatFootedUntil": "first-regular-turn",
+            "exception": {
+              "powerId": "power:dark-rage",
+              "techniqueId": "classchoice:improved-dark-rage"
+            },
+            "sourceIds": [
+              "source:wiki-combat-sequence",
+              "source:wiki-improved-dark-rage"
+            ]
+          }
         }
       },
       "required": [

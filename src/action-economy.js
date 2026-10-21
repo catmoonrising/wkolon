@@ -1,7 +1,7 @@
 // This module has no rules-engine dependency, so character validation can use it.
 export const ACTION_TYPES=['full','standard','move','swift','free','reaction'];
 export const ACTION_NAMES={full:'Full-Round',standard:'Standard',move:'Move',swift:'Swift',free:'Free',reaction:'Reaction'};
-export const emptyActionState=()=>({version:1,active:false,turn:1,spent:[],ended:false,reactions:[],forceSpent:false,recover:{count:0,lastTurn:0},plan:[],history:[]});
+export const emptyActionState=()=>({version:1,active:false,phase:'normal',turn:1,spent:[],ended:false,reactions:[],forceSpent:false,recover:{count:0,lastTurn:0},plan:[],history:[]});
 export const actionState=c=>c.actionState||emptyActionState();
 export function checkForcePointAvailable(c,d,{power=null,forceCost=0,reaction=false}={}){
  const s=actionState(c);
@@ -21,7 +21,7 @@ function boundedJSON(v,depth=0){
 export function validateActionState(c,bad){
  if(c.actionState===undefined)return;
  const s=c.actionState,fail=()=>bad('action state');
- if(!object(s)||Object.keys(s).some(k=>!Object.keys(emptyActionState()).includes(k))||s.version!==1||typeof s.active!=='boolean'||!integer(s.turn,1,1000000000)||!Array.isArray(s.spent)||s.spent.some(k=>!['standard','move','swift'].includes(k))||new Set(s.spent).size!==s.spent.length||typeof s.ended!=='boolean'||typeof s.forceSpent!=='boolean'||!Array.isArray(s.reactions)||s.reactions.length>100||s.reactions.some(k=>!string(k,200)||!k.trim())||new Set(s.reactions).size!==s.reactions.length||!object(s.recover)||Object.keys(s.recover).sort().join()!=='count,lastTurn'||!integer(s.recover.count,0,2)||!integer(s.recover.lastTurn,0,s.turn)||!Array.isArray(s.plan)||s.plan.length>30||!Array.isArray(s.history)||s.history.length>100){fail();return;}
+ if(!object(s)||Object.keys(s).some(k=>!Object.keys(emptyActionState()).includes(k))||s.version!==1||s.phase!==undefined&&!['normal','aware','surprised'].includes(s.phase)||typeof s.active!=='boolean'||!integer(s.turn,1,1000000000)||!Array.isArray(s.spent)||s.spent.some(k=>!['standard','move','swift'].includes(k))||new Set(s.spent).size!==s.spent.length||typeof s.ended!=='boolean'||typeof s.forceSpent!=='boolean'||!Array.isArray(s.reactions)||s.reactions.length>100||s.reactions.some(k=>!string(k,200)||!k.trim())||new Set(s.reactions).size!==s.reactions.length||!object(s.recover)||Object.keys(s.recover).sort().join()!=='count,lastTurn'||!integer(s.recover.count,0,2)||!integer(s.recover.lastTurn,0,s.turn)||!Array.isArray(s.plan)||s.plan.length>30||!Array.isArray(s.history)||s.history.length>100){fail();return;}
  const ids=new Set();
  for(const step of [...s.plan,...s.history]){
   if(!object(step)||Object.keys(step).some(k=>!['id','action','options','status','result','turn'].includes(k))||!string(step.id,36)||!/^[a-f0-9-]{36}$/.test(step.id)||ids.has(step.id)||!string(step.action,100)||!/^[a-z][a-z0-9-]*$/.test(step.action)||!object(step.options)||!boundedJSON(step.options)||!['queued','done','waiting'].includes(step.status)||step.turn!==undefined&&!integer(step.turn,1,s.turn)){fail();return;}
@@ -66,8 +66,9 @@ export function archivePlan(c){
  const s=c.actionState;if(!s)return;
  s.history.push(...s.plan.filter(p=>p.status==='done'));s.history=s.history.slice(-100);s.plan=s.plan.filter(p=>p.status!=='done');
 }
+export function clearSurprisePhase(c){if(c.actionState?.phase&&c.actionState.phase!=='normal'){c.flatFooted=false;c.actionState.phase='normal';}}
 export function resetActionTurn(c){
  const s=c.actionState;if(!s)return;
  if(s.plan.some(p=>p.status==='waiting'))throw new Error('Resolve the pending Force Point choice');
- archivePlan(c);s.turn++;s.spent=[];s.reactions=[];s.forceSpent=false;s.ended=false;if(s.recover.lastTurn<s.turn-1)s.recover.count=0;
+ clearSurprisePhase(c);archivePlan(c);s.turn++;s.phase='normal';s.spent=[];s.reactions=[];s.forceSpent=false;s.ended=false;if(s.recover.lastTurn<s.turn-1)s.recover.count=0;
 }

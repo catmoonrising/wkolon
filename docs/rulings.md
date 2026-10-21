@@ -101,3 +101,11 @@ additional damage dice have no stated descriptor and currently stack under
 Bonuses and Penalties. The user has been asked whether Ambiguities should also
 offer only the strongest active use. This question does not block the default
 calculation. No unprinted same-power stacking prohibition is assumed.
+
+
+## Pending surprise-round ruling (2026-10-21)
+
+Combat Sequence revision 26725 says both that acting ends Flat-Footed and that
+it lasts until the first regular turn. The latter is the default. The user has
+been asked about adding the first-action alternative. This affects the new
+surprise-round action and defense state; the default is executable now.

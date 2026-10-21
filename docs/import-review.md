@@ -2315,3 +2315,35 @@ without rolling another skill die. Expiry, rest, stat blocks, lesser tiers,
 source changes in the action form, saved/offline state and mobile layouts are
 covered. Feature-specific reroll prompts and combined jumping attacks still need
 further integration; Partial does not claim otherwise.
+
+
+## Dark Rage and surprise rounds (2026-10-21)
+
+Dark Rage revision 18081 now uses the reviewed final-check transaction. Its named
+Rage attack/damage bonus applies only to melee and compares against native Rage
+and Dreadful Rage through the shared typed-bonus resolver. Failed activation
+retains copy/action and Dark Side descriptor consequences without granting a
+bonus. End-turn expiry and the FP encounter extension keep independent native
+Rage duration, daily use and persistent-condition consequences intact.
+
+The three printed focus-skill examples are blocked while an ordinary Dark Rage
+is active. Improved Dark Rage revision 19480 captures permission to ignore that
+power's restriction; independent native Rage remains restrictive. Other tasks
+still require the printed patience/concentration judgment. Source articles stay
+verbatim and the technique is marked Partial.
+
+Combat Sequence revision 26725 supplies saved normal/aware-surprise/surprised
+phases. An aware combatant has one Standard, Move or Swift action; a surprised
+combatant has none, except the specific Improved Dark Rage activation. The
+exception does not waive checks, copies, points, helplessness or the single
+Swift action. Surprise is distinct from Flat-Footed. Declaration controls lock
+once actions have been spent/resolved or the turn ends. The first regular turn
+clears the surprise declaration and its Flat-Footed state; resets/rests also
+remove stale surprise state.
+
+The article's conflicting first-action/first-regular-turn Flat-Footed wording is
+recorded in the rulings register. The latter is the default; an alternative
+question is pending. Saved pending FP decisions, lesser-tier choices, repeated
+melee attacks/criticals, normal/encounter expiry, character isolation, source
+technique validity and retained native Rage costs are covered. Feature-specific
+reroll prompts and context-dependent focus restrictions still need further work.

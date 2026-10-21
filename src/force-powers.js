@@ -1,3 +1,4 @@
+import {clearRagePowers} from './rage-powers.js';
 import {clearMovementPowers} from './movement-powers.js';
 import {clearSelfPowerEffects} from './self-power-effects.js';
 import {advanceTimedTalents,ROUNDS_PER_MINUTE} from './timed-talents.js';
@@ -32,7 +33,7 @@ export function recoverPower(c,d,pack,id){
 export function recoverSuite(c,d,{endTurn=false}={}){
  if(endTurn&&!c.forcePowerRecoveryPending)throw new Error('No turn-end recovery pending');
  if(endTurn){clearBracing(c);if(c.mightySwing!==undefined)c.mightySwing=false;}
- else {clearSelfPowerEffects(c);clearMovementPowers(c);advanceTimedTalents(c,ROUNDS_PER_MINUTE);startNextTurn(c);}
+ else {clearSelfPowerEffects(c);clearRagePowers(c);clearMovementPowers(c);advanceTimedTalents(c,ROUNDS_PER_MINUTE);startNextTurn(c);}
  const ids=new Set(d.forcePowers.map(p=>p.copyId));
  for(const l of c.levels)for(const p of l.forcePowers||[])if(ids.has(p.id))p.spent=false;
  c.forcePowerRecoveryPending=false;

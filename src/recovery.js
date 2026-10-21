@@ -1,3 +1,4 @@
+import {clearRagePowers} from './rage-powers.js';
 import {clearMovementPowers} from './movement-powers.js';
 import {clearSelfPowerEffects} from './self-power-effects.js';
 import {clearTimedTalents} from './timed-talents.js';
@@ -73,9 +74,9 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){clearTurnFeatEffects(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
+export function newEncounter(c){clearRagePowers(c);clearTurnFeatEffects(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
- clearSelfPowerEffects(c);clearMovementPowers(c);clearTimedTalents(c);
+ clearSelfPowerEffects(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);
  clearTurnFeatEffects(c);
  clearBonusHP(c);
  resetActionTurn(c);
@@ -108,7 +109,7 @@ export function receiveHealing(c,d,pack,amount){
 }
 export function restEightHours(c,d,pack){
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
- clearSelfPowerEffects(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
+ clearSelfPowerEffects(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
  if(recoveryState(c).rageRounds)endRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;
  r.persistent=r.persistent.filter(p=>!rule.removablePersistent.includes(p));
