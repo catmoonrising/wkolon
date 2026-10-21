@@ -1,3 +1,4 @@
+import {activeMovementPowers} from './movement-powers.js';
 import {activeSelfPowerEffects} from './self-power-effects.js';
 import {activeTimedTalents} from './timed-talents.js';
 import {activeTurnFeatEffects} from './turn-feat-effects.js';
@@ -46,7 +47,7 @@ export function renderStatBlock(c,d,pack){
  }).join(' and '));}).join('');
  const story=c.story?.kind!=='none'&&ix[c.story?.kind==='destiny'?'destinies':'backgrounds']?.get(c.story?.id);
  const traits=TRAIT_FIELDS.filter(([key])=>c.heroicTraits?.[key]).map(([key,label])=>textLine(label,c.heroicTraits[key])).join('');
- const active=[...activeSelfPowerEffects(c,pack).map(s=>({...s,benefit:'Attack +'+s.rule.attackBonus+' Force; +'+s.dice+'d'+s.rule.die+' on hit'})),...activeTimedTalents(c,pack,d.ctx),...activeTurnFeatEffects(c,pack,d.ctx),...activeTalentActivations(c,pack,d.ctx),...activeTurnTalents(c,pack,d.ctx).map(a=>({...a,benefit:'Reflex +'+a.amount+' (while aware)'}))],activeNames=[...new Set(active.map(a=>a.name))];
+ const active=[...activeMovementPowers(c,pack).map(s=>({...s,benefit:'Speed +'+s.speedBonus+'; Jump +'+s.jumpBonus+' Force'+(s.destiny?'; Jump without check':'')})),...activeSelfPowerEffects(c,pack).map(s=>({...s,benefit:'Attack +'+s.rule.attackBonus+' Force; +'+s.dice+'d'+s.rule.die+' on hit'})),...activeTimedTalents(c,pack,d.ctx),...activeTurnFeatEffects(c,pack,d.ctx),...activeTalentActivations(c,pack,d.ctx),...activeTurnTalents(c,pack,d.ctx).map(a=>({...a,benefit:'Reflex +'+a.amount+' (while aware)'}))],activeNames=[...new Set(active.map(a=>a.name))];
  return `<article class="stat-block"><h1>${escape(c.name||'unnamed')} <span>(CL ${d.level})</span></h1>
  <p>${escape((d.size||species.size).replace(/^./,ch=>ch.toUpperCase()))} ${escape(species.name)} ${classes}</p>
  <p>${points}</p>${line('Initiative',signed(skill('initiative').total)+'; <b>Senses:</b> Perception '+signed(skill('perception').total)+[(d.vision||species.vision)==='darkvision'?'Darkvision':(d.vision||species.vision)==='low-light'?'Low-Light Vision':'',species.scentRange?'Scent '+species.scentRange+' Squares':''].filter(Boolean).map(s=>', '+s).join(''))}${line('Languages',languages)}

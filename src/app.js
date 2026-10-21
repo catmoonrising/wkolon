@@ -1,3 +1,4 @@
+import {jumpControls} from './jump-ui.js';
 import {advanceTimedTalents} from './timed-talents.js';
 import {createVehiclesUI} from './vehicles-ui.js';
 import {createStarshipManeuvers} from './starship-maneuvers-ui.js';
@@ -518,7 +519,7 @@ function sheet() {
    header:character,languages,classes:classes+xpBar(c,derived,pack.rules.resources),abilities,defenses,hp,
    threshold:`<div class="stat-big">${derived.threshold}</div>${derived.conditionalThresholds.map(r=>`<div>${r.total} ${escape(conditionalDefenseLabel(r))}</div>`).join('')}`,
    bab:`<div class="stat-big">${signed(derived.bab)}</div>`,
-   speed:`<div class="stat-big">${derived.speedUnknown?'?':derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${!derived.speedUnknown&&derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armorItems.some(r=>r.category!=='light')?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${escapeBondsControls(c,derived,pack)}${fallingControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,
+   speed:`<div class="stat-big">${derived.speedUnknown?'?':derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${!derived.speedUnknown&&derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armorItems.some(r=>r.category!=='light')?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${escapeBondsControls(c,derived,pack)}${jumpControls(c,derived,pack)}${fallingControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,
    force:statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${derived.forcePointsForbidden?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`,
    'dark-side':statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'),condition:conditionTrack()+recoveryControls.condition(),skills:skillTable(),actions:actionsUI.render(),attacks:attackTable(),
    'force-powers':forcePowersUI.sheet(),'starship-maneuvers':starshipManeuversUI.sheet(),routines:combatControls.renderRoutines(),
@@ -541,7 +542,7 @@ function fitBarInput(el) {
 function numericFields(root) {
   root.querySelectorAll('input[type=number]:not([data-generation-manual])').forEach(el=>{
     el.dataset.number='true'; el.dataset.math=''; el.dataset.prev=el.value;
-    if(['check','jumpCheck','natural','damage'].includes(el.dataset.falling)||['dexterityCheck','grappleCheck','dc','check'].includes(el.dataset.escapeBonds)||['check','catchCheck'].includes(el.dataset.balance)||el.dataset.chargePath==='acrobatics'||['check','terrainCheck'].includes(el.dataset.acrobaticsMovement)||['distance','weightOverride','shotsRemaining'].includes(el.dataset.inventory))el.dataset.allowEmpty='';
+    if(el.dataset.jump==='check'||['check','jumpCheck','natural','damage'].includes(el.dataset.falling)||['dexterityCheck','grappleCheck','dc','check'].includes(el.dataset.escapeBonds)||['check','catchCheck'].includes(el.dataset.balance)||el.dataset.chargePath==='acrobatics'||['check','terrainCheck'].includes(el.dataset.acrobaticsMovement)||['distance','weightOverride','shotsRemaining'].includes(el.dataset.inventory))el.dataset.allowEmpty='';
     if(el.step&&Number(el.step)<1)el.dataset.decimal='';
     if(el.hasAttribute('min')) el.dataset.min=el.min;
     if(el.hasAttribute('max')) el.dataset.max=el.max;

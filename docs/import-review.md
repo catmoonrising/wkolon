@@ -2287,3 +2287,31 @@ Turn expiry reuses the end-turn duration helper without changing Anointed Hunter
 Repeated End turn clicks, automatic tracking restarts, saved pending Force Point
 decisions, rest expiry and lesser-tier selection are covered. Live roll markup
 also retains Take 10, Adept and Force Point cost details.
+
+
+## Surge and Jump movement (2026-10-21)
+
+Surge revision 18539 now supplies saved start-of-next-turn movement effects.
+Its Free action, achieved/lesser tiers, enhancement and independent Destiny option
+resolve through the shared final-check transaction. Saved pending checks, optional
+check bonuses, copy/point spending and duplicate-resolution guards are covered.
+Jump Force modifiers use highest-of-type stacking; unnamed speed increases add.
+The printed bonus already includes the increased-speed adjustment. Source text
+and Partial markers remain intact.
+
+Move, Withdraw, Charge and Running Attack consume the resulting Speed through
+their existing budget resolver. Long/High Jump now has a folded Speed control and
+an Actions entry. Jump revision 18311, Skills revision 26694 and Move revision
+18374 pin the DCs, real running-start distance, poles, movement cost and check
+modes. One or two Move actions include both run-up and jump distance. Destiny
+Surge omits checks while retaining movement/incapacitation restrictions. A failed
+jump records failure without inventing a landing, fall height or damage.
+
+Take 20 requires safe retries and twentyfold time outside tracked turns. A
+short-lived Surge cannot be stretched over those retries. The queued preview
+defers movement whose budget depends on an unresolved power. Pending Jump Force
+Point decisions retain the original movement/DC snapshot and resolve success
+without rolling another skill die. Expiry, rest, stat blocks, lesser tiers,
+source changes in the action form, saved/offline state and mobile layouts are
+covered. Feature-specific reroll prompts and combined jumping attacks still need
+further integration; Partial does not claim otherwise.

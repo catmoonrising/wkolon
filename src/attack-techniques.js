@@ -1,3 +1,4 @@
+import {clearMovementPowers} from './movement-powers.js';
 import {startSelfPowerTurn} from './self-power-effects.js';
 import {startTurnFeatEffects} from './turn-feat-effects.js';
 import {clearTurnTalents} from './turn-talents.js';
@@ -31,6 +32,7 @@ export function declarePowerAttack(c,d,amount){
 export function startNextTurn(c){
  startTurnFeatEffects(c);
  startSelfPowerTurn(c);
+ clearMovementPowers(c);
  clearTurnTalents(c);
  nextCombatantTurn(c);
  clearBracing(c);

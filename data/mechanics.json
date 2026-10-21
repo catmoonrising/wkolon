@@ -68391,6 +68391,8 @@
         }
       }
     ],
+    "jumpMovement": {"skillId":"skill:jump","metersPerSquare":1.5,"runningStartSquares":4,"dcPerMeter":{"long":3,"high":12},"standingMultiplier":2,"poleMultiplier":0.5,"maximumMoveActions":2,"take20TimeMultiplier":20,"sourceIds":["source:wiki-jump","source:wiki-skills","source:wiki-move"]},
+    "movementPowers": [{"powerId":"power:surge","action":"free-action","thresholds":[{"dc":10,"jumpBonus":10,"speedBonus":2},{"dc":15,"jumpBonus":20,"speedBonus":4},{"dc":20,"jumpBonus":30,"speedBonus":6}],"jumpType":"force","speedType":"untyped","runningStart":true,"includesSpeedAdjustment":true,"enhancement":{"forcePoints":1,"jumpBonus":10,"speedBonus":2},"destiny":{"points":1,"speedBonus":4,"jumpWithoutCheck":true},"duration":"start-next-turn","sourceIds":["source:wiki-surge","source:wiki-force-powers","source:wiki-bonuses-and-penalties","source:wiki-jump","source:wiki-combat-sequence"]}],
     "selfPowerEffects": [{"powerId":"power:battle-strike","kind":"next-attack","thresholds":[{"dc":15,"dice":1},{"dc":20,"dice":2},{"dc":25,"dice":3}],"attackBonus":1,"type":"force","die":6,"enhancementDice":2,"hitOnly":true,"duration":"end-next-turn","sourceIds":["source:wiki-battle-strike","source:wiki-force-powers","source:wiki-bonuses-and-penalties","source:wiki-attacks"]}],
     "timedTalentActions": [{"id":"damage-reduction-10","talentId":"talent:damage-reduction-10","forcePoints":1,"durationRounds":10,"damageReduction":10,"sourceIds":["source:wiki-control-talent-tree-damage-reduction-10","source:wiki-combat-sequence","source:wiki-attacks"]}],
     "turnFeatEffects": [{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],
@@ -68429,6 +68431,7 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
+        {"id":"jump","name":"Jump","type":"move","count":1,"ruleId":"rule:jump"},
         {"id":"damage-reduction-10","name":"Damage Reduction 10","type":"standard","count":1},
         {"id":"lightsaber-defense","name":"Lightsaber Defense","type":"swift","count":1},{"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},
         {"id":"encounter-talent","name":"Talent","type":"standard","count":1},

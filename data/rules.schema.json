@@ -663,7 +663,15 @@
             "swiftActions"
           ],
           "properties": {
-            "shakeItOff": {"const":{"featId":"feat:shake-it-off","swiftActions":2,"sourceIds":["source:wiki-shake-it-off"]}},
+            "shakeItOff": {
+              "const": {
+                "featId": "feat:shake-it-off",
+                "swiftActions": 2,
+                "sourceIds": [
+                  "source:wiki-shake-it-off"
+                ]
+              }
+            },
             "sourceIds": {
               "type": "array",
               "minItems": 1,
@@ -2374,6 +2382,73 @@
                 }
               }
             }
+          }
+        },
+        "movementPowers": {
+          "const": [
+            {
+              "powerId": "power:surge",
+              "action": "free-action",
+              "thresholds": [
+                {
+                  "dc": 10,
+                  "jumpBonus": 10,
+                  "speedBonus": 2
+                },
+                {
+                  "dc": 15,
+                  "jumpBonus": 20,
+                  "speedBonus": 4
+                },
+                {
+                  "dc": 20,
+                  "jumpBonus": 30,
+                  "speedBonus": 6
+                }
+              ],
+              "jumpType": "force",
+              "speedType": "untyped",
+              "runningStart": true,
+              "includesSpeedAdjustment": true,
+              "enhancement": {
+                "forcePoints": 1,
+                "jumpBonus": 10,
+                "speedBonus": 2
+              },
+              "destiny": {
+                "points": 1,
+                "speedBonus": 4,
+                "jumpWithoutCheck": true
+              },
+              "duration": "start-next-turn",
+              "sourceIds": [
+                "source:wiki-surge",
+                "source:wiki-force-powers",
+                "source:wiki-bonuses-and-penalties",
+                "source:wiki-jump",
+                "source:wiki-combat-sequence"
+              ]
+            }
+          ]
+        },
+        "jumpMovement": {
+          "const": {
+            "skillId": "skill:jump",
+            "metersPerSquare": 1.5,
+            "runningStartSquares": 4,
+            "dcPerMeter": {
+              "long": 3,
+              "high": 12
+            },
+            "standingMultiplier": 2,
+            "poleMultiplier": 0.5,
+            "maximumMoveActions": 2,
+            "take20TimeMultiplier": 20,
+            "sourceIds": [
+              "source:wiki-jump",
+              "source:wiki-skills",
+              "source:wiki-move"
+            ]
           }
         }
       },

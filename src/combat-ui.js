@@ -1,3 +1,5 @@
+import {jumpState,validateJump,jump} from './jump.js';
+import {jumpIssue,jumpCostLabel} from './jump-ui.js';
 import {bonusHP,toughAsDurasteelGrant,confirmToughAsDurasteel} from './bonus-hit-points.js';
 import {energyShieldBars} from './energy-shields-ui.js';
 import {acrobaticsPath,validateAcrobaticsMovement} from './acrobatics-movement.js';
@@ -41,6 +43,12 @@ export function xpBar(c,d,rules){
  return `<div class="xp-bar xp-group"><div class="xp-meter" role="progressbar" aria-label="XP progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(fill)}"><div class="resource-fill" style="width:${fill}%"></div></div><label>XP ${input('xp',c.xp,'Experience points',1000000000)}${next===null?'':`<span>/</span><span>${next.toLocaleString()}</span>`}</label></div>`;
 }
 export function createCombatControls(pack,{current,derived,changed,save,log,error}){
+ function editJump(el,report=false){
+  const c=current(),p=jumpState(c),key=el.dataset.jump;
+  p[key]=el.type==='checkbox'?el.checked:['kind','checkMode'].includes(key)?el.value:key==='check'&&el.value.trim()===''?null:Number(el.value);
+  try{validateJump({...c,jump:p},message=>{throw new Error('Invalid '+message);});c.jump=p;save();const d=derived(),issue=jumpIssue(c,d,pack);for(const b of document.querySelectorAll('[data-combat="jump"]')){b.disabled=!!issue;b.title=issue;}for(const label of document.querySelectorAll('[data-jump-cost]'))label.textContent=jumpCostLabel(c,d,pack);return true;}
+  catch(e){for(const b of document.querySelectorAll('[data-combat="jump"]')){b.disabled=true;b.title=e.message;}if(report){error(e.message);changed();}return false;}
+ }
  function editFalling(el,report=false){
   const c=current(),p=fallingState(c),key=el.dataset.falling;
   p[key]=el.type==='checkbox'?el.checked:['kind','reduction','jumpMode'].includes(key)?el.value:el.value===''&&key!=='meters'?null:Number(el.value);
@@ -155,8 +163,9 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   interruptRoutine(current(),r);step[key]=value;changed();return true;
  }
  return {renderRoutines,
-  input(event){if(event.target.hasAttribute('data-falling')&&event.target.type!=='checkbox'){editFalling(event.target);return true;}if(event.target.hasAttribute('data-escape-bonds')&&event.target.type!=='checkbox'){editEscapeBonds(event.target);return true;}if(event.target.hasAttribute('data-balance')&&event.target.type!=='checkbox'){editBalance(event.target);return true;}if(event.target.hasAttribute('data-acrobatics-movement')&&event.target.type!=='checkbox'){editAcrobaticsMovement(event.target);return true;}if(event.target.hasAttribute('data-follow-up')&&event.target.type!=='checkbox'){editFollowUp(event.target);return true;}if(event.target.hasAttribute('data-movement')&&event.target.type==='number'){editMovement(event.target);return true;}if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
+  input(event){if(event.target.hasAttribute('data-jump')&&event.target.type!=='checkbox'){editJump(event.target);return true;}if(event.target.hasAttribute('data-falling')&&event.target.type!=='checkbox'){editFalling(event.target);return true;}if(event.target.hasAttribute('data-escape-bonds')&&event.target.type!=='checkbox'){editEscapeBonds(event.target);return true;}if(event.target.hasAttribute('data-balance')&&event.target.type!=='checkbox'){editBalance(event.target);return true;}if(event.target.hasAttribute('data-acrobatics-movement')&&event.target.type!=='checkbox'){editAcrobaticsMovement(event.target);return true;}if(event.target.hasAttribute('data-follow-up')&&event.target.type!=='checkbox'){editFollowUp(event.target);return true;}if(event.target.hasAttribute('data-movement')&&event.target.type==='number'){editMovement(event.target);return true;}if(event.target.hasAttribute('data-opportunity')&&event.target.type!=='checkbox'){editOpportunity(event.target);return true;}if(event.target.dataset.routineField==='name')return edit(event.target);if(event.target.dataset.field==='protection.drBypass'){current().protection.drBypass=event.target.value;save();return true;}return false;},
   change(el){
+   if(el.hasAttribute('data-jump')){if(editJump(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-falling')){if(editFalling(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-escape-bonds')){if(editEscapeBonds(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
    if(el.hasAttribute('data-balance')){if(editBalance(el,true)&&(el.type==='checkbox'||el.tagName==='SELECT'))changed();return true;}
@@ -177,6 +186,7 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
   },
   click(el){
    const action=el?.dataset.combat;if(!action)return false;
+   if(action==='jump'){try{const r=jump(current(),derived(),pack);log('roll',r.text,r.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='falling'){try{const result=resolveFalling(current(),derived(),pack);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='escape-bonds'){try{const result=escapeBonds(current(),derived(),pack);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='balance-stop'){stopBalancing(current());changed();return true;}

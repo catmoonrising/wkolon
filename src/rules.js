@@ -1,3 +1,5 @@
+import {validateJump} from './jump.js';
+import {validateMovementPowerEffects,movementPowerBonuses} from './movement-powers.js';
 import {validateSelfPowerEffects,battleStrike,withBattleStrike} from './self-power-effects.js';
 import {validateTimedTalents,activeTimedTalents} from './timed-talents.js';
 import {validateTurnFeatEffects,turnFeatAttackEffects} from './turn-feat-effects.js';
@@ -130,6 +132,8 @@ export function validateCharacter(c, pack) {
   validateTurnFeatEffects(c,pack,bad);
   validateTimedTalents(c,pack,bad);
   validateSelfPowerEffects(c,pack,bad);
+  validateMovementPowerEffects(c,pack,bad);
+  validateJump(c,bad);
   validateNaturalModifiers(c,pack,bad);
   if(c.unarmedModifiers!==undefined){
     if(!obj(c.unarmedModifiers)||Object.keys(c.unarmedModifiers).some(k=>!['attackMod','damageMod','attackTechnique','targetKind'].includes(k))||!['attackMod','damageMod'].every(k=>num(c.unarmedModifiers[k],-100,100))||c.unarmedModifiers.targetKind!==undefined&&!['creature','object','vehicle'].includes(c.unarmedModifiers.targetKind))bad('unarmed modifiers');
@@ -489,13 +493,14 @@ export function derive(c, pack) {
   const threshold=thresholdState.total,thresholdContext=thresholdState.context;
   const teamSkills=teamSkillDetails(c,effects,ix,pack);
   const hp = (rows[0].valid===false?0:ix.classes.get(c.levels[0].classId).startingHP + mods.con) + c.levels.slice(1).reduce((n, l,i) => n + (rows[i+1].valid===false?0:Math.max(1, l.hpRoll + (ix.classes.get(l.classId).hpConstitution===false?0:mods.con))), 0) + total('hp') + c.modifiers.hp;
+  const movementPowers=movementPowerBonuses(c,pack);
   const nativeSkills = pack.skills.map(s => {
     const trained = ctx.trained.has(s.id);
     const focus = Math.max(0, ...effects.filter(e => e.target === 'skillFocus' && e.selection.choice === s.id && trained).map(e => e.amount));
     const teamBonus=trained?Math.max(0,...teamSkills.filter(e=>e.skill===s.id).map(e=>e.bonus)):0;
     const backgroundBonus=!trained && background?.relevantSkills.includes(s.id)?background.untrainedBonus:0;
     const equipment=Math.max(armorSkillBonus(armorItems,ctx,c.armorChecks,s.id),s.id==='skill:perception'?droidSystems.perceptionBonus:0);
-    const bonuses=resolveModifiers([{type:'competence',amount:focus},{type:'competence',amount:backgroundBonus},{type:'competence',amount:teamBonus},{type:'equipment',amount:equipment},...effects.filter(e=>e.target==='skills')]);
+    const bonuses=resolveModifiers([{type:'competence',amount:focus},{type:'competence',amount:backgroundBonus},{type:'competence',amount:teamBonus},{type:'equipment',amount:equipment},...effects.filter(e=>e.target==='skills'),...(s.id==='skill:jump'?movementPowers.jumpModifiers:[])]);
     const penalty = s.armorCheck ? armorSkillPenalty : 0;
     const size = s.id === 'skill:stealth' ? pack.rules.sizeStealth[effectiveSize] : 0;
     const tools=species.technophobic&&c.mechanicalSkills?.includes(s.id)?-5:0;
@@ -503,7 +508,7 @@ export function derive(c, pack) {
     const encumbrance=load.heavy&&pack.rules.encumbrance.skills.includes(s.id)?pack.rules.encumbrance.skillPenalty:0;
     return {...s, trained, focus, available: !(raging&&species.rage.blockedSkills.includes(s.id)) && (!species.isDroid||species.heuristicProcessor||trained||pack.rules.droidAbilities.untrainedSkills.includes(s.id)) && !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || !ctx.forceRestrictions.forbidChecks && ctx.feats.some(f => f.id === F('force-sensitivity'))),
       total: half + mods[s.ability] + (trained ? pack.rules.trainingBonus : 0) + bonuses.total + penalty + size + condition + tools + misc + encumbrance,
-      breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${bonuses.bonuses.competence||0} competence + ${equipment} equipment + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools + ${misc} misc + ${encumbrance} load`};
+      breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${bonuses.bonuses.competence||0} competence + ${equipment} equipment + ${bonuses.bonuses.force||0} Force + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools + ${misc} misc + ${encumbrance} load`};
   });
   const nativeById=new Map(nativeSkills.map(s=>[s.id,s]));
   const skills=nativeSkills.map(s=>{
@@ -594,7 +599,7 @@ export function derive(c, pack) {
   const movementArmor=armorItems.filter(r=>!r.droidSystem?.builtIn&&!movementFree(r)).sort((a,b)=>movement.speedMultipliers[a.category]-movement.speedMultipliers[b.category])[0];
   const armorSpeedMultiplier = n => movementArmor && !(ctx.isDroid&&movementArmor.category==='heavy'&&!movement.droidHeavySlowedSpeeds.includes(n)) ? movement.speedMultipliers[movementArmor.category] : 1;
   const speedMultiplier = armorSpeedMultiplier(species.speed);
-  const stride = total('speed');
+  const stride = total('speed')+movementPowers.speed;
   const loadMultiplier=load.heavy?pack.rules.encumbrance.speedMultiplier:1;
   const flatArmorPenalty=armorItems.filter(r=>!movementFree(r)).reduce((n,r)=>n+(r.speedPenalty||0),0);
   const magneticPenalty=!c.armorChecks?.magneticSoles?0:armorItems.filter(r=>!movementFree(r)).reduce((n,r)=>n+(r.magneticSolesPenalty||0),0);
@@ -607,9 +612,10 @@ export function derive(c, pack) {
   const runWithArmor = sprintAllowed ? Math.max(armorRunMultiplier,talentRunMultiplier) : armorRunMultiplier;
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
-  const speedBreakdown = droidSystems.speedUnknown?'Shell speed unspecified':load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} base + ${stride} talents) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
+  const speedBreakdown = droidSystems.speedUnknown?'Shell speed unspecified':load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} base + ${stride} bonuses) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
   return {level, half, scores,starshipManeuvers:ctx.starshipManeuvers.map(p=>({...ix.starshipManeuvers.get(p.maneuverId),copyId:p.id,spent:p.spent,level:p.level})),maneuverSlots:ctx.maneuverSlots, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,timedDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR,timedDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerolls:effects.filter(e=>e.target==='skillReroll').map(e=>({...e,id:e.selection.id,name:ix.talents.get(e.selection.id).name,...(e.dailyUsesPerSelection?{daily:ctx.talents.filter(t=>t.id===e.selection.id&&!ctx.inactiveTalents.has(t.id)).length*e.dailyUsesPerSelection,spent:recoveryState(c).knacksSpent}:{})})),skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
+    movementPowers,
     battleStrike:battleStrike(c,pack,effects.filter(e=>e.target==='attacks')),
     specialAttackPenalty:armorPenalty+condition+c.modifiers.attack+fullAttack.penalty+defensiveCombat.attackPenalty+modifierTotal(effects.filter(e=>e.target==='attacks'))+(battleStrike(c,pack,effects.filter(e=>e.target==='attacks'))?.attackBonus||0),
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
