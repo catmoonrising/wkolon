@@ -1,5 +1,5 @@
 import {escapeHTML as escape} from './wiki-content.js';
-import {catchSecondWind,startRage,advanceRage,recoverCondition,removePersistent,newEncounter,newDay,persistentName,setPersistent,setDead,receiveHealing,restEightHours,checkConsciousness,loseLimb,removeLimb,setLimbPersistent,recoveryState} from './recovery.js';
+import {catchSecondWind,startRage,advanceRage,recoverCondition,recoverActions,removePersistent,newEncounter,newDay,persistentName,setPersistent,setDead,receiveHealing,restEightHours,checkConsciousness,loseLimb,removeLimb,setLimbPersistent,recoveryState} from './recovery.js';
 import {bellowDetails,rollBellow} from './species-actions.js';
 import {totalHtml} from './dice.js';
 import {ambiguityValue} from './house-rules.js';
@@ -16,7 +16,7 @@ export function createRecoveryControls(pack,{current,derived,changed,log,error})
   },
   condition(){
    const d=derived(),r=d.recovery;
-   return `${r.dead?'<p><b>'+ (pack.species.find(s=>s.id===current().species).isDroid?'Destroyed':'Dead')+'</b></p>':''}<div class="actions"><button data-recovery="recover" ${r.recoverable?'':'disabled'} title="${pack.rules.recovery.swiftActions} Swift Actions">Recover</button>${reference('rule:recover','Recover')}</div><details id="persistent-conditions"><summary>Persistent${r.persistent.length?': '+r.persistent.map(persistentName).join(', '):''}</summary><label><input type="checkbox" data-recovery-persistent ${r.persistent.includes('other')?'checked':''}>Other</label> ${reference('rule:conditions','Conditions')}<div class="actions">${r.persistent.includes('rage')?`<button data-recovery="recuperate" title="No strenuous activity">Recuperate (10 min)</button>`:''}${r.persistent.includes('second-wind')?`<button data-recovery="exhaustion-rest" title="After Surgery or eight consecutive, uninterrupted hours of rest">Remove exhaustion</button>`:''}${r.persistent.includes('injury')?'<button data-recovery="surgery" title="After successful Surgery">Surgery</button>':''}</div></details>`;
+   return `${r.dead?'<p><b>'+ (pack.species.find(s=>s.id===current().species).isDroid?'Destroyed':'Dead')+'</b></p>':''}<div class="actions"><button data-recovery="recover" ${r.recoverable?'':'disabled'} title="${recoverActions(d,pack)} Swift Actions">Recover</button>${reference('rule:recover','Recover')}</div><details id="persistent-conditions"><summary>Persistent${r.persistent.length?': '+r.persistent.map(persistentName).join(', '):''}</summary><label><input type="checkbox" data-recovery-persistent ${r.persistent.includes('other')?'checked':''}>Other</label> ${reference('rule:conditions','Conditions')}<div class="actions">${r.persistent.includes('rage')?`<button data-recovery="recuperate" title="No strenuous activity">Recuperate (10 min)</button>`:''}${r.persistent.includes('second-wind')?`<button data-recovery="exhaustion-rest" title="After Surgery or eight consecutive, uninterrupted hours of rest">Remove exhaustion</button>`:''}${r.persistent.includes('injury')?'<button data-recovery="surgery" title="After successful Surgery">Surgery</button>':''}</div></details>`;
   },
   species(){
    const c=current(),d=derived(),r=d.recovery.rage,b=bellowDetails(c,d,pack,bellowDice.get(c.id)||0,bellowOptions(c));
@@ -68,7 +68,7 @@ export function createRecoveryControls(pack,{current,derived,changed,log,error})
     if(action==='second-wind'){const result=catchSecondWind(c,d,pack),text=`Second Wind: +${result.healed} HP${result.conditionRecovery?`; +${result.conditionRecovery} condition step`:""}${result.forceRecovery?` (Force Recovery +${result.forceRecovery})`:''}${result.exhaustion?'; −1 persistent step':''}`;log('hp',text,result.forceRoll?`${escape(text)}<details><summary>Force Recovery</summary>${result.forceRoll.display} = ${totalHtml(result.forceRoll)}</details>`:undefined);}
     else if(action==='rage'){startRage(c,d);log('condition',`Rage: ${d.recovery.rage.duration} rounds`);}
     else if(action==='round'){advanceRage(c);if(!c.recovery.rageRounds)log('condition','Rage ended: −1 persistent step');}
-    else if(action==='recover'){recoverCondition(c,d);log('condition',`Recover: ${pack.rules.recovery.swiftActions} Swift Actions; +1 step`);}
+    else if(action==='recover'){recoverCondition(c,d);log('condition',`Recover: ${recoverActions(d,pack)} Swift Actions; +1 step`);}
     else if(action==='recuperate'){removePersistent(c,'rage');log('condition','Rage: persistent condition removed after 10 minutes recuperation');}
     else if(action==='exhaustion-rest'){removePersistent(c,'second-wind');log('condition','Second Wind: persistent condition removed after 8 hours rest or Surgery');}
     else if(action==='surgery'){removePersistent(c,'injury');log('condition','Injury: persistent condition removed after Surgery');}

@@ -20,7 +20,7 @@ import {planAcrobaticsMove,planProneAction} from './acrobatics-movement.js';
 import {withdraw,rollRunningAttack,runningAttackPlan} from './combat-movement-actions.js';
 import {planWithdraw} from './combat-movement.js';
 import {planCharge} from './charge.js';
-import {catchSecondWind,startRage,recoverCondition,advanceRage,recoveryState} from './recovery.js';
+import {catchSecondWind,startRage,recoverCondition,recoverActions,advanceRage,recoveryState} from './recovery.js';
 import {declareDefenseStance} from './defensive-combat.js';
 import {usePower,take10Power,useAdeptPower,recoverPower,recoverSuite} from './force-powers.js';
 import {powerActivationIssue} from './power-activation.js';
@@ -131,6 +131,14 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  }catch(e){e.actionView={name:view.name,cost:view.cost,manual:view.manual};throw e;}
 }
 const invalidate=c=>{clearFollowUps(c);clearAiming(c);clearBracing(c);delete c.routineProgress;};
+function recoverProgress(c,d,pack,count){
+ const s=c.actionState;if(s.recover.lastTurn<s.turn-1)s.recover.count=0;
+  s.recover.count+=count;s.recover.lastTurn=s.turn;
+  const needed=recoverActions(d,pack),steps=Math.min(c.condition,Math.floor(s.recover.count/needed));s.recover.count%=needed;
+  for(let i=0;i<steps;i++)recoverCondition(c,d);
+  if(c.condition===0)s.recover.count=0;
+ return {steps,needed};
+}
 function resolve(c,pack,id,o,v,roller){
  const d=v.derived;let r;
  if(id==='attack'||id==='full-attack'||id==='routine'){
@@ -150,12 +158,8 @@ function resolve(c,pack,id,o,v,roller){
  else if(id==='mighty-swing'){invalidate(c);c.mightySwing=true;}
  else if(id==='reload'){const p=reloadWeapon(c,pack,o.uid,d.flatFooted);r={text:v.name+': '+p.capacity+' shots'};}
  else if(id==='recover'){
-  invalidate(c);const s=c.actionState;if(s.recover.lastTurn<s.turn-1)s.recover.count=0;
-  s.recover.count+=v.cost.count;s.recover.lastTurn=s.turn;
-  const steps=Math.floor(s.recover.count/pack.rules.actionEconomy.recoverActions);s.recover.count%=pack.rules.actionEconomy.recoverActions;
-  if(steps)recoverCondition(c,d);
-  if(c.condition===0)s.recover.count=0;
-  r={text:'Recover: '+(steps?'+1 condition step':s.recover.count+' / 3 Swift')};
+  invalidate(c);const {steps,needed}=recoverProgress(c,d,pack,v.cost.count),s=c.actionState;
+  r={text:'Recover: '+(steps?'+'+steps+' condition '+(steps===1?'step':'steps'):s.recover.count+' / '+needed+' Swift')};
  }else if(id==='second-wind'){const x=catchSecondWind(c,d,pack,roller);r={text:'Second Wind: +'+x.healed+' HP'+(x.conditionRecovery?'; +'+x.conditionRecovery+' condition step':'')+(x.exhaustion?'; exhaustion':'')};}
  else if(id==='rage'){startRage(c,d);r={text:'Rage: '+d.recovery.rage.duration+' rounds'};}
  else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': Reflex +'+v.turnTalent.amount+' (while aware)'};}
@@ -230,6 +234,7 @@ export function previewPlan(c,pack){
    const v=describeAction(q,pack,step.action,step.options);assert(!stopped,'Resolve the previous step first');spendActions(q.actionState,v.allocation);
    if(v.attackPlan)for(const x of v.attackPlan.ammunitionSpent){const e=q.inventory.find(e=>e.uid===x.uid);e.shotsRemaining+=x.reloadShots||0;e.shotsRemaining-=x.shots;}
    if(['full-attack-step','routine-step'].includes(step.action)){if(v.nextRoutineProgress)q.routineProgress=v.nextRoutineProgress;else delete q.routineProgress;step.status='done';step.turn=q.actionState.turn;step.result={text:'Preview'};}
+   if(step.action==='recover')recoverProgress(q,v.derived,pack,v.cost.count);
    if(step.action==='second-wind'){q.recovery=recoveryState(q);q.recovery.secondWindsSpent++;q.recovery.secondWindEncounter=true;}
    if(step.action==='rage'){q.recovery=recoveryState(q);q.recovery.ragesSpent++;q.recovery.rageRounds=v.derived.recovery.rage.duration;}
    if(v.turnTalent){clearAiming(q);clearBracing(q);applyTurnTalent(q,step.action,v.turnTalent.amount);}

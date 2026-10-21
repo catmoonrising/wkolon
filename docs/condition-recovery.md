@@ -27,3 +27,11 @@ preview simulates the recovery and spending on its copy so later planned actions
 see the resulting state. Executing invalid, stale or already resolved steps
 changes no real state. Activation clears interrupted Aim/Brace/follow-ups, and a
 return to Normal State clears unfinished ordinary Recover progress.
+
+## Recover cost
+
+`rules.recovery.shakeItOff` identifies the feat, its two-Swift cost and pinned
+source. `recoverActions(d, pack)` uses only chronologically valid feats. The
+ordinary cost remains three. Tracked partial progress, consecutive turns,
+legacy controls, previews and logs use this same cost. Every completed group
+recovers one step; persistent conditions and helplessness still prevent Recover.

@@ -663,6 +663,7 @@
             "swiftActions"
           ],
           "properties": {
+            "shakeItOff": {"const":{"featId":"feat:shake-it-off","swiftActions":2,"sourceIds":["source:wiki-shake-it-off"]}},
             "sourceIds": {
               "type": "array",
               "minItems": 1,

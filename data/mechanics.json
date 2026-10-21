@@ -67397,13 +67397,7 @@
         "colossal": 20
       }
     },
-    "recovery": {
-      "sourceIds": [
-        "source:wiki-recover",
-        "source:wiki-conditions"
-      ],
-      "swiftActions": 3
-    },
+    "recovery": {"sourceIds":["source:wiki-recover","source:wiki-conditions"],"swiftActions":3,"shakeItOff":{"featId":"feat:shake-it-off","swiftActions":2,"sourceIds":["source:wiki-shake-it-off"]}},
     "naturalHealing": {
       "sourceIds": [
         "source:wiki-hit-points-natural-healing",

@@ -61,6 +61,7 @@ export function advanceRage(c){
  if(r.rageRounds===1)return endRage(c);
  r.rageRounds--;return true;
 }
+export function recoverActions(d,pack){return d.ctx.feats.some(f=>f.id===pack.rules.recovery.shakeItOff.featId)?pack.rules.recovery.shakeItOff.swiftActions:pack.rules.recovery.swiftActions;}
 export function recoverCondition(c,d){
  if(!d.recovery.recoverable)throw new Error('Recover unavailable');
  clearFollowUps(c);clearAiming(c);clearBracing(c);
