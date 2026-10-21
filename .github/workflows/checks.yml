@@ -16,8 +16,9 @@ jobs:
       - run: npm ci --ignore-scripts
       - name: Rebuild rules offline
         run: |
+          python3 tools/compile-optional-rules.py
           python3 tools/compile-core.py
-          git diff --exit-code -- data/core.json
+          git diff --exit-code -- data/core.json data/optional-rules.json docs/optional-rules.md
       - run: npm run validate
       - run: node tools/validate-reference-library.js
       - run: npm test

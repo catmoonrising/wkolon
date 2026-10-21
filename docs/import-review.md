@@ -2375,3 +2375,17 @@ compatible. Pending decisions, multiple-source damage, renewal budgets, expiry,
 strict saved state, stat blocks, mobile layout and offline persistence are
 covered. Context-specific concentration judgments and feature reroll prompts
 retain the power's Partial marker.
+
+## Optional rules catalog
+
+The House Rules module now documents 40 official optional or variant rules from
+the pinned library. The manifest reviews all 51 articles mentioning optional or
+variant rules, records exclusions for equipment and adventure choices, and pins
+each selected passage to its source revision. Text, tables, wiki links and
+source attribution are embedded for offline reading. Published campaign
+alternatives include Destiny, Backgrounds, Legacies, Heirloom Items, protocols,
+Rank and Privilege, Gear Requisition and Unleashed Abilities. Support markers
+describe existing behavior; documentation does not authorize calculations.
+Overlapping Jedi Counseling options share their original setting, with no
+parallel flag. Whole-wiki completeness and uncategorized pages remain separate
+coverage work. See docs/optional-rules.md for the index and reviewed exclusions.

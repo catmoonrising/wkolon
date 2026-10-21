@@ -7,9 +7,11 @@ ROOT = Path(__file__).resolve().parents[1]
 COLLECTIONS = ['species', 'classes', 'skills', 'feats', 'talents', 'equipment', 'destinies', 'backgrounds', 'forcePowers', 'starshipManeuvers', 'vehicles', 'classChoices']
 
 
-def compile_pack(mechanics, catalog, reviewed):
+def compile_pack(mechanics, catalog, reviewed, optional_rules=None):
     # Text updates never authorize changes to existing mechanical mappings.
     pack = json.loads(json.dumps(mechanics))
+    if optional_rules is not None:
+        pack['optionalRules'] = json.loads(json.dumps(optional_rules))
     for source in pack['sources']:
         if reviewed.get(source['title']) != source['revision']:
             raise ValueError(f"Review required: {source['title']} revision {source['revision']}")
@@ -69,7 +71,8 @@ def main():
     pack = compile_pack(
         json.loads((ROOT / 'data/mechanics.json').read_text()),
         json.loads((ROOT / 'data/wiki-catalog.json').read_text()),
-        json.loads((ROOT / 'tools/reviewed-revisions.json').read_text()))
+        json.loads((ROOT / 'tools/reviewed-revisions.json').read_text()),
+        json.loads((ROOT / 'data/optional-rules.json').read_text()))
     (ROOT / 'data/core.json').write_text(json.dumps(pack, ensure_ascii=False, separators=(',', ':')) + '\n')
     print('Compiled', {k:len(pack[k]) for k in COLLECTIONS}, 'and', len(pack['catalog']['records']), 'imported references')
 

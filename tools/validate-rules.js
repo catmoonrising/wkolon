@@ -516,6 +516,19 @@ export function validatePack(p) {
     for(const r of p.jediCounseling){assert(Object.keys(r).every(k=>['id','name','issue','ruleId','sourceId'].includes(k)));assert(/^jc:\d+-[a-z0-9-]+$/.test(r.id)&&!topics.has(r.id));topics.add(r.id);assert(typeof r.name==='string'&&Number.isInteger(r.issue)&&r.issue>=105&&r.issue<=115);assert(sources.has(r.sourceId)&&p.rulePages.some(page=>page.id===r.ruleId&&page.sourceId===r.sourceId));}
     for(const [id,mode] of Object.entries(p.rules.counselingApplications||{}))assert(topics.has(id)&&['talent-activation','weapon-familiarity','partial-proficiency','raw-equivalent','range-penalties','unarmed-proficiency','unarmed-finesse','second-winds','second-wind-exhaustion'].includes(mode));
   }
+  if(p.optionalRules){
+    const catalog=p.optionalRules,index=JSON.parse(fs.readFileSync(new URL('../data/reference-index.json',import.meta.url))),ids=new Set();
+    assert.equal(catalog.schemaVersion,1);assert.equal(catalog.libraryArticles,index.records.length);assert.equal(catalog.libraryCapturedAt,index.capturedAt);assert.deepEqual(catalog.license,index.license);
+    for(const r of catalog.entries){
+      assert(/^optional:[a-z0-9-]+$/.test(r.id)&&!ids.has(r.id),'Optional rule identity');ids.add(r.id);
+      assert(Object.keys(r).every(k=>['id','name','books','status','note','counselingId','referenceId','source','article'].includes(k)),'Optional rule fields');
+      assert(typeof r.name==='string'&&r.name&&Array.isArray(r.books)&&r.books.length&&['automatic','partial','manual'].includes(r.status),'Optional rule metadata');
+      const record=index.records.find(page=>page.id===r.referenceId);assert(record&&!index.excluded.includes(record.name),'Optional rule reference');assert.deepEqual(r.source,record.source);
+      assert.equal(r.article.sourceId,r.source.id);assert(Array.isArray(r.article.blocks)&&r.article.blocks.length,'Optional rule passage');
+      if(r.counselingId)assert(p.jediCounseling.some(t=>t.id===r.counselingId),'Optional rule Counseling setting');
+      if(r.status==='automatic')assert(p.rules.counselingApplications[r.counselingId],'Optional rule automation');
+    }
+  }
   if(p.rules.licensing){
     const l=p.rules.licensing;assert(Object.keys(l).every(k=>['sourceIds','ratings'].includes(k))&&l.sourceIds.length&&l.sourceIds.every(id=>sources.has(id)));
     assert.deepEqual(Object.keys(l.ratings).sort(),['illegal','licensed','military','restricted']);

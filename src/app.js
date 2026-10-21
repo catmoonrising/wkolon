@@ -686,6 +686,7 @@ function events() {
   document.addEventListener('input',event=>{
     const el=event.target;
     if(el.hasAttribute('data-species-quality')){try{changeSpeciesQuality(current(),pack,Number(el.dataset.speciesQuality),el.dataset.qualityField,el.value);document.querySelectorAll(`[data-species-quality="${el.dataset.speciesQuality}"][data-quality-field="${el.dataset.qualityField}"]`).forEach(other=>{if(other!==el)other.value=el.value;});derived=derive(current(),pack);renderCreatorIssues();$('build-status').innerHTML=derived.issues.length?`<details class="validation"><summary>${derived.issues.length} unresolved choice${derived.issues.length===1?'':'s'}</summary><ul>${derived.issues.map(t=>`<li>${escape(t)}</li>`).join('')}</ul></details>`:'';$('print-stat-block').innerHTML=renderStatBlock(current(),derived,pack);store.schedule();}catch(e){notify(e.message);}return;}
+    if(el.hasAttribute('data-optional-search')){houseRules.searchOptional(el.value);$('module-house-rules').querySelector('.optional-topics').outerHTML=houseRules.optionalTopics(current());return;}
     if(el.hasAttribute('data-counseling-search')){houseRules.search(el.value);const root=$('module-house-rules');root.querySelector('.counseling-topics').outerHTML=new DOMParser().parseFromString(houseRules.render(current()),'text/html').querySelector('.counseling-topics').outerHTML;return;}
     if(creationOptions.input(event))return;
     if(el.id==='rules-search'){rulesCatalog.search(el.value);$('rules-results').innerHTML=rulesCatalog.results();return;}

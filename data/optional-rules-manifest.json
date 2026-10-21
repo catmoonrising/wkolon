@@ -1,0 +1,1034 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "optional:a-helping-hand",
+      "name": "A Helping Hand",
+      "page": "The Force",
+      "revision": 24972,
+      "ranges": [
+        [
+          193,
+          199
+        ]
+      ],
+      "books": [
+        "Jedi Academy Training Manual"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:alternative-droid-pricing",
+      "name": "Alternative Droid Pricing",
+      "page": "Droid Allies",
+      "revision": 24543,
+      "ranges": [
+        [
+          6,
+          24
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:backgrounds",
+      "name": "Backgrounds",
+      "page": "Backgrounds",
+      "revision": 16107,
+      "ranges": [
+        [
+          0,
+          45
+        ]
+      ],
+      "books": [
+        "Rebellion Era Campaign Guide"
+      ],
+      "status": "partial",
+      "note": "Choose a Background instead of a Destiny in character creation or the Destiny / Background module."
+    },
+    {
+      "id": "optional:calling-on-the-dark-side",
+      "name": "Calling on the Dark Side",
+      "page": "The Force",
+      "revision": 24972,
+      "ranges": [
+        [
+          205,
+          210
+        ]
+      ],
+      "books": [
+        "Web Enhancements"
+      ],
+      "status": "manual",
+      "counselingId": "jc:110-variant-rule-calling-on-the-dark-side"
+    },
+    {
+      "id": "optional:cl-adjustments-for-starship-disparities",
+      "name": "CL Adjustments for Starship Disparities",
+      "page": "Starship Combat",
+      "revision": 18807,
+      "ranges": [
+        [
+          148,
+          160
+        ]
+      ],
+      "books": [
+        "Starships of the Galaxy"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:creating-near-humans",
+      "name": "Creating Near-Humans",
+      "page": "Near-Human",
+      "revision": 26005,
+      "ranges": [
+        [
+          0,
+          28
+        ]
+      ],
+      "books": [
+        "Unknown Regions Campaign Guide"
+      ],
+      "status": "partial",
+      "note": "Near-Human creation choices are available with species selection."
+    },
+    {
+      "id": "optional:daily-force-points",
+      "name": "Daily Force Points",
+      "page": "The Force",
+      "revision": 24972,
+      "ranges": [
+        [
+          47,
+          54
+        ]
+      ],
+      "books": [
+        "Jedi Academy Training Manual"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:dark-side-temptations",
+      "name": "Dark Side Temptations",
+      "page": "The Force",
+      "revision": 24972,
+      "ranges": [
+        [
+          218,
+          227
+        ]
+      ],
+      "books": [
+        "Force Unleashed Campaign Guide"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:destiny",
+      "name": "Destiny",
+      "page": "Destiny",
+      "revision": 24869,
+      "ranges": [
+        [
+          0,
+          65
+        ]
+      ],
+      "books": [
+        "Core Rulebook",
+        "Force Unleashed Campaign Guide",
+        "Scum and Villainy",
+        "Web Enhancements"
+      ],
+      "status": "partial",
+      "note": "Destiny choices and points are tracked. Story awards and fulfillment are manual."
+    },
+    {
+      "id": "optional:destroyed-droids",
+      "name": "Destroyed Droids",
+      "page": "Droids",
+      "revision": 26658,
+      "ranges": [
+        [
+          232,
+          235
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual",
+      "children": {
+        "234": [
+          2
+        ]
+      }
+    },
+    {
+      "id": "optional:droid-data-ports",
+      "name": "Droid Data Ports",
+      "page": "Droids",
+      "revision": 26658,
+      "ranges": [
+        [
+          249,
+          258
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:droid-manufacturer-traits",
+      "name": "Droid Manufacturer Traits",
+      "page": "Droid Manufacturers",
+      "revision": 24488,
+      "ranges": [
+        [
+          13,
+          24
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:droid-quirks",
+      "name": "Droid Quirks",
+      "page": "Droids",
+      "revision": 26658,
+      "ranges": [
+        [
+          258,
+          266
+        ],
+        [
+          274,
+          280
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:droids-as-equipment-protocols",
+      "name": "Droids as Equipment (Protocols)",
+      "page": "Droid Allies",
+      "revision": 24543,
+      "ranges": [
+        [
+          24,
+          36
+        ],
+        [
+          42,
+          65
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:free-actions-aren-t-free",
+      "name": "Free Actions Aren't Free",
+      "page": "Actions",
+      "revision": 24963,
+      "ranges": [
+        [
+          42,
+          47
+        ]
+      ],
+      "books": [
+        "Web Enhancements"
+      ],
+      "status": "manual",
+      "counselingId": "jc:109-variant-rule-free-actions-aren-t-free"
+    },
+    {
+      "id": "optional:gear-requisition",
+      "name": "Gear Requisition",
+      "page": "Rank and Privilege",
+      "revision": 20929,
+      "ranges": [
+        [
+          70,
+          172
+        ]
+      ],
+      "books": [
+        "Galaxy at War"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:heirloom-items",
+      "name": "Heirloom Items",
+      "page": "Destiny",
+      "revision": 24869,
+      "ranges": [
+        [
+          65,
+          92
+        ]
+      ],
+      "books": [
+        "Legacy Era Campaign Guide",
+        "Web Enhancements"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:improvised-droid-tasks",
+      "name": "Improvised Droid Tasks",
+      "page": "Droids",
+      "revision": 26658,
+      "ranges": [
+        [
+          236,
+          243
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:jedi-in-armor",
+      "name": "Jedi in Armor",
+      "page": "Equipment & Artifacts",
+      "revision": 24363,
+      "ranges": [
+        [
+          34,
+          40
+        ]
+      ],
+      "books": [
+        "Jedi Academy Training Manual"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:legacies",
+      "name": "Legacies",
+      "page": "Legacies",
+      "revision": 24619,
+      "ranges": [
+        [
+          0,
+          72
+        ]
+      ],
+      "books": [
+        "Legacy Era Campaign Guide"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:move-object-size-based-damage",
+      "name": "Move Object: Size-Based Damage",
+      "page": "Move Object",
+      "revision": 24976,
+      "ranges": [
+        [
+          22,
+          30
+        ]
+      ],
+      "books": [
+        "Jedi Academy Training Manual"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:multiple-second-winds",
+      "name": "Multiple Second Winds",
+      "page": "Catch a Second Wind",
+      "revision": 18474,
+      "ranges": [
+        [
+          6,
+          11
+        ]
+      ],
+      "books": [
+        "Web Enhancements"
+      ],
+      "status": "automatic",
+      "counselingId": "jc:114-variant-rule-multiple-second-winds"
+    },
+    {
+      "id": "optional:prestige-classes",
+      "name": "Prestige Classes",
+      "page": "Heroic Classes",
+      "revision": 22558,
+      "ranges": [
+        [
+          29,
+          39
+        ]
+      ],
+      "books": [
+        "Clone Wars Campaign Guide",
+        "Core Rulebook",
+        "Force Unleashed Campaign Guide",
+        "Galaxy at War",
+        "Knights of the Old Republic Campaign Guide",
+        "Legacy Era Campaign Guide",
+        "Rebellion Era Campaign Guide",
+        "Scum and Villainy"
+      ],
+      "status": "partial",
+      "note": "Classes are selectable in the level table. Individual class features retain their own automation status."
+    },
+    {
+      "id": "optional:rank-and-privilege",
+      "name": "Rank and Privilege",
+      "page": "Rank and Privilege",
+      "revision": 20929,
+      "ranges": [
+        [
+          0,
+          70
+        ]
+      ],
+      "books": [
+        "Galaxy at War"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:reactivating-a-destroyed-droid",
+      "name": "Reactivating a Destroyed Droid",
+      "page": "Droids",
+      "revision": 26658,
+      "ranges": [
+        [
+          232,
+          235
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual",
+      "children": {
+        "234": [
+          4
+        ]
+      }
+    },
+    {
+      "id": "optional:resisting-the-dark-side",
+      "name": "Resisting the Dark Side",
+      "page": "The Force",
+      "revision": 24972,
+      "ranges": [
+        [
+          199,
+          205
+        ]
+      ],
+      "books": [
+        "Jedi Academy Training Manual"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:saber-locks",
+      "name": "Saber Locks",
+      "page": "Lightsaber Combat Talent Tree",
+      "revision": 26712,
+      "ranges": [
+        [
+          31,
+          37
+        ]
+      ],
+      "books": [
+        "Jedi Academy Training Manual"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:sacrificial-appendage",
+      "name": "Sacrificial Appendage",
+      "page": "Droids",
+      "revision": 26658,
+      "ranges": [
+        [
+          232,
+          235
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual",
+      "children": {
+        "234": [
+          0
+        ]
+      }
+    },
+    {
+      "id": "optional:salvaging-a-destroyed-droid",
+      "name": "Salvaging a Destroyed Droid",
+      "page": "Droids",
+      "revision": 26658,
+      "ranges": [
+        [
+          232,
+          235
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual",
+      "children": {
+        "234": [
+          6
+        ]
+      }
+    },
+    {
+      "id": "optional:shades-of-darkness",
+      "name": "Shades of Darkness",
+      "page": "The Force",
+      "revision": 24972,
+      "ranges": [
+        [
+          54,
+          61
+        ]
+      ],
+      "books": [
+        "Jedi Academy Training Manual"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:shockboxing-skill-checks",
+      "name": "Shockboxing: Skill Checks",
+      "page": "Shockboxing",
+      "revision": 20946,
+      "ranges": [
+        [
+          0,
+          10
+        ]
+      ],
+      "books": [
+        "Galaxy at War"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:temptations-and-atonement",
+      "name": "Temptations and Atonement",
+      "page": "The Force",
+      "revision": 24972,
+      "ranges": [
+        [
+          227,
+          233
+        ]
+      ],
+      "books": [
+        "Force Unleashed Campaign Guide"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:the-droid-that-gained-levels",
+      "name": "The Droid that Gained Levels",
+      "page": "Droids",
+      "revision": 26658,
+      "ranges": [
+        [
+          243,
+          249
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:the-edge-of-exhaustion",
+      "name": "The Edge of Exhaustion",
+      "page": "Catch a Second Wind",
+      "revision": 18474,
+      "ranges": [
+        [
+          11,
+          22
+        ]
+      ],
+      "books": [
+        "Web Enhancements"
+      ],
+      "status": "automatic",
+      "counselingId": "jc:114-optional-rule-the-edge-of-exhaustion"
+    },
+    {
+      "id": "optional:the-measure-of-evil",
+      "name": "The Measure of Evil",
+      "page": "The Force",
+      "revision": 24972,
+      "ranges": [
+        [
+          210,
+          214
+        ]
+      ],
+      "books": [
+        "Web Enhancements"
+      ],
+      "status": "manual",
+      "counselingId": "jc:110-variant-rule-the-measure-of-evil"
+    },
+    {
+      "id": "optional:the-threshold-of-evil",
+      "name": "The Threshold of Evil",
+      "page": "The Force",
+      "revision": 24972,
+      "ranges": [
+        [
+          214,
+          218
+        ]
+      ],
+      "books": [
+        "Web Enhancements"
+      ],
+      "status": "manual",
+      "counselingId": "jc:110-variant-rule-the-threshold-of-evil"
+    },
+    {
+      "id": "optional:threshold-damage-only",
+      "name": "Threshold Damage Only",
+      "page": "Droid Allies",
+      "revision": 24543,
+      "ranges": [
+        [
+          36,
+          42
+        ]
+      ],
+      "books": [
+        "Scavenger's Guide to Droids"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:unleashed-abilities",
+      "name": "Unleashed Abilities",
+      "page": "Unleashed Abilities",
+      "revision": 19601,
+      "ranges": [
+        [
+          0,
+          21
+        ]
+      ],
+      "books": [
+        "Force Unleashed Campaign Guide"
+      ],
+      "status": "manual"
+    },
+    {
+      "id": "optional:vital-limits",
+      "name": "Vital Limits",
+      "page": "Vital Transfer",
+      "revision": 18598,
+      "ranges": [
+        [
+          13,
+          15
+        ],
+        [
+          19,
+          23
+        ]
+      ],
+      "books": [
+        "Web Enhancements"
+      ],
+      "status": "manual",
+      "counselingId": "jc:114-variant-rule-vital-limits"
+    },
+    {
+      "id": "optional:vital-sacrifice",
+      "name": "Vital Sacrifice",
+      "page": "Vital Transfer",
+      "revision": 18598,
+      "ranges": [
+        [
+          13,
+          19
+        ]
+      ],
+      "books": [
+        "Web Enhancements"
+      ],
+      "status": "manual",
+      "counselingId": "jc:114-variant-rule-vital-sacrifice"
+    }
+  ],
+  "audit": [
+    {
+      "page": "A9G-Series Archive Droid",
+      "revision": 15601,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "AD-Series Weapons Maintenance Droid",
+      "revision": 15608,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Actions",
+      "revision": 24963,
+      "entries": [
+        "optional:free-actions-aren-t-free"
+      ]
+    },
+    {
+      "page": "Catch a Second Wind",
+      "revision": 18474,
+      "entries": [
+        "optional:multiple-second-winds",
+        "optional:the-edge-of-exhaustion"
+      ]
+    },
+    {
+      "page": "Character Creation",
+      "revision": 26288,
+      "entries": [
+        "optional:destiny"
+      ]
+    },
+    {
+      "page": "CloakShape Fighter",
+      "revision": 18669,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Cracken's Rebel Field Guide",
+      "revision": 23101,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "DC-19 \"Stealth\" Carbine",
+      "revision": 21548,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Dark Times Heroes",
+      "revision": 19417,
+      "entries": [
+        "optional:destiny",
+        "optional:unleashed-abilities"
+      ]
+    },
+    {
+      "page": "Destiny",
+      "revision": 24869,
+      "entries": [
+        "optional:destiny",
+        "optional:heirloom-items"
+      ]
+    },
+    {
+      "page": "Droid Allies",
+      "revision": 24543,
+      "entries": [
+        "optional:alternative-droid-pricing",
+        "optional:droids-as-equipment-protocols",
+        "optional:threshold-damage-only"
+      ]
+    },
+    {
+      "page": "Droid Codex",
+      "revision": 24568,
+      "entries": [
+        "optional:droids-as-equipment-protocols"
+      ]
+    },
+    {
+      "page": "Droid Manufacturers",
+      "revision": 24488,
+      "entries": [
+        "optional:droid-manufacturer-traits"
+      ]
+    },
+    {
+      "page": "Droid Socket",
+      "revision": 25028,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Droids",
+      "revision": 26658,
+      "entries": [
+        "optional:sacrificial-appendage",
+        "optional:destroyed-droids",
+        "optional:reactivating-a-destroyed-droid",
+        "optional:salvaging-a-destroyed-droid",
+        "optional:improvised-droid-tasks",
+        "optional:the-droid-that-gained-levels",
+        "optional:droid-data-ports",
+        "optional:droid-quirks"
+      ]
+    },
+    {
+      "page": "EV-Series Supervisor Droid",
+      "revision": 21038,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Echoes of the Jedi",
+      "revision": 23658,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Equipment & Artifacts",
+      "revision": 24363,
+      "entries": [
+        "optional:jedi-in-armor"
+      ]
+    },
+    {
+      "page": "Fire-Linked Weapon",
+      "revision": 18704,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Force Boon",
+      "revision": 18182,
+      "entries": [
+        "optional:daily-force-points"
+      ]
+    },
+    {
+      "page": "G2 Repair Droid",
+      "revision": 21040,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Hardware",
+      "revision": 20878,
+      "entries": [
+        "optional:rank-and-privilege",
+        "optional:gear-requisition"
+      ]
+    },
+    {
+      "page": "Heroic Classes",
+      "revision": 22558,
+      "entries": [
+        "optional:prestige-classes"
+      ]
+    },
+    {
+      "page": "Legacies",
+      "revision": 24619,
+      "entries": [
+        "optional:legacies"
+      ]
+    },
+    {
+      "page": "Legacy Era Campaigns",
+      "revision": 24666,
+      "entries": [
+        "optional:heirloom-items"
+      ]
+    },
+    {
+      "page": "Lightsaber Combat Talent Tree",
+      "revision": 26712,
+      "entries": [
+        "optional:saber-locks"
+      ]
+    },
+    {
+      "page": "Military Campaigns",
+      "revision": 20903,
+      "excluded": "Optional mission approach, not a rules variant."
+    },
+    {
+      "page": "Modified CloakShape Fighter",
+      "revision": 24260,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Move Object",
+      "revision": 24976,
+      "entries": [
+        "optional:move-object-size-based-damage"
+      ]
+    },
+    {
+      "page": "Philosophy",
+      "revision": 24356,
+      "entries": [
+        "optional:shades-of-darkness",
+        "optional:a-helping-hand",
+        "optional:resisting-the-dark-side"
+      ]
+    },
+    {
+      "page": "Point-Blank RPG",
+      "revision": 24763,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Power of the Force",
+      "revision": 24336,
+      "entries": [
+        "optional:daily-force-points",
+        "optional:saber-locks",
+        "optional:move-object-size-based-damage"
+      ]
+    },
+    {
+      "page": "R8-Series Astromech Droid",
+      "revision": 21089,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "RWW-Series Protocol Droid",
+      "revision": 21100,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "RX-Series Pilot Droid",
+      "revision": 19750,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Rank and Privilege",
+      "revision": 20929,
+      "entries": [
+        "optional:rank-and-privilege",
+        "optional:gear-requisition"
+      ]
+    },
+    {
+      "page": "Recognition System",
+      "revision": 19744,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Shockboxing",
+      "revision": 20946,
+      "entries": [
+        "optional:shockboxing-skill-checks"
+      ]
+    },
+    {
+      "page": "Starship Combat",
+      "revision": 18807,
+      "entries": [
+        "optional:cl-adjustments-for-starship-disparities"
+      ]
+    },
+    {
+      "page": "Starship Modifications",
+      "revision": 24998,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Sword of the Empire",
+      "revision": 24456,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "TT-8L Gatekeeper Droid",
+      "revision": 21123,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "The Force",
+      "revision": 24972,
+      "entries": [
+        "optional:daily-force-points",
+        "optional:shades-of-darkness",
+        "optional:a-helping-hand",
+        "optional:resisting-the-dark-side",
+        "optional:calling-on-the-dark-side",
+        "optional:the-measure-of-evil",
+        "optional:the-threshold-of-evil",
+        "optional:dark-side-temptations",
+        "optional:temptations-and-atonement"
+      ]
+    },
+    {
+      "page": "The Galactic Alliance",
+      "revision": 20174,
+      "excluded": "Optional team assignments in organization charts, not a replacement rule."
+    },
+    {
+      "page": "The Gem of Alderaan",
+      "revision": 24249,
+      "excluded": "Optional participation in an adventure encounter, not a rules variant."
+    },
+    {
+      "page": "The Sith",
+      "revision": 25223,
+      "excluded": "Uses “not optional” to describe Sith philosophy, not a rules variant."
+    },
+    {
+      "page": "Unleashed Abilities",
+      "revision": 19601,
+      "entries": [
+        "optional:unleashed-abilities"
+      ]
+    },
+    {
+      "page": "Viper-Series Probe Droid",
+      "revision": 24412,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Viper-Series Probe Droid Battalion",
+      "revision": 18595,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Viper-Series Probe Droid Squad",
+      "revision": 18596,
+      "excluded": "Equipment, loadout, stat-block, or adventure choice, not an optional rules system."
+    },
+    {
+      "page": "Vital Transfer",
+      "revision": 18598,
+      "entries": [
+        "optional:vital-sacrifice",
+        "optional:vital-limits"
+      ]
+    }
+  ]
+}

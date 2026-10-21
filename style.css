@@ -283,6 +283,14 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .counseling-topic details{margin-left:1.6rem}
 .ambiguity-topic{padding:.5rem 0}
 .ambiguity-topic details{margin-top:.4rem}
+.optional-topics{max-height:32rem;overflow:auto;margin-top:.7rem}
+.optional-topic{padding:.45rem 0;border-bottom:1px solid var(--border)}
+.optional-topic>summary{overflow-wrap:anywhere}
+.optional-status{opacity:.7;font-size:.8em;font-weight:normal;white-space:nowrap}
+.optional-body{padding:.4rem .3rem;overflow-x:auto}
+.optional-body table{min-width:36rem;overflow-wrap:normal}
+.optional-source{font-size:.85em;opacity:.85}
+.optional-attribution{margin-top:.6rem;font-size:.85em}
 .purchase-form{gap:.6rem;align-items:center}
 
 .power-picks, .power-pick, .power-copy { display:flex; align-items:center; gap:.5rem; flex-wrap:wrap; }
