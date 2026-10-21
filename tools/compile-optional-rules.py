@@ -34,7 +34,7 @@ def compile_catalog(manifest, index, load):
                     assert all(child['tag'] == 'li' for child in children)
                     block['children'] = children
                 blocks.append(block)
-        entry = {k: copy.deepcopy(row[k]) for k in ['id', 'name', 'books', 'status', 'note', 'counselingId'] if k in row}
+        entry = {k: copy.deepcopy(row[k]) for k in ['id', 'name', 'books', 'status', 'note', 'counselingId', 'campaignRuleId'] if k in row}
         entry.update(referenceId=record['id'], source=copy.deepcopy(record['source']),
                      article=dict(sourceId=record['source']['id'], blocks=blocks))
         entries.append(entry)
@@ -66,8 +66,8 @@ def documentation(catalog, manifest):
              'Display punctuation follows the site conventions; pinned source files remain unchanged. '
              'All passages are included in the offline app shell, without visiting each reference first.', '',
              'Manual means the optional mechanic is documented but has no dedicated automation. '
-             'Partial means existing selection or tracking is available. Automatic entries share the existing '
-             'Jedi Counseling setting, including its default. Reading this catalog changes no character rules. '
+             'Partial means existing selection or tracking is available. Automatic entries use their associated '
+             'setting. Overlapping Jedi Counseling entries share that setting, including its default. Reading this catalog changes no character rules. '
              'Other Jedi Counseling interpretations and Ambiguities remain in their own tabs.', '',
              'Rebuild: `python tools/compile-optional-rules.py`, then `python tools/compile-core.py`. '
              'The manifest pins revisions and exact block ranges. New optional/variant mentions or changed '

@@ -114,7 +114,8 @@
       "books": [
         "Jedi Academy Training Manual"
       ],
-      "status": "manual"
+      "status": "automatic",
+      "campaignRuleId": "dailyForcePoints"
     },
     {
       "id": "optional:dark-side-temptations",

@@ -11,7 +11,7 @@ import {modifierTotal,resolveModifiers} from './modifiers.js';
 import {validateTalentActivations,encounterTalentEffects} from './talent-activations.js';
 import {validateOwnedVehicles} from './vehicles.js';
 import {validateStarshipManeuvers} from './starship-maneuvers.js';
-import {ABILITIES,activeAbilities,abilityRecord,standardArray,validateDroidAbilities} from './ability-profiles.js';
+import {ABILITIES,activeAbilities,abilityRecord,activeBudget,standardArray,validateDroidAbilities} from './ability-profiles.js';
 import {validateSpeciesCustomizations,customizationIssues} from './species-customization.js';
 import {naturalWeapons,increaseNaturalDie,validateNaturalModifiers} from './natural-weapons.js';
 import {validateActionState} from './action-economy.js';
@@ -24,6 +24,7 @@ import {wornArmor,armorProficient,armorSkillBonus,armorPenalty as armorCheckPena
 import {emptyTraits, emptyStory, activeBackground, validateFinishing} from './heroic-traits.js';
 import {emptyProtection,validateCombatState} from './combat.js';
 import {counselingEnabled,ambiguityValue,validateHouseRules} from './house-rules.js';
+import {campaignRuleEnabled,averageHPAmount,dailyForceMaximum} from './campaign-rules.js';
 import {resolveEquipment,validateInventoryOptions,validateStartingEquipment,validateAttachments,attachedScope} from './equipment.js';
 import {featureChoices,WEAPON_GROUPS,UNARMED_ID,talentTreeIds,resolveFeatureSelection} from './feature-choices.js';
 import {unarmedWeapon,weaponRange,canAim} from './weapon-rules.js';
@@ -164,6 +165,7 @@ export function validateCharacter(c, pack) {
   validateFinishing(c,pack,bad);
   validateCombatState(c,bad);
   validateActionState(c,bad);
+  if(campaignRuleEnabled(c,'dailyForcePoints')&&c.forcePoints>derive(c,pack).forceMaximum)bad('daily Force Point pool');
   return c;
 }
 
@@ -498,11 +500,12 @@ export function derive(c, pack) {
   const thresholdState=thresholdDetails(c,effects,defenses,conditionalEffects,equipmentDefenseBonuses,pack.rules.sizeThreshold[effectiveSize]+(species.damageThresholdBonus||0)+total('threshold')+c.modifiers.threshold,defenseModifiers);
   const threshold=thresholdState.total,thresholdContext=thresholdState.context;
   const teamSkills=teamSkillDetails(c,effects,ix,pack);
-  const hp = (rows[0].valid===false?0:ix.classes.get(c.levels[0].classId).startingHP + mods.con) + c.levels.slice(1).reduce((n, l,i) => n + (rows[i+1].valid===false?0:Math.max(1, l.hpRoll + (ix.classes.get(l.classId).hpConstitution===false?0:mods.con))), 0) + total('hp') + c.modifiers.hp;
+  const hpGains=rows.map((row,i)=>row.valid===false?0:i===0?row.cls.startingHP:campaignRuleEnabled(c,'averageHP')?averageHPAmount(row.cls.hitDie):c.levels[i].hpRoll);
+  const hp = (rows[0].valid===false?0:hpGains[0] + mods.con) + c.levels.slice(1).reduce((n, l,i) => n + (rows[i+1].valid===false?0:Math.max(1, hpGains[i+1] + (ix.classes.get(l.classId).hpConstitution===false?0:mods.con))), 0) + total('hp') + c.modifiers.hp;
   const movementPowers=movementPowerBonuses(c,pack);
   const nativeSkills = pack.skills.map(s => {
     const trained = ctx.trained.has(s.id);
-    const focus = Math.max(0, ...effects.filter(e => e.target === 'skillFocus' && e.selection.choice === s.id && trained).map(e => e.amount));
+    const focus = Math.max(0, ...effects.filter(e => e.target === 'skillFocus' && e.selection.choice === s.id && trained).map(e => campaignRuleEnabled(c,'scalingSkillFocus')?Math.ceil(level/2):e.amount));
     const teamBonus=trained?Math.max(0,...teamSkills.filter(e=>e.skill===s.id).map(e=>e.bonus)):0;
     const backgroundBonus=!trained && background?.relevantSkills.includes(s.id)?background.untrainedBonus:0;
     const equipment=Math.max(armorSkillBonus(armorItems,ctx,c.armorChecks,s.id),s.id==='skill:perception'?droidSystems.perceptionBonus:0);
@@ -598,7 +601,8 @@ export function derive(c, pack) {
   if(missingAssignments)issues.push('Assign all '+(abilityNames.length===5?'five':'six')+' ability scores');
   if(!species.fixedAbilities&&generation.abilityMethod==='standard'&&!missingAssignments&&Object.values(generation.abilities).sort((a,b)=>a-b).join()!==[...standard].sort((a,b)=>a-b).join())issues.push('Standard package must use '+standard.join(', ')+' once each');
   const pointCost=species.fixedAbilities?0:(generation.abilityMethod==='point-buy'&&generation.abilityGeneration?generation.abilityGeneration.pool:Object.values(generation.abilities)).reduce((n,v)=>n+(pack.rules.pointBuyCosts[v]??Infinity),0);
-  if(generation.abilityMethod==='point-buy'&&pointCost>generation.pointBudget)issues.push('Point-buy budget exceeded or a base score is outside 8–18');
+  if(campaignRuleEnabled(c,'plannedGeneration')&&!species.fixedAbilities&&generation.abilityMethod!=='point-buy')issues.push('Use Planned Generation (25 points)');
+  if(generation.abilityMethod==='point-buy'&&pointCost>activeBudget(c,pack))issues.push('Point-buy budget exceeded or a base score is outside 8–18');
   const movement = pack.rules.armorMovement;
   const movementFree=r=>effects.some(e=>e.target==='armorMovement'&&(e.when==='proficientArmor'?armorProficient(r,ctx):applies(e)));
   const movementArmor=armorItems.filter(r=>!r.droidSystem?.builtIn&&!movementFree(r)).sort((a,b)=>movement.speedMultipliers[a.category]-movement.speedMultipliers[b.category])[0];
@@ -618,6 +622,9 @@ export function derive(c, pack) {
   const loadRun=load.heavy&&ambiguityValue(c,pack,'ambiguity:sprint-heavy-load')!=='sprint-limit'?pack.rules.encumbrance.runMultiplier:runWithArmor;
   const runMultiplier=load.overloaded?0:Math.min(runWithArmor,loadRun);
   const speedBreakdown = droidSystems.speedUnknown?'Shell speed unspecified':load.overloaded?(load.tooHeavy?'Exceeds maximum lifting capacity':'Straining: 1 square / full-round action'):`(${species.speed} base + ${stride} bonuses) × ${Math.min(speedMultiplier,loadMultiplier)} armor/load (round down)${flatArmorPenalty?' − '+flatArmorPenalty+' armor':''}${magneticPenalty?' − '+magneticPenalty+' magnetic soles':''}${c.condition >= 4 ? ' ÷ 2 condition (round down)' : ''}`;
+  const forceBase=advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack);
+  const forceForbidden=!level||species.forceImmune||ctx.forceRestrictions.forbidPoints||forceBase===null;
+  const forceMaximum=forceForbidden?0:campaignRuleEnabled(c,'dailyForcePoints')?dailyForceMaximum(level,ctx.feats.some(f=>f.id==='feat:force-boon')):forceBase+half+total('forcePoints');
   return {shieldPowers:activeShieldPowers(c,pack),level, half, scores,starshipManeuvers:ctx.starshipManeuvers.map(p=>({...ix.starshipManeuvers.get(p.maneuverId),copyId:p.id,spent:p.spent,level:p.level})),maneuverSlots:ctx.maneuverSlots, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,size:effectiveSize,vision,blind,classDR,speciesDR,timedDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR,timedDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,teamSkills,rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerolls:effects.filter(e=>e.target==='skillReroll').map(e=>({...e,id:e.selection.id,name:ix.talents.get(e.selection.id).name,...(e.dailyUsesPerSelection?{daily:ctx.talents.filter(t=>t.id===e.selection.id&&!ctx.inactiveTalents.has(t.id)).length*e.dailyUsesPerSelection,spent:recoveryState(c).knacksSpent}:{})})),skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     movementPowers,
@@ -629,7 +636,7 @@ export function derive(c, pack) {
     conditionalDefenses,conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,type==='fly'&&species.flightHeavyLoadForbidden&&load.heavy?0:move(n+(type==='swim'?total('swimSpeed'):0))])),
-    incapacitated: droidSystems.inoperative || c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forcePointsForbidden:!!(species.forceImmune||ctx.forceRestrictions.forbidPoints), forceMaximum: !level||species.forceImmune||ctx.forceRestrictions.forbidPoints||advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack)===null?0:advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack) + half + total('forcePoints'), forceCurrent:!level||species.forceImmune||ctx.forceRestrictions.forbidPoints?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,
+    incapacitated: droidSystems.inoperative || c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forcePointsForbidden:!!(species.forceImmune||ctx.forceRestrictions.forbidPoints), forceMaximum, forceCurrent:forceForbidden?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,hpGains,
     weightUnknown:carried.some(e=>droidCarryingWeight(c,pack,e,resolveEquipment(e,pack,c).weight)===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};
 }

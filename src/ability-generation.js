@@ -1,5 +1,6 @@
 // pmcrwf's generation pools, with a separate five-score nonliving profile.
 import {activeAbilities,standardArray,abilityRecord} from './ability-profiles.js';
+import {campaignRuleEnabled} from './campaign-rules.js';
 const fixedAbilities=(c,pack)=>pack?.species.find(r=>r.id===c.species)?.fixedAbilities;
 export function generationState(c,pack){
  const abilities=activeAbilities(c,pack),fixed=fixedAbilities(c,pack);
@@ -10,7 +11,7 @@ export function generationState(c,pack){
  return {pool,assign};
 }
 export function setGenerationMethod(c,method,pack){
- if(fixedAbilities(c,pack)||!['standard','point-buy','manual','rolled'].includes(method))return false;
+ if(fixedAbilities(c,pack)||!['standard','point-buy','manual','rolled'].includes(method)||campaignRuleEnabled(c,'plannedGeneration')&&method!=='point-buy')return false;
  const abilities=activeAbilities(c,pack),record=abilityRecord(c,pack,true);record.abilityMethod=method;
  const pool=method==='standard'?[...standardArray(c,pack)]:method==='rolled'?[]:Array(abilities.length).fill(method==='point-buy'?8:10);
  record.abilities=Object.fromEntries(abilities.map(a=>[a,10]));record.abilityGeneration={pool,assign:Object.fromEntries(abilities.map(a=>[a,null]))};

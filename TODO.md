@@ -11,6 +11,8 @@
   - [x] Group equipment variants and Comlink functionality; include licensing prices and owned-only armor.
   - [x] Jedi Counseling switches, default on, with embedded wording and supported/manual status.
   - [x] Optional Rules tab: 40 official options, verbatim pinned passages, searchable mechanics and sources, support status, shared Counseling settings and offline access. Audit all 51 optional/variant keyword-hit articles; keep whole-wiki completeness separately tracked.
+  - [x] Campaign switches for 25-point Planned Generation, average HP (rounded up) and credits, scaling Skill Focus, and manual Reprogram/Dark Side ownership rulings. Automate published Daily Force Points, Force Boon, daily reset and advancement behavior in Optional Rules.
+  - [ ] Verify Average HP's official optional-rule permission after the SWSE wiki outage ends. Captured Level Benefits revision 26144 lists round-up averages but does not explicitly grant the choice; keep its source status provisional.
   - [x] All eleven Core armor entries, Heavy proficiency, armor speed/run limits and Powersuit Strength.
   - [x] Add 55 reviewed supplemental armor entries: tandem equipment, uncapped Dexterity, conditional bonuses, pressure suits, applicable DR, helmet vision, blindness and stock Spacetrooper size.
   - [x] Six personal energy shield variants, individual charges, activation, encounter expiry, pure-Energy SR, proficiency/check penalties and Mechanics recharge.

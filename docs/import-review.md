@@ -2389,3 +2389,23 @@ describe existing behavior; documentation does not authorize calculations.
 Overlapping Jedi Counseling options share their original setting, with no
 parallel flag. Whole-wiki completeness and uncategorized pages remain separate
 coverage work. See docs/optional-rules.md for the index and reviewed exclusions.
+
+## Campaign rules and Daily Force Points
+
+User-provided switches, all off by default, cover 25-point Planned Generation,
+round-up average HP, mean starting credits, and Skill Focus's half-level
+competence bonus. The calculations preserve stored rolls, scores and the
+existing named-bonus resolver. Manual Reprogram and Dark Side ownership
+rulings retain the user's wording without claiming an automated workflow.
+
+Published Daily Force Points now has an automatic switch in Optional Rules,
+using the captured The Force revision 24972 passage. The four level bands,
+Force Boon's +1, New day replacement, no rest/advancement refill, existing
+Force prohibitions, and daily pool limits are implemented and tested.
+
+Average HP remains provisional as an official optional rule. Captured Level
+Benefits revision 26144 lists the round-up averages, but the passage does not
+explicitly authorize taking them instead of rolling. Live access returned
+403; the user requested a source check after the wiki outage ends. The rule
+works as a campaign switch while that provenance check remains open. See
+docs/campaign-rules.md for saved-state format and behavior.

@@ -1,3 +1,4 @@
+import {campaignRuleEnabled,forcePoolAfterAdvancement} from './campaign-rules.js';
 import {jumpControls} from './jump-ui.js';
 import {advanceTimedTalents} from './timed-talents.js';
 import {createVehiclesUI} from './vehicles-ui.js';
@@ -44,7 +45,7 @@ import {createHouseRules} from './house-rules.js';
 import {droidSystemUsesSize} from './droid-systems.js';
 import {prepareDroidSystems,addStartingDroidSystem,droidStartingSpent,startingSystemEligible} from './droid-installation.js';
 import {createDroidSystemsUI} from './droid-systems-ui.js';
-import {equipmentFamilies,resolveEquipment,purchaseQuote,startingEquipmentGrants,claimStartingEquipment,canRollStartingCredits} from './equipment.js';
+import {equipmentFamilies,resolveEquipment,purchaseQuote,startingEquipmentGrants,claimStartingEquipment,canRollStartingCredits,claimStartingCredits} from './equipment.js';
 import {createFeatureTrees} from './feature-trees.js';
 import {createSpeciesBrowser,speciesChoiceControls} from './species-browser.js';
 import {createRulesCatalog} from './rules-catalog.js';
@@ -217,7 +218,7 @@ function renderTreeDialog() {
 }
 function levelEditor(i) {
   const l = current().levels[i], row = derived.rows[i], cls = row.cls;
-  return `<div class="level-editor">${i ? `<div class="form-grid">${field(`HP roll (d${cls.hitDie})`,'hpRoll',l.hpRoll,'number',`min="1" max="${cls.hitDie}" data-level="${i}"`)}</div>` : ''}
+  return `<div class="level-editor">${i ? `<div class="form-grid">${field(`HP ${campaignRuleEnabled(current(),'averageHP')?'average':'roll'} (d${cls.hitDie})`,'hpRoll',derived.hpGains[i],'number',`min="1" max="${cls.hitDie}" data-level="${i}" ${campaignRuleEnabled(current(),'averageHP')?'readonly':''}`)}</div>` : ''}
     ${pack.rules.abilityLevels.includes(i+1) ? `<div class="form-grid">${[0,1].map(j => `<label>Ability increase ${j+1}<select data-increase="${j}" data-level="${i}">${option('','Choose…',l.abilityIncreases[j] || '')}${activeAbilities(current(),pack).map(a => option(a,a.toUpperCase(),l.abilityIncreases[j])).join('')}</select></label>`).join('')}</div>` : ''}
     ${i && row.classLevel === 1 &&cls.startingFeats.length? selectChoice(i,'startingFeat',0,null,l.startingFeat) : ''}
     <div class="form-grid">${row.slots.map((slot,j) => selectChoice(i,'feat',j,slot,l.feats[j])).join('')}${row.valid!==false&&hasClassTalent(cls,row.classLevel) ? selectChoice(i,'talent',0,null,l.talent) : ''}</div>
@@ -270,13 +271,13 @@ function abilityPool(state, used=false) {
   return `<div class="ability-pool">${state.pool.map((n,i)=>`<span class="cr-pool${used && assigned.has(i)?' used':''}">${n}</span>`).join(' ')}</div>`;
 }
 function generateAbilities() {
-  const c=current(),record=abilityRecord(c,pack), state=generationState(c,pack);
+  const c=current(),record=abilityRecord(c,pack), state=generationState(c,pack),planned=campaignRuleEnabled(c,'plannedGeneration'),points=activeBudget(c,pack);
   if(state.fixed)return '';
   const methods=[['standard','Standard array'],['point-buy','Point buy'],['rolled','Roll 4d6 drop lowest'],['manual','Enter manually']];
-  const controls=`<div class="actions">${methods.map(([method,label])=>`<button type="button" class="cr-method${method===record.abilityMethod?' active':''}" data-crmethod="${method}" aria-pressed="${method===record.abilityMethod}">${label}</button>`).join('')}</div>`;
+  const controls=`<div class="actions">${methods.map(([method,label])=>`<button type="button" class="cr-method${method===record.abilityMethod?' active':''}" data-crmethod="${method}" ${planned&&method!=='point-buy'?'disabled':''} aria-pressed="${method===record.abilityMethod}">${label}</button>`).join('')}</div>`;
   if(record.abilityMethod==='standard')return controls;
   if(record.abilityMethod==='rolled')return controls+'<button type="button" data-action="roll-abilities">Roll</button>';
-  const budget=record.abilityMethod==='point-buy'?`<div class="actions">${field('Budget','pointBudget',record.pointBudget,'number','min="0" max="100"')}<span class="budget ${derived.pointCost>record.pointBudget?'error':''}">${Number.isFinite(derived.pointCost)?derived.pointCost:'Invalid'} / ${record.pointBudget} points</span></div>`:'';
+  const budget=record.abilityMethod==='point-buy'?`<div class="actions">${planned?'':field('Budget','pointBudget',record.pointBudget,'number','min="0" max="100"')}<span class="budget ${derived.pointCost>points?'error':''}">${Number.isFinite(derived.pointCost)?derived.pointCost:'Invalid'} / ${points} points</span></div>`:'';
   return controls+budget+`<table class="cr-generated"><tbody>${state.pool.map((n,i)=>`<tr><td>${i+1}</td><td>${record.abilityMethod==='point-buy'?`<select class="cr-points" aria-label="Score ${i+1}" data-generation-pool="${i}">${Object.entries(pack.rules.pointBuyCosts).map(([value,cost])=>option(value,`${value} (${cost} pt)`,n)).join('')}</select>`:`<input type="number" class="tiny cr-manual" aria-label="Score ${i+1}" data-generation-manual="${i}" min="3" max="30" required value="${n}">`}</td></tr>`).join('')}</tbody></table>`;
 }
 function baseAbilityControl(c,species,a) {
@@ -408,7 +409,7 @@ function creation() {
   case 'abilities':return generateAbilities()+abilityCards();
   case 'species':return customizationControls(c,resolveSpecies(c,pack),pack)+speciesBrowser.render(c.species,speciesChoiceDetails(c,pack,derived.ctx,derived.rows[0]?.ctx||derived.ctx),speciesQualityControls(c,pack));
   case 'skills':{const allowed=row.valid===false?new Set():row.initialClassSkills||classSkills(row.ctx,ix),budget=row.valid===false?0:Math.max(1,cls.trainedSkills+Math.floor((row.scores.int-10)/2))+species.bonusSkills;return skillPicks(pack.skills,c.trainedSkills,'initial',allowed,`${c.trainedSkills.length} / ${budget}`);}
-  case 'equipment':{const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));gear[0].querySelector('.panel-heading')?.remove();return `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button type="button" data-open-tree="vehicles:0:0">Vehicles</button><button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>Roll credits</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${derived.droidSystems.enabled?droidSystemsUI.render(true):''}${gear.map(p=>p.outerHTML).join('')}`;}
+  case 'equipment':{const gear=panelParts(equipment('cr')).filter(p=>p.querySelector('.purchase-form,.inventory-list,.table-scroll'));gear[0].querySelector('.panel-heading')?.remove();return `<div class="actions">${field('Credits','credits',c.credits,'number','min="0" max="1000000000" step="0.01"')}<button type="button" data-open-tree="vehicles:0:0">Vehicles</button><button data-action="starting-credits" ${canRollStartingCredits(c)?'':'disabled'}>${campaignRuleEnabled(c,'averageCredits')?'Average credits':'Roll credits'}</button>${startingEquipmentGrants(c,pack).map(g=>`<button data-starting-equipment="${g.id}" ${g.claimed?'disabled':''}>${g.id==='class:jedi'?'Add lightsaber':'Add starting equipment'}</button>`).join('')}</div>${derived.droidSystems.enabled?droidSystemsUI.render(true):''}${gear.map(p=>p.outerHTML).join('')}`;}
   case 'character':return finishing();
  }
 }
@@ -520,7 +521,7 @@ function sheet() {
    threshold:`<div class="stat-big">${derived.threshold}</div>${derived.conditionalThresholds.map(r=>`<div>${r.total} ${escape(conditionalDefenseLabel(r))}</div>`).join('')}`,
    bab:`<div class="stat-big">${signed(derived.bab)}</div>`,
    speed:`<div class="stat-big">${derived.speedUnknown?'?':derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${!derived.speedUnknown&&derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armorItems.some(r=>r.category!=='light')?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${escapeBondsControls(c,derived,pack)}${jumpControls(c,derived,pack)}${fallingControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,
-   force:statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints').replace('data-field="forcePoints"',`data-field="forcePoints" ${derived.forcePointsForbidden?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`,
+   force:statBar('force','',derived.forceCurrent,derived.forceMaximum,'forcePoints','',campaignRuleEnabled(c,'dailyForcePoints')?derived.forceMaximum:undefined).replace('data-field="forcePoints"',`data-field="forcePoints" ${derived.forcePointsForbidden?'disabled':''}`)+`<button data-action="force-point-roll" title="Spend 1 Force Point" aria-label="Spend 1 Force Point and roll bonus" ${derived.forceCurrent<=0||derived.incapacitated?'disabled':''}>Roll</button>`,
    'dark-side':statBar('dark-side','',c.darkSideScore,derived.scores.wis,'darkSideScore'),condition:conditionTrack()+recoveryControls.condition(),skills:skillTable(),actions:actionsUI.render(),attacks:attackTable(),
    'force-powers':forcePowersUI.sheet(),'starship-maneuvers':starshipManeuversUI.sheet(),routines:combatControls.renderRoutines(),
    'droid-systems':droidSystemsUI.render(),vehicles:vehiclesUI.sheet(),
@@ -650,7 +651,7 @@ function render() {
   numericFields($('main'));window.__layout.refresh();paintLogs();renderEditor();
   window.scrollTo({top:scroll});
 }
-function changed() { speciesChecks?.invalidate();const next=derive(current(),pack);recordPrivateerFall(current(),next);if(derived&&next.forceMaximum!==derived.forceMaximum){const bonus=3*(Number(next.ctx.feats.some(f=>f.id==='feat:force-boon'))-Number(derived.ctx.feats.some(f=>f.id==='feat:force-boon')));if(bonus>0)current().forcePoints+=bonus;else current().forcePoints=Math.min(current().forcePoints,next.forceMaximum);}store.schedule(); queueMicrotask(render); }
+function changed() { speciesChecks?.invalidate();const next=derive(current(),pack);recordPrivateerFall(current(),next);if(derived&&next.forceMaximum!==derived.forceMaximum){const bonus=campaignRuleEnabled(current(),'dailyForcePoints')?0:3*(Number(next.ctx.feats.some(f=>f.id==='feat:force-boon'))-Number(derived.ctx.feats.some(f=>f.id==='feat:force-boon')));if(bonus>0)current().forcePoints+=bonus;else current().forcePoints=Math.min(current().forcePoints,next.forceMaximum);}store.schedule(); queueMicrotask(render); }
 function d(sides) { const a=new Uint32Array(1); const ceiling=Math.floor(2**32/sides)*sides; do { crypto.getRandomValues(a); } while(a[0]>=ceiling); return a[0]%sides+1; }
 function addInventory(id,quantity=1,options={}) {
   const c=current(),r=resolveEquipment({id,...options},pack,c),species=resolveSpecies(c,pack);
@@ -825,6 +826,7 @@ function events() {
       if(key==='credits' && el.closest('#cr-body')){obj[key]=value;store.schedule();refreshCredits(el);return;}
       if(key==='pointBudget' && el.closest('#cr-body')){setAbilityBudget(c,pack,Number(value));store.schedule();refreshPointBudget();return;}
       const previousValue=obj[key];
+      if(key==='hpRoll'&&campaignRuleEnabled(c,'averageHP')){render();return;}
       if(key==='hpRoll') c.levels[Number(el.dataset.level)].hpRoll=value; else obj[key]=value;
       if(el.dataset.field==='condition'&&value!==previousValue){if(value===5)recordKnockout(c);else if(c.currentHP!==0&&c.recovery)c.recovery.stunUnconscious=false;}
       if(el.dataset.field==='currentHP'&&value===0&&previousValue!==0)recordKnockout(c);
@@ -976,10 +978,10 @@ function events() {
       case 'manage-powers':openEditor('powers');return;
       case 'clear-log': if(store.roster.logs) delete store.roster.logs[c.id];store.schedule();paintLogs();return;
       case 'roll-abilities': {if(resolveSpecies(c,pack).fixedAbilities)break;const count=activeAbilities(c,pack).length,sets=Array.from({length:count},()=>{const dice=[d(6),d(6),d(6),d(6)].sort((a,b)=>b-a);return {dice,value:dice.slice(0,3).reduce((a,b)=>a+b)};});setRolledPool(c,sets.map(s=>s.value),pack);logEvent('roll',`Ability scores: 4d6 drop lowest ×${count}: ${sets.map(s=>`${s.value} (${s.dice.join(',')})`).join(' | ')}`,`Ability scores: 4d6 drop lowest ×${count}: ${sets.map((s,i)=>`${totalHtml({value:s.value,coeffs:[1],rollId:i+1})} (${s.dice.map((value,j)=>dieHTML(value,6,`data-roll="${i+1}" data-ops="kh3"`,j===3)).join(', ')})`).join(' | ')}`);break;}
-      case 'starting-credits': {if(!canRollStartingCredits(c))return;const r=ix.classes.get(c.levels[0].classId).credits;const rolls=Array.from({length:r.dice},()=>d(r.sides));c.credits=rolls.reduce((a,b)=>a+b)*r.multiplier;c.startingCreditsRolled=true;logEvent('roll',`${rolls.join(' + ')} × ${r.multiplier} = ${c.credits} credits`,`${rolls.map(value=>dieHTML(value,r.sides)).join(' + ')} × ${r.multiplier} = ${totalHtml({value:c.credits,coeffs:[r.multiplier]})} credits`);break;}
+      case 'starting-credits': {if(!canRollStartingCredits(c))return;const r=claimStartingCredits(c,pack,d);if(r.average)logEvent('resource',`${r.amount} credits`);else logEvent('roll',`${r.rolls.join(' + ')} × ${r.multiplier} = ${r.amount} credits`,`${r.rolls.map(value=>dieHTML(value,r.sides)).join(' + ')} × ${r.multiplier} = ${totalHtml({value:r.amount,coeffs:[r.multiplier]})} credits`);break;}
       case 'add-gear': purchase(false,el.closest('form'));return;
       case 'force-point-roll': {if(derived.forceCurrent<=0||derived.incapacitated)return;const expr=`${derived.forcePointDice}d${derived.forcePointDie}kh1`,r=evalExpr(expr);c.forcePoints--;logEvent('roll',`Force Point: ${expr} = ${r.value}`,`Force Point: ${r.display} = ${totalHtml(r)}`);break;}
-      case 'add-level': {const draft=nextClassDraft(),cls=ix.classes.get(draft.classId);if(!classEntry(cls,derived.ctx,ix,{...draft,acquisitionDSS:c.darkSideScore}).available){notify('Class prerequisites are not met');return;} c.levels.push({classId:cls.id,...(cls.classType==='prestige'?{entryDeclarations:{...draft.entryDeclarations},acquisitionDSS:c.darkSideScore}:{}),hpRoll:Math.floor(cls.hitDie/2)+1,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});advancementDrafts.delete(c.id);c.forcePoints=derive(c,pack).forceMaximum;if(c.story?.kind==='destiny')c.story.points=Math.min(c.levels.length,c.story.points+1);break;}
+      case 'add-level': {const draft=nextClassDraft(),cls=ix.classes.get(draft.classId);if(!classEntry(cls,derived.ctx,ix,{...draft,acquisitionDSS:c.darkSideScore}).available){notify('Class prerequisites are not met');return;} c.levels.push({classId:cls.id,...(cls.classType==='prestige'?{entryDeclarations:{...draft.entryDeclarations},acquisitionDSS:c.darkSideScore}:{}),hpRoll:Math.floor(cls.hitDie/2)+1,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});advancementDrafts.delete(c.id);c.forcePoints=forcePoolAfterAdvancement(c,derive(c,pack),{gained:true});if(c.story?.kind==='destiny')c.story.points=Math.min(c.levels.length,c.story.points+1);break;}
       case 'undo-level': confirmDelete('Remove last level?',`Remove level ${c.levels.length} and its choices.`,()=>{c.levels.pop();if(c.story?.kind==='destiny')c.story.points=Math.min(c.story.points,c.levels.length);changed();});return;
       default:return;
     }

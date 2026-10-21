@@ -29,9 +29,9 @@ import {planFullAttack,FULL_ATTACK_NAMES} from './full-attacks.js';
 
 const input=(key,value,label,max=100000)=>`<input type="number" min="0" max="${max}" data-field="${key}" value="${value}" aria-label="${label}">`;
 const percent=(current,max)=>max>0?Math.max(0,Math.min(100,current/max*100)):0;
-export function statBar(kind,label,current,max,key,attrs=''){
+export function statBar(kind,label,current,max,key,attrs='',limit){
  const name=label||{'force':'Force points','dark-side':'Dark side score','destiny':'Destiny points'}[kind]||kind;
- return `<div class="resource-bar ${kind}-bar" ${attrs}><div class="resource-fill" style="width:${percent(current,max)}%"></div><span class="resource-label">${label?`${label} `:''}${input(key,current,name,kind==='xp'?1000000000:kind==='force'?1000:['dark-side','destiny'].includes(kind)?max:100000)}<span>/</span><span>${max.toLocaleString()}</span></span></div>`;
+ return `<div class="resource-bar ${kind}-bar" ${attrs}><div class="resource-fill" style="width:${percent(current,max)}%"></div><span class="resource-label">${label?`${label} `:''}${input(key,current,name,limit??(kind==='xp'?1000000000:kind==='force'?1000:['dark-side','destiny'].includes(kind)?max:100000))}<span>/</span><span>${max.toLocaleString()}</span></span></div>`;
 }
 export function healthBars(c,d,pack){
  const p=c.protection,hasShield=!!(d.energyShields?.length||d.shieldPowers?.length),grant=pack?toughAsDurasteelGrant(c,d,pack):0;

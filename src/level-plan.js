@@ -1,4 +1,5 @@
 import {progression,derive,indexPack} from './rules.js';
+import {forcePoolAfterAdvancement} from './campaign-rules.js';
 import {classEntry,isPrestige} from './class-advancement.js';
 
 export function resizeLevelPlan(c,pack,count){
@@ -20,7 +21,7 @@ export function choosePlannedClass(c,pack,index,id,entry={}){
  if(isPrestige(cls)){l.entryDeclarations={...draft.entryDeclarations};if(cls.continuousDarkSide)l.acquisitionDSS=draft.acquisitionDSS;}
  if(index&&different)l.hpRoll=Math.floor(cls.hitDie/2)+1;
  const next=derive(c,pack),gained=Math.max(0,next.level-prior.ctx.characterLevel);
- c.forcePoints=gained?next.forceMaximum:Math.min(c.forcePoints,next.forceMaximum);
+ c.forcePoints=forcePoolAfterAdvancement(c,next,{gained:gained>0,first:prior.ctx.characterLevel===0});
  if(c.story?.kind==='destiny')c.story.points=Math.min(next.level,c.story.points+gained);
  return next;
 }

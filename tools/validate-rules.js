@@ -1,3 +1,4 @@
+import {CAMPAIGN_RULES} from '../src/campaign-rules.js';
 import {validateVehicleData} from '../src/vehicles.js';
 import {validateSpeciesProfileData} from '../src/species-profiles.js';
 import {validateCustomizationData} from '../src/species-customization.js';
@@ -521,12 +522,13 @@ export function validatePack(p) {
     assert.equal(catalog.schemaVersion,1);assert.equal(catalog.libraryArticles,index.records.length);assert.equal(catalog.libraryCapturedAt,index.capturedAt);assert.deepEqual(catalog.license,index.license);
     for(const r of catalog.entries){
       assert(/^optional:[a-z0-9-]+$/.test(r.id)&&!ids.has(r.id),'Optional rule identity');ids.add(r.id);
-      assert(Object.keys(r).every(k=>['id','name','books','status','note','counselingId','referenceId','source','article'].includes(k)),'Optional rule fields');
+      assert(Object.keys(r).every(k=>['id','name','books','status','note','counselingId','campaignRuleId','referenceId','source','article'].includes(k)),'Optional rule fields');
       assert(typeof r.name==='string'&&r.name&&Array.isArray(r.books)&&r.books.length&&['automatic','partial','manual'].includes(r.status),'Optional rule metadata');
       const record=index.records.find(page=>page.id===r.referenceId);assert(record&&!index.excluded.includes(record.name),'Optional rule reference');assert.deepEqual(r.source,record.source);
       assert.equal(r.article.sourceId,r.source.id);assert(Array.isArray(r.article.blocks)&&r.article.blocks.length,'Optional rule passage');
       if(r.counselingId)assert(p.jediCounseling.some(t=>t.id===r.counselingId),'Optional rule Counseling setting');
-      if(r.status==='automatic')assert(p.rules.counselingApplications[r.counselingId],'Optional rule automation');
+      if(r.campaignRuleId)assert(CAMPAIGN_RULES.some(rule=>rule.id===r.campaignRuleId&&rule.optionalId===r.id),'Optional campaign rule');
+      if(r.status==='automatic')assert(p.rules.counselingApplications[r.counselingId]||CAMPAIGN_RULES.some(rule=>rule.id===r.campaignRuleId&&rule.support==='Automatic'),'Optional rule automation');
     }
   }
   if(p.rules.licensing){

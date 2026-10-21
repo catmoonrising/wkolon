@@ -1,3 +1,5 @@
+import {derive} from './rules.js';
+import {campaignRuleEnabled} from './campaign-rules.js';
 import {clearShieldPowers} from './shield-powers.js';
 import {clearRagePowers} from './rage-powers.js';
 import {clearMovementPowers} from './movement-powers.js';
@@ -77,6 +79,7 @@ export function removePersistent(c,cause){
 }
 export function newEncounter(c){clearRagePowers(c);clearTurnFeatEffects(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
+ if(pack&&campaignRuleEnabled(c,'dailyForcePoints'))c.forcePoints=derive(c,pack).forceMaximum;
  clearSelfPowerEffects(c);clearShieldPowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);
  clearTurnFeatEffects(c);
  clearBonusHP(c);

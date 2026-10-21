@@ -20,7 +20,7 @@ test('optional sources preserve mechanics, tables and rule links; every automati
  for(const entry of pack.optionalRules.entries){
   assert(articleText(entry.article).length>30);assert.equal(entry.article.sourceId,entry.source.id);
   assert(new URL(entry.source.url).searchParams.get('oldid')===String(entry.source.revision));
-  if(entry.status==='automatic'){assert(entry.counselingId);assert(pack.rules.counselingApplications[entry.counselingId]);}
+  if(entry.status==='automatic'){assert(entry.counselingId||entry.campaignRuleId);assert(pack.rules.counselingApplications[entry.counselingId]||entry.campaignRuleId==='dailyForcePoints');}
  }
  const quirks=pack.optionalRules.entries.find(r=>r.name==='Droid Quirks');assert(renderArticle(quirks.article).includes('<table>'));
  const daily=pack.optionalRules.entries.find(r=>r.name==='Daily Force Points');assert(articleText(daily.article).includes('Unused Force Points do not carry over'));assert(renderArticle(daily.article).includes('https://swse.miraheze.org/wiki/'));

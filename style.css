@@ -374,3 +374,9 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .droid-system-row { display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: start; gap: .4rem; margin: .4rem 0; }
 .droid-system-row > details { min-width: 0; }
 .droid-systems .actions { margin-bottom: .6rem; }
+
+.campaign-rule{padding:.45rem 0}
+.campaign-rule>details{margin:0}
+.campaign-rule summary>.checkbox{display:inline-flex;margin:0}
+.campaign-rule summary>small{opacity:.7}
+.campaign-rule>label{margin:.3rem 0 0 1.6rem}

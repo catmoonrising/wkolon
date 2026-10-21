@@ -1,4 +1,5 @@
 // Organic and nonliving generation stay independent when a character changes body.
+import {campaignRuleEnabled} from './campaign-rules.js';
 export const ABILITIES=['str','dex','con','int','wis','cha'];
 export const noConstitution=(c,pack)=>!!pack?.species.find(s=>s.id===c.species)?.noConstitution;
 export const activeAbilities=(c,pack)=>noConstitution(c,pack)?pack.rules.droidAbilities.abilities:ABILITIES;
@@ -11,8 +12,8 @@ export function abilityRecord(c,pack,create=false){
  return record;
 }
 export const activeMethod=(c,pack)=>abilityRecord(c,pack).abilityMethod;
-export const activeBudget=(c,pack)=>abilityRecord(c,pack).pointBudget;
-export function setAbilityBudget(c,pack,value){if(!Number.isInteger(value)||value<0||value>100)return false;abilityRecord(c,pack,true).pointBudget=value;return true;}
+export const activeBudget=(c,pack)=>campaignRuleEnabled(c,'plannedGeneration')?25:abilityRecord(c,pack).pointBudget;
+export function setAbilityBudget(c,pack,value){if(!Number.isInteger(value)||value<0||value>100||campaignRuleEnabled(c,'plannedGeneration')&&value!==25)return false;abilityRecord(c,pack,true).pointBudget=value;return true;}
 export function setBaseAbility(c,pack,ability,value){
  if(!activeAbilities(c,pack).includes(ability)||pack.species.find(s=>s.id===c.species)?.fixedAbilities||!Number.isInteger(value)||value<3||value>30)return false;
  const record=abilityRecord(c,pack,true);record.abilities[ability]=value;delete record.abilityGeneration;return true;

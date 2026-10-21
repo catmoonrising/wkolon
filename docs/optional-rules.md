@@ -6,7 +6,7 @@ Coverage: 4400 imported articles, 51 optional/variant keyword hits reviewed, 40 
 
 The House Rules module embeds the selected passages verbatim, preserving tables and wiki links. Display punctuation follows the site conventions; pinned source files remain unchanged. All passages are included in the offline app shell, without visiting each reference first.
 
-Manual means the optional mechanic is documented but has no dedicated automation. Partial means existing selection or tracking is available. Automatic entries share the existing Jedi Counseling setting, including its default. Reading this catalog changes no character rules. Other Jedi Counseling interpretations and Ambiguities remain in their own tabs.
+Manual means the optional mechanic is documented but has no dedicated automation. Partial means existing selection or tracking is available. Automatic entries use their associated setting. Overlapping Jedi Counseling entries share that setting, including its default. Reading this catalog changes no character rules. Other Jedi Counseling interpretations and Ambiguities remain in their own tabs.
 
 Rebuild: `python tools/compile-optional-rules.py`, then `python tools/compile-core.py`. The manifest pins revisions and exact block ranges. New optional/variant mentions or changed source revisions fail the audit until reviewed.
 
@@ -18,7 +18,7 @@ Rebuild: `python tools/compile-optional-rules.py`, then `python tools/compile-co
 | Calling on the Dark Side | [The Force](https://swse.miraheze.org/w/index.php?oldid=24972) | Manual |
 | CL Adjustments for Starship Disparities | [Starship Combat](https://swse.miraheze.org/w/index.php?oldid=18807) | Manual |
 | Creating Near-Humans | [Near-Human](https://swse.miraheze.org/w/index.php?oldid=26005) | Partial |
-| Daily Force Points | [The Force](https://swse.miraheze.org/w/index.php?oldid=24972) | Manual |
+| Daily Force Points | [The Force](https://swse.miraheze.org/w/index.php?oldid=24972) | Automatic |
 | Dark Side Temptations | [The Force](https://swse.miraheze.org/w/index.php?oldid=24972) | Manual |
 | Destiny | [Destiny](https://swse.miraheze.org/w/index.php?oldid=24869) | Partial |
 | Destroyed Droids | [Droids](https://swse.miraheze.org/w/index.php?oldid=26658) | Manual |

@@ -1,3 +1,4 @@
+import {campaignRuleEnabled,startingCreditAverage} from './campaign-rules.js';
 import {droidSystemQuote,droidSystemUsesSize,validateDroidInventory} from './droid-systems.js';
 export const armorScale=size=>size===undefined?1:({small:.5,medium:1,large:2})[size]??null;
 export function equipmentFamilies(pack,kind){
@@ -119,6 +120,14 @@ export function claimStartingEquipment(c,pack,id){
  c.inventory.push(...additions);
  c.startingEquipmentClaims=[...(c.startingEquipmentClaims||[]),id];
  return additions;
+}
+export function claimStartingCredits(c,pack,die=sides=>1+Math.floor(Math.random()*sides)){
+ if(!canRollStartingCredits(c))throw new Error('Starting credits already assigned or unavailable');
+ const cls=pack.classes.find(r=>r.id===c.levels[0].classId),r=cls.credits,average=campaignRuleEnabled(c,'averageCredits');
+ const rolls=average?[]:Array.from({length:r.dice},()=>die(r.sides));
+ if(rolls.some(n=>!Number.isInteger(n)||n<1||n>r.sides))throw new Error('Invalid starting credit roll');
+ const amount=average?startingCreditAverage(cls):rolls.reduce((a,b)=>a+b,0)*r.multiplier;
+ c.credits=amount;c.startingCreditsRolled=true;return {amount,rolls,sides:r.sides,multiplier:r.multiplier,average};
 }
 export function canRollStartingCredits(c){
  return c.levels.length===1&&!c.levels[0].pendingClass&&!c.startingCreditsRolled&&!c.credits&&!c.inventory.some(e=>!e.startingGrant&&!e.droidGrant&&!e.droidStarting);
