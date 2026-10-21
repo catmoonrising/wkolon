@@ -1,3 +1,4 @@
+import {clearTimedTalents} from './timed-talents.js';
 import {clearTurnFeatEffects} from './turn-feat-effects.js';
 import {clearBonusHP} from './bonus-hit-points.js';
 import {endEncounterTalents} from './talent-activations.js';
@@ -72,6 +73,7 @@ export function removePersistent(c,cause){
 }
 export function newEncounter(c){clearTurnFeatEffects(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
+ clearTimedTalents(c);
  clearTurnFeatEffects(c);
  clearBonusHP(c);
  resetActionTurn(c);
@@ -104,7 +106,7 @@ export function receiveHealing(c,d,pack,amount){
 }
 export function restEightHours(c,d,pack){
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
- clearTurnFeatEffects(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
+ clearTimedTalents(c);clearTurnFeatEffects(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
  if(recoveryState(c).rageRounds)endRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;
  r.persistent=r.persistent.filter(p=>!rule.removablePersistent.includes(p));

@@ -2167,6 +2167,22 @@
             }
           }
         },
+        "timedTalentActions": {
+          "const": [
+            {
+              "id": "damage-reduction-10",
+              "talentId": "talent:damage-reduction-10",
+              "forcePoints": 1,
+              "durationRounds": 10,
+              "damageReduction": 10,
+              "sourceIds": [
+                "source:wiki-control-talent-tree-damage-reduction-10",
+                "source:wiki-combat-sequence",
+                "source:wiki-attacks"
+              ]
+            }
+          ]
+        },
         "turnFeatEffects": {
           "const": [
             {

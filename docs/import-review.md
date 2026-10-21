@@ -2248,3 +2248,20 @@ turn. Net displacement is declared separately from path length. Move/Tumble,
 tracked actions, end-turn/implicit new-turn expiry, saved effects, typed bonus
 stacking and printed active benefits are covered. Other movement endpoints
 remain manual for this feat; no qualifying displacement is assumed.
+
+## Timed protection and coverage audit (2026-10-21)
+
+Damage Reduction 10 now uses its printed Standard Action, one Force Point and
+one-minute duration. Combat Sequence revision 26725 supplies the six-second
+round and same-initiative expiry rule; its complete article is bundled. The
+shared protection resolver chooses the strongest applicable DR and retains
+Lightsaber bypass/explicit armor exceptions. Turn advancement, saved/manual
+remaining rounds, refreshes, minute/eight-hour rests and active stat blocks are
+covered. Combat ending alone does not expire time remaining.
+
+Armored Defense, Improved Armored Defense and Uncanny Dodge I had already
+implemented personal-defense calculations but still displayed Manual. Their
+markers now say Partial. Existing armor/proficiency and flat-footed tests cover
+those personal effects. Vehicle pilot protection and additional awareness/
+immobilization declarations still require further integration; the markers do
+not claim complete automation.

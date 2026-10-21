@@ -10,6 +10,7 @@
     "changes": "Reviewed JSON adaptation and concise original trait reminders. Added reviewed Destiny/Background fields and verbatim mechanics with wiki markup removed. Species and species feat articles retain wiki wording and formatting; images, comments, scripts and site chrome are omitted. Wiki links are retained. Talent and feat articles retain wiki wording; individual talents are extracted from their pinned tree headings."
   },
   "sources": [
+    {"id":"source:wiki-combat-sequence","title":"Combat Sequence","section":null,"revision":26725,"timestamp":"2025-07-05T02:09:28Z","sha256":"775d94d2f5286c96dfcfae5c6071beee2bae73d6839b01c663dcb4d2c80042a3","url":"https://swse.miraheze.org/w/index.php?oldid=26725","history":"https://swse.miraheze.org/w/index.php?title=Combat%20Sequence&action=history"},
     {
       "id": "source:abilities",
       "title": "Abilities",
@@ -40461,7 +40462,7 @@
       "repeat": "never",
       "reminder": "With proficient armor, use the higher of armor bonus and heroic level for Reflex.",
       "effects": [],
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:block",
@@ -40572,7 +40573,7 @@
       "repeat": "never",
       "reminder": "With proficient armor, use the higher of armor bonus and heroic level + half armor bonus.",
       "effects": [],
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:improved-initiative",
@@ -40709,7 +40710,7 @@
       "repeat": "never",
       "reminder": "",
       "effects": [],
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:uncanny-dodge-ii",
@@ -42085,7 +42086,7 @@
       "repeat": "never",
       "reminder": "",
       "effects": [],
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:dark-presence",
@@ -68390,6 +68391,7 @@
         }
       }
     ],
+    "timedTalentActions": [{"id":"damage-reduction-10","talentId":"talent:damage-reduction-10","forcePoints":1,"durationRounds":10,"damageReduction":10,"sourceIds":["source:wiki-control-talent-tree-damage-reduction-10","source:wiki-combat-sequence","source:wiki-attacks"]}],
     "turnFeatEffects": [{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],
     "bonusHitPoints": {"sourceIds":["source:wiki-hit-points"],"toughAsDurasteel":{"classId":"class:martial-arts-master","minimumLevel":2,"armorCategory":"light","ambiguityId":"ambiguity:tough-as-durasteel-amount","sourceIds":["source:wiki-martial-arts-master"]}},
     "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]}],
@@ -68426,6 +68428,7 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
+        {"id":"damage-reduction-10","name":"Damage Reduction 10","type":"standard","count":1},
         {"id":"lightsaber-defense","name":"Lightsaber Defense","type":"swift","count":1},{"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},
         {"id":"encounter-talent","name":"Talent","type":"standard","count":1},
         {
