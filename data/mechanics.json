@@ -67261,7 +67261,31 @@
       {"id":"ambiguity:cleave-target-bonus","name":"Cleave: attack bonus","sourceIds":["source:wiki-cleave"],"passages":[{"ruleId":"rule:cleave","fullText":true}],"default":"copy","options":[{"value":"copy","name":"Copy full attack bonus"},{"value":"recalculate","name":"Recalculate target modifiers"}]},
       {"id":"ambiguity:tough-as-durasteel-amount","name":"Tough as Durasteel: bonus HP","sourceIds":["source:wiki-martial-arts-master"],"passages":[{"ruleId":"rule:martial-arts-master","fullText":true}],"default":"prose","options":[{"value":"prose","name":"Current class level"},{"value":"table","name":"Last even class level"}]},
       {"id":"ambiguity:anointed-hunter-duration","name":"Anointed Hunter: duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"],"passages":[{"ruleId":"rule:anointed-hunter","fullText":true},{"ruleId":"rule:nelvaanian","fullText":true}],"default":"current-turn","options":[{"value":"current-turn","name":"End of current turn"},{"value":"next-turn","name":"End of next turn"}]},
-      {"id":"ambiguity:ion-electronic-damage","name":"Ion damage: electronic targets","sourceIds":["source:wiki-ion-damage","source:wiki-ion-pistol","source:wiki-ion-rifle"],"passages":[{"ruleId":"rule:ion-damage","fullText":true},{"ruleId":"rule:ion-pistol","fullText":true},{"ruleId":"rule:ion-rifle","fullText":true}],"default":"half","options":[{"value":"half","name":"Half HP damage (Ion Damage)"},{"value":"full-electronic","name":"Full HP damage (weapons)"}]}
+      {"id":"ambiguity:ion-electronic-damage","name":"Ion damage: electronic targets","sourceIds":["source:wiki-ion-damage","source:wiki-ion-pistol","source:wiki-ion-rifle"],"passages":[{"ruleId":"rule:ion-damage","fullText":true},{"ruleId":"rule:ion-pistol","fullText":true},{"ruleId":"rule:ion-rifle","fullText":true}],"default":"half","options":[{"value":"half","name":"Half HP damage (Ion Damage)"},{"value":"full-electronic","name":"Full HP damage (weapons)"}]},
+      {
+        "id": "ambiguity:energy-resistance-damage",
+        "name": "Energy Resistance: damage types",
+        "sourceIds": [
+          "source:wiki-energy-resistance"
+        ],
+        "passages": [
+          {
+            "ruleId": "rule:energy-resistance",
+            "fullText": true
+          }
+        ],
+        "default": "energy",
+        "options": [
+          {
+            "value": "energy",
+            "name": "Energy (check table)"
+          },
+          {
+            "value": "listed-sources",
+            "name": "Energy, Sonic, Fire, Cold, Electrical (introduction)"
+          }
+        ]
+      }
     ],
     "forceTalentAccess": {
       "trees": [

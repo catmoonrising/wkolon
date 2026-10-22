@@ -1,6 +1,8 @@
 import {actionState} from './action-economy.js';
 
-// Lifecycle primitives. Action/damage/UI integration must precede automation status.
+// Saved lifecycle state shared by action, damage and maintenance resolution.
+export const pendingResistanceChecks=c=>(c.resistancePowerEffects||[]).filter(s=>s.pending);
+export function assertResistanceResolved(c){if(pendingResistanceChecks(c).length)throw new Error('Resolve or release Energy Resistance maintenance');}
 export const resistancePowerRule=(pack,id)=>pack.rules.resistancePowers.find(r=>r.powerId===id);
 export const resistancePowerTier=(pack,id,total)=>resistancePowerRule(pack,id)?.thresholds.filter(t=>total>=t.dc).length||0;
 const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
@@ -19,7 +21,7 @@ export function validateResistancePowers(c,pack,bad){
   }
   if(s.pending!==null){
    const p=s.pending,check=p?.check;
-   if(!s.maintained||!s.used||s.untilTurn<=c.actionState.turn||!keys(p,'check,damage')||!integer(p.damage,1,100000)||check!==null&&(!keys(check,'bonus,natural,total')||!integer(check.natural,1,20)||!integer(check.bonus,-100000,100000)||!integer(check.total,-100000,100000)||check.natural+check.bonus!==check.total)){
+   if(!s.maintained||!s.used||s.untilTurn<=c.actionState.turn||!keys(p,'check,damage')||!integer(p.damage,1,1000000000)||check!==null&&(!keys(check,'bonus,natural,total')||!integer(check.natural,1,20)||!integer(check.bonus,-100000,100000)||!integer(check.total,-100000,100000)||check.natural+check.bonus!==check.total)){
     bad('resistance maintenance check');return;
    }
   }
@@ -71,7 +73,7 @@ export function renewResistancePower(c,id){
  row.untilTurn=actionState(c).turn+1;row.maintained=true;
 }
 export function requireResistanceDamageChecks(c,pack,damage){
- if(!integer(damage,0,100000))throw new Error('Invalid maintenance damage');
+ if(!integer(damage,0,1000000000))throw new Error('Invalid maintenance damage');
  const rows=activeResistancePowers(c,pack);
  if(rows.some(s=>s.pending))throw new Error('Resolve the pending resistance check');
  if(!damage)return [];

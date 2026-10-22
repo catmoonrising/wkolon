@@ -34,11 +34,12 @@ export function renderStatBlock(c,d,pack){
  const languages=[...species.languages,backgroundLanguage(c,pack),c.languages].filter(Boolean).map(escape).join(', ')+(species.understoodLanguages?.length?'; understands '+species.understoodLanguages.map(escape).join(', '):'');
  const classFeatureNames=[...d.ctx.classFeatures.map(f=>f.name+(d.ctx.inactiveClasses.has(f.classId)?' (Inactive)':'')),...d.ctx.classChoices.map(s=>ix.classChoices.get(s.id).name+(s.choice?' ('+choiceName(s.choice,pack)+')':'' )+(d.ctx.inactiveClasses.has(s.classId)?' (Inactive)':''))];
  const points=[c.story?.kind==='destiny'?`<b>Destiny Points:</b> ${c.story.points}`:'',`<b>Force Points:</b> ${d.forceCurrent??c.forcePoints}`,`<b>Dark Side Score:</b> ${c.darkSideScore||0}`].filter(Boolean).join('; ');
+ const resistanceDR=(d.resistancePowers||[]).length?Math.max(...d.resistancePowers.map(s=>s.dr)):0;
  const energySR=[...(d.energyShields||[]).map(s=>`${s.sr} (Energy)`),...(d.shieldPowers||[]).map(s=>`${s.sr}/${s.srMax} (Force)`)].join(', ');
  const protection=d.normalProtection||c.protection||{dr:0,sr:0,srMax:0,drBypass:''};
  const condition=c.condition===5?`Helpless (${species.isDroid?'Disabled':'Unconscious'})`:c.condition?`${signed(pack.rules.conditionPenalties[c.condition])} Penalty${c.condition===4?'; Move at Half Speed':''}`:'';
  const defenseTotal=key=>d.defenses[key]+(d.conditionalDefenses||[]).filter(e=>e.defense===key).map(e=>` (${e.total} ${escape(conditionalDefenseLabel(e))})`).join('');
- const defensiveOptions=[d.defensiveCombat.stance==='fight'?'Fight Defensively':d.defensiveCombat.stance==='total'?'Total Defense':'',d.defensiveCombat.melee?'Melee Defense '+d.defensiveCombat.melee:'',c.chargeReflexPenalty?'Charge':''].filter(Boolean).join('; ');
+ const defensiveOptions=[resistanceDR?'Energy Resistance (DR '+resistanceDR+')':'',d.defensiveCombat.stance==='fight'?'Fight Defensively':d.defensiveCombat.stance==='total'?'Total Defense':'',d.defensiveCombat.melee?'Melee Defense '+d.defensiveCombat.melee:'',c.chargeReflexPenalty?'Charge':''].filter(Boolean).join('; ');
  const attackText=(a,attackMod=0,damageMod=0)=>`${escape(a.name)} ${signed(a.attack+attackMod)} (${escape(a.damageDisplay)}${damageMod?signed(damageMod):''}${a.criticalThreat<20&&!a.areaType?'; '+a.criticalThreat+'–20 critical':''}${a.criticalMultiplier>2&&!a.areaType?`; ×${a.criticalMultiplier} critical`:''})`;
  const attacks=d.attacks.map(a=>line(a.mode==='melee'?'Melee':'Ranged',attackText(a))).join('')+(d.manualAttacks||[]).map(a=>line(a.mode==='melee'?'Melee':a.mode==='ranged'?'Ranged':'Attack',escape(a.name)+' (Manual)')).join('');
  const routines=(c.routines||[]).filter(r=>r.steps.length).map(r=>{

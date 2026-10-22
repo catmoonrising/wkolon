@@ -386,3 +386,8 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .campaign-rule summary>.checkbox{display:inline-flex;margin:0}
 .campaign-rule summary>small{opacity:.7}
 .campaign-rule>label{margin:.3rem 0 0 1.6rem}
+
+.resistance-power-effect, .resistance-check { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem .5rem; width: 100%; }
+.resistance-power-effect > label { flex-wrap: wrap; }
+.resistance-power-effect select { min-width: 5rem; flex-shrink: 0; }
+.resistance-check > button { white-space: nowrap; }

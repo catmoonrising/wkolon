@@ -1,8 +1,9 @@
 # Resistance powers contract
 
-This contract precedes runtime integration. Energy Resistance is currently Partial;
-its existing selectable reference must not claim the following effects are automated
-until the action, incoming-damage and UI integration is complete.
+This contract preceded runtime integration. Energy Resistance now resolves its self
+activation, typed DR, early Swift payment and damage-checked maintenance through
+the action and incoming-damage engines. Its Partial marker remains for contextual
+reroll prompts and Improved Energy Resistance’s ally-target workflow.
 
 Energy Resistance revision 19120 supplies Standard activation, self target,
 DC 20/25/30/35 for DR 5/10/15/20, expiry at the start of the next turn,
@@ -61,3 +62,13 @@ until target-owned state exists; it does not reduce action or point costs.
 Integration must cover validation/derive, action dispatch and FP timing, family-aware
 maintenance, atomic incoming damage, saved checks, Actions controls, read-only DR
 graphics, stat blocks, expiry, offline caching and browser regression checks.
+
+
+The shared maintained-powers dispatcher keeps Shield SR and Resistance DR in
+separate saved families. New Turn carries only selected rows, then renews them
+through their actual Standard/Swift action costs on an atomic clone. Several
+Resistance copies can renew when their real costs fit; each takes its own damage
+check. Actions displays the saved original roll and a separate FP/Keep decision.
+HP renders typed DR as a read-only bar alongside unconditional protection. The
+House Rules ambiguity retains both the table and introduction readings, with the
+Energy table as default and Sonic treated as Energy under its pinned definition.

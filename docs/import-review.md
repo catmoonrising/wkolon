@@ -2462,3 +2462,22 @@ resistance-powers.md for the integration contract and remaining verification gat
 The introduction's listed damage sources differ from the table's Energy wording.
 Record both readings for the forthcoming Ambiguities switch. Sonic explicitly counts
 as Energy in pinned Sonic Damage 26734; Fire 18174 does not establish that equivalence.
+
+
+## Energy Resistance integration (2026-10-21)
+
+Self activation and Swift quickening use the reviewed contract, failed-copy spending
+and shared round FP limit. Energy-only DR, Sonic equivalence, strongest-source
+stacking, Lightsaber bypass and SR-before-DR use the damage engine. The saved
+Ambiguities choice additionally covers Fire/Cold/Electrical named in the introduction;
+its full Energy Resistance article preserves both conflicting passages. Several
+Shield/Resistance effects renew through their real action costs without an invented
+one-power cap. Post-protection damage creates individual saved maintenance checks
+only after renewal. Rolls persist before the optional shared-round FP decision;
+reloading cannot reroll them, and maintenance never consumes a copy or triggers
+natural-20 suite recovery. Pending checks block further damage, actions and turns
+until resolved or released. Explicit rests, encounters, New Day and death clear
+the effects. Typed DR has separate read-only HP/Actions/stat-block displays.
+
+Improved Energy Resistance ally targets and contextual reroll prompts remain Manual;
+the base reference retains its Partial marker. No source revisions changed.

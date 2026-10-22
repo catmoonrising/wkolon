@@ -1,3 +1,4 @@
+import {clearResistancePowers,assertResistanceResolved} from './resistance-powers.js';
 import {clearShieldPowers} from './shield-powers.js';
 import {clearSurprisePhase} from './action-economy.js';
 import {endRagePowerTurn} from './rage-powers.js';
@@ -33,7 +34,8 @@ export function declarePowerAttack(c,d,amount){
 }
 
 export function startNextTurn(c){
- clearShieldPowers(c);
+ assertResistanceResolved(c);
+ clearShieldPowers(c);clearResistancePowers(c);
  clearSurprisePhase(c);
  startTurnFeatEffects(c);
  startSelfPowerTurn(c);
