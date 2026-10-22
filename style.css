@@ -213,6 +213,10 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .feature-tree-node.base-class-node { position: static; }
 .feature-tree-node.prerequisite-node { font-size: .8rem; padding: .2rem .3rem; max-width: 20rem; }
 .feature-tree-node-head { display: flex; gap: .35rem; align-items: baseline; }
+.feature-tree-node.expanded { width: min(25rem, calc(100vw - 5rem)); }
+.feature-tree-description { margin-top: .4rem; padding: .4rem; border-top: 1px solid var(--border-hair); font-size: .9rem; font-weight: normal; color: var(--fg); background: var(--panel-bg); overflow-wrap: anywhere; }
+.feature-tree-description .wiki-article { max-width: 100%; }
+.feature-tree-description table { display: block; max-width: 100%; overflow: auto; }
 .feature-pick { background: transparent; border: 0; font: inherit; color: inherit; padding: 0; text-align: left; flex: 1; }
 .feature-pick:not(:disabled):hover { text-decoration: underline; }
 .feature-tree-node .feature-pick:hover:not(:disabled), .feature-tree-node .feature-pick:active:not(:disabled) { background: transparent; color: inherit; }
@@ -222,9 +226,6 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .feature-tree-node.unavailable { background: var(--hover-bg); color: var(--muted-fg); }
 .feature-tree-node.unavailable .feature-pick { color: var(--muted-fg); opacity: 1; }
 .feature-tree-node.selected { outline: 2px solid var(--select); outline-offset: 1px; }
-.feature-mechanics > summary { cursor: pointer; color: var(--link); font-weight: bold; }
-.feature-mechanics { margin: .7rem 0; }
-.feature-mechanics-tools { display: flex; gap: .35rem; }
 .feature-tree-arrows { position: absolute; left: 0; top: 0; pointer-events: none; color: var(--fg); overflow: visible; }
 .feature-tree-arrows g path { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .feature-tree-arrows g path.unavailable { stroke-dasharray: 2 5; }
@@ -238,7 +239,7 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
  .feature-tree-scroll { height: 45dvh; }
 }
 
-.feature-tree-node.owned .wiki-article a { color: var(--select-fg); }
+.feature-tree-node.owned .wiki-article a { color: var(--link); }
 .module[data-module=classes] > .lay-body, .module[data-module=force] > .lay-body, .module[data-module=dark-side] > .lay-body { width: auto; }
 .resource-bar { position: relative; border: 1px solid var(--border); min-height: 1.8rem; display: flex; justify-content: center; align-items: center; margin: .2rem 0; background: #2e3436; color: #fff; text-shadow: 0 1px 2px #000; }
 .xp-group.xp-bar { position: relative; width: 21.3rem; max-width: 100%; height: auto; margin: .4rem 0 .2rem; border: 0; background: transparent; display: flex; flex-direction: column; gap: .35rem; }

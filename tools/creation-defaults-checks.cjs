@@ -17,8 +17,8 @@ module.exports=async(browser,base,root,transport)=>{
   assert.equal(await bases.locator('[aria-pressed="true"]').count(),0);
   assert(await bases.evaluate(el=>el.getBoundingClientRect().bottom<=el.nextElementSibling.getBoundingClientRect().top));
   assert.equal(await tree.locator('[data-tree-pick^="class:"]').count(),37);
-  await noPunctuation();await bases.locator('[data-tree-fold="class:jedi|"]').click();assert((await page.locator('#rule-detail-body').innerText()).includes('Starting Feats'));await noPunctuation();await page.locator('#rule-detail-close').click();
-  await tree.locator('[data-tree-all]').click();assert.equal(await page.locator('#rule-detail-body .feature-mechanics').count(),37+await tree.locator('.prerequisite-node [data-tree-fold]').count());await noPunctuation();await page.locator('#rule-detail-close').click();
+  await noPunctuation();await bases.locator('[data-tree-fold="class:jedi|"]').click();assert((await bases.locator('.expanded .feature-tree-description').innerText()).includes('Starting Feats'));await noPunctuation();await bases.locator('[data-tree-fold="class:jedi|"]').click();
+  await tree.locator('[data-tree-all="unfold"]').click();assert.equal(await tree.locator('.feature-tree-description').count(),37+await tree.locator('.prerequisite-node [data-tree-fold]').count());await noPunctuation();await tree.locator('[data-tree-all="fold"]').click();
   await tree.locator('[data-tree-search]').fill('Soldier');assert(await bases.locator('[data-tree-pick]').count()<5);await bases.locator('[data-tree-pick="class:soldier|"]').click();
   await page.waitForFunction(()=>document.querySelector('#save-status').textContent==='Saved');assert(!(await stored()).levels[0].pendingClass);assert.equal((await stored()).forcePoints,5);
   await creation.openChoice(page,'class');await tree.locator('[data-tree-search]').fill('');assert.equal(await bases.locator('[data-tree-pick="class:soldier|"]').getAttribute('aria-pressed'),'true');

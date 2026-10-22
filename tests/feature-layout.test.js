@@ -105,3 +105,11 @@ test('crossing detection preserves vertical and backward segment intersections',
  const a=edge('a','aa',[{x:0,y:0},{x:100,y:100}]),b=edge('b','bb',[{x:100,y:0},{x:0,y:100}]),c=edge('c','cc',[{x:50,y:-100},{x:50,y:200}]);
  const hits=featureCrossings([a,b,c]);assert.equal(hits.length,3);for(const hit of hits){assert.equal(hit.x,50);assert.equal(hit.y,50);}assert.deepEqual(hits.map(h=>[h.under,h.over]),[[0,1],[0,2],[1,2]]);
 });
+
+test('expanded articles clear neighbours without giving every folded card the tallest height',()=>{
+ const nodes=[{key:'root',rank:0,parents:[]},...Array.from({length:8},(_,i)=>({key:'child'+i,rank:1,parents:[{key:'root'}]}))];
+ const sizes=new Map(nodes.map(n=>[n.key,{width:n.key==='child3'?400:160,height:n.key==='child3'?600:40}]));
+ const graph=layoutFeatureGraph(nodes,sizes);
+ for(const [key,p] of graph.positions)for(const [other,q] of graph.positions)if(key!==other)assert(p.x+p.width<=q.x||q.x+q.width<=p.x||p.y+p.height<=q.y||q.y+q.height<=p.y);
+ assert(graph.height<1500,'one expanded article must not allocate 600 pixels to every folded row');
+});

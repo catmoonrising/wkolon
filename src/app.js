@@ -214,6 +214,8 @@ function renderTreeDialog() {
   if(kind==='class'){$('feature-tree-title').textContent='Choose Your Class (Level '+(level+1)+')';$('feature-tree-body').innerHTML=featureTrees.render(options);return;}
   $('feature-tree-title').textContent=kind==='classChoice'?'Select a '+classKindLabel[derived.rows[level].choiceSlots[slotIndex].kind]:kind==='talent'?'Select a Talent':'Select Feats';
   const slot=kind==='classChoice'?{...derived.rows[level].choiceSlots[slotIndex],label:classKindLabel[derived.rows[level].choiceSlots[slotIndex].kind]}:kind==='feat'?derived.rows[level].slots[slotIndex]:null;
+  const record=options.selected&&ix[options.type].get(options.selected.id),powers=record?.effects?.some(e=>e.target==='forcePowerSlots')?forcePowersUI.library(level):'';
+  if(treeTarget.secondary&&powers){$('feature-tree-title').textContent=record.name;$('feature-tree-body').innerHTML='<button type="button" data-feature-primary>Back</button>'+powers;return;}
   $('feature-tree-body').innerHTML=selectChoice(level,kind,slotIndex,slot,options.selected,true)+featureTrees.render(options);
 }
 function levelEditor(i) {
@@ -597,7 +599,7 @@ function runCommand(raw) {
   catch(error) { notify(error.message); }
 }
 function openEditor(mode) {
-  if (!$('creator-modal').open) returnFocus = document.activeElement;
+  if (!$('creator-modal').open){returnFocus = document.activeElement;creationOptions.foldAll();featureTrees.foldAll();}
   editorMode = mode; renderEditor();
   if (!$('creator-modal').open) $('creator-modal').showModal();
 }
@@ -921,10 +923,9 @@ function events() {
     if(classPick){const id=classPick.dataset.selectClass;if(!classPick.disabled&&ix.classes.has(id)&&!(ix.species.get(current().species).forbiddenClasses||[]).includes(id)){choosePlannedClass(current(),pack,0,id);changed();}return;}
     const planRules=event.target.closest('[data-plan-rules]');
     if(planRules){$('rule-detail-title').textContent=planRules.dataset.planRulesTitle;$('rule-detail-body').innerHTML=planRules.dataset.planRules.split(',').map(id=>ix.feats.get(id)).filter(Boolean).map(r=>`<h3>${escape(r.name)}</h3>${renderArticle(r.article)}`).join('');$('rule-detail-modal').showModal();return;}
+    if(event.target.closest('[data-feature-primary]')){treeTarget.secondary=false;renderTreeDialog();featureTrees.layout();return;}
     const treeClick=featureTrees.click(event);
-    if(treeClick){if(treeClick.detail){$('rule-detail-title').textContent=treeClick.detail.title;$('rule-detail-body').innerHTML=treeClick.detail.html;$('rule-detail-modal').showModal();}if('selection' in treeClick){const o=treeClick.options;if(o.kind==='class'){if(treeClick.selection)selectPlanClass(o.level,treeClick.selection.id);return;}const l=current().levels[o.level],s=treeClick.selection;if(o.kind==='talent'&&s&&(ix.talents.get(s.id).requiresDarkSide||ix.talents.get(s.id).requiresLightSide))s.darkSideScore=current().darkSideScore;if(o.kind==='classChoice'){l.classChoices??=[];l.classChoices[o.slotIndex]=s;}else if(o.kind==='feat')l.feats[o.slotIndex]=s;else l[o.kind]=s;changed();}return;}
-    const mechanicsFold=event.target.closest('[data-mechanics-fold]');
-    if(mechanicsFold){$('rule-detail-body').querySelectorAll('.feature-mechanics').forEach(el=>el.open=mechanicsFold.dataset.mechanicsFold==='unfold');return;}
+    if(treeClick){if('selection' in treeClick){const o=treeClick.options;if(o.kind==='class'){if(treeClick.selection)selectPlanClass(o.level,treeClick.selection.id);return;}const l=current().levels[o.level],s=treeClick.selection;if(o.kind==='talent'&&s&&(ix.talents.get(s.id).requiresDarkSide||ix.talents.get(s.id).requiresLightSide))s.darkSideScore=current().darkSideScore;if(o.kind==='classChoice'){l.classChoices??=[];l.classChoices[o.slotIndex]=s;}else if(o.kind==='feat')l.feats[o.slotIndex]=s;else l[o.kind]=s;if(treeTarget&&s&&!s.pending&&ix[o.type].get(s.id)?.effects?.some(e=>e.target==='forcePowerSlots'))treeTarget.secondary=true;changed();}return;}
     const ruleLink=event.target.closest('[data-rule-page]');
     if(ruleLink && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) {
       const rule=pack.rulePages.find(r=>r.id===ruleLink.dataset.rulePage);
@@ -958,7 +959,7 @@ function events() {
     if(el.dataset.startingEquipment){try{claimStartingEquipment(c,pack,el.dataset.startingEquipment);changed();}catch(error){notify(error.message);}return;}
     if(el.dataset.openTree){
       const [kind,rawLevel,rawSlot]=el.dataset.openTree.split(':'),level=Number(rawLevel),slotIndex=Number(rawSlot);
-      treeTarget={level,kind,slotIndex};$('feature-tree-modal').showModal();renderTreeDialog();if($('creator-modal').open)featureTrees.layout();requestAnimationFrame(()=>featureTrees.layout());return;
+      featureTrees.foldAll();treeTarget={level,kind,slotIndex};$('feature-tree-modal').showModal();renderTreeDialog();if($('creator-modal').open)featureTrees.layout();requestAnimationFrame(()=>featureTrees.layout());return;
     }
     if(el.dataset.removeKnowledge){
       const scope=el.dataset.removeKnowledge, id=el.dataset.knowledgeId, key=knowledgeKey(scope);

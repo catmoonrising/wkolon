@@ -17,7 +17,7 @@ module.exports=async function(browser,base,root){
   const secondary=body.locator('[data-secondary][data-choice="talent"]');
   assert(await secondary.isVisible());await secondary.selectOption('talent:devastating-attack|rifles');
   await body.locator('[data-tree-fold="talent:devastating-attack|"]').click();
-  assert((await page.locator('#rule-detail-body').innerText()).includes("Damage Threshold"));await page.locator('#rule-detail-close').click();
+  assert((await page.locator('[data-tree-fold="talent:devastating-attack|"]').locator('xpath=ancestor::article[1]').locator('.feature-tree-description').innerText()).includes("Damage Threshold"));await page.locator('[data-tree-fold="talent:devastating-attack|"]').click();
   await choose(page,'talent','talent:armored-defense|');await creationUI.done(page,'done');
   await page.locator('#module-inventory [data-field="credits"]').fill('100000');await page.locator('#module-inventory [data-field="credits"]').press('Tab');
   await page.locator('#equipment-catalog > summary').click();await page.locator('#purchase-item').selectOption('equipment:heavy-battle-armor');await page.locator('#purchase button[type="submit"]').click();

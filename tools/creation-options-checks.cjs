@@ -8,13 +8,13 @@ module.exports=async function(browser,base,root){
 
   await creationUI.openChoice(page,'class');assert.equal(await body.locator('[data-tree-pick^="class:"]').count(),37);
   assert(await body.locator('[data-tree-pick="class:jedi-knight|"]').isDisabled());
-  await body.locator('[data-tree-fold="class:soldier|"]').click();assert.equal(await page.locator('#rule-detail-title').innerText(),'Soldier');assert((await page.locator('#rule-detail-body').innerText()).includes('CLASS LEVEL'));await page.locator('#rule-detail-close').click();
+  await body.locator('[data-tree-fold="class:soldier|"]').click();assert((await body.locator('.base-class-node.expanded .feature-tree-description').innerText()).includes('CLASS LEVEL'));await body.locator('[data-tree-fold="class:soldier|"]').click();
   await body.locator('[data-tree-search]').fill('cold-hearted killers');assert(await body.locator('[data-tree-pick="class:soldier|"]').isVisible());
   await creationUI.chooseClass(page,'class:soldier');await page.screenshot({path:path.join(root,'.build/class-options.png')});
   await creationUI.tab(page,'skills');assert.equal(await body.locator('[data-skill-option]').count(),19);assert.equal(await body.locator('[data-trained]').count(),18);
   assert.equal(await body.locator('[data-knowledge-group]').count(),1);assert.equal(await body.locator('[data-trained^="skill:knowledge-"]').count(),0);
   const acrobatics=body.locator('[data-skill-option="skill:acrobatics"]'),pilot=body.locator('[data-skill-option="skill:pilot"]');
-  assert((await acrobatics.innerText()).includes('You can move at normal speed across'));assert(await body.locator('[data-trained="skill:use-the-force"]').isDisabled());
+  assert.equal(await body.locator('[data-option-preview]:visible').count(),0);await acrobatics.locator('[data-option-toggle]').click();assert((await acrobatics.innerText()).includes('You can move at normal speed across'));assert(await body.locator('[data-trained="skill:use-the-force"]').isDisabled());
   await acrobatics.locator('.option-name').click();assert((await page.locator('#rule-detail-body').innerText()).includes('DC 15'));
   await page.locator('#rule-detail-close').click();assert(!(await acrobatics.locator('input').isChecked()));
   const search=body.locator('[data-option-search]');await search.fill('Nimble Charge');assert.equal(await body.locator('[data-skill-option]').count(),1);await search.fill('');

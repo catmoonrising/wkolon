@@ -2431,3 +2431,18 @@ swaps. Rare swaps requiring a new locomotion installation number or unavailable
 capacity pricing remain outside automatic swapping. Recharge/maintenance, shutdown
 and full Droid immunities retain their existing Partial support. Specific printed
 standard-model PCs are deferred at the user's request. See droid-chassis.md.
+
+
+## Secondary selections and inline folding (2026-10-21)
+
+Force Training now opens the existing chronological power library immediately
+after selection. Repeated Training grants retain independent power-copy IDs and
+normal per-level slot validation. Printed repeat policies and caps continue to
+drive feat and talent eligibility; no new permission bypass was introduced.
+
+Individual and all-item disclosures now expand the same verbatim text inline.
+Picker openings reset disclosures to folded, including class and skill previews.
+The graph measures expanded cards individually, preserves separation, and avoids
+allocating the tallest article's height to every folded card. Theme links remain
+readable inside owned cards, including Dracula, and expanded widths fit mobile
+viewports. No rules text or reference revisions changed in this UI update.

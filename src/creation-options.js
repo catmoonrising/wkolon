@@ -26,13 +26,13 @@ export function optionPreview(page,kind){
 
 export function createCreationOptions(pack){
  const states=new Map(),configs=new Map();
- const state=key=>{if(!states.has(key))states.set(key,{query:'',folded:new Set(),applications:new Set()});return states.get(key);};
+ const state=key=>{if(!states.has(key))states.set(key,{query:'',expanded:new Set(),applications:new Set()});return states.get(key);};
  const rootFor=key=>[...document.querySelectorAll('[data-options-key]')].find(el=>el.dataset.optionsKey===key);
  const link=page=>`<a href="${escape(pack.sources.find(s=>s.id===page.sourceId).url)}" data-rule-page="${page.id}" class="option-name">${escape(page.name)}</a>`;
- const fold=(id,key,name)=>`<button type="button" class="option-fold" data-option-toggle="${id}" aria-expanded="${!state(key).folded.has(id)}" aria-label="${state(key).folded.has(id)?'Unfold':'Fold'} ${escape(name)}">${state(key).folded.has(id)?'▶':'▼'}</button>`;
+ const fold=(id,key,name)=>`<button type="button" class="option-fold" data-option-toggle="${id}" aria-expanded="${state(key).expanded.has(id)}" aria-label="${state(key).expanded.has(id)?'Fold':'Unfold'} ${escape(name)}">${state(key).expanded.has(id)?'▼':'▶'}</button>`;
  function preview(page,kind,id,key){
   const parts=optionPreview(page,kind),s=state(key);
-  return `<div class="option-preview" data-option-preview="${id}" ${s.folded.has(id)?'hidden':''}>${renderArticle(parts.preview)}${parts.applications?`<details data-option-applications="${id}" ${s.applications.has(id)?'open':''}><summary>${escape(parts.applicationHeading)}</summary>${renderArticle(parts.applications)}</details>`:''}</div>`;
+  return `<div class="option-preview" data-option-preview="${id}" ${s.expanded.has(id)?'':'hidden'}>${renderArticle(parts.preview)}${parts.applications?`<details data-option-applications="${id}" ${s.applications.has(id)?'open':''}><summary>${escape(parts.applicationHeading)}</summary>${renderArticle(parts.applications)}</details>`:''}</div>`;
  }
  function results(key){
   const config=configs.get(key),s=state(key),query=s.query.trim().toLocaleLowerCase();
@@ -64,14 +64,15 @@ export function createCreationOptions(pack){
  }
  function update(root){root.querySelector('.creation-option-results').innerHTML=results(root.dataset.optionsKey);}
  return {
+  foldAll(){for(const s of states.values()){s.expanded.clear();s.applications.clear();}},
   classes:c=>render(c.id+':classes',{kind:'classes',character:c}),
   skills:(key,rows,counter)=>render(key,{kind:'skills',rows,counter}),remember,
   input(event){const el=event.target;if(!el.hasAttribute('data-option-search'))return false;const root=el.closest('[data-options-key]');remember(root);state(root.dataset.optionsKey).query=el.value;update(root);return true;},
   click(event){
    const button=event.target.closest('[data-option-toggle],[data-option-fold]');if(!button)return false;
    const root=button.closest('[data-options-key]');remember(root);const key=root.dataset.optionsKey,s=state(key),config=configs.get(key);
-   if(button.dataset.optionToggle){const id=button.dataset.optionToggle;if(s.folded.has(id))s.folded.delete(id);else s.folded.add(id);}
-   else {const ids=config.kind==='classes'?pack.classes.map(r=>r.id):config.rows.map(r=>r.id);for(const id of ids){if(button.dataset.optionFold==='fold'){s.folded.add(id);s.applications.delete(id);}else{s.folded.delete(id);s.applications.add(id);}}}
+   if(button.dataset.optionToggle){const id=button.dataset.optionToggle;if(s.expanded.has(id))s.expanded.delete(id);else s.expanded.add(id);}
+   else {const ids=config.kind==='classes'?pack.classes.map(r=>r.id):config.rows.map(r=>r.id);for(const id of ids){if(button.dataset.optionFold==='fold'){s.expanded.delete(id);s.applications.delete(id);}else{s.expanded.add(id);s.applications.add(id);}}}
    update(root);root.querySelector(`[data-option-toggle="${button.dataset.optionToggle||''}"]`)?.focus({preventScroll:true});return true;
   },
  };

@@ -53,15 +53,16 @@ module.exports=async function checkTrees(browser,base,root){
   assert((await page.locator('#creator-modal').boundingBox()).width>1300);
   const positions=()=>body.locator('.feature-tree-node').evaluateAll(nodes=>nodes.map(el=>[el.dataset.treeNode,el.style.left,el.style.top,el.offsetWidth,el.offsetHeight]));
   const before=await positions(),detail=page.locator('#rule-detail-modal');
-  await node('acute-senses').locator('[data-tree-fold]').click();assert(await detail.isVisible());
-  assert((await detail.locator('.wiki-article').innerText()).includes('even if it is worse'));
-  await page.screenshot({path:path.join(root,'.build/talent-mechanics-popup.png')});
-  await page.locator('#rule-detail-close').click();assert.deepEqual(await positions(),before);
-  await node('improved-initiative').locator('[data-tree-fold]').click();assert(await detail.isVisible());await page.keyboard.press('Escape');
-  await body.locator('[data-tree-all="unfold"]').click();assert.equal(await detail.locator('.feature-mechanics[open]').count(),8);
-  await detail.locator('[data-mechanics-fold="fold"]').click();assert.equal(await detail.locator('.feature-mechanics[open]').count(),0);
-  await detail.locator('[data-mechanics-fold="unfold"]').click();assert.equal(await detail.locator('.feature-mechanics[open]').count(),8);
-  await page.locator('#rule-detail-close').click();assert.deepEqual(await positions(),before);
+  await node('acute-senses').locator('[data-tree-fold]').click();assert(!(await detail.isVisible()));
+  assert((await node('acute-senses').locator('.feature-tree-description').innerText()).includes('even if it is worse'));
+  assert((await node('acute-senses').boundingBox()).height>before.find(n=>n[0]==='talent:acute-senses|')[4]);
+  await page.screenshot({path:path.join(root,'.build/talent-mechanics-inline.png')});
+  await node('acute-senses').locator('[data-tree-fold]').click();assert.deepEqual(await positions(),before);
+  await node('improved-initiative').locator('[data-tree-fold]').click();assert(!(await detail.isVisible()));await node('improved-initiative').locator('[data-tree-fold]').click();
+  await body.locator('[data-tree-all="unfold"]').click();assert.equal(await body.locator('.feature-tree-description').count(),8);
+  await body.locator('[data-tree-all="fold"]').click();assert.equal(await body.locator('.feature-tree-description').count(),0);
+  await body.locator('[data-tree-all="unfold"]').click();assert.equal(await body.locator('.feature-tree-description').count(),8);
+  await body.locator('[data-tree-all="fold"]').click();assert.deepEqual(await positions(),before);
   assert.equal(new Set(before.map(n=>n[3])).size>1,true);
   assert(await body.locator('.prerequisite-node').evaluate(el=>el.offsetHeight<document.querySelector('[data-tree-pick]').closest('article').offsetHeight));
   // Each shaft's final point is the head's tip, including dotted incoming edges.
@@ -136,7 +137,7 @@ module.exports=async function checkTrees(browser,base,root){
   await modal.locator('[data-tree-group="tree:awareness"]').click();assert(await modal.locator('[data-tree-node="talent:reset-initiative|"]').evaluate(el=>el.classList.contains('owned')));
   await page.setViewportSize({width:390,height:844});assert(await scroll.evaluate(el=>el.scrollWidth>el.clientWidth));assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.screenshot({path:path.join(root,'.build/talent-tree-mobile.png')});
-  if(base.startsWith('https:')){await context.setOffline(true);await page.reload();await page.locator('#creator-modal').waitFor({state:'visible'});await body.locator('[data-open-tree="talent:4:0"]').click();await modal.locator('[data-tree-group="tree:awareness"]').click();await modal.locator('[data-tree-node="talent:reset-initiative|"] [data-tree-fold]').click();assert((await detail.locator('.wiki-article').innerText()).includes('Initiative +5'));await page.locator('#rule-detail-close').click();}
-  assert.deepEqual(errors,[]);console.log('Feature trees: separate feat/talent screens, visible unavailable skills, secondary choices, exact articles, prerequisite branches, possession, eligibility, joined arrows, stable mechanics popups, zoom, search, scroll, level replay and reload passed');
+  if(base.startsWith('https:')){await context.setOffline(true);await page.reload();await page.locator('#creator-modal').waitFor({state:'visible'});await body.locator('[data-open-tree="talent:4:0"]').click();await modal.locator('[data-tree-group="tree:awareness"]').click();await modal.locator('[data-tree-node="talent:reset-initiative|"] [data-tree-fold]').click();assert((await modal.locator('[data-tree-node="talent:reset-initiative|"] .feature-tree-description').innerText()).includes('Initiative +5'));assert(!(await detail.isVisible()));}
+  assert.deepEqual(errors,[]);console.log('Feature trees: separate feat/talent screens, visible unavailable skills, secondary choices, exact articles, prerequisite branches, possession, eligibility, joined arrows, inline mechanics and folded defaults, zoom, search, scroll, level replay and reload passed');
  }finally{await context.close();}
 };

@@ -64,26 +64,26 @@ export function layoutFeatureGraph(nodes, sizes) {
  components.sort((a,b)=>(b.keys.length>1)-(a.keys.length>1));
  for(const [rank,keys] of columns)columns.set(rank,components.flatMap(c=>keys.filter(key=>componentOf.get(key)===c.id)));
  const pad=20,gap=72,rowGap=24,maxSlope=Math.tan(Math.PI/3),positions=new Map();let width=pad,height=pad;
- const rowHeight=Math.max(0,...[...sizes.values()].map(s=>s.height));
  // Fit each column toward its neighbours, preserving the crossing-minimizing
  // order and minimum row separation. Pooling conflicting targets avoids simply
  // pushing all later cards downward when two prerequisites want the same row.
- const centers=new Map(),stride=rowHeight+rowGap;
+ const centers=new Map(),offsets=new Map();
  for(const keys of columns.values())for(const component of components){
-  keys.filter(key=>componentOf.get(key)===component.id).forEach((key,i)=>centers.set(key,i*stride));
+  let prior=null,offset=0;
+  for(const key of keys.filter(key=>componentOf.get(key)===component.id)){if(prior!==null)offset+=(sizes.get(prior).height+sizes.get(key).height)/2+rowGap;offsets.set(key,offset);centers.set(key,offset);prior=key;}
  }
  function align(keys){
   const pools=[];
   keys.forEach((key,i)=>{
    const adjacent=[...neighbours(key,true),...neighbours(key,false)];
    const target=adjacent.length?(centers.get(key)+adjacent.reduce((sum,k)=>sum+centers.get(k),0)/adjacent.length)/2:centers.get(key);
-   pools.push({start:i,end:i,sum:target-i*stride,count:1});
+   pools.push({start:i,end:i,sum:target-offsets.get(key),count:1});
    while(pools.length>1){
     const a=pools.at(-2),b=pools.at(-1);if(a.sum/a.count<=b.sum/b.count)break;
     pools.splice(-2,2,{start:a.start,end:b.end,sum:a.sum+b.sum,count:a.count+b.count});
    }
   });
-  for(const pool of pools)for(let i=pool.start;i<=pool.end;i++)centers.set(keys[i],pool.sum/pool.count+i*stride);
+  for(const pool of pools)for(let i=pool.start;i<=pool.end;i++)centers.set(keys[i],pool.sum/pool.count+offsets.get(keys[i]));
  }
  for(let pass=0;pass<32;pass++)for(const rank of pass%2?ranks:[...ranks].reverse())for(const component of components){
   align(columns.get(rank).filter(key=>componentOf.get(key)===component.id));

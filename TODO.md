@@ -100,8 +100,9 @@
   - [x] Show class and skill mechanics at a glance, full-text search and individual/global folding.
   - [x] Each feat/talent option shows its name and verbatim mechanics from the reviewed source;
     do not replace the mechanics with generated summaries.
-  - [x] Keep feat/talent graph boxes folded; open mechanics in separate windows.
-  - [x] Include Fold all / Unfold all controls.
+  - [x] Default class, skill, feat and talent options to folded; expand graph mechanics inline.
+  - [x] Use consistent individual and Fold all / Unfold all controls.
+  - [x] Open Force Training power choices immediately; preserve legal repeated features and independent power copies.
   - Preserve pmcrwf's sister-site styling and keep labels laconic.
 
 - [x] Character Creation level table: levels 1–20, separate heroic/class choices, class prerequisite graphs, row-specific Misc choices and separate detail tabs.

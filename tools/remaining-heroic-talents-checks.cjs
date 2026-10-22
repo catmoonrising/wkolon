@@ -24,7 +24,7 @@ module.exports=async function(browser,base,root){
   assert.deepEqual(await groups(),['all',...pack.classes.find(r=>r.id==='class:jedi').talentTrees,...pack.rules.forceTalentAccess.trees].sort((a,b)=>a.localeCompare(b)));
   await page.locator('[data-tree-group="tree:jedi-sentinel"]').click();assert(await page.locator('[data-tree-pick="talent:dark-side-scourge|"]').isDisabled());
   await page.locator('[data-tree-group="tree:lightsaber-combat"]').click();await page.locator('[data-tree-fold="talent:weapon-specialization-lightsabers|"]').click();
-  assert((await page.locator('#rule-detail-body').innerText()).includes('+2 bonus on melee damage'));await page.locator('#rule-detail-close').click();await creationUI.done(page,'done');
+  assert((await page.locator('[data-tree-fold="talent:weapon-specialization-lightsabers|"]').locator('xpath=ancestor::article[1]').locator('.feature-tree-description').innerText()).includes('+2 bonus on melee damage'));await page.locator('[data-tree-fold="talent:weapon-specialization-lightsabers|"]').click();await creationUI.done(page,'done');
   await page.locator(`[data-character="${noble.id}"]`).click();await openTree();assert.deepEqual(await groups(),['all',...pack.classes.find(r=>r.id==='class:noble').talentTrees].sort((a,b)=>a.localeCompare(b)));await creationUI.done(page,'done');
   await page.locator('#equipment-catalog > summary').click();await page.locator('#purchase-item').selectOption('equipment:blaster-pistol');
   const quote=page.locator('#purchase [data-shop-quote]'),quantity=page.locator('#purchase-quantity');
@@ -39,7 +39,7 @@ module.exports=async function(browser,base,root){
   await page.locator('#theme-select').selectOption({label:'Dracula Dark'});await skills.scrollIntoViewIfNeeded();await page.screenshot({path:path.join(root,'.build/skill-substitution-dracula.png')});await waitSave();
   await page.evaluate(async()=>{await navigator.serviceWorker.register('./sw.js');await navigator.serviceWorker.ready;});await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);
   await context.setOffline(true);await page.reload();assert.equal(await gather.inputValue(),'skill:use-computer');assert.equal(await skills.locator('[data-roll-label="Gather Information"]').getAttribute('data-roll'),'14');
-  await openTree();await page.locator('[data-tree-group="tree:spacer"]').click();await page.locator('[data-tree-fold="talent:spacehound|"]').click();assert((await page.locator('#rule-detail-body').innerText()).includes('Starship Weapon'));await page.locator('#rule-detail-close').click();await creationUI.done(page,'done');
+  await openTree();await page.locator('[data-tree-group="tree:spacer"]').click();await page.locator('[data-tree-fold="talent:spacehound|"]').click();assert((await page.locator('[data-tree-fold="talent:spacehound|"]').locator('xpath=ancestor::article[1]').locator('.feature-tree-description').innerText()).includes('Starship Weapon'));await page.locator('[data-tree-fold="talent:spacehound|"]').click();await creationUI.done(page,'done');
   await page.setViewportSize({width:390,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   assert.deepEqual(errors,[]);console.log('Remaining heroic talents: all class trees, unavailable prerequisites, full text, skill sources, print, Connections quantities/licensing, Dracula and saved offline mobile passed');
  }finally{await context.close();}

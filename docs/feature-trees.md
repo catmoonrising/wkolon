@@ -35,9 +35,18 @@ Shared source branches and destination joins remain connected. Masks are in grap
 coordinates, so they scale with zoom and reveal the active theme's background.
 Cards fit their names; read-only prerequisites use smaller text and padding. Curves
 and arrowheads share an endpoint; paths into unavailable nodes are dotted.
-All cards start folded. Triangles open the verbatim mechanics in a dialog without
-moving the graph. Unfold all opens the visible articles together, with individual
-disclosures and Fold all/Unfold all controls inside that dialog.
+All cards start folded whenever a picker opens. Triangles expand verbatim mechanics
+inside the card. Fold all and Unfold all use the same inline behavior. Measured
+card widths and heights feed the layout, which reflows around expanded articles
+without overlapping cards. Class and skill previews also start folded.
+
+Choosing Force Training opens its level-specific power library immediately. Each
+copy retains its own saved identity; taking Force Training again adds another
+printed allotment at that level. The level table keeps power choices accessible
+even when an edited build has more saved powers than its current entitlement.
+Other secondary choices use their existing skill, weapon, power or talent controls.
+Repeat eligibility uses the record’s repeat policy, choice grouping and printed
+selection cap, rather than a separate UI-only permission.
 Zoom ranges from 25% to 200%, with a reset button; scaled viewport bounds preserve
 horizontal and vertical scrolling. Search matches names and verbatim article text,
 retaining prerequisite ancestors. Filters, zoom and scroll positions are view
