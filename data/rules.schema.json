@@ -2542,6 +2542,7 @@
             }
           ]
         },
+        "negatingPowers": {"const":[{"powerId":"power:negate-energy","action":"reaction","damageTypes":["energy"],"aware":true,"notFlatFooted":true,"dc":"raw-attack-damage","comparison":"at-least","success":"negate-attack","failure":"normal-incoming-damage","healing":{"forcePoints":1,"action":"reaction","amount":"raw-attack-damage","maximum":"normal-max-hp"},"sourceIds":["source:wiki-negate-energy","source:wiki-attacks","source:wiki-force-powers","source:wiki-hit-points"]}]},
         "resistancePowers": {
           "const": [
             {

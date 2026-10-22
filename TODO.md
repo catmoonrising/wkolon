@@ -37,6 +37,7 @@
   - [ ] Remaining prestige-class talents and prerequisite feats, Force Tradition access, activated class features and technique/secret effects beyond Power Mastery.
   - [x] Energy Resistance's pinned rules-data contract and tested DR/maintenance/check lifecycle primitives.
   - [x] Integrate Energy Resistance with action costs, early FP quickening, shared maintenance, damage/check resolution, validation/expiry, graphics, stat blocks and the damage-types ambiguity. Improved ally targeting and contextual reroll prompts remain Manual.
+  - [x] Negate Energy: shared HP/Actions reaction, original-damage check, failure defenses/thresholds, saved capped FP healing, copy/trigger spending and offline decisions.
   - [ ] Reactive armor, integrated weapons, medical systems, life-support timers and armor upgrades.
   - [x] Ten additional Core combat feats, reviewed prerequisites and class bonus lists; conditional actions retain full rules text.
   - [x] All Core Scout/Soldier class talents and tree access; automate Armor Mastery, Juggernaut, Second Skin, Long Stride and Melee Smash.

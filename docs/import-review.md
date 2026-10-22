@@ -2481,3 +2481,26 @@ the effects. Typed DR has separate read-only HP/Actions/stat-block displays.
 
 Improved Energy Resistance ally targets and contextual reroll prompts remain Manual;
 the base reference retains its Partial marker. No source revisions changed.
+
+
+## Negate Energy (2026-10-22)
+
+Negate Energy revision18380 now has a closed reviewed reaction contract before its
+calculation code. Awareness and flat-footed requirements remain explicit. Raw
+attack damage is the check DC and successful special healing amount; SR, DR,
+bonus HP and Stun/Ion halving do not lower that DC. Energy-containing mixed attacks
+and Sonic qualify; a pure-Energy restriction is not imported from equipment SR.
+Successful negation leaves damage resources untouched. Failure passes the saved
+attack once through the established HP/threshold/death/survival engine, including
+Balance and maintained Resistance checks. Existing queued-step references are
+refetched after damage commits replace the character's state, preserving completed
+results and preventing replay.
+
+The FP healing decision persists its original roll, caps actual healing without
+lowering above-maximum HP, blocks further damage while pending, and obeys the
+shared round FP limit. Special Reaction healing is distinct from an ordinary
+Free-action check bonus. Power Mastery/Adept and natural20 recovery keep their
+existing permissions, costs and timing. HP and Actions share the canonical damage
+declaration and pointer context form. Completed older manual action histories
+stay compatible. The power retains Partial for contextual reroll prompts and
+explicit enemy attack declarations. See negating-powers.md for the contract.

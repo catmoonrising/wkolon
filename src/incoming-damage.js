@@ -1,3 +1,4 @@
+import {assertNegationResolved} from './negating-powers.js';
 import {resistancePowerDR,assertResistanceResolved,lockResistancePowers,requireResistanceDamageChecks,clearResistancePowers} from './resistance-powers.js';
 import {activeShieldPowers,lockShieldPowers,spendShieldPower} from './shield-powers.js';
 import {activeShields} from './energy-shields.js';
@@ -10,7 +11,7 @@ import {recoveryState,setDead,recordKnockout} from './recovery.js';
 import {ambiguityValue} from './house-rules.js';
 
 export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spendForcePoint=false,energy=false,sonic=false,fire=false,cold=false,electrical=false,lightsaber=false,otherDamage=false,requiresUseTheForce=false,against=[]}={}){
- assertResistanceResolved(c);
+ assertResistanceResolved(c);assertNegationResolved(c);
  if([energy,sonic,fire,cold,electrical,lightsaber,ignoreDR,otherDamage].some(v=>typeof v!=='boolean'))throw new Error('Invalid damage declaration');
  if(!Array.isArray(against)||against.some(a=>typeof a!=='string'||!d.thresholdContext?.bonuses.some(r=>r.against===a)))throw new Error('Invalid damage context');
  if(typeof requiresUseTheForce!=='boolean')throw new Error('Invalid Use the Force damage declaration');

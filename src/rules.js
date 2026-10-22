@@ -1,3 +1,4 @@
+import {validateNegatingPowers} from './negating-powers.js';
 import {validateResistancePowers,activeResistancePowers} from './resistance-powers.js';
 import {validateShieldPowers,activeShieldPowers} from './shield-powers.js';
 import {validateRagePowers,ragePowerModifiers,rageBlockedSkills} from './rage-powers.js';
@@ -139,6 +140,7 @@ export function validateCharacter(c, pack) {
   validateSelfPowerEffects(c,pack,bad);
   validateMovementPowerEffects(c,pack,bad);
   validateRagePowers(c,pack,bad);
+  validateNegatingPowers(c,pack,bad);
   validateShieldPowers(c,pack,bad);validateResistancePowers(c,pack,bad);
   const maintainedIds=[...(c.shieldPowerEffects||[]),...(c.resistancePowerEffects||[])].map(s=>s.id);if(new Set(maintainedIds).size!==maintainedIds.length)bad('maintained power identities');
   validateJump(c,bad);
