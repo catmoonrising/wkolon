@@ -2542,6 +2542,8 @@
             }
           ]
         },
+        "deflection": {"const":{"skillId":"skill:use-the-force","action":"reaction","comparison":"at-least","penaltyPerPriorAttempt":5,"reset":"own-turn-start","weapon":"wielded-activated-lightsaber","aware":true,"notFlatFooted":true,"adjacentForcePoints":1,"rerollTalentId":"talent:soresu","evasionTalentId":"talent:evasion","forceLightningConditionSteps":1,"forceLightningEnhancedConditionSteps":2,"sourceIds":["source:block","source:deflect","source:wiki-lightsaber-forms-talent-tree-soresu","source:evasion","source:wiki-sonic-damage","source:wiki-force-lightning","source:wiki-attacks","source:wiki-bonuses-and-penalties"]}},
+        "deflectionActions": {"const":[{"id":"block","talentId":"talent:block","mode":"melee","kinds":["single","area"],"halfOnSuccess":["area"]},{"id":"deflect","talentId":"talent:deflect","mode":"ranged","kinds":["single","area","autofire","force-lightning"],"halfOnSuccess":["autofire","force-lightning"],"sonicException":true,"capitalRequiresPointDefense":true}]},
         "negatingPowers": {"const":[{"powerId":"power:negate-energy","action":"reaction","damageTypes":["energy"],"aware":true,"notFlatFooted":true,"dc":"raw-attack-damage","comparison":"at-least","success":"negate-attack","failure":"normal-incoming-damage","healing":{"forcePoints":1,"action":"reaction","amount":"raw-attack-damage","maximum":"normal-max-hp"},"sourceIds":["source:wiki-negate-energy","source:wiki-attacks","source:wiki-force-powers","source:wiki-hit-points"]}]},
         "resistancePowers": {
           "const": [
@@ -5657,6 +5659,7 @@
                 "intimidate-undisguised",
                 "jury-rig",
                 "locate-individual",
+                "failedBlockOrDeflect",
                 "oppose-sense-force",
                 "sense-dark-side",
                 "sensors"

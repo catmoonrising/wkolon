@@ -1,3 +1,4 @@
+import {assertDeflectionResolved} from './deflection.js';
 import {assertNegationResolved} from './negating-powers.js';
 import {resistancePowerDR,assertResistanceResolved,lockResistancePowers,requireResistanceDamageChecks,clearResistancePowers} from './resistance-powers.js';
 import {activeShieldPowers,lockShieldPowers,spendShieldPower} from './shield-powers.js';
@@ -10,8 +11,9 @@ import {protectedDamage} from './combat.js';
 import {recoveryState,setDead,recordKnockout} from './recovery.js';
 import {ambiguityValue} from './house-rules.js';
 
-export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spendForcePoint=false,energy=false,sonic=false,fire=false,cold=false,electrical=false,lightsaber=false,otherDamage=false,requiresUseTheForce=false,against=[]}={}){
- assertResistanceResolved(c);assertNegationResolved(c);
+export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spendForcePoint=false,energy=false,sonic=false,fire=false,cold=false,electrical=false,lightsaber=false,otherDamage=false,requiresUseTheForce=false,against=[],conditionSteps=0}={}){
+ assertResistanceResolved(c);assertNegationResolved(c);assertDeflectionResolved(c);
+ if(!Number.isInteger(conditionSteps)||conditionSteps<0||conditionSteps>5)throw new Error('Invalid Condition Track steps');
  if([energy,sonic,fire,cold,electrical,lightsaber,ignoreDR,otherDamage].some(v=>typeof v!=='boolean'))throw new Error('Invalid damage declaration');
  if(!Array.isArray(against)||against.some(a=>typeof a!=='string'||!d.thresholdContext?.bonuses.some(r=>r.against===a)))throw new Error('Invalid damage context');
  if(typeof requiresUseTheForce!=='boolean')throw new Error('Invalid Use the Force damage declaration');
@@ -35,7 +37,7 @@ export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spen
  const exceeded=penetrating>0&&penetrating>=threshold;
  const wasUnconscious=c.condition===rule.helplessStep||beforeHP===0;
  const thresholdSteps=exceeded?(type==='normal'?rule.normalThresholdSteps:type==='stun'||electronic?rule[type].thresholdSteps:0):0;
- const conditionAfter=penetrating>0&&afterDamage===0?rule.helplessStep:Math.min(rule.helplessStep,c.condition+thresholdSteps);
+ const conditionAfter=penetrating>0&&afterDamage===0?rule.helplessStep:Math.min(rule.helplessStep,c.condition+thresholdSteps+conditionSteps);
  // The optional general-death reading concerns the attack reaching zero HP.
  // It leaves special-damage knockout and recovery rules otherwise intact.
  const generalDeath=ambiguityValue(c,pack,'ambiguity:stun-ion-death')==='general-death';

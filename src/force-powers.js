@@ -1,3 +1,4 @@
+import {assertDeflectionResolved} from './deflection.js';
 import {clearResistancePowers} from './resistance-powers.js';
 import {clearShieldPowers} from './shield-powers.js';
 import {clearRagePowers} from './rage-powers.js';
@@ -34,6 +35,7 @@ export function recoverPower(c,d,pack,id){
  c.forcePoints=d.forceCurrent-cost;return restorePowerCopy(c,d,id);
 }
 export function recoverSuite(c,d,{endTurn=false}={}){
+ assertDeflectionResolved(c);
  if(endTurn&&!turnEndRecoveryDue(c))throw new Error('No turn-end recovery pending');
  if(endTurn){clearBracing(c);if(c.mightySwing!==undefined)c.mightySwing=false;}
  else {clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);advanceTimedTalents(c,ROUNDS_PER_MINUTE);startNextTurn(c);}

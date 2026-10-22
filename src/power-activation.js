@@ -1,9 +1,11 @@
+import {pendingDeflection} from './deflection.js';
 import {pendingNegation} from './negating-powers.js';
 import {pendingResistanceChecks} from './resistance-powers.js';
 import {resolveEquipment} from './equipment.js';
 
 export function activeLightsabers(c,pack){return c.inventory.filter(e=>e.equipped&&e.carried!==false&&e.activated!==false&&resolveEquipment(e,pack,c).group==='lightsabers');}
 export function powerActivationIssue(c,d,pack,power){
+ if(pendingDeflection(c))return 'Resolve Block or Deflect first';
  if(pendingNegation(c))return 'Resolve Negate Energy first';
  if(pendingResistanceChecks(c).length)return 'Resolve or release Energy Resistance maintenance';
  if(!power||power.spent||d.incapacitated||!d.skills.find(s=>s.id==='skill:use-the-force')?.available)return 'Power unavailable';

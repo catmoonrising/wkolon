@@ -2504,3 +2504,29 @@ existing permissions, costs and timing. HP and Actions share the canonical damag
 declaration and pointer context form. Completed older manual action histories
 stay compatible. The power retains Partial for contextual reroll prompts and
 explicit enemy attack declarations. See negating-powers.md for the contract.
+
+## Block, Deflect and Soresu (2026-10-22)
+
+The closed reaction contract precedes calculations. Pinned Block/Deflect retain
+their shared -5 per previous attempt since own-turn start, inclusive attack-roll
+DC, actual Lightsaber readiness and awareness requirements, and adjacent-ally FP
+cost. Reactions interrupt Aim and Bracing without spending normal actions or
+inventing Force-power-suite recovery. Rounds and ending combat do not reset the
+attempt penalty. Contextual rerolls snapshot the original bonus and eligible
+sources, share Knack's daily resource, and resolve before damage. Soresu rerolls
+failed checks using the ordinary replacement policy.
+
+Sonic Damage revision26734 is promoted from the pinned reference library into
+reviewed core articles without rewriting its text. Pure Sonic ranged weapons
+cannot be Deflected; declared extra Sonic damage survives on a hit. Area hit/miss,
+cover, minimum attack totals and Evasion feed the same protected-damage engine.
+Force Lightning retains its extra Condition Track steps on hits, including when
+protection absorbs the HP damage. Ally protection reports damage before the
+ally's own defenses rather than modifying the actor's HP or another roster.
+
+Jedi Counseling105/106 are recorded as RAW-equivalent because the pinned Block
+text already contains the melee-area permission, and separating the three talents
+is unchanged. Disabling Counseling does not erase that printed permission.
+Block, Deflect and Soresu retain Partial markers: external attack/adjacency/hit
+context is declared, Redirect Shot and optional Saber Locks are separate features,
+and additional equipment/talent exceptions still require their own automation.

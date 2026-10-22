@@ -24937,7 +24937,8 @@
     {"id":"source:wiki-service-droid","title":"Service Droid","revision":21109,"timestamp":"2024-08-26T01:10:42Z","sha256":"991f024e32ec1248843b36d4a7f9d1fc09036356190e8e3808dfe269c6f3246a","url":"https://swse.miraheze.org/w/index.php?oldid=21109","history":"https://swse.miraheze.org/w/index.php?title=Service%20Droid&action=history","section":null},
     {"id":"source:wiki-battle-droid","title":"Battle Droid","revision":16166,"timestamp":"2024-08-18T00:56:25Z","sha256":"6a7dac5e7ddba21edad801cb4474ce8d94cb90ab15d3e793c89742062655eb86","url":"https://swse.miraheze.org/w/index.php?oldid=16166","history":"https://swse.miraheze.org/w/index.php?title=Battle%20Droid&action=history","section":null},
     {"id":"source:wiki-probe-droid","title":"Probe Droid","revision":21085,"timestamp":"2024-08-26T01:08:08Z","sha256":"dd3b987cf2ab8d37d6b6bb0aa9c9d34e708369172db73c4161e4263b26f7e1c0","url":"https://swse.miraheze.org/w/index.php?oldid=21085","history":"https://swse.miraheze.org/w/index.php?title=Probe%20Droid&action=history","section":null},
-    {"id":"source:wiki-labor-droid","title":"Labor Droid","revision":21061,"timestamp":"2024-08-26T01:05:18Z","sha256":"aef5f7f4d24de91422f9f068c88fecbc56fc98dfd27d6c0e7c76796617f669f6","url":"https://swse.miraheze.org/w/index.php?oldid=21061","history":"https://swse.miraheze.org/w/index.php?title=Labor%20Droid&action=history","section":null}
+    {"id":"source:wiki-labor-droid","title":"Labor Droid","revision":21061,"timestamp":"2024-08-26T01:05:18Z","sha256":"aef5f7f4d24de91422f9f068c88fecbc56fc98dfd27d6c0e7c76796617f669f6","url":"https://swse.miraheze.org/w/index.php?oldid=21061","history":"https://swse.miraheze.org/w/index.php?title=Labor%20Droid&action=history","section":null},
+    {"id":"source:wiki-sonic-damage","title":"Sonic Damage","revision":26734,"timestamp":"2025-07-05T16:44:18Z","sha256":"d73c1891c01c99bc6111560f3742cab940ef54fb071e4047cf67cf15b831f079","url":"https://swse.miraheze.org/w/index.php?oldid=26734","history":"https://swse.miraheze.org/w/index.php?title=Sonic%20Damage&action=history","section":null}
   ],
   "species": [
     {
@@ -40493,7 +40494,7 @@
       "reminder": "React with Use the Force against a melee attack; each additional Block/Deflect adds a cumulative -5. An ignited lightsaber is required.",
       "effects": [],
       "forceActivation": "check",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:born-leader",
@@ -40522,7 +40523,7 @@
       "reminder": "React with Use the Force against a ranged attack; each additional Block/Deflect adds a cumulative -5. An ignited lightsaber is required.",
       "effects": [],
       "forceActivation": "check",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:evasion",
@@ -40536,7 +40537,7 @@
       "repeat": "never",
       "reminder": "Area attacks deal half damage on a hit and none on a miss.",
       "effects": [],
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:expert-tracker",
@@ -43902,10 +43903,17 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "skillReroll",
+          "skill": "skill:use-the-force",
+          "keep": "new",
+          "when": "failedBlockOrDeflect"
+        }
+      ],
       "reminder": "",
       "forceActivation": "check",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:system-hit",
@@ -66835,6 +66843,8 @@
       }
     },
     "counselingApplications": {
+      "jc:105-deflect-and-block-vs-area-attacks":"raw-equivalent",
+      "jc:106-block-deflect-and-redirect":"raw-equivalent",
       "jc:114-equilibrium-and-persistent-conditions":"raw-equivalent",
       "jc:106-jedi-multiclassing": "talent-activation",
       "jc:112-weapon-familiarity-with-feats-and-talents": "weapon-familiarity",
@@ -68432,6 +68442,8 @@
         }
       }
     ],
+    "deflection": {"skillId":"skill:use-the-force","action":"reaction","comparison":"at-least","penaltyPerPriorAttempt":5,"reset":"own-turn-start","weapon":"wielded-activated-lightsaber","aware":true,"notFlatFooted":true,"adjacentForcePoints":1,"rerollTalentId":"talent:soresu","evasionTalentId":"talent:evasion","forceLightningConditionSteps":1,"forceLightningEnhancedConditionSteps":2,"sourceIds":["source:block","source:deflect","source:wiki-lightsaber-forms-talent-tree-soresu","source:evasion","source:wiki-sonic-damage","source:wiki-force-lightning","source:wiki-attacks","source:wiki-bonuses-and-penalties"]},
+    "deflectionActions": [{"id":"block","talentId":"talent:block","mode":"melee","kinds":["single","area"],"halfOnSuccess":["area"]},{"id":"deflect","talentId":"talent:deflect","mode":"ranged","kinds":["single","area","autofire","force-lightning"],"halfOnSuccess":["autofire","force-lightning"],"sonicException":true,"capitalRequiresPointDefense":true}],
     "negatingPowers": [{"powerId":"power:negate-energy","action":"reaction","damageTypes":["energy"],"aware":true,"notFlatFooted":true,"dc":"raw-attack-damage","comparison":"at-least","success":"negate-attack","failure":"normal-incoming-damage","healing":{"forcePoints":1,"action":"reaction","amount":"raw-attack-damage","maximum":"normal-max-hp"},"sourceIds":["source:wiki-negate-energy","source:wiki-attacks","source:wiki-force-powers","source:wiki-hit-points"]}],
     "resistancePowers": [{"powerId":"power:energy-resistance","thresholds":[{"dc":20,"dr":5},{"dc":25,"dr":10},{"dc":30,"dr":15},{"dc":35,"dr":20}],"damageTypes":["energy"],"duration":"start-next-turn","maintenance":"swift","quickening":{"action":"swift","forcePoints":1,"timing":"before-check"},"damageCheck":{"skillId":"skill:use-the-force","baseDC":15,"damage":"post-protection-before-hp-halving"},"sourceIds":["source:wiki-energy-resistance","source:wiki-attacks","source:wiki-force-powers"]}],
     "shieldPowers": [{"powerId":"power:force-shield","thresholds":[{"dc":15,"sr":5},{"dc":20,"sr":10},{"dc":25,"sr":15},{"dc":30,"sr":20}],"enhancementSR":5,"duration":"start-next-turn","maintenance":"standard","recharge":false,"endsAtZero":true,"sourceIds":["source:wiki-force-shield","source:wiki-attacks","source:wiki-force-powers"]}],
@@ -68477,7 +68489,8 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
-        {"id":"maintain-power","name":"Maintain","type":"standard","count":1},
+        {"id":"block","name":"Block","type":"reaction","count":1,"ruleId":"rule:lightsaber-combat-talent-tree"},{"id":"deflect","name":"Deflect","type":"reaction","count":1,"ruleId":"rule:lightsaber-combat-talent-tree"},
+{"id":"maintain-power","name":"Maintain","type":"standard","count":1},
         {"id":"jump","name":"Jump","type":"move","count":1,"ruleId":"rule:jump"},
         {"id":"damage-reduction-10","name":"Damage Reduction 10","type":"standard","count":1},
         {"id":"lightsaber-defense","name":"Lightsaber Defense","type":"swift","count":1},{"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},

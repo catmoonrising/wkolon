@@ -1,3 +1,5 @@
+import {deflectionRule,deflectionPlan,deflectionRerollSources,snapshotDeflectionRerolls,rerollDeflection,finishDeflection,assertDeflectionResolved} from './deflection.js';
+import {balanceAfterDamage} from './balance.js';
 import {negatingPowerRule,negateEnergyPlan,assertNegationResolved} from './negating-powers.js';
 import {maintainedPowers,powerMaintenancePlan,renewMaintainedPower} from './maintained-powers.js';
 import {resistancePowerRule,assertResistanceResolved,pendingResistanceChecks,recordResistanceDamageCheck,finishResistanceDamageCheck,removeResistancePower} from './resistance-powers.js';
@@ -18,7 +20,7 @@ import {talentActivation,applyTalentActivation,endEncounterTalents} from './tale
 import {escapeBonds,planEscapeBonds} from './escape-bonds.js';
 import {canAim} from './weapon-rules.js';
 import {derive,validateCharacter,signed} from './rules.js';
-import {ACTION_TYPES,actionState,emptyActionState,allocateActions,spendActions,archivePlan,queueAction,resetActionTurn,checkForcePointAvailable} from './action-economy.js';
+import {ACTION_TYPES,pendingChoiceMessage,actionState,emptyActionState,allocateActions,spendActions,archivePlan,queueAction,resetActionTurn,checkForcePointAvailable} from './action-economy.js';
 import {rollCombatRoutine,rollCharge,routinePlan} from './combat.js';
 import {planFullAttack} from './full-attacks.js';
 import {rollRoutineStep,routineStepPlan} from './routine-steps.js';
@@ -69,6 +71,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(id==='recover-power')o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';
  if(pack.rules.skillActions?.some(r=>r.id===id)){o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';o.rollMode='roll';o.fp='ask';o.safe=false;}
  if(['shield','shield-recharge'].includes(id))o.uid=c.inventory.find(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield)?.uid||'';
+ if(deflectionRule(pack,id)){o.attackRoll=0;o.aware=false;o.kind='single';o.target='self';o.hit=true;o.rerolls='failed';o.incoming={amount:0,options:{type:'normal',against:[]}};}
  if(id==='bellow'){o.extraDice=0;o.strong=false;}
  if(id==='encounter-talent'){const t=pack.talents.find(t=>t.activation&&d.ctx.talents.some(s=>s.id===t.id)&&!d.ctx.inactiveTalents.has(t.id));o.talentId=t?.id||'';o.choice=t?.activation.choices.find(o=>!c.talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||'';}
  if(id.startsWith('manual-'))o.note=pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name==='Other'?'':pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name||'';
@@ -79,7 +82,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  const q=withOptions(c,id,options);validateCharacter(q,pack);const d=derive(q,pack),s=actionState(q),o=options;
  const view={...def,cost:{type:def.type,count:def.count,...(def.also?{also:def.also}:{})},name:def.name,manual:id.startsWith('manual-'),character:q,derived:d};
  try{
- assertResistanceResolved(q);
+ assertResistanceResolved(q);assertDeflectionResolved(q);
  assert(!d.incapacitated&&!d.helpless,'Actions unavailable while helpless');
  const a=d.attacks.find(a=>a.uid===o.uid),entry=q.inventory.find(e=>e.uid===o.uid);
  switch(id){
@@ -98,6 +101,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'running-attack':{const p=runningAttackPlan(q,pack,o.uid);view.attackPlan=routinePlan(p.routine,[p.attack]);break;}
  case 'balance':case 'balance-recheck':planBalance(q,d,pack,id==='balance-recheck');break;
  case 'escape-bonds':{const p=planEscapeBonds(q,d,pack);view.cost.type=typeOf(p.duration);assert(view.cost.type,'Resolve this duration outside turn tracking');break;}
+ case 'block':case 'deflect':view.deflection=deflectionPlan(q,d,pack,id,o);view.forceCost=view.deflection.forceCost;break;
  case 'maintain-power':{const p=powerMaintenancePlan(q,d,pack,o.effectId);view.maintenance=p;view.name='Maintain '+p.name;view.cost.type=p.rule.maintenance;break;}
  case 'jump':{const p=planJump(q,d,pack);assert(p.timeMultiplier===1,'Take 20 requires time outside tracked turns');view.jump=p;view.name=p.name;view.cost.count=p.path.moves;view.fpAllowed=!p.noCheck&&p.path.checkMode==='roll'&&p.path.check===null&&checkForcePointAvailable(q,d);break;}
  case 'move':planAcrobaticsMove(q,d,pack);break;
@@ -174,6 +178,15 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(id==='running-attack'){r=rollRunningAttack(c,pack,o.uid,roller);spendAttackResources(c,r);}
  else if(id==='balance'||id==='balance-recheck')r=balance(c,d,pack,id==='balance-recheck',roller);
  else if(id==='escape-bonds')r=escapeBonds(c,d,pack,roller);
+ else if(v.deflection){
+  clearFollowUps(c);clearAiming(c);clearBracing(c);
+  const p=v.deflection;Object.assign(o,p.declaration);c.deflectionAttempts=(c.deflectionAttempts||0)+1;if(p.forceCost)c.forcePoints=d.forceCurrent-p.forceCost;
+  const x=roller('1d20'+signed(p.bonus)),natural=x.d20?.[0];assert(Number.isInteger(natural)&&natural>=1&&natural<=20&&x.value===natural+p.bonus,'Invalid Use the Force check');
+  const check={natural,bonus:p.bonus,total:x.value};o.deflectionCheck=snapshotDeflectionRerolls(c,d,pack,id,o,check);
+  const step=c.actionState.plan.find(s=>s.id===activationId);step.result={text:v.name+': Use the Force '+check.total+' / '+o.attackRoll,check,fpAllowed:false,enhanceAllowed:false};
+  const rerollAllowed=o.rerolls!=='none'&&(o.rerolls==='always'||check.total<o.attackRoll)&&deflectionRerollSources(c,d,pack,step).length>0;
+  r={...step.result,rerollAllowed,html:x.display+' = '+totalHtml(x)};if(!rerollAllowed){step.status='done';const finished=finishDeflection(c,d,pack,step);r.text=finished.text;if(finished.damage?.balanceCheckRequired)r.text+='; '+balanceAfterDamage(c,derive(c,pack),pack,roller).text;}
+ }
  else if(id==='maintain-power'){renewMaintainedPower(c,o.effectId,v.maintenance.family);invalidate(c);r={text:'Maintain '+v.maintenance.name+': '+(v.maintenance.family==='shield'?'SR '+v.maintenance.row.sr:'DR '+v.maintenance.rule.thresholds[v.maintenance.row.tier-1].dr)};}
  else if(id==='jump'){r=rollJump(v.jump,roller);o.jumpResolution={dc:v.jump.dc,cost:v.jump.cost,maximum:v.jump.maximum,noCheck:v.jump.noCheck};const finished=finishJump(c,v.jump,r.check);r.fpAllowed=v.fpAllowed;r.enhanceAllowed=false;if(!(r.fpAllowed&&o.fp==='ask')){r.text+='; '+finished.text;r.html=escape(r.text)+(r.html?'<div>'+r.html+'</div>':'');}}
  else if(id==='move')r=acrobaticsMove(c,d,pack,roller);
@@ -217,20 +230,20 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(id==='shield-recharge'){const x=rechargeEnergyShield(c,d,pack,o.uid,roller);r={text:'Shield recharge: Mechanics '+x.roll.value+'; SR '+x.before+' → '+x.after,html:x.roll.display+' = '+totalHtml(x.roll)};}
  else {invalidate(c);r={text:v.name+' (Manual)'};}
  if(v.forceCost)c.actionState.forceSpent=true;
- return {text:r?.text||v.name,...(r?.html?{html:r.html}:{}),...(r?.check?{check:r.check,fpAllowed:r.fpAllowed,enhanceAllowed:r.enhanceAllowed}:{})};
+ return {text:r?.text||v.name,...(r?.html?{html:r.html}:{}),...(r?.check?{check:r.check,fpAllowed:r.fpAllowed,enhanceAllowed:r.enhanceAllowed,...(r.rerollAllowed!==undefined?{rerollAllowed:r.rerollAllowed}:{})}:{})};
 }
 function commit(c,q){for(const k of Object.keys(c))if(!Object.hasOwn(q,k))delete c[k];Object.assign(c,q);}
 export function executeAction(c,pack,stepId,roller=evalExpr){
- const original=c.actionState?.plan.find(p=>p.id===stepId);assert(original?.status==='queued','Action already resolved or unavailable');assert(!c.actionState.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');
+ const original=c.actionState?.plan.find(p=>p.id===stepId);assert(original?.status==='queued','Action already resolved or unavailable');assert(!c.actionState.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));
  const v=describeAction(c,pack,original.action,original.options),q=v.character;q.actionState??=emptyActionState();if(!q.actionState.active&&v.cost.type==='reaction')q.actionState.ended=true;if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')&&reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;let step=q.actionState.plan.find(p=>p.id===stepId);
  if(v.selfPower)step.options.effectPowerId=v.power.id;else delete step.options.effectPowerId;
  if(v.power&&ragePowerRule(pack,v.power.id))step.options.rageFocusAllowed=hasRageTechnique(v.derived.ctx,pack);else delete step.options.rageFocusAllowed;
  const result=resolve(q,pack,step.action,step.options,v,roller,step.id);spendActions(q.actionState,v.allocation);step=q.actionState.plan.find(p=>p.id===stepId);
- step.result={text:result.text.slice(0,2000),...(result.check?{check:result.check,fpAllowed:result.fpAllowed,enhanceAllowed:result.enhanceAllowed}:{})};step.turn=q.actionState.turn;step.status=(result.fpAllowed&&step.options.fp==='ask'||result.enhanceAllowed)?'waiting':'done';
+ step.result={text:result.text.slice(0,2000),...(result.check?{check:result.check,fpAllowed:result.fpAllowed,enhanceAllowed:result.enhanceAllowed,...(result.rerollAllowed!==undefined?{rerollAllowed:result.rerollAllowed}:{})}:{})};step.turn=q.actionState.turn;step.status=(result.rerollAllowed||result.fpAllowed&&step.options.fp==='ask'||result.enhanceAllowed)?'waiting':'done';
  validateCharacter(q,pack);commit(c,q);return result;
 }
 export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
- const q=structuredClone(c),s=q.actionState;let step=s?.plan.find(p=>p.id===stepId);assert(step?.status==='waiting'&&step.result?.check,'No pending check');
+ const q=structuredClone(c),s=q.actionState;let step=s?.plan.find(p=>p.id===stepId);assert(step?.status==='waiting'&&step.result?.check&&!step.result.rerollAllowed,'No pending check');
  if(step.options.effectPowerId){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);assert(power?.id===step.options.effectPowerId,'Power unavailable');}
  const mode=spend===true?'bonus':spend===false?'none':spend;assert(['bonus','enhance','none'].includes(mode),'Invalid Force Point choice');let extra;
  if(mode!=='none'){
@@ -252,10 +265,10 @@ export function takeAction(c,pack,id,o={},roller=evalExpr){
  describeAction(c,pack,id,o);const q=structuredClone(c);if(q.actionState?.plan.length>=30)archivePlan(q);const step=queueAction(q,id,o),result=executeAction(q,pack,step.id,roller);commit(c,q);return result;
 }
 export function beginNextTurn(c,pack,{maintain=[]}={}){
- const q=structuredClone(c),previous=q.actionState;assertResistanceResolved(q);assert(Array.isArray(maintain)&&maintain.every(id=>typeof id==='string')&&new Set(maintain).size===maintain.length,'Invalid maintenance choices');const live=maintainedPowers(q,pack);assert(maintain.every(id=>live.some(s=>s.id===id)),'Power maintenance unavailable');const carry=live.filter(s=>maintain.includes(s.id)).map(s=>({family:s.family,row:structuredClone((s.family==='shield'?q.shieldPowerEffects:q.resistancePowerEffects).find(r=>r.id===s.id))}));if(actionPhase(previous)!=='normal')q.flatFooted=false;assert(!previous?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');
+ const q=structuredClone(c),previous=q.actionState;assertResistanceResolved(q);assert(Array.isArray(maintain)&&maintain.every(id=>typeof id==='string')&&new Set(maintain).size===maintain.length,'Invalid maintenance choices');const live=maintainedPowers(q,pack);assert(maintain.every(id=>live.some(s=>s.id===id)),'Power maintenance unavailable');const carry=live.filter(s=>maintain.includes(s.id)).map(s=>({family:s.family,row:structuredClone((s.family==='shield'?q.shieldPowerEffects:q.resistancePowerEffects).find(r=>r.id===s.id))}));if(actionPhase(previous)!=='normal')q.flatFooted=false;assert(!previous?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));
  if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});
  if(previous?.active)advanceTimedTalents(q);
- startNextTurn(q);startNextRound(q);
+ q.deflectionAttempts=0;startNextTurn(q);startNextRound(q);
  if(previous){advanceRage(q);resetActionTurn(q);}
  else q.actionState=emptyActionState();
  q.actionState.active=true;
@@ -263,8 +276,8 @@ export function beginNextTurn(c,pack,{maintain=[]}={}){
  const results=maintain.map(effectId=>takeAction(q,pack,'maintain-power',{effectId}));
  validateCharacter(q,pack);commit(c,q);return results;
 }
-export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endRagePowerTurn(q);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
-export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),'Resolve the pending Force Point choice');clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
+export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endRagePowerTurn(q);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
+export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false,uncertainMovement=false;
  for(const step of q.actionState.plan){
@@ -285,6 +298,7 @@ export function previewPlan(c,pack){
    if(step.action==='reload'){const e=q.inventory.find(e=>e.uid===step.options.uid);e.shotsRemaining=ammunitionProfile(e,pack).capacity;}
    if(step.action==='aim'){clearAiming(q);q.inventory.find(e=>e.uid===step.options.uid).aimed=true;}
    if(step.action==='encounter-talent'){clearAiming(q);clearBracing(q);applyTalentActivation(q,step.options.talentId,step.options.choice);}
+   if(v.deflection)q.deflectionAttempts=(q.deflectionAttempts||0)+1;
    if(v.forceCost){q.forcePoints-=v.forceCost;q.actionState.forceSpent=true;}
    if(v.destinyCost)q.story.points-=v.destinyCost;
    if(step.action==='power'){q.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===step.options.powerId).spent=true;if(movementPowerRule(pack,v.power.id))uncertainMovement=true;}
@@ -309,4 +323,13 @@ export function finishResistanceMaintenance(c,pack,id,spend=false,roller=evalExp
  assert(pendingResistanceChecks(q).some(s=>s.id===id&&s.pending.check),'Maintenance roll unavailable');
  if(spend){assert(checkForcePointAvailable(q,d),'Force Point unavailable');extra=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);assert(Number.isInteger(extra.value)&&extra.value>=1&&extra.value<=d.forcePointDie,'Invalid Force Point roll');q.forcePoints=d.forceCurrent-1;q.actionState.forceSpent=true;}
  const result=finishResistanceDamageCheck(q,pack,id,extra?.value||0);validateCharacter(q,pack);commit(c,q);return {text:'Energy Resistance: '+result.total+' / '+result.dc+'; '+(result.success?'maintained':'released')+(extra?'; Force Point +'+extra.value:''),...result};
+}
+
+export function finishDeflectionChoice(c,pack,stepId,sourceId=null,roller=evalExpr){
+ const q=structuredClone(c);let step=q.actionState?.plan.find(s=>s.id===stepId);assert(step?.status==='waiting'&&step.result?.rerollAllowed&&deflectionRule(pack,step.action),'No pending Block or Deflect');
+ let html;if(sourceId!==null){const r=rerollDeflection(q,derive(q,pack),pack,step,sourceId,roller);html=r.display+' = '+totalHtml(r);}
+ const keepWaiting=sourceId!==null&&(step.options.rerolls==='always'||step.result.check.total<step.options.attackRoll)&&deflectionRerollSources(q,derive(q,pack),pack,step).length>0;
+ let text=(step.action==='block'?'Block':'Deflect')+': Use the Force '+step.result.check.total+' / '+step.options.attackRoll;
+ if(!keepWaiting){step.status='done';step.result.rerollAllowed=false;const finished=finishDeflection(q,derive(q,pack),pack,step);text=finished.text;if(finished.damage?.balanceCheckRequired)text+='; '+balanceAfterDamage(q,derive(q,pack),pack,roller).text;}
+ step=q.actionState.plan.find(s=>s.id===stepId);step.result.text=text;validateCharacter(q,pack);commit(c,q);return {text,...(html?{html}:{})};
 }

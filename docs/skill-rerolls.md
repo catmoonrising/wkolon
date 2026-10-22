@@ -53,3 +53,10 @@ counts are refreshed before rolling, so stale controls cannot overspend.
 Checks with already resolved automatic effects, including Force Power and
 Force Focus execution, do not yet expose a Knack decision. Knack remains Partial
 until those checks support the same before-resolution reroll decision.
+
+Block/Deflect checks expose saved before-resolution choices for compatible rerolls,
+including Soresu on failure and Knack. Each source can be used once on that check;
+Knack also spends its shared daily capacity. Reloading preserves the original
+modifier, attack DC, roll history and allowed source identities. A reroll is not
+another Block/Deflect attempt. Other automatic checks retain their existing
+partial status until they expose equivalent before-resolution controls.

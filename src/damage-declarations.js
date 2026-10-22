@@ -3,8 +3,9 @@ const object=v=>v!==null&&typeof v==='object'&&!Array.isArray(v);
 export function incomingDamageDeclaration(value){
  if(!object(value)||Object.keys(value).some(k=>!['amount','options'].includes(k))||!Number.isInteger(value.amount)||value.amount<0||value.amount>1000000000)throw new Error('Enter incoming damage');
  const source=value.options===undefined?{}:value.options;
- if(!object(source)||Object.keys(source).some(k=>!['type','against',...flags].includes(k)))throw new Error('Invalid incoming damage declaration');
- const options={type:source.type===undefined?'normal':source.type,...Object.fromEntries(flags.map(k=>[k,source[k]===undefined?false:source[k]])),against:source.against===undefined?[]:source.against};
+ if(!object(source)||Object.keys(source).some(k=>!['type','against','conditionSteps',...flags].includes(k)))throw new Error('Invalid incoming damage declaration');
+ const options={type:source.type===undefined?'normal':source.type,...(source.conditionSteps!==undefined?{conditionSteps:source.conditionSteps}:{}),...Object.fromEntries(flags.map(k=>[k,source[k]===undefined?false:source[k]])),against:source.against===undefined?[]:source.against};
+ if(source.conditionSteps!==undefined&&(!Number.isInteger(source.conditionSteps)||source.conditionSteps<0||source.conditionSteps>5))throw new Error('Invalid Condition Track steps');
  if(!['normal','stun','ion'].includes(options.type)||flags.some(k=>typeof options[k]!=='boolean')||!Array.isArray(options.against)||options.against.length>20||new Set(options.against).size!==options.against.length||options.against.some(k=>typeof k!=='string'||!k||k.length>100))throw new Error('Invalid incoming damage declaration');
  return {amount:value.amount,options:{...options,against:[...options.against]}};
 }

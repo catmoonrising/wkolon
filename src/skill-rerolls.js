@@ -1,6 +1,7 @@
 import {recoveryState} from './recovery.js';
 // Application sets let a broader species permission combine with a narrower talent.
 export const REROLL_SCOPES={
+ failedBlockOrDeflect:{label:'Failed Block / Deflect',applications:['block','deflect']},
  always:{label:'',applications:null},
  keenSmell:{label:'Keen Smell',applications:['perception-scent'],detail:'Target within 6 squares, same room or open area'},
  intimidate:{label:'Intimidate',applications:['intimidate']},
