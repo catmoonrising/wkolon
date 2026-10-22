@@ -91,7 +91,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
    const t=pack.talents.find(t=>t.id===conditionRecovery.talentId),page=pack.rulePages.find(p=>p.name===t.name);
    if(conditionRecovery.forcePoints)fields+=`<span>${conditionRecovery.forcePoints} FP</span>`;
    if(conditionRecovery.dailyUsesPerSelection){const owned=d.ctx.talents.filter(t=>t.id===conditionRecovery.talentId&&!d.ctx.inactiveTalents.has(t.id)).length;fields+=`<span>${Math.max(0,owned*conditionRecovery.dailyUsesPerSelection-(c.recovery?.indomitableSpent||0))} / ${owned*conditionRecovery.dailyUsesPerSelection}</span>`;}
-   if(page)fields+=`<button type="button" data-rule-page="${escape(page.id)}" aria-label="${escape(t.name)} rules">ⓘ</button>`;
+   if(page&&page.id!==r.ruleId)fields+=`<button type="button" data-rule-page="${escape(page.id)}" aria-label="${escape(t.name)} rules">ⓘ</button>`;
   }
   if(id==='maintain-power')fields+=select('effectId','Power',[...(c.shieldPowerEffects||[]),...(c.resistancePowerEffects||[])].filter(s=>s.untilTurn===actionState(c).turn).map(s=>[s.id,pack.forcePowers.find(p=>p.id===s.powerId).name]),o.effectId);
   if(id==='encounter-talent'){
@@ -130,7 +130,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
    else if(d.forceCurrent>0)fields+=check('incoming.options.spendForcePoint','1 FP to survive',o.incoming.options.spendForcePoint);
    fields+=(d.conditionalThresholds||[]).map(t=>`<label><input type="checkbox" data-incoming-context="${escape(t.against)}" ${o.incoming.options.against?.includes(t.against)?'checked':''}>${escape(t.against==='use-the-force'?'Use the Force':t.against==='deception-or-persuasion'?'Deception/Persuasion':'Extreme Temperatures')}</label>`).join('');
    fields+=select('rerolls','Rerolls',[['failed','On failure'],['always','Always'],['none','None']],o.rerolls||'failed');
-   const penalty=deflectionPenalty(c,pack);if(penalty)fields+=`<span>Use the Force -${penalty}</span>`;
+   const penalty=deflectionPenalty(c,pack,d.ctx);if(penalty)fields+=`<span>Use the Force -${penalty}</span>`;
    fields+=`<button type="button" data-rule-page="rule:lightsaber-combat-talent-tree" aria-label="${id==='block'?'Block':'Deflect'} rules">ⓘ</button>`;
   }
   if(id==='power'){
@@ -160,7 +160,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   if(id==='bellow')fields+=input('extraDice','Extra d6',o.extraDice)+check('strong','Strong Bellow',o.strong)+input('damage','Entered damage (over 500 dice)',o.damage);
   if(id.startsWith('manual-')&&r.name==='Other')fields+=text('note','Action',o.note||'');
   fields+=routeFields(o,id);
-  body.innerHTML=`<form id="action-options"><div class="action-fields">${fields}</div><div class="actions"><span data-action-cost>${escape(costLabel(v.cost))}</span>${id.startsWith('manual-')?'<span class="badge">Manual</span>':''}${r.referenceId?`<button type="button" data-rule-reference="${r.referenceId}">ⓘ</button>`:''}${r.ruleId?`<button type="button" data-rule-page="${r.ruleId}">ⓘ</button>`:''}</div><p class="action-error" role="status" data-action-error>${escape(v.issue||'')}</p><div class="modal-actions"><button type="button" data-action-back>Back</button><button type="button" data-action-queue>${editId?'Save':'Queue'}</button><button type="submit" ${v.issue?'disabled':''}>Run</button></div></form>`;
+  body.innerHTML=`<form id="action-options"><div class="action-fields">${fields}</div><div class="actions"><span data-action-cost>${escape(costLabel(v.cost))}</span>${id.startsWith('manual-')?'<span class="badge">Manual</span>':''}${r.referenceId?`<button type="button" data-rule-reference="${r.referenceId}">ⓘ</button>`:''}${r.ruleId&&!fields.includes('data-rule-page="'+r.ruleId+'"')?`<button type="button" data-rule-page="${r.ruleId}" aria-label="${escape(r.name)} rules">ⓘ</button>`:''}</div><p class="action-error" role="status" data-action-error>${escape(v.issue||'')}</p><div class="modal-actions"><button type="button" data-action-back>Back</button><button type="button" data-action-queue>${editId?'Save':'Queue'}</button><button type="submit" ${v.issue?'disabled':''}>Run</button></div></form>`;
   body.querySelector('[data-action-back]').addEventListener('click',()=>menu(category||v.cost.type));
   body.querySelector('[data-action-queue]').addEventListener('click',()=>{try{read();if(editId){const step=c.actionState.plan.find(p=>p.id===editId);if(step?.status!=='queued')throw new Error('Action already resolved');step.options=structuredClone(draft.o);}else queueAction(c,id,draft.o);panel.close();changed();}catch(e){error(e.message);}});
   body.querySelector('form').addEventListener('submit',e=>{e.preventDefault();read();try{const result=editId?(c.actionState.plan.find(p=>p.id===editId).options=structuredClone(draft.o),executeAction(c,pack,editId)):takeAction(c,pack,id,draft.o);log('roll',result.text,result.html);panel.close();changed();}catch(e){error(e.message);}});

@@ -68,3 +68,7 @@ keep unavailable reactions visible, expose the current cumulative penalty, and
 reuse the shared saved-check decision controls for legal rerolls. Validate printed
 talent access and weapon readiness from current state, but do not reroll or
 rebuild an already captured check when resuming a saved decision.
+
+Shii-Cho replaces the per-attempt penalty with -2 while its ownership remains
+valid. The counter stores attempts rather than a precomputed penalty, so later
+reactions use current legal styles while saved rerolls keep their original bonus.

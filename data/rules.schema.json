@@ -2286,62 +2286,7 @@
             }
           }
         },
-        "conditionRecoveryActions": {
-          "type": "array",
-          "minItems": 2,
-          "maxItems": 2,
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "required": [
-              "id",
-              "talentId",
-              "steps",
-              "forcePoints",
-              "removePersistent",
-              "dailyUsesPerSelection",
-              "sourceIds"
-            ],
-            "properties": {
-              "id": {
-                "enum": [
-                  "equilibrium",
-                  "indomitable"
-                ]
-              },
-              "talentId": {
-                "enum": [
-                  "talent:equilibrium",
-                  "talent:indomitable"
-                ]
-              },
-              "steps": {
-                "const": 5
-              },
-              "forcePoints": {
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 1
-              },
-              "removePersistent": {
-                "type": "boolean"
-              },
-              "dailyUsesPerSelection": {
-                "type": "integer",
-                "minimum": 0,
-                "maximum": 1
-              },
-              "sourceIds": {
-                "type": "array",
-                "minItems": 2,
-                "uniqueItems": true,
-                "items": {
-                  "$ref": "#/$defs/id"
-                }
-              }
-            }
-          }
-        },
+        "conditionRecoveryActions": {"const":[{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]},{"id":"resilience","talentId":"talent:resilience","steps":2,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-jedi-guardian-talent-tree-resilience","source:wiki-conditions"]}]},
         "skillActions": {
           "type": "array",
           "minItems": 1,
@@ -2542,6 +2487,8 @@
             }
           ]
         },
+        "deflectionModifiers":{"const":[{"talentId":"talent:shii-cho","penaltyPerPriorAttempt":2,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-shii-cho"]}]},
+        "lightsaberDefenseStyle":{"const":{"talentId":"talent:makashi","amount":2,"maximum":5,"weaponCount":1,"hands":1,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-makashi"]}},
         "deflection": {"const":{"skillId":"skill:use-the-force","action":"reaction","comparison":"at-least","penaltyPerPriorAttempt":5,"reset":"own-turn-start","weapon":"wielded-activated-lightsaber","aware":true,"notFlatFooted":true,"adjacentForcePoints":1,"rerollTalentId":"talent:soresu","evasionTalentId":"talent:evasion","forceLightningConditionSteps":1,"forceLightningEnhancedConditionSteps":2,"sourceIds":["source:block","source:deflect","source:wiki-lightsaber-forms-talent-tree-soresu","source:evasion","source:wiki-sonic-damage","source:wiki-force-lightning","source:wiki-attacks","source:wiki-bonuses-and-penalties"]}},
         "deflectionActions": {"const":[{"id":"block","talentId":"talent:block","mode":"melee","kinds":["single","area"],"halfOnSuccess":["area"]},{"id":"deflect","talentId":"talent:deflect","mode":"ranged","kinds":["single","area","autofire","force-lightning"],"halfOnSuccess":["autofire","force-lightning"],"sonicException":true,"capitalRequiresPointDefense":true}]},
         "negatingPowers": {"const":[{"powerId":"power:negate-energy","action":"reaction","damageTypes":["energy"],"aware":true,"notFlatFooted":true,"dc":"raw-attack-damage","comparison":"at-least","success":"negate-attack","failure":"normal-incoming-damage","healing":{"forcePoints":1,"action":"reaction","amount":"raw-attack-damage","maximum":"normal-max-hp"},"sourceIds":["source:wiki-negate-energy","source:wiki-attacks","source:wiki-force-powers","source:wiki-hit-points"]}]},

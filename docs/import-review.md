@@ -2530,3 +2530,20 @@ is unchanged. Disabling Counseling does not erase that printed permission.
 Block, Deflect and Soresu retain Partial markers: external attack/adjacency/hit
 context is declared, Redirect Shot and optional Saber Locks are separate features,
 and additional equipment/talent exceptions still require their own automation.
+
+## Shii-Cho, Makashi and Resilience (2026-10-22)
+
+Lightsaber Forms Talent Tree24952 now supplies reviewed Shii-Cho and Makashi
+modifiers. Shii-Cho changes each prior Block/Deflect attempt to -2; saved rerolls
+keep their original modifier. Makashi adds two, capped at five, to an activated
+Lightsaber Defense bonus while one current Lightsaber is wielded in one hand.
+Weapon sizes/grips, active ownership, typed stacking, suppression and the existing
+weapon-change ambiguity are reused. Its passive increase does not change the
+saved base, grant another activation or reduce Jar'Kai's existing larger bonus.
+
+Jedi Guardian Talent Tree26764 supplies Resilience's Full-Round, two-step recovery.
+It shares condition-recovery preflight, persistence and action budgeting, retains
+persistent causes, and spends no HP/FP/daily resource. Source articles are unchanged.
+Duplicate rule buttons in pointer forms are suppressed when their target already
+appears in the form. All three talents remain Partial where equipment/other
+context continues to depend on declarations.

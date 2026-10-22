@@ -1,5 +1,13 @@
+import {resolveEquipment} from './equipment.js';
+import {fullAttackGrip} from './full-attacks.js';
 import {ambiguityValue} from './house-rules.js';
 import {activeLightsabers} from './power-activation.js';
+
+export function lightsaberDefenseBonus(c,pack,ctx,base){
+ const rule=pack.rules.lightsaberDefenseStyle;if(!base||!rule||!ctx.talents.some(t=>t.id===rule.talentId&&!ctx.inactiveTalents.has(t.id)))return base;
+ const weapons=activeLightsabers(c,pack);if(weapons.length!==rule.weaponCount||!fullAttackGrip(resolveEquipment(weapons[0],pack,c),weapons[0],pack,ctx.size).oneHanded)return base;
+ return base+Math.min(rule.amount,Math.max(0,rule.maximum-base));
+}
 
 export function validateTurnTalents(c,pack,bad){
  if(c.turnTalents===undefined)return;
@@ -13,7 +21,7 @@ export function activeTurnTalents(c,pack,ctx){
   if(!rule)return [];
   const count=ctx.talents.filter(t=>t.id===rule.talentId&&!ctx.inactiveTalents.has(t.id)).length;
   const doubled=ctx.talents.some(t=>t.id===rule.doubleTalentId&&!ctx.inactiveTalents.has(t.id));
-  const amount=Math.min(s.amount,Math.min(rule.maximum,count*rule.amountPerSelection)*(doubled?2:1));
+  const base=Math.min(s.amount,Math.min(rule.maximum,count*rule.amountPerSelection)*(doubled?2:1)),amount=lightsaberDefenseBonus(c,pack,ctx,base);
   return amount?[{...s,amount,rule,name:pack.talents.find(t=>t.id===rule.talentId).name}]:[];
  });
 }
@@ -29,7 +37,7 @@ export function turnTalentPlan(c,d,pack,id){
  const rank=d.ctx.talents.filter(t=>t.id===rule.talentId&&!d.ctx.inactiveTalents.has(t.id)).length;
  const amount=Math.min(rule.maximum,rank*rule.amountPerSelection)*(has(rule.doubleTalentId)&&weapons.length>=rule.doubleWeaponCount?2:1);
  if((c.turnTalents?.find(r=>r.id===id)?.amount||0)>=amount)throw new Error('Already active');
- return {rule,amount};
+ return {rule,amount,bonus:lightsaberDefenseBonus(c,pack,d.ctx,amount)};
 }
 export function applyTurnTalent(c,id,amount){c.turnTalents=(c.turnTalents||[]).filter(r=>r.id!==id);c.turnTalents.push({id,amount});}
 export function clearTurnTalents(c){delete c.turnTalents;}

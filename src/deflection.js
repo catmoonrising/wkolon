@@ -5,7 +5,7 @@ import {skillRerollSources,compatibleReroll,rerollUsesAvailable,useSkillReroll,s
 const integer=(n,a,b)=>Number.isInteger(n)&&n>=a&&n<=b;
 const has=(d,id)=>d.ctx.talents.some(t=>t.id===id&&!d.ctx.inactiveTalents.has(id));
 export const deflectionRule=(pack,id)=>pack.rules.deflectionActions?.find(r=>r.id===id);
-export const deflectionPenalty=(c,pack)=>(c.deflectionAttempts||0)*pack.rules.deflection.penaltyPerPriorAttempt;
+export function deflectionPenalty(c,pack,ctx){const style=pack.rules.deflectionModifiers?.find(r=>ctx?.talents.some(t=>t.id===r.talentId&&!ctx.inactiveTalents.has(t.id)));return (c.deflectionAttempts||0)*(style?.penaltyPerPriorAttempt??pack.rules.deflection.penaltyPerPriorAttempt);}
 export const pendingDeflection=c=>c.actionState?.plan.find(s=>['block','deflect'].includes(s.action)&&s.status==='waiting');
 export function assertDeflectionResolved(c){if(pendingDeflection(c))throw new Error('Resolve Block or Deflect first');}
 export function deflectionDeclaration(o,rule){
@@ -44,7 +44,7 @@ export function deflectionPlan(c,d,pack,id,o){
  if(forceCost&&declaration.incoming.options.spendForcePoint)throw new Error('Only one Force Point per round');
  // Preflight the failure without changing any resources. Allies resolve protection separately.
  if(declaration.target==='self'){const failed=deflectionDamage(c,d,pack,rule,declaration,false);if(failed.amount||failed.options.conditionSteps)damageOutcome(c,d,pack,failed.amount,failed.options);}
- const skill=d.skills.find(s=>s.id===pack.rules.deflection.skillId),penalty=deflectionPenalty(c,pack);
+ const skill=d.skills.find(s=>s.id===pack.rules.deflection.skillId),penalty=deflectionPenalty(c,pack,d.ctx);
  return {rule,declaration,forceCost,penalty,bonus:skill.total-penalty};
 }
 export function deflectionRerollSources(c,d,pack,step){

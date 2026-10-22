@@ -13,6 +13,7 @@ linked species feats and redirects. Offline imports require that list; missing
 category captures and embedded Homebrew fail rather than silently importing it.
 
 Block and Deflect follow the [reaction contract](deflection-actions.md).
+Shii-Cho, Makashi and Resilience follow the [style contract](lightsaber-styles.md).
 Shield powers follow the [shield contract](shield-powers.md).
 
 Rage powers and surprise rounds follow the [Rage contract](rage-powers.md).

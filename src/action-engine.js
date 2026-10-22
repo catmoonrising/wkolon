@@ -118,7 +118,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'rage':assert(d.recovery.rage?.remaining&&!d.recovery.rage.active,'Rage unavailable');break;
  case 'damage-reduction-10':view.timedTalent=timedTalentPlan(q,d,pack,id);view.forceCost=view.timedTalent.forcePoints;break;
  case 'lightsaber-defense':view.turnTalent=turnTalentPlan(q,d,pack,id);break;
- case 'equilibrium':case 'indomitable':view.conditionRecovery=conditionRecoveryPlan(q,d,pack,id);view.forceCost=view.conditionRecovery.rule.forcePoints;break;
+ case 'resilience':case 'equilibrium':case 'indomitable':view.conditionRecovery=conditionRecoveryPlan(q,d,pack,id);view.forceCost=view.conditionRecovery.rule.forcePoints;break;
  case 'bellow':assert(bellowDetails(q,d,pack,o.extraDice??0,{strong:o.strong??false})?.available,'Bellow unavailable');break;
  case 'total-defense':break;
  case 'encounter-talent':{const t=talentActivation(q,pack,d,o.talentId,o.choice);view.name=t.talent.name+' ('+t.option.name+')';view.cost.type=t.activation.action;view.forceCost=t.activation.forcePoints;break;}
@@ -202,8 +202,8 @@ function resolve(c,pack,id,o,v,roller,activationId){
  }else if(id==='second-wind'){const x=catchSecondWind(c,d,pack,roller);r={text:'Second Wind: +'+x.healed+' HP'+(x.conditionRecovery?'; +'+x.conditionRecovery+' condition step':'')+(x.exhaustion?'; exhaustion':'')};}
  else if(id==='rage'){startRage(c,d);r={text:'Rage: '+d.recovery.rage.duration+' rounds'};}
  else if(v.timedTalent){invalidate(c);applyTimedTalent(c,v.timedTalent);c.forcePoints-=v.forceCost;r={text:v.name+': '+v.timedTalent.durationRounds+' rounds; Force Points -'+v.forceCost};}
- else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': Reflex +'+v.turnTalent.amount+' (while aware)'};}
- else if(v.conditionRecovery){invalidate(c);applyConditionRecovery(c,v.conditionRecovery);c.forcePoints-=v.forceCost;r={text:v.name+': Normal State'+(v.conditionRecovery.rule.removePersistent?'; persistent conditions removed':'')+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
+ else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': Reflex +'+(v.turnTalent.bonus??v.turnTalent.amount)+' (while aware)'};}
+ else if(v.conditionRecovery){invalidate(c);applyConditionRecovery(c,v.conditionRecovery);c.forcePoints-=v.forceCost;r={text:v.name+': '+(c.condition===0?'Normal State':'+'+v.conditionRecovery.steps+' condition steps')+(v.conditionRecovery.rule.removePersistent?'; persistent conditions removed':'')+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
  else if(id==='bellow')r=rollBellow(c,d,pack,o.extraDice??0,o.damage??null,roller,{strong:o.strong??false});
  else if(id==='total-defense')declareDefenseStance(c,d,'total');
  else if(id==='encounter-talent'){invalidate(c);applyTalentActivation(c,o.talentId,o.choice);c.forcePoints-=v.forceCost;r={text:v.name+'; Force Points -'+v.forceCost};}

@@ -38,3 +38,10 @@ activation-only reading. Its alternative requires a currently wielded, activated
 Lightsaber throughout the benefit. It suppresses the bonus while none qualifies;
 wielding an active Lightsaber again can restore the benefit only within the
 original duration, never after the next-turn reset.
+
+Makashi is a current, conditional increase to the saved base activation. With one
+one-handed wielded activated Lightsaber, add two up to five without reducing an
+existing higher bonus. Grip and current weapon size use the same helper as Full
+Attack. Switching weapons reevaluates Makashi without spending an action or
+resnapshotting Jar'Kai. It remains one typed deflection contribution, and no
+activation means no passive bonus.

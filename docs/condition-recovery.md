@@ -35,3 +35,8 @@ source. `recoverActions(d, pack)` uses only chronologically valid feats. The
 ordinary cost remains three. Tracked partial progress, consecutive turns,
 legacy controls, previews and logs use this same cost. Every completed group
 recovers one step; persistent conditions and helplessness still prevent Recover.
+
+Resilience uses this same planner with two steps, no FP/daily spending, and a
+Full-Round action. It retains persistent causes, does not heal HP, and cannot act
+while helpless. Results report the actual two-step recovery unless the character
+reaches Normal State.

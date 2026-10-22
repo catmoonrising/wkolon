@@ -41508,7 +41508,7 @@
       "repeat": "never",
       "reminder": "",
       "effects": [],
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:resist-the-dark-side",
@@ -43452,7 +43452,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:multiattack-proficiency-heavy-weapons",
@@ -43857,7 +43857,7 @@
       "effects": [],
       "reminder": "",
       "forceActivation": "check",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:sokan",
@@ -68442,6 +68442,8 @@
         }
       }
     ],
+    "deflectionModifiers":[{"talentId":"talent:shii-cho","penaltyPerPriorAttempt":2,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-shii-cho"]}],
+    "lightsaberDefenseStyle":{"talentId":"talent:makashi","amount":2,"maximum":5,"weaponCount":1,"hands":1,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-makashi"]},
     "deflection": {"skillId":"skill:use-the-force","action":"reaction","comparison":"at-least","penaltyPerPriorAttempt":5,"reset":"own-turn-start","weapon":"wielded-activated-lightsaber","aware":true,"notFlatFooted":true,"adjacentForcePoints":1,"rerollTalentId":"talent:soresu","evasionTalentId":"talent:evasion","forceLightningConditionSteps":1,"forceLightningEnhancedConditionSteps":2,"sourceIds":["source:block","source:deflect","source:wiki-lightsaber-forms-talent-tree-soresu","source:evasion","source:wiki-sonic-damage","source:wiki-force-lightning","source:wiki-attacks","source:wiki-bonuses-and-penalties"]},
     "deflectionActions": [{"id":"block","talentId":"talent:block","mode":"melee","kinds":["single","area"],"halfOnSuccess":["area"]},{"id":"deflect","talentId":"talent:deflect","mode":"ranged","kinds":["single","area","autofire","force-lightning"],"halfOnSuccess":["autofire","force-lightning"],"sonicException":true,"capitalRequiresPointDefense":true}],
     "negatingPowers": [{"powerId":"power:negate-energy","action":"reaction","damageTypes":["energy"],"aware":true,"notFlatFooted":true,"dc":"raw-attack-damage","comparison":"at-least","success":"negate-attack","failure":"normal-incoming-damage","healing":{"forcePoints":1,"action":"reaction","amount":"raw-attack-damage","maximum":"normal-max-hp"},"sourceIds":["source:wiki-negate-energy","source:wiki-attacks","source:wiki-force-powers","source:wiki-hit-points"]}],
@@ -68456,7 +68458,7 @@
     "turnFeatEffects": [{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],
     "bonusHitPoints": {"sourceIds":["source:wiki-hit-points"],"toughAsDurasteel":{"classId":"class:martial-arts-master","minimumLevel":2,"armorCategory":"light","ambiguityId":"ambiguity:tough-as-durasteel-amount","sourceIds":["source:wiki-martial-arts-master"]}},
     "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]}],
-    "conditionRecoveryActions": [{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]}],
+    "conditionRecoveryActions": [{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]},{"id":"resilience","talentId":"talent:resilience","steps":2,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-jedi-guardian-talent-tree-resilience","source:wiki-conditions"]}],
     "skillActions": [{"id":"force-focus","talentId":"talent:force-focus","skillId":"skill:use-the-force","dc":15,"effect":"recover-power","sourceIds":["source:wiki-control-talent-tree-force-focus","source:use-the-force","source:wiki-skills"]}],
     "actionEconomy": {
       "referenceId": "reference:ff8059dc6752afdd",
@@ -68786,7 +68788,7 @@
           "count": 1,
           "ruleId": "rule:attacks"
         }
-      ],
+      ,{"id":"resilience","name":"Resilience","type":"full","count":1,"ruleId":"rule:resilience"}],
       "powerRequirements": {
         "power:negate-energy": {
           "notFlatFooted": true,
