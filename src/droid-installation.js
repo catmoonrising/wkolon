@@ -1,3 +1,4 @@
+import {prepareChassis,chassisVirtualSystems,chassisSpeed,validateChassisGrant} from './droid-chassis.js';
 import {droidSystemSize,droidSystemUsesSize,droidSystemQuote} from './droid-systems.js';
 import {increaseNaturalDie} from './natural-weapons.js';
 import {armorExclusive} from './armor.js';
@@ -17,7 +18,7 @@ export const startingSystemEligible=r=>!!r.droidSystem?.startingEligible;
 export function prepareDroidSystems(c,pack){
  const species=body(c,pack),grant=species.droidStartingPackage,profile=species.droidBody;
  const stacks=c.inventory.filter(e=>record(pack,e)?.droidSystem&&e.quantity>1);
- if(c.inventory.length+stacks.reduce((n,e)=>n+e.quantity-1,0)+(!c.droidSystems?.[species.id]?(grant?2:profile?.processor?1:0):0)>1000)throw new Error('Inventory is full.');
+ if(c.inventory.length+stacks.reduce((n,e)=>n+e.quantity-1,0)+(!c.droidSystems?.[species.id]?(species.droidChassis?.systems.length??(grant?2:profile?.processor?1:0)):0)>1000)throw new Error('Inventory is full.');
  let changed=false;
  for(const e of stacks){
   const count=e.quantity,paid=e.droidStarting?.paid;
@@ -25,6 +26,7 @@ export function prepareDroidSystems(c,pack){
   for(let i=1;i<count;i++)c.inventory.push({...structuredClone(e),uid:crypto.randomUUID(),equipped:false});
   changed=true;
  }
+ if(species.droidChassis)return prepareChassis(c,pack)||changed;
  if(!grant&&!profile)return changed;
  const size=droidSystemSize({},pack,c);
  if(!c.droidSystems?.[species.id]&&c.inventory.length+(grant?2:profile?.processor?1:0)>1000)throw new Error('Inventory is full.');
@@ -81,6 +83,7 @@ export function droidSystemsState(c,pack){
   virtual.push({id:grant.processor,quantity:1,equipped:true,droidGrant:{speciesId:species.id,slot:'processor'}},{id:grant.locomotionBySize[size],quantity:1,equipped:true,systemSize:size,systemOrdinal:1,droidGrant:{speciesId:species.id,slot:'locomotion'}});
  }
  if(enabled&&species.droidBody?.processor&&!saved)virtual.push({id:species.droidBody.processor,quantity:1,equipped:true,droidGrant:{speciesId:species.id,slot:'processor'}});
+ if(enabled&&species.droidChassis&&!saved)virtual.push(...chassisVirtualSystems(species));
  const all=[...installed,...virtual],processors=all.filter(e=>record(pack,e).droidSystem.processor),locomotions=all.filter(e=>record(pack,e).droidSystem.movement);
  const processor=processors.length===1?record(pack,processors[0]).droidSystem.processor:null;
  const locomotion=locomotions.find(e=>e.uid===saved?.locomotion)||locomotions[0]||null;
@@ -88,7 +91,7 @@ export function droidSystemsState(c,pack){
  const sensors=all.map(e=>record(pack,e)).filter(r=>r.droidSystem.vision);
  const vision=sensors.some(r=>r.droidSystem.vision==='darkvision')?'darkvision':sensors.some(r=>r.droidSystem.vision==='low-light')?'low-light':null;
  const issues=[];
- const tracked=!!(grant||species.droidBody?.processor||saved);
+ const tracked=!!(grant||species.droidBody?.processor||species.droidChassis||saved);
  if(enabled&&tracked&&species.isDroid&&!processor)issues.push(processors.length?'Choose one Processor':'Install a Processor');
  if(enabled&&grant)for(let i=1;i<=grant.appendages;i++)if(!slot(c,pack,'arm-'+i))issues.push('Choose arm '+i+' appendage');
  for(const e of c.inventory.filter(e=>e.equipped&&e.carried!==false&&record(pack,e)?.droidSystem&&(!e.droidGrant||e.droidGrant.speciesId===species.id))){
@@ -96,8 +99,12 @@ export function droidSystemsState(c,pack){
   if(enabled&&r.droidSystem.costModel==='capacity'&&(e.systemUnits??1)>(r.droidSystem.capacityBySize[size]??0))issues.push(r.name+' exceeds body capacity');
  }
  if(enabled&&species.droidBody?.bonusSystems)for(let i=1;i<=species.droidBody.bonusSystemCount;i++)if(!slot(c,pack,'bonus-'+i))issues.push('Choose bonus system '+i);
+ const speed=chassisSpeed(c,pack,locomotion)??movement?.[bucket(size)]??0;
+ const speedApproved=!species.droidChassis||saved?.gmChanges||[species.speed,...Object.values(species.speeds||{})].includes(speed);
+ if(enabled&&movement&&!speedApproved)issues.push('Chassis speed change requires GM approval');
+ const secondarySpeeds=Object.fromEntries(species.droidChassis?locomotions.filter(e=>e!==locomotion).flatMap(e=>{const r=record(pack,e),speed=chassisSpeed(c,pack,e)??r.droidSystem.movement?.[bucket(size)];return Number.isInteger(speed)&&(saved?.gmChanges||[species.speed,...Object.values(species.speeds||{})].includes(speed))?[[({walking:'walk',wheeled:'wheel',tracked:'tracked',hovering:'hover',flying:'fly'})[r.id.slice(10)]||r.id.slice(10),speed]]:[];}):[]);
  const humanoidArmor=!!saved?.bipedal&&all.filter(e=>e.id==='equipment:hand').reduce((n,e)=>n+e.quantity,0)>=2;
- return {enabled,size,humanoidArmor,speedUnknown:species.droidBody?.speed==='manual'&&saved?.shellSpeed==null,prepared:!!saved,owned:c.inventory.filter(e=>record(pack,e)?.droidSystem),installed:all,virtual,processor,locomotion,movement,baseSpeed:movement?.[bucket(size)]??0,vision,perceptionBonus:Math.max(0,...sensors.map(r=>r.skillBonuses?.['skill:perception']||0)),inoperative:enabled&&tracked&&species.isDroid&&!processor,issues};
+ return {enabled,size,humanoidArmor,speedUnknown:species.droidBody?.speed==='manual'&&saved?.shellSpeed==null,prepared:!!saved,owned:c.inventory.filter(e=>record(pack,e)?.droidSystem),installed:all,virtual,processor,locomotion,movement,baseSpeed:speed,speedApproved,secondarySpeeds,vision,perceptionBonus:Math.max(0,...sensors.map(r=>r.skillBonuses?.['skill:perception']||0)),inoperative:enabled&&tracked&&species.isDroid&&!processor,issues};
 }
 export function applyInstalledDroidSystems(species,c,pack){
  if(!species.isDroid&&!species.usesDroidSystems)return species;
@@ -105,8 +112,8 @@ export function applyInstalledDroidSystems(species,c,pack){
  // Species without a reviewed system package retain their printed processor
  // and speed until their own stock chassis has been imported.
  if(!species.droidStartingPackage&&!species.droidBody&&!c.droidSystems?.[species.id]&&!s.installed.length)return species;
- const chosenSpeed=species.droidBody?.speed==='manual'?(c.droidSystems?.[species.id]?.shellSpeed??0):s.movement?s.baseSpeed:species.droidBody?.speed==='species'?species.speed:s.baseSpeed;
- return {...species,...(s.processor||species.droidStartingPackage||c.droidSystems?.[species.id]?{heuristicProcessor:s.processor==='heuristic'}:{}),...(s.movement||species.droidStartingPackage||species.droidBody||c.droidSystems?.[species.id]?{speed:chosenSpeed}:{}),...(s.vision==='darkvision'||s.vision==='low-light'&&species.vision!=='darkvision'?{vision:s.vision}:{}),...(s.locomotion?.id==='equipment:flying'?{speeds:{...species.speeds,fly:s.baseSpeed}}:{})};
+ const chosenSpeed=species.droidBody?.speed==='manual'?(c.droidSystems?.[species.id]?.shellSpeed??0):s.movement?(s.speedApproved?s.baseSpeed:species.speed):species.droidBody?.speed==='species'?species.speed:s.baseSpeed;
+ return {...species,...(species.droidChassis?{speeds:s.secondarySpeeds}:{}),...(s.processor||species.droidStartingPackage||c.droidSystems?.[species.id]?{heuristicProcessor:s.processor==='heuristic'}:{}),...(s.movement||species.droidStartingPackage||species.droidBody||c.droidSystems?.[species.id]?{speed:chosenSpeed}:{}),...(s.vision==='darkvision'||s.vision==='low-light'&&species.vision!=='darkvision'?{vision:s.vision}:{}),...(s.speedApproved&&s.locomotion?.id==='equipment:flying'?{speeds:{...(species.droidChassis?s.secondarySpeeds:species.speeds),fly:s.baseSpeed}}:{})};
 }
 export function installDroidSystem(c,pack,uid,installed){
  const species=body(c,pack),e=c.inventory.find(e=>e.uid===uid),r=e&&record(pack,e);
@@ -120,13 +127,15 @@ export function installDroidSystem(c,pack,uid,installed){
  if(installed&&r.droidSystem.movement){c.droidSystems??={};c.droidSystems[species.id]??={prepared:true,locomotion:null};c.droidSystems[species.id].locomotion=e.uid;}
 }
 export function droidCarryingWeight(c,pack,e,weight){
- const o=origin(e);return !!body(c,pack).droidStartingPackage&&o?.speciesId===c.species&&(body(c,pack).isDroid||body(c,pack).usesDroidSystems)&&record(pack,e)?.droidSystem.category!=='processor'?0:weight;
+ if(e.droidGrant&&e.droidGrant.speciesId!==c.species)return 0;
+ const o=origin(e);return !!(body(c,pack).droidStartingPackage||body(c,pack).droidChassis)&&o?.speciesId===c.species&&(body(c,pack).isDroid||body(c,pack).usesDroidSystems)&&record(pack,e)?.droidSystem.category!=='processor'?0:weight;
 }
 export function droidAppendageWeapons(c,pack,steps=0){
  if(!body(c,pack).isDroid&&!body(c,pack).usesDroidSystems)return [];
  return installedDroidSystems(c,pack).flatMap(e=>{
   const r=record(pack,e),base=r.droidSystem.appendageDamage?.[droidSystemSize({},pack,c)];if(!base)return [];
-  const primaryAppendage=e.droidGrant?.speciesId===c.species&&e.droidGrant.slot==='arm-1';
+  const primarySlot=body(c,pack).droidChassis?.systems.find(s=>record(pack,s)?.droidSystem?.appendageDamage)?.slot||'arm-1';
+  const primaryAppendage=e.droidGrant?.speciesId===c.species&&e.droidGrant.slot===primarySlot;
   return [{id:UNARMED_ID,uid:primaryAppendage?c.id:e.uid,inventoryUid:e.uid,primaryAppendage,name:r.name+(e.droidGrant?.slot.startsWith('arm-')?' (Arm '+e.droidGrant.slot.slice(4)+')':''),kind:'weapon',mode:'melee',group:'simple-weapons',size:droidSystemSize({},pack,c),unarmed:true,droidAppendage:true,damage:increaseNaturalDie(base,steps,pack),damageType:'Bludgeoning',sourceId:r.sourceId,article:r.article}];
  });
 }
@@ -137,15 +146,17 @@ export function validateDroidInstallation(c,pack,bad){
  if(c.droidSystems!==undefined){
   if(!obj(c.droidSystems)||Object.keys(c.droidSystems).length>pack.species.length)bad('Droid Systems state');
   for(const [id,s]of Object.entries(c.droidSystems)){
-   if(!pack.species.some(r=>r.id===id&&(r.isDroid||r.usesDroidSystems))||!obj(s)||Object.keys(s).some(k=>!['prepared','locomotion','bipedal','shellSpeed'].includes(k))||s.prepared!==true||s.shellSpeed!==undefined&&(pack.species.find(r=>r.id===id).droidBody?.speed!=='manual'||s.shellSpeed!==null&&(!Number.isInteger(s.shellSpeed)||s.shellSpeed<0||s.shellSpeed>100000))||s.bipedal!==undefined&&typeof s.bipedal!=='boolean'||s.locomotion!==null&&!uuid(s.locomotion))bad('Droid Systems state');
+   if(!pack.species.some(r=>r.id===id&&(r.isDroid||r.usesDroidSystems))||!obj(s)||Object.keys(s).some(k=>!['prepared','locomotion','bipedal','shellSpeed','gmChanges'].includes(k))||s.prepared!==true||s.gmChanges!==undefined&&(!pack.species.find(r=>r.id===id).droidChassis||typeof s.gmChanges!=='boolean')||s.shellSpeed!==undefined&&(pack.species.find(r=>r.id===id).droidBody?.speed!=='manual'||s.shellSpeed!==null&&(!Number.isInteger(s.shellSpeed)||s.shellSpeed<0||s.shellSpeed>100000))||s.bipedal!==undefined&&typeof s.bipedal!=='boolean'||s.locomotion!==null&&!uuid(s.locomotion))bad('Droid Systems state');
   }
  }
  const slots=new Set();
  for(const e of c.inventory)for(const key of ['droidGrant','droidStarting'])if(e[key]!==undefined){
   const o=e[key],species=obj(o)&&pack.species.find(s=>s.id===o.speciesId),r=record(pack,e);
-  if(!(species?.droidStartingPackage||species?.droidBody)||!r.droidSystem||!uuid(e.uid)||!obj(o)||Object.keys(o).some(k=>!['speciesId',key==='droidGrant'?'slot':'paid'].includes(k))||!c.droidSystems?.[species.id]?.prepared||e.droidGrant&&e.droidStarting)bad('Droid starting equipment');
+  if(!(species?.droidStartingPackage||species?.droidBody)||!r.droidSystem||!uuid(e.uid)||!obj(o)||Object.keys(o).some(k=>!['speciesId',...(key==='droidGrant'?['slot','baseId']:['paid'])].includes(k))||!c.droidSystems?.[species.id]?.prepared||e.droidGrant&&e.droidStarting)bad('Droid starting equipment');
   if(key==='droidStarting'){if(!species.droidStartingPackage||!startingSystemEligible(r)||!Number.isFinite(o.paid)||o.paid<0||o.paid>species.droidStartingPackage.credits)bad('Droid starting allowance');}
   else{
+   if(species.droidChassis){const key=o.speciesId+':'+o.slot;if(slots.has(key)||e.quantity!==1)bad('Droid chassis slot');slots.add(key);validateChassisGrant(c,pack,e,species,bad);continue;}
+   if(o.baseId!==undefined)bad('Droid starting slot');
    const id=o.speciesId+':'+o.slot;
    if(slots.has(id)||e.quantity!==1||!['processor','locomotion','arm-1','arm-2','bonus-1','bonus-2'].includes(o.slot))bad('Droid starting slot');slots.add(id);
    if(o.slot==='processor'&&e.id!==(species.droidStartingPackage?.processor||species.droidBody?.processor)||o.slot==='locomotion'&&!Object.values(species.droidStartingPackage?.locomotionBySize||{}).includes(e.id)||o.slot.startsWith('arm-')&&(!species.droidStartingPackage||!r.droidSystem.appendageDamage)||o.slot.startsWith('bonus-')&&!species.droidBody?.bonusSystems?.includes(e.id))bad('Droid starting part');

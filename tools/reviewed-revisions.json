@@ -2145,5 +2145,13 @@
   "Cardan II-Class Space Station": 21515,
   "Cardan III-Class Space Station": 21516,
   "XQ2 Space Platform": 21823,
-  "Stock Starships": 18815
+  "Stock Starships": 18815,
+  "Medical Droid": 21070,
+  "Astromech Droid": 15988,
+  "Mechanic Droid": 21068,
+  "Protocol Droid": 21087,
+  "Service Droid": 21109,
+  "Battle Droid": 16166,
+  "Probe Droid": 21085,
+  "Labor Droid": 21061
 }

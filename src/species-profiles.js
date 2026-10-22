@@ -1,4 +1,6 @@
+import {validateChassisData} from './droid-chassis.js';
 export function validateSpeciesProfileData(s,pack,bad){
+ validateChassisData(s,pack,bad);
  const obj=v=>v!==null&&typeof v==='object'&&!Array.isArray(v),refs=ids=>Array.isArray(ids)&&new Set(ids).size===ids.length&&ids.every(id=>pack.equipment.some(r=>r.id===id));
  for(const key of ['usesDroidSystems','cybernetic','repairOnly','maintenance'])if(s[key]!==undefined&&typeof s[key]!=='boolean')bad('Species '+key);
  if(s.droidDegree!==undefined&&(!s.isDroid||!Number.isInteger(s.droidDegree)||s.droidDegree<1||s.droidDegree>5))bad('Fixed Droid degree');

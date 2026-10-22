@@ -139,16 +139,16 @@ export function validatePack(p) {
         assert(Array.isArray(r.creationChoices)&&r.creationChoices.length>0,'Invalid species choice groups');
         const groupIds=new Set();
         for(const g of r.creationChoices){
-          assert(g&&Object.keys(g).every(k=>['id','name','kind','options','defaultOption'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus','weaponFocus','size','droidDegree','understoodLanguage','spokenLanguage','trainedSkill','startingFeat'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
+          assert(g&&Object.keys(g).every(k=>['id','name','kind','options','defaultOption'].includes(k))&&typeof g.id==='string'&&/^[a-z][a-z0-9-]*$/.test(g.id)&&!groupIds.has(g.id)&&typeof g.name==='string'&&g.name.trim()&&['ability','language','skillFocus','weaponFocus','size','droidDegree','understoodLanguage','spokenLanguage','trainedSkill','startingFeat','skillTraining'].includes(g.kind),'Invalid species choice group');groupIds.add(g.id);
           assert(Array.isArray(g.options)&&g.options.length>=2,'Invalid species options');const optionIds=new Set();
           for(const o of g.options){
-            const field={ability:'adjustments',size:'adjustments',droidDegree:'adjustments',understoodLanguage:'language',spokenLanguage:'language',language:'language',skillFocus:'skillId',weaponFocus:'choice',trainedSkill:'skillId',startingFeat:'featId'}[g.kind];
+            const field={ability:'adjustments',size:'adjustments',droidDegree:'adjustments',understoodLanguage:'language',spokenLanguage:'language',language:'language',skillFocus:'skillId',weaponFocus:'choice',trainedSkill:'skillId',skillTraining:'skillId',startingFeat:'featId'}[g.kind];
             assert(o&&Object.keys(o).every(k=>['id','name',field,...(g.kind==='weaponFocus'?['requiresFeat']:g.kind==='size'?['size','speed']:g.kind==='droidDegree'?['degree','talentTrees']:[])].includes(k))&&typeof o.id==='string'&&/^[a-z][a-z0-9-]*$/.test(o.id)&&!optionIds.has(o.id)&&typeof o.name==='string'&&o.name.trim(),'Invalid species option');optionIds.add(o.id);
             if(g.kind==='droidDegree')assert(r.noConstitution&&r.isDroid&&Number.isInteger(o.degree)&&o.degree>=1&&o.degree<=5&&Array.isArray(o.talentTrees)&&o.talentTrees.length&&o.talentTrees.every(t=>typeof t==='string'&&t.length>0),'Invalid droid degree');
             if(g.kind==='size'){assert(p.rules.sizeReflex[o.size]!==undefined&&Number.isInteger(o.speed)&&o.speed>=0,'Invalid species size profile');}
             if(['ability','size','droidDegree'].includes(g.kind))assert(o.adjustments&&typeof o.adjustments==='object'&&!Array.isArray(o.adjustments)&&(g.kind==='size'||Object.keys(o.adjustments).length>0)&&Object.entries(o.adjustments).every(([a,n])=>ABILITIES.includes(a)&&Number.isInteger(n)&&n!==0&&n>=(g.kind==='size'?-32:-10)&&n<=(g.kind==='size'?32:10)),'Invalid species ability option');
             if(['language','understoodLanguage','spokenLanguage'].includes(g.kind))assert(typeof o.language==='string'&&o.language.trim()&&o.language.length<=100,'Invalid species language option');
-            if(['skillFocus','trainedSkill'].includes(g.kind))requireRef('skills',o.skillId);
+            if(['skillFocus','trainedSkill','skillTraining'].includes(g.kind))requireRef('skills',o.skillId);
             if(g.kind==='startingFeat')speciesStartingFeat(o.featId);
             if(g.kind==='weaponFocus'){requireRef('feats','feat:weapon-focus');assert(featureChoices(ix.feats.get('feat:weapon-focus'),p).includes(o.choice),'Invalid species Weapon Focus');if(o.requiresFeat!==undefined)requireRef('feats',o.requiresFeat);}
           }

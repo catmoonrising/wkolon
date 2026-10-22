@@ -4399,6 +4399,61 @@
               "const": 3
             }
           }
+        },
+        "droidChassis": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "systems",
+            "swapTolerance"
+          ],
+          "properties": {
+            "swapTolerance": {
+              "const": 0.1
+            },
+            "systems": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 100,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "slot",
+                  "id"
+                ],
+                "properties": {
+                  "slot": {
+                    "type": "string",
+                    "pattern": "^chassis-[1-9][0-9]*$"
+                  },
+                  "id": {
+                    "$ref": "#/$defs/id"
+                  },
+                  "units": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "speed": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "ordinal": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  },
+                  "alternatives": {
+                    "type": "array",
+                    "uniqueItems": true,
+                    "items": {
+                      "$ref": "#/$defs/id"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     },
@@ -4483,7 +4538,8 @@
             "startingFeat",
             "droidDegree",
             "understoodLanguage",
-            "spokenLanguage"
+            "spokenLanguage",
+            "skillTraining"
           ]
         },
         "defaultOption": {
@@ -4684,7 +4740,8 @@
               "kind": {
                 "enum": [
                   "skillFocus",
-                  "trainedSkill"
+                  "trainedSkill",
+                  "skillTraining"
                 ]
               }
             }

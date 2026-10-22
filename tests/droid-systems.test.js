@@ -10,7 +10,7 @@ const entry=(id,fields={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantit
 const resolve=(id,fields={},c={})=>resolveEquipment(entry(id,fields),pack,c);
 
 test('all official Droid System imports retain sources, articles, variants and reviewed pricing models',()=>{
- const systems=pack.equipment.filter(r=>r.droidSystem);assert.equal(systems.length,133);assert.equal(new Set(systems.map(r=>r.sourceId)).size,110);
+ const systems=pack.equipment.filter(r=>r.droidSystem);assert.equal(systems.length,134);assert.equal(new Set(systems.map(r=>r.sourceId)).size,111);
  for(const r of systems){assert(r.article.blocks.length,r.name);assert(pack.sources.some(s=>s.id===r.sourceId&&s.revision>0),r.name);assert(pack.catalog.records.some(c=>c.mechanicsIds.includes(r.id)),r.name);}
  for(const [name,count] of [['Hardened Systems',4],['Shield Generator System',4],['Remote Processor',4],['Translator Unit',4],['Holographic Image Disguiser',2]])assert.equal(equipmentFamilies(pack,'gear').find(f=>f.name===name).records.length,count);
  validatePack(pack);

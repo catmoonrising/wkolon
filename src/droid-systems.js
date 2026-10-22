@@ -11,7 +11,8 @@ export function droidSystemQuote(record,entry,pack,c={}){
  const model=record.droidSystem,size=droidSystemSize(entry,pack,c),factor=pack.rules.droidSystems.costFactors[size];
  if(!Number.isFinite(factor))return {cost:null,weight:null,systemSize:size,purchasePending:true};
  const bucket=['fine','diminutive','tiny','small'].includes(size)?'small':size==='medium'?'medium':'large';
- const speed=model.movement?.[bucket],units=entry.systemUnits??1,ordinal=entry.systemOrdinal;
+ const native=pack.species.find(s=>s.id===entry.droidGrant?.speciesId)?.droidChassis?.systems.find(s=>s.slot===entry.droidGrant.slot&&(s.alternatives||[s.id]).includes(record.id));
+ const speed=native?.speed??model.movement?.[bucket],units=entry.systemUnits??1,ordinal=entry.systemOrdinal;
  let cost=record.cost,weight=record.weight;
  if(model.costModel==='manual')cost=null;
  else if(model.costModel==='factor')cost=cost===null?null:cost*factor;

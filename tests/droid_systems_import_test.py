@@ -28,7 +28,7 @@ class DroidSystemsImport(unittest.TestCase):
             self.assertEqual(pins[name],refs[name]['source']['revision'])
         new_m,new_c,new_pins,added=module.build(m,c,index,pins,tables,members)
         self.assertEqual(new_m,m);self.assertEqual(new_c,c);self.assertEqual(new_pins,pins);self.assertEqual(added,[])
-        self.assertEqual(sum('droidSystem' in r for r in m['equipment']),133)
+        self.assertEqual(sum('droidSystem' in r for r in m['equipment']),134)
 
     def test_appendage_damage_and_core_armor_are_table_facts(self):
         self.assertEqual(module.APPENDAGES['Hand'][4],'1d3')

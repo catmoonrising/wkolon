@@ -175,7 +175,8 @@
 - [x] Core locomotion speed/terrain/Climb, processor skill and proficiency restrictions, appendage attacks/Martial Arts/routines, sensor vision/Perception and combined worn/built-in armor.
 - [ ] Remaining Droid upgrades, remote processor links, maintenance/reprogramming/shutdown and complete immunity handling.
 - [x] Replica Droid and Shard creation with their distinct physiology, bonus systems and shell declarations.
-- [ ] Standard droid models and stock chassis.
+- [x] Eight stock Droid chassis: printed traits, training/feat choices, native systems and speeds, separate class credits, original-basis 10% swaps, saved profiles and offline creation.
+- [ ] Specific printed standard Droid models (deferred at user request).
 
 - [x] Shared numeric modifier resolution for typed stacking, circumstance groups, penalties and conditional defense increases.
 - [x] Fool's Luck personal Actions activation, Force Point/action costs, stacking, saved benefits and encounter expiry.

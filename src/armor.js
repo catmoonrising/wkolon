@@ -5,7 +5,7 @@ export const ARMOR_CHECKS=['hiding','darkness','concealArmor','noncombat','magne
 export function validateArmorChecks(c,bad){
  if(c.armorChecks!==undefined&&(!c.armorChecks||typeof c.armorChecks!=='object'||Array.isArray(c.armorChecks)||Object.entries(c.armorChecks).some(([key,value])=>!ARMOR_CHECKS.includes(key)||typeof value!=='boolean')))bad('armor checks');
 }
-export function wornArmor(c,pack){return c.inventory.filter(e=>e.equipped&&e.carried!==false&&pack.equipment.find(r=>r.id===e.id)?.kind==='armor'&&!pack.equipment.find(r=>r.id===e.id)?.energyShield).map(e=>({...resolveEquipment(e,pack,c),uid:e.uid}));}
+export function wornArmor(c,pack){return c.inventory.filter(e=>e.equipped&&e.carried!==false&&(!e.droidGrant||e.droidGrant.speciesId===c.species)&&pack.equipment.find(r=>r.id===e.id)?.kind==='armor'&&!pack.equipment.find(r=>r.id===e.id)?.energyShield).map(e=>({...resolveEquipment(e,pack,c),uid:e.uid}));}
 export const armorProficient=(armor,ctx)=>ctx.feats.some(f=>f.id==='feat:armor-proficiency-'+armor.category);
 export function armorExclusive(candidate,other){return candidate.kind==='armor'&&other.kind==='armor'&&!!candidate.droidSystem?.builtIn===!!other.droidSystem?.builtIn&&(candidate.armorSlot||'body')==='body'&&(other.armorSlot||'body')==='body';}
 export function armorSkillBonus(items,ctx,checks,id){

@@ -280,7 +280,7 @@ export function progression(c, pack, through = c.levels.length) {
     for(const o of species.conditionalWeaponFocuses||[])if((!o.requiresFeat||ctx.feats.some(f=>f.id===o.requiresFeat))&&eligible(ix.feats.get(F('weapon-focus')),{id:F('weapon-focus'),choice:o.choice},ctx,ix,'feats'))recordFeature({id:F('weapon-focus'),choice:o.choice,automatic:true,grantedBy:species.id},'feats',ctx.characterLevel);
     const ids=[...(species.conditionalFeats||[]),...(ctx.characterLevel===1?species.conditionalStartingFeats||[]:[])];
     let added=true;
-    while(added){added=false;for(const id of ids)if(!ctx.feats.some(f=>f.id===id)&&eligible(ix.feats.get(id),{id},ctx,ix,'feats')){recordFeature({id,automatic:true},'feats',ctx.characterLevel);added=true;}}
+    while(added){added=false;for(const id of ids)if(!ctx.feats.some(f=>f.id===id)&&eligible(ix.feats.get(id),{id},ctx,ix,'feats')){recordFeature({id,automatic:true,grantedBy:species.id},'feats',ctx.characterLevel);added=true;}}
     if(species.conditionalForceTraining&&!ctx.feats.some(f=>f.id===F('force-training')&&f.grantedBy===species.id)&&eligible(ix.feats.get(F('force-training')),{id:F('force-training')},ctx,ix,'feats')){
       recordFeature({id:F('force-training'),automatic:true,grantedBy:species.id},'feats',ctx.characterLevel);
       for(const e of ix.feats.get(F('force-training')).effects)if(e.target==='forcePowerSlots')ctx.powerSlots+=Math.max(e.minimum,e.amount+modifier(ctx.scores[e.ability]));
@@ -336,6 +336,7 @@ export function progression(c, pack, through = c.levels.length) {
       for(const id of species.startingTrainingFeats||[]){ctx.trained.add(id);ctx.speciesTraining.add(id);ordinaryTraining.add(id);recordFeature({id:F('skill-training'),choice:id,automatic:true,grantedBy:species.id},'feats',1);}
       for (const id of species.startingFeats||[]) recordFeature({id,automatic:true},'feats',1);
       if(species.bonusForceTraining){recordFeature({id:F('force-training'),automatic:true,grantedBy:species.id},'feats',1);ctx.powerSlots+=Math.max(1,1+modifier(ctx.scores.wis));}
+      for(const id of species.choiceTrainingFeats||[])if(eligible(ix.feats.get(F('skill-training')),{id:F('skill-training'),choice:id},ctx,ix,'feats')){ctx.trained.add(id);ctx.speciesTraining.add(id);ordinaryTraining.add(id);recordFeature({id:F('skill-training'),choice:id,automatic:true,grantedBy:species.id},'feats',1);}
       for (const id of cls.startingFeats) if (!(species.excludedStartingFeats||[]).includes(id) && !ctx.feats.some(f=>f.id===id) && !['feat:linguist', 'feat:shake-it-off'].includes(id) && eligible(ix.feats.get(id),{id},ctx,ix,'feats')) recordFeature({id,automatic:true},'feats',1);
       conditionalSpeciesGrants();
       // Initial Force Sensitivity can enable training during the same creation step.

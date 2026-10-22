@@ -15,7 +15,7 @@ class RemainingSpeciesImport(unittest.TestCase):
         original['sources']=[s for s in m['sources'] if s['title'] not in ['Replica Droid','Shard','Sorcerer of Rhand','Category:Communications Systems','Category:Sensor Systems']]
         updated,_,_=module.build(original,c,index,pins,groups)
         # Later independent imports may append sources after this batch.
-        normalize=lambda p:{**p,'sources':sorted(p['sources'],key=lambda s:s['id'])}
+        normalize=lambda p:{**p,'sources':sorted(p['sources'],key=lambda s:s['id']),'species':sorted(p['species'],key=lambda s:s['id'])}
         self.assertEqual(normalize(updated),normalize(m))
         self.assertEqual(json.loads(module.append(json.dumps(original,indent=2)+'\n',updated)),updated)
         refs={r['name']:r for r in index['records']}

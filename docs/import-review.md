@@ -2409,3 +2409,25 @@ explicitly authorize taking them instead of rolling. Live access returned
 403; the user requested a source check after the wiki outage ends. The rule
 works as a campaign switch while that provenance check remains open. See
 docs/campaign-rules.md for saved-state format and behavior.
+
+
+## Stock Droid chassis (2026-10-21)
+
+All eight Scavenger's Guide to Droids chassis are selectable with verbatim pinned
+articles. Species modifiers, degree/talent access, languages, hardwired training,
+conditional Focus, bonus Training and Battle proficiency choices share the
+existing progression engine. The existing Custom Droid route stays separate;
+chassis receive neither its degree/size adjustments nor its 1,000-credit allowance.
+Native systems install once with stable identities. Original-basis swaps retain
+printed native alternatives, size/capacity pricing, class credits and supplied
+systems across reloads and body changes. Other bodies' factory equipment cannot
+lend armor or encumbrance to the active body. Mechanic's printed Wheeled speed
+of 6 is honored in movement and equipment quotes. GM-approved speed changes
+are explicit rather than silently bypassing the chassis restriction.
+
+Astromech's named five-unit Astrogation Buffer is supplied, unpriced and Manual;
+no separate priced article was inventoried. Unknown prices cannot authorize free
+swaps. Rare swaps requiring a new locomotion installation number or unavailable
+capacity pricing remain outside automatic swapping. Recharge/maintenance, shutdown
+and full Droid immunities retain their existing Partial support. Specific printed
+standard-model PCs are deferred at the user's request. See droid-chassis.md.
