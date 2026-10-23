@@ -22,7 +22,8 @@ bonus to all Defenses until the end of the encounter. Its single choice is
 `{target:'defenses', amount:1, type:'force'}`. Force bonuses do not stack with
 each other. "These bonuses are lost if you fall unconscious or die": a recorded knockout or
 death removes the activation, including Bellow, Condition Track and manual HP
-controls. Recovery removes any retained legacy activation before waking, and an
+controls. Loading or importing an unconscious character removes and saves any retained
+legacy activation before controls can wake them. Recovery also removes it before waking, and an
 unconscious, 0 HP or dead character never receives it, whichever path set that
 state. Allies and their range remain manual, so the talent is Partial.
 
