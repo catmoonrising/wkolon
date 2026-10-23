@@ -2657,6 +2657,8 @@ controls. Healing and consciousness checks remove retained legacy activations
 before waking; invalid preflight remains atomic. Battle Meditation keeps its
 printed ally-only loss interpretation. Hazard resolution remains manual even
 when immunity is displayed.
+Loading an unconscious legacy save also removes and persists the lost activation
+before manual recovery controls can restore consciousness.
 
 ## Passive defense bonuses
 

@@ -641,6 +641,7 @@ function route() {
   }
 }
 function render() {
+  if(endUnconsciousTalents(current(),pack))store.schedule();
   try{if(prepareDroidSystems(current(),pack))store.schedule();}catch(e){notify(e.message);}
   actionsUI?.refresh();
   derived = derive(current(),pack);
@@ -1021,7 +1022,7 @@ async function boot(){
   try{
     const response=await fetch(new URL('../data/core.json',import.meta.url));if(!response.ok)throw new Error(`Rules could not load (${response.status})`);
     pack=await response.json();ix=indexPack(pack);creationOptions=createCreationOptions(pack);houseRules=createHouseRules(pack);rulesCatalog=createRulesCatalog(pack);speciesBrowser=createSpeciesBrowser(pack);featureTrees=createFeatureTrees(pack);store=createStore(pack,status);speciesChecks=createSpeciesChecks({current,derived:()=>derived,log:(kind,text,html)=>{render();logEvent(kind,text,html,true);}});combatControls=createCombatControls(pack,{current,derived:()=>derived,changed,save:()=>store.schedule(),log:logEvent,error:notify});recoveryControls=createRecoveryControls(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});forcePowersUI=createForcePowers(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify,roll:bonus=>{const expr='1d20'+signed(bonus),r=evalExpr(expr);return {natural:r.d20[0],text:expr+' = '+r.value,html:r.display+' = '+totalHtml(r)};}});vehiclesUI=createVehiclesUI(pack,{current,changed,save:()=>store.schedule(),error:notify,library:referenceLibrary,refresh:html=>document.querySelectorAll('[data-vehicle-results]').forEach(el=>el.innerHTML=html)});starshipManeuversUI=createStarshipManeuvers(pack,{current,derived:()=>derived,changed,error:notify});actionsUI=createActionsUI(pack,{current,derived:()=>derived,changed,log:logEvent,error:notify});droidSystemsUI=createDroidSystemsUI(pack,{current,derived:()=>derived,changed,error:notify,reference:ruleReference});events();render();route();
-    if(!saveState[1])status('Saved',false);
+    if(!saveState[1]&&saveState[0]!=='Saving…')status('Saved',false);
   }catch(error){$('main').innerHTML=`<h1>Unable to open the sheet</h1><p>${escape(error.message)}</p><p><a href="./">Reload</a></p>`;status('Sheet unavailable',true);}
 }
 boot();
