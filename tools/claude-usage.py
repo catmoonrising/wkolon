@@ -10,7 +10,7 @@ import subprocess
 import sys
 import time
 
-CAP = 25
+CAP = 75
 
 
 def parse_usage(text):
@@ -98,7 +98,7 @@ def main():
                 return 0
         data = usage(args.fresh)
         if data['stop']:
-            reason = 'Claude plan usage reached 25% used in a five-hour or weekly window'
+            reason = 'Claude plan usage reached 75% used (25% remaining) in a five-hour or weekly window'
             if args.watch_session:
                 stop_worker(args.watch_session, args.task, reason)
             elif args.hook:

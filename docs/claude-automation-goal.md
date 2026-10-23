@@ -2,9 +2,9 @@
 
 The user has authorized Claude to continue its own portion of official wkolon
 rules automation, independently of Codex's integration work. The old overnight
-08:00 deadline is historical. The current stop condition is 25% USED in either
-Claude's five-hour or all-model weekly window. This replaces all earlier
-75%-used stopping rules. Codex has the same cap on its own account separately.
+08:00 deadline is historical. The current stop condition is 75% USED (25% REMAINING) in either
+Claude's five-hour or all-model weekly window. This corrects the mistaken
+25%-used stopping rule. Codex has the same cap on its own account separately.
 
 Read AGENTS.md and docs/team.md. Keep one native /goal for this assignment.
 Continue on claude/overnight-automation in the existing overnight worktree.
@@ -40,10 +40,10 @@ worktrees for at most 60 seconds. A separate local watcher stops this worker
 if it reaches the cap or cannot verify its usage. These are workflow checks,
 not provider-enforced plan limits.
 
-Begin a checkpoint by 22% in either window. Keep notes current, save a local
+Begin a checkpoint by 70% in either window. Keep notes current, save a local
 commit only for verified complete work, and retain incomplete files. Write
 .build/automation-handoff.md with base/head commits, completed and incomplete
 families, source revisions, actual check results and questions, and hand it off
-on the parent task when stopping. Stop at 25% used, a user stop, no unblocked
+on the parent task when stopping. Stop at 75% used (25% remaining), a user stop, no unblocked
 work, or unavailable usage meters. Do not retry or resume after a reset without
 another user instruction. A quota stop is not whole-wiki completion.

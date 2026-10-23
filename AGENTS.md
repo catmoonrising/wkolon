@@ -58,8 +58,9 @@ other tool without the user's instruction.
 
 # Usage limits
 
-The user's current cap is 25% USED in either the five-hour or weekly window,
-separately for Codex and Claude. This replaces the earlier 75%-used cap. Use
+Stop when 25% REMAINS (75% USED) in either the five-hour or weekly window,
+separately for Codex and Claude. The user clarified that 25% meant remaining,
+not used. This supersedes the mistaken 25%-used rule. Use
 actual current service meters, not token estimates or extra usage since a task
 started. Check before starting work and regularly while working. Checkpoint
 before the cap, then pause at or above it; do not auto-resume after a reset or
