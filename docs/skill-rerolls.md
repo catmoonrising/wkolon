@@ -24,7 +24,7 @@ Conditional sources must have a compatible application. For example, Haggle
 and Intimidate cannot describe the same Persuasion check. Opposing Sense Force
 is distinct from making Sense Force checks; the broader Kel Dor application can
 combine with sensing Dark Side users, but not concealing one's presence.
-Skill substitutions do not inherit the original skill's reroll traits.
+Skill substitutions carry original rerolls only under their reviewed explicit permission, as described below.
 
 This batch automates sheet checks for thirteen talents: Acute Senses, Improved
 Initiative, Improved Stealth, Barter, Jury-Rigger, Clear Mind, Dark Side Sense,
@@ -42,8 +42,8 @@ Point cost. Each active selection adds one daily use. Optional saved
 only on New day. Reloads, encounter changes and selection edits never refill it.
 
 The Skills module offers Knack for any available rolled skill, including a
-substituted skill check. Specific species/talent rerolls remain restricted to
-their native check source. Each source still rerolls a particular check once;
+substituted skill check. Specific species/talent rerolls require their native check source or explicit
+reviewed carryover permission. Each source still rerolls a particular check once;
 extra Knack selections increase daily capacity rather than replaying one source
 on the same check. Spending occurs only after a valid eligible reroll, even if
 the original result is retained. A new check, intervening action, character
@@ -60,3 +60,20 @@ Knack also spends its shared daily capacity. Reloading preserves the original
 modifier, attack DC, roll history and allowed source identities. A reroll is not
 another Block/Deflect attempt. Other automatic checks retain their existing
 partial status until they expose equivalent before-resolution controls.
+
+## Reviewed substitution carryover
+
+This contract precedes the carryover calculation. Seven existing pinned talent
+articles explicitly permit the original skill's rerolls on a substituted check:
+Force Intuition, Persuasion, Perception, Pilot, Deception, Treatment and Watchful
+Step. Their `skillSubstitution` effect declares `carryRerolls: true`; missing
+means false. Trace has no such grant. Validate the reviewed IDs and never infer
+permission from all substitutions or from training grants.
+
+The selected derived check source carries this permission and its application
+scope. Native rerolls are unchanged. Carryover retains original source identity,
+keep policy, upgrade, daily cost and one-use-per-check tracking. Conditional
+rerolls retain their scopes. Force Perception limits inherited rerolls to Avoid
+Surprise, Notice Targets, Sense Deception and Sense Influence; discard a source
+whose application set does not overlap. Never transfer Sensors or scent-only
+rerolls merely because Perception was substituted. Take 10 is separate.

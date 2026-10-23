@@ -16,10 +16,15 @@ export const REROLL_SCOPES={
  'locate-individual':{label:'Locate Individual',applications:['locate-individual']},
 };
 export function skillRerollSources(s,species,d){
- const native=s.id===s.checkSource;
+ const native=s.id===s.checkSource||s.carryRerolls===true;
  const speciesRows=(native?species.skillRerolls||[]:[]).filter(r=>r.skill===s.id).map(r=>({...r,kind:'species',name:species.name,id:species.id+'|'+r.skill+'|'+(r.when||'always'),keep:r.keep==='best'||d.skillRerollBest?.includes(s.id)?'best':'new',when:r.when||'always'}));
  const talents=(d.skillRerolls||[]).filter(r=>r.skill==='any'||native&&r.skill===s.id).map(r=>({...r,kind:'talent',talentId:r.id,id:r.id+'|'+(r.skill==='any'?s.checkSource:r.skill)+'|'+r.when}));
- return [...new Map([...speciesRows,...talents].filter(r=>Object.hasOwn(REROLL_SCOPES,r.when)).map(r=>[r.id,{...r,...REROLL_SCOPES[r.when]}])).values()];
+ const rows=[...new Map([...speciesRows,...talents].filter(r=>Object.hasOwn(REROLL_SCOPES,r.when)).map(r=>[r.id,{...r,...REROLL_SCOPES[r.when]}])).values()];
+ return rows.flatMap(r=>{
+  if(!s.rerollApplications||r.skill==='any')return [r];
+  const applications=r.applications?r.applications.filter(a=>s.rerollApplications.includes(a)):s.rerollApplications;
+  return applications.length?[{...r,applications}]:[];
+ });
 }
 export function compatibleReroll(ticket,source){return !ticket.applications||!source.applications||ticket.applications.some(a=>source.applications.includes(a));}
 export function useSkillReroll(ticket,source,roll){

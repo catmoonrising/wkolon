@@ -4,6 +4,7 @@
 - [x] Import all 4,400 inventoried official sourcebook pages as pinned references; lazy full-text search, article popups, source filters and opened-page offline caching. Exclude marked Homebrew sections on mixed pages.
 - [x] Separate imported presentation from declarative reviewed mechanics.
 - [x] Inventory all 16 official source categories and recursively exclude Homebrew; publish the coverage queue in docs/wiki-coverage.md.
+- [x] Explicit original-skill reroll carryover for seven substitution talents, preserving conditional scopes and use limits.
 - [x] Mind of Reason: shared native skill ability substitutions, persistent optional ability choices and Trace integration.
 - [ ] Audit uncategorized official rules reached through article links; the 4,400 sourcebook-category candidates are not proof of whole-wiki completeness.
 - [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.

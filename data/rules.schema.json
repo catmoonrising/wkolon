@@ -5318,6 +5318,7 @@
             "grantsTraining": {
               "type": "boolean"
             },
+            "carryRerolls": {"const": true},
             "when": {
               "enum": [
                 "computerNetwork",

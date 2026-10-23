@@ -41392,7 +41392,7 @@
           "target": "skillSubstitution",
           "skill": "skill:initiative",
           "replacement": "skill:use-the-force",
-          "grantsTraining": true
+          "grantsTraining": true, "carryRerolls": true
         }
       ],
       "forceActivation": "check",
@@ -41419,7 +41419,7 @@
           "target": "skillSubstitution",
           "skill": "skill:persuasion",
           "replacement": "skill:use-the-force",
-          "grantsTraining": true
+          "grantsTraining": true, "carryRerolls": true
         }
       ],
       "forceActivation": "check",
@@ -42216,7 +42216,7 @@
           "target": "skillSubstitution",
           "skill": "skill:perception",
           "replacement": "skill:use-the-force",
-          "grantsTraining": true,
+          "grantsTraining": true, "carryRerolls": true,
           "when": "perceptionApplications"
         }
       ],
@@ -42243,7 +42243,7 @@
           "target": "skillSubstitution",
           "skill": "skill:pilot",
           "replacement": "skill:use-the-force",
-          "grantsTraining": true
+          "grantsTraining": true, "carryRerolls": true
         }
       ],
       "automation": "partial"
@@ -42857,7 +42857,7 @@
           "target": "skillSubstitution",
           "skill": "skill:deception",
           "replacement": "skill:use-the-force",
-          "grantsTraining": true
+          "grantsTraining": true, "carryRerolls": true
         }
       ],
       "reminder": "",
@@ -42930,7 +42930,7 @@
           "target": "skillSubstitution",
           "skill": "skill:treat-injury",
           "replacement": "skill:use-the-force",
-          "grantsTraining": true
+          "grantsTraining": true, "carryRerolls": true
         }
       ],
       "reminder": "",
@@ -44146,7 +44146,7 @@
           "target": "skillSubstitution",
           "skill": "skill:initiative",
           "replacement": "skill:perception",
-          "grantsTraining": true
+          "grantsTraining": true, "carryRerolls": true
         }
       ],
       "reminder": "",

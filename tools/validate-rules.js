@@ -9,6 +9,13 @@ import {ABILITIES, GROUPS, indexPack} from '../src/rules.js';
 import {featureChoices} from '../src/feature-choices.js';
 import assert from 'node:assert/strict';
 
+const carryingSubstitutions=Object.fromEntries([
+ ['force-intuition','initiative','use-the-force'],['force-persuasion','persuasion','use-the-force'],
+ ['force-perception','perception','use-the-force'],['force-pilot','pilot','use-the-force'],
+ ['force-deception','deception','use-the-force'],['force-treatment','treat-injury','use-the-force'],
+ ['watchful-step','initiative','perception']
+].map(([id,skill,replacement])=>['talent:'+id,{target:'skillSubstitution',skill:'skill:'+skill,replacement:'skill:'+replacement,grantsTraining:true,carryRerolls:true,...(id==='force-perception'?{when:'perceptionApplications'}:{})}]));
+
 export function validatePack(p) {
   assert.equal(p.schemaVersion, 1);
   const numericRules={combat:['shieldLoss','shieldRecharge','rechargeDC','rechargeActions','naturalHit','naturalMiss','criticalMultiplier','minimumDamage','areaMinimumRoll'],resources:['forcePointBase','xpStep']};
@@ -33,6 +40,7 @@ export function validatePack(p) {
   for (const k of ['species','classes','skills','feats','talents','equipment','sources']) assert(Array.isArray(p[k]), k);
   assert(p.license && p.rules && p.sources.length);
   const ix = indexPack(p), ids = new Set(), sources = new Set(p.sources.map(s => s.id));
+  for(const [id,effect] of Object.entries(carryingSubstitutions)){const record=ix.talents.get(id);assert(record,'Missing reviewed substitution '+id);assert.deepEqual(record.effects.filter(e=>e.target==='skillSubstitution'),[effect],'Changed reviewed substitution '+id);}
   assert(p.rules.sizeStealth && Object.entries(p.rules.sizeReflex).every(([size])=>Number.isInteger(p.rules.sizeStealth[size])), 'Missing size modifiers for Stealth');
   for (const s of p.sources) {
     assert(Number.isInteger(s.revision) && s.revision > 0);
@@ -288,9 +296,10 @@ export function validatePack(p) {
         if(e.target==='defenseBonus'){assert.deepEqual(Object.keys(e).sort(),['amount','defense','target','type','when']);assert(['fortitude','will'].includes(e.defense)&&e.when==='fightDefensively'&&e.amount===2&&e.type==='competence','Unsupported defensive stance effect');continue;}
         if(e.target==='skillAbility'){assert.equal(r.id,'feat:mind-of-reason');assert.deepEqual(e,{target:'skillAbility',from:'int',ability:'wis'});assert.equal(r.automation,'partial');continue;}
         if(e.target==='skillSubstitution'){
-          assert(Object.keys(e).every(k=>['target','skill','replacement','grantsTraining','when'].includes(k)),'Unsupported substitution field');
+          assert(Object.keys(e).every(k=>['target','skill','replacement','grantsTraining','when','carryRerolls'].includes(k)),'Unsupported substitution field');
           requireRef('skills',e.skill);requireRef('skills',e.replacement);assert.notEqual(e.skill,e.replacement);assert.equal(typeof e.grantsTraining,'boolean');
           assert(e.when===undefined||['computerNetwork','perceptionApplications'].includes(e.when),'Unsupported substitution condition');
+          const carry=Object.hasOwn(carryingSubstitutions,r.id);assert(carry?e.carryRerolls===true:e.carryRerolls===undefined,'Unsupported substitution reroll carryover');
           assert(!(e.when==='computerNetwork'&&e.grantsTraining),'Conditional substitutions cannot grant permanent training');
           if(e.when==='perceptionApplications')assert(e.skill==='skill:perception'&&e.replacement==='skill:use-the-force'&&e.grantsTraining,'Unsupported Perception applications');
           continue;

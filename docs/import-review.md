@@ -2596,3 +2596,20 @@ condition, tools, equipment and other bonuses remain independent. Trace uses
 the fully resolved native Use Computer check. Optional saved ability choices
 survive edits and imports, including unavailable choices. Pinned article and
 source hash are unchanged. The record retains Partial status.
+
+## Substitution rerolls
+
+The seven already pinned substitution talents explicitly preserving target
+skill rerolls now declare that permission in metadata. Original species/talent
+reroll identity, keep policy and use limits survive substitution. Force
+Perception restricts inherited application sets to its four named uses; scent
+and Sensors permissions do not leak into them. Trace has no implied grant.
+The previous unconditional native-only test contradicted the pinned text and
+is replaced with source-specific regression coverage. Articles remain intact.
+
+Independent review follow-up: replaced the non-exercising Ssi-Ruu fixture with
+a legal Force Perception character and explicitly synthetic incompatible and
+partially overlapping scopes. The test rejects an intentionally broken scope
+intersection. Added selected-source/modifier assertions, independent reroll
+use tracking, target-versus-replacement policy checks and required-record
+validation for all seven grants. Browser checks inspect the newest roll.
