@@ -130,12 +130,14 @@ def main():
     add.add_argument('--owner', required=True, choices=['codex', 'claude'])
     add.add_argument('--branch', required=True)
     add.add_argument('--description', required=True)
-    for name in ['claim', 'handoff', 'release', 'finish']:
+    for name in ['claim', 'handoff', 'release', 'finish', 'note', 'question', 'resolve']:
         item = commands.add_parser(name)
         item.add_argument('id')
         item.add_argument('--owner', required=True, choices=['codex', 'claude'])
         if name == 'handoff':
             item.add_argument('report', type=Path)
+        if name in ['note', 'question']:
+            item.add_argument('message')
     args = parser.parse_args()
     if args.command == 'review':
         return review()
@@ -154,6 +156,16 @@ def main():
             task = tasks[args.id]
             if args.command == 'claim':
                 claim(tasks, args.id, args.owner)
+            elif args.command in ['note', 'question', 'resolve']:
+                require(task['owner'] == args.owner and task['status'] in ['claimed', 'waiting'], 'Not your active task')
+                require(task.get('worktree') == str(ROOT), 'Use the claimed worktree')
+                if args.command == 'note':
+                    task.update(progress=args.message, updated=now())
+                elif args.command == 'question':
+                    task.update(status='waiting', question=args.message, updated=now())
+                else:
+                    task.pop('question', None)
+                    task.update(status='claimed', updated=now())
             elif args.command == 'handoff':
                 require(task['owner'] == args.owner and task['status'] == 'claimed', 'Not your claimed task')
                 require(task.get('worktree') == str(ROOT), 'Use the claimed worktree')

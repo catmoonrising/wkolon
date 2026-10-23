@@ -101,3 +101,26 @@ Inspect the seven explicit carryover grants, Force Perception's application
 limits, independent reroll use/keep policies, source loss, schema validation and
 test coverage. Check pinned articles rather than assuming current tests are RAW.
 The implementation goal remains paused until the user resumes it.
+
+## Live Claude work
+
+Implementation sessions use Claude Code's native background sessions so their
+progress and follow-up questions are visible without this chat staying open:
+
+```sh
+claude agents
+claude attach wkolon-overnight
+claude logs wkolon-overnight
+```
+
+In agent view, select the wkolon session and press Space to peek and reply, or
+Enter to attach. Questions and permission requests appear under Needs input.
+Permission dialogs require attaching. Closing the view leaves the session
+running. The local machine must remain on and awake for overnight work.
+
+The shared task board also supports progress notes, blocking questions and
+explicit resolution through `note`, `question` and `resolve`; each takes the
+task ID and `--owner`. A question is retained until explicitly resolved.
+See [overnight-automation.md](overnight-automation.md) for the implementation
+assignment and delivery requirements. Its exact deadline is stored locally on
+the shared task board rather than hard-coded into reusable instructions.
