@@ -2657,3 +2657,16 @@ controls. Healing and consciousness checks remove retained legacy activations
 before waking; invalid preflight remains atomic. Battle Meditation keeps its
 printed ally-only loss interpretation. Hazard resolution remains manual even
 when immunity is displayed.
+
+## Passive defense bonuses
+
+Eight pinned records now use reviewed Defense effects (see
+docs/passive-defenses.md for revisions): Thick Skin (+2 species Fortitude),
+Force of Will (+2 insight Will for the user), Jedi Hunter (+1 insight
+Fortitude/Will), Poison Resistance (+5 Fortitude vs. Poison), Scion of Dorin
+(+5 species Fortitude vs. Natural Hazards), Environmentally Shielded (+5
+equipment Fortitude vs. environmental Hazards), Warrior Heritage (+2 morale
+Will while wielding an Atlatl or Cesta) and Resolute Stance (+2 morale Will
+while Fighting Defensively). Manual remainders: Force of Will's ally aura, Jedi
+Hunter's extra damage die against Force Sensitivity, Poison Resistance's half
+damage and Resolute Stance's +5 no-attack clause. All eight remain Partial.

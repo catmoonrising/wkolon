@@ -5200,6 +5200,10 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target","defense","amount","type"],"properties":{"target":{"const":"defenseBonus"},"defense":{"enum":["fortitude","will"]},"amount":{"enum":[1,2]},"type":{"enum":["species","insight"]}}},
+        {"type":"object","additionalProperties":false,"required":["target","defense","amount","type","when","weapons"],"properties":{"target":{"const":"defenseBonus"},"defense":{"const":"will"},"amount":{"const":2},"type":{"const":"morale"},"when":{"const":"wieldingWeapon"},"weapons":{"const":["equipment:atlatl","equipment:cesta"]}}},
+        {"type":"object","additionalProperties":false,"required":["target","defense","when","amount","type"],"properties":{"target":{"const":"defenseBonus"},"defense":{"const":"will"},"when":{"const":"fightDefensively"},"amount":{"const":2},"type":{"const":"morale"}}},
+        {"type":"object","additionalProperties":false,"required":["target","defense","against","amount","type"],"properties":{"target":{"const":"conditionalDefense"},"defense":{"const":"fortitude"},"against":{"enum":["poison","natural-hazards","environmental-hazards"]},"amount":{"const":5},"type":{"enum":["untyped","species","equipment"]}}},
         {
           "type": "object",
           "additionalProperties": false,

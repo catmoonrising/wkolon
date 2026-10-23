@@ -459,7 +459,7 @@ export function derive(c, pack) {
   const effectiveSize=armorItems.find(r=>r.sizeOverride)?.sizeOverride||species.size;ctx.size=effectiveSize;
   const vision=armorVision({...species,...(effects.some(e=>e.target==='vision'&&e.value==='darkvision')?{vision:'darkvision'}:{})},armorItems,ctx),blind=armorItems.some(r=>r.blinds),visionSpecies={...species,vision,blind};
   const proficientArmor=armorItems.some(r=>armorProficient(r,ctx));
-  const applies = (e,attack) => !e.when || e.when==='proficientArmor'&&proficientArmor || e.when==='lightOrNoArmor'&&armorItems.every(r=>r.category==='light') || e.when==='meleeAttack'&&attack?.mode==='melee';
+  const applies = (e,attack) => !e.when || e.when==='proficientArmor'&&proficientArmor || e.when==='lightOrNoArmor'&&armorItems.every(r=>r.category==='light') || e.when==='meleeAttack'&&attack?.mode==='melee' || e.when==='wieldingWeapon'&&c.inventory.some(x=>x.equipped&&x.carried!==false&&e.weapons.includes(x.id));
   const total = (target,attack) => effects.filter(e => e.target === target && applies(e,attack)).reduce((n, e) => n + e.amount * (e.perLevel ? level : 1), 0);
   const equipmentAbilities=Object.fromEntries(ABILITIES.filter(a=>ctx.scores[a]!==null).map(a=>[a,Math.max(0,...armorItems.filter(r=>armorProficient(r,ctx)).map(r=>r.abilityBonuses?.[a]||0))]).filter(([,n])=>n!==0));
   const scores = Object.fromEntries(ABILITIES.map(a => [a, ctx.scores[a]===null?null:Math.max(species.noConstitution?pack.rules.droidAbilities.minimumScore:-Infinity,ctx.scores[a]+(equipmentAbilities[a]||0))]));

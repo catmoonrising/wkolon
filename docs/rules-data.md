@@ -33,6 +33,7 @@ Bonus HP pools and confirmed Tough as Durasteel triggers follow the [bonus HP co
 Talents lasting until the next turn follow the [turn talent contract](turn-talents.md).
 Body Control, Soft to Solid and Wan-Shen Defense follow the [Matukai defense contract](matukai-defenses.md).
 Battle Meditation and Dark Presence follow the [encounter buff contract](encounter-buffs.md).
+Reviewed passive and conditional Defense bonuses follow the [passive defense contract](passive-defenses.md).
 Personal recovery talents follow the [Condition recovery contract](condition-recovery.md).
 Ordered skill rerolls follow the [reroll contract](skill-rerolls.md).
 Reviewed skill checks and their deferred effects follow the

@@ -35039,9 +35039,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"conditionalDefense","defense":"fortitude","against":"poison","amount":5,"type":"untyped"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:power-blast",
@@ -37193,9 +37193,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"conditionalDefense","defense":"fortitude","against":"natural-hazards","amount":5,"type":"species"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:sharp-senses",
@@ -37325,9 +37325,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"defenseBonus","defense":"fortitude","amount":2,"type":"species"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:unstoppable-combatant",
@@ -37445,9 +37445,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"defenseBonus","defense":"will","amount":2,"type":"morale","when":"wieldingWeapon","weapons":["equipment:atlatl","equipment:cesta"]}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:wroshyr-rage",
@@ -39724,9 +39724,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"defenseBonus","defense":"will","amount":2,"type":"morale","when":"fightDefensively"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:resurgence",
@@ -45424,9 +45424,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"defenseBonus","defense":"fortitude","amount":1,"type":"insight"},{"target":"defenseBonus","defense":"will","amount":1,"type":"insight"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:nowhere-to-run",
@@ -50629,9 +50629,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"defenseBonus","defense":"will","amount":2,"type":"insight"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:guiding-strikes",
@@ -62936,7 +62936,7 @@
     {"id":"talent:targeted-lock","name":"Targeted Lock","sourceId":"source:wiki-4th-degree-droid-talent-tree-targeted-lock","tree":"tree:4th-degree-droid","prerequisite":{"kind":"all","requirements":[{"kind":"talent","value":"talent:target-acquisition"}]},"repeat":"never","effects":[],"reminder":"","automation":"manual"},
     {"id":"talent:weapons-power-surge","name":"Weapons Power Surge","sourceId":"source:wiki-4th-degree-droid-talent-tree-weapons-power-surge","tree":"tree:4th-degree-droid","prerequisite":{"kind":"all","requirements":[]},"repeat":"never","effects":[],"reminder":"","automation":"manual","manualPrerequisites":["Prerequisite: Equipped with a Weapon Tool Mount"]},
     {"id":"talent:cargo-hauler","name":"Cargo Hauler","sourceId":"source:wiki-5th-degree-droid-talent-tree-cargo-hauler","tree":"tree:5th-degree-droid","prerequisite":{"kind":"all","requirements":[]},"repeat":"never","effects":[],"reminder":"","automation":"manual"},
-    {"id":"talent:environmentally-shielded","name":"Environmentally Shielded","sourceId":"source:wiki-5th-degree-droid-talent-tree-environmentally-shielded","tree":"tree:5th-degree-droid","prerequisite":{"kind":"all","requirements":[]},"repeat":"never","effects":[],"reminder":"","automation":"manual"},
+    {"id":"talent:environmentally-shielded","name":"Environmentally Shielded","sourceId":"source:wiki-5th-degree-droid-talent-tree-environmentally-shielded","tree":"tree:5th-degree-droid","prerequisite":{"kind":"all","requirements":[]},"repeat":"never","effects": [{"target":"conditionalDefense","defense":"fortitude","against":"environmental-hazards","amount":5,"type":"equipment"}],"reminder":"","automation": "partial"},
     {"id":"talent:power-supply","name":"Power Supply","sourceId":"source:wiki-5th-degree-droid-talent-tree-power-supply","tree":"tree:5th-degree-droid","prerequisite":{"kind":"all","requirements":[]},"repeat":"never","effects":[],"reminder":"","automation":"manual"},
     {"id":"talent:durable","name":"Durable","sourceId":"source:wiki-5th-degree-droid-talent-tree-durable","tree":"tree:5th-degree-droid","prerequisite":{"kind":"all","requirements":[]},"repeat":"never","effects":[],"reminder":"","automation":"manual"},
     {"id":"talent:heavy-duty-actuators","name":"Heavy-Duty Actuators","sourceId":"source:wiki-5th-degree-droid-talent-tree-heavy-duty-actuators","tree":"tree:5th-degree-droid","prerequisite":{"kind":"all","requirements":[{"kind":"size","value":"medium"}]},"repeat":"never","effects":[],"reminder":"","automation":"manual"},

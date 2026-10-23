@@ -9,6 +9,7 @@
 - [x] Matukai Body Control Fortitude replacement and encounter immunity state, Soft to Solid reaction DR and Wan-Shen Defense melee deflection. Hazard resolution remains manual.
 - [x] Battle Meditation and Dark Presence personal encounter bonuses, typed stacking and unconscious loss; ally effects remain manual.
 - [x] Fortified Body passive Poison/Radiation/Disease immunity display; hazard resolution remains manual.
+- [x] Eight reviewed passive/conditional Defense records (Thick Skin, Force of Will, Jedi Hunter, Poison Resistance, Scion of Dorin, Environmentally Shielded, Warrior Heritage, Resolute Stance).
 - [ ] Audit uncategorized official rules reached through article links; the 4,400 sourcebook-category candidates are not proof of whole-wiki completeness.
 - [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.
   - [x] Enable the nine remaining unambiguous Core species, size and conditional defense calculations, and all six weapon-proficiency groups.
