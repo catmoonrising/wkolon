@@ -85,7 +85,17 @@ def main():
     parser.add_argument('--watch-session')
     parser.add_argument('--task', default='CLAUDE-AUTOMATION')
     args = parser.parse_args()
+    if args.hook:
+        sys.stdin.read()  # Consume the native hook payload without logging it.
     try:
+        if args.watch_session:
+            result = subprocess.run(['claude', 'agents', '--json', '--all'], capture_output=True, text=True, timeout=20)
+            if result.returncode:
+                raise ValueError('Cannot verify Claude worker state')
+            rows = json.loads(result.stdout)
+            row = next((row for row in rows if row.get('id') == args.watch_session), None)
+            if row is None or row.get('state') in ['stopped', 'completed', 'failed']:
+                return 0
         data = usage(args.fresh)
         if data['stop']:
             reason = 'Claude plan usage reached 25% used in a five-hour or weekly window'
