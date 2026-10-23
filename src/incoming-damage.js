@@ -10,6 +10,7 @@ import {armorProtection} from './armor.js';
 import {protectedDamage} from './combat.js';
 import {recoveryState,setDead,recordKnockout} from './recovery.js';
 import {ambiguityValue} from './house-rules.js';
+import {endUnconsciousTalents} from './talent-activations.js';
 
 export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spendForcePoint=false,energy=false,sonic=false,fire=false,cold=false,electrical=false,lightsaber=false,otherDamage=false,requiresUseTheForce=false,against=[],conditionSteps=0}={}){
  assertResistanceResolved(c);assertNegationResolved(c);assertDeflectionResolved(c);
@@ -59,8 +60,9 @@ function commitIncomingDamage(c,d,pack,amount,options){
  c.currentHP=result.afterHP;if(amount>0)lockShieldPowers(c);if(result.shieldKind==='power')spendShieldPower(c,result.shieldSource,result.srAfter);else if(result.shieldKind==='equipment')equipmentShield.shield.sr=result.srAfter;else c.protection.sr=result.srAfter;c.condition=result.conditionAfter;
  if(result.forcePointSpent){c.forcePoints-=result.forcePointSpent;if(c.actionState?.active)c.actionState.forceSpent=true;}
  if(amount>0)lockResistancePowers(c);
- if(result.dead)setDead(c,true);
- else if(result.knockout)recordKnockout(c,result.type);
+ if(result.dead)setDead(c,true,pack);
+ else if(result.knockout)recordKnockout(c,result.type,pack);
+ endUnconsciousTalents(c,pack);
  if(result.dead||result.afterHP===0||result.conditionAfter===5||d.incapacitated||d.helpless||!d.skills?.find(s=>s.id==='skill:use-the-force')?.available)clearResistancePowers(c);
  else result.resistanceChecks=requireResistanceDamageChecks(c,pack,result.penetrating);
  return result;

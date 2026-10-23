@@ -12,6 +12,7 @@ import {validateTimedTalents,activeTimedTalents} from './timed-talents.js';
 import {validateTurnFeatEffects,turnFeatAttackEffects} from './turn-feat-effects.js';
 import {validateBonusHP,toughAsDurasteelLevel} from './bonus-hit-points.js';
 import {validateTurnTalents,turnTalentEffects} from './turn-talents.js';
+import {validateReactionTalents,reactionTalentDR} from './reaction-talents.js';
 import {modifierTotal,resolveModifiers} from './modifiers.js';
 import {validateTalentActivations,encounterTalentEffects} from './talent-activations.js';
 import {validateOwnedVehicles} from './vehicles.js';
@@ -137,6 +138,7 @@ export function validateCharacter(c, pack) {
   if(c.powerAttack!==undefined&&!num(c.powerAttack,0,20))bad('Power Attack');
   if(c.skillModifiers!==undefined&&(!obj(c.skillModifiers)||Object.entries(c.skillModifiers).some(([id,n])=>!ix.skills.has(id)||!num(n,-1000,1000))))bad('skill modifiers');
   validateTurnTalents(c,pack,bad);
+  validateReactionTalents(c,pack,bad);
   validateBonusHP(c,bad);
   validateTurnFeatEffects(c,pack,bad);
   validateTimedTalents(c,pack,bad);
@@ -435,7 +437,7 @@ export function derive(c, pack) {
   const classPassives=[...ctx.classLevels].filter(([id])=>!ctx.inactiveClasses.has(id)).flatMap(([id,n])=>(ix.classes.get(id).passives||[]).map(e=>({...e,amount:Math.floor(n/e.step)*e.amount})));
   const classChoiceEffects=ctx.classChoices.filter(s=>!ctx.inactiveClasses.has(s.classId)).flatMap(s=>ix.classChoices.get(s.id).effects.map(e=>({...e,choice:s.choice})));
   const speciesDR=species.damageReduction||0;
-  const timedDR=Math.max(0,...activeTimedTalents(c,pack,ctx).map(s=>s.rule.damageReduction));
+  const timedDR=Math.max(0,reactionTalentDR(c,pack,ctx),...activeTimedTalents(c,pack,ctx).map(s=>s.rule.damageReduction));
   const classDR=Math.max(0,...classPassives.filter(e=>e.target==='dr').map(e=>e.amount));
   const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.filter(s=>!ctx.inactiveTalents.has(s.id)).map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
   effects.push(...encounterTalentEffects(c,pack,ctx));
@@ -505,7 +507,11 @@ export function derive(c, pack) {
   }
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
   const conditionalEffects=[...turnTalentEffects(c,pack,ctx,{flatFooted,helpless}),...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='conditionalDefense'),...armorConditionalDefenses(armorItems,ctx,defenses)];
-  const conditionalDefenses=[...combineArmorDefenses(conditionalEffects,[],defenses,equipmentDefenseBonuses,defenseModifiers).filter(r=>r.against!=='aware'||r.amount>0),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)];
+  // Melee-only awareness bonuses share their type with every while-aware bonus.
+  const meleeAware=conditionalEffects.some(e=>e.against==='melee-aware')?conditionalEffects.filter(e=>e.against==='aware').map(e=>({...e,against:'melee-aware'})):[];
+  const groupedDefenses=combineArmorDefenses([...conditionalEffects,...meleeAware],[],defenses,equipmentDefenseBonuses,defenseModifiers).filter(r=>!['aware','melee-aware'].includes(r.against)||r.amount>0);
+  const conditionalDefenses=[...groupedDefenses.filter(r=>r.against!=='melee-aware'||r.total>(groupedDefenses.find(x=>x.defense===r.defense&&x.against==='aware')?.total??defenses[r.defense])),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)];
+  const hazardImmunities=[...new Set(effects.filter(e=>e.target==='hazardImmunity').flatMap(e=>e.hazards))];
   const thresholdState=thresholdDetails(c,effects,defenses,conditionalEffects,equipmentDefenseBonuses,pack.rules.sizeThreshold[effectiveSize]+(species.damageThresholdBonus||0)+total('threshold')+c.modifiers.threshold,defenseModifiers);
   const threshold=thresholdState.total,thresholdContext=thresholdState.context;
   const teamSkills=teamSkillDetails(c,effects,ix,pack);
@@ -644,7 +650,7 @@ export function derive(c, pack) {
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
     forcePowers:ctx.forcePowers.map(p=>{const record=ix.forcePowers.get(p.powerId),removedDescriptors=record.descriptors.filter(descriptor=>effects.some(e=>e.target==='powerDescriptorRemoval'&&e.selection.choice===p.powerId&&e.descriptors.includes(descriptor)));return {...record,descriptors:record.descriptors.filter(d=>!removedDescriptors.includes(d)),removedDescriptors,copyId:p.id,action:p.action||record.action,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId),adept:ctx.talents.some(t=>t.id==='talent:force-power-adept'&&t.choice===p.powerId&&!ctx.inactiveTalents.has(t.id))};}),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
-    conditionalDefenses,conditionalThresholds:thresholdState.conditional,
+    conditionalDefenses,hazardImmunities,conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,type==='fly'&&species.flightHeavyLoadForbidden&&load.heavy?0:move(n+(type==='swim'?total('swimSpeed'):0))])),
     incapacitated: droidSystems.inoperative || c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forcePointsForbidden:!!(species.forceImmune||ctx.forceRestrictions.forbidPoints), forceMaximum, forceCurrent:forceForbidden?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,hpGains,

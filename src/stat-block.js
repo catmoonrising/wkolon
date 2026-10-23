@@ -7,6 +7,7 @@ import {activeTurnFeatEffects} from './turn-feat-effects.js';
 import {activeTurnTalents} from './turn-talents.js';
 import {speciesQualities} from './species-profiles.js';
 import {activeTalentActivations} from './talent-activations.js';
+import {activeReactionTalents} from './reaction-talents.js';
 import {customizationEntries} from './species-customization.js';
 import {ABILITIES, indexPack, signed, derive} from './rules.js';
 import {TRAIT_FIELDS, backgroundLanguage} from './heroic-traits.js';
@@ -25,6 +26,7 @@ export function renderStatBlock(c,d,pack){
  const ix=indexPack(pack),species=resolveSpecies(c,pack);
  const line=(label,value)=>value?`<p><b>${label}:</b> ${value}</p>`:'';
  const textLine=(label,value)=>line(label,escape(value));
+ const hazardNames=list=>list.map(h=>h[0].toUpperCase()+h.slice(1)).join(', ');
  const featureName=(type,s)=>{
   const record=ix[type].get(s.id);
   return escape(record.name+(d.ctx.inactiveTalents?.has(s.id)?' (Inactive)':'')+(s.choice?` (${choiceName(s.choice,pack)})`:''));
@@ -50,11 +52,11 @@ export function renderStatBlock(c,d,pack){
  }).join(' and '));}).join('');
  const story=c.story?.kind!=='none'&&ix[c.story?.kind==='destiny'?'destinies':'backgrounds']?.get(c.story?.id);
  const traits=TRAIT_FIELDS.filter(([key])=>c.heroicTraits?.[key]).map(([key,label])=>textLine(label,c.heroicTraits[key])).join('');
- const active=[...activeShieldPowers(c,pack).map(s=>({...s,benefit:'SR '+s.sr+'/'+s.srMax})),...activeRagePowers(c,pack).map(s=>({...s,benefit:'Melee attack/damage +'+s.bonus+' Rage ('+(s.enhanced?'encounter':'turn')+')'})),...activeMovementPowers(c,pack).map(s=>({...s,benefit:'Speed +'+s.speedBonus+'; Jump +'+s.jumpBonus+' Force'+(s.destiny?'; Jump without check':'')})),...activeSelfPowerEffects(c,pack).map(s=>({...s,benefit:'Attack +'+s.rule.attackBonus+' Force; +'+s.dice+'d'+s.rule.die+' on hit'})),...activeTimedTalents(c,pack,d.ctx),...activeTurnFeatEffects(c,pack,d.ctx),...activeTalentActivations(c,pack,d.ctx),...activeTurnTalents(c,pack,d.ctx).map(a=>({...a,benefit:'Reflex +'+a.amount+' (while aware)'}))],activeNames=[...new Set(active.map(a=>a.name))];
+ const active=[...activeShieldPowers(c,pack).map(s=>({...s,benefit:'SR '+s.sr+'/'+s.srMax})),...activeRagePowers(c,pack).map(s=>({...s,benefit:'Melee attack/damage +'+s.bonus+' Rage ('+(s.enhanced?'encounter':'turn')+')'})),...activeMovementPowers(c,pack).map(s=>({...s,benefit:'Speed +'+s.speedBonus+'; Jump +'+s.jumpBonus+' Force'+(s.destiny?'; Jump without check':'')})),...activeSelfPowerEffects(c,pack).map(s=>({...s,benefit:'Attack +'+s.rule.attackBonus+' Force; +'+s.dice+'d'+s.rule.die+' on hit'})),...activeTimedTalents(c,pack,d.ctx),...activeTurnFeatEffects(c,pack,d.ctx),...activeTalentActivations(c,pack,d.ctx),...activeTurnTalents(c,pack,d.ctx).map(a=>({...a,benefit:'Reflex +'+a.amount+' ('+conditionalDefenseLabel(a.rule.effect)+')'})),...activeReactionTalents(c,pack,d.ctx)],activeNames=[...new Set(active.map(a=>a.name))];
  return `<article class="stat-block"><h1>${escape(c.name||'unnamed')} <span>(CL ${d.level})</span></h1>
  <p>${escape((d.size||species.size).replace(/^./,ch=>ch.toUpperCase()))} ${escape(species.name)} ${classes}</p>
  <p>${points}</p>${line('Initiative',signed(skill('initiative').total)+'; <b>Senses:</b> Perception '+signed(skill('perception').total)+[(d.vision||species.vision)==='darkvision'?'Darkvision':(d.vision||species.vision)==='low-light'?'Low-Light Vision':'',species.scentRange?'Scent '+species.scentRange+' Squares':''].filter(Boolean).map(s=>', '+s).join(''))}${line('Languages',languages)}
- <h2>Defenses</h2><p><b>Reflex Defense:</b> ${defenseTotal('reflex')}, <b>Fortitude Defense:</b> ${defenseTotal('fortitude')}, <b>Will Defense:</b> ${defenseTotal('will')}</p>${textLine('Defensive Abilities',defensiveOptions)}
+ <h2>Defenses</h2><p><b>Reflex Defense:</b> ${defenseTotal('reflex')}, <b>Fortitude Defense:</b> ${defenseTotal('fortitude')}, <b>Will Defense:</b> ${defenseTotal('will')}${d.hazardImmunities?.length?`; <b>Immune:</b> ${escape(hazardNames(d.hazardImmunities))}`:''}</p>${textLine('Defensive Abilities',defensiveOptions)}
  <p><b>Hit Points:</b> ${c.currentHP??d.hp}/${d.hp}${c.bonusHP?` (+${c.bonusHP} bonus HP)`:""}; <b>Damage Threshold:</b> ${d.threshold}${(d.conditionalThresholds||[]).map(r=>` (${r.total} ${escape(conditionalDefenseLabel(r))})`).join('')}${protection.dr?`; <b>DR:</b> ${protection.dr}${protection.drBypass?' ('+escape(protection.drBypass)+')':''}`:''}${protection.srMax||energySR?`; <b>SR:</b> ${[protection.srMax?protection.sr+'/'+protection.srMax:'',energySR].filter(Boolean).join(', ')}`:''}</p>
  ${d.recovery?.dead?textLine('Status',species.isDroid?'Destroyed':'Dead'):d.helpless&&c.condition!==5?textLine('Status',c.helpless?'Helpless':species.isDroid?'Disabled':'Unconscious'):''}${textLine('Condition Track',condition)}${d.recovery?.persistent.length?textLine('Persistent Conditions',d.recovery.persistent.map(persistentName).join(', ')):''}
  <h2>Offense</h2>${line('Speed',(d.speedUnknown?'Manual':d.speed+' Squares')+Object.entries(d.speeds||{}).map(([type,n])=>`, ${escape(type)} ${n} Squares`).join('')+(!d.speedUnknown&&d.runMultiplier!==4?` (Run ${d.runSpeed} Squares)`:''))}${attacks}${routines}${species.bellow?line('Special Attacks',`Bellow ${signed(d.level+d.specialAttackPenalty)} (${species.bellow.damageDice+(d.bellowBonuses?.dice||0)}d${species.bellow.die}${d.battleStrike?'+'+d.battleStrike.dice+'d'+d.battleStrike.die+' on hit':''} Sonic; ${species.bellow.coneSquares}-Square Cone; Fortitude)`):''}${line('Base Attack Bonus',signed(d.bab))}

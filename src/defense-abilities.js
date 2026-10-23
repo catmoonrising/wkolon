@@ -4,7 +4,8 @@ import {ambiguityValue} from './house-rules.js';
 const base={reflex:'dex',fortitude:'con',will:'wis'};
 export function defenseAbilityDetails(c,pack,effects,mods,{dex,armorMaxDex,dexDenied,helpless,fortitudeAbility='con'}){
  return Object.fromEntries(Object.entries({...base,fortitude:fortitudeAbility}).map(([key,ability])=>{
-  const abilities=[...new Set([ability,...effects.filter(e=>e.target==='defenseAbility'&&e.defense===key).map(e=>e.ability).filter(a=>fortitudeAbility==='con'||a!=='con')])];
+  // Fortitude replacements substitute for Constitution; a body without it keeps its own ability.
+  const abilities=[...new Set([ability,...(key==='fortitude'&&fortitudeAbility!=='con'?[]:effects.filter(e=>e.target==='defenseAbility'&&e.defense===key).map(e=>e.ability))])];
   const options=abilities.map(ability=>{
    let modifier=key==='reflex'&&ability==='dex'?dex:mods[ability];
    if(key==='reflex'&&ability==='int'&&ambiguityValue(c,pack,'ambiguity:predictive-defense-dexterity-limits')==='dexterity-limits')modifier=helpless?-5:dexDenied?Math.min(0,modifier):armorMaxDex===null?modifier:Math.min(modifier,armorMaxDex);
@@ -28,7 +29,7 @@ export function thresholdDetails(c,effects,defenses,bonuses,equipment,bonus,base
  return {...normal,context,conditional};
 }
 export function validateDefenseAbilities(c,bad){
- if(c.defenseAbilities!==undefined){const choices={reflex:['auto','dex','int'],fortitude:['auto','con','str'],will:['auto','wis','cha']};if(!c.defenseAbilities||typeof c.defenseAbilities!=='object'||Array.isArray(c.defenseAbilities)||Object.entries(c.defenseAbilities).some(([key,value])=>(!Object.hasOwn(choices,key)||!choices[key].includes(value))))bad('defense abilities');}
+ if(c.defenseAbilities!==undefined){const choices={reflex:['auto','dex','int'],fortitude:['auto','con','str','cha'],will:['auto','wis','cha']};if(!c.defenseAbilities||typeof c.defenseAbilities!=='object'||Array.isArray(c.defenseAbilities)||Object.entries(c.defenseAbilities).some(([key,value])=>(!Object.hasOwn(choices,key)||!choices[key].includes(value))))bad('defense abilities');}
  if(c.thresholdDefense!==undefined&&!['auto','fortitude','will'].includes(c.thresholdDefense))bad('threshold defense');
 }
 export function defenseAbilityControls(d){

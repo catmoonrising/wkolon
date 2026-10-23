@@ -6,6 +6,9 @@
 - [x] Inventory all 16 official source categories and recursively exclude Homebrew; publish the coverage queue in docs/wiki-coverage.md.
 - [x] Explicit original-skill reroll carryover for seven substitution talents, preserving conditional scopes and use limits.
 - [x] Mind of Reason: shared native skill ability substitutions, persistent optional ability choices and Trace integration.
+- [x] Matukai Body Control Fortitude replacement and encounter immunity state, Soft to Solid reaction DR and Wan-Shen Defense melee deflection. Hazard resolution remains manual.
+- [x] Battle Meditation and Dark Presence personal encounter bonuses, typed stacking and unconscious loss; ally effects remain manual.
+- [x] Fortified Body passive Poison/Radiation/Disease immunity display; hazard resolution remains manual.
 - [ ] Audit uncategorized official rules reached through article links; the 4,400 sourcebook-category candidates are not proof of whole-wiki completeness.
 - [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.
   - [x] Enable the nine remaining unambiguous Core species, size and conditional defense calculations, and all six weapon-proficiency groups.

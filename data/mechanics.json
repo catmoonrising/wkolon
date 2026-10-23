@@ -41291,7 +41291,8 @@
       "reminder": "",
       "effects": [],
       "forceActivation": "forcePoint",
-      "automation": "manual"
+      "activation": {"action":"full","forcePoints":1,"duration":"encounter","choices":[{"id":"attacks","name":"Attack rolls","effects":[{"target":"attacks","amount":1,"type":"insight"}]}]},
+      "automation": "partial"
     },
     {
       "id": "talent:clear-mind",
@@ -42136,7 +42137,8 @@
       "reminder": "",
       "effects": [],
       "requiresDarkSide": true,
-      "automation": "manual"
+      "activation": {"action":"standard","forcePoints":0,"duration":"encounter","endsWhenUnconscious":true,"choices":[{"id":"defenses","name":"Defenses","effects":[{"target":"defenses","amount":1,"type":"force"}]}]},
+      "automation": "partial"
     },
     {
       "id": "talent:disciplined-strike",
@@ -42952,9 +42954,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"hazardImmunity","hazards":["poison","radiation","disease"]}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:full-throttle",
@@ -61856,9 +61858,10 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"defenseAbility","defense":"fortitude","ability":"cha"}],
+      "activation": {"action":"swift","forcePoints":1,"duration":"encounter","choices":[{"id":"immunity","name":"Poison, Radiation, Disease immunity","effects":[{"target":"hazardImmunity","hazards":["poison","radiation","disease"]}]}]},
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:physical-surge",
@@ -61904,7 +61907,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:wan-shen-defense",
@@ -61931,7 +61934,7 @@
       "repeat": "stack",
       "effects": [],
       "reminder": "",
-      "automation": "manual",
+      "automation": "partial",
       "maxSelections": 3
     },
     {
@@ -68445,7 +68448,7 @@
     "attackAbilities":{"base":{"melee":"str","ranged":"dex"},"choices":["str","dex","cha"],"unarmedLightCounselingId":"jc:112-unarmed-attacks-and-weapon-finesse","replacements":[{"id":"feat:weapon-finesse","kind":"feat","ability":"dex","mode":"melee","eligible":"light-or-lightsaber","proficient":false,"focusedOneHanded":true,"sourceIds":["source:wiki-weapon-finesse","source:wiki-category-weapons-weapon-sizes","source:wiki-category-web-enhancements-unarmed-attacks-and-weapon-finesse"]},{"id":"talent:noble-fencing-style","kind":"talent","ability":"cha","mode":"melee","eligible":"light-or-lightsaber","proficient":true,"focusedOneHanded":false,"sourceIds":["source:wiki-fencing-talent-tree-noble-fencing-style","source:wiki-category-weapons-weapon-sizes","source:wiki-category-web-enhancements-unarmed-attacks-and-weapon-finesse"]}]},
     "terrainMovementAbilities":[{"talentId":"talent:surefooted","ignoreDifficultTerrain":true,"sourceIds":["source:wiki-survivor-talent-tree-surefooted","source:wiki-move"]}],
     "deflectionModifiers":[{"talentId":"talent:shii-cho","penaltyPerPriorAttempt":2,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-shii-cho"]}],
-    "lightsaberDefenseStyle":{"talentId":"talent:makashi","amount":2,"maximum":5,"weaponCount":1,"hands":1,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-makashi"]},
+    "lightsaberDefenseStyle":{"talentId":"talent:makashi","turnTalentId":"lightsaber-defense","amount":2,"maximum":5,"weaponCount":1,"hands":1,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-makashi"]},
     "deflection": {"skillId":"skill:use-the-force","action":"reaction","comparison":"at-least","penaltyPerPriorAttempt":5,"reset":"own-turn-start","weapon":"wielded-activated-lightsaber","aware":true,"notFlatFooted":true,"adjacentForcePoints":1,"rerollTalentId":"talent:soresu","evasionTalentId":"talent:evasion","forceLightningConditionSteps":1,"forceLightningEnhancedConditionSteps":2,"sourceIds":["source:block","source:deflect","source:wiki-lightsaber-forms-talent-tree-soresu","source:evasion","source:wiki-sonic-damage","source:wiki-force-lightning","source:wiki-attacks","source:wiki-bonuses-and-penalties"]},
     "deflectionActions": [{"id":"block","talentId":"talent:block","mode":"melee","kinds":["single","area"],"halfOnSuccess":["area"]},{"id":"deflect","talentId":"talent:deflect","mode":"ranged","kinds":["single","area","autofire","force-lightning"],"halfOnSuccess":["autofire","force-lightning"],"sonicException":true,"capitalRequiresPointDefense":true}],
     "negatingPowers": [{"powerId":"power:negate-energy","action":"reaction","damageTypes":["energy"],"aware":true,"notFlatFooted":true,"dc":"raw-attack-damage","comparison":"at-least","success":"negate-attack","failure":"normal-incoming-damage","healing":{"forcePoints":1,"action":"reaction","amount":"raw-attack-damage","maximum":"normal-max-hp"},"sourceIds":["source:wiki-negate-energy","source:wiki-attacks","source:wiki-force-powers","source:wiki-hit-points"]}],
@@ -68459,7 +68462,8 @@
     "timedTalentActions": [{"id":"damage-reduction-10","talentId":"talent:damage-reduction-10","forcePoints":1,"durationRounds":10,"damageReduction":10,"sourceIds":["source:wiki-control-talent-tree-damage-reduction-10","source:wiki-combat-sequence","source:wiki-attacks"]}],
     "turnFeatEffects": [{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],
     "bonusHitPoints": {"sourceIds":["source:wiki-hit-points"],"toughAsDurasteel":{"classId":"class:martial-arts-master","minimumLevel":2,"armorCategory":"light","ambiguityId":"ambiguity:tough-as-durasteel-amount","sourceIds":["source:wiki-martial-arts-master"]}},
-    "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]}],
+    "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]},{"id":"wan-shen-defense","talentId":"talent:wan-shen-defense","amountPerSelection":1,"maximum":3,"weaponId":"equipment:wan-shen","effect":{"target":"conditionalDefense","defense":"reflex","against":"melee-aware","type":"deflection"},"sourceIds":["source:wiki-matukai-adept-talent-tree-wan-shen-defense","source:wiki-wan-shen","source:wiki-melee-attacks"]}],
+    "reactionTalentActions": [{"id":"soft-to-solid","talentId":"talent:soft-to-solid","trigger":"damaged-by-attack","forcePoints":1,"damageReduction":10,"duration":"end-next-turn","sourceIds":["source:wiki-matukai-adept-talent-tree-soft-to-solid","source:wiki-attacks","source:wiki-combat-sequence"]}],
     "conditionRecoveryActions": [{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]},{"id":"resilience","talentId":"talent:resilience","steps":2,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-jedi-guardian-talent-tree-resilience","source:wiki-conditions"]}],
     "skillActions": [{"id":"force-focus","talentId":"talent:force-focus","skillId":"skill:use-the-force","dc":15,"effect":"recover-power","sourceIds":["source:wiki-control-talent-tree-force-focus","source:use-the-force","source:wiki-skills"]}],
     "actionEconomy": {
@@ -68497,7 +68501,7 @@
 {"id":"maintain-power","name":"Maintain","type":"standard","count":1},
         {"id":"jump","name":"Jump","type":"move","count":1,"ruleId":"rule:jump"},
         {"id":"damage-reduction-10","name":"Damage Reduction 10","type":"standard","count":1},
-        {"id":"lightsaber-defense","name":"Lightsaber Defense","type":"swift","count":1},{"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},
+        {"id":"lightsaber-defense","name":"Lightsaber Defense","type":"swift","count":1},{"id":"wan-shen-defense","name":"Wan-Shen Defense","type":"swift","count":1},{"id":"soft-to-solid","name":"Soft to Solid","type":"reaction","count":1},{"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},
         {"id":"encounter-talent","name":"Talent","type":"standard","count":1},
         {
           "id": "attack",

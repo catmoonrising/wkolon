@@ -18,8 +18,9 @@ bonuses and do not pass through this resolver.
 Reviewed talent activations use `talents[].activation`, containing `action`,
 `forcePoints`, `duration: "encounter"`, and distinct `choices`. Each choice
 contains `id`, `name`, and numeric `effects` with an explicit `target`, `amount`
-and `type`. This first format supports Fool's Luck's personal attacks, skills
-and defenses only. Its vehicle defense benefit remains manual. Pinned prose
+and `type`. Fool's Luck uses it for personal attacks, skills and defenses;
+[encounter-buffs.md](encounter-buffs.md) extends it to Battle Meditation and
+Dark Presence. Its vehicle defense benefit remains manual. Pinned prose
 retains the final vehicle sentence's use of "luck", rather than rewriting it;
 the three personal choices explicitly use Competence.
 

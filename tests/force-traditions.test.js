@@ -11,13 +11,14 @@ import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),ix=indexPack(pack),access=pack.rules.traditionTalentAccess;
 const membership=(id,level=1,darkSideScore=0)=>({id:'tradition:'+id,level,darkSideScore});
 const talent=id=>({id:'talent:'+id});
+const reviewed=new Set(['many-shades-of-the-force','body-control','soft-to-solid','wan-shen-defense'].map(id=>'talent:'+id));
 function hero(cls='jedi'){const c=newCharacter(pack,{classId:'class:'+cls});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:14,wis:14,cha:14};c.trainedSkills=['skill:use-the-force'];return c;}
 function level(c,extra={}){c.levels.push({classId:c.levels[0].classId,hpRoll:4,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[],...extra});}
 function shaded(){const c=hero();c.forceTraditions=[membership('aing-tii-monk')];c.levels[0].feats=[{id:'feat:force-training'}];c.levels[0].forcePowers=['force-lightning','surge','enlighten'].map(name=>({id:crypto.randomUUID(),powerId:'power:'+name,spent:false}));c.levels[0].talent={id:'talent:many-shades-of-the-force',choice:'power:force-lightning'};return c;}
 
 test('all 26 tradition trees have 122 talents, exact sections, membership sources and typed access guards',()=>{
  assert.equal(access.length,26);const trees=new Set(access.map(r=>r.tree)),records=pack.talents.filter(t=>trees.has(t.tree));assert.equal(records.length,122);
- for(const r of access){const page=pack.rulePages.find(p=>p.id===r.ruleId);assert.equal(page.sourceId,r.sourceId);assert(articleText(page.article).includes(r.name.replace(/^The /,'')),r.name);for(const t of records.filter(t=>t.tree===r.tree)){assert.equal(t.automation,t.id==='talent:many-shades-of-the-force'?'partial':'manual');if(t.id!=='talent:many-shades-of-the-force')assert.deepEqual(t.effects,[]);assert(t.prerequisite.requirements.some(p=>p.kind==='tradition'&&p.value===r.id));assert(articleText(t.article).includes('Only Force-users that are part of'),t.name);assert.equal(pack.sources.find(s=>s.id===t.sourceId).section,t.name);}}
+ for(const r of access){const page=pack.rulePages.find(p=>p.id===r.ruleId);assert.equal(page.sourceId,r.sourceId);assert(articleText(page.article).includes(r.name.replace(/^The /,'')),r.name);for(const t of records.filter(t=>t.tree===r.tree)){assert.equal(t.automation,reviewed.has(t.id)?'partial':'manual');if(!['talent:many-shades-of-the-force','talent:body-control'].includes(t.id))assert.deepEqual(t.effects,[]);assert(t.prerequisite.requirements.some(p=>p.kind==='tradition'&&p.value===r.id));assert(articleText(t.article).includes('Only Force-users that are part of'),t.name);assert.equal(pack.sources.find(s=>s.id===t.sourceId).section,t.name);}}
  validatePack(pack);
 });
 

@@ -45,3 +45,7 @@ existing higher bonus. Grip and current weapon size use the same helper as Full
 Attack. Switching weapons reevaluates Makashi without spending an action or
 resnapshotting Jar'Kai. It remains one typed deflection contribution, and no
 activation means no passive bonus.
+
+Wan-Shen Defense is the second record; see [matukai-defenses.md](matukai-defenses.md).
+A record names either the Lightsaber `weaponGroup` or one `weaponId`. Makashi
+and the weapon-change alternative apply only to Lightsaber Defense.

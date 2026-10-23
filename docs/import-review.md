@@ -2613,3 +2613,47 @@ partially overlapping scopes. The test rejects an intentionally broken scope
 intersection. Added selected-source/modifier assertions, independent reroll
 use tracking, target-versus-replacement policy checks and required-record
 validation for all seven grants. Browser checks inspect the newest roll.
+
+## Matukai defenses
+
+Matukai Adept Talent Tree revision 20482 (Jedi Academy Training Manual) now
+supplies three Partial records through shared resolvers. Body Control uses the
+Fortitude CHA-for-CON replacement and an encounter activation (one Swift
+Action, one Force Point) that records Poison, Radiation and Disease immunity.
+No hazard engine exists, so applying that immunity to poisons, radiation and
+diseases remains manual. Soft to Solid is a Reaction after a declared attack
+damages the character; one Force Point grants DR 10 through the strongest-source
+DR resolver until the end of the next own turn, without changing damage already
+applied. Wan-Shen Defense uses the turn talent resolver with a wielded Wan-Shen
+(Wan-Shen revision 20576), melee-only deflection while aware, a +3 cap and the
+shared highest-of-type grouping with Lightsaber Defense. The Lightsaber Defense
+weapon-change alternative and Makashi apply only to Lightsaber Defense; no
+matching Wan-Shen alternative is offered without a ruling. Physical Surge,
+Wan-Shen Kata and Wan-Shen Mastery remain Manual. Pinned articles are unchanged.
+
+## Battle Meditation and Dark Presence
+
+The pinned Core Jedi Guardian and Dark Side Talent Tree sections now drive two
+Partial encounter activations. Battle Meditation spends a Full-Round Action and
+one Force Point for the user's +1 insight bonus on attack rolls. Its printed
+unconsciousness loss names allies, so the user's own bonus is retained; that
+reading is recorded as an open question. Dark Presence spends a Standard Action
+for the user's +1 Force bonus to all Defenses and is removed when incoming
+damage knocks the user unconscious or kills them; any unconscious, 0 HP or dead
+state suppresses it. Ally targets, the 6-square range, Mind-Affecting handling
+and starship Gunners remain manual. Pinned articles are unchanged.
+
+## Fortified Body
+
+The pinned Core Force Adept Talent Tree section grants permanent immunity to
+Disease, Poison and Radiation. It now uses the reviewed `hazardImmunity` effect,
+shown in Defenses and the stat block. No hazard engine resolves poisons,
+radiation or diseases yet, so the record is Partial. Prerequisite replay and
+ownership loss follow the existing talent rules.
+
+Independent integration review fixed loss-on-unconsciousness across all recorded
+knockout/death paths, including Ithorian Bellow and manual Condition Track/HP
+controls. Healing and consciousness checks remove retained legacy activations
+before waking; invalid preflight remains atomic. Battle Meditation keeps its
+printed ally-only loss interpretation. Hazard resolution remains manual even
+when immunity is displayed.

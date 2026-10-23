@@ -13,6 +13,8 @@ import {timedTalentPlan,applyTimedTalent,advanceTimedTalents} from './timed-tale
 import {endTurnFeatEffects,clearTurnFeatEffects,applyMoveFeatEffects} from './turn-feat-effects.js';
 import {clearBonusHP} from './bonus-hit-points.js';
 import {turnTalentPlan,applyTurnTalent,clearTurnTalents} from './turn-talents.js';
+import {reactionTalentRule,reactionTalentPlan,applyReactionTalent,endReactionTalentTurn,clearReactionTalents} from './reaction-talents.js';
+import {conditionalDefenseLabel} from './defensive-combat.js';
 import {balance,planBalance} from './balance.js';
 import {conditionRecoveryPlan,applyConditionRecovery} from './condition-recovery.js';
 import {skillActionPlan,rollSkillAction,finishSkillAction} from './skill-actions.js';
@@ -73,6 +75,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(['shield','shield-recharge'].includes(id))o.uid=c.inventory.find(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield)?.uid||'';
  if(deflectionRule(pack,id)){o.attackRoll=0;o.aware=false;o.kind='single';o.target='self';o.hit=true;o.rerolls='failed';o.incoming={amount:0,options:{type:'normal',against:[]}};}
  if(id==='bellow'){o.extraDice=0;o.strong=false;}
+ if(reactionTalentRule(pack,id))o.damaged=false;
  if(id==='encounter-talent'){const t=pack.talents.find(t=>t.activation&&d.ctx.talents.some(s=>s.id===t.id)&&!d.ctx.inactiveTalents.has(t.id));o.talentId=t?.id||'';o.choice=t?.activation.choices.find(o=>!c.talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||'';}
  if(id.startsWith('manual-'))o.note=pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name==='Other'?'':pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name||'';
  return o;
@@ -117,7 +120,8 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'second-wind':view.cost.type=d.recovery.secondWind.action.startsWith('Free')?'free':'swift';assert(d.recovery.secondWind.available,d.recovery.secondWind.reason);assert(!s.ended,'Second Wind requires your turn');break;
  case 'rage':assert(d.recovery.rage?.remaining&&!d.recovery.rage.active,'Rage unavailable');break;
  case 'damage-reduction-10':view.timedTalent=timedTalentPlan(q,d,pack,id);view.forceCost=view.timedTalent.forcePoints;break;
- case 'lightsaber-defense':view.turnTalent=turnTalentPlan(q,d,pack,id);break;
+ case 'lightsaber-defense':case 'wan-shen-defense':view.turnTalent=turnTalentPlan(q,d,pack,id);break;
+ case 'soft-to-solid':view.reactionTalent=reactionTalentPlan(q,d,pack,id,o);view.forceCost=view.reactionTalent.rule.forcePoints;break;
  case 'resilience':case 'equilibrium':case 'indomitable':view.conditionRecovery=conditionRecoveryPlan(q,d,pack,id);view.forceCost=view.conditionRecovery.rule.forcePoints;break;
  case 'bellow':assert(bellowDetails(q,d,pack,o.extraDice??0,{strong:o.strong??false})?.available,'Bellow unavailable');break;
  case 'total-defense':break;
@@ -174,7 +178,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   if(o.fp==='before'){fp=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);routine.steps[0].attackMod+=fp.value;c.forcePoints--;c.actionState.forceSpent=true;}
   r=rollCombatRoutine(routine,d,pack,roller);spendAttackResources(c,r);if(fp){r.text+='; Force Point +'+fp.value;r.html+='<div>Force Point: '+fp.display+' = '+totalHtml(fp)+'</div>';}
  }else if(id==='full-attack-step'||id==='routine-step'){r=rollRoutineStep(c,d,pack,o.routineId,roller);spendAttackResources(c,r);}
- else if(id==='charge'){r=rollCharge(c,d,pack,o.uid,roller);spendAttackResources(c,r);endTurnFeatEffects(c);endSelfPowerTurn(c);endRagePowerTurn(c);c.actionState.ended=true;}
+ else if(id==='charge'){r=rollCharge(c,d,pack,o.uid,roller);spendAttackResources(c,r);endTurnFeatEffects(c);endSelfPowerTurn(c);endReactionTalentTurn(c);endRagePowerTurn(c);c.actionState.ended=true;}
  else if(id==='running-attack'){r=rollRunningAttack(c,pack,o.uid,roller);spendAttackResources(c,r);}
  else if(id==='balance'||id==='balance-recheck')r=balance(c,d,pack,id==='balance-recheck',roller);
  else if(id==='escape-bonds')r=escapeBonds(c,d,pack,roller);
@@ -202,11 +206,12 @@ function resolve(c,pack,id,o,v,roller,activationId){
  }else if(id==='second-wind'){const x=catchSecondWind(c,d,pack,roller);r={text:'Second Wind: +'+x.healed+' HP'+(x.conditionRecovery?'; +'+x.conditionRecovery+' condition step':'')+(x.exhaustion?'; exhaustion':'')};}
  else if(id==='rage'){startRage(c,d);r={text:'Rage: '+d.recovery.rage.duration+' rounds'};}
  else if(v.timedTalent){invalidate(c);applyTimedTalent(c,v.timedTalent);c.forcePoints-=v.forceCost;r={text:v.name+': '+v.timedTalent.durationRounds+' rounds; Force Points -'+v.forceCost};}
- else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': Reflex +'+(v.turnTalent.bonus??v.turnTalent.amount)+' (while aware)'};}
+ else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': Reflex +'+(v.turnTalent.bonus??v.turnTalent.amount)+' ('+conditionalDefenseLabel(v.turnTalent.rule.effect)+')'};}
+ else if(v.reactionTalent){clearFollowUps(c);clearAiming(c);clearBracing(c);applyReactionTalent(c,id,v.reactionTalent);c.forcePoints-=v.forceCost;r={text:v.name+': DR '+v.reactionTalent.rule.damageReduction+'; Force Points -'+v.forceCost};}
  else if(v.conditionRecovery){invalidate(c);applyConditionRecovery(c,v.conditionRecovery);c.forcePoints-=v.forceCost;r={text:v.name+': '+(c.condition===0?'Normal State':'+'+v.conditionRecovery.steps+' condition steps')+(v.conditionRecovery.rule.removePersistent?'; persistent conditions removed':'')+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
  else if(id==='bellow')r=rollBellow(c,d,pack,o.extraDice??0,o.damage??null,roller,{strong:o.strong??false});
  else if(id==='total-defense')declareDefenseStance(c,d,'total');
- else if(id==='encounter-talent'){invalidate(c);applyTalentActivation(c,o.talentId,o.choice);c.forcePoints-=v.forceCost;r={text:v.name+'; Force Points -'+v.forceCost};}
+ else if(id==='encounter-talent'){invalidate(c);applyTalentActivation(c,o.talentId,o.choice);c.forcePoints-=v.forceCost;r={text:v.name+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
  else if(id==='force-bonus'){const x=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);c.forcePoints--;r={text:'Force Point: +'+x.value,html:x.display+' = '+totalHtml(x)};}
  else if(id==='power'){
   if(v.negation)o.incoming=structuredClone(v.negation.incoming);
@@ -276,8 +281,8 @@ export function beginNextTurn(c,pack,{maintain=[]}={}){
  const results=maintain.map(effectId=>takeAction(q,pack,'maintain-power',{effectId}));
  validateCharacter(q,pack);commit(c,q);return results;
 }
-export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endRagePowerTurn(q);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
-export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
+export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endReactionTalentTurn(q);endRagePowerTurn(q);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
+export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);clearReactionTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false,uncertainMovement=false;
  for(const step of q.actionState.plan){
@@ -293,6 +298,7 @@ export function previewPlan(c,pack){
    if(step.action==='rage'){q.recovery=recoveryState(q);q.recovery.ragesSpent++;q.recovery.rageRounds=v.derived.recovery.rage.duration;}
    if(v.timedTalent){clearAiming(q);clearBracing(q);applyTimedTalent(q,v.timedTalent);}
    if(v.turnTalent){clearAiming(q);clearBracing(q);applyTurnTalent(q,step.action,v.turnTalent.amount);}
+   if(v.reactionTalent){clearAiming(q);clearBracing(q);applyReactionTalent(q,step.action,v.reactionTalent);}
    if(v.conditionRecovery){clearAiming(q);clearBracing(q);applyConditionRecovery(q,v.conditionRecovery);}
    if(step.action==='total-defense')declareDefenseStance(q,v.derived,'total');
    if(step.action==='reload'){const e=q.inventory.find(e=>e.uid===step.options.uid);e.shotsRemaining=ammunitionProfile(e,pack).capacity;}
@@ -303,7 +309,7 @@ export function previewPlan(c,pack){
    if(v.destinyCost)q.story.points-=v.destinyCost;
    if(step.action==='power'){q.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===step.options.powerId).spent=true;if(movementPowerRule(pack,v.power.id))uncertainMovement=true;}
    if(step.action==='move'&&!v.character.acrobaticsMovement?.tumble&&!v.character.acrobaticsMovement?.crossTerrain)applyMoveFeatEffects(q,v.derived,pack,v.character.acrobaticsMovement?.displacement||0);
-   if(step.action==='charge'){endTurnFeatEffects(q);endSelfPowerTurn(q);endRagePowerTurn(q);q.actionState.ended=true;}
+   if(step.action==='charge'){endTurnFeatEffects(q);endSelfPowerTurn(q);endReactionTalentTurn(q);endRagePowerTurn(q);q.actionState.ended=true;}
    rows.push({id:step.id,name:v.name,cost:v.cost,manual:v.manual});
   }catch(e){rows.push({id:step.id,issue:e.message});stopped=true;}
  }

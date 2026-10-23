@@ -33,7 +33,7 @@ export function createRecoveryControls(pack,{current,derived,changed,log,error})
    if(el.hasAttribute('data-limb-persistent')){setLimbPersistent(current(),el.dataset.limbPersistent,el.checked);changed();return true;}
    if(el.hasAttribute('data-recovery-persistent')){setPersistent(current(),'other',el.checked);changed();return true;}
    if(el.hasAttribute('data-stun-unconscious')){current().recovery=recoveryState(current());current().recovery.stunUnconscious=el.checked;changed();return true;}
-   if(el.hasAttribute('data-recovery-dead')){setDead(current(),el.checked);changed();return true;}
+   if(el.hasAttribute('data-recovery-dead')){setDead(current(),el.checked,pack);changed();return true;}
    if(!el.hasAttribute('data-bellow-dice'))return false;
    const n=Number(el.value),b=bellowDetails(current(),derived(),pack,n,bellowOptions(current()));
    if(!b)return true;

@@ -9,7 +9,8 @@ import {clearSelfPowerEffects} from './self-power-effects.js';
 import {clearTimedTalents} from './timed-talents.js';
 import {clearTurnFeatEffects} from './turn-feat-effects.js';
 import {clearBonusHP} from './bonus-hit-points.js';
-import {endEncounterTalents} from './talent-activations.js';
+import {endEncounterTalents,endUnconsciousTalents} from './talent-activations.js';
+import {clearReactionTalents} from './reaction-talents.js';
 import {endShieldEncounter} from './energy-shields.js';
 import {clearFollowUps} from './attack-follow-ups.js';
 import {startNextRound} from './opportunity.js';
@@ -79,12 +80,12 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){assertDeflectionResolved(c);c.deflectionAttempts=0;clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
+export function newEncounter(c){assertDeflectionResolved(c);c.deflectionAttempts=0;clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
  assertDeflectionResolved(c);c.deflectionAttempts=0;
  if(pack&&campaignRuleEnabled(c,'dailyForcePoints'))c.forcePoints=derive(c,pack).forceMaximum;
  clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);
- clearTurnFeatEffects(c);
+ clearTurnFeatEffects(c);clearReactionTalents(c);
  clearBonusHP(c);
  resetActionTurn(c);
  endEncounterTalents(c);
@@ -101,13 +102,15 @@ export function setPersistent(c,cause,on){
  if(!persistentName(cause))throw new Error('Unknown persistent condition');
  const r=state(c);if(on&&!r.persistent.includes(cause))r.persistent.push(cause);else if(!on)removePersistent(c,cause);
 }
-export function setDead(c,on){
+export function setDead(c,on,pack){
  state(c).dead=on;
- if(on){clearResistancePowers(c);clearTurnFeatEffects(c);clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
+ if(on){clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
+ if(pack)endUnconsciousTalents(c,pack);
 }
 export function receiveHealing(c,d,pack,amount){
  if(!Number.isInteger(amount)||amount<1||amount>100000)throw new Error('Enter healing from 1 to 100,000');
  if(d.recovery.dead)throw new Error('Requires revival, not ordinary healing');
+ endUnconsciousTalents(c,pack);
  const before=c.currentHP??d.hp,unconscious=c.condition===5||before===0;
  const additive=!unconscious||ambiguityValue(c,pack,'ambiguity:unconscious-healing')==='add';
  c.currentHP=Math.min(d.hp,(additive?before:0)+amount);
@@ -117,7 +120,8 @@ export function receiveHealing(c,d,pack,amount){
 export function restEightHours(c,d,pack){
  assertDeflectionResolved(c);
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
- clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
+ endUnconsciousTalents(c,pack);
+ clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
  if(recoveryState(c).rageRounds)endRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;
  r.persistent=r.persistent.filter(p=>!rule.removablePersistent.includes(p));
@@ -133,15 +137,17 @@ export function checkConsciousness(c,d,pack,roller=evalExpr){
  const rule=pack.rules.unconsciousRecovery,mod=d.recovery.unconscious.modifier;
  const rolled=roller(`1d20${mod>=0?'+':''}${mod}`),natural=rolled.d20?.[0];
  if(!Number.isInteger(natural)||natural<1||natural>20||!Number.isFinite(rolled.value))throw new Error('Invalid Constitution check');
+ endUnconsciousTalents(c,pack);
  const fatal=natural===rule.fatalNatural||rolled.value<=rule.dc-rule.deathFailureMargin;
  const dead=fatal&&!(recoveryState(c).stunUnconscious&&rule.stunNoFatalCheck),success=!fatal&&rolled.value>=rule.dc;
  const r=state(c);
- if(dead)setDead(c,true);
+ if(dead)setDead(c,true,pack);
  else if(success){c.currentHP=Math.min(d.hp,(c.currentHP??d.hp)+d.level);c.condition=4;r.unconsciousRetry=false;r.stunUnconscious=false;}
  else {r.unconsciousRetry=true;setPersistent(c,'injury',true);c.condition=5;}
  return {rolled,success,dead};
 }
-export function recordKnockout(c,type='normal'){
+export function recordKnockout(c,type='normal',pack){
+ if(pack)endUnconsciousTalents(c,pack);
  clearFollowUps(c);delete c.routineProgress;clearBracing(c);
  if(c.recovery===undefined&&type!=='stun')return;
  const r=state(c);r.stunUnconscious=type==='stun';r.unconsciousRetry=false;

@@ -2260,32 +2260,8 @@
             }
           }
         },
-        "turnTalentActions": {
-          "type": "array",
-          "minItems": 1,
-          "maxItems": 1,
-          "items": {
-            "const": {
-              "id": "lightsaber-defense",
-              "talentId": "talent:lightsaber-defense",
-              "amountPerSelection": 1,
-              "maximum": 3,
-              "weaponGroup": "lightsabers",
-              "doubleTalentId": "talent:jar-kai",
-              "doubleWeaponCount": 2,
-              "effect": {
-                "target": "conditionalDefense",
-                "defense": "reflex",
-                "against": "aware",
-                "type": "deflection"
-              },
-              "sourceIds": [
-                "source:wiki-lightsaber-combat-talent-tree-lightsaber-defense",
-                "source:wiki-lightsaber-forms-talent-tree-jar-kai"
-              ]
-            }
-          }
-        },
+        "turnTalentActions": {"const":[{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]},{"id":"wan-shen-defense","talentId":"talent:wan-shen-defense","amountPerSelection":1,"maximum":3,"weaponId":"equipment:wan-shen","effect":{"target":"conditionalDefense","defense":"reflex","against":"melee-aware","type":"deflection"},"sourceIds":["source:wiki-matukai-adept-talent-tree-wan-shen-defense","source:wiki-wan-shen","source:wiki-melee-attacks"]}]},
+        "reactionTalentActions": {"const":[{"id":"soft-to-solid","talentId":"talent:soft-to-solid","trigger":"damaged-by-attack","forcePoints":1,"damageReduction":10,"duration":"end-next-turn","sourceIds":["source:wiki-matukai-adept-talent-tree-soft-to-solid","source:wiki-attacks","source:wiki-combat-sequence"]}]},
         "conditionRecoveryActions": {"const":[{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]},{"id":"resilience","talentId":"talent:resilience","steps":2,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-jedi-guardian-talent-tree-resilience","source:wiki-conditions"]}]},
         "skillActions": {
           "type": "array",
@@ -2490,7 +2466,7 @@
         "attackAbilities":{"const":{"base":{"melee":"str","ranged":"dex"},"choices":["str","dex","cha"],"unarmedLightCounselingId":"jc:112-unarmed-attacks-and-weapon-finesse","replacements":[{"id":"feat:weapon-finesse","kind":"feat","ability":"dex","mode":"melee","eligible":"light-or-lightsaber","proficient":false,"focusedOneHanded":true,"sourceIds":["source:wiki-weapon-finesse","source:wiki-category-weapons-weapon-sizes","source:wiki-category-web-enhancements-unarmed-attacks-and-weapon-finesse"]},{"id":"talent:noble-fencing-style","kind":"talent","ability":"cha","mode":"melee","eligible":"light-or-lightsaber","proficient":true,"focusedOneHanded":false,"sourceIds":["source:wiki-fencing-talent-tree-noble-fencing-style","source:wiki-category-weapons-weapon-sizes","source:wiki-category-web-enhancements-unarmed-attacks-and-weapon-finesse"]}]}},
         "terrainMovementAbilities":{"const":[{"talentId":"talent:surefooted","ignoreDifficultTerrain":true,"sourceIds":["source:wiki-survivor-talent-tree-surefooted","source:wiki-move"]}]},
         "deflectionModifiers":{"const":[{"talentId":"talent:shii-cho","penaltyPerPriorAttempt":2,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-shii-cho"]}]},
-        "lightsaberDefenseStyle":{"const":{"talentId":"talent:makashi","amount":2,"maximum":5,"weaponCount":1,"hands":1,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-makashi"]}},
+        "lightsaberDefenseStyle":{"const":{"talentId":"talent:makashi","turnTalentId":"lightsaber-defense","amount":2,"maximum":5,"weaponCount":1,"hands":1,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-makashi"]}},
         "deflection": {"const":{"skillId":"skill:use-the-force","action":"reaction","comparison":"at-least","penaltyPerPriorAttempt":5,"reset":"own-turn-start","weapon":"wielded-activated-lightsaber","aware":true,"notFlatFooted":true,"adjacentForcePoints":1,"rerollTalentId":"talent:soresu","evasionTalentId":"talent:evasion","forceLightningConditionSteps":1,"forceLightningEnhancedConditionSteps":2,"sourceIds":["source:block","source:deflect","source:wiki-lightsaber-forms-talent-tree-soresu","source:evasion","source:wiki-sonic-damage","source:wiki-force-lightning","source:wiki-attacks","source:wiki-bonuses-and-penalties"]}},
         "deflectionActions": {"const":[{"id":"block","talentId":"talent:block","mode":"melee","kinds":["single","area"],"halfOnSuccess":["area"]},{"id":"deflect","talentId":"talent:deflect","mode":"ranged","kinds":["single","area","autofire","force-lightning"],"halfOnSuccess":["autofire","force-lightning"],"sonicException":true,"capitalRequiresPointDefense":true}]},
         "negatingPowers": {"const":[{"powerId":"power:negate-energy","action":"reaction","damageTypes":["energy"],"aware":true,"notFlatFooted":true,"dc":"raw-attack-damage","comparison":"at-least","success":"negate-attack","failure":"normal-incoming-damage","healing":{"forcePoints":1,"action":"reaction","amount":"raw-attack-damage","maximum":"normal-max-hp"},"sourceIds":["source:wiki-negate-energy","source:wiki-attacks","source:wiki-force-powers","source:wiki-hit-points"]}]},
@@ -5113,10 +5089,20 @@
           ],
           "properties": {
             "action": {
-              "const": "standard"
+              "enum": [
+                "standard",
+                "swift",
+                "full"
+              ]
             },
             "forcePoints": {
-              "const": 1
+              "enum": [
+                0,
+                1
+              ]
+            },
+            "endsWhenUnconscious": {
+              "const": true
             },
             "duration": {
               "const": "encounter"
@@ -5138,7 +5124,8 @@
                     "enum": [
                       "attacks",
                       "skills",
-                      "defenses"
+                      "defenses",
+                      "immunity"
                     ]
                   },
                   "name": {
@@ -5150,30 +5137,58 @@
                     "minItems": 1,
                     "maxItems": 1,
                     "items": {
-                      "type": "object",
-                      "additionalProperties": false,
-                      "required": [
-                        "target",
-                        "amount",
-                        "type"
-                      ],
-                      "properties": {
-                        "target": {
-                          "enum": [
-                            "attacks",
-                            "skills",
-                            "defenses"
-                          ]
+                      "oneOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "target",
+                            "amount",
+                            "type"
+                          ],
+                          "properties": {
+                            "target": {
+                              "enum": [
+                                "attacks",
+                                "skills",
+                                "defenses"
+                              ]
+                            },
+                            "amount": {
+                              "type": "integer",
+                              "minimum": 1,
+                              "maximum": 5
+                            },
+                            "type": {
+                              "enum": [
+                                "competence",
+                                "insight",
+                                "force"
+                              ]
+                            }
+                          }
                         },
-                        "amount": {
-                          "type": "integer",
-                          "minimum": 1,
-                          "maximum": 5
-                        },
-                        "type": {
-                          "const": "competence"
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "target",
+                            "hazards"
+                          ],
+                          "properties": {
+                            "target": {
+                              "const": "hazardImmunity"
+                            },
+                            "hazards": {
+                              "const": [
+                                "poison",
+                                "radiation",
+                                "disease"
+                              ]
+                            }
+                          }
                         }
-                      }
+                      ]
                     }
                   }
                 }
@@ -5185,6 +5200,26 @@
     },
     "effect": {
       "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "target",
+            "hazards"
+          ],
+          "properties": {
+            "target": {
+              "const": "hazardImmunity"
+            },
+            "hazards": {
+              "const": [
+                "poison",
+                "radiation",
+                "disease"
+              ]
+            }
+          }
+        },
         {
           "type": "object",
           "additionalProperties": false,

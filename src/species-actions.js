@@ -29,6 +29,6 @@ export function rollBellow(c,d,pack,extraDice=0,manualDamage=null,roller=evalExp
  clearFollowUps(c);delete c.routineProgress;
  c.condition=Math.min(5,c.condition+b.cost);
  clearBracing(c);
- if(c.condition===5)recordKnockout(c);
+ if(c.condition===5)recordKnockout(c,'normal',pack);
  return {...result,cost:b.cost};
 }

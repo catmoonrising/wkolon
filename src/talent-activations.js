@@ -4,10 +4,12 @@ export function validateTalentActivations(c,pack,bad){
  const rows=c.talentActivations,choices=pack.talents.flatMap(t=>(t.activation?.choices||[]).map(o=>t.id+'|'+o.id));
  if(!Array.isArray(rows)||rows.length>choices.length||new Set(rows.map(r=>r?.id+'|'+r?.choice)).size!==rows.length||rows.some(r=>!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).sort().join()!=='choice,id'||!choices.includes(r.id+'|'+r.choice)))bad('talent activations');
 }
+const unconscious=c=>c.currentHP===0||c.condition===5||!!c.recovery?.dead;
 export function activeTalentActivations(c,pack,ctx){
  return (c.talentActivations||[]).flatMap(s=>{
   if(!ctx.talents.some(t=>t.id===s.id)||ctx.inactiveTalents.has(s.id))return [];
   const talent=pack.talents.find(t=>t.id===s.id),option=talent?.activation?.choices.find(o=>o.id===s.choice);
+  if(talent?.activation?.endsWhenUnconscious&&unconscious(c))return [];
   return option?[{...s,name:talent.name,benefit:option.name,effects:option.effects}]:[];
  });
 }
@@ -23,3 +25,9 @@ export function applyTalentActivation(c,id,choice){
  c.talentActivations??=[];c.talentActivations.push({id,choice});
 }
 export function endEncounterTalents(c){delete c.talentActivations;}
+// "Lost if you fall unconscious or die": removal, not suppression, once known.
+export function endUnconsciousTalents(c,pack){
+ if(!c.talentActivations||!unconscious(c))return;
+ c.talentActivations=c.talentActivations.filter(s=>!pack.talents.find(t=>t.id===s.id)?.activation?.endsWhenUnconscious);
+ if(!c.talentActivations.length)delete c.talentActivations;
+}
