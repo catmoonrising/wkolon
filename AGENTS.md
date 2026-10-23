@@ -55,3 +55,16 @@ worktrees. Chat histories and ignored .build files are not shared instructions.
 Read the task board again at handoff. Respect each tool's usage limits and the
 user's pause instructions; never restart work or bypass a cutoff through the
 other tool without the user's instruction.
+
+# Usage limits
+
+The user's current cap is 25% USED in either the five-hour or weekly window,
+separately for Codex and Claude. This replaces the earlier 75%-used cap. Use
+actual current service meters, not token estimates or extra usage since a task
+started. Check before starting work and regularly while working. Checkpoint
+before the cap, then pause at or above it; do not auto-resume after a reset or
+route the stopped agent's work through the other tool to bypass its cap.
+Claude reads its native subscription meters with tools/claude-usage.py; its
+worker also has a per-session guard and an independent local watcher. Codex's
+local .build/live-usage.py reads the app-server meters. If fresh usage cannot
+be verified, pause that worker instead of assuming capacity remains.
