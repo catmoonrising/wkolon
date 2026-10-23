@@ -12,6 +12,7 @@ reviewed mapping is only partially covered until all of its rules are reviewed.
 linked species feats and redirects. Offline imports require that list; missing
 category captures and embedded Homebrew fail rather than silently importing it.
 
+Terrain movement permissions follow the [terrain contract](terrain-talents.md).
 Block and Deflect follow the [reaction contract](deflection-actions.md).
 Shii-Cho, Makashi and Resilience follow the [style contract](lightsaber-styles.md).
 Shield powers follow the [shield contract](shield-powers.md).

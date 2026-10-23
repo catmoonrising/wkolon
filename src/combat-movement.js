@@ -7,19 +7,23 @@ export function movementRule(rule,d=null,mode='normal'){
  if(terrain==='double')return {...rule,difficultCost:rule.difficultCost*2,diagonalDifficultCost:rule.diagonalDifficultCost*2};
  return rule;
 }
+function segmentCost(p,rule,ignoreTerrain){
+ // Categories are disjoint; low objects are subsets of their terrain categories.
+ const ordinary=p.squares+p.diagonal*(rule.diagonalCost-1)+p.difficult*(rule.difficultCost-1)+p.diagonalDifficult*(rule.diagonalDifficultCost-1);
+ const discount=(p.difficult-(p.lowObjects||0))*(rule.difficultCost-1)+(p.diagonalDifficult-(p.diagonalLowObjects||0))*(rule.diagonalDifficultCost-rule.diagonalCost);
+ return ordinary-(ignoreTerrain?discount:0);
+}
 export function movementCost(p,rule,d=null,mode='normal'){
- rule=movementRule(rule,d,mode);
- // Terrain counts are disjoint: Both squares are counted only in Both.
- return p.squares+p.diagonal*(rule.diagonalCost-1)+p.difficult*(rule.difficultCost-1)+p.diagonalDifficult*(rule.diagonalDifficultCost-1);
+ return segmentCost(p,movementRule(rule,d,mode),!!d?.ignoreDifficultTerrain);
 }
 export function terrainMovementCost(p,rule,crossTerrain=false,d=null,mode='normal'){
- rule=movementRule(rule,d,mode);
- return movementCost(p,rule)-(crossTerrain?(p.difficult-(p.lowObjects||0))*(rule.difficultCost-1)+(p.diagonalDifficult-(p.diagonalLowObjects||0))*(rule.diagonalDifficultCost-rule.diagonalCost):0);
+ return segmentCost(p,movementRule(rule,d,mode),crossTerrain||!!d?.ignoreDifficultTerrain);
 }
 export function validateSegment(segment,bad){
  const p=movementSegment(segment),keys=['squares','diagonal','difficult','diagonalDifficult'];
- if(!segment||typeof segment!=='object'||Array.isArray(segment)||Object.keys(segment).some(k=>!keys.includes(k))||keys.some(k=>!Number.isInteger(p[k])||p[k]<0||p[k]>100000))bad('movement segment');
+ if(!segment||typeof segment!=='object'||Array.isArray(segment)||Object.keys(segment).some(k=>![...keys,'lowObjects','diagonalLowObjects'].includes(k))||keys.some(k=>!Number.isInteger(p[k])||p[k]<0||p[k]>100000))bad('movement segment');
  if(p.diagonal+p.difficult+p.diagonalDifficult>p.squares)bad('movement terrain counts');
+ for(const [key,limit]of [['lowObjects',p.difficult],['diagonalLowObjects',p.diagonalDifficult]])if(p[key]!==undefined&&(!Number.isInteger(p[key])||p[key]<0||p[key]>limit))bad('low object squares');
 }
 export function validateCombatMovement(c,bad){
  for(const key of ['runningAttack','withdraw']){

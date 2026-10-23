@@ -63,6 +63,8 @@ export function validatePack(p) {
     if (['trained','untrained','classSkill'].includes(r.kind) && r.value !== '$choice') requireRef('skills',r.value);
     if(['proficientChoice','focusChoice'].includes(r.kind))assert(r.value==='$choice'||GROUPS.includes(r.value),'Unknown prerequisite weapon group');
   }
+  assert.deepEqual(p.rules.terrainMovementAbilities,[{"talentId":"talent:surefooted","ignoreDifficultTerrain":true,"sourceIds":["source:wiki-survivor-talent-tree-surefooted","source:wiki-move"]}]);
+  for(const r of p.rules.terrainMovementAbilities){assert(r.sourceIds.every(id=>sources.has(id)));assert(p.talents.some(t=>t.id===r.talentId&&t.automation==='partial'&&r.sourceIds.includes(t.sourceId)));}
   assert.deepEqual(p.rules.deflectionModifiers,[{"talentId":"talent:shii-cho","penaltyPerPriorAttempt":2,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-shii-cho"]}]);
   assert.deepEqual(p.rules.lightsaberDefenseStyle,{"talentId":"talent:makashi","amount":2,"maximum":5,"weaponCount":1,"hands":1,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-makashi"]});
   assert([...p.rules.deflectionModifiers.flatMap(r=>r.sourceIds),...p.rules.lightsaberDefenseStyle.sourceIds].every(id=>sources.has(id)),"Missing style sources");

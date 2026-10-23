@@ -2487,6 +2487,7 @@
             }
           ]
         },
+        "terrainMovementAbilities":{"const":[{"talentId":"talent:surefooted","ignoreDifficultTerrain":true,"sourceIds":["source:wiki-survivor-talent-tree-surefooted","source:wiki-move"]}]},
         "deflectionModifiers":{"const":[{"talentId":"talent:shii-cho","penaltyPerPriorAttempt":2,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-shii-cho"]}]},
         "lightsaberDefenseStyle":{"const":{"talentId":"talent:makashi","amount":2,"maximum":5,"weaponCount":1,"hands":1,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-makashi"]}},
         "deflection": {"const":{"skillId":"skill:use-the-force","action":"reaction","comparison":"at-least","penaltyPerPriorAttempt":5,"reset":"own-turn-start","weapon":"wielded-activated-lightsaber","aware":true,"notFlatFooted":true,"adjacentForcePoints":1,"rerollTalentId":"talent:soresu","evasionTalentId":"talent:evasion","forceLightningConditionSteps":1,"forceLightningEnhancedConditionSteps":2,"sourceIds":["source:block","source:deflect","source:wiki-lightsaber-forms-talent-tree-soresu","source:evasion","source:wiki-sonic-damage","source:wiki-force-lightning","source:wiki-attacks","source:wiki-bonuses-and-penalties"]}},

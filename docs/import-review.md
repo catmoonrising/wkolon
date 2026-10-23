@@ -2547,3 +2547,14 @@ persistent causes, and spends no HP/FP/daily resource. Source articles are uncha
 Duplicate rule buttons in pointer forms are suppressed when their target already
 appears in the form. All three talents remain Partial where equipment/other
 context continues to depend on declarations.
+
+## Surefooted (2026-10-22)
+
+Survivor Talent Tree26659 and Move18374 define the terrain contract before
+calculations. Surefooted is now Partial and removes actual Difficult Terrain
+surcharges through the shared movement calculation, leaving Speed unchanged.
+All current movement consumers share it, including Balance and Follow Through.
+Explicit low-object subsets retain obstacle costs, diagonal cost remains two,
+and Droid locomotion policies apply once. Tumble/Nimble Charge checks and existing
+ambiguity choices remain effective. No source article or existing saved path is
+rewritten, and no persistent activation toggle is invented.

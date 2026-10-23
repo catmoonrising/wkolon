@@ -432,3 +432,18 @@ not automatically cleared. Encounter context can still invalidate them normally.
 
 This covers the active character's falling/Jump Down damage. Falling-object area
 attacks, trapping/lifting, guided descent and vehicle descent rounds remain pending.
+
+## Surefooted and terrain subsets
+
+Surefooted removes the actual Difficult Terrain surcharge through the shared
+movement helper. Normal Speed, armor/load/condition restrictions, diagonals,
+Tumble, Balance, follow-up triggers and Charge checks remain in force. Move,
+Charge, Running Attack, Withdraw, Balance and Follow Through use the same helper
+for previews and execution. Droid locomotion applies once before the talent.
+
+Optional low-object counts are subsets of difficult and diagonal-difficult
+counts. They retain obstacle costs when terrain is ignored. Terrain disclosures
+show these inputs with Surefooted or an existing saved count, preserving access
+after ownership changes. Existing paths without those fields mean no declared
+low-object subset. Queued declarations retain their geometry; execution rechecks
+current ownership and legal Speed before spending resources.
