@@ -47978,7 +47978,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:demoralizing-defense",
@@ -49540,9 +49540,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"defenseAbility","defense":"will","ability":"cha"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:know-your-enemy",
@@ -68442,6 +68442,7 @@
         }
       }
     ],
+    "attackAbilities":{"base":{"melee":"str","ranged":"dex"},"choices":["str","dex","cha"],"unarmedLightCounselingId":"jc:112-unarmed-attacks-and-weapon-finesse","replacements":[{"id":"feat:weapon-finesse","kind":"feat","ability":"dex","mode":"melee","eligible":"light-or-lightsaber","proficient":false,"focusedOneHanded":true,"sourceIds":["source:wiki-weapon-finesse","source:wiki-category-weapons-weapon-sizes","source:wiki-category-web-enhancements-unarmed-attacks-and-weapon-finesse"]},{"id":"talent:noble-fencing-style","kind":"talent","ability":"cha","mode":"melee","eligible":"light-or-lightsaber","proficient":true,"focusedOneHanded":false,"sourceIds":["source:wiki-fencing-talent-tree-noble-fencing-style","source:wiki-category-weapons-weapon-sizes","source:wiki-category-web-enhancements-unarmed-attacks-and-weapon-finesse"]}]},
     "terrainMovementAbilities":[{"talentId":"talent:surefooted","ignoreDifficultTerrain":true,"sourceIds":["source:wiki-survivor-talent-tree-surefooted","source:wiki-move"]}],
     "deflectionModifiers":[{"talentId":"talent:shii-cho","penaltyPerPriorAttempt":2,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-shii-cho"]}],
     "lightsaberDefenseStyle":{"talentId":"talent:makashi","amount":2,"maximum":5,"weaponCount":1,"hands":1,"sourceIds":["source:wiki-lightsaber-forms-talent-tree-makashi"]},

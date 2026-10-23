@@ -2558,3 +2558,31 @@ Explicit low-object subsets retain obstacle costs, diagonal cost remains two,
 and Droid locomotion policies apply once. Tumble/Nimble Charge checks and existing
 ambiguity choices remain effective. No source article or existing saved path is
 rewritten, and no persistent activation toggle is invented.
+
+## Attack ability replacements and Idealist (2026-10-22)
+
+Fencing Talent Tree19131 now supplies Noble Fencing Style's proficient light
+melee/Lightsaber CHA substitution. The closed attack-ability contract precedes
+calculations and consolidates Weapon Finesse with it. Auto chooses one best
+modifier; explicit saved choices can choose a lower legal ability. Alternatives
+do not add together or change STR damage, two-handed damage, Power Attack or
+Ataru. The printed Weapon Focus combined feat qualifies one wielded One-Handed
+weapon for Finesse only; it does not change that weapon's actual size category.
+
+Jedi Counseling112's answer classifies unarmed and natural attacks as Light Melee
+Weapons, so its existing switch governs both relevant substitutions. Disabled
+Counseling retains the existing size-based RAW policy. Proficiency is required
+only by sources that print it. Prerequisites, actual size/mode, wielded entries
+and existing effective Weapon Focus groups remain authoritative.
+
+Character attack-ability choices use stable references, survive edits, and are
+rebound for organic/unarmed/natural IDs on import and duplication. An unavailable
+retained choice blocks attacks before spending resources until corrected. The
+selector appears only for alternatives or a retained choice, inside Options.
+Routine, Charge, opportunity, Running Attack and stat-block totals derive from
+the same resolved modifier; Cleave keeps the original triggering bonus.
+
+Ideologue Talent Tree25573 supplies Idealist through the existing optional CHA
+Will-defense replacement. It shares highest-ability selection and the saved
+Will override, rather than granting a new stacking defense bonus. Source
+articles are unchanged, and these reviewed talents retain Partial markers.

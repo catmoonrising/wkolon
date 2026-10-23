@@ -37,6 +37,7 @@
   - [ ] Remaining prestige-class talents and prerequisite feats, Force Tradition access, activated class features and technique/secret effects beyond Power Mastery.
   - [x] Energy Resistance's pinned rules-data contract and tested DR/maintenance/check lifecycle primitives.
   - [x] Integrate Energy Resistance with action costs, early FP quickening, shared maintenance, damage/check resolution, validation/expiry, graphics, stat blocks and the damage-types ambiguity. Improved ally targeting and contextual reroll prompts remain Manual.
+  - [x] Noble Fencing Style, saved per-attack ability choices, Weapon Finesse combined Weapon Focus exception, and Idealist Will replacement.
   - [x] Surefooted through shared Move/Charge/Running Attack/Withdraw/Balance/Follow Through costs, with low-object subsets and native Droid terrain policies.
   - [x] Shii-Cho reaction penalties, Makashi single-handed Lightsaber Defense, and Resilience Full-Round two-step recovery.
   - [x] Block/Deflect: shared penalties, native reaction costs, saved Soresu/Knack rerolls, area/Sonic/Force Lightning damage, adjacent FP protection and offline decisions. Redirect Shot and optional Saber Locks remain separate work.

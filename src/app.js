@@ -1,3 +1,4 @@
+import {attackAbilityControl,setAttackAbility} from './attack-abilities.js';
 import {campaignRuleEnabled,forcePoolAfterAdvancement} from './campaign-rules.js';
 import {jumpControls} from './jump-ui.js';
 import {advanceTimedTalents} from './timed-talents.js';
@@ -316,15 +317,16 @@ function attackTable(scope='') {
   }).join('')}${derived.manualAttacks.map(a=>`<tr><td>${ruleReference(ix.equipment.get(a.id)||a,a.name,null,scope+'manual-'+a.uid)}</td><td colspan="2"></td></tr>`).join('')}</tbody></table></div>${calculations(scope+'attack-calculations',derived.attacks.map(a=>[a.name,a.breakdown]))}`;
 }
 function attackOptions(a,i,index,scope,opportunity,runningView){
+ const ability=attackAbilityControl(a);
  const targetAvailable=a.mode==='melee'&&derived.powerAttack.owned;
  const running=runningAttackControls(current(),derived,pack,a,scope,runningView);
  const charge=a.mode==='melee'?chargeControls(current(),derived,pack,a.uid,scope):'';
- if(a.mode!=='melee'&&!a.technique.choices.length&&!a.mightySwingAvailable&&!a.autofireOnly&&!targetAvailable&&!a.opportunityWeapon&&!running)return '';
+ if(a.mode!=='melee'&&!a.technique.choices.length&&!a.mightySwingAvailable&&!a.autofireOnly&&!targetAvailable&&!a.opportunityWeapon&&!running&&!ability)return '';
  const attrs=a.natural?`data-natural-id="${a.naturalWeaponId}" data-natural-technique`:a.id===UNARMED_ID&&(!a.droidAppendage||a.primaryAppendage)?'data-unarmed-technique':`data-inventory="attackTechnique" data-index="${index}"`;
  const choices=a.technique.choices.length?`<label>Technique <select ${attrs} aria-label="${escape(a.name)} technique">${option('normal','Normal',a.technique.selected)}${a.technique.choices.map(t=>option(t.id,t.name,a.technique.selected,!t.available)).join('')}</select></label>`:'';
  const selected=a.technique.choices.find(t=>t.id===a.technique.selected);
  const target=targetAvailable?`<label>Target<select ${a.natural?`data-natural-id="${a.naturalWeaponId}" data-natural-target`:a.id===UNARMED_ID&&(!a.droidAppendage||a.primaryAppendage)?'data-unarmed-target':`data-inventory="targetKind" data-index="${index}"`} aria-label="${escape(a.name)} target">${[['creature','Creature'],['object','Object'],['vehicle','Vehicle']].map(([id,name])=>option(id,name,a.powerAttack.target)).join('')}</select></label>`:'';
- return `<details id="${scope}attack-options-${i}"><summary>Options</summary>${opportunityButton(current(),pack,a,opportunity)}${running}${charge}${target}${choices}${selected?ruleReference(pack.feats.find(f=>f.id===selected.featId),'ⓘ',null,scope+'technique-'+i):''}${a.autofireOnly?`<label class="checkbox" title="${escape(a.bracing.reason||'2 Swift Actions immediately before firing')}"><input type="checkbox" data-inventory="braced" data-index="${index}" ${a.braced?'checked':''} ${derived.incapacitated||!a.bracing.available?'disabled':''}>Brace</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:bracing'),'ⓘ',null,scope+'brace-'+i)}`:''}${a.mightySwingAvailable?`<label class="checkbox" title="${pack.rules.mightySwing.swiftActions} Swift Actions; same round"><input type="checkbox" data-mighty-swing ${current().mightySwing?'checked':''} ${derived.incapacitated?'disabled':''}>Mighty Swing</label>${ruleReference(ix.feats.get('feat:mighty-swing'),'ⓘ',null,scope+'mighty-swing-'+i)}`:''}</details>`;
+ return `<details id="${scope}attack-options-${i}"><summary>Options</summary>${ability}${opportunityButton(current(),pack,a,opportunity)}${running}${charge}${target}${choices}${selected?ruleReference(pack.feats.find(f=>f.id===selected.featId),'ⓘ',null,scope+'technique-'+i):''}${a.autofireOnly?`<label class="checkbox" title="${escape(a.bracing.reason||'2 Swift Actions immediately before firing')}"><input type="checkbox" data-inventory="braced" data-index="${index}" ${a.braced?'checked':''} ${derived.incapacitated||!a.bracing.available?'disabled':''}>Brace</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:bracing'),'ⓘ',null,scope+'brace-'+i)}`:''}${a.mightySwingAvailable?`<label class="checkbox" title="${pack.rules.mightySwing.swiftActions} Swift Actions; same round"><input type="checkbox" data-mighty-swing ${current().mightySwing?'checked':''} ${derived.incapacitated?'disabled':''}>Mighty Swing</label>${ruleReference(ix.feats.get('feat:mighty-swing'),'ⓘ',null,scope+'mighty-swing-'+i)}`:''}</details>`;
 }
 function ammunitionControls(r,e,i,scope){
  const p=ammunitionProfile(e,pack);if(!p)return '';
@@ -815,6 +817,7 @@ function events() {
     if(el.dataset.mechanicalSkill){c.mechanicalSkills=el.checked?[...(c.mechanicalSkills||[]),el.dataset.mechanicalSkill]:(c.mechanicalSkills||[]).filter(id=>id!==el.dataset.mechanicalSkill);changed();return;}
     if(el.dataset.skillSource){c.skillCheckSources??={};c.skillCheckSources[el.dataset.skillSource]=el.value;changed();return;}
     if(el.hasAttribute('data-math')) commitMath(el);
+    if(el.dataset.attackAbility){try{setAttackAbility(c,derived.attacks,el.dataset.attackAbility,el.value);changed();}catch(e){notify(e.message);render();}return;}
     if(combatControls.change(el))return;
     if(recoveryControls.change(el))return;
     if (el.dataset.field) {
