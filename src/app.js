@@ -1,3 +1,4 @@
+import {setSkillAbility,skillAbilityControl} from './skill-abilities.js';
 import {attackAbilityControl,setAttackAbility} from './attack-abilities.js';
 import {campaignRuleEnabled,forcePoolAfterAdvancement} from './campaign-rules.js';
 import {jumpControls} from './jump-ui.js';
@@ -301,7 +302,7 @@ function calculations(id, entries) {
 }
 function skillTable() {
   const species=resolveSpecies(current(),pack),technophobic=species.technophobic;
-  const ability=s=>s.checkSources.length>1?`<select data-skill-source="${s.id}" aria-label="${escape(s.name)} check modifier" ${s.checkSources.some(r=>r.when==='perceptionApplications')?'title="Use the Force: Avoid Surprise, Notice Targets, Sense Deception, Sense Influence"':''}>${s.checkSources.map(r=>option(r.id,`${r.id===s.id?r.ability.toUpperCase():r.name}${r.when==='computerNetwork'?' (network)':r.when==='perceptionApplications'?' (specific uses)':''} ${signed(r.total)}`,s.checkSource)).join('')}</select>`:s.ability.toUpperCase();
+  const ability=s=>s.checkSources.length>1?(s.abilityDetails.options.length>1||s.abilityDetails.override!=='auto'?skillAbilityControl(s)+' ':'')+`<select data-skill-source="${s.id}" aria-label="${escape(s.name)} check modifier" ${s.checkSources.some(r=>r.when==='perceptionApplications')?'title="Use the Force: Avoid Surprise, Notice Targets, Sense Deception, Sense Influence"':''}>${s.checkSources.map(r=>option(r.id,`${r.id===s.id?r.ability.toUpperCase():r.name}${r.when==='computerNetwork'?' (network)':r.when==='perceptionApplications'?' (specific uses)':''} ${signed(r.total)}`,s.checkSource)).join('')}</select>`:skillAbilityControl(s);
   return `<div class="table-scroll"><table><thead><tr><th>Skill</th><th>Ability</th><th>Trained</th>${technophobic?'<th>Mechanical tools</th>':''}<th>Check</th></tr></thead><tbody>${derived.skills.map(s=>`<tr><td>${ruleReference(ix.skills.get(s.id))}</td><td>${ability(s)}</td><td>${s.trained ? '✓' : '-'}</td>${technophobic?`<td><input type="checkbox" data-mechanical-skill="${s.id}" ${(current().mechanicalSkills||[]).includes(s.id)?'checked':''} aria-label="${escape(s.name)} uses mechanical tools"></td>`:''}<td><button class="roll" data-roll="${s.total}" data-skill-roll="${s.id}" data-roll-label="${escape(s.name)}" ${!s.available || derived.incapacitated ? 'disabled' : ''}>${s.available ? signed(s.total) : '-'}</button>${speciesChecks.controls(s,species,derived.incapacitated)}</td></tr>`).join('')}</tbody></table></div>${calculations('skill-calculations',derived.skills.map(s=>[s.name,s.breakdown]))}${teamSkillControls(derived.teamSkills)}<details id="skill-modifiers"><summary>Modifiers</summary><div class="form-grid">${pack.skills.map(s=>`<label>${escape(s.name)}<input type="number" min="-1000" max="1000" data-skill-modifier="${s.id}" value="${current().skillModifiers?.[s.id]||0}"></label>`).join('')}</div></details>`;
 }
 function attackTable(scope='') {
@@ -815,6 +816,7 @@ function events() {
       refreshShop(form);return;
     }
     if(el.dataset.mechanicalSkill){c.mechanicalSkills=el.checked?[...(c.mechanicalSkills||[]),el.dataset.mechanicalSkill]:(c.mechanicalSkills||[]).filter(id=>id!==el.dataset.mechanicalSkill);changed();return;}
+    if(el.dataset.skillAbility){try{setSkillAbility(c,derived.skills,el.dataset.skillAbility,el.value);changed();}catch(e){notify(e.message);render();}return;}
     if(el.dataset.skillSource){c.skillCheckSources??={};c.skillCheckSources[el.dataset.skillSource]=el.value;changed();return;}
     if(el.hasAttribute('data-math')) commitMath(el);
     if(el.dataset.attackAbility){try{setAttackAbility(c,derived.attacks,el.dataset.attackAbility,el.value);changed();}catch(e){notify(e.message);render();}return;}

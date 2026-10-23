@@ -1666,3 +1666,7 @@ in each newly generated ticket.
 
 Future opponent-specific attack effects must contribute to the recorded target
 component so follow-up recalculation remains consistent.
+
+Skill ability replacements use the closed `skillAbility` effect and optional
+`character.skillAbilities` choices, resolved before full-check substitutions.
+See [skill-abilities.md](skill-abilities.md).

@@ -2586,3 +2586,13 @@ Ideologue Talent Tree25573 supplies Idealist through the existing optional CHA
 Will-defense replacement. It shares highest-ability selection and the saved
 Will override, rather than granting a new stacking defense bonus. Source
 articles are unchanged, and these reviewed talents retain Partial markers.
+
+## Mind of Reason
+
+Mind of Reason revision 20706 (Rebellion Era Campaign Guide) now replaces the
+native INT modifier with WIS through a shared skill-ability resolver. The
+Cerean requirement uses chronological feat ownership. Training, Skill Focus,
+condition, tools, equipment and other bonuses remain independent. Trace uses
+the fully resolved native Use Computer check. Optional saved ability choices
+survive edits and imports, including unavailable choices. Pinned article and
+source hash are unchanged. The record retains Partial status.

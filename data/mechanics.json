@@ -36893,9 +36893,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"skillAbility","from":"int","ability":"wis"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:mon-calamari-shipwright",

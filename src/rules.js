@@ -1,3 +1,4 @@
+import {skillAbilityDetails,validateSkillAbilities} from './skill-abilities.js';
 import {validateAttackAbilities,attackAbilityDetails} from './attack-abilities.js';
 import {validateDeflection} from './deflection.js';
 import {validateNegatingPowers} from './negating-powers.js';
@@ -162,6 +163,7 @@ export function validateCharacter(c, pack) {
   validateStartingEquipment(c,pack,bad);
   validateAttachments(c,pack,bad);
   if(c.mechanicalSkills!==undefined&&!skillList(c.mechanicalSkills))bad('mechanical tool checks');
+  validateSkillAbilities(c,ix,bad);
   if(c.skillCheckSources!==undefined&&(!obj(c.skillCheckSources)||Object.entries(c.skillCheckSources).some(([id,source])=>!ix.skills.has(id)||!ix.skills.has(source))))bad('skill check sources');
   validateHouseRules(c,pack,bad);
   validateDefenseAbilities(c,bad);validateTeamAllies(c,pack,bad);
@@ -512,6 +514,7 @@ export function derive(c, pack) {
   const movementPowers=movementPowerBonuses(c,pack);
   const nativeSkills = pack.skills.map(s => {
     const trained = ctx.trained.has(s.id);
+    const abilityDetails=skillAbilityDetails(c,s,effects,mods);
     const focus = Math.max(0, ...effects.filter(e => e.target === 'skillFocus' && e.selection.choice === s.id && trained).map(e => campaignRuleEnabled(c,'scalingSkillFocus')?Math.ceil(level/2):e.amount));
     const teamBonus=trained?Math.max(0,...teamSkills.filter(e=>e.skill===s.id).map(e=>e.bonus)):0;
     const backgroundBonus=!trained && background?.relevantSkills.includes(s.id)?background.untrainedBonus:0;
@@ -522,23 +525,24 @@ export function derive(c, pack) {
     const tools=species.technophobic&&c.mechanicalSkills?.includes(s.id)?-5:0;
     const misc=c.skillModifiers?.[s.id]||0;
     const encumbrance=load.heavy&&pack.rules.encumbrance.skills.includes(s.id)?pack.rules.encumbrance.skillPenalty:0;
-    return {...s, trained, focus, available: !blockedRageSkills.includes(s.id) && !(raging&&species.rage.blockedSkills.includes(s.id)) && (!species.isDroid||species.heuristicProcessor||trained||pack.rules.droidAbilities.untrainedSkills.includes(s.id)) && !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || !ctx.forceRestrictions.forbidChecks && ctx.feats.some(f => f.id === F('force-sensitivity'))),
-      total: half + mods[s.ability] + (trained ? pack.rules.trainingBonus : 0) + bonuses.total + penalty + size + condition + tools + misc + encumbrance,
-      breakdown: `${half} half level + ${mods[s.ability]} ability + ${trained ? 5 : 0} training + ${bonuses.bonuses.competence||0} competence + ${equipment} equipment + ${bonuses.bonuses.force||0} Force + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools + ${misc} misc + ${encumbrance} load`};
+    const checkAllowed= !blockedRageSkills.includes(s.id) && !(raging&&species.rage.blockedSkills.includes(s.id)) && (!species.isDroid||species.heuristicProcessor||trained||pack.rules.droidAbilities.untrainedSkills.includes(s.id)) && !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || !ctx.forceRestrictions.forbidChecks && ctx.feats.some(f => f.id === F('force-sensitivity')));
+    return {...s, trained, focus, checkAllowed, abilityDetails, ability:abilityDetails.ability, available:checkAllowed&&abilityDetails.available,
+      total: half + abilityDetails.modifier + (trained ? pack.rules.trainingBonus : 0) + bonuses.total + penalty + size + condition + tools + misc + encumbrance,
+      breakdown: `${half} half level + ${abilityDetails.modifier} ${abilityDetails.ability.toUpperCase()} + ${trained ? 5 : 0} training + ${bonuses.bonuses.competence||0} competence + ${equipment} equipment + ${bonuses.bonuses.force||0} Force + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools + ${misc} misc + ${encumbrance} load`};
   });
   const nativeById=new Map(nativeSkills.map(s=>[s.id,s]));
   const skills=nativeSkills.map(s=>{
     const replacements=effects.filter(e=>e.target==='skillSubstitution'&&e.skill===s.id&&nativeById.get(e.replacement)?.available);
     const circumstance=armorCircumstance(armorItems,c.armorChecks,s.id);
-    const sources=[{id:s.id,name:s.name,total:s.total,ability:s.ability},...replacements.map(e=>{const r=nativeById.get(e.replacement);return {id:r.id,name:r.name,total:r.total,ability:r.ability,...(e.when?{when:e.when}:{})};})];
+    const sources=[{id:s.id,name:s.name,total:s.total,ability:s.ability,available:s.available},...replacements.map(e=>{const r=nativeById.get(e.replacement);return {id:r.id,name:r.name,total:r.total,ability:r.ability,...(e.when?{when:e.when}:{})};})];
     for(const source of sources)source.total+=circumstance;
     const saved=c.skillCheckSources?.[s.id];
-    const automatic=sources.filter(r=>!r.when).reduce((best,r)=>r.total>best.total?r:best,sources[0]);
+    const automatic=sources.filter(r=>!r.when&&r.available!==false).reduce((best,r)=>!best||r.total>best.total?r:best,null)||sources[0];
     const source=saved?(sources.find(r=>r.id===saved)||sources[0]):automatic;
     const native=nativeById.get(source.id);
     const scope=source.when==='computerNetwork'?'computer network':source.when==='perceptionApplications'?'Avoid Surprise, Notice Targets, Sense Deception, Sense Influence':'';
     const climb=s.id==='skill:climb'?droidSystems.movement?.climbPenalty||0:0;
-    return {...s,available:s.available&&native.available&&!(s.id==='skill:climb'&&droidSystems.movement?.climbAllowed===false),total:source.total+climb,checkSource:source.id,checkSources:sources.map(r=>({...r,total:r.total+climb})),breakdown:(source.id===s.id?s.breakdown+(circumstance?'; +'+circumstance+' Intimidate':''):`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}${circumstance?'; +'+circumstance+' Intimidate':''}`)+(climb?'; '+climb+' Tracked':'')};
+    return {...s,available:s.checkAllowed&&native.available&&!(s.id==='skill:climb'&&droidSystems.movement?.climbAllowed===false),total:source.total+climb,checkSource:source.id,checkSources:sources.map(r=>({...r,total:r.total+climb})),breakdown:(source.id===s.id?s.breakdown+(circumstance?'; +'+circumstance+' Intimidate':''):`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}${circumstance?'; +'+circumstance+' Intimidate':''}`)+(climb?'; '+climb+' Tracked':'')};
   });
   const unarmed=species.isDroid||species.usesDroidSystems?null:unarmedWeapon(pack,effectiveSize,total('unarmedDieSteps'));
   const gloves=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).unarmed);

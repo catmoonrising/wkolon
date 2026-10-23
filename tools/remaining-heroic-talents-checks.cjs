@@ -34,7 +34,7 @@ module.exports=async function(browser,base,root){
   assert.equal(await page.locator('#module-inventory [data-inventory="licenseStatus"]').inputValue(),'approved');assert.equal(await page.locator('#module-inventory [data-field="credits"]').inputValue(),'9000');
   await page.locator('#purchase [data-shop-field="market"]').selectOption('black-market');assert((await quote.innerText()).includes('2,000 cr'));
   await page.locator(`[data-character="${scoundrel.id}"]`).click();await openTree();assert.deepEqual(await groups(),['all',...pack.classes.find(r=>r.id==='class:scoundrel').talentTrees].sort((a,b)=>a.localeCompare(b)));await creationUI.done(page,'done');
-  const gather=skills.locator('[data-skill-source="skill:gather-information"]');assert.equal(await gather.inputValue(),'skill:gather-information');assert((await gather.innerText()).includes('Use Computer (network) +14'));
+  const gather=skills.locator('[data-skill-source="skill:gather-information"]');assert.equal(await gather.inputValue(),'skill:gather-information');assert((await gather.locator('option').allTextContents()).includes('Use Computer (network) +14'));
   await gather.selectOption('skill:use-computer');assert.equal(await skills.locator('[data-roll-label="Gather Information"]').getAttribute('data-roll'),'14');
   await page.locator('#theme-select').selectOption({label:'Dracula Dark'});await skills.scrollIntoViewIfNeeded();await page.screenshot({path:path.join(root,'.build/skill-substitution-dracula.png')});await waitSave();
   await page.evaluate(async()=>{await navigator.serviceWorker.register('./sw.js');await navigator.serviceWorker.ready;});await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);

@@ -286,6 +286,7 @@ export function validatePack(p) {
         if(e.target==='teamSkill'){assert.deepEqual(Object.keys(e).sort(),['amount','maximum','perAlly','radius','skill','target','type']);requireRef('skills',e.skill);assert(e.amount===3&&e.perAlly===1&&e.maximum===7&&e.radius===12&&e.type==='competence','Unsupported team skill bonus');continue;}
         if(e.target==='conditionalDefense'){assert.deepEqual(Object.keys(e).sort(),['against','amount','defense','target','type']);assert(['fortitude','will'].includes(e.defense)&&['use-the-force','deception-or-persuasion'].includes(e.against)&&e.type==='insight'&&e.amount===5&&(e.against!=='deception-or-persuasion'||e.defense==='will'),'Unsupported conditional defense effect');continue;}
         if(e.target==='defenseBonus'){assert.deepEqual(Object.keys(e).sort(),['amount','defense','target','type','when']);assert(['fortitude','will'].includes(e.defense)&&e.when==='fightDefensively'&&e.amount===2&&e.type==='competence','Unsupported defensive stance effect');continue;}
+        if(e.target==='skillAbility'){assert.equal(r.id,'feat:mind-of-reason');assert.deepEqual(e,{target:'skillAbility',from:'int',ability:'wis'});assert.equal(r.automation,'partial');continue;}
         if(e.target==='skillSubstitution'){
           assert(Object.keys(e).every(k=>['target','skill','replacement','grantsTraining','when'].includes(k)),'Unsupported substitution field');
           requireRef('skills',e.skill);requireRef('skills',e.replacement);assert.notEqual(e.skill,e.replacement);assert.equal(typeof e.grantsTraining,'boolean');

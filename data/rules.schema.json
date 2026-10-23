@@ -5287,6 +5287,16 @@
         {
           "type": "object",
           "additionalProperties": false,
+          "required": ["target", "from", "ability"],
+          "properties": {
+            "target": {"const": "skillAbility"},
+            "from": {"const": "int"},
+            "ability": {"const": "wis"}
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
           "required": [
             "target",
             "skill",
