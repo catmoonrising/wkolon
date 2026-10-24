@@ -2,6 +2,12 @@ import {counselingEnabled} from './house-rules.js';
 import {UNARMED_ID} from './feature-choices.js';
 import {attachedScope} from './equipment.js';
 
+// Benefit identity is separate from a stock's proficiency/range conversion.
+export function weaponIdentityGroup(w,ctx){
+ const printed=w.printedGroup||w.group;
+ return counselingEnabled(ctx,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity?.[w.id]||printed:printed;
+}
+
 export const canAim=(w,e={})=>w.mode==='ranged'&&!w.areaType&&!!w.damage&&(e.attackTechnique==='burst-fire'||e.attackTechnique==='rapid-shot'&&!w.autofireOnly||!w.autofireOnly&&e.fireMode!=='autofire');
 
 export function unarmedWeapon(pack,size,steps=0){

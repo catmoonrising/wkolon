@@ -1,3 +1,4 @@
+import {weaponIdentityGroup} from './weapon-rules.js';
 import {modifierTotal} from './modifiers.js';
 import {nextFollowUpRound} from './attack-follow-ups.js';
 import {ambiguityValue} from './house-rules.js';
@@ -14,7 +15,7 @@ export function weaponCanOpportunity(w,entry,pack,ctx){
  const rule=pack.rules.opportunity;
  if(w.natural)return true;
  if(w.unarmed)return ctx.feats.some(f=>f.id===rule.unarmedRequires);
- const talentGroup=ctx.talents.some(t=>!ctx.inactiveTalents?.has(t.id)&&pack.talents.find(r=>r.id===t.id)?.effects.some(e=>e.target==='opportunityWeapon'&&e.weaponGroup===(w.printedGroup||w.group)));
+ const talentGroup=ctx.talents.some(t=>!ctx.inactiveTalents?.has(t.id)&&pack.talents.find(r=>r.id===t.id)?.effects.some(e=>e.target==='opportunityWeapon'&&e.weaponGroup===weaponIdentityGroup(w,ctx)));
  return w.mode==='melee'||rule.groups.includes(w.group)||talentGroup||rule.foldedStock&&!!w.retractableStock&&entry.stockPosition==='folded';
 }
 // The player identifies a provoking event and confirms that it occurs within
@@ -39,7 +40,7 @@ export function planOpportunity(c,d,pack,uid){
  if(!attack?.opportunityWeapon)fail('Weapon cannot make attacks of opportunity');
  if(!attack.available||!attack.damage)fail(attack.issue||'Attack unavailable');
  const shooter=attack.mode==='ranged'?d.rangedOpportunityBonus||0:0;
- const extra=(d.opportunityAttackEffects||[]).filter(e=>(!e.weaponGroup||(attack.printedGroup||attack.group)===e.weaponGroup)&&(!e.mode||attack.mode===e.mode)&&(!e.proficient||attack.proficient));
+ const extra=(d.opportunityAttackEffects||[]).filter(e=>(!e.weaponGroup||weaponIdentityGroup(attack,d.ctx)===e.weaponGroup)&&(!e.mode||attack.mode===e.mode)&&(!e.proficient||attack.proficient));
  const bonus=shooter+modifierTotal(extra);
  const result=bonus?{...attack,attack:attack.attack+bonus,breakdown:attack.breakdown+(shooter?'; Opportunistic Shooter: +'+shooter:'')+extra.map(e=>'; '+e.name+': +'+e.amount).join('')}:attack;
  return {attack:result,spent:{opponent:p.opponent.trim(),action:p.action.trim()},previous:structuredClone(p.used)};

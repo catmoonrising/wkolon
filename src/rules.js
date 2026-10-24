@@ -1,3 +1,4 @@
+import {weaponIdentityGroup} from './weapon-rules.js';
 import {validateTriggeredDefenses,triggeredDefenseEffects} from './triggered-defenses.js';
 import {validateMoveTalentEffects,moveTalentModifiers} from './move-talent-effects.js';
 import {skillAbilityDetails,validateSkillAbilities} from './skill-abilities.js';
@@ -262,7 +263,7 @@ export function talentTrees(cls,ctx,pack){
  return [...cls.talentTrees,...(ctx.isDroid?ctx.droidTalentTrees||[]:[]),...(!ctx.forceImmune&&ctx.feats.some(f=>f.id===F('force-sensitivity'))?[...(pack.rules.forceTalentAccess?.trees||[]),...(pack.rules.traditionTalentAccess||[]).filter(r=>ctx.forceTraditions?.has(r.id)).map(r=>r.tree)]:[])];
 }
 
-const weaponEffectGroup=(w,ctx)=>counselingEnabled(ctx,'jc:112-weapon-familiarity-with-feats-and-talents')?ctx.weaponFamiliarity?.[w.id]||(w.group?.startsWith('exotic-')?w.id:w.group):w.group?.startsWith('exotic-')?w.id:w.group;
+const weaponEffectGroup=(w,ctx)=>{const group=weaponIdentityGroup(w,ctx);return group?.startsWith('exotic-')?w.id:group;};
 
 export function levelSlots(levelNumber, classLevel, species, cls, pack) {
   const slots = [];
@@ -574,7 +575,7 @@ export function derive(c, pack) {
   const weaponTalents=raw=>{
     if(raw.mode!=='ranged')return raw;
     const foldedRifle=raw.printedGroup==='rifles'&&raw.group==='pistols',excludeRifleRange=foldedRifle&&ambiguityValue(c,pack,'ambiguity:folded-stock-rifle-range')==='pistol-ranges';
-    const rangeGroup=excludeRifleRange?raw.group:raw.printedGroup||raw.group;
+    const rangeGroup=excludeRifleRange?raw.group:weaponIdentityGroup(raw,ctx);
     const traits=effects.filter(f=>f.target==='weaponTrait'&&f.weapon===raw.id&&!(excludeRifleRange&&f.selection?.id==='feat:riflemaster'&&f.accurate)),proficientTraits=traits.length&&weaponProficient(raw,ctx,ix)?traits:[];
     const w=proficientTraits.reduce((x,f)=>({...x,...(f.accurate?{accurate:true}:{}),...(f.inaccurate===false?{inaccurate:false}:{}),...(f.damageDie&&x.damage?{damage:x.damage.replace(/d\d+/,'d'+f.damageDie)}:{}),...(f.aimAttack?{aimAttack:(x.aimAttack||0)+f.aimAttack}:{})}),raw);
     const pbRows=effects.filter(f=>f.target==='pointBlankRange'&&f.weaponGroup===rangeGroup),extension=pbRows.length?Math.min(pbRows[0].maximum,pbRows.reduce((n,f)=>n+f.amount,0)):0;
@@ -609,11 +610,11 @@ export function derive(c, pack) {
     const techniquePenalty=penalty=>total('controlledBurst')&&autofire?(bracing.active?0:total('controlledBurst')):technique.selected==='rapid-shot'&&effects.some(e=>e.target==='rapidShotPenalty')?0:penalty;
     const firePenalty=techniquePenalty(bracing.penalty??unBracedPenalty),unBracedTechniquePenalty=total('controlledBurst')&&autofire?total('controlledBurst'):techniquePenalty(unBracedPenalty);
     const multiattackReduction=(species.multiattackReduction||0)+effects.filter(f=>f.target==='multiattackReduction'&&f.weaponGroup===group).reduce((n,f)=>n+f.amount,0),fullAttackPenalty=Math.min(0,fullAttack.penalty+multiattackReduction);
-    const criticalThreat=Math.min(20,...effects.filter(f=>f.target==='criticalThreat'&&f.weaponGroup===w.group).map(f=>f.amount));
+    const criticalThreat=Math.min(20,...effects.filter(f=>f.target==='criticalThreat'&&f.weaponGroup===weaponIdentityGroup(w,ctx)).map(f=>f.amount));
     const criticalMultiplier=Math.max(pack.rules.combat.criticalMultiplier,...effects.filter(f=>f.target==='criticalMultiplier'&&f.selection.choice===w.id).map(f=>f.amount));
     const meleeBonus = modifierTotal([...effects.filter(e=>e.target==='damage'&&applies(e,w)),...effects.filter(e=>e.target==='meleeDamage'&&applies(e,w)).map(e=>({...e,amount:e.amount*(e.perLevel?level:1)})),...(w.mode==='melee'?[{type:'rage',amount:rageBonus},...powerRage]:[])]);
     const flurryBonus=w.mode==='melee'?flurry.attackBonus:0;
-    const damageBonus = half + (w.group==='pistols'?classPassives.filter(e=>e.target==='pistolDamage').reduce((n,e)=>n+e.amount,0):0) + strength + specialization + meleeBonus + pointBlank + c.modifiers.damage + e.damageMod + power.damage;
+    const damageBonus = half + (weaponIdentityGroup(w,ctx)==='pistols'?classPassives.filter(e=>e.target==='pistolDamage').reduce((n,e)=>n+e.amount,0):0) + strength + specialization + meleeBonus + pointBlank + c.modifiers.damage + e.damageMod + power.damage;
     const mightySwingAvailable=w.mode==='melee'&&featHas('mighty-swing'),mightySwing=mightySwingAvailable&&!!c.mightySwing;
     const diceBonus=Math.max(technique.extraDice,aimed&&featHas('deadeye')?accessories.deadeyeDice:0,mightySwing?pack.rules.mightySwing.extraDice:0);
     const damage=extraDamageDice(w.damage,diceBonus);

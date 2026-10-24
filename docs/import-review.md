@@ -2810,3 +2810,13 @@ Bothan Will16347, Increased Resistance20674, Moving Target20710, Rebel Military
 Training20747 and Revenge25735 use saved source declarations and typed bonuses.
 External triggers and nonweapon Revenge damage remain manual. All five records
 remain Partial. Focused Warrior is excluded pending its separate loss review.
+
+## Weapon identity correction
+
+Retractable Stock19749, Gunslinger18230, Weapon Focus/Specialization and
+Jedi Counseling112 supply one shared identity-group resolver for runtime
+benefits. It corrects folded Rifle Focus/Specialization and Trusty Sidearm,
+and applies the existing Counseling familiarity switch to the newer rifle
+range/opportunity consumers. Proficiency, range bands, grip and acquisition
+eligibility remain separate. See weapon-identity.md; ownership-based feat
+acquisition remains outside this correction.
