@@ -38,3 +38,18 @@ test('the dice are capped at 10d6, rolled with the attack, multiplied on a criti
  const many=denied(hero(10));assert.equal(at(many,'knife').sneakAttack.dice,10);
  const capped=structuredClone(pack);capped.talents.find(t=>t.id==='talent:sneak-attack').effects[0].maximum=3;const q=structuredClone(many),e=q.inventory.find(e=>e.id==='equipment:knife');assert.equal(derive(q,capped).attacks.find(a=>a.uid===e.uid).sneakAttack.dice,3);
 });
+
+test('Advantageous Positioning makes a declared flanked target count as denied Dexterity',()=>{
+ const p=structuredClone(pack);const t=p.talents.find(t=>t.id==='talent:advantageous-positioning');t.tree='tree:misfortune';t.prerequisite={kind:'all',requirements:[]};
+ const c=newCharacter(p,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:12,dex:16,con:12,int:12,wis:10,cha:12};c.levels[0].talent={id:'talent:sneak-attack'};c.levels.push(row(null),row('advantageous-positioning'));
+ c.inventory=[{id:'equipment:knife',uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0}];c.attackTarget={flanking:true};validateCharacter(c,p);
+ assert.equal(derive(c,p).attacks.find(a=>a.uid===c.inventory[0].uid).sneakAttack.dice,1);c.levels[2].talent=null;assert.equal(derive(c,p).attacks.find(a=>a.uid===c.inventory[0].uid).sneakAttack,undefined);
+ assert.equal(pack.talents.find(t=>t.id==='talent:advantageous-positioning').automation,'partial');assert.throws(()=>validateCharacter({...c,attackTarget:{flanking:1}},p),/attack target flanking/);
+});
+
+
+test('a legal Assassin uses Shift and Advantageous Positioning with their existing Sneak Attack',()=>{
+ const c=hero();c.trainedSkills=['skill:stealth','skill:deception','skill:perception','skill:initiative','skill:persuasion'];c.levels[0].feats=[{id:'feat:precise-shot'},{id:'feat:improved-defenses'}];for(let n=2;n<=7;n++){c.levels.push(row(n===3?'dastardly-strike':null));if(n===6)c.levels.at(-1).feats=[{id:'feat:sniper'}];}
+ for(let n=1;n<=3;n++)c.levels.push({classId:'class:assassin',hpRoll:4,feats:[],talent:n===1?{id:'talent:shift'}:n===3?{id:'talent:advantageous-positioning'}:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});validateCharacter(c,pack);let d=derive(c,pack);assert(!d.ctx.inactiveClasses.has('class:assassin'));assert(d.ctx.talents.some(t=>t.id==='talent:advantageous-positioning')&&!d.ctx.inactiveTalents.has('talent:advantageous-positioning'));assert.equal(at(c,'knife').sneakAttack,undefined);
+ c.attackTarget={flanking:true};assert.equal(at(c,'knife').sneakAttack.dice,1);assert.equal(c.attackTarget.dexDenied,undefined,'the declaration does not rewrite the opponent for other characters');
+});

@@ -41992,7 +41992,7 @@
       "repeat": "never",
       "reminder": "",
       "effects": [],
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:spacehound",
@@ -44768,9 +44768,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"flankingDeniesDexterity"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:get-some-distance",
@@ -48662,9 +48662,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetAttack","against":"noCover","amount":1,"type":"morale"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:lead-from-the-front",
@@ -51482,9 +51482,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetAttack","against":"concealed","amount":2,"type":"circumstance","circumstance":"concealed-from-target"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:steel-resolve",
@@ -53676,9 +53676,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetAttack","against":"adjacent","amount":1,"type":"circumstance","circumstance":"adjacent-target","mode":"melee"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:ignore-armor",
@@ -54290,7 +54290,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:improved-sneak-attack",
@@ -68460,6 +68460,7 @@
     "movementPowers": [{"powerId":"power:surge","action":"free-action","thresholds":[{"dc":10,"jumpBonus":10,"speedBonus":2},{"dc":15,"jumpBonus":20,"speedBonus":4},{"dc":20,"jumpBonus":30,"speedBonus":6}],"jumpType":"force","speedType":"untyped","runningStart":true,"includesSpeedAdjustment":true,"enhancement":{"forcePoints":1,"jumpBonus":10,"speedBonus":2},"destiny":{"points":1,"speedBonus":4,"jumpWithoutCheck":true},"duration":"start-next-turn","sourceIds":["source:wiki-surge","source:wiki-force-powers","source:wiki-bonuses-and-penalties","source:wiki-jump","source:wiki-combat-sequence"]}],
     "selfPowerEffects": [{"powerId":"power:battle-strike","kind":"next-attack","thresholds":[{"dc":15,"dice":1},{"dc":20,"dice":2},{"dc":25,"dice":3}],"attackBonus":1,"type":"force","die":6,"enhancementDice":2,"hitOnly":true,"duration":"end-next-turn","sourceIds":["source:wiki-battle-strike","source:wiki-force-powers","source:wiki-bonuses-and-penalties","source:wiki-attacks"]}],
     "timedTalentActions": [{"id":"damage-reduction-10","talentId":"talent:damage-reduction-10","forcePoints":1,"durationRounds":10,"damageReduction":10,"sourceIds":["source:wiki-control-talent-tree-damage-reduction-10","source:wiki-combat-sequence","source:wiki-attacks"]}],
+    "moveTalentEffects":[{"id":"skirmisher","talentId":"talent:skirmisher","minimumSquares":2,"minimumDisplacement":1,"effect":{"target":"attacks","amount":1,"type":"untyped"},"duration":"start-next-turn","sourceIds":["source:wiki-misfortune-talent-tree-skirmisher","source:wiki-move"]},{"id":"improved-skirmisher","talentId":"talent:improved-skirmisher","minimumSquares":2,"minimumDisplacement":1,"effect":{"target":"defenses","amount":1,"type":"untyped"},"duration":"start-next-turn","sourceIds":["source:wiki-misfortune-talent-tree-improved-skirmisher","source:wiki-move"]}],
     "turnFeatEffects": [{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],
     "bonusHitPoints": {"sourceIds":["source:wiki-hit-points"],"toughAsDurasteel":{"classId":"class:martial-arts-master","minimumLevel":2,"armorCategory":"light","ambiguityId":"ambiguity:tough-as-durasteel-amount","sourceIds":["source:wiki-martial-arts-master"]}},
     "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]},{"id":"wan-shen-defense","talentId":"talent:wan-shen-defense","amountPerSelection":1,"maximum":3,"weaponId":"equipment:wan-shen","effect":{"target":"conditionalDefense","defense":"reflex","against":"melee-aware","type":"deflection"},"sourceIds":["source:wiki-matukai-adept-talent-tree-wan-shen-defense","source:wiki-wan-shen","source:wiki-melee-attacks"]},{"id":"shadow-armor","talentId":"talent:shadow-armor","amountPerSelection":1,"maximum":4,"effect":{"target":"defenseBonus","defense":"reflex","type":"force"},"sourceIds":["source:wiki-disciple-of-twilight-talent-tree-shadow-armor","source:wiki-bonuses-and-penalties"]}],

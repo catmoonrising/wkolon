@@ -7,6 +7,7 @@ import {startSelfPowerTurn} from './self-power-effects.js';
 import {startTurnFeatEffects} from './turn-feat-effects.js';
 import {startReactionTalentTurn} from './reaction-talents.js';
 import {clearDefenseShifts} from './defense-shifts.js';
+import {clearMoveTalentEffects} from './move-talent-effects.js';
 import {clearTurnTalents} from './turn-talents.js';
 import {clearFollowUps,nextCombatantTurn} from './attack-follow-ups.js';
 import {resolveEquipment} from './equipment.js';
@@ -46,6 +47,7 @@ export function startNextTurn(c){
  clearMovementPowers(c);
  clearTurnTalents(c);
  clearDefenseShifts(c);
+ clearMoveTalentEffects(c);
  nextCombatantTurn(c);
  clearBracing(c);
  if(c.defenseStance!==undefined)c.defenseStance='none';

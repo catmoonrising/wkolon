@@ -1,3 +1,4 @@
+import {applyMoveTalentEffects} from './move-talent-effects.js';
 import {applyMoveFeatEffects} from './turn-feat-effects.js';
 import {planAcrobaticsMove,planProneAction,acrobaticsMoveCost} from './acrobatics-movement.js';
 import {ambiguityValue} from './house-rules.js';
@@ -30,7 +31,7 @@ export function acrobaticsMove(c,d,pack,roller=evalExpr){
  const qualifiedSquares=tumbleRoll?.success?p.tumbled.squares:0,protectedSquares=movementComplete?qualifiedSquares:0;
  const protectionUnconfirmed=qualifiedSquares>0&&!movementComplete,rolled=tumbleRoll||terrainRoll;
  beginAction(c,true);
- const featEffects=movementComplete?applyMoveFeatEffects(c,d,pack,p.displacement):[];
+ const featEffects=movementComplete?[...applyMoveFeatEffects(c,d,pack,p.displacement),...applyMoveTalentEffects(c,d,pack,{squares:p.path.squares,displacement:p.displacement})]:[];
  if(tumbleRoll&&c.acrobaticsMovement?.check!==undefined)c.acrobaticsMovement.check=null;
  if(terrainRoll&&c.acrobaticsMovement?.terrainCheck!==undefined)c.acrobaticsMovement.terrainCheck=null;
  const name=p.tumble?'Tumble':'Move',note=`${p.path.squares} squares (${cost}/${plan.maximum} movement; ${p.mode})`;

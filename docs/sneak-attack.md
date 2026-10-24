@@ -23,3 +23,14 @@ The dice join the damage expression after the weapon's damage and modifiers,
 including Battle Strike's raw expression and the Aim, Bracing and Mighty Swing
 variants, so critical hits multiply them like all other damage. The breakdown
 names the extra dice. The record is Partial.
+
+## Flanking
+
+Assassin Talent Tree revision 15944 (Advantageous Positioning): "Any opponent
+that you are Flanking is considered Flat-Footed and is denied its Dexterity
+bonus to its Reflex Defense against you." A declared `flanking` target flag
+("You flank") counts as `dexDenied` for the owner's own attacks through
+`{target:'flankingDeniesDexterity'}`. Flanking itself, and effects on other
+characters' attacks, remain declarations. The general +2 flanking attack modifier
+is still manual; this effect automates the owner's denied-Dexterity damage
+interaction. The record is Partial.

@@ -37,6 +37,7 @@ Reviewed passive and conditional Defense bonuses follow the [passive defense con
 Shift Defense trades follow the [Shift Defense contract](shift-defense.md).
 Sneak Attack and the declared Denied Dexterity target follow the [Sneak Attack contract](sneak-attack.md).
 Declared opponent traits follow the [opponent trait contract](target-traits.md).
+Move-triggered talent benefits follow the [Skirmisher contract](skirmisher.md).
 Personal recovery talents follow the [Condition recovery contract](condition-recovery.md).
 Ordered skill rerolls follow the [reroll contract](skill-rerolls.md).
 Reviewed skill checks and their deferred effects follow the

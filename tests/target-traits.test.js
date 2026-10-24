@@ -7,7 +7,7 @@ import {renderStatBlock} from '../src/stat-block.js';
 import {validatePack} from '../tools/validate-rules.js';
 const core=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 // Tree access is covered elsewhere; these reviewed talents sit in a Soldier tree here.
-const pack=structuredClone(core);for(const id of ['dark-scourge','dark-side-scourge','inquisition','jedi-hunter']){const t=pack.talents.find(t=>t.id==='talent:'+id);t.tree='tree:weapon-specialist';t.prerequisite={kind:'all',requirements:[]};delete t.requiresDarkSide;}
+const pack=structuredClone(core);for(const id of ['dark-scourge','dark-side-scourge','inquisition','jedi-hunter','face-the-foe','close-quarters-fighter','sentinel-s-observation']){const t=pack.talents.find(t=>t.id==='talent:'+id);t.tree='tree:weapon-specialist';t.prerequisite={kind:'all',requirements:[]};delete t.requiresDarkSide;}
 const pick=t=>({id:'talent:'+t,...(pack.talents.find(r=>r.id==='talent:'+t).manualPrerequisites?{manualRequirements:true}:{})});
 const row=t=>({classId:'class:soldier',hpRoll:5,feats:[],talent:t?pick(t):null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});
 function hero(talents,cha=14){
@@ -51,4 +51,22 @@ test('published classes and prerequisites activate each reviewed opponent talent
  const sentinel=make('jedi');sentinel.levels[0].talent={id:'talent:dark-side-sense'};add(sentinel,'jedi');add(sentinel,'jedi','dark-side-scourge');a=check(sentinel,'dark-side-scourge',{darkSide:true});assert.equal(a.boosted.damageDisplay,a.plain.damageDisplay+'+2');
  const inquisitor=adeptBase();inquisitor.darkSideScore=1;add(inquisitor,'force-adept',null,{talent:{id:'talent:inquisition',manualRequirements:true}});a=check(inquisitor,'inquisition',{forceSensitive:true});assert.equal(a.boosted.attack,a.plain.attack+1);assert.equal(a.boosted.damageDisplay,a.plain.damageDisplay+'+1d4');
  const hunter=make('scout');hunter.levels[0].talent={id:'talent:acute-senses'};for(let n=2;n<=7;n++)add(hunter,'scout',n===3?'improved-initiative':null);add(hunter,'bounty-hunter','jedi-hunter');a=check(hunter,'jedi-hunter',{forceSensitive:true});assert.equal(a.boosted.damageDisplay,a.plain.damageDisplay+'+1d4');
+});
+
+test("position flags: Face the Foe morale, Close-Quarters Fighter melee and Sentinel's Observation circumstance bonuses",()=>{
+ validatePack(core);for(const id of ['face-the-foe','close-quarters-fighter','sentinel-s-observation'])assert.equal(core.talents.find(t=>t.id==='talent:'+id).automation,'partial');
+ const p=structuredClone(core);p.talents.find(t=>t.id==='talent:sentinel-s-observation').effects[0].circumstance='adjacent-target';assert.throws(()=>validatePack(p));
+ const f=hero(['face-the-foe']);assert.equal(at(f,'blaster-pistol',{noCover:true}).attack,at(f,'blaster-pistol').attack+1);assert.equal(at(f,'blaster-pistol',{cover:'cover'}).attack,at(f,'blaster-pistol').attack,'target cover is not the attacker lacking cover');
+ const q=hero(['close-quarters-fighter']);assert.equal(at(q,'vibroblade',{adjacent:true}).attack,at(q,'vibroblade').attack+1);assert.equal(at(q,'blaster-pistol',{adjacent:true}).attack,at(q,'blaster-pistol').attack,'melee only');
+ const s=hero(['sentinel-s-observation']);assert.equal(at(s,'blaster-pistol',{concealed:true}).attack,at(s,'blaster-pistol').attack+2);
+ const all=hero(['close-quarters-fighter','sentinel-s-observation','face-the-foe']);assert.equal(at(all,'vibroblade',{adjacent:true,concealed:true,noCover:true}).attack,at(all,'vibroblade').attack+4,'distinct circumstances add');
+ for(const key of ['noCover','adjacent','concealed'])assert.throws(()=>validateCharacter({...all,attackTarget:{[key]:'x'}},pack),new RegExp('attack target '+key));
+});
+
+
+test('position bonuses activate through published Noble, Jedi and Elite Trooper class access',()=>{
+ const make=(cls,talent)=>{const c=newCharacter(core,{classId:'class:'+cls});c.abilityMethod='manual';c.abilities={str:14,dex:16,con:12,int:12,wis:12,cha:14};c.levels[0].talent={id:'talent:'+talent};c.inventory=[{id:'equipment:knife',uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0}];return c;};
+ const check=(c,id,flag,amount)=>{validateCharacter(c,core);const d=derive(c,core);assert(d.ctx.talents.some(t=>t.id==='talent:'+id)&&!d.ctx.inactiveTalents.has('talent:'+id),id);const attack=d.attacks.find(a=>a.id==='equipment:knife').attack;c.attackTarget={[flag]:true};assert.equal(derive(c,core).attacks.find(a=>a.id==='equipment:knife').attack,attack+amount);};
+ check(make('noble','face-the-foe'),'face-the-foe','noCover',1);check(make('jedi','sentinel-s-observation'),'sentinel-s-observation','concealed',2);
+ const elite=make('soldier','armored-defense');elite.levels[0].feats=[{id:'feat:martial-arts-i'},{id:'feat:point-blank-shot'}];for(let n=2;n<=7;n++)elite.levels.push({classId:'class:soldier',hpRoll:5,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});elite.levels.push({classId:'class:elite-trooper',hpRoll:5,feats:[],talent:{id:'talent:close-quarters-fighter'},startingFeat:null,abilityIncreases:[],trainedSkills:[]});check(elite,'close-quarters-fighter','adjacent',1);
 });

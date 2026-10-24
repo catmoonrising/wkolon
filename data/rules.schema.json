@@ -2225,6 +2225,7 @@
             }
           ]
         },
+        "moveTalentEffects":{"const":[{"id":"skirmisher","talentId":"talent:skirmisher","minimumSquares":2,"minimumDisplacement":1,"effect":{"target":"attacks","amount":1,"type":"untyped"},"duration":"start-next-turn","sourceIds":["source:wiki-misfortune-talent-tree-skirmisher","source:wiki-move"]},{"id":"improved-skirmisher","talentId":"talent:improved-skirmisher","minimumSquares":2,"minimumDisplacement":1,"effect":{"target":"defenses","amount":1,"type":"untyped"},"duration":"start-next-turn","sourceIds":["source:wiki-misfortune-talent-tree-improved-skirmisher","source:wiki-move"]}]},
         "turnFeatEffects": {
           "const": [
             {
@@ -5201,9 +5202,10 @@
     },
     "effect": {
       "oneOf": [
-        {"type":"object","additionalProperties":false,"required":["target","against","amount","type"],"properties":{"target":{"const":"targetAttack"},"against":{"enum":["jedi","forceSensitive"]},"amount":{"const":1},"type":{"enum":["dark-side","untyped"]}}},
+        {"type":"object","additionalProperties":false,"required":["target","against","amount","type"],"properties":{"target":{"const":"targetAttack"},"against":{"enum":["jedi","forceSensitive","noCover","adjacent","concealed"]},"amount":{"enum":[1,2]},"type":{"enum":["dark-side","untyped","morale","circumstance"]},"circumstance":{"enum":["adjacent-target","concealed-from-target"]},"mode":{"const":"melee"}}},
         {"type":"object","additionalProperties":false,"required":["target","against","ability","minimum","mode"],"properties":{"target":{"const":"targetDamage"},"against":{"const":"darkSide"},"ability":{"const":"cha"},"minimum":{"const":1},"mode":{"const":"melee"}}},
         {"type":"object","additionalProperties":false,"required":["target","against","dice"],"properties":{"target":{"const":"targetDice"},"against":{"const":"forceSensitive"},"dice":{"const":1}}},
+        {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"flankingDeniesDexterity"}}},
         {"type":"object","additionalProperties":false,"required":["target","die","maximum","rangedSquares"],"properties":{"target":{"const":"sneakAttack"},"die":{"const":6},"maximum":{"const":10},"rangedSquares":{"const":6}}},
         {"type":"object","additionalProperties":false,"required":["target","defense","amount","type"],"properties":{"target":{"const":"defenseBonus"},"defense":{"enum":["fortitude","will"]},"amount":{"enum":[1,2]},"type":{"enum":["species","insight"]}}},
         {"type":"object","additionalProperties":false,"required":["target","defense","amount","type","when","weapons"],"properties":{"target":{"const":"defenseBonus"},"defense":{"const":"will"},"amount":{"const":2},"type":{"const":"morale"},"when":{"const":"wieldingWeapon"},"weapons":{"const":["equipment:atlatl","equipment:cesta"]}}},

@@ -1,3 +1,4 @@
+import {validateMoveTalentEffects,moveTalentModifiers} from './move-talent-effects.js';
 import {skillAbilityDetails,validateSkillAbilities} from './skill-abilities.js';
 import {validateAttackAbilities,attackAbilityDetails} from './attack-abilities.js';
 import {validateDeflection} from './deflection.js';
@@ -139,6 +140,7 @@ export function validateCharacter(c, pack) {
   if(c.powerAttack!==undefined&&!num(c.powerAttack,0,20))bad('Power Attack');
   if(c.skillModifiers!==undefined&&(!obj(c.skillModifiers)||Object.entries(c.skillModifiers).some(([id,n])=>!ix.skills.has(id)||!num(n,-1000,1000))))bad('skill modifiers');
   validateTurnTalents(c,pack,bad);
+  validateMoveTalentEffects(c,pack,bad);
   validateReactionTalents(c,pack,bad);
   validateDefenseShifts(c,pack,bad);
   validateBonusHP(c,bad);
@@ -442,7 +444,7 @@ export function derive(c, pack) {
   const timedDR=Math.max(0,reactionTalentDR(c,pack,ctx),...activeTimedTalents(c,pack,ctx).map(s=>s.rule.damageReduction));
   const classDR=Math.max(0,...classPassives.filter(e=>e.target==='dr').map(e=>e.amount));
   const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.filter(s=>!ctx.inactiveTalents.has(s.id)).map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
-  effects.push(...encounterTalentEffects(c,pack,ctx),...defenseShiftEffects(c,pack,ctx),...turnTalentDefenseBonuses(c,pack,ctx));
+  effects.push(...encounterTalentEffects(c,pack,ctx),...defenseShiftEffects(c,pack,ctx),...turnTalentDefenseBonuses(c,pack,ctx),...moveTalentModifiers(c,pack,ctx));
   const energyShields=activeShields(c,pack),shieldLimits=shieldRestrictions(energyShields,ctx,pack);
   const allDeclaredArmor=wornArmor(c,pack);
   for(const r of allDeclaredArmor)if(r.wearerSize&&r.wearerSize!==species.size)issues.push(r.name+' fits '+r.wearerSize+' creatures');
@@ -652,7 +654,7 @@ export function derive(c, pack) {
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
     forcePowers:ctx.forcePowers.map(p=>{const record=ix.forcePowers.get(p.powerId),removedDescriptors=record.descriptors.filter(descriptor=>effects.some(e=>e.target==='powerDescriptorRemoval'&&e.selection.choice===p.powerId&&e.descriptors.includes(descriptor)));return {...record,descriptors:record.descriptors.filter(d=>!removedDescriptors.includes(d)),removedDescriptors,copyId:p.id,action:p.action||record.action,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId),adept:ctx.talents.some(t=>t.id==='talent:force-power-adept'&&t.choice===p.powerId&&!ctx.inactiveTalents.has(t.id))};}),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
-    conditionalDefenses,hazardImmunities,targetTraitsUsed:[...new Set(effects.flatMap(e=>e.target==='sneakAttack'?['dexDenied']:['targetAttack','targetDamage','targetDice'].includes(e.target)?[e.against]:[]))],conditionalThresholds:thresholdState.conditional,
+    conditionalDefenses,hazardImmunities,targetTraitsUsed:[...new Set(effects.flatMap(e=>e.target==='sneakAttack'?['dexDenied']:e.target==='flankingDeniesDexterity'?['flanking']:['targetAttack','targetDamage','targetDice'].includes(e.target)?[e.against]:[]))],conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,type==='fly'&&species.flightHeavyLoadForbidden&&load.heavy?0:move(n+(type==='swim'?total('swimSpeed'):0))])),
     incapacitated: droidSystems.inoperative || c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forcePointsForbidden:!!(species.forceImmune||ctx.forceRestrictions.forbidPoints), forceMaximum, forceCurrent:forceForbidden?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,hpGains,

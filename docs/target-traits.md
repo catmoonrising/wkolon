@@ -28,3 +28,21 @@ individual hit/miss damage, remains manual:
 Extra dice and flat damage join every damage expression, so critical hits
 multiply them. Breakdowns name each source. Records stay Partial. Master of the
 Great Hunt is excluded until its "on Lightsaber attacks" scope is resolved.
+
+## Position flags
+
+Three more declared flags describe the attacker's position relative to the
+selected opponent: `noCover` ("you do not have Cover from a target"),
+`adjacent` ("occupy the same square as your target or are adjacent to your
+target") and `concealed` ("you have Concealment against a target"). They are
+distinct from the target's own Cover and Concealment, which still apply.
+
+- Face the Foe (Gambling Leader Talent Tree revision 20650): +1 morale attack
+  against a `noCover` target.
+- Close-Quarters Fighter (Melee Specialist Talent Tree revision 19986): +1
+  circumstance melee attack against an `adjacent` target.
+- Sentinel's Observation (Jedi Sentinel Talent Tree revision 26765): +2
+  circumstance attack against a `concealed` target.
+
+The two circumstance bonuses use distinct circumstance keys, so they add. All
+three records are Partial.

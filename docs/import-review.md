@@ -2735,3 +2735,30 @@ manual. Both Partial.
 Grab Back r21335 and Grapple Resistance r20181 add +2 and +5 (unnamed, adding)
 to a Reflex row vs. Grab/Grapple. Counter-Grab, opposed Grapple checks and
 held-object bonuses remain manual. Both Partial.
+
+## Skirmisher and Improved Skirmisher
+
+Misfortune Talent Tree revision 25729 supplies Skirmisher (Core Rulebook, +1 on
+attack rolls) and Improved Skirmisher (Scum and Villainy, +1 to all Defenses).
+A completed Move of at least 2 squares with a declared displacement of at least
+1 activates both until the start of the next turn; End turn keeps them. Charge,
+Withdraw, Running Attack and Vehicle Weapon Systems remain manual. Both Partial.
+
+## Attacker position talents
+
+Declared attacker-position flags now drive Face the Foe (Gambling Leader Talent
+Tree r20650, +1 morale attack when you lack Cover from the target),
+Close-Quarters Fighter (Melee Specialist Talent Tree r19986, +1 circumstance
+melee attack when adjacent) and Sentinel's Observation (Jedi Sentinel Talent
+Tree r26765, +2 circumstance attack when you have Concealment against the
+target). Flags are never inferred; the two distinct circumstances add. Partial.
+
+## Advantageous Positioning
+
+Assassin Talent Tree r15944: a declared "You flank" target flag counts as denied
+Dexterity for the owner's attacks, feeding Sneak Attack. Partial.
+
+Positioning integration also verifies legal Noble, Jedi, Elite Trooper and
+Assassin access. Advantageous Positioning's denied-Dexterity interaction is
+calculated; the general flanking attack modifier and positional geometry remain
+manual.
