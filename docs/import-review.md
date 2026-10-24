@@ -2820,3 +2820,13 @@ and applies the existing Counseling familiarity switch to the newer rifle
 range/opportunity consumers. Proficiency, range bands, grip and acquisition
 eligibility remain separate. See weapon-identity.md; ownership-based feat
 acquisition remains outside this correction.
+
+## Additional weapon feat clauses
+
+Pinned Riflemaster20935 adds effective Medium Light Repeating Blaster size;
+Sport Hunter20955 adds an independent Slugthrower Pistol die at Point-Blank
+Range while proficient. Named Rapid Shot/Deadeye/Burst Fire exclusions remain
+unchanged; the Sport Hunter die also survives un-Aimed routine variants.
+Catalog size stays unchanged and the shared Full Attack grip planner consumes
+the effective size. Remaining Carbine Bracing and Sporting Pistol rerolls stay
+manual. Both records remain Partial; see weapon-feat-extras.md.

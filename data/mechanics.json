@@ -36012,7 +36012,7 @@
         ]
       },
       "repeat": "never",
-      "effects": [{"target":"weaponTrait","weapon":"equipment:blaster-rifle","accurate":true},{"target":"weaponTrait","weapon":"equipment:heavy-blaster-rifle","damageDie":12}],
+      "effects": [{"target":"weaponTrait","weapon":"equipment:blaster-rifle","accurate":true},{"target":"weaponTrait","weapon":"equipment:heavy-blaster-rifle","damageDie":12},{"target":"weaponTrait","weapon":"equipment:light-repeating-blaster","size":"medium"}],
       "reminder": "",
       "automation": "partial"
     },
@@ -36094,7 +36094,7 @@
         ]
       },
       "repeat": "never",
-      "effects": [{"target":"weaponTrait","weapon":"equipment:slugthrower-rifle","damageDie":12},{"target":"weaponTrait","weapon":"equipment:sporting-blaster-rifle","aimAttack":1}],
+      "effects": [{"target":"weaponTrait","weapon":"equipment:slugthrower-rifle","damageDie":12},{"target":"weaponTrait","weapon":"equipment:sporting-blaster-rifle","aimAttack":1},{"target":"weaponTrait","weapon":"equipment:slugthrower-pistol","pointBlankDice":1}],
       "reminder": "",
       "automation": "partial"
     },

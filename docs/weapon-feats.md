@@ -15,9 +15,11 @@ the character is proficient with that weapon.
 | Pistoleer | Heavy Blaster Pistol | not Inaccurate |
 | Riflemaster | Blaster Rifle | Accurate |
 | Riflemaster | Heavy Blaster Rifle | damage dice d10 to d12 |
+| Riflemaster | Light Repeating Blaster | effective Medium size |
 | Disabler | Ion Pistol | damage dice d6 to d8 |
 | Disabler | Ion Rifle | Accurate |
 | Sport Hunter | Slugthrower Rifle | damage dice d8 to d12 |
+| Sport Hunter | Slugthrower Pistol | +1 die at Point-Blank Range |
 | Sport Hunter | Sporting Blaster Rifle | +1 attack when Aiming |
 
 Accurate weapons use the existing Accurate range table. A weapon that is no
@@ -27,10 +29,13 @@ the new die. The Aim bonus is unnamed, joins the existing Aim-dependent bonus
 and disappears from the un-Aimed variant.
 
 Manual clauses: Hold-Out Blaster Pistol targets that have not acted, Blaster
-Carbine Autofire Bracing, Light Repeating Blaster size, Ion Grenade burst
-radius, Slugthrower Pistol extra die at Point-Blank Range and Sporting Blaster
+Carbine Autofire Bracing, Ion Grenade burst
+radius and Sporting Blaster
 Pistol damage rerolls. All four feats stay Partial.
 
 For Riflemaster’s Blaster Rifle Accurate clause, the folded-stock range switch
 in rifle-ranges.md applies. Its damage-die clause is not a range benefit. Exact
 equipment identity and resolved weapon proficiency remain separate requirements.
+
+Additional size and Point-Blank die behavior is defined in
+[weapon-feat-extras.md](weapon-feat-extras.md).
