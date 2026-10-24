@@ -18,7 +18,7 @@ import {counselingEnabled,ambiguityValue} from './house-rules.js';
 import {evalExpr} from './dice.js';
 import {clearAiming,clearBracing,startNextTurn} from './attack-techniques.js';
 
-const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,strongBellowUsed:false,ragesSpent:0,rageRounds:0,indomitableSpent:0,knacksSpent:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
+const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,strongBellowUsed:false,ragesSpent:0,rageRounds:0,channelRage:false,channelRageUsed:false,indomitableSpent:0,knacksSpent:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
 export const recoveryState=c=>({...empty(),...c.recovery});
 const state=c=>{c.recovery??={};Object.assign(c.recovery,recoveryState(c));return c.recovery;};
 const causes=Object.freeze({'rage':'Rage','second-wind':'Second Wind','injury':'Injury','limb-loss':'Lost limb','other':'Other'});
@@ -29,7 +29,7 @@ export function validateRecovery(c,bad){
  if(r?.strongBellowUsed!==undefined&&typeof r.strongBellowUsed!=='boolean')bad('recovery state');
  if(r?.knacksSpent!==undefined&&!integer(r.knacksSpent))bad('recovery state');
  if(r?.indomitableSpent!==undefined&&!integer(r.indomitableSpent))bad('recovery state');
- if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).some(k=>!Object.keys(empty()).includes(k))||!['secondWindsSpent','ragesSpent','rageRounds'].every(k=>integer(r[k]))||typeof r.secondWindEncounter!=='boolean'||!Array.isArray(r.persistent)||new Set(r.persistent).size!==r.persistent.length||r.persistent.some(p=>!persistentName(p))||['naturalHealingUsed','unconsciousRetry','stunUnconscious','dead'].some(k=>r[k]!==undefined&&typeof r[k]!=='boolean'))bad('recovery state');
+ if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).some(k=>!Object.keys(empty()).includes(k))||!['secondWindsSpent','ragesSpent','rageRounds'].every(k=>integer(r[k]))||typeof r.secondWindEncounter!=='boolean'||!Array.isArray(r.persistent)||new Set(r.persistent).size!==r.persistent.length||r.persistent.some(p=>!persistentName(p))||['naturalHealingUsed','unconsciousRetry','stunUnconscious','dead','channelRage','channelRageUsed'].some(k=>r[k]!==undefined&&typeof r[k]!=='boolean'))bad('recovery state');
  if(r.limbs!==undefined&&(!Array.isArray(r.limbs)||r.limbs.length>20||new Set(r.limbs.map(l=>l?.id)).size!==r.limbs.length||r.limbs.some(l=>!l||Object.keys(l).some(k=>!['id','name','days','persistent'].includes(k))||typeof l.id!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(l.id)||typeof l.name!=='string'||!l.name.trim()||l.name.length>100||typeof l.persistent!=='boolean'||!Number.isInteger(l.days)||l.days<1||l.days>10)))bad('limb regeneration');
 }
 export function recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude,extraSecondWinds,extraRages,rageBonus,forceRecovery,windBonuses={},level=c.levels.length}){
@@ -62,6 +62,15 @@ export function startRage(c,d){
  clearFollowUps(c);clearAiming(c);clearBracing(c);
  const r=state(c);r.ragesSpent++;r.rageRounds=rage.duration;
 }
+// Channel Rage spends a daily Rage use for an encounter-long Will bonus instead of Raging.
+export function startChannelRage(c,d){
+ const rage=d.recovery.rage;
+ if(!rage||rage.active||!rage.remaining||d.incapacitated||recoveryState(c).channelRage||recoveryState(c).channelRageUsed)throw new Error('Channel Rage unavailable');
+ clearFollowUps(c);clearAiming(c);clearBracing(c);
+ const r=state(c);r.ragesSpent++;r.channelRage=true;r.channelRageUsed=true;
+}
+// An active Channel is today's use, including legacy saves that predate channelRageUsed.
+export function endChannelRage(c){if(c.recovery?.channelRage){c.recovery.channelRage=false;c.recovery.channelRageUsed=true;}}
 export function endRage(c){
  const r=state(c);if(!r.rageRounds)return false;
  r.rageRounds=0;persistent(c,'rage');return true;
@@ -80,7 +89,7 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){assertDeflectionResolved(c);c.deflectionAttempts=0;clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
+export function newEncounter(c){assertDeflectionResolved(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
  assertDeflectionResolved(c);c.deflectionAttempts=0;
  if(pack&&campaignRuleEnabled(c,'dailyForcePoints'))c.forcePoints=derive(c,pack).forceMaximum;
@@ -90,7 +99,7 @@ export function newDay(c,pack){
  resetActionTurn(c);
  endEncounterTalents(c);
  startNextTurn(c);startNextRound(c);
- const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.indomitableSpent=0;r.knacksSpent=0;r.naturalHealingUsed=false;
+ const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.indomitableSpent=0;r.knacksSpent=0;r.naturalHealingUsed=false;r.channelRage=false;r.channelRageUsed=false;
  const regrown=[];
  if(pack?.species.find(s=>s.id===c.species)?.limbRegeneration&&!r.dead){
   r.limbs=r.limbs.filter(l=>{l.days--;if(l.days)return true;regrown.push(l.name);return false;});
@@ -104,7 +113,7 @@ export function setPersistent(c,cause,on){
 }
 export function setDead(c,on,pack){
  state(c).dead=on;
- if(on){clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
+ if(on){endChannelRage(c);clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
  if(pack)endUnconsciousTalents(c,pack);
 }
 export function receiveHealing(c,d,pack,amount){
@@ -123,6 +132,7 @@ export function restEightHours(c,d,pack){
  endUnconsciousTalents(c,pack);
  clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
  if(recoveryState(c).rageRounds)endRage(c);
+ endChannelRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;
  r.persistent=r.persistent.filter(p=>!rule.removablePersistent.includes(p));
  const before=c.currentHP??d.hp;let healed=0;

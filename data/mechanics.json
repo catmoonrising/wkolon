@@ -37911,9 +37911,16 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "channelRage",
+          "defense": "will",
+          "amount": 5,
+          "type": "untyped"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:close-combat-escape",
@@ -39583,9 +39590,15 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "ragingStrength",
+          "amount": 4,
+          "type": "untyped"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:rancor-crush",
@@ -68619,6 +68632,7 @@
           "type": "swift",
           "count": 1
         },
+        {"id":"channel-rage","name":"Channel Rage","type":"swift","count":1},
         {
           "id": "bellow",
           "name": "Bellow",

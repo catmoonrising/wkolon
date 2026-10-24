@@ -37,7 +37,7 @@ import {planAcrobaticsMove,planProneAction} from './acrobatics-movement.js';
 import {withdraw,rollRunningAttack,runningAttackPlan} from './combat-movement-actions.js';
 import {planWithdraw} from './combat-movement.js';
 import {planCharge} from './charge.js';
-import {catchSecondWind,startRage,recoverCondition,recoverActions,advanceRage,recoveryState} from './recovery.js';
+import {catchSecondWind,startRage,startChannelRage,endChannelRage,recoverCondition,recoverActions,advanceRage,recoveryState} from './recovery.js';
 import {declareDefenseStance} from './defensive-combat.js';
 import {usePower,take10Power,useAdeptPower,recoverPower,recoverSuite,turnEndRecoveryDue} from './force-powers.js';
 import {powerActivationIssue} from './power-activation.js';
@@ -123,6 +123,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'recover':assert(d.recovery.recoverable,'Recover unavailable');view.cost.count=o.count??1;assert(Number.isInteger(view.cost.count)&&view.cost.count>=1&&view.cost.count<=3,'Choose 1 to 3 Swift actions');break;
  case 'second-wind':view.cost.type=d.recovery.secondWind.action.startsWith('Free')?'free':'swift';assert(d.recovery.secondWind.available,d.recovery.secondWind.reason);assert(!s.ended,'Second Wind requires your turn');break;
  case 'rage':assert(d.recovery.rage?.remaining&&!d.recovery.rage.active,'Rage unavailable');break;
+ case 'channel-rage':assert(d.ctx.feats.some(f=>f.id==='feat:channel-rage'),'Requires Channel Rage');assert(d.recovery.rage?.remaining&&!d.recovery.rage.active&&!recoveryState(q).channelRage&&!recoveryState(q).channelRageUsed,'Channel Rage unavailable');break;
  case 'damage-reduction-10':view.timedTalent=timedTalentPlan(q,d,pack,id);view.forceCost=view.timedTalent.forcePoints;break;
  case 'lightsaber-defense':case 'wan-shen-defense':case 'shadow-armor':view.turnTalent=turnTalentPlan(q,d,pack,id);break;
  case 'shift-defense-i':case 'shift-defense-ii':case 'shift-defense-iii':view.defenseShift=defenseShiftPlan(q,d,pack,id,o);break;
@@ -210,6 +211,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   r={text:'Recover: '+(steps?'+'+steps+' condition '+(steps===1?'step':'steps'):s.recover.count+' / '+needed+' Swift')};
  }else if(id==='second-wind'){const x=catchSecondWind(c,d,pack,roller);r={text:'Second Wind: +'+x.healed+' HP'+(x.conditionRecovery?'; +'+x.conditionRecovery+' condition step':'')+(x.exhaustion?'; exhaustion':'')};}
  else if(id==='rage'){startRage(c,d);r={text:'Rage: '+d.recovery.rage.duration+' rounds'};}
+ else if(id==='channel-rage'){startChannelRage(c,d);r={text:'Channel Rage: Will +5 until the end of the encounter'};}
  else if(v.timedTalent){invalidate(c);applyTimedTalent(c,v.timedTalent);c.forcePoints-=v.forceCost;r={text:v.name+': '+v.timedTalent.durationRounds+' rounds; Force Points -'+v.forceCost};}
  else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': '+turnTalentBenefit(v.turnTalent.rule,v.turnTalent.bonus??v.turnTalent.amount)};}
  else if(v.defenseShift){invalidate(c);applyDefenseShift(c,id,v.defenseShift);r={text:v.name+': '+defenseShiftText(v.defenseShift.rule,v.defenseShift)+(v.defenseShift.persistent?'; no automatic expiry':'')};}
@@ -288,7 +290,7 @@ export function beginNextTurn(c,pack,{maintain=[]}={}){
  validateCharacter(q,pack);commit(c,q);return results;
 }
 export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endReactionTalentTurn(q);endRagePowerTurn(q);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
-export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);clearReactionTalents(c);clearDefenseShifts(c);clearMoveTalentEffects(c);clearTriggeredDefenses(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
+export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);clearReactionTalents(c);clearDefenseShifts(c);clearMoveTalentEffects(c);clearTriggeredDefenses(c);endChannelRage(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false,uncertainMovement=false;
  for(const step of q.actionState.plan){
@@ -302,6 +304,7 @@ export function previewPlan(c,pack){
    if(step.action==='recover')recoverProgress(q,v.derived,pack,v.cost.count);
    if(step.action==='second-wind'){q.recovery=recoveryState(q);q.recovery.secondWindsSpent++;q.recovery.secondWindEncounter=true;}
    if(step.action==='rage'){q.recovery=recoveryState(q);q.recovery.ragesSpent++;q.recovery.rageRounds=v.derived.recovery.rage.duration;}
+   if(step.action==='channel-rage'){q.recovery=recoveryState(q);q.recovery.ragesSpent++;q.recovery.channelRage=true;q.recovery.channelRageUsed=true;}
    if(v.timedTalent){clearAiming(q);clearBracing(q);applyTimedTalent(q,v.timedTalent);}
    if(v.turnTalent){clearAiming(q);clearBracing(q);applyTurnTalent(q,step.action,v.turnTalent.amount);}
    if(v.defenseShift){clearAiming(q);clearBracing(q);applyDefenseShift(q,step.action,v.defenseShift);}

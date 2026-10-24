@@ -1686,3 +1686,5 @@ resolved proficiency and range after stock changes.
 Source declarations with turn/encounter typed bonuses follow
 [triggered-defenses.md](triggered-defenses.md). Focused Warrior remains excluded
 pending its separate loss review.
+
+Channel Rage and Powerful Rage follow the [Rage feat contract](rage-feats.md).

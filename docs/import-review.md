@@ -2830,3 +2830,11 @@ unchanged; the Sport Hunter die also survives un-Aimed routine variants.
 Catalog size stays unchanged and the shared Full Attack grip planner consumes
 the effective size. Remaining Carbine Bracing and Sporting Pistol rerolls stay
 manual. Both records remain Partial; see weapon-feat-extras.md.
+
+## Channel Rage and Powerful Rage
+
+Channel Rage r21140 spends a daily Rage use (Swift Action) for +5 Will until
+encounter end, once per day even with Extra Rage. It applies no ordinary Rage
+bonuses, restrictions or fatigue. Daily use survives encounter resets and a
+known-active legacy save. Powerful Rage r19542 adds +4 to Strength checks and
+Strength-based skills while actually Raging. Both Partial.
