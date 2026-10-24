@@ -35671,9 +35671,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"weaponTrait","weapon":"equipment:ion-pistol","damageDie":8},{"target":"weaponTrait","weapon":"equipment:ion-rifle","accurate":true}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:dive-for-cover",
@@ -35944,9 +35944,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"weaponTrait","weapon":"equipment:blaster-pistol","accurate":true},{"target":"weaponTrait","weapon":"equipment:heavy-blaster-pistol","inaccurate":false}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:predictive-defense",
@@ -36012,9 +36012,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"weaponTrait","weapon":"equipment:blaster-rifle","accurate":true},{"target":"weaponTrait","weapon":"equipment:heavy-blaster-rifle","damageDie":12}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:risk-taker",
@@ -36094,9 +36094,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"weaponTrait","weapon":"equipment:slugthrower-rifle","damageDie":12},{"target":"weaponTrait","weapon":"equipment:sporting-blaster-rifle","aimAttack":1}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:steadying-position",
@@ -46103,9 +46103,9 @@
         "requirements": []
       },
       "repeat": "stack",
-      "effects": [],
+      "effects": [{"target":"pointBlankRange","weaponGroup":"rifles","amount":5,"maximum":10}],
       "reminder": "",
-      "automation": "manual",
+      "automation": "partial",
       "maxSelections": 2
     },
     {
@@ -46132,9 +46132,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"opportunityAttack","amount":2,"type":"untyped","weaponGroup":"rifles"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:rifle-master",
@@ -46146,9 +46146,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"accurateWeapons","weaponGroup":"rifles"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:shoot-from-the-hip",
@@ -46160,9 +46160,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"opportunityWeapon","weaponGroup":"rifles"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:snap-shot",
@@ -53396,9 +53396,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"opportunityAttack","amount":5,"type":"untyped","mode":"melee","proficient":true}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:dirty-tricks",
@@ -67299,7 +67299,7 @@
           }
         ]
       }
-    ,{"id":"ambiguity:shift-defense-iii-duration","name":"Shift Defense III: duration","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-iii","source:wiki-military-tactics-talent-tree-shift-defense-ii"],"passages":[{"ruleId":"rule:shift-defense-iii","fullText":true},{"ruleId":"rule:shift-defense-ii","fullText":true}],"default":"start-next-turn","options":[{"value":"start-next-turn","name":"Start of next turn"},{"value":"permanent","name":"No automatic expiry (RAW)"}]}],
+    ,{"id":"ambiguity:shift-defense-iii-duration","name":"Shift Defense III: duration","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-iii","source:wiki-military-tactics-talent-tree-shift-defense-ii"],"passages":[{"ruleId":"rule:shift-defense-iii","fullText":true},{"ruleId":"rule:shift-defense-ii","fullText":true}],"default":"start-next-turn","options":[{"value":"start-next-turn","name":"Start of next turn"},{"value":"permanent","name":"No automatic expiry (RAW)"}]},{"id":"ambiguity:folded-stock-rifle-range","name":"Folded stock: rifle range benefits","sourceIds":["source:wiki-retractable-stock","source:wiki-carbineer-talent-tree-close-contact","source:wiki-carbineer-talent-tree-rifle-master","source:wiki-riflemaster"],"passages":[{"ruleId":"rule:retractable-stock","fullText":true},{"ruleId":"rule:talent-carbineer-talent-tree-close-contact","fullText":true},{"ruleId":"rule:talent-carbineer-talent-tree-rifle-master","fullText":true},{"ruleId":"rule:riflemaster","fullText":true}],"default":"rifle-benefits","options":[{"value":"rifle-benefits","name":"Apply rifle benefits"},{"value":"pistol-ranges","name":"Exclude rifle benefits"}]}],
     "forceTalentAccess": {
       "trees": [
         "tree:alter",

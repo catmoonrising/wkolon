@@ -110,3 +110,10 @@ Combat Sequence revision 26725 says both that acting ends Flat-Footed and that
 it lasts until the first regular turn. The latter is the default. The user has
 been asked about adding the first-action alternative. This affects the new
 surprise-round action and defense state; the default is executable now.
+
+## Folded-stock rifle range benefits (2026-10-24)
+
+Close Contact, Rifle Master and Riflemaster range benefits apply with a folded
+stock by default. Ambiguities offers excluding them. Weapon proficiency and
+Pistol range bands still follow Retractable Stock. Rifle opportunity features
+use printed weapon identity independently of this switch.

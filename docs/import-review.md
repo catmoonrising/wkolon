@@ -2787,3 +2787,19 @@ Brawler Talent Tree r16372: the character’s +1 morale attack bonus applies
 during the Surprise Round. The shared conditional attack-effect resolver also
 gates special attacks such as Ithorian Bellow. Uses typed highest-of-type
 stacking. Ally bonuses and retained per-target bonuses remain manual. Partial.
+
+## Weapon families and folded-stock scope
+
+Reviewed Carbineer20110, Melee Duelist19253, Retractable Stock19749 and Galaxy
+at War weapon feats20920/20935/20858/20955. Integrate declared opportunity
+attack bonuses, range talents and exact-weapon traits. Preserve printed group
+separately from resolved proficiency/range. The user selected folded-stock
+rifle range benefits by default with an Ambiguities exclusion. Manual feat
+clauses remain listed in weapon-feats.md; all nine records remain Partial.
+Other preexisting consumers of resolved group are outside this bounded import
+and still need a separate stock-scope audit. No source articles were changed.
+
+Jedi Counseling112’s additional weapon-familiarity conversion for feat/talent
+groups is not yet applied to these new family consumers; those cases remain
+manual pending the shared identity correction. Existing Weapon Focus and
+Gunslinger folded-stock consumers are recorded separately for correction.

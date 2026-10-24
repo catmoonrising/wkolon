@@ -1677,3 +1677,8 @@ component so follow-up recalculation remains consistent.
 Skill ability replacements use the closed `skillAbility` effect and optional
 `character.skillAbilities` choices, resolved before full-check substitutions.
 See [skill-abilities.md](skill-abilities.md).
+
+Reviewed ranged weapon traits and opportunity modifiers are documented in
+[opportunity-bonuses.md](opportunity-bonuses.md), [rifle-ranges.md](rifle-ranges.md)
+and [weapon-feats.md](weapon-feats.md). Printed weapon identity is distinct from
+resolved proficiency and range after stock changes.

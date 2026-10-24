@@ -22,6 +22,8 @@
 - [x] Thrive on Chaos, Shoulder to Shoulder and Bando Gora Surge declared Bonus HP grants.
 - [x] Luck Favors the Bold declared start-of-turn Bonus HP while conscious.
 - [x] Pick a Fight surprise-round morale attack bonus for the user.
+- [x] Opportunity Fire, Shoot from the Hip and Advantageous Strike opportunity attacks.
+- [x] Close Contact/Rifle Master ranges, four Galaxy at War weapon feat traits and folded-stock range ambiguity.
 - [ ] Audit uncategorized official rules reached through article links; the 4,400 sourcebook-category candidates are not proof of whole-wiki completeness.
 - [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.
   - [x] Enable the nine remaining unambiguous Core species, size and conditional defense calculations, and all six weapon-proficiency groups.
