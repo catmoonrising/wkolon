@@ -26,3 +26,6 @@ existing Accurate penalty table, including its Far Shot, Jedi Counseling and
 scope interactions. An Inaccurate Rifle keeps its Long Range prohibition.
 
 Stun settings with a fixed stun range are unchanged. Both records are Partial.
+
+Runtime Rifle-group benefits also use the existing Counseling112 familiarity
+conversion through the shared weapon identity resolver; see weapon-identity.md.

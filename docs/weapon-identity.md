@@ -25,3 +25,8 @@ bands, grip or size. Preserve the explicit extended-stock one-handed penalty and
 shared full-attack handling. Do not grant Weapon Focus selection eligibility from
 owning a folded rifle; inventory-based acquisition needs a separate contract and
 remains a recorded limitation. No character or rules-data fields are added.
+
+Critical-threat weapon-group effects share this resolver; the present pack only
+has Vaapad for Lightsabers, and no present familiarity map changes a weapon to
+Lightsabers. Baseline opportunity eligibility still uses its existing Pistol
+group and explicit folded-stock rule; the resolver changes the talent benefits.

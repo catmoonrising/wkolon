@@ -2799,10 +2799,9 @@ clauses remain listed in weapon-feats.md; all nine records remain Partial.
 Other preexisting consumers of resolved group are outside this bounded import
 and still need a separate stock-scope audit. No source articles were changed.
 
-Jedi Counseling112’s additional weapon-familiarity conversion for feat/talent
-groups is not yet applied to these new family consumers; those cases remain
-manual pending the shared identity correction. Existing Weapon Focus and
-Gunslinger folded-stock consumers are recorded separately for correction.
+The initial family import deferred weapon familiarity and older folded-stock
+benefits. The weapon identity correction below now covers their runtime group
+matching; inventory-based acquisition remains outside that correction.
 
 ## Declared trigger subset
 
