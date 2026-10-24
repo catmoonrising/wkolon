@@ -11,6 +11,8 @@
 - [x] Fortified Body passive Poison/Radiation/Disease immunity display; hazard resolution remains manual.
 - [x] Eight reviewed passive/conditional Defense records (Thick Skin, Force of Will, Jedi Hunter, Poison Resistance, Scion of Dorin, Environmentally Shielded, Warrior Heritage, Resolute Stance).
 - [x] Shift Defense I/II Swift Defense trades until the next turn; Shift Defense III follows the user ruling (next turn; RAW no-expiry alternative).
+- [x] Sneak Attack dice against a declared Denied Dexterity target, with the 6-square ranged limit and 10d6 cap.
+- [x] Declared Jedi/Force Sensitivity/Dark Side opponent flags for Dark Scourge, Dark Side Scourge, Inquisition and Jedi Hunter.
 - [ ] Audit uncategorized official rules reached through article links; the 4,400 sourcebook-category candidates are not proof of whole-wiki completeness.
 - [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.
   - [x] Enable the nine remaining unambiguous Core species, size and conditional defense calculations, and all six weapon-proficiency groups.

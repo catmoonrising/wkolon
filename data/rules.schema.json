@@ -5201,6 +5201,10 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target","against","amount","type"],"properties":{"target":{"const":"targetAttack"},"against":{"enum":["jedi","forceSensitive"]},"amount":{"const":1},"type":{"enum":["dark-side","untyped"]}}},
+        {"type":"object","additionalProperties":false,"required":["target","against","ability","minimum","mode"],"properties":{"target":{"const":"targetDamage"},"against":{"const":"darkSide"},"ability":{"const":"cha"},"minimum":{"const":1},"mode":{"const":"melee"}}},
+        {"type":"object","additionalProperties":false,"required":["target","against","dice"],"properties":{"target":{"const":"targetDice"},"against":{"const":"forceSensitive"},"dice":{"const":1}}},
+        {"type":"object","additionalProperties":false,"required":["target","die","maximum","rangedSquares"],"properties":{"target":{"const":"sneakAttack"},"die":{"const":6},"maximum":{"const":10},"rangedSquares":{"const":6}}},
         {"type":"object","additionalProperties":false,"required":["target","defense","amount","type"],"properties":{"target":{"const":"defenseBonus"},"defense":{"enum":["fortitude","will"]},"amount":{"enum":[1,2]},"type":{"enum":["species","insight"]}}},
         {"type":"object","additionalProperties":false,"required":["target","defense","amount","type","when","weapons"],"properties":{"target":{"const":"defenseBonus"},"defense":{"const":"will"},"amount":{"const":2},"type":{"const":"morale"},"when":{"const":"wieldingWeapon"},"weapons":{"const":["equipment:atlatl","equipment:cesta"]}}},
         {"type":"object","additionalProperties":false,"required":["target","defense","when","amount","type"],"properties":{"target":{"const":"defenseBonus"},"defense":{"const":"will"},"when":{"const":"fightDefensively"},"amount":{"const":2},"type":{"const":"morale"}}},

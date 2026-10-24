@@ -1,6 +1,8 @@
 import {ambiguityValue} from './house-rules.js';
+import {modifierIncrease} from './modifiers.js';
 
-export const attackTarget=c=>({cover:'none',concealment:'none',darkness:false,prone:false,helpless:false,adjacentToAlly:false,attackSquare:false,...c.attackTarget});
+export const attackTarget=c=>({cover:'none',concealment:'none',darkness:false,prone:false,helpless:false,adjacentToAlly:false,attackSquare:false,dexDenied:false,jedi:false,forceSensitive:false,darkSide:false,...c.attackTarget});
+export const TARGET_TRAITS=[['dexDenied','Denied Dexterity'],['jedi','Jedi'],['forceSensitive','Force Sensitivity'],['darkSide','Dark Side Score 1+']];
 export function targetConcealment(target,vision,scope=false){
  if(!target.darkness)return target.concealment;
  if(vision==='darkvision'||target.concealment!=='total'&&(vision==='low-light'||scope))return 'none';
@@ -27,7 +29,34 @@ export function targetModifiers(c,pack,ctx,species,a){
 }
 // Apply once to each attack variant so losing Aim restores both range and darkness
 // penalties, and cover remains a defense bonus rather than an attack penalty.
-export function applyAttackTarget(a,c,pack,ctx,species){
+// Extra dice against a declared Dexterity-denied opponent, joined to every damage expression.
+export function sneakAttackDice(c,ctx,effects,a){
+ const rows=effects.filter(e=>e.target==='sneakAttack');
+ if(!rows.length||!attackTarget(c).dexDenied||a.areaType||!['melee','ranged'].includes(a.mode))return null;
+ if(a.mode==='ranged'&&!(Number.isFinite(a.targetDistance)&&a.targetDistance<=rows[0].rangedSquares))return null;
+ return {dice:Math.min(rows[0].maximum,rows.length),die:rows[0].die};
+}
+// Reviewed opponent-trait bonuses: typed attack increase, flat damage and extra weapon dice.
+export function targetTraitBonuses(c,pack,effects,a,mods={}){
+ const t=attackTarget(c),match=e=>t[e.against]&&(!e.mode||a.mode===e.mode);
+ if(a.areaType||!a.damage)return null;
+ const source=e=>(pack.talents.find(r=>r.id===e.selection?.id)||pack.feats.find(r=>r.id===e.selection?.id))?.name||'';
+ const attackRows=effects.filter(e=>e.target==='targetAttack'&&match(e)),damageRows=effects.filter(e=>e.target==='targetDamage'&&match(e)),diceRows=effects.filter(e=>e.target==='targetDice'&&match(e));
+ if(!attackRows.length&&!damageRows.length&&!diceRows.length)return null;
+ const die=/d(\d+)/.exec(a.damage)?.[1];
+ return {attack:modifierIncrease(a.attackModifierRows||[],attackRows.map(e=>({amount:e.amount,type:e.type}))),damage:damageRows.reduce((n,e)=>n+Math.max(e.minimum,mods[e.ability]??0),0),dice:die?diceRows.reduce((n,e)=>n+e.dice,0):0,die,
+  sources:[...attackRows.map(e=>source(e)+': +'+e.amount+' attack'),...damageRows.map(e=>source(e)+': +'+Math.max(e.minimum,mods[e.ability]??0)+' damage'),...diceRows.map(e=>source(e)+': +'+e.dice+'d'+die)]};
+}
+function withExtraDamage(a,terms,breakdown,attack=0){
+ if(!terms&&!attack)return a;
+ const add=row=>Object.fromEntries(['damageDisplay','criticalDamageDisplay','rollDamageDisplay','rollCriticalDamageDisplay'].filter(k=>typeof row[k]==='string'&&row.damage).map(k=>[k,row[k]+terms]));
+ return {...a,...add(a),attack:a.attack+attack,...Object.fromEntries(['unAimed','unBraced','unSwing'].filter(k=>a[k]).map(k=>[k,{...a[k],...(terms?add({...a,...a[k]}):{}),...(a[k].attack!==undefined?{attack:a[k].attack+attack}:{})}])),breakdown:a.breakdown+breakdown};
+}
+export function applyAttackTarget(a,c,pack,ctx,species,effects=[],mods={}){
+ const sneak=sneakAttackDice(c,ctx,effects,a);
+ if(sneak)a={...withExtraDamage(a,'+'+sneak.dice+'d'+sneak.die,'; Sneak Attack: +'+sneak.dice+'d'+sneak.die),sneakAttack:sneak};
+ const traits=targetTraitBonuses(c,pack,effects,a,mods);
+ if(traits)a={...withExtraDamage(a,(traits.damage?'+'+traits.damage:'')+(traits.dice?'+'+traits.dice+'d'+traits.die:''),traits.sources.map(s=>'; '+s).join(''),traits.attack),targetTraits:traits};
  const target=targetModifiers(c,pack,ctx,species,a),issue=a.issue||target.issue;
  const variants=Object.fromEntries(['unAimed','unBraced'].filter(k=>a[k]).map(k=>{
   const variant={...a,...a[k]},t=targetModifiers(c,pack,ctx,species,variant);
@@ -40,7 +69,7 @@ export function applyAttackTarget(a,c,pack,ctx,species){
 export function validateAttackTarget(c,bad){
  if(c.prone!==undefined&&typeof c.prone!=='boolean')bad('prone state');
  if(c.attackTarget===undefined)return;
- const t=c.attackTarget,flags=['darkness','prone','helpless','adjacentToAlly','attackSquare'];
+ const t=c.attackTarget,flags=['darkness','prone','helpless','adjacentToAlly','attackSquare',...TARGET_TRAITS.map(([key])=>key)];
  if(!t||typeof t!=='object'||Array.isArray(t)||Object.keys(t).some(k=>!['cover','concealment',...flags].includes(k)))bad('attack target');
  if(t.cover!==undefined&&!['none','cover','improved','total'].includes(t.cover))bad('target cover');
  if(t.concealment!==undefined&&!['none','concealment','total'].includes(t.concealment))bad('target concealment');

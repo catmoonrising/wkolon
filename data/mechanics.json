@@ -40706,9 +40706,9 @@
       },
       "repeat": "stack",
       "reminder": "Add 1d6 per selection against targets denied Dexterity; ranged attacks require a target within 6 squares.",
-      "effects": [],
+      "effects": [{"target":"sneakAttack","die":6,"maximum":10,"rangedSquares":6}],
       "maxSelections": 10,
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:uncanny-dodge-i",
@@ -41325,8 +41325,8 @@
       },
       "repeat": "never",
       "reminder": "",
-      "effects": [],
-      "automation": "manual"
+      "effects": [{"target":"targetDamage","against":"darkSide","ability":"cha","minimum":1,"mode":"melee"}],
+      "automation": "partial"
     },
     {
       "id": "talent:dark-side-sense",
@@ -42627,9 +42627,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetAttack","against":"jedi","amount":1,"type":"dark-side"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:dark-side-adept",
@@ -45424,7 +45424,7 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [{"target":"defenseBonus","defense":"fortitude","amount":1,"type":"insight"},{"target":"defenseBonus","defense":"will","amount":1,"type":"insight"}],
+      "effects": [{"target":"defenseBonus","defense":"fortitude","amount":1,"type":"insight"},{"target":"defenseBonus","defense":"will","amount":1,"type":"insight"},{"target":"targetDice","against":"forceSensitive","dice":1}],
       "reminder": "",
       "automation": "partial"
     },
@@ -49642,9 +49642,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetAttack","against":"forceSensitive","amount":1,"type":"untyped"},{"target":"targetDice","against":"forceSensitive","dice":1}],
       "reminder": "",
-      "automation": "manual",
+      "automation": "partial",
       "manualPrerequisites": [
         "The Imperial Inquisitors are a special group of Dark Jedi who work for the Empire. Trained to hunt down and destroy the remaining Jedi whenever they are found, Imperial Inquisitors are steeped in the lore of The Dark Side. A character must be a member of The Inquisitorius and have a Dark Side Score of 1+ to take Talents from this Talent Tree."
       ]

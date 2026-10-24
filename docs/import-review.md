@@ -2689,3 +2689,29 @@ r18365) lasts until the start of the next turn by default; Ambiguities offers
 the literal no-automatic-expiry reading, snapshotted per activation and
 removable in Actions. +5 competence to the chosen Defense, -5 to both others.
 Partial.
+
+## Sneak Attack
+
+Misfortune Talent Tree revision 25729 (Core Rulebook) now adds 1d6 per active
+selection (maximum 10d6) to melee attacks, and ranged attacks with a declared
+distance of at most 6 squares, against a target declared as Denied Dexterity.
+The flag is never inferred from Helpless or other states. Area eligibility and miss-damage interactions remain manual; the base area
+expression is unchanged. The dice join every damage expression, so critical hits multiply them.
+The record is Partial; Dastardly Strike and other denied-Dexterity talents
+remain Manual.
+
+## Opponent trait talents
+
+Declared target flags for Jedi, Force Sensitivity and Dark Side Score 1+ now
+drive Dark Scourge (Sith Talent Tree r18499, +1 Dark Side attack vs. Jedi), Dark
+Side Scourge (Jedi Sentinel Talent Tree r26765, CHA minimum +1 melee damage vs.
+Dark Side Score 1+), Inquisition (Imperial Inquisitor Talent Tree r19470, +1
+attack and +1 die vs. Force Sensitivity) and Jedi Hunter's extra die. Area
+attacks gain nothing; flags are never inferred. Extra dice stack by the existing
+undescribed-dice default. Master of the Great Hunt stays Manual: "+1 Force bonus
+on attack rolls and deal +1 die of damage on Lightsaber attacks" may limit only
+the die, or both benefits, to Lightsaber attacks.
+
+Integration review distinguishes unsupported area-target resolution from RAW.
+These talents do not gain a new blanket area prohibition; per-target eligibility
+and hit/miss damage remain manual until the area resolver represents them.
