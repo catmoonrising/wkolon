@@ -55,3 +55,13 @@ acts, conflicting with its explicit first-regular-turn paragraph. Use the latter
 by default. An optional alternative has been asked about; do not silently switch
 the default or invent an answer. Skills may also need context-specific patience
 judgments. These declarations do not block implementing the sourced defaults.
+
+## Pick a Fight
+
+Brawler Talent Tree revision 16372 (Scum and Villainy): "During the Surprise
+Round, you and all allies within 6 squares of you gain a +1 morale bonus on
+attack rolls." The user's part is `{target:'attacks', amount:1, type:'morale',
+when:'surpriseRound'}`, active while the saved round phase is a surprise phase
+(Aware or Surprised) and gone once the first regular round begins. Allies and
+the retained bonus against targets damaged during the Surprise Round remain
+manual. The record is Partial.

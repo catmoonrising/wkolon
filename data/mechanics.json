@@ -45732,9 +45732,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"attacks","amount":1,"type":"morale","when":"surpriseRound"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:reverse-strength",

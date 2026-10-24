@@ -2780,3 +2780,10 @@ The Level Benefits page could not be fetched on 2026-10-24 (HTTP 403). Its
 pinned revision 26144 supplies the round-up average values, but explicit
 permission to choose them as an official optional rule remains unverified.
 The user's requested House Rule stays available with its existing off default.
+
+## Pick a Fight
+
+Brawler Talent Tree r16372: the character’s +1 morale attack bonus applies
+during the Surprise Round. The shared conditional attack-effect resolver also
+gates special attacks such as Ithorian Bellow. Uses typed highest-of-type
+stacking. Ally bonuses and retained per-target bonuses remain manual. Partial.

@@ -5204,6 +5204,7 @@
     "effect": {
       "oneOf": [
         {"type":"object","additionalProperties":false,"required":["target","against","amount","type"],"properties":{"target":{"const":"targetAttack"},"against":{"enum":["jedi","forceSensitive","noCover","adjacent","concealed"]},"amount":{"enum":[1,2]},"type":{"enum":["dark-side","untyped","morale","circumstance"]},"circumstance":{"enum":["adjacent-target","concealed-from-target"]},"mode":{"const":"melee"}}},
+        {"type":"object","additionalProperties":false,"required":["target","amount","type","when"],"properties":{"target":{"const":"attacks"},"amount":{"const":1},"type":{"const":"morale"},"when":{"const":"surpriseRound"}}},
         {"type":"object","additionalProperties":false,"required":["target","against","ability","minimum","mode"],"properties":{"target":{"const":"targetDamage"},"against":{"const":"darkSide"},"ability":{"const":"cha"},"minimum":{"const":1},"mode":{"const":"melee"}}},
         {"type":"object","additionalProperties":false,"required":["target","against","dice"],"properties":{"target":{"const":"targetDice"},"against":{"const":"forceSensitive"},"dice":{"const":1}}},
         {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"flankingDeniesDexterity"}}},
