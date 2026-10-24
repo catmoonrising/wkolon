@@ -47553,9 +47553,25 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "stunAttack",
+          "amount": 1,
+          "type": "untyped",
+          "weapons": [
+            "equipment:stun-grenade",
+            "equipment:net",
+            "equipment:electronet",
+            "equipment:stun-baton"
+          ]
+        },
+        {
+          "target": "stunDice",
+          "dice": 1
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:pursuit",
@@ -55627,9 +55643,14 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "twinShotDamage",
+          "amount": 2
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:armored-spacer",
@@ -55791,9 +55812,19 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "ionAttack",
+          "amount": 1,
+          "type": "untyped"
+        },
+        {
+          "target": "ionDice",
+          "dice": 1
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:preserving-shot",

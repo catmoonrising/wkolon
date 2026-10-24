@@ -571,6 +571,7 @@ export function derive(c, pack) {
   for(const w of droidAppendageWeapons(c,pack,total('unarmedDieSteps'))){const arm=c.inventory.find(e=>e.uid===w.inventoryUid),settings=w.primaryAppendage?c.unarmedModifiers:arm;weaponEntries.push({id:UNARMED_ID,uid:w.uid,virtualWeapon:w,twoHanded:false,targetKind:settings?.targetKind,attackTechnique:settings?.attackTechnique,attackMod:settings?.attackMod||0,damageMod:(settings?.damageMod||0)+Math.max(0,...gloves.map(e=>ix.equipment.get(e.id).damageBonus||0))});}
   for(const w of naturalWeapons(c,species,pack,total('unarmedDieSteps'))){const settings=c.naturalModifiers?.[w.naturalWeaponId];weaponEntries.push({id:UNARMED_ID,uid:w.uid,virtualWeapon:w,twoHanded:false,targetKind:settings?.targetKind,attackTechnique:settings?.attackTechnique,attackMod:settings?.attackMod||0,damageMod:(settings?.damageMod||0)+Math.max(0,...gloves.map(e=>ix.equipment.get(e.id).damageBonus||0))});}
   const wielded=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).kind==='weapon'&&!ix.equipment.get(e.id).unarmed&&(ix.equipment.get(e.id).group!=='lightsabers'||e.activated!==false));
+  const dualPistols=wielded.filter(e=>weaponIdentityGroup(resolveEquipment(e,pack,c),ctx)==='pistols').length>=2;
   const featHas=id=>ctx.feats.some(f=>f.id===F(id));
   const powerAttack=powerAttackState(c,pack,{bab:ctx.bab,owned:featHas('power-attack')});
   const fullAttack=fullAttackState(c,pack,ctx);
@@ -580,6 +581,8 @@ export function derive(c, pack) {
     const foldedRifle=raw.printedGroup==='rifles'&&raw.group==='pistols',excludeRifleRange=foldedRifle&&ambiguityValue(c,pack,'ambiguity:folded-stock-rifle-range')==='pistol-ranges';
     const rangeGroup=excludeRifleRange?raw.group:weaponIdentityGroup(raw,ctx);
     const traits=effects.filter(f=>f.target==='weaponTrait'&&f.weapon===raw.id&&!(excludeRifleRange&&f.selection?.id==='feat:riflemaster'&&f.accurate)),proficientTraits=traits.length&&weaponProficient(raw,ctx,ix)?traits:[];
+    const modeDice=(/Ion/.test(raw.damageType||'')&&raw.damage?effects.filter(f=>f.target==='ionDice').reduce((n,f)=>n+f.dice,0):0)+(raw.damageEffect==='stun'&&raw.damage?effects.filter(f=>f.target==='stunDice').reduce((n,f)=>n+f.dice,0):0);
+    raw=modeDice?{...raw,damage:extraDamageDice(raw.damage,modeDice)}:raw;
     const w=proficientTraits.reduce((x,f)=>({...x,...(f.accurate?{accurate:true}:{}),...(f.inaccurate===false?{inaccurate:false}:{}),...(f.damageDie&&x.damage?{damage:x.damage.replace(/d\d+/,'d'+f.damageDie)}:{}),...(f.size?{size:f.size}:{}),...(f.pointBlankDice?{pointBlankDice:f.pointBlankDice}:{}),...(f.aimAttack?{aimAttack:(x.aimAttack||0)+f.aimAttack}:{})}),raw);
     const pbRows=effects.filter(f=>f.target==='pointBlankRange'&&f.weaponGroup===rangeGroup),extension=pbRows.length?Math.min(pbRows[0].maximum,pbRows.reduce((n,f)=>n+f.amount,0)):0;
     const accurate=effects.some(f=>f.target==='accurateWeapons'&&f.weaponGroup===rangeGroup);
@@ -594,7 +597,7 @@ export function derive(c, pack) {
     const group=weaponEffectGroup(w,ctx);
     const allowFocus=!counselingEnabled(c,'jc:112-weapon-focus-proficiency')||proficient;
     const mechanical=species.technophobic&&(e.mechanical??w.mechanical)&&!w.biotech?-5:0;
-    const attackModifiers = [...(allowFocus?effects.filter(f => f.target === 'weaponFocus' && (f.weaponGroup||f.selection.choice) === group && applies(f,w)):[]),...effects.filter(f=>f.target==='attacks'&&applies(f,w)),...turnFeatAttackEffects(c,pack,ctx,w),...(w.mode==='melee'?[{type:'rage',amount:rageBonus},...powerRage]:[])];
+    const attackModifiers = [...(allowFocus?effects.filter(f => f.target === 'weaponFocus' && (f.weaponGroup||f.selection.choice) === group && applies(f,w)):[]),...effects.filter(f=>f.target==='attacks'&&applies(f,w)),...(/Ion/.test(w.damageType||'')?effects.filter(f=>f.target==='ionAttack'):[]),...effects.filter(f=>f.target==='stunAttack'&&(w.mode==='ranged'&&w.damageEffect==='stun'||f.weapons.includes(w.id))),...turnFeatAttackEffects(c,pack,ctx,w),...(w.mode==='melee'?[{type:'rage',amount:rageBonus},...powerRage]:[])];
     const strike=battleStrike(c,pack,attackModifiers),focus=modifierTotal(attackModifiers)+(strike?.attackBonus||0);
     const specialization = effects.filter(f => f.target === 'weaponSpecialization' && (f.weaponGroup||f.selection.choice) === group && applies(f,w)).reduce((n, f) => n + f.amount, 0);
     const light = pack.rules.weaponSizeOrder.indexOf(w.size) < pack.rules.weaponSizeOrder.indexOf(effectiveSize)||w.unarmed&&counselingEnabled(c,'jc:112-unarmed-attacks-and-weapon-finesse');
@@ -615,9 +618,10 @@ export function derive(c, pack) {
     const multiattackReduction=(species.multiattackReduction||0)+effects.filter(f=>f.target==='multiattackReduction'&&f.weaponGroup===group).reduce((n,f)=>n+f.amount,0),fullAttackPenalty=Math.min(0,fullAttack.penalty+multiattackReduction);
     const criticalThreat=Math.min(20,...effects.filter(f=>f.target==='criticalThreat'&&f.weaponGroup===weaponIdentityGroup(w,ctx)).map(f=>f.amount));
     const criticalMultiplier=Math.max(pack.rules.combat.criticalMultiplier,...effects.filter(f=>f.target==='criticalMultiplier'&&f.selection.choice===w.id).map(f=>f.amount));
+    const twinShot=technique.selected==='rapid-shot'&&weaponIdentityGroup(w,ctx)==='pistols'&&dualPistols?modifierTotal(effects.filter(f=>f.target==='twinShotDamage').map(f=>({amount:f.amount}))):0;
     const meleeBonus = modifierTotal([...effects.filter(e=>e.target==='damage'&&applies(e,w)),...effects.filter(e=>e.target==='meleeDamage'&&applies(e,w)).map(e=>({...e,amount:e.amount*(e.perLevel?level:1)})),...(w.mode==='melee'?[{type:'rage',amount:rageBonus},...powerRage]:[])]);
     const flurryBonus=w.mode==='melee'?flurry.attackBonus:0;
-    const damageBonus = half + (weaponIdentityGroup(w,ctx)==='pistols'?classPassives.filter(e=>e.target==='pistolDamage').reduce((n,e)=>n+e.amount,0):0) + strength + specialization + meleeBonus + pointBlank + c.modifiers.damage + e.damageMod + power.damage;
+    const damageBonus = half + (weaponIdentityGroup(w,ctx)==='pistols'?classPassives.filter(e=>e.target==='pistolDamage').reduce((n,e)=>n+e.amount,0):0) + strength + specialization + meleeBonus + pointBlank + c.modifiers.damage + e.damageMod + power.damage + twinShot;
     const mightySwingAvailable=w.mode==='melee'&&featHas('mighty-swing'),mightySwing=mightySwingAvailable&&!!c.mightySwing;
     const independentDice=range.band===0?(w.pointBlankDice||0):0,unAimedDice=technique.extraDice+independentDice;
     const diceBonus=independentDice+Math.max(technique.extraDice,aimed&&featHas('deadeye')?accessories.deadeyeDice:0,mightySwing?pack.rules.mightySwing.extraDice:0);

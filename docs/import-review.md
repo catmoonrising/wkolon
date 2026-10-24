@@ -2856,3 +2856,11 @@ Brawler (Brawler r16372) adds +2 unarmed attack and damage while declared
 Flanked. Both remain Partial; per-target area and nonweapon resolution are
 manual. Battle Meditation retains its ally-only printed loss default and adds
 the alternative that the user's own activation is removed on knockout/death.
+
+Ion Mastery (Privateer r19543) adds +1 attack and +1 die for resolved Ion
+weapons. Twin Shot (Pistoleer r19729) adds +2 Pistol damage using Rapid Shot
+while wielding two distinct Pistols. Identity uses the shared Counseling rule;
+a folded Rifle remains a Rifle for the benefit. Nonlethal Tactics (Enforcement
+r26769) adds +1 attack for Stun-set ranged weapons and its listed weapons,
+with +1 die for ranged Stun damage. The talent's extra die on a Stun Baton's melee Stun attack, and
+manual attacks, remain manual; the Baton's existing Stun setting still rolls 2d6. All three retain Partial status.

@@ -1688,3 +1688,5 @@ Source declarations with turn/encounter typed bonuses follow
 pending its separate loss review.
 
 Channel Rage and Powerful Rage follow the [Rage feat contract](rage-feats.md).
+
+Ion Mastery, Twin Shot and Nonlethal Tactics follow the [weapon mode talent contract](weapon-mode-talents.md).
