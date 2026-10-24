@@ -64,8 +64,8 @@ Partial means some mechanics are implemented, not that the whole option is autom
 | Heroic classes | 5 | 0 |
 | Prestige classes | 32 | 0 |
 | Skills (Knowledge fields separately) | 25 | 0 |
-| Feats | 95 | 263 |
-| Talents | 109 | 1082 |
+| Feats | 99 | 259 |
+| Talents | 110 | 1081 |
 | Equipment | 172 | 484 |
 | Weapons (included above) | 50 | 168 |
 | Armor (included above) | 87 | 0 |
