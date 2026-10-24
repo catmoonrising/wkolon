@@ -10,6 +10,17 @@ export function grantBonusHP(c,amount){
  const before=bonusHP(c);c.bonusHP=Math.max(before,amount);return {before,after:c.bonusHP};
 }
 export function clearBonusHPTrigger(c){delete c.bonusHPTrigger;}
+// Declared-event grants; the pool replaces only when larger, so sources never stack.
+export function declaredBonusHPGrants(pack,d){
+ if(d.recovery?.dead)return [];
+ const conscious=!d.incapacitated;
+ return (pack.rules.bonusHPGrants||[]).filter(r=>d.ctx.talents.some(t=>t.id===r.talentId&&!d.ctx.inactiveTalents.has(t.id))&&(!r.conscious||conscious)).map(r=>({...r,name:pack.talents.find(t=>t.id===r.talentId).name,amount:r.base+Math.floor(d.level/r.levelDivisor)}));
+}
+export function claimDeclaredBonusHP(c,d,pack,id){
+ const g=declaredBonusHPGrants(pack,d).find(r=>r.id===id);
+ if(!g||g.amount<1)throw new Error('Bonus HP grant unavailable');
+ return {...grantBonusHP(c,g.amount),amount:g.amount,name:g.name};
+}
 export function clearBonusHP(c){delete c.bonusHP;clearBonusHPTrigger(c);}
 export function toughAsDurasteelLevel(c,pack,ctx,armorItems=[]){
  const rule=pack.rules.bonusHitPoints.toughAsDurasteel,level=ctx.classLevels.get(rule.classId)||0;

@@ -43,3 +43,28 @@ SR/DR precede this choice, and the bonus HP buffer follows it. Damage Threshold
 always uses the pre-division penetrating damage. The separate stun/ion death
 interpretation remains independent. Ordinary biological targets still take half
 ion HP damage under either option; stun and normal damage do not change.
+
+## Declared Bonus Hit Point grants
+
+`rules.bonusHPGrants` records talents whose Bonus Hit Points follow an external
+event the sheet cannot observe. Each row has `talentId`, `trigger`, `base`, the
+`level` used (`character` or `heroic`), a `levelDivisor` (rounding down) and
+exact `sourceIds`. The HP module shows one button per owned grant; pressing it
+declares the event and grants through the same replace-only-when-larger pool,
+so grants never stack. Dead characters cannot claim. The pool's existing
+encounter, combat, day and rest resets apply.
+
+- Thrive on Chaos (Opportunist Talent Tree revision 20013): an enemy or ally
+  within 20 squares is reduced to 0 HP; 5 + one-half Character Level.
+- Shoulder to Shoulder (Republic Commando Talent Tree revision 20035): you begin
+  your turn adjacent to an ally; Heroic Level.
+- Bando Gora Surge (Bando Gora Captain Talent Tree revision 16124): you move up
+  the Condition Track; 5 + Heroic Level.
+
+The current pack has no nonheroic classes, so Heroic Level equals Character
+Level. All three triggers remain declarations; the records are Partial.
+
+Luck Favors the Bold (Gambling Leader Talent Tree revision 20650): at the start
+of your turn, if you lack Cover against an aware enemy in your Line of Sight and
+you are conscious, 5 + one-half Heroic Level. Its row sets `conscious: true`,
+so a character at 0 HP or at the bottom of the Condition Track cannot claim it.

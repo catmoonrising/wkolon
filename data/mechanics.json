@@ -48702,7 +48702,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:findsman-ceremonies",
@@ -54771,7 +54771,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:vindication",
@@ -56384,7 +56384,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:strength-in-numbers",
@@ -60015,7 +60015,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation":"partial"
     },
     {
       "id": "talent:force-fighter",
@@ -68462,6 +68462,7 @@
     "timedTalentActions": [{"id":"damage-reduction-10","talentId":"talent:damage-reduction-10","forcePoints":1,"durationRounds":10,"damageReduction":10,"sourceIds":["source:wiki-control-talent-tree-damage-reduction-10","source:wiki-combat-sequence","source:wiki-attacks"]}],
     "moveTalentEffects":[{"id":"skirmisher","talentId":"talent:skirmisher","minimumSquares":2,"minimumDisplacement":1,"effect":{"target":"attacks","amount":1,"type":"untyped"},"duration":"start-next-turn","sourceIds":["source:wiki-misfortune-talent-tree-skirmisher","source:wiki-move"]},{"id":"improved-skirmisher","talentId":"talent:improved-skirmisher","minimumSquares":2,"minimumDisplacement":1,"effect":{"target":"defenses","amount":1,"type":"untyped"},"duration":"start-next-turn","sourceIds":["source:wiki-misfortune-talent-tree-improved-skirmisher","source:wiki-move"]}],
     "turnFeatEffects": [{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],
+    "bonusHPGrants":[{"id":"thrive-on-chaos","talentId":"talent:thrive-on-chaos","trigger":"creature-reduced-to-zero","base":5,"level":"character","levelDivisor":2,"sourceIds":["source:wiki-opportunist-talent-tree-thrive-on-chaos"]},{"id":"shoulder-to-shoulder","talentId":"talent:shoulder-to-shoulder","trigger":"turn-start-adjacent-ally","base":0,"level":"heroic","levelDivisor":1,"sourceIds":["source:wiki-republic-commando-talent-tree-shoulder-to-shoulder"]},{"id":"bando-gora-surge","talentId":"talent:bando-gora-surge","trigger":"moved-up-condition-track","base":5,"level":"heroic","levelDivisor":1,"sourceIds":["source:wiki-bando-gora-captain-talent-tree-bando-gora-surge"]},{"id":"luck-favors-the-bold","talentId":"talent:luck-favors-the-bold","trigger":"turn-start-exposed-to-aware-enemy","base":5,"level":"heroic","levelDivisor":2,"conscious":true,"sourceIds":["source:wiki-gambling-leader-talent-tree-luck-favors-the-bold"]}],
     "bonusHitPoints": {"sourceIds":["source:wiki-hit-points"],"toughAsDurasteel":{"classId":"class:martial-arts-master","minimumLevel":2,"armorCategory":"light","ambiguityId":"ambiguity:tough-as-durasteel-amount","sourceIds":["source:wiki-martial-arts-master"]}},
     "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]},{"id":"wan-shen-defense","talentId":"talent:wan-shen-defense","amountPerSelection":1,"maximum":3,"weaponId":"equipment:wan-shen","effect":{"target":"conditionalDefense","defense":"reflex","against":"melee-aware","type":"deflection"},"sourceIds":["source:wiki-matukai-adept-talent-tree-wan-shen-defense","source:wiki-wan-shen","source:wiki-melee-attacks"]},{"id":"shadow-armor","talentId":"talent:shadow-armor","amountPerSelection":1,"maximum":4,"effect":{"target":"defenseBonus","defense":"reflex","type":"force"},"sourceIds":["source:wiki-disciple-of-twilight-talent-tree-shadow-armor","source:wiki-bonuses-and-penalties"]}],
     "defenseShiftActions": [{"id":"shift-defense-i","talentId":"talent:shift-defense-i","bonus":1,"penalty":-2,"type":"competence","duration":"start-next-turn","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-i","source:wiki-bonuses-and-penalties"]},{"id":"shift-defense-ii","talentId":"talent:shift-defense-ii","bonus":2,"penalty":-5,"type":"competence","duration":"start-next-turn","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-ii","source:wiki-bonuses-and-penalties"]},{"id":"shift-defense-iii","talentId":"talent:shift-defense-iii","bonus":5,"penalty":-5,"penaltyScope":"others","type":"competence","duration":"start-next-turn","ambiguityId":"ambiguity:shift-defense-iii-duration","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-iii","source:wiki-bonuses-and-penalties"]}],

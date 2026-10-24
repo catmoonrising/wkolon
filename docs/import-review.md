@@ -2762,3 +2762,14 @@ Positioning integration also verifies legal Noble, Jedi, Elite Trooper and
 Assassin access. Advantageous Positioning's denied-Dexterity interaction is
 calculated; the general flanking attack modifier and positional geometry remain
 manual.
+
+## Declared Bonus Hit Point grants
+
+Thrive on Chaos (Opportunist r20013, 5 + half Character Level), Shoulder to
+Shoulder (Republic Commando r20035, Heroic Level) and Bando Gora Surge (Bando
+Gora Captain r16124, 5 + Heroic Level) now grant through HP-module buttons that
+declare their triggers. The shared pool replaces only when larger. The pack has
+no nonheroic classes, so Heroic Level equals Character Level. All Partial.
+
+Luck Favors the Bold (Gambling Leader r20650) joins the declared grants: 5 +
+half Heroic Level, only while conscious. Partial.

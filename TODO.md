@@ -19,6 +19,8 @@
 - [x] Skirmisher/Improved Skirmisher after a qualifying Move, until the start of the next turn.
 - [x] Face the Foe, Close-Quarters Fighter and Sentinel's Observation through declared attacker-position flags.
 - [x] Advantageous Positioning: declared flanking counts as denied Dexterity for Sneak Attack.
+- [x] Thrive on Chaos, Shoulder to Shoulder and Bando Gora Surge declared Bonus HP grants.
+- [x] Luck Favors the Bold declared start-of-turn Bonus HP while conscious.
 - [ ] Audit uncategorized official rules reached through article links; the 4,400 sourcebook-category candidates are not proof of whole-wiki completeness.
 - [ ] Review and enable remaining imported species, feats, talents and equipment; track conflicts in docs/import-review.md.
   - [x] Enable the nine remaining unambiguous Core species, size and conditional defense calculations, and all six weapon-proficiency groups.

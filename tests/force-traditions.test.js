@@ -11,7 +11,7 @@ import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),ix=indexPack(pack),access=pack.rules.traditionTalentAccess;
 const membership=(id,level=1,darkSideScore=0)=>({id:'tradition:'+id,level,darkSideScore});
 const talent=id=>({id:'talent:'+id});
-const reviewed=new Set(['many-shades-of-the-force','body-control','soft-to-solid','wan-shen-defense','shadow-armor'].map(id=>'talent:'+id));
+const reviewed=new Set(['many-shades-of-the-force','body-control','soft-to-solid','wan-shen-defense','shadow-armor','bando-gora-surge'].map(id=>'talent:'+id));
 function hero(cls='jedi'){const c=newCharacter(pack,{classId:'class:'+cls});c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:14,wis:14,cha:14};c.trainedSkills=['skill:use-the-force'];return c;}
 function level(c,extra={}){c.levels.push({classId:c.levels[0].classId,hpRoll:4,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[],...extra});}
 function shaded(){const c=hero();c.forceTraditions=[membership('aing-tii-monk')];c.levels[0].feats=[{id:'feat:force-training'}];c.levels[0].forcePowers=['force-lightning','surge','enlighten'].map(name=>({id:crypto.randomUUID(),powerId:'power:'+name,spent:false}));c.levels[0].talent={id:'talent:many-shades-of-the-force',choice:'power:force-lightning'};return c;}
