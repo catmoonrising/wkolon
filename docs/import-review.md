@@ -2838,3 +2838,13 @@ encounter end, once per day even with Extra Rage. It applies no ordinary Rage
 bonuses, restrictions or fatigue. Daily use survives encounter resets and a
 known-active legacy save. Powerful Rage r19542 adds +4 to Strength checks and
 Strength-based skills while actually Raging. Both Partial.
+
+Focused Warrior r26768 adds declared +5 morale Will after damaging an opponent,
+with removal on Surprised or Flat-Footed for any reason and next-turn expiry.
+It remains Partial; opponent damage events are declared. Wan-Shen Defense
+retains the activation-only default and adds its recorded weapon-loss alternative.
+
+Strong-Willed (Force Hunter r20160) adds active Bounty Hunter class level only
+to Will against Use the Force checks. The existing conditional row and typed
+resolver combine it with other applicable bonuses. Normal Will and the default
+Fortitude-based Damage Threshold remain unchanged. Partial.

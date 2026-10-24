@@ -50,3 +50,11 @@ enemy makes a Grab or Grapple attack) use Reflex vs. `grab-grapple`, both
 unnamed, so they add. Grab Back's counter-Grab Reaction and Grapple
 Resistance's opposed Grapple check and held-object bonuses remain manual. Both
 are Partial.
+
+Force Hunter Talent Tree revision 20160 (Strong-Willed, Legacy Era Campaign
+Guide): "You add your Class Level to your Will Defense against Use the Force
+checks." Only the Bounty Hunter class has this tree, so Class Level is the
+active Bounty Hunter level. The effect `{target:'conditionalDefense',
+defense:'will', against:'use-the-force', type:'untyped', classLevel:
+'class:bounty-hunter'}` resolves its amount from that level and shares the
+existing "vs. Use the Force" row. Partial.

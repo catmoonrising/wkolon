@@ -69,3 +69,11 @@ test('Grab Back and Grapple Resistance add unnamed Reflex bonuses vs. Grab and G
  const low=hero({feat:'feat:grab-back'});low.abilities.dex=12;assert(!cond(base(low),'grab-grapple'),'DEX 13 prerequisite');
  for(const id of ['grab-back','grapple-resistance'])assert.equal(pack.feats.find(f=>f.id==='feat:'+id).automation,'partial');
 });
+
+test('Strong-Willed adds Bounty Hunter class level to Will against Use the Force checks',()=>{
+ const c=hero({cls:'scout',talent:'talent:acute-senses'});c.trainedSkills=['skill:survival','skill:perception','skill:stealth'];for(let n=2;n<=7;n++)c.levels.push(row('scout',n===3?'improved-initiative':null));c.levels.push(row('bounty-hunter','strong-willed'));validateCharacter(c,pack);
+ let d=base(c);assert(d.ctx.talents.some(t=>t.id==='talent:strong-willed'));assert.equal(cond(d,'use-the-force').total,d.defenses.will+1);
+ c.levels.push(row('bounty-hunter'));d=base(c);assert.equal(cond(d,'use-the-force').total,d.defenses.will+2,'scales with Bounty Hunter level');
+ const plain=structuredClone(c);plain.levels[7].talent=null;assert.deepEqual(d.defenses,base(plain).defenses);assert.equal(d.threshold,base(plain).threshold);assert(!d.ctx.inactiveClasses.has('class:bounty-hunter'));const changed=structuredClone(pack);changed.talents.find(t=>t.id==='talent:strong-willed').effects[0].classLevel='class:scout';assert.throws(()=>validatePack(changed));
+ c.levels[7].talent=null;assert(!cond(base(c),'use-the-force'));assert.equal(pack.talents.find(t=>t.id==='talent:strong-willed').automation,'partial');
+});

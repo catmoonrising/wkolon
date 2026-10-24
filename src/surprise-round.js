@@ -1,13 +1,14 @@
+import {endFlatFootedTriggers} from './triggered-defenses.js';
 import {emptyActionState} from './action-economy.js';
 import {hasRageTechnique} from './rage-powers.js';
 export const ACTION_PHASES=[['normal','Normal'],['aware','Surprise (Aware)'],['surprised','Surprised']];
 export const actionPhase=s=>s?.phase||'normal';
 export const actionPhaseLocked=c=>!!c.actionState&&(c.actionState.ended||c.actionState.spent.length>0||c.actionState.reactions.length>0||c.actionState.plan.some(s=>s.status!=='queued'));
-export function setActionPhase(c,phase){
+export function setActionPhase(c,phase,pack){
  if(!ACTION_PHASES.some(([id])=>id===phase))throw new Error('Invalid round');
  if(actionPhaseLocked(c))throw new Error('Choose the round before acting');
  c.actionState??=emptyActionState();const old=actionPhase(c.actionState);c.actionState.phase=phase;c.actionState.active=true;
- if(phase!=='normal')c.flatFooted=true;else if(old!=='normal')c.flatFooted=false;
+ if(phase!=='normal'){c.flatFooted=true;if(pack)endFlatFootedTriggers(c,pack,c.flatFooted);}else if(old!=='normal')c.flatFooted=false;
 }
 export function surpriseActionIssue(c,d,pack,view){
  const s=c.actionState,phase=actionPhase(s);if(phase==='normal')return '';

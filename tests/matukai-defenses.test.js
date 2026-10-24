@@ -125,3 +125,13 @@ test('Wan-Shen Defense and Lightsaber Defense share one highest deflection bonus
  d=derive(q,pack);assert.equal(aware(d).total,d.defenses.reflex+2);assert(!melee(d),'equal melee row is redundant');
  c.inventory=[wanShen()];assert.equal(melee(derive(c,pack)).total,base+2);
 });
+
+test('Wan-Shen Defense weapon-change alternative requires a wielded Wan-Shen while keeping the activation default',()=>{
+ const p=structuredClone(pack);const amb=p.rules.ambiguities.find(a=>a.id==='ambiguity:wan-shen-defense-weapon-change');assert.deepEqual(amb.options.map(o=>o.value),['activation-only','require-weapon']);assert.equal(amb.default,'activation-only');
+ const c=hero(['wan-shen-defense']);c.inventory=[wanShen()];const base=derive(c,pack).defenses.reflex;takeAction(c,pack,'wan-shen-defense',{},noRoll);
+ c.inventory[0].equipped=false;assert.equal(melee(derive(c,pack)).total,base+1,'default keeps the activation');
+ c.houseRules={ambiguities:{'ambiguity:wan-shen-defense-weapon-change':'require-weapon'}};validateCharacter(c,pack);assert(!melee(derive(c,pack)),'alternative suppresses without a wielded Wan-Shen');
+ c.inventory[0].equipped=true;c.inventory[0].carried=false;assert(!melee(derive(c,pack)));c.inventory[0].carried=true;assert.equal(melee(derive(c,pack)).total,base+1,'restored within the original duration');
+ beginNextTurn(c,pack);assert(!melee(derive(c,pack)),'never after the next-turn reset');
+ const l=hero(['lightsaber-defense','wan-shen-defense']);l.inventory=[wanShen(),lightsaber()];takeAction(l,pack,'lightsaber-defense',{},noRoll);l.houseRules={ambiguities:{'ambiguity:wan-shen-defense-weapon-change':'require-weapon'}};l.inventory=[];assert(aware(derive(l,pack)),'the Wan-Shen switch never affects Lightsaber Defense');
+});

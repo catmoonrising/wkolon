@@ -1,4 +1,4 @@
-import {setTriggeredDefense} from './triggered-defenses.js';
+import {setTriggeredDefense,endFlatFootedTriggers} from './triggered-defenses.js';
 import {sensesView} from './senses.js';
 import {endUnconsciousTalents} from './talent-activations.js';
 import {setSkillAbility,skillAbilityControl} from './skill-abilities.js';
@@ -647,6 +647,7 @@ function render() {
   try{if(prepareDroidSystems(current(),pack))store.schedule();}catch(e){notify(e.message);}
   actionsUI?.refresh();
   derived = derive(current(),pack);
+  if(endFlatFootedTriggers(current(),pack,derived.flatFooted)){store.schedule();derived=derive(current(),pack);}
   const scroll = window.scrollY;
   const openDetails = [...document.querySelectorAll('.modules details[open][id]')].map(el=>el.id);
   $('roster').innerHTML = store.roster.characters.map(c=>`<div class="char-tab ${c.id===store.roster.activeId?'active':''}"><button data-character="${escape(c.id)}" aria-pressed="${c.id===store.roster.activeId}">${escape(c.name||'unnamed')}</button>${store.roster.characters.length>1?`<button type="button" class="char-tab-x" data-delid="${escape(c.id)}" aria-label="Delete ${escape(c.name||'unnamed')}">×</button>`:''}</div>`).join('');
@@ -799,7 +800,7 @@ function events() {
     if(el.hasAttribute('data-mighty-swing')){c.mightySwing=el.checked;if(el.checked){clearBracing(c);for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;}changed();return;}
     if(el.dataset.unarmedModifier){const n=Number(el.value);if(!Number.isInteger(n)||n<-100||n>100){notify('Enter a valid modifier.');render();return;}c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers[el.dataset.unarmedModifier]=n;changed();return;}
     if(el.dataset.skillModifier){const n=Number(el.value);if(!Number.isInteger(n)||n<-1000||n>1000){notify('Enter a valid modifier.');render();return;}c.skillModifiers??={};c.skillModifiers[el.dataset.skillModifier]=n;changed();return;}
-    if(el.dataset.triggeredDefense!==undefined){try{setTriggeredDefense(c,pack,derived.ctx,el.dataset.triggeredDefense,el.checked);}catch(e){notify(e.message);render();return;}changed();return;}
+    if(el.dataset.triggeredDefense!==undefined){try{setTriggeredDefense(c,pack,derived.ctx,el.dataset.triggeredDefense,el.checked,{flatFooted:derived.flatFooted});}catch(e){notify(e.message);render();return;}changed();return;}
     if(el.hasAttribute('data-flat-footed')){c.flatFooted=el.checked;changed();return;}
     if(el.dataset.teamAllies){try{setTeamAllies(c,pack,el.dataset.teamAllies,Number(el.value));changed();}catch(e){notify(e.message);render();}return;}
     if(el.dataset.defenseAbility){const key=el.dataset.defenseAbility;if(!Object.hasOwn(derived.defenseAbilities,key)||!['auto',...derived.defenseAbilities[key].options.map(o=>o.ability)].includes(el.value))return;c.defenseAbilities??={};c.defenseAbilities[key]=el.value;changed();return;}

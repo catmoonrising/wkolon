@@ -117,3 +117,5 @@ Close Contact, Rifle Master and Riflemaster range benefits apply with a folded
 stock by default. Ambiguities offers excluding them. Weapon proficiency and
 Pistol range bands still follow Retractable Stock. Rifle opportunity features
 use printed weapon identity independently of this switch.
+
+Wan-Shen Defense keeps its activation-only default; Ambiguities can instead require a wielded, carried Wan-Shen within the original duration.

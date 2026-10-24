@@ -80,3 +80,9 @@ Fortified Body (Force Adept Talent Tree, Core Rulebook) uses the same
 `hazardImmunity` effect as a passive talent effect. The Defenses module and stat
 block list active immunities. Applying them to hazards remains manual, so the
 record is Partial. No other record may use this effect without review.
+
+The Wan-Shen Defense weapon-change ambiguity keeps the activation-only default.
+The `require-weapon` alternative suppresses the saved benefit while no carried,
+equipped Wan-Shen is held, returning only within its original duration when a
+Wan-Shen is held again. The closed action row names its ambiguity. This follows
+the user instruction to retain alternatives for all recorded ambiguities.

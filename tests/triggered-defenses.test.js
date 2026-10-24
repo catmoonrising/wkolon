@@ -9,8 +9,8 @@ import {setTriggeredDefense,triggeredDefenseControls} from '../src/triggered-def
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const heroes=()=>fixture(pack,newCharacter),set=(c,id,on=true)=>setTriggeredDefense(c,pack,derive(c,pack).ctx,id,on);
-test('only five source-pinned declared triggers are enabled, while Focused Warrior stays manual',()=>{
- validatePack(pack);assert.equal(pack.rules.triggeredDefenseBonuses.length,5);assert(!pack.rules.triggeredDefenseBonuses.some(r=>r.id==='focused-warrior'));assert.equal(pack.talents.find(t=>t.id==='talent:focused-warrior').automation,'manual');for(const change of [p=>p.rules.triggeredDefenseBonuses[0].effect.amount=3,p=>p.rules.triggeredDefenseBonuses[4].duration='start-next-turn']){const p=structuredClone(pack);change(p);assert.throws(()=>validatePack(p));}
+test('six source-pinned declared triggers are enabled, including Focused Warrior',()=>{
+ validatePack(pack);assert.equal(pack.rules.triggeredDefenseBonuses.length,6);assert(pack.rules.triggeredDefenseBonuses.some(r=>r.id==='focused-warrior'));assert.equal(pack.talents.find(t=>t.id==='talent:focused-warrior').automation,'partial');for(const change of [p=>p.rules.triggeredDefenseBonuses[0].effect.amount=3,p=>p.rules.triggeredDefenseBonuses[4].duration='start-next-turn']){const p=structuredClone(pack);change(p);assert.throws(()=>validatePack(p));}
 });
 test('real Bothan/Gamorrean features update Will/Fortitude and the Fortitude-based threshold without self-stacking',()=>{
  const {bothan:b,gamorrean:g}=heroes();for(const [c,id,key] of [[b,'bothan-will','will'],[g,'increased-resistance','fortitude']]){validateCharacter(c,pack);assert(derive(c,pack).ctx.feats.some(f=>f.id==='feat:'+id));const before=derive(c,pack);set(c,id);set(c,id);let d=derive(c,pack);assert.equal(d.defenses[key],before.defenses[key]+2);assert.equal(d.threshold,before.threshold+(key==='fortitude'?2:0));const restored=JSON.parse(JSON.stringify(c));validateCharacter(restored,pack);assert.equal(derive(restored,pack).defenses[key],d.defenses[key]);endCurrentTurn(c,pack);assert.equal(derive(c,pack).defenses[key],d.defenses[key]);beginNextTurn(c,pack);assert.equal(derive(c,pack).defenses[key],before.defenses[key]);assert.equal(c.triggeredDefenses,undefined);}
@@ -30,4 +30,29 @@ test('new encounter/day clear both scopes, while validation accepts a saved legi
 
 test('Revenge and a real Battle Strike resolve competing Force attack bonuses once',()=>{
  const {revenge:c}=heroes();c.levels[0].feats=[{id:'feat:force-training'}];c.levels[0].forcePowers=Array.from({length:3},()=>({id:crypto.randomUUID(),powerId:'power:battle-strike',spent:false}));validateCharacter(c,pack);const before=derive(c,pack).attacks[0].attack;set(c,'revenge');takeAction(c,pack,'power',{powerId:c.levels[0].forcePowers[0].id,fp:'none'},()=>({value:25,d20:[15],display:'25',coeffs:[1]}));const d=derive(c,pack);assert.equal(d.attacks[0].attack,before+2);assert.equal(d.battleStrike.attackBonus,0);assert.equal(d.battleStrike.dice,3);assert.deepEqual(c.actionState.spent,['swift']);validateCharacter(c,pack);
+});
+
+function mercenary(){const c=newCharacter(pack,{classId:"class:soldier"});c.abilityMethod="manual";c.abilities={str:14,dex:12,con:12,int:10,wis:12,cha:10};c.levels[0].talent={id:"talent:focused-warrior"};validateCharacter(c,pack);assert(derive(c,pack).ctx.talents.some(t=>t.id==="talent:focused-warrior"&&!derive(c,pack).ctx.inactiveTalents.has(t.id)));return {c,p:pack};}
+const hero=(species)=>{const h=heroes();return species==="bothan"?h.bothan:h.gamorrean;};
+
+test('Focused Warrior is lost, not suppressed, when Surprised or Flat-Footed; other triggers survive',async()=>{
+ const {endFlatFootedTriggers}=await import('../src/triggered-defenses.js');const {setActionPhase}=await import('../src/surprise-round.js');
+ const {c,p}=mercenary(),w=derive(c,p).defenses.will;
+ c.flatFooted=true;const before=structuredClone(c);assert.throws(()=>setTriggeredDefense(c,p,derive(c,p).ctx,'focused-warrior',true,{flatFooted:derive(c,p).flatFooted}),/flat-footed/);assert.deepEqual(c,before);c.flatFooted=false;
+ set(c,'focused-warrior',true,p);assert.equal(derive(c,p).defenses.will,w+5);c.flatFooted=true;assert.equal(endFlatFootedTriggers(c,p,derive(c,p).flatFooted),true);assert.equal(c.triggeredDefenses,undefined);c.flatFooted=false;assert.equal(derive(c,p).defenses.will,w,'not restored when Flat-Footed ends');
+ assert.equal(endFlatFootedTriggers(c,p,false),false);set(c,'focused-warrior',true,p);assert.equal(derive(c,p).defenses.will,w+5,'a new trigger restores it');
+ setActionPhase(c,'aware',p);assert.equal(c.triggeredDefenses,undefined,'entering a surprise phase removes it');
+ const b=hero('bothan','bothan-will');set(b,'bothan-will');b.flatFooted=true;assert.equal(endFlatFootedTriggers(b,pack,true),false);assert.deepEqual(b.triggeredDefenses,['bothan-will']);
+ const legacy=mercenary().c;legacy.triggeredDefenses=['focused-warrior'];legacy.flatFooted=true;validateCharacter(legacy,p);assert.equal(endFlatFootedTriggers(legacy,p,derive(legacy,p).flatFooted),true);validateCharacter(legacy,p);
+});
+
+test('Focused Warrior treats an explicit Surprised phase as a loss independently of Flat-Footed, but not Aware alone',async()=>{
+ const {endFlatFootedTriggers}=await import('../src/triggered-defenses.js');const {emptyActionState}=await import('../src/action-economy.js');
+ const {c,p}=mercenary(),w=derive(c,p).defenses.will;
+ c.actionState={...emptyActionState(),phase:'surprised',active:true};c.flatFooted=false;validateCharacter(c,p);let before=structuredClone(c);
+ assert.throws(()=>set(c,'focused-warrior',true,p),/Surprised or flat-footed/);assert.deepEqual(c,before,'rejected atomically');
+ c.triggeredDefenses=['focused-warrior'];assert.equal(derive(c,p).defenses.will,w,'suppressed while Surprised');assert.equal(endFlatFootedTriggers(c,p,false),true);assert.equal(c.triggeredDefenses,undefined,'removed while Surprised');
+ const a=mercenary().c;a.actionState={...emptyActionState(),phase:'aware',active:true};a.flatFooted=false;validateCharacter(a,p);set(a,'focused-warrior',true,p);assert.equal(derive(a,p).defenses.will,w+5,'Aware and no longer flat-footed may gain a fresh trigger');assert.equal(endFlatFootedTriggers(a,p,false),false);
+ const d=mercenary().c;d.flatFooted=true;before=structuredClone(d);assert.throws(()=>setTriggeredDefense(d,p,derive(d,p).ctx,'focused-warrior',true),/flat-footed/,'direct setter reads saved Flat-Footed without options');assert.deepEqual(d,before);
+ const b=hero('bothan','bothan-will');b.actionState={...emptyActionState(),phase:'surprised',active:true};b.flatFooted=false;set(b,'bothan-will');assert.deepEqual(b.triggeredDefenses,['bothan-will'],'other trigger rows unaffected');assert.equal(endFlatFootedTriggers(b,pack,false),false);
 });

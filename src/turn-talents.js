@@ -22,6 +22,7 @@ export function activeTurnTalents(c,pack,ctx){
  return (c.turnTalents||[]).flatMap(s=>{
   const rule=pack.rules.turnTalentActions.find(r=>r.id===s.id);
   if(!rule||unarmed&&rule.weaponGroup==='lightsabers')return [];
+  if(rule.ambiguityId&&ambiguityValue(c,pack,rule.ambiguityId)==='require-weapon'&&!turnTalentWeapons(c,pack,rule).length)return [];
   const count=ctx.talents.filter(t=>t.id===rule.talentId&&!ctx.inactiveTalents.has(t.id)).length;
   const doubled=!!rule.doubleTalentId&&ctx.talents.some(t=>t.id===rule.doubleTalentId&&!ctx.inactiveTalents.has(t.id));
   const base=Math.min(s.amount,Math.min(rule.maximum,count*rule.amountPerSelection)*(doubled?2:1)),amount=lightsaberDefenseBonus(c,pack,ctx,base,rule.id);

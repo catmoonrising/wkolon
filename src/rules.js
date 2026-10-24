@@ -487,7 +487,7 @@ export function derive(c, pack) {
   const helpless=droidSystems.inoperative||!!c.helpless||c.condition===5||c.currentHP===0||recoveryState(c).dead;
   const balancingFlatFooted=balanceFlatFooted(c,ctx),flatFooted=!!c.flatFooted||balancingFlatFooted;
   const dexDenied=!!shieldLimits.unproficient||helpless||flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
-  effects.push(...triggeredDefenseEffects(c,pack,ctx,{dexDenied}));
+  effects.push(...triggeredDefenseEffects(c,pack,ctx,{flatFooted,dexDenied}));
   const dex = helpless?pack.rules.defensiveCombat.helplessDexterityModifier:dexDenied?Math.min(0,mods.dex):armorMaxDex!==null ? Math.min(mods.dex, armorMaxDex) : mods.dex;
   const defensiveCombat=defensiveCombatState(c,pack,ctx,dexDenied);
   const flurry=flurryState(c,pack,ctx,effectiveSize,helpless);
@@ -516,7 +516,7 @@ export function derive(c, pack) {
     breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability (${defenseAbilities[key].ability.toUpperCase()}) + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${featDefense} feats + ${lightsaberBonus} Lightsaber + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc${charge?' + '+charge+' Charge':''}${shieldPenalty?' + '+shieldPenalty+' energy shield':''}${key==='reflex'&&flurry.reflexPenalty?' + '+flurry.reflexPenalty+' Flurry':''}`;
   }
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
-  const conditionalEffects=[...turnTalentEffects(c,pack,ctx,{flatFooted,helpless}),...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='conditionalDefense'),...armorConditionalDefenses(armorItems,ctx,defenses)];
+  const conditionalEffects=[...turnTalentEffects(c,pack,ctx,{flatFooted,helpless}),...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='conditionalDefense').map(e=>e.classLevel?{...e,amount:ctx.inactiveClasses?.has(e.classLevel)?0:ctx.classLevels.get(e.classLevel)||0}:e).filter(e=>e.amount>0),...armorConditionalDefenses(armorItems,ctx,defenses)];
   // Melee-only awareness bonuses share their type with every while-aware bonus.
   const meleeAware=conditionalEffects.some(e=>e.against==='melee-aware')?conditionalEffects.filter(e=>e.against==='aware').map(e=>({...e,against:'melee-aware'})):[];
   const groupedDefenses=combineArmorDefenses([...conditionalEffects,...meleeAware],[],defenses,equipmentDefenseBonuses,defenseModifiers).filter(r=>!['aware','melee-aware'].includes(r.against)||r.amount>0);
