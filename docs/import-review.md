@@ -2796,8 +2796,9 @@ attack bonuses, range talents and exact-weapon traits. Preserve printed group
 separately from resolved proficiency/range. The user selected folded-stock
 rifle range benefits by default with an Ambiguities exclusion. Manual feat
 clauses remain listed in weapon-feats.md; all nine records remain Partial.
-Other preexisting consumers of resolved group are outside this bounded import
-and still need a separate stock-scope audit. No source articles were changed.
+The initial import deferred older resolved-group consumers. The following
+identity correction applies the reviewed runtime fixes. No source articles
+were changed.
 
 The initial family import deferred weapon familiarity and older folded-stock
 benefits. The weapon identity correction below now covers their runtime group
