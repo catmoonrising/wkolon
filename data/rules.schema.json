@@ -5108,6 +5108,7 @@
             "endsWhenUnconscious": {
               "const": true
             },
+            "unconsciousAmbiguityId": {"const":"ambiguity:battle-meditation-unconscious"},
             "duration": {
               "const": "encounter"
             },
@@ -5214,6 +5215,9 @@
         {"type":"object","additionalProperties":false,"required":["target","against","ability","minimum","mode"],"properties":{"target":{"const":"targetDamage"},"against":{"const":"darkSide"},"ability":{"const":"cha"},"minimum":{"const":1},"mode":{"const":"melee"}}},
         {"type":"object","additionalProperties":false,"required":["target","against","dice"],"properties":{"target":{"const":"targetDice"},"against":{"const":"forceSensitive"},"dice":{"const":1}}},
         {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"flankingDeniesDexterity"}}},
+        {"type":"object","additionalProperties":false,"required":["target","against","amount","unarmed"],"properties":{"target":{"enum":["targetAttack","targetDamage"]},"against":{"const":"flankedSelf"},"amount":{"const":2},"type":{"const":"untyped"},"unarmed":{"const":true}}},
+        {"type":"object","additionalProperties":false,"required":["target","against","amount","type","weaponGroup","scopeAmbiguityId"],"properties":{"target":{"const":"targetAttack"},"against":{"const":"beastDarkSide"},"amount":{"const":1},"type":{"const":"force"},"weaponGroup":{"const":"lightsabers"},"scopeAmbiguityId":{"const":"ambiguity:great-hunt-scope"}}},
+        {"type":"object","additionalProperties":false,"required":["target","against","dice","weaponGroup"],"properties":{"target":{"const":"targetDice"},"against":{"const":"beastDarkSide"},"dice":{"const":1},"weaponGroup":{"const":"lightsabers"}}},
         {"type":"object","additionalProperties":false,"required":["target","defense","against","type","classLevel"],"properties":{"target":{"const":"conditionalDefense"},"defense":{"const":"will"},"against":{"const":"use-the-force"},"type":{"const":"untyped"},"classLevel":{"const":"class:bounty-hunter"}}},
         {"type":"object","additionalProperties":false,"required":["target","defense","amount","type"],"properties":{"target":{"const":"channelRage"},"defense":{"const":"will"},"amount":{"const":5},"type":{"const":"untyped"}}},
         {"type":"object","additionalProperties":false,"required":["target","amount","type"],"properties":{"target":{"const":"ragingStrength"},"amount":{"const":4},"type":{"const":"untyped"}}},

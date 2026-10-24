@@ -70,3 +70,23 @@ test('position bonuses activate through published Noble, Jedi and Elite Trooper 
  check(make('noble','face-the-foe'),'face-the-foe','noCover',1);check(make('jedi','sentinel-s-observation'),'sentinel-s-observation','concealed',2);
  const elite=make('soldier','armored-defense');elite.levels[0].feats=[{id:'feat:martial-arts-i'},{id:'feat:point-blank-shot'}];for(let n=2;n<=7;n++)elite.levels.push({classId:'class:soldier',hpRoll:5,feats:[],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});elite.levels.push({classId:'class:elite-trooper',hpRoll:5,feats:[],talent:{id:'talent:close-quarters-fighter'},startingFeat:null,abilityIncreases:[],trainedSkills:[]});check(elite,'close-quarters-fighter','adjacent',1);
 });
+
+test('Master of the Great Hunt: Lightsaber-only by default, with the any-attack alternative for its attack bonus',()=>{
+ const c=newCharacter(core,{classId:'class:jedi'});c.abilityMethod='manual';c.abilities={str:14,dex:12,con:12,int:10,wis:12,cha:12};c.trainedSkills=['skill:use-the-force'];c.levels[0].talent={id:'talent:master-of-the-great-hunt'};
+ c.inventory=['lightsaber','knife'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0}));validateCharacter(c,core);
+ const get=(id,target,rules)=>{const q=structuredClone(c);q.attackTarget=target;if(rules)q.houseRules={ambiguities:{'ambiguity:great-hunt-scope':rules}};validateCharacter(q,core);const e=q.inventory.find(e=>e.id==='equipment:'+id);return derive(q,core).attacks.find(a=>a.uid===e.uid);};
+ assert(derive(c,core).targetTraitsUsed.includes('beastDarkSide'));const ls=get('lightsaber',{}),lb=get('lightsaber',{beastDarkSide:true});assert.equal(lb.attack,ls.attack+1);assert.equal(lb.damageDisplay,ls.damageDisplay+'+1d8');
+ const k=get('knife',{}),kb=get('knife',{beastDarkSide:true});assert.equal(kb.attack,k.attack,'default: Lightsaber attacks only');assert.equal(kb.damageDisplay,k.damageDisplay);
+ const ka=get('knife',{beastDarkSide:true},'attack-any');assert.equal(ka.attack,k.attack+1,'alternative: any attack');assert.equal(ka.damageDisplay,k.damageDisplay,'the die stays Lightsaber-only');
+ assert.equal(get('lightsaber',{darkSide:true}).attack,ls.attack,'a non-Beast Dark Side target does not qualify');
+ assert.equal(core.talents.find(t=>t.id==='talent:master-of-the-great-hunt').automation,'partial');
+});
+
+test('Cantina Brawler adds +2 to Unarmed attack and damage only while the user is declared Flanked',()=>{
+ const c=newCharacter(core,{classId:'class:soldier'});c.abilityMethod='manual';c.abilities={str:14,dex:12,con:12,int:10,wis:10,cha:10};c.levels[0].talent={id:'talent:cantina-brawler'};
+ c.inventory=[{id:'equipment:knife',uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0}];validateCharacter(c,core);
+ const get=(unarmed,target)=>{const q=structuredClone(c);q.attackTarget=target;validateCharacter(q,core);return derive(q,core).attacks.find(a=>unarmed?a.unarmed:a.name.startsWith('Knife'));};
+ const u=get(true,{}),uf=get(true,{flankedSelf:true});assert.equal(uf.attack,u.attack+2);assert.equal(uf.damageDisplay,u.damageDisplay+'+2');assert.match(uf.breakdown,/Cantina Brawler: \+2 attack; Cantina Brawler: \+2 damage/);
+ const k=get(false,{}),kf=get(false,{flankedSelf:true});assert.equal(kf.attack,k.attack);assert.equal(kf.damageDisplay,k.damageDisplay,'knife is not Unarmed');
+ assert(derive(c,core).targetTraitsUsed.includes('flankedSelf'));assert.equal(core.talents.find(t=>t.id==='talent:cantina-brawler').automation,'partial');
+});

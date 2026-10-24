@@ -46,3 +46,35 @@ distinct from the target's own Cover and Concealment, which still apply.
 
 The two circumstance bonuses use distinct circumstance keys, so they add. All
 three records are Partial.
+
+## Master of the Great Hunt
+
+Jedi Sentinel Talent Tree revision 26765 (Jedi Academy Training Manual): "You
+gain a +1 Force bonus on attack rolls and deal +1 die of damage on Lightsaber
+attacks made against a Beast with a Dark Side Score of 1+." A declared
+`beastDarkSide` flag ("Beast, Dark Side Score 1+") identifies the target.
+
+The Lightsaber scope of the attack bonus is ambiguous. Per the user's
+instruction to offer alternatives for recorded ambiguities,
+`ambiguity:great-hunt-scope` defaults to `lightsaber-only` (both benefits only
+on Lightsaber attacks, reading "on Lightsaber attacks" as governing the whole
+sentence). The alternative `attack-any` grants the +1 Force attack bonus on any
+attack against such a Beast while keeping the extra die Lightsaber-only. Effects
+use `weaponGroup: 'lightsabers'`; the attack effect names the switch through
+`scopeAmbiguityId`. The record is Partial.
+
+## Cantina Brawler
+
+Brawler Talent Tree revision 16372 (Scum and Villainy): "While Flanked, you
+gain a +2 bonus on Unarmed attack rolls and damage rolls." A declared
+`flankedSelf` flag ("You are Flanked") describes the attacker. Effects use the
+same resolver with `unarmed: true`: an unnamed +2 attack and a fixed +2
+`targetDamage` (`amount`, no ability). They apply only to unarmed attacks and
+to non-area attacks. The record is Partial.
+
+These declared target bonuses currently resolve weapon attacks with a known
+single target and known damage. Area attacks and nonweapon attacks remain
+manual, including under Great Hunt's broader attack-bonus interpretation. The
+weapon-group comparison uses the shared Counseling-aware identity, preserving
+folded-stock proficiency and range semantics. Temporary target declarations
+remain excluded from the ordinary stat block. No target type is inferred.

@@ -37,3 +37,10 @@ reconciles these activations before saving changes. Healing, natural rest and
 consciousness checks clean legacy/imported unconscious states before recovery.
 Invalid preflight still leaves the character unchanged. Battle Meditation is
 not included in this loss rule under its printed ally-only wording.
+
+Battle Meditation's recorded self-loss ambiguity is selectable through
+`ambiguity:battle-meditation-unconscious`. The default `allies-only` preserves
+the printed ally-only loss wording and existing own-bonus duration. Under
+`self-lost`, `activation.unconsciousAmbiguityId` uses the same loss-on-knockout
+or death removal as Dark Presence, including changes, recovery and legacy
+load. The shared cleanup keeps its Boolean return for persistence.

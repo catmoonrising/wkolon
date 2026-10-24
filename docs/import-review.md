@@ -2848,3 +2848,11 @@ Strong-Willed (Force Hunter r20160) adds active Bounty Hunter class level only
 to Will against Use the Force checks. The existing conditional row and typed
 resolver combine it with other applicable bonuses. Normal Will and the default
 Fortitude-based Damage Threshold remain unchanged. Partial.
+
+Master of the Great Hunt (Jedi Sentinel r26765) adds +1 Force attack and +1
+Lightsaber damage die against a declared Beast with Dark Side Score 1+.
+Ambiguities can broaden its attack bonus to other weapon attacks. Cantina
+Brawler (Brawler r16372) adds +2 unarmed attack and damage while declared
+Flanked. Both remain Partial; per-target area and nonweapon resolution are
+manual. Battle Meditation retains its ally-only printed loss default and adds
+the alternative that the user's own activation is removed on knockout/death.

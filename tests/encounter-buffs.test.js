@@ -80,3 +80,12 @@ test('legacy unconscious activations cannot reappear after healing or a consciou
  const c=presence();use(c,'dark-presence','defenses');c.condition=5;const before=structuredClone(c);assert.throws(()=>receiveHealing(c,derive(c,pack),pack,0));assert.deepEqual(c,before);receiveHealing(c,derive(c,pack),pack,2);assert.equal(c.talentActivations,undefined);
  const q=presence();use(q,'dark-presence','defenses');q.currentHP=0;q.condition=5;const d=derive(q,pack);checkConsciousness(q,d,pack,()=>({value:20+d.recovery.unconscious.modifier,d20:[20],display:'20'}));assert.equal(q.talentActivations,undefined);assert.equal(q.condition,4);
 });
+
+test('Battle Meditation self-loss alternative removes the user\'s bonus on knockout; default keeps it',async()=>{
+ const {endUnconsciousTalents}=await import('../src/talent-activations.js');
+ const amb=pack.rules.ambiguities.find(a=>a.id==='ambiguity:battle-meditation-unconscious');assert.equal(amb.default,'allies-only');assert.deepEqual(amb.options.map(o=>o.value),['allies-only','self-lost']);
+ const c=meditation(),base=attack(c);c.houseRules={ambiguities:{'ambiguity:battle-meditation-unconscious':'self-lost'}};validateCharacter(c,pack);use(c,'battle-meditation','attacks');assert.equal(attack(c),base+1);
+ c.currentHP=3;applyIncomingDamage(c,derive(c,pack),pack,3,{});assert.equal(c.currentHP,0);endUnconsciousTalents(c,pack);assert.equal(c.talentActivations,undefined);receiveHealing(c,derive(c,pack),pack,5);c.condition=0;assert.equal(attack(c),base);
+ const q=meditation();use(q,'battle-meditation','attacks');q.condition=5;endUnconsciousTalents(q,pack);assert.deepEqual(q.talentActivations,[{id:'talent:battle-meditation',choice:'attacks'}],'default keeps it');
+ const p=structuredClone(pack);p.talents.find(t=>t.id==='talent:battle-meditation').activation.unconsciousAmbiguityId='ambiguity:invented';assert.throws(()=>validatePack(p));
+});

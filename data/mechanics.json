@@ -41304,7 +41304,25 @@
       "reminder": "",
       "effects": [],
       "forceActivation": "forcePoint",
-      "activation": {"action":"full","forcePoints":1,"duration":"encounter","choices":[{"id":"attacks","name":"Attack rolls","effects":[{"target":"attacks","amount":1,"type":"insight"}]}]},
+      "activation": {
+        "action": "full",
+        "forcePoints": 1,
+        "duration": "encounter",
+        "unconsciousAmbiguityId": "ambiguity:battle-meditation-unconscious",
+        "choices": [
+          {
+            "id": "attacks",
+            "name": "Attack rolls",
+            "effects": [
+              {
+                "target": "attacks",
+                "amount": 1,
+                "type": "insight"
+              }
+            ]
+          }
+        ]
+      },
       "automation": "partial"
     },
     {
@@ -45571,9 +45589,23 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetAttack",
+          "against": "flankedSelf",
+          "amount": 2,
+          "type": "untyped",
+          "unarmed": true
+        },
+        {
+          "target": "targetDamage",
+          "against": "flankedSelf",
+          "amount": 2,
+          "unarmed": true
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:counterpunch",
@@ -51390,9 +51422,24 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetAttack",
+          "against": "beastDarkSide",
+          "amount": 1,
+          "type": "force",
+          "weaponGroup": "lightsabers",
+          "scopeAmbiguityId": "ambiguity:great-hunt-scope"
+        },
+        {
+          "target": "targetDice",
+          "against": "beastDarkSide",
+          "dice": 1,
+          "weaponGroup": "lightsabers"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:persistent-haze",
@@ -67287,6 +67334,8 @@
         ]
       },
       {"id":"ambiguity:wan-shen-defense-weapon-change","name":"Wan-Shen Defense: weapon change","sourceIds":["source:wiki-matukai-adept-talent-tree-wan-shen-defense"],"passages":[{"ruleId":"rule:talent-matukai-adept-talent-tree-wan-shen-defense","fullText":true}],"default":"activation-only","options":[{"value":"activation-only","name":"Keep until next turn"},{"value":"require-weapon","name":"Require wielded Wan-Shen"}]},
+      {"id":"ambiguity:great-hunt-scope","name":"Master of the Great Hunt: attack bonus","sourceIds":["source:wiki-jedi-sentinel-talent-tree-master-of-the-great-hunt"],"passages":[{"ruleId":"rule:talent-jedi-sentinel-talent-tree-master-of-the-great-hunt","fullText":true}],"default":"lightsaber-only","options":[{"value":"lightsaber-only","name":"Lightsaber attacks only"},{"value":"attack-any","name":"Any attack"}]},
+      {"id":"ambiguity:battle-meditation-unconscious","name":"Battle Meditation: user knocked out","sourceIds":["source:wiki-jedi-guardian-talent-tree-battle-meditation"],"passages":[{"ruleId":"rule:battle-meditation","fullText":true}],"default":"allies-only","options":[{"value":"allies-only","name":"Allies lose it"},{"value":"self-lost","name":"User loses it too"}]},
       {"id":"ambiguity:lightsaber-defense-weapon-change","name":"Lightsaber Defense: weapon change","sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense"],"passages":[{"ruleId":"rule:lightsaber-defense","fullText":true}],"default":"activation-only","options":[{"value":"activation-only","name":"Keep until next turn"},{"value":"require-weapon","name":"Require active Lightsaber"}]},
       {"id":"ambiguity:bracing-stock","name":"Bracing: stock requirement","sourceIds":["source:wiki-attacks-bracing"],"passages":[{"ruleId":"rule:bracing","fullText":true}],"default":"pistols-only","options":[{"value":"pistols-only","name":"Pistols only"},{"value":"all-groups","name":"All three groups"}]},
       {"id":"ambiguity:tumble-cross-check","name":"Tumble + Cross Difficult Terrain","sourceIds":["source:wiki-acrobatics"],"passages":[{"ruleId":"rule:acrobatics","fullText":true}],"default":"separate","options":[{"value":"separate","name":"Separate checks"},{"value":"shared","name":"One shared check"}]},

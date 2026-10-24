@@ -65,7 +65,7 @@ Partial means some mechanics are implemented, not that the whole option is autom
 | Prestige classes | 32 | 0 |
 | Skills (Knowledge fields separately) | 25 | 0 |
 | Feats | 101 | 257 |
-| Talents | 112 | 1079 |
+| Talents | 114 | 1077 |
 | Equipment | 172 | 484 |
 | Weapons (included above) | 50 | 168 |
 | Armor (included above) | 87 | 0 |

@@ -119,3 +119,8 @@ Pistol range bands still follow Retractable Stock. Rifle opportunity features
 use printed weapon identity independently of this switch.
 
 Wan-Shen Defense keeps its activation-only default; Ambiguities can instead require a wielded, carried Wan-Shen within the original duration.
+
+Battle Meditation keeps its own bonus on knockout by default under the printed
+ally-only loss wording; Ambiguities can remove the user's bonus too. Master of
+the Great Hunt defaults to Lightsaber-only attack and damage benefits, with an
+alternative broadening the attack bonus while keeping its die Lightsaber-only.

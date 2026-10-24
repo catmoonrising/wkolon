@@ -1,8 +1,9 @@
+import {weaponIdentityGroup} from './weapon-rules.js';
 import {ambiguityValue} from './house-rules.js';
 import {modifierIncrease} from './modifiers.js';
 
-export const attackTarget=c=>({cover:'none',concealment:'none',darkness:false,prone:false,helpless:false,adjacentToAlly:false,attackSquare:false,dexDenied:false,jedi:false,forceSensitive:false,darkSide:false,noCover:false,adjacent:false,concealed:false,flanking:false,...c.attackTarget});
-export const TARGET_TRAITS=[['dexDenied','Denied Dexterity'],['jedi','Jedi'],['forceSensitive','Force Sensitivity'],['darkSide','Dark Side Score 1+'],['noCover','You lack Cover'],['adjacent','Adjacent'],['concealed','You have Concealment'],['flanking','You flank']];
+export const attackTarget=c=>({cover:'none',concealment:'none',darkness:false,prone:false,helpless:false,adjacentToAlly:false,attackSquare:false,dexDenied:false,jedi:false,forceSensitive:false,darkSide:false,noCover:false,adjacent:false,concealed:false,flanking:false,beastDarkSide:false,flankedSelf:false,...c.attackTarget});
+export const TARGET_TRAITS=[['dexDenied','Denied Dexterity'],['jedi','Jedi'],['forceSensitive','Force Sensitivity'],['darkSide','Dark Side Score 1+'],['noCover','You lack Cover'],['adjacent','Adjacent'],['concealed','You have Concealment'],['flanking','You flank'],['beastDarkSide','Beast, Dark Side Score 1+'],['flankedSelf','You are Flanked']];
 export function targetConcealment(target,vision,scope=false){
  if(!target.darkness)return target.concealment;
  if(vision==='darkvision'||target.concealment!=='total'&&(vision==='low-light'||scope))return 'none';
@@ -38,15 +39,16 @@ export function sneakAttackDice(c,ctx,effects,a){
  return {dice:Math.min(rows[0].maximum,rows.length),die:rows[0].die};
 }
 // Reviewed opponent-trait bonuses: typed attack increase, flat damage and extra weapon dice.
-export function targetTraitBonuses(c,pack,effects,a,mods={}){
- const t=attackTarget(c),match=e=>t[e.against]&&(!e.mode||a.mode===e.mode);
+export function targetTraitBonuses(c,pack,effects,a,mods={},ctx={}){
+ const t=attackTarget(c),group=weaponIdentityGroup(a,ctx);
+ const match=e=>t[e.against]&&(!e.mode||a.mode===e.mode)&&(!e.unarmed||!!a.unarmed)&&(!e.weaponGroup||group===e.weaponGroup||!!e.scopeAmbiguityId&&ambiguityValue(c,pack,e.scopeAmbiguityId)==='attack-any');
  if(a.areaType||!a.damage)return null;
  const source=e=>(pack.talents.find(r=>r.id===e.selection?.id)||pack.feats.find(r=>r.id===e.selection?.id))?.name||'';
  const attackRows=effects.filter(e=>e.target==='targetAttack'&&match(e)),damageRows=effects.filter(e=>e.target==='targetDamage'&&match(e)),diceRows=effects.filter(e=>e.target==='targetDice'&&match(e));
  if(!attackRows.length&&!damageRows.length&&!diceRows.length)return null;
  const die=/d(\d+)/.exec(a.damage)?.[1];
- return {attack:modifierIncrease(a.attackModifierRows||[],attackRows.map(e=>({amount:e.amount,type:e.type,...(e.circumstance?{circumstance:e.circumstance}:{})}))),damage:damageRows.reduce((n,e)=>n+Math.max(e.minimum,mods[e.ability]??0),0),dice:die?diceRows.reduce((n,e)=>n+e.dice,0):0,die,
-  sources:[...attackRows.map(e=>source(e)+': +'+e.amount+' attack'),...damageRows.map(e=>source(e)+': +'+Math.max(e.minimum,mods[e.ability]??0)+' damage'),...diceRows.map(e=>source(e)+': +'+e.dice+'d'+die)]};
+ return {attack:modifierIncrease(a.attackModifierRows||[],attackRows.map(e=>({amount:e.amount,type:e.type,...(e.circumstance?{circumstance:e.circumstance}:{})}))),damage:damageRows.reduce((n,e)=>n+(e.ability?Math.max(e.minimum,mods[e.ability]??0):e.amount),0),dice:die?diceRows.reduce((n,e)=>n+e.dice,0):0,die,
+  sources:[...attackRows.map(e=>source(e)+': +'+e.amount+' attack'),...damageRows.map(e=>source(e)+': +'+(e.ability?Math.max(e.minimum,mods[e.ability]??0):e.amount)+' damage'),...diceRows.map(e=>source(e)+': +'+e.dice+'d'+die)]};
 }
 function withExtraDamage(a,terms,breakdown,attack=0){
  if(!terms&&!attack)return a;
@@ -56,7 +58,7 @@ function withExtraDamage(a,terms,breakdown,attack=0){
 export function applyAttackTarget(a,c,pack,ctx,species,effects=[],mods={}){
  const sneak=sneakAttackDice(c,ctx,effects,a);
  if(sneak)a={...withExtraDamage(a,'+'+sneak.dice+'d'+sneak.die,'; Sneak Attack: +'+sneak.dice+'d'+sneak.die),sneakAttack:sneak};
- const traits=targetTraitBonuses(c,pack,effects,a,mods);
+ const traits=targetTraitBonuses(c,pack,effects,a,mods,ctx);
  if(traits)a={...withExtraDamage(a,(traits.damage?'+'+traits.damage:'')+(traits.dice?'+'+traits.dice+'d'+traits.die:''),traits.sources.map(s=>'; '+s).join(''),traits.attack),targetTraits:traits};
  const target=targetModifiers(c,pack,ctx,species,a),issue=a.issue||target.issue;
  const variants=Object.fromEntries(['unAimed','unBraced'].filter(k=>a[k]).map(k=>{

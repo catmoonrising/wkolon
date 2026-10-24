@@ -1,3 +1,4 @@
+import {ambiguityValue} from './house-rules.js';
 // Activation state is separate from advancement selections and calculated totals.
 export function validateTalentActivations(c,pack,bad){
  if(c.talentActivations===undefined)return;
@@ -5,11 +6,12 @@ export function validateTalentActivations(c,pack,bad){
  if(!Array.isArray(rows)||rows.length>choices.length||new Set(rows.map(r=>r?.id+'|'+r?.choice)).size!==rows.length||rows.some(r=>!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).sort().join()!=='choice,id'||!choices.includes(r.id+'|'+r.choice)))bad('talent activations');
 }
 const unconscious=c=>c.currentHP===0||c.condition===5||!!c.recovery?.dead;
+const lostWhenUnconscious=(c,pack,a)=>!!a?.endsWhenUnconscious||!!a?.unconsciousAmbiguityId&&ambiguityValue(c,pack,a.unconsciousAmbiguityId)==='self-lost';
 export function activeTalentActivations(c,pack,ctx){
  return (c.talentActivations||[]).flatMap(s=>{
   if(!ctx.talents.some(t=>t.id===s.id)||ctx.inactiveTalents.has(s.id))return [];
   const talent=pack.talents.find(t=>t.id===s.id),option=talent?.activation?.choices.find(o=>o.id===s.choice);
-  if(talent?.activation?.endsWhenUnconscious&&unconscious(c))return [];
+  if(lostWhenUnconscious(c,pack,talent?.activation)&&unconscious(c))return [];
   return option?[{...s,name:talent.name,benefit:option.name,effects:option.effects}]:[];
  });
 }
@@ -29,7 +31,7 @@ export function endEncounterTalents(c){delete c.talentActivations;delete c.encou
 export function endUnconsciousTalents(c,pack){
  if(!c.talentActivations||!unconscious(c))return false;
  const before=c.talentActivations.length;
- c.talentActivations=c.talentActivations.filter(s=>!pack.talents.find(t=>t.id===s.id)?.activation?.endsWhenUnconscious);
+ c.talentActivations=c.talentActivations.filter(s=>!lostWhenUnconscious(c,pack,pack.talents.find(t=>t.id===s.id)?.activation));
  const changed=c.talentActivations.length!==before;
  if(!c.talentActivations.length)delete c.talentActivations;
  return changed;
