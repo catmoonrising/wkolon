@@ -2672,3 +2672,20 @@ Will while wielding an Atlatl or Cesta) and Resolute Stance (+2 morale Will
 while Fighting Defensively). Manual remainders: Force of Will's ally aura, Jedi
 Hunter's extra damage die against Force Sensitivity, Poison Resistance's half
 damage and Resolute Stance's +5 no-attack clause. All eight remain Partial.
+
+## Shift Defense
+
+Military Tactics Talent Tree revision 18365 (Core Rulebook) supplies Shift
+Defense I (-2 for +1 competence) and II (-5 for +2 competence). Both are Partial
+Swift activations lasting until the start of the next turn, with chosen
+Defenses, highest-of-type competence bonuses and additive penalties. Shift
+Defense III prints no duration, so it remains Manual and the question is on the
+task board. Pinned articles are unchanged.
+
+## Shift Defense III
+
+User ruling (2026-10-23): Shift Defense III (Military Tactics Talent Tree
+r18365) lasts until the start of the next turn by default; Ambiguities offers
+the literal no-automatic-expiry reading, snapshotted per activation and
+removable in Actions. +5 competence to the chosen Defense, -5 to both others.
+Partial.

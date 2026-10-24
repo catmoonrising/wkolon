@@ -15,6 +15,7 @@ import {clearBonusHP} from './bonus-hit-points.js';
 import {turnTalentPlan,applyTurnTalent,clearTurnTalents} from './turn-talents.js';
 import {reactionTalentRule,reactionTalentPlan,applyReactionTalent,endReactionTalentTurn,clearReactionTalents} from './reaction-talents.js';
 import {conditionalDefenseLabel} from './defensive-combat.js';
+import {defenseShiftRule,defenseShiftPlan,applyDefenseShift,clearDefenseShifts,defenseShiftText} from './defense-shifts.js';
 import {balance,planBalance} from './balance.js';
 import {conditionRecoveryPlan,applyConditionRecovery} from './condition-recovery.js';
 import {skillActionPlan,rollSkillAction,finishSkillAction} from './skill-actions.js';
@@ -76,6 +77,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(deflectionRule(pack,id)){o.attackRoll=0;o.aware=false;o.kind='single';o.target='self';o.hit=true;o.rerolls='failed';o.incoming={amount:0,options:{type:'normal',against:[]}};}
  if(id==='bellow'){o.extraDice=0;o.strong=false;}
  if(reactionTalentRule(pack,id))o.damaged=false;
+ if(defenseShiftRule(pack,id)){o.bonus='reflex';o.penalty='will';}
  if(id==='encounter-talent'){const t=pack.talents.find(t=>t.activation&&d.ctx.talents.some(s=>s.id===t.id)&&!d.ctx.inactiveTalents.has(t.id));o.talentId=t?.id||'';o.choice=t?.activation.choices.find(o=>!c.talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||'';}
  if(id.startsWith('manual-'))o.note=pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name==='Other'?'':pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name||'';
  return o;
@@ -121,6 +123,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'rage':assert(d.recovery.rage?.remaining&&!d.recovery.rage.active,'Rage unavailable');break;
  case 'damage-reduction-10':view.timedTalent=timedTalentPlan(q,d,pack,id);view.forceCost=view.timedTalent.forcePoints;break;
  case 'lightsaber-defense':case 'wan-shen-defense':view.turnTalent=turnTalentPlan(q,d,pack,id);break;
+ case 'shift-defense-i':case 'shift-defense-ii':case 'shift-defense-iii':view.defenseShift=defenseShiftPlan(q,d,pack,id,o);break;
  case 'soft-to-solid':view.reactionTalent=reactionTalentPlan(q,d,pack,id,o);view.forceCost=view.reactionTalent.rule.forcePoints;break;
  case 'resilience':case 'equilibrium':case 'indomitable':view.conditionRecovery=conditionRecoveryPlan(q,d,pack,id);view.forceCost=view.conditionRecovery.rule.forcePoints;break;
  case 'bellow':assert(bellowDetails(q,d,pack,o.extraDice??0,{strong:o.strong??false})?.available,'Bellow unavailable');break;
@@ -207,6 +210,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(id==='rage'){startRage(c,d);r={text:'Rage: '+d.recovery.rage.duration+' rounds'};}
  else if(v.timedTalent){invalidate(c);applyTimedTalent(c,v.timedTalent);c.forcePoints-=v.forceCost;r={text:v.name+': '+v.timedTalent.durationRounds+' rounds; Force Points -'+v.forceCost};}
  else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': Reflex +'+(v.turnTalent.bonus??v.turnTalent.amount)+' ('+conditionalDefenseLabel(v.turnTalent.rule.effect)+')'};}
+ else if(v.defenseShift){invalidate(c);applyDefenseShift(c,id,v.defenseShift);r={text:v.name+': '+defenseShiftText(v.defenseShift.rule,v.defenseShift)+(v.defenseShift.persistent?'; no automatic expiry':'')};}
  else if(v.reactionTalent){clearFollowUps(c);clearAiming(c);clearBracing(c);applyReactionTalent(c,id,v.reactionTalent);c.forcePoints-=v.forceCost;r={text:v.name+': DR '+v.reactionTalent.rule.damageReduction+'; Force Points -'+v.forceCost};}
  else if(v.conditionRecovery){invalidate(c);applyConditionRecovery(c,v.conditionRecovery);c.forcePoints-=v.forceCost;r={text:v.name+': '+(c.condition===0?'Normal State':'+'+v.conditionRecovery.steps+' condition steps')+(v.conditionRecovery.rule.removePersistent?'; persistent conditions removed':'')+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
  else if(id==='bellow')r=rollBellow(c,d,pack,o.extraDice??0,o.damage??null,roller,{strong:o.strong??false});
@@ -282,7 +286,7 @@ export function beginNextTurn(c,pack,{maintain=[]}={}){
  validateCharacter(q,pack);commit(c,q);return results;
 }
 export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endReactionTalentTurn(q);endRagePowerTurn(q);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
-export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);clearReactionTalents(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
+export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);clearReactionTalents(c);clearDefenseShifts(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false,uncertainMovement=false;
  for(const step of q.actionState.plan){
@@ -298,6 +302,7 @@ export function previewPlan(c,pack){
    if(step.action==='rage'){q.recovery=recoveryState(q);q.recovery.ragesSpent++;q.recovery.rageRounds=v.derived.recovery.rage.duration;}
    if(v.timedTalent){clearAiming(q);clearBracing(q);applyTimedTalent(q,v.timedTalent);}
    if(v.turnTalent){clearAiming(q);clearBracing(q);applyTurnTalent(q,step.action,v.turnTalent.amount);}
+   if(v.defenseShift){clearAiming(q);clearBracing(q);applyDefenseShift(q,step.action,v.defenseShift);}
    if(v.reactionTalent){clearAiming(q);clearBracing(q);applyReactionTalent(q,step.action,v.reactionTalent);}
    if(v.conditionRecovery){clearAiming(q);clearBracing(q);applyConditionRecovery(q,v.conditionRecovery);}
    if(step.action==='total-defense')declareDefenseStance(q,v.derived,'total');

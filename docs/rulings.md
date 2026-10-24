@@ -28,6 +28,7 @@ default-only decision remains here even though it adds no switch to the sheet.
 | Prone + Helpless | Stack (+10 melee) | Do not stack (+5 melee) |
 | Combat Reflexes limits | Opponent + provoking action | Opponent only; Provoking action only |
 | Charge through Difficult Terrain | Ordinary double movement cost | Nimble Charge DC 25; DC 35 with Cross Difficult Terrain |
+| Shift Defense III duration (user ruling 2026-10-23) | Start of next turn | No automatic expiry (RAW) |
 | Jump Down training | Untrained intentional Jump Down allowed under the specific application | Require trained Jump under Falling Damage's general wording |
 | Acrobatics + Jump Down | Resolve both checks independently and combine successful reductions | Make the two reductions mutually exclusive |
 | Flurry weapon change | +2 melee only while eligible weapons remain wielded; −5 Reflex until the next turn | Keep the attack bonus after switching weapons; the declaration still requires eligible weapons |
