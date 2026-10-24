@@ -21,3 +21,6 @@ all existing ammo, critical and hit/miss resolution stays shared.
 Both feats remain Partial. Riflemaster's Carbine Bracing and Sport Hunter's
 Sporting Blaster Pistol rerolls remain manual. No new character fields, actions,
 resource spending, rules summaries or prerequisite exceptions are introduced.
+
+Point-Blank benefits need a declared distance. An unknown range grants no
+conditional die, matching the existing Point-Blank Shot behavior.
