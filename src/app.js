@@ -1,3 +1,4 @@
+import {sensesView} from './senses.js';
 import {endUnconsciousTalents} from './talent-activations.js';
 import {setSkillAbility,skillAbilityControl} from './skill-abilities.js';
 import {attackAbilityControl,setAttackAbility} from './attack-abilities.js';
@@ -523,7 +524,7 @@ function sheet() {
 
   const entries=featureEntries(c,derived,pack);
   const bodies={
-   header:character,languages,classes:classes+xpBar(c,derived,pack.rules.resources),abilities,defenses,hp,
+   header:character,languages,senses:sensesView(derived),classes:classes+xpBar(c,derived,pack.rules.resources),abilities,defenses,hp,
    threshold:`<div class="stat-big">${derived.threshold}</div>${derived.conditionalThresholds.map(r=>`<div>${r.total} ${escape(conditionalDefenseLabel(r))}</div>`).join('')}`,
    bab:`<div class="stat-big">${signed(derived.bab)}</div>`,
    speed:`<div class="stat-big">${derived.speedUnknown?'?':derived.speed}</div>${Object.entries(derived.speeds).map(([type,n])=>`<div>${title(type)} ${n}</div>`).join('')}${!derived.speedUnknown&&derived.runMultiplier!==4?`<div>Run ${derived.runSpeed}</div>`:''}<span class="hint">squares</span>${derived.armorItems.some(r=>r.category!=='light')?`<details><summary class="hint">Calculations</summary><div class="hint">${escape(derived.speedBreakdown)}</div></details>`:''}${acrobaticsMoveControls(c,derived,pack)}${balanceControls(c,derived,pack)}${escapeBondsControls(c,derived,pack)}${jumpControls(c,derived,pack)}${fallingControls(c,derived,pack)}${withdrawControls(c,derived,pack)}`,
