@@ -1,3 +1,4 @@
+import {validateTriggeredDefenses,triggeredDefenseEffects} from './triggered-defenses.js';
 import {validateMoveTalentEffects,moveTalentModifiers} from './move-talent-effects.js';
 import {skillAbilityDetails,validateSkillAbilities} from './skill-abilities.js';
 import {validateAttackAbilities,attackAbilityDetails} from './attack-abilities.js';
@@ -141,6 +142,7 @@ export function validateCharacter(c, pack) {
   if(c.skillModifiers!==undefined&&(!obj(c.skillModifiers)||Object.entries(c.skillModifiers).some(([id,n])=>!ix.skills.has(id)||!num(n,-1000,1000))))bad('skill modifiers');
   validateTurnTalents(c,pack,bad);
   validateMoveTalentEffects(c,pack,bad);
+  validateTriggeredDefenses(c,pack,bad);
   validateReactionTalents(c,pack,bad);
   validateDefenseShifts(c,pack,bad);
   validateBonusHP(c,bad);
@@ -482,6 +484,7 @@ export function derive(c, pack) {
   const helpless=droidSystems.inoperative||!!c.helpless||c.condition===5||c.currentHP===0||recoveryState(c).dead;
   const balancingFlatFooted=balanceFlatFooted(c,ctx),flatFooted=!!c.flatFooted||balancingFlatFooted;
   const dexDenied=!!shieldLimits.unproficient||helpless||flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
+  effects.push(...triggeredDefenseEffects(c,pack,ctx,{dexDenied}));
   const dex = helpless?pack.rules.defensiveCombat.helplessDexterityModifier:dexDenied?Math.min(0,mods.dex):armorMaxDex!==null ? Math.min(mods.dex, armorMaxDex) : mods.dex;
   const defensiveCombat=defensiveCombatState(c,pack,ctx,dexDenied);
   const flurry=flurryState(c,pack,ctx,effectiveSize,helpless);
@@ -608,7 +611,7 @@ export function derive(c, pack) {
     const multiattackReduction=(species.multiattackReduction||0)+effects.filter(f=>f.target==='multiattackReduction'&&f.weaponGroup===group).reduce((n,f)=>n+f.amount,0),fullAttackPenalty=Math.min(0,fullAttack.penalty+multiattackReduction);
     const criticalThreat=Math.min(20,...effects.filter(f=>f.target==='criticalThreat'&&f.weaponGroup===w.group).map(f=>f.amount));
     const criticalMultiplier=Math.max(pack.rules.combat.criticalMultiplier,...effects.filter(f=>f.target==='criticalMultiplier'&&f.selection.choice===w.id).map(f=>f.amount));
-    const meleeBonus = modifierTotal([...effects.filter(e=>e.target==='meleeDamage'&&applies(e,w)).map(e=>({...e,amount:e.amount*(e.perLevel?level:1)})),...(w.mode==='melee'?[{type:'rage',amount:rageBonus},...powerRage]:[])]);
+    const meleeBonus = modifierTotal([...effects.filter(e=>e.target==='damage'&&applies(e,w)),...effects.filter(e=>e.target==='meleeDamage'&&applies(e,w)).map(e=>({...e,amount:e.amount*(e.perLevel?level:1)})),...(w.mode==='melee'?[{type:'rage',amount:rageBonus},...powerRage]:[])]);
     const flurryBonus=w.mode==='melee'?flurry.attackBonus:0;
     const damageBonus = half + (w.group==='pistols'?classPassives.filter(e=>e.target==='pistolDamage').reduce((n,e)=>n+e.amount,0):0) + strength + specialization + meleeBonus + pointBlank + c.modifiers.damage + e.damageMod + power.damage;
     const mightySwingAvailable=w.mode==='melee'&&featHas('mighty-swing'),mightySwing=mightySwingAvailable&&!!c.mightySwing;

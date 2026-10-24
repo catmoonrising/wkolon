@@ -24,7 +24,7 @@ export function talentActivation(c,pack,d,id,choice){
 export function applyTalentActivation(c,id,choice){
  c.talentActivations??=[];c.talentActivations.push({id,choice});
 }
-export function endEncounterTalents(c){delete c.talentActivations;}
+export function endEncounterTalents(c){delete c.talentActivations;delete c.encounterTriggers;}
 // "Lost if you fall unconscious or die": removal, not suppression, once known.
 export function endUnconsciousTalents(c,pack){
  if(!c.talentActivations||!unconscious(c))return false;

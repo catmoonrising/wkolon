@@ -2803,3 +2803,10 @@ Jedi Counseling112’s additional weapon-familiarity conversion for feat/talent
 groups is not yet applied to these new family consumers; those cases remain
 manual pending the shared identity correction. Existing Weapon Focus and
 Gunslinger folded-stock consumers are recorded separately for correction.
+
+## Declared trigger subset
+
+Bothan Will16347, Increased Resistance20674, Moving Target20710, Rebel Military
+Training20747 and Revenge25735 use saved source declarations and typed bonuses.
+External triggers and nonweapon Revenge damage remain manual. All five records
+remain Partial. Focused Warrior is excluded pending its separate loss review.

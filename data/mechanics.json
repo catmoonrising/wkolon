@@ -36400,7 +36400,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:bowcaster-marksman",
@@ -36765,7 +36765,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:instinctive-perception",
@@ -36931,7 +36931,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:nature-specialist",
@@ -37116,7 +37116,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:recovering-surge",
@@ -42369,7 +42369,7 @@
       "reminder": "",
       "effects": [],
       "requiresDarkSide": true,
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:swift-power",
@@ -68460,6 +68460,7 @@
     "movementPowers": [{"powerId":"power:surge","action":"free-action","thresholds":[{"dc":10,"jumpBonus":10,"speedBonus":2},{"dc":15,"jumpBonus":20,"speedBonus":4},{"dc":20,"jumpBonus":30,"speedBonus":6}],"jumpType":"force","speedType":"untyped","runningStart":true,"includesSpeedAdjustment":true,"enhancement":{"forcePoints":1,"jumpBonus":10,"speedBonus":2},"destiny":{"points":1,"speedBonus":4,"jumpWithoutCheck":true},"duration":"start-next-turn","sourceIds":["source:wiki-surge","source:wiki-force-powers","source:wiki-bonuses-and-penalties","source:wiki-jump","source:wiki-combat-sequence"]}],
     "selfPowerEffects": [{"powerId":"power:battle-strike","kind":"next-attack","thresholds":[{"dc":15,"dice":1},{"dc":20,"dice":2},{"dc":25,"dice":3}],"attackBonus":1,"type":"force","die":6,"enhancementDice":2,"hitOnly":true,"duration":"end-next-turn","sourceIds":["source:wiki-battle-strike","source:wiki-force-powers","source:wiki-bonuses-and-penalties","source:wiki-attacks"]}],
     "timedTalentActions": [{"id":"damage-reduction-10","talentId":"talent:damage-reduction-10","forcePoints":1,"durationRounds":10,"damageReduction":10,"sourceIds":["source:wiki-control-talent-tree-damage-reduction-10","source:wiki-combat-sequence","source:wiki-attacks"]}],
+    "triggeredDefenseBonuses": [{"id":"bothan-will","recordId":"feat:bothan-will","trigger":"failed-vs-will","effect":{"target":"defenseBonus","defense":"will","amount":2,"type":"circumstance","circumstance":"bothan-will"},"duration":"start-next-turn","sourceIds":["source:wiki-bothan-will"]},{"id":"increased-resistance","recordId":"feat:increased-resistance","trigger":"failed-vs-fortitude","effect":{"target":"defenseBonus","defense":"fortitude","amount":2,"type":"circumstance","circumstance":"increased-resistance"},"duration":"start-next-turn","sourceIds":["source:wiki-increased-resistance"]},{"id":"moving-target","recordId":"feat:moving-target","trigger":"ended-turn-3-squares-away","effect":{"target":"defenseBonus","defense":"reflex","amount":1,"type":"dodge"},"lostWhenDexDenied":true,"duration":"start-next-turn","sourceIds":["source:wiki-moving-target"]},{"id":"rebel-military-training","recordId":"feat:rebel-military-training","trigger":"running-attack-before-and-after","effect":{"target":"defenseBonus","defense":"reflex","amount":2,"type":"dodge"},"lostWhenDexDenied":true,"duration":"start-next-turn","sourceIds":["source:wiki-rebel-military-training"]},{"id":"revenge","recordId":"talent:revenge","trigger":"ally-reduced-to-zero","effects":[{"target":"attacks","amount":2,"type":"force"},{"target":"damage","amount":2,"type":"force"}],"duration":"encounter","sourceIds":["source:wiki-dark-side-talent-tree-revenge"]}],
     "moveTalentEffects":[{"id":"skirmisher","talentId":"talent:skirmisher","minimumSquares":2,"minimumDisplacement":1,"effect":{"target":"attacks","amount":1,"type":"untyped"},"duration":"start-next-turn","sourceIds":["source:wiki-misfortune-talent-tree-skirmisher","source:wiki-move"]},{"id":"improved-skirmisher","talentId":"talent:improved-skirmisher","minimumSquares":2,"minimumDisplacement":1,"effect":{"target":"defenses","amount":1,"type":"untyped"},"duration":"start-next-turn","sourceIds":["source:wiki-misfortune-talent-tree-improved-skirmisher","source:wiki-move"]}],
     "turnFeatEffects": [{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],
     "bonusHPGrants":[{"id":"thrive-on-chaos","talentId":"talent:thrive-on-chaos","trigger":"creature-reduced-to-zero","base":5,"level":"character","levelDivisor":2,"sourceIds":["source:wiki-opportunist-talent-tree-thrive-on-chaos"]},{"id":"shoulder-to-shoulder","talentId":"talent:shoulder-to-shoulder","trigger":"turn-start-adjacent-ally","base":0,"level":"heroic","levelDivisor":1,"sourceIds":["source:wiki-republic-commando-talent-tree-shoulder-to-shoulder"]},{"id":"bando-gora-surge","talentId":"talent:bando-gora-surge","trigger":"moved-up-condition-track","base":5,"level":"heroic","levelDivisor":1,"sourceIds":["source:wiki-bando-gora-captain-talent-tree-bando-gora-surge"]},{"id":"luck-favors-the-bold","talentId":"talent:luck-favors-the-bold","trigger":"turn-start-exposed-to-aware-enemy","base":5,"level":"heroic","levelDivisor":2,"conscious":true,"sourceIds":["source:wiki-gambling-leader-talent-tree-luck-favors-the-bold"]}],

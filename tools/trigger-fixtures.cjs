@@ -1,0 +1,8 @@
+module.exports=function(pack,newCharacter){
+ function hero(species,feat){const c=newCharacter(pack,{classId:'class:soldier'});c.species='species:'+species;c.name=feat;c.abilityMethod='manual';c.abilities={str:14,dex:14,con:14,int:10,wis:14,cha:10};c.levels[0].feats=feat?[{id:'feat:'+feat}]:[];return c;}
+ const bothan=hero('bothan','bothan-will'),gamorrean=hero('gamorrean','increased-resistance'),mobile=hero('human','dodge');mobile.name='Mobile';
+ const row=(classId,talent=null)=>({classId,hpRoll:5,feats:[],talent:talent?{id:'talent:'+talent,...(['revenge','dark-presence'].includes(talent)?{darkSideScore:1}:{})}:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});
+ for(let n=2;n<=6;n++){const r=row('class:soldier');if(n===3)r.feats=[{id:'feat:moving-target'}];if(n===4){r.feats=[{id:'feat:running-attack'}];r.abilityIncreases=['str','dex'];}if(n===6)r.feats=[{id:'feat:rebel-military-training'}];mobile.levels.push(r);}
+ const revenge=newCharacter(pack,{classId:'class:jedi'});revenge.name='Revenge';revenge.abilityMethod='manual';revenge.abilities={str:14,dex:14,con:14,int:10,wis:14,cha:14};revenge.darkSideScore=1;revenge.trainedSkills=['skill:use-the-force'];revenge.levels[0].talent={id:'talent:power-of-the-dark-side',darkSideScore:1};for(let n=2;n<=7;n++){const r=row('class:jedi',n===3?'dark-presence':n===5?'revenge':n===7?'battle-meditation':null);if(n===4)r.abilityIncreases=['str','dex'];revenge.levels.push(r);}revenge.inventory=['knife','blaster-pistol'].map(id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0}));
+ return {bothan,gamorrean,mobile,revenge};
+};

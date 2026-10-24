@@ -1682,3 +1682,7 @@ Reviewed ranged weapon traits and opportunity modifiers are documented in
 [opportunity-bonuses.md](opportunity-bonuses.md), [rifle-ranges.md](rifle-ranges.md)
 and [weapon-feats.md](weapon-feats.md). Printed weapon identity is distinct from
 resolved proficiency and range after stock changes.
+
+Source declarations with turn/encounter typed bonuses follow
+[triggered-defenses.md](triggered-defenses.md). Focused Warrior remains excluded
+pending its separate loss review.
