@@ -12,7 +12,7 @@ import {endSelfPowerTurn,reopenSelfPowerTurn,consumeBattleStrike} from './self-p
 import {timedTalentPlan,applyTimedTalent,advanceTimedTalents} from './timed-talents.js';
 import {endTurnFeatEffects,clearTurnFeatEffects,applyMoveFeatEffects} from './turn-feat-effects.js';
 import {clearBonusHP} from './bonus-hit-points.js';
-import {turnTalentPlan,applyTurnTalent,clearTurnTalents} from './turn-talents.js';
+import {turnTalentPlan,applyTurnTalent,clearTurnTalents,turnTalentBenefit} from './turn-talents.js';
 import {reactionTalentRule,reactionTalentPlan,applyReactionTalent,endReactionTalentTurn,clearReactionTalents} from './reaction-talents.js';
 import {conditionalDefenseLabel} from './defensive-combat.js';
 import {defenseShiftRule,defenseShiftPlan,applyDefenseShift,clearDefenseShifts,defenseShiftText} from './defense-shifts.js';
@@ -122,7 +122,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'second-wind':view.cost.type=d.recovery.secondWind.action.startsWith('Free')?'free':'swift';assert(d.recovery.secondWind.available,d.recovery.secondWind.reason);assert(!s.ended,'Second Wind requires your turn');break;
  case 'rage':assert(d.recovery.rage?.remaining&&!d.recovery.rage.active,'Rage unavailable');break;
  case 'damage-reduction-10':view.timedTalent=timedTalentPlan(q,d,pack,id);view.forceCost=view.timedTalent.forcePoints;break;
- case 'lightsaber-defense':case 'wan-shen-defense':view.turnTalent=turnTalentPlan(q,d,pack,id);break;
+ case 'lightsaber-defense':case 'wan-shen-defense':case 'shadow-armor':view.turnTalent=turnTalentPlan(q,d,pack,id);break;
  case 'shift-defense-i':case 'shift-defense-ii':case 'shift-defense-iii':view.defenseShift=defenseShiftPlan(q,d,pack,id,o);break;
  case 'soft-to-solid':view.reactionTalent=reactionTalentPlan(q,d,pack,id,o);view.forceCost=view.reactionTalent.rule.forcePoints;break;
  case 'resilience':case 'equilibrium':case 'indomitable':view.conditionRecovery=conditionRecoveryPlan(q,d,pack,id);view.forceCost=view.conditionRecovery.rule.forcePoints;break;
@@ -209,7 +209,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  }else if(id==='second-wind'){const x=catchSecondWind(c,d,pack,roller);r={text:'Second Wind: +'+x.healed+' HP'+(x.conditionRecovery?'; +'+x.conditionRecovery+' condition step':'')+(x.exhaustion?'; exhaustion':'')};}
  else if(id==='rage'){startRage(c,d);r={text:'Rage: '+d.recovery.rage.duration+' rounds'};}
  else if(v.timedTalent){invalidate(c);applyTimedTalent(c,v.timedTalent);c.forcePoints-=v.forceCost;r={text:v.name+': '+v.timedTalent.durationRounds+' rounds; Force Points -'+v.forceCost};}
- else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': Reflex +'+(v.turnTalent.bonus??v.turnTalent.amount)+' ('+conditionalDefenseLabel(v.turnTalent.rule.effect)+')'};}
+ else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': '+turnTalentBenefit(v.turnTalent.rule,v.turnTalent.bonus??v.turnTalent.amount)};}
  else if(v.defenseShift){invalidate(c);applyDefenseShift(c,id,v.defenseShift);r={text:v.name+': '+defenseShiftText(v.defenseShift.rule,v.defenseShift)+(v.defenseShift.persistent?'; no automatic expiry':'')};}
  else if(v.reactionTalent){clearFollowUps(c);clearAiming(c);clearBracing(c);applyReactionTalent(c,id,v.reactionTalent);c.forcePoints-=v.forceCost;r={text:v.name+': DR '+v.reactionTalent.rule.damageReduction+'; Force Points -'+v.forceCost};}
  else if(v.conditionRecovery){invalidate(c);applyConditionRecovery(c,v.conditionRecovery);c.forcePoints-=v.forceCost;r={text:v.name+': '+(c.condition===0?'Normal State':'+'+v.conditionRecovery.steps+' condition steps')+(v.conditionRecovery.rule.removePersistent?'; persistent conditions removed':'')+(v.forceCost?'; Force Points -'+v.forceCost:'')};}

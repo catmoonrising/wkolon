@@ -38594,9 +38594,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"conditionalDefense","defense":"reflex","against":"grab-grapple","amount":2,"type":"untyped"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:grapple-resistance",
@@ -38607,9 +38607,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"conditionalDefense","defense":"reflex","against":"grab-grapple","amount":5,"type":"untyped"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:grazing-shot",
@@ -47139,9 +47139,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"conditionalDefense","defense":"will","against":"read-emotions-or-attitude","amount":5,"type":"untyped"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:automated-strike",
@@ -57682,9 +57682,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"conditionalDefense","defense":"reflex","against":"adjacent-obstacle","amount":2,"type":"cover"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:deep-space-raider",
@@ -60642,7 +60642,7 @@
       "repeat": "stack",
       "effects": [],
       "reminder": "",
-      "automation": "manual",
+      "automation": "partial",
       "maxSelections": 4
     },
     {
@@ -68462,7 +68462,7 @@
     "timedTalentActions": [{"id":"damage-reduction-10","talentId":"talent:damage-reduction-10","forcePoints":1,"durationRounds":10,"damageReduction":10,"sourceIds":["source:wiki-control-talent-tree-damage-reduction-10","source:wiki-combat-sequence","source:wiki-attacks"]}],
     "turnFeatEffects": [{"id":"anointed-hunter","featId":"feat:anointed-hunter","displacement":2,"effect":{"target":"attacks","amount":1,"type":"competence"},"ambiguityId":"ambiguity:anointed-hunter-duration","sourceIds":["source:wiki-anointed-hunter","source:wiki-nelvaanian"]}],
     "bonusHitPoints": {"sourceIds":["source:wiki-hit-points"],"toughAsDurasteel":{"classId":"class:martial-arts-master","minimumLevel":2,"armorCategory":"light","ambiguityId":"ambiguity:tough-as-durasteel-amount","sourceIds":["source:wiki-martial-arts-master"]}},
-    "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]},{"id":"wan-shen-defense","talentId":"talent:wan-shen-defense","amountPerSelection":1,"maximum":3,"weaponId":"equipment:wan-shen","effect":{"target":"conditionalDefense","defense":"reflex","against":"melee-aware","type":"deflection"},"sourceIds":["source:wiki-matukai-adept-talent-tree-wan-shen-defense","source:wiki-wan-shen","source:wiki-melee-attacks"]}],
+    "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]},{"id":"wan-shen-defense","talentId":"talent:wan-shen-defense","amountPerSelection":1,"maximum":3,"weaponId":"equipment:wan-shen","effect":{"target":"conditionalDefense","defense":"reflex","against":"melee-aware","type":"deflection"},"sourceIds":["source:wiki-matukai-adept-talent-tree-wan-shen-defense","source:wiki-wan-shen","source:wiki-melee-attacks"]},{"id":"shadow-armor","talentId":"talent:shadow-armor","amountPerSelection":1,"maximum":4,"effect":{"target":"defenseBonus","defense":"reflex","type":"force"},"sourceIds":["source:wiki-disciple-of-twilight-talent-tree-shadow-armor","source:wiki-bonuses-and-penalties"]}],
     "defenseShiftActions": [{"id":"shift-defense-i","talentId":"talent:shift-defense-i","bonus":1,"penalty":-2,"type":"competence","duration":"start-next-turn","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-i","source:wiki-bonuses-and-penalties"]},{"id":"shift-defense-ii","talentId":"talent:shift-defense-ii","bonus":2,"penalty":-5,"type":"competence","duration":"start-next-turn","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-ii","source:wiki-bonuses-and-penalties"]},{"id":"shift-defense-iii","talentId":"talent:shift-defense-iii","bonus":5,"penalty":-5,"penaltyScope":"others","type":"competence","duration":"start-next-turn","ambiguityId":"ambiguity:shift-defense-iii-duration","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-iii","source:wiki-bonuses-and-penalties"]}],
     "reactionTalentActions": [{"id":"soft-to-solid","talentId":"talent:soft-to-solid","trigger":"damaged-by-attack","forcePoints":1,"damageReduction":10,"duration":"end-next-turn","sourceIds":["source:wiki-matukai-adept-talent-tree-soft-to-solid","source:wiki-attacks","source:wiki-combat-sequence"]}],
     "conditionRecoveryActions": [{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]},{"id":"resilience","talentId":"talent:resilience","steps":2,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-jedi-guardian-talent-tree-resilience","source:wiki-conditions"]}],
@@ -68795,7 +68795,7 @@
           "count": 1,
           "ruleId": "rule:attacks"
         }
-      ,{"id":"resilience","name":"Resilience","type":"full","count":1,"ruleId":"rule:resilience"},{"id":"shift-defense-iii","name":"Shift Defense III","type":"swift","count":1}],
+      ,{"id":"resilience","name":"Resilience","type":"full","count":1,"ruleId":"rule:resilience"},{"id":"shift-defense-iii","name":"Shift Defense III","type":"swift","count":1},{"id":"shadow-armor","name":"Shadow Armor","type":"swift","count":1}],
       "powerRequirements": {
         "power:negate-energy": {
           "notFlatFooted": true,

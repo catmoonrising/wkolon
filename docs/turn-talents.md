@@ -49,3 +49,9 @@ activation means no passive bonus.
 Wan-Shen Defense is the second record; see [matukai-defenses.md](matukai-defenses.md).
 A record names either the Lightsaber `weaponGroup` or one `weaponId`. Makashi
 and the weapon-change alternative apply only to Lightsaber Defense.
+
+Shadow Armor (Disciple of Twilight Talent Tree revision 20142) needs no weapon.
+Its effect is `{target:'defenseBonus', defense:'reflex', type:'force'}`: +1 per
+selection to the printed +4, an ordinary typed Reflex bonus rather than an
+awareness condition, so Flat-Footed does not suppress it and Force bonuses do
+not stack. Expiry, refresh, rank capping and previews follow this contract.

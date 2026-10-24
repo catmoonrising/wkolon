@@ -53,3 +53,19 @@ test('Warrior Heritage requires a wielded Atlatl or Cesta and Resolute Stance re
  c.inventory=[{id:'equipment:quarterstaff',uid:crypto.randomUUID(),quantity:1,equipped:true,attackMod:0,damageMod:0}];assert.equal(base(c).defenses.will,plain);
  const s=hero({feat:'feat:resolute-stance'});s.levels.push(row('soldier'));validateCharacter(s,pack);const w=base(s).defenses.will;declareDefenseStance(s,base(s),'fight');assert.equal(base(s).defenses.will,w+2);
 });
+
+test('Cramped Quarters Fighting and Unreadable show pinned conditional Reflex and Will rows',()=>{
+ const p=structuredClone(pack);for(const id of ['cramped-quarters-fighting','unreadable']){const t=p.talents.find(t=>t.id==='talent:'+id);t.tree='tree:weapon-specialist';t.prerequisite={kind:'all',requirements:[]};}
+ const c=newCharacter(p,{classId:'class:soldier'});c.abilityMethod='manual';c.abilities={str:12,dex:14,con:12,int:12,wis:12,cha:12};c.levels[0].talent={id:'talent:cramped-quarters-fighting'};c.levels.push(row('soldier'),row('soldier','unreadable'));validateCharacter(c,p);
+ const d=derive(c,p),cramped=cond(d,'adjacent-obstacle'),unread=cond(d,'read-emotions-or-attitude');assert.equal(cramped.defense,'reflex');assert.equal(cramped.total,d.defenses.reflex+2);assert.equal(cramped.type,'cover');assert.equal(unread.defense,'will');assert.equal(unread.total,d.defenses.will+5);
+ assert.match(renderStatBlock(c,d,p),/adjacent to an obstacle/);assert.match(renderStatBlock(c,d,p),/vs\. reading emotions or Attitude/);
+ for(const id of ['cramped-quarters-fighting','unreadable'])assert.equal(pack.talents.find(t=>t.id==='talent:'+id).automation,'partial');
+ const bad=structuredClone(pack);bad.talents.find(t=>t.id==='talent:unreadable').effects[0].amount=2;assert.throws(()=>validatePack(bad));
+});
+
+test('Grab Back and Grapple Resistance add unnamed Reflex bonuses vs. Grab and Grapple',()=>{
+ const c=hero({feat:'feat:grab-back'});c.levels.push(row('soldier'),row('soldier',null,{feats:[{id:'feat:grapple-resistance'}]}));validateCharacter(c,pack);
+ const d=base(c),g=cond(d,'grab-grapple');assert.equal(g.defense,'reflex');assert.equal(g.total,d.defenses.reflex+7);assert.match(renderStatBlock(c,d,pack),/vs\. Grab\/Grapple/);
+ const low=hero({feat:'feat:grab-back'});low.abilities.dex=12;assert(!cond(base(low),'grab-grapple'),'DEX 13 prerequisite');
+ for(const id of ['grab-back','grapple-resistance'])assert.equal(pack.feats.find(f=>f.id==='feat:'+id).automation,'partial');
+});

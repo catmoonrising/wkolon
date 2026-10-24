@@ -11,7 +11,7 @@ import {validateSelfPowerEffects,battleStrike,withBattleStrike} from './self-pow
 import {validateTimedTalents,activeTimedTalents} from './timed-talents.js';
 import {validateTurnFeatEffects,turnFeatAttackEffects} from './turn-feat-effects.js';
 import {validateBonusHP,toughAsDurasteelLevel} from './bonus-hit-points.js';
-import {validateTurnTalents,turnTalentEffects} from './turn-talents.js';
+import {validateTurnTalents,turnTalentEffects,turnTalentDefenseBonuses} from './turn-talents.js';
 import {validateReactionTalents,reactionTalentDR} from './reaction-talents.js';
 import {validateDefenseShifts,defenseShiftEffects} from './defense-shifts.js';
 import {modifierTotal,resolveModifiers} from './modifiers.js';
@@ -442,7 +442,7 @@ export function derive(c, pack) {
   const timedDR=Math.max(0,reactionTalentDR(c,pack,ctx),...activeTimedTalents(c,pack,ctx).map(s=>s.rule.damageReduction));
   const classDR=Math.max(0,...classPassives.filter(e=>e.target==='dr').map(e=>e.amount));
   const effects = [...ctx.feats.map(s => [ix.feats.get(s.id), s]), ...ctx.talents.filter(s=>!ctx.inactiveTalents.has(s.id)).map(s => [ix.talents.get(s.id), s])].flatMap(([r, s]) => r.effects.map(e => ({...e, selection: s})));
-  effects.push(...encounterTalentEffects(c,pack,ctx),...defenseShiftEffects(c,pack,ctx));
+  effects.push(...encounterTalentEffects(c,pack,ctx),...defenseShiftEffects(c,pack,ctx),...turnTalentDefenseBonuses(c,pack,ctx));
   const energyShields=activeShields(c,pack),shieldLimits=shieldRestrictions(energyShields,ctx,pack);
   const allDeclaredArmor=wornArmor(c,pack);
   for(const r of allDeclaredArmor)if(r.wearerSize&&r.wearerSize!==species.size)issues.push(r.name+' fits '+r.wearerSize+' creatures');

@@ -2715,3 +2715,23 @@ the die, or both benefits, to Lightsaber attacks.
 Integration review distinguishes unsupported area-target resolution from RAW.
 These talents do not gain a new blanket area prohibition; per-target eligibility
 and hit/miss damage remain manual until the area resolver represents them.
+
+## Shadow Armor
+
+Disciple of Twilight Talent Tree revision 20142 supplies Shadow Armor: one Swift
+Action grants a +1 Force bonus to Reflex per selection (maximum +4) until the
+start of the next turn, through the shared turn talent resolver. It is Partial
+under the existing marker convention.
+
+## Cramped Quarters Fighting and Unreadable
+
+Spacer Talent Tree r18516 and Disgrace Talent Tree r19643 now show conditional
+Reflex (+2 cover adjacent to an obstacle or barrier) and Will (+5 against
+emotion-reading and Attitude checks) rows. Unreadable's Feint clause stays
+manual. Both Partial.
+
+## Grab Back and Grapple Resistance
+
+Grab Back r21335 and Grapple Resistance r20181 add +2 and +5 (unnamed, adding)
+to a Reflex row vs. Grab/Grapple. Counter-Grab, opposed Grapple checks and
+held-object bonuses remain manual. Both Partial.

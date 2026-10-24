@@ -33,3 +33,20 @@ Partial: hazards, Poison and the listed remainders have no engine yet, and the
 existing convention keeps calculated feats such as Toughness Partial too.
 Conditional Fortitude contexts reach Damage Threshold through the existing
 shared threshold resolver, like other conditional Fortitude bonuses.
+
+## Additional conditional rows
+
+Spacer Talent Tree revision 18516 (Cramped Quarters Fighting): "When adjacent
+to an obstacle or barrier, you gain a +2 Cover bonus to your Reflex Defense",
+shown as Reflex vs. `adjacent-obstacle` with type `cover`. Disgrace Talent Tree
+revision 19643 (Unreadable): "+5 bonus to your Will Defense against Skill
+Checks made to read your emotions and influence your Attitude", shown as Will
+vs. `read-emotions-or-attitude`, unnamed. Unreadable's Feint clause remains
+manual. Both are Partial and pinned by the validator.
+
+Grab Back revision 21335 (+2 to Reflex Defense against Grab and Grapple
+attacks) and Grapple Resistance revision 20181 (+5 to Reflex Defense when an
+enemy makes a Grab or Grapple attack) use Reflex vs. `grab-grapple`, both
+unnamed, so they add. Grab Back's counter-Grab Reaction and Grapple
+Resistance's opposed Grapple check and held-object bonuses remain manual. Both
+are Partial.

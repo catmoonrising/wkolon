@@ -2,6 +2,7 @@ import {resolveEquipment} from './equipment.js';
 import {fullAttackGrip} from './full-attacks.js';
 import {ambiguityValue} from './house-rules.js';
 import {activeLightsabers} from './power-activation.js';
+import {conditionalDefenseLabel} from './defensive-combat.js';
 
 // Lightsaber Defense counts ignited Lightsabers; other records name one wielded weapon.
 export function turnTalentWeapons(c,pack,rule){return rule.weaponGroup==='lightsabers'?activeLightsabers(c,pack):c.inventory.filter(e=>e.equipped&&e.carried!==false&&e.id===rule.weaponId);}
@@ -27,15 +28,18 @@ export function activeTurnTalents(c,pack,ctx){
   return amount?[{...s,amount,rule,name:pack.talents.find(t=>t.id===rule.talentId).name}]:[];
  });
 }
+// Awareness-conditional rows feed conditional Defenses; plain typed bonuses join the base totals.
 export function turnTalentEffects(c,pack,ctx,{flatFooted,helpless}){
- return flatFooted||helpless?[]:activeTurnTalents(c,pack,ctx).map(s=>({...s.rule.effect,amount:s.amount}));
+ return flatFooted||helpless?[]:activeTurnTalents(c,pack,ctx).filter(s=>s.rule.effect.target==='conditionalDefense').map(s=>({...s.rule.effect,amount:s.amount}));
 }
+export const turnTalentDefenseBonuses=(c,pack,ctx)=>activeTurnTalents(c,pack,ctx).filter(s=>s.rule.effect.target==='defenseBonus').map(s=>({...s.rule.effect,amount:s.amount}));
+export const turnTalentBenefit=(rule,amount)=>'Reflex +'+amount+(rule.effect.target==='defenseBonus'?' '+rule.effect.type[0].toUpperCase()+rule.effect.type.slice(1):' ('+conditionalDefenseLabel(rule.effect)+')');
 export function turnTalentPlan(c,d,pack,id){
  const rule=pack.rules.turnTalentActions?.find(r=>r.id===id),has=id=>d.ctx.talents.some(t=>t.id===id&&!d.ctx.inactiveTalents.has(t.id));
  if(!rule||!has(rule.talentId))throw new Error('Talent unavailable');
  if(d.incapacitated||d.helpless)throw new Error('Actions unavailable while helpless');
- const weapons=turnTalentWeapons(c,pack,rule);
- if(!weapons.length)throw new Error(rule.weaponGroup==='lightsabers'?'Requires an activated, wielded Lightsaber':'Requires a wielded '+pack.equipment.find(e=>e.id===rule.weaponId).name);
+ const weapons=rule.weaponGroup||rule.weaponId?turnTalentWeapons(c,pack,rule):[];
+ if((rule.weaponGroup||rule.weaponId)&&!weapons.length)throw new Error(rule.weaponGroup==='lightsabers'?'Requires an activated, wielded Lightsaber':'Requires a wielded '+pack.equipment.find(e=>e.id===rule.weaponId).name);
  const rank=d.ctx.talents.filter(t=>t.id===rule.talentId&&!d.ctx.inactiveTalents.has(t.id)).length;
  const amount=Math.min(rule.maximum,rank*rule.amountPerSelection)*(rule.doubleTalentId&&has(rule.doubleTalentId)&&weapons.length>=rule.doubleWeaponCount?2:1);
  if((c.turnTalents?.find(r=>r.id===id)?.amount||0)>=amount)throw new Error('Already active');
