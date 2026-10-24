@@ -2773,3 +2773,10 @@ no nonheroic classes, so Heroic Level equals Character Level. All Partial.
 
 Luck Favors the Bold (Gambling Leader r20650) joins the declared grants: 5 +
 half Heroic Level, only while conscious. Partial.
+
+## Average HP source check
+
+The Level Benefits page could not be fetched on 2026-10-24 (HTTP 403). Its
+pinned revision 26144 supplies the round-up average values, but explicit
+permission to choose them as an official optional rule remains unverified.
+The user's requested House Rule stays available with its existing off default.
