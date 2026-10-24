@@ -63,3 +63,6 @@ catalog; see vehicles.md. It is initially relevant to trained Pilots and charact
 with owned vehicles, and is also accessible from creation's equipment tab.
 
 Senses summarizes existing vision calculations in its own view; see senses.md.
+
+See [the sister-site module comparison](module-comparison.md) for counterparts
+and remaining module gaps.
