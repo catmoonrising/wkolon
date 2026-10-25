@@ -2,17 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {newCharacter,derive,validateCharacter} from '../src/rules.js';
+import fixtures from '../tools/class-defense-fixtures.cjs';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-const row=(cls,talent=null)=>({classId:'class:'+cls,hpRoll:5,feats:[],talent:talent?{id:'talent:'+talent}:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]});
-// Legal Jedi 7 with three Force talents, entering Force Adept and taking Psychic Citadel from the Telepath tree.
-function adept(talent='psychic-citadel',adeptLevels=1){
- const c=newCharacter(pack,{classId:'class:jedi'});c.abilityMethod='manual';c.abilities={str:12,dex:14,con:12,int:10,wis:14,cha:14};c.trainedSkills=['skill:use-the-force'];c.levels[0].talent={id:'talent:equilibrium'};
- for(let n=2;n<=7;n++)c.levels.push(row('jedi',n===3?'force-recovery':n===5?'force-focus':null));
- const cls=pack.classes.find(r=>r.id==='class:force-adept');c.levels.push({...row('force-adept',talent),entryDeclarations:Object.fromEntries((cls.entrySpecials||[]).map(s=>[s.id,true]))});
- for(let n=2;n<=adeptLevels;n++)c.levels.push(row('force-adept'));
- validateCharacter(c,pack);return c;
-}
+const {adept}=fixtures(pack,{newCharacter,derive,validateCharacter});
 const will=(c,p=pack)=>derive(c,p).defenses.will;
 
 test('Psychic Citadel metadata is pinned and Partial',()=>{

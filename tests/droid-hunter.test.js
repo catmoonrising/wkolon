@@ -2,11 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {newCharacter,derive,validateCharacter} from '../src/rules.js';
+import fixtures from '../tools/class-defense-fixtures.cjs';
 import {validatePack} from '../tools/validate-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
-const item=id=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0});
-// Legal level-1 Noble with Droid Hunter (proficient with Pistols and Simple Weapons, not Rifles).
-function noble(feat=true){const c=newCharacter(pack,{classId:'class:noble'});c.abilityMethod='manual';c.abilities={str:12,dex:14,con:12,int:12,wis:10,cha:14};c.levels[0].feats=feat?[{id:'feat:droid-hunter'}]:[];c.inventory=[item('blaster-pistol'),item('ion-pistol'),item('blaster-rifle'),item('knife')];validateCharacter(c,pack);return c;}
+const {hunter:noble}=fixtures(pack,{newCharacter,derive,validateCharacter});
 const row=(c,i,target)=>{const q=structuredClone(c);q.attackTarget=target;validateCharacter(q,pack);return derive(q,pack).attacks.find(a=>a.uid===q.inventory[i].uid);};
 
 test('Droid Hunter metadata is pinned and Partial',()=>{
