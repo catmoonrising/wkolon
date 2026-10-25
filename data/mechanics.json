@@ -44598,9 +44598,16 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetAttack",
+          "against": "primeTarget",
+          "amount": 2,
+          "type": "morale"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:destructive-ambusher",
@@ -44617,9 +44624,15 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetDice",
+          "against": "primeTarget",
+          "dice": 1
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:keep-it-going",
@@ -44909,9 +44922,15 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "rangedBeyondPointBlankDamage",
+          "classLevel": "class:assassin",
+          "divisor": 2
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:sniping-marksman",
@@ -51512,9 +51531,16 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetDice",
+          "against": "notAttackedSince",
+          "dice": 1,
+          "weaponGroup": "lightsabers"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:reap-retribution",
@@ -52094,9 +52120,17 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetDice",
+          "against": "movedBeforeAttack",
+          "dice": 1,
+          "weaponGroup": "lightsabers",
+          "singleTwoHanded": true
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:strength-of-the-empire",
@@ -56466,9 +56500,15 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetDice",
+          "against": "notYetActed",
+          "dice": 2
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:higher-yield",
@@ -59148,9 +59188,16 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetDice",
+          "against": "unawareOfYou",
+          "dice": 1,
+          "mode": "ranged"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:mark-the-target",

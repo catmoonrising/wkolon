@@ -2,8 +2,8 @@ import {weaponIdentityGroup} from './weapon-rules.js';
 import {ambiguityValue} from './house-rules.js';
 import {modifierIncrease} from './modifiers.js';
 
-export const attackTarget=c=>({cover:'none',concealment:'none',darkness:false,prone:false,helpless:false,adjacentToAlly:false,attackSquare:false,dexDenied:false,jedi:false,forceSensitive:false,darkSide:false,noCover:false,adjacent:false,concealed:false,flanking:false,beastDarkSide:false,flankedSelf:false,harmedAlly:false,squadAdjacent:false,withdrewFromYou:false,aboardStarship:false,...c.attackTarget});
-export const TARGET_TRAITS=[['dexDenied','Denied Dexterity'],['jedi','Jedi'],['forceSensitive','Force Sensitivity'],['darkSide','Dark Side Score 1+'],['noCover','You lack Cover'],['adjacent','Adjacent'],['concealed','You have Concealment'],['flanking','You flank'],['beastDarkSide','Beast, Dark Side Score 1+'],['flankedSelf','You are Flanked'],['harmedAlly','Moved an ally down the Condition Track'],['squadAdjacent','You and two allies adjacent'],['withdrewFromYou','Withdrew from your threatened area'],['aboardStarship','You are aboard a Starship']];
+export const attackTarget=c=>({cover:'none',concealment:'none',darkness:false,prone:false,helpless:false,adjacentToAlly:false,attackSquare:false,dexDenied:false,jedi:false,forceSensitive:false,darkSide:false,noCover:false,adjacent:false,concealed:false,flanking:false,beastDarkSide:false,flankedSelf:false,harmedAlly:false,squadAdjacent:false,withdrewFromYou:false,aboardStarship:false,notAttackedSince:false,notYetActed:false,unawareOfYou:false,primeTarget:false,movedBeforeAttack:false,...c.attackTarget});
+export const TARGET_TRAITS=[['dexDenied','Denied Dexterity'],['jedi','Jedi'],['forceSensitive','Force Sensitivity'],['darkSide','Dark Side Score 1+'],['noCover','You lack Cover'],['adjacent','Adjacent'],['concealed','You have Concealment'],['flanking','You flank'],['beastDarkSide','Beast, Dark Side Score 1+'],['flankedSelf','You are Flanked'],['harmedAlly','Moved an ally down the Condition Track'],['squadAdjacent','You and two allies adjacent'],['withdrewFromYou','Withdrew from your threatened area'],['aboardStarship','You are aboard a Starship'],['notAttackedSince','Not attacked since your last turn'],['notYetActed','Has not acted in combat'],['unawareOfYou','Unaware of you'],['primeTarget','Your Prime Target'],['movedBeforeAttack','You moved at least 1 square this turn']];
 export function targetConcealment(target,vision,scope=false){
  if(!target.darkness)return target.concealment;
  if(vision==='darkvision'||target.concealment!=='total'&&(vision==='low-light'||scope))return 'none';
@@ -54,7 +54,7 @@ export function sentinelStrikeDice(c,pack,ctx,effects,a){
 // Reviewed opponent-trait bonuses: typed attack increase, flat damage and extra weapon dice.
 export function targetTraitBonuses(c,pack,effects,a,mods={},ctx={}){
  const t=attackTarget(c),group=weaponIdentityGroup(a,ctx);
- const match=e=>t[e.against]&&(!e.mode||a.mode===e.mode)&&(!e.unarmed||!!a.unarmed)&&(!e.weaponGroup||group===e.weaponGroup||!!e.scopeAmbiguityId&&ambiguityValue(c,pack,e.scopeAmbiguityId)==='attack-any');
+ const match=e=>t[e.against]&&(!e.mode||a.mode===e.mode)&&(!e.unarmed||!!a.unarmed)&&(!e.singleTwoHanded||!!a.singleTwoHandedLightsaber)&&(!e.weaponGroup||group===e.weaponGroup||!!e.scopeAmbiguityId&&ambiguityValue(c,pack,e.scopeAmbiguityId)==='attack-any');
  if(a.areaType||!a.damage)return null;
  const source=e=>(pack.talents.find(r=>r.id===e.selection?.id)||pack.feats.find(r=>r.id===e.selection?.id))?.name||'';
  const attackRows=effects.filter(e=>e.target==='targetAttack'&&match(e)),damageRows=effects.filter(e=>e.target==='targetDamage'&&match(e)),diceRows=effects.filter(e=>e.target==='targetDice'&&match(e));

@@ -101,3 +101,54 @@ amount:1, type:'untyped', when:'aboardStarship'}` for every personal attack,
 including area attacks. Starship Weapons are not personal attack rows yet, so
 that clause stays manual. The flag appears only to owners or while set. The
 record is Partial.
+
+## Declared-target extra dice
+
+This section precedes calculations. Three pinned talents add weapon damage dice
+against an opponent in a declared state, through `targetDice` (hit-only, joined
+to every damage expression so critical hits multiply them; non-area attacks):
+
+- Prime Targets (Jedi Sentinel Talent Tree revision 26765, Galaxy at War): "When
+  you hit a target with a Lightsaber attack, if the target has not been attacked
+  since the end of your last turn, you deal +1 die of damage." Flag
+  `notAttackedSince` ("Not attacked since your last turn"), Lightsaber attacks.
+- Ambush Commando (Republic Commando Talent Tree revision 20035, Clone Wars
+  Campaign Guide): "When you successfully hit an opponent that has not yet acted
+  in combat, you deal +2 dice of damage with the attack." Flag `notYetActed`
+  ("Has not acted in combat"), any attack.
+- Invisible Attacker (Vanguard Talent Tree revision 20088, Clone Wars Campaign
+  Guide): "If your target is unaware of you, your Ranged Attacks deal +1 die of
+  damage against that target." Flag `unawareOfYou` ("Unaware of you"), ranged.
+
+Flags are declarations shown only to owners or while set; the opponent's state
+is never inferred. Undescribed extra dice stack. All three records are Partial.
+
+## Prime Target
+
+This section precedes calculations. Ambusher Talent Tree revision 15815 (Rebellion
+Era Campaign Guide). Ambush Specialist: "during the Surprise Round as a Free
+Action you can designate a target as your Prime Target. You gain a +2 morale
+bonus to attack rolls against your Prime Target until the end of the encounter."
+Destructive Ambusher: "After you designate a Prime Target, you deal +1 die of
+damage on attacks against the Prime Target until the end of the encounter."
+
+A declared `primeTarget` flag ("Your Prime Target") marks the selected opponent.
+Ambush Specialist adds `{target:'targetAttack', against:'primeTarget', amount:2,
+type:'morale'}`; Destructive Ambusher adds `{target:'targetDice',
+against:'primeTarget', dice:1}`, through the shared opponent-trait resolver
+(non-area attacks). The designation itself, its Surprise Round timing,
+encounter-long upkeep, and Ambush Specialist's first-round-as-Surprise-Round
+clause remain manual declarations. Both records are Partial.
+
+## Praetoria Vonil
+
+This section precedes calculations. Knight's Resolve Talent Tree revision 20228
+(Legacy Era Campaign Guide): "When wielding a single Lightsaber with two hands,
+you deal +1 die of damage if you move at least 1 square on your turn before
+making the attack." A declared attacker-state flag `movedBeforeAttack` ("You
+moved at least 1 square this turn") activates `{target:'targetDice',
+against:'movedBeforeAttack', dice:1, weaponGroup:'lightsabers',
+singleTwoHanded:true}`. The attack must use a Lightsaber (shared identity group)
+declared two-handed while it is the only wielded, activated Lightsaber entry.
+Movement is not inferred from the movement controls, so the flag is a
+declaration that the player clears. The record is Partial.

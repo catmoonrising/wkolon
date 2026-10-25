@@ -46,3 +46,15 @@ qualifies and the folded-stock range alternative does not affect it. The amount
 is unchanged: floor(Gunslinger level / 2), zero before level 2, with no extra
 proficiency requirement. A weapon receives the bonus at most once. The record
 is Partial.
+
+## Sniping Assassin
+
+This section precedes calculations. Assassin Talent Tree revision 15944 (Sniping
+Assassin, Scum and Villainy): "When you make a Ranged Attack against a target
+that is not at Point-Blank Range, you add half your Class Level to your damage
+roll." Only the Assassin class has this tree, so Class Level is the active
+Assassin level. `{target:'rangedBeyondPointBlankDamage', classLevel:
+'class:assassin', divisor:2}` adds floor(Assassin level / 2) to ranged damage
+when the shared range band from the declared distance is Short or farther. No
+declared distance means no bonus, as for Point-Blank Shot. The record is
+Partial.

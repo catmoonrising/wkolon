@@ -2905,3 +2905,31 @@ declaration. Both Partial.
 
 Spacer Talent Tree r18516 (Core Rulebook): +1 on personal attack rolls while
 declared aboard a Starship. Starship Weapons stay manual. Partial.
+
+
+## Prime Targets, Ambush Commando and Invisible Attacker
+
+Jedi Sentinel r26765, Republic Commando r20035 and Vanguard r20088: extra weapon
+damage dice against declared opponent states (not attacked since your last
+turn, Lightsaber; has not acted, +2 dice; unaware of you, ranged). States are
+never inferred. All Partial.
+
+
+## Ambush Specialist and Destructive Ambusher
+
+Ambusher Talent Tree r15815: +2 morale attack and +1 die against a declared
+Prime Target. Designation timing, encounter upkeep and the first-round
+Surprise Round clause stay manual. Both Partial.
+
+
+## Praetoria Vonil
+
+Knight's Resolve Talent Tree r20228: +1 die with a single two-handed Lightsaber
+after declaring at least 1 square of movement this turn. Movement is declared,
+not inferred. Partial.
+
+
+## Sniping Assassin
+
+Assassin Talent Tree r15944: + floor(Assassin level / 2) damage on ranged
+attacks at Short Range or farther, by declared distance. Partial.
