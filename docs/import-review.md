@@ -2981,3 +2981,8 @@ Ember of Vahl Talent Tree r20145: +1 Force bonus on attacks with Simple Weapons
 Trench Warrior r20074 (+1 circumstance) and Cornered r19635 (+2) attack bonuses
 against declared opponents. Positions and Withdraw eligibility are declared.
 Both Partial.
+
+## Psychic Citadel
+
+Telepath Talent Tree r20549: Force bonus to Will Defense equal to Force Adept
+level. Partial.

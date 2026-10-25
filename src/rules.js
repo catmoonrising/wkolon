@@ -502,7 +502,7 @@ export function derive(c, pack) {
     const sp = species.defenses[key] || 0;
     const armorFortitude=Math.max(0,...armorItems.filter(r=>armorProficient(r,ctx)).map(r=>r.fortitudeBonus+armorEffect(r,'armorFortitude')));
     const equipment=key==='fortitude'?armorFortitude:key==='will'&&total('armorFortitudeToWill')?armorFortitude:0;
-    const defenseEffects=effects.filter(e=>(e.target==='defenses'||e.target==='defenseBonus'&&e.defense===key)&&(e.when==='fightDefensively'?defensiveCombat.stance!=='none':applies(e))).map(e=>({...e,amount:e.amount*(e.perLevel?level:1)}));
+    const defenseEffects=effects.filter(e=>(e.target==='defenses'||e.target==='defenseBonus'&&e.defense===key)&&(e.when==='fightDefensively'?defensiveCombat.stance!=='none':applies(e))).map(e=>({...e,amount:e.classLevel?(ctx.inactiveClasses.has(e.classLevel)?0:ctx.classLevels.get(e.classLevel)||0):e.amount*(e.perLevel?level:1)}));
     defenseModifiers[key]=[{type:'equipment',amount:equipment},...defenseEffects];
     const featDefense=modifierTotal(defenseModifiers[key])-equipment;
     equipmentDefenseBonuses[key]=equipment;

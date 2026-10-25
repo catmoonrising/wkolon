@@ -58671,9 +58671,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"defenseBonus","defense":"will","type":"force","classLevel":"class:force-adept"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:psychic-defenses",

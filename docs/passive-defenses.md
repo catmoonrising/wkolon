@@ -58,3 +58,11 @@ active Bounty Hunter level. The effect `{target:'conditionalDefense',
 defense:'will', against:'use-the-force', type:'untyped', classLevel:
 'class:bounty-hunter'}` resolves its amount from that level and shares the
 existing "vs. Use the Force" row. Partial.
+
+Telepath Talent Tree revision 20549 (Psychic Citadel, Jedi Academy Training
+Manual): "You gain a Force bonus to your Will Defense equal to your Class
+Level." Only the Force Adept class has this tree, so Class Level is the active
+Force Adept level. `{target:'defenseBonus', defense:'will', type:'force',
+classLevel:'class:force-adept'}` resolves its amount from that level (zero while
+the class is inactive) through the existing Defense modifier resolver, where
+Force bonuses do not stack with each other. Partial.
