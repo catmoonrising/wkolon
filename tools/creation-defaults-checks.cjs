@@ -13,7 +13,7 @@ module.exports=async(browser,base,root,transport)=>{
   await creation.tab(page,'equipment');assert(await page.locator('#cr-body [data-action="starting-credits"]').isDisabled());
   await page.reload();await page.locator('.level-plan').waitFor();assert((await stored()).levels[0].pendingClass);
   await creation.openChoice(page,'class');const tree=page.locator('#feature-tree-body'),bases=tree.locator('.base-class-options');
-  assert.deepEqual(await bases.locator('[data-tree-pick]').allTextContents(),['Jedi','Noble','Scoundrel','Scout','Soldier']);
+  assert.deepEqual(await bases.locator('[data-tree-pick]').evaluateAll(es=>es.map(e=>e.getAttribute('aria-label'))),['Jedi','Noble','Scoundrel','Scout','Soldier']);
   assert.equal(await bases.locator('[aria-pressed="true"]').count(),0);
   assert(await bases.evaluate(el=>el.getBoundingClientRect().bottom<=el.nextElementSibling.getBoundingClientRect().top));
   assert.equal(await tree.locator('[data-tree-pick^="class:"]').count(),37);
