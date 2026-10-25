@@ -152,3 +152,23 @@ singleTwoHanded:true}`. The attack must use a Lightsaber (shared identity group)
 declared two-handed while it is the only wielded, activated Lightsaber entry.
 Movement is not inferred from the movement controls, so the flag is a
 declaration that the player clears. The record is Partial.
+
+## Trench Warrior and Cornered
+
+This section precedes calculations. Trench Warrior revision 20074 (Clone Wars
+Campaign Guide): "When you are adjacent to a wall or object that provides you
+with Cover from your target's Ranged Attacks, you gain a +1 circumstance bonus
+on your attack rolls against that target." Declared flag `trenchCover`
+("Your adjacent wall or object gives Cover from it"); `{target:'targetAttack',
+against:'trenchCover', amount:1, type:'circumstance',
+circumstance:'trench-cover'}`.
+
+Cornered revision 19635 (Scum and Villainy): "Whenever you are Threatened by an
+opponent and unable to take the Withdraw Action, you gain a +2 bonus on attack
+rolls against opponents that Threaten you." Declared flag `corneredBy`
+("Threatens you; you cannot Withdraw"); `{target:'targetAttack',
+against:'corneredBy', amount:2, type:'untyped'}`.
+
+Positions, Cover sources and Withdraw eligibility are declarations, never
+inferred. Both apply to non-area attacks through the shared opponent-trait
+resolver; flags appear only to owners or while set. Both records are Partial.

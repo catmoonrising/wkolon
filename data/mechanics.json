@@ -35439,9 +35439,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetAttack","against":"trenchCover","amount":1,"type":"circumstance","circumstance":"trench-cover"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:unstoppable-force",
@@ -38013,9 +38013,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetAttack","against":"corneredBy","amount":2,"type":"untyped"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:crossfire",

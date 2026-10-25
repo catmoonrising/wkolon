@@ -2975,3 +2975,9 @@ denied-Dexterity check. Partial.
 
 Ember of Vahl Talent Tree r20145: +1 Force bonus on attacks with Simple Weapons
 (including Unarmed Attacks), by shared weapon identity. Partial.
+
+## Trench Warrior and Cornered
+
+Trench Warrior r20074 (+1 circumstance) and Cornered r19635 (+2) attack bonuses
+against declared opponents. Positions and Withdraw eligibility are declared.
+Both Partial.
