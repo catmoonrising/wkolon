@@ -71,9 +71,19 @@ export function featureGraph(pack,options) {
   const owned=classRequirement(p,ctx,ix,classDraft(cls)),name=classRequirementLabel(p,ix,cls);
   nodes.set(key,{key,name,group:null,records:record?[record]:[],parents:[],main:false,owned,available:owned,selected:false});out.push({key,alternative});
  }
+ // Only suppress an injected access edge when every prerequisite route
+ // already implies Force Sensitivity. An OR branch must not hide a real gate.
+ function impliesForce(p,seen=new Set()){
+  if(p.kind==='all')return p.requirements.some(r=>impliesForce(r,seen));
+  if(p.kind==='any')return p.requirements.length>0&&p.requirements.every(r=>impliesForce(r,seen));
+  if(p.kind==='feat'&&p.value==='feat:force-sensitivity'||p.kind==='trained'&&p.value==='skill:use-the-force')return true;
+  if(p.kind!=='talent'||seen.has(p.value))return false;
+  const r=ix.talents.get(p.value);if(!r)return false;
+  return !!r.forceActivation||impliesForce(r.prerequisite,new Set([...seen,p.value]));
+ }
  for(const node of [...nodes.values()])if(node.main) {
   if(classMode){node.records.forEach(r=>(r.entryRequirements||[]).forEach(p=>classParents(p,node.parents,node.key,r)));continue;}
-  node.records.forEach(r=>{parents(r.prerequisite,node.parents,node.key);if(r.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing'))parents({kind:'feat',value:'feat:force-sensitivity'},node.parents,node.key);});node.parents=node.parents.filter(p=>p.key!==node.key);
+  node.records.forEach(r=>{parents(r.prerequisite,node.parents,node.key);if(r.forceActivation&&counselingEnabled(ctx,'jc:106-jedi-multiclassing')&&!impliesForce(r.prerequisite))parents({kind:'feat',value:'feat:force-sensitivity'},node.parents,node.key);});node.parents=node.parents.filter(p=>p.key!==node.key);
  }
  const main=[...nodes.values()].filter(n=>n.main);
  return {nodes,groups:[...new Set(main.flatMap(n=>n.groups||[]))].sort((a,b)=>treeTitle(a,pack).localeCompare(treeTitle(b,pack))),possible};
@@ -112,7 +122,7 @@ export function createFeatureTrees(pack) {
   const nodeHTML=(n,base=false)=>{
    const hasText=n.records.some(r=>r.article),expanded=state(options.key).expanded.has(n.key);
    const blockedVersion=n.records.some(r=>r.exclusiveGroup&&(options.ctx[options.type]||[]).some(f=>pack[options.type].find(p=>p.id===f.id)?.exclusiveGroup===r.exclusiveGroup&&f.id!==r.id));
-   return `<article class="feature-tree-node ${n.owned?'owned':!n.available?'unavailable':''} ${n.selected?'selected':''} ${n.main?'':'prerequisite-node'} ${base?'base-class-node':''} ${expanded?'expanded':''}" ${base?'':`data-tree-node="${escape(n.key)}" data-tree-rank="${n.rank}"`}><div class="feature-tree-node-head">${hasText?`<button type="button" class="feature-fold" data-tree-fold="${escape(n.key)}" aria-expanded="${expanded}" aria-label="${expanded?'Fold':'Unfold'} ${escape(n.name)}">${expanded?'▼':'▶'}</button>`:''}${n.main?`<button type="button" class="feature-pick" data-tree-pick="${escape(n.key)}" aria-pressed="${n.selected}" aria-label="${escape(n.name)}${n.owned?' (possessed)':''}" ${n.available||n.selected?'':`disabled title="${n.owned?'Already possessed':blockedVersion?'Another version already possessed':'Prerequisites or class access not met'}"`}>${escape(n.name)}</button>`:`<span>${escape(n.name)}</span>`}${n.main?automationBadge(n.records[0]):''}</div>${expanded&&hasText?`<div class="feature-tree-description">${mechanics(n)}</div>`:''}</article>`;
+   return `<article class="feature-tree-node ${n.owned?'owned':!n.available?'unavailable':''} ${n.selected?'selected':''} ${n.main?'':'prerequisite-node'} ${base?'base-class-node':''} ${expanded?'expanded':''}" ${base?'':`data-tree-node="${escape(n.key)}" data-tree-rank="${n.rank}"`}><div class="feature-tree-node-head">${hasText?`<button type="button" class="feature-fold" data-tree-fold="${escape(n.key)}" aria-expanded="${expanded}" aria-label="${expanded?'Fold':'Unfold'} ${escape(n.name)}">${expanded?'▼':'▶'}</button>`:''}${n.main?`<button type="button" class="feature-pick" data-tree-pick="${escape(n.key)}" aria-pressed="${n.selected}" aria-label="${escape(n.name)}${n.owned?' (possessed)':''}" ${n.available||n.selected?'':`disabled title="${n.owned?'Already possessed':blockedVersion?'Another version already possessed':'Prerequisites or class access not met'}"`}>${n.selected?'Selected':'Select'}</button><span>${escape(n.name)}</span>`:`<span>${escape(n.name)}</span>`}${n.main?automationBadge(n.records[0]):''}</div>${expanded&&hasText?`<div class="feature-tree-description">${mechanics(n)}</div>`:''}</article>`;
 
   };
   return `${model.baseNodes.length?`<div class="base-class-options" role="group" aria-label="Base classes">${model.baseNodes.map(n=>nodeHTML(n,true)).join('')}</div>`:''}<div class="feature-tree-scroll" tabindex="0" aria-label="${options.type==='feats'?'Feat':options.type==='talents'?'Talent':options.type==='classes'?'Class':'Class feature'} prerequisites" data-tree-scroll="${escape(options.key)}"><div class="feature-tree-stage"><div class="feature-tree-canvas"><svg class="feature-tree-arrows" aria-hidden="true"><g></g></svg>${model.nodes.map(n=>nodeHTML(n)).join('')}</div></div>${model.nodes.length||model.baseNodes.length?'':'<p role="status">No matches</p>'}</div>`;

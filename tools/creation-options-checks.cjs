@@ -15,13 +15,12 @@ module.exports=async function(browser,base,root){
   assert.equal(await body.locator('[data-knowledge-group]').count(),1);assert.equal(await body.locator('[data-trained^="skill:knowledge-"]').count(),0);
   const acrobatics=body.locator('[data-skill-option="skill:acrobatics"]'),pilot=body.locator('[data-skill-option="skill:pilot"]');
   assert.equal(await body.locator('[data-option-preview]:visible').count(),0);await acrobatics.locator('[data-option-toggle]').click();assert((await acrobatics.innerText()).includes('You can move at normal speed across'));assert(await body.locator('[data-trained="skill:use-the-force"]').isDisabled());
-  await acrobatics.locator('.option-name').click();assert((await page.locator('#rule-detail-body').innerText()).includes('DC 15'));
-  await page.locator('#rule-detail-close').click();assert(!(await acrobatics.locator('input').isChecked()));
+  assert.equal(await acrobatics.locator('a.option-name').count(),0);assert((await acrobatics.innerText()).includes('DC 15'));assert(!(await acrobatics.locator('[data-trained]').isChecked()));
   const search=body.locator('[data-option-search]');await search.fill('Nimble Charge');assert.equal(await body.locator('[data-skill-option]').count(),1);await search.fill('');
-  await acrobatics.locator('[data-option-applications] summary').click();assert((await acrobatics.innerText()).includes('Additional Applications'));
+  assert((await acrobatics.innerText()).includes('Additional Applications'));
   await body.locator('[data-option-fold="fold"]').click();assert.equal(await body.locator('[data-option-preview]:visible').count(),0);
-  await body.locator('[data-option-fold="unfold"]').click();assert.equal(await body.locator('[data-option-preview]:visible').count(),19);assert.equal(await body.locator('[data-option-applications][open]').count(),19);
-  await pilot.locator('[data-option-toggle]').click();await pilot.locator('input').check();assert(!(await pilot.locator('[data-option-preview]').isVisible()));assert(pilot&&await pilot.locator('input').isChecked());
+  await body.locator('[data-option-fold="unfold"]').click();assert.equal(await body.locator('[data-option-preview]:visible').count(),19);assert.equal(await body.locator('[data-option-applications]').count(),0);
+  await pilot.locator('[data-option-toggle]').click();await pilot.locator('[data-trained]').check();assert(!(await pilot.locator('[data-option-preview]').isVisible()));assert(pilot&&await pilot.locator('[data-trained]').isChecked());
   await creationUI.openChoice(page,'feat');await creationUI.tab(page,'skills');assert(!(await pilot.locator('[data-option-preview]').isVisible()));
   await body.locator('[data-knowledge-group]').check();await body.locator('[data-knowledge-field]').selectOption('skill:knowledge-tactics');
   assert.equal(await body.locator('[data-knowledge-field]').inputValue(),'skill:knowledge-tactics');await body.locator('[data-remove-knowledge]').click();assert.equal(await body.locator('[data-knowledge-field]').count(),0);
@@ -32,7 +31,7 @@ module.exports=async function(browser,base,root){
   await page.waitForFunction(()=>document.querySelector('#save-status').textContent==='Saved');
   await page.evaluate(async()=>{await navigator.serviceWorker.register('./sw.js');await navigator.serviceWorker.ready;});await page.waitForFunction(()=>navigator.serviceWorker.controller!==null);
   await context.setOffline(true);await page.reload();await editor.waitFor();await creationUI.tab(page,'skills');assert(await body.locator('[data-trained="skill:pilot"]').isChecked());
-  await body.locator('[data-skill-option="skill:acrobatics"] .option-name').click();assert((await page.locator('#rule-detail-body').innerText()).includes('Tumble'));await page.locator('#rule-detail-close').click();
+  await body.locator('[data-option-toggle="skill:acrobatics"]').click();assert((await body.locator('[data-skill-option="skill:acrobatics"]').innerText()).includes('Tumble'));assert(!await page.locator('#rule-detail-modal').isVisible());
   await page.setViewportSize({width:390,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await creationUI.openChoice(page,'class');assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   assert.deepEqual(errors,[]);console.log('Creation options: comparison cards, verbatim skill rules, full-text search, fold states, Knowledge fields, unavailable choices and offline mobile passed');
  }finally{await context.close();}

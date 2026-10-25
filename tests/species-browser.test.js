@@ -23,6 +23,11 @@ test('search includes full articles and preserves disclosure state; sorting uses
  sort('speed');assert(browser.results('').indexOf('Beta')<browser.results('').indexOf('Alpha'));sort('speed');assert(browser.results('').indexOf('Alpha')<browser.results('').indexOf('Beta'));
  sort('size');assert(browser.results('').indexOf('Beta')<browser.results('').indexOf('Alpha'));sort('name');assert(browser.results('').includes('Species ▼'));sort('name');assert(browser.results('').includes('Species ▲'));
 });
+test('species names lead a full-text search, while explicit column sorting takes precedence',()=>{
+ const browser=createSpeciesBrowser(pack),ids=()=>[...browser.results('species:human').matchAll(/data-select-species="([^"]+)"/g)].map(m=>m[1]);
+ browser.search('HuMaN');assert.equal(ids()[0],'species:human');assert(ids().includes('species:advozse'),'description-only humanoid match remains searchable');assert(ids().includes('species:altiri'),'Near-Human description remains searchable');browser.toggle('species:human');assert(browser.results('').includes('aria-expanded="true"'));
+ browser.sort({target:{closest:()=>({dataset:{sort:'name'}})}},()=>{});assert.notEqual(ids()[0],'species:human','explicit alphabetical order overrides relevance');browser.search(' human ');assert.equal(ids()[0],'species:human');browser.search('');assert.equal(ids().length,pack.species.length);
+});
 test('Gungan text preserves species sections and linked complete feats; Gamorrean grants replay without leaking to other species',()=>{
  const g=pack.species.find(r=>r.name==='Gungan'),text=articleText(g.article),html=renderArticle(g.article);
  assert(text.indexOf('Characteristics')<text.indexOf('Gungan Species Traits'));assert(text.indexOf('Gungan Species Traits')<text.indexOf('Gungan Species Feats'));

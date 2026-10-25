@@ -101,8 +101,8 @@ export function layoutFeatureGraph(nodes, sizes) {
     const right=Math.max(...previous.map(key=>positions.get(key).exitX));let run=gap-12;
     for(const key of keys)for(const parent of byKey.get(key).parents){
      const from=positions.get(parent.key),to=positions.get(key);
-     // Short horizontal handles need rise / tan(60°) + handle length
-     // to stay within 60 degrees. Half-run handles doubled the required space for tall branches.
+     // Limit the underlying route to 60 degrees before smoothing, as requested.
+     // Proportional Bezier handles restore visible curves without widening every rank.
      run=Math.max(run,Math.abs(to.center-from.center)/maxSlope+16);
     }
     x=right+run+4;
@@ -123,7 +123,7 @@ export function featureEdgePath(a,b,via=[]){
  const x=a.x+a.width,y=a.center,exit=a.exitX??x,tx=b.x-4,ty=b.center;
  const points=[{x,y},{x:exit,y}];let shaft=`M${x},${y} H${exit}`,prior={x:exit,y},mid;
  for(const target of [...via,b]){
-  const tip={x:target.x-4,y:target.center},handle=Math.min(16,Math.max(0,(tip.x-prior.x)/3));mid=(prior.x+tip.x)/2;
+  const tip={x:target.x-4,y:target.center},handle=Math.max(0,(tip.x-prior.x)*.42);mid=(prior.x+tip.x)/2;
   const first={x:prior.x+handle,y:prior.y},last={x:tip.x-handle,y:tip.y};
   shaft+=` C${first.x},${first.y} ${last.x},${last.y} ${tip.x},${tip.y}`;
   flattenCurve([prior,first,last,tip],points);

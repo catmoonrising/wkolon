@@ -1,3 +1,4 @@
+const followup=require('./secondary-actions.cjs');
 const creationUI=require('./creator-actions.cjs');
 const choose=require('./choice-actions.cjs');
 const {chromium}=require('playwright');
@@ -173,7 +174,7 @@ const server=http.createServer((req,res)=>{
   await page.locator('#module-classes a[href="#advancement"]').click();
   await editor.locator('[data-action="add-level"]').click();
   await choose(page,'feat','feat:skill-focus|',1,0);
-  await creationUI.body(page).locator('[data-choice="feat"][data-level="1"][data-secondary]').selectOption('feat:skill-focus|skill:pilot');
+  await followup(page).pick('feat:skill-focus|skill:pilot');
   assert.equal(await page.locator('.validation').count(),0);
   await editor.locator('#next-class').selectOption('class:scout');await editor.locator('[data-action="add-level"]').click();
   await choose(page,'startingFeat','feat:shake-it-off|',2,0);
@@ -235,6 +236,7 @@ const server=http.createServer((req,res)=>{
   // Hosted cache uses a complete build, scoped to this site. Explicit registration tests it
   // on localhost; the production registration deliberately bypasses preview servers.
   await require('./combat-checks.cjs')(browser,base,root);
+  await require('./creation-consistency-checks.cjs')(browser,base,root);
   await require('./generation-checks.cjs')(browser,base,root);
   await require('./finishing-checks.cjs')(browser,base,root);
   await require('./species-checks.cjs')(browser,base,root);

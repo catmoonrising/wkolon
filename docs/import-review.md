@@ -2933,3 +2933,19 @@ not inferred. Partial.
 
 Assassin Talent Tree r15944: + floor(Assassin level / 2) damage on ranged
 attacks at Short Range or farther, by declared distance. Partial.
+
+
+Creator controls now separate inline rules disclosure from record selection.
+Skill Focus and other secondary choices open in the same follow-up screen as
+Force Training. Validation links open their acquisition slot or relevant tab.
+Point buy purchases named abilities directly, with legacy assignments preserved;
+search ranks names before description matches. No printed rule prerequisites or
+eligibility calculations change. The graph omits a redundant injected Force
+Sensitivity edge when a mandatory prerequisite already supplies it.
+
+Average starting credits is available as an explicit, once-only choice using the
+existing expected-value calculation, without enabling a house rule. A character
+starting in Jedi automatically receives the existing printed standard Lightsaber
+grant once, including higher-level builds. Starting-grant claims prevent repeated
+free items after edits/removal. This uses the conservative named-item reading of
+the Jedi class feature; a choice among the entire weapon group is not assumed.

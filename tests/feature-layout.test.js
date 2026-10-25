@@ -55,7 +55,7 @@ test('long prerequisite routes reserve intermediate rows and avoid all interveni
  }
 });
 
-test('ranged feat joins center on their prerequisites and keep every curve within 60 degrees',()=>{
+test('ranged feat joins center on their prerequisites and keep unsmoothed routes within 60 degrees',()=>{
  const node=(key,rank,parents=[])=>({key,rank,parents:parents.map(key=>({key}))});
  const nodes=[node('BAB 2',0),node('Point-Blank Shot',0),node('Careful Shot',1,['BAB 2','Point-Blank Shot']),node('Far Shot',1,['Point-Blank Shot']),node('Precise Shot',1,['Point-Blank Shot']),node('Deadeye BAB 4',1),node('Sniper BAB 4',1),node('Deadeye',2,['Careful Shot','Point-Blank Shot','Deadeye BAB 4']),node('Sniper',2,['Precise Shot','Point-Blank Shot','Sniper BAB 4'])];
  const sizes=new Map(nodes.map(n=>[n.key,{width:n.key.includes('BAB')?130:n.key==='Point-Blank Shot'?225:180,height:n.key.includes('BAB')?38:54}]));
@@ -64,16 +64,22 @@ test('ranged feat joins center on their prerequisites and keep every curve withi
  assert(graph.positions.get('Sniper').center>graph.positions.get('Precise Shot').center);
  for(const edge of graph.edges){
   const path=featureEdgePath(graph.positions.get(edge.from),graph.positions.get(edge.to),edge.via);
+  const route=[graph.positions.get(edge.from),...edge.via,graph.positions.get(edge.to)];
+  for(let i=1;i<route.length;i++){const a=route[i-1],b=route[i];assert(Math.abs(b.center-a.center)<=Math.sqrt(3)*(b.x-4-a.exitX)+1e-8,`${edge.from}→${edge.to} unsmoothed route exceeds 60 degrees`);}
   for(let i=1;i<path.points.length;i++){
    const a=path.points[i-1],b=path.points[i];
    assert(b.x>=a.x,`${edge.from}→${edge.to} doubles back`);
-   assert(Math.abs(b.y-a.y)<=Math.sqrt(3)*(b.x-a.x)+1e-8,`${edge.from}→${edge.to} exceeds 60 degrees`);
+
   }
  }
  // Layout does not change the source data or depend on prior render/zoom state.
  assert.deepEqual(layoutFeatureGraph(nodes,sizes),graph);
 });
 
+test('long connections retain proportional Bezier curves and horizontal arrow joins',()=>{
+ const a={x:0,width:40,center:20,exitX:48},b={x:640,width:80,center:220,exitX:728},path=featureEdgePath(a,b),controls=/ C([\d.]+),([\d.]+) ([\d.]+),([\d.]+)/.exec(path.shaft);
+ assert(controls);assert(Number(controls[1])-a.exitX>100,'start handle remains visible over long spans');assert(b.x-4-Number(controls[3])>100,'end handle remains visible over long spans');assert.equal(Number(controls[2]),a.center);assert.equal(Number(controls[4]),b.center);assert(path.shaft.endsWith(`${b.x-4},${b.center}`));
+});
 test('curved crossings get one underpass; shared branches, joins and separated paths stay intact',()=>{
  const pos=(x,center)=>({x,width:40,center,exitX:x+48});
  const edge=(from,to,a,b)=>({from,to,path:featureEdgePath(a,b)});
@@ -87,7 +93,7 @@ test('curved crossings get one underpass; shared branches, joins and separated p
  assert.deepEqual(featureCrossings([flat,{...flat,from:'g',to:'h'}]),[]);
 });
 
-test('wide fan-outs use a 60-degree limit and short handles, without doubling column gaps',()=>{
+test('wide fan-outs limit the route to 60 degrees before smoothing, without doubling column gaps',()=>{
  const nodes=[{key:'root',rank:0,parents:[]},...Array.from({length:24},(_,i)=>({key:'child'+i,rank:1,parents:[{key:'root'}]}))];
  const sizes=new Map(nodes.map(n=>[n.key,{width:160,height:40}]));
  const graph=layoutFeatureGraph(nodes,sizes),root=graph.positions.get('root');
@@ -95,8 +101,10 @@ test('wide fan-outs use a 60-degree limit and short handles, without doubling co
  const run=graph.positions.get('child0').x-4-root.exitX;
  assert(rise>500);assert(run<=rise/Math.sqrt(3)+16.00001);assert(run>=rise/Math.sqrt(3)+15.99999);
  for(const edge of graph.edges){
-  const p=featureEdgePath(root,graph.positions.get(edge.to)).points;
+  const target=graph.positions.get(edge.to),p=[{x:root.exitX,y:root.center},...(edge.via||[]),{x:target.x-4,y:target.center}];
   for(let i=1;i<p.length;i++)assert(Math.abs(p[i].y-p[i-1].y)<=Math.sqrt(3)*(p[i].x-p[i-1].x)+1e-8);
+  const curved=featureEdgePath(root,target,edge.via).points;
+  for(let i=1;i<curved.length;i++)assert(curved[i].x>=curved[i-1].x);
  }
 });
 

@@ -52,3 +52,11 @@ test('Force Sensitivity respects its wiki droid prerequisite and cannot unlock d
  assert(!featureGraph(fixture,{type:'feats',ctx:d.ctx,allowedIds:['feat:force-sensitivity']}).nodes.get('feat:force-sensitivity|').available);
  const block=articleText(pack.talents.find(r=>r.name==='Block').article);assert(block.startsWith('Reference Book: Core Rulebook'));assert(!block.includes('Jedi Counseling Jedi Counseling'));
 });
+
+test('mandatory Force talent ancestors suppress redundant injected access edges without changing eligibility',()=>{
+ const c=newCharacter(pack,{classId:'class:jedi'}),ctx=progression(c,pack).ctx;
+ const graph=featureGraph(pack,{type:'talents',ctx,allowedIds:pack.talents.filter(r=>r.tree==='tree:jedi-sentinel').map(r=>r.id)});
+ const clear=graph.nodes.get('talent:clear-mind|'),haze=graph.nodes.get('talent:force-haze|');
+ assert(clear.parents.some(p=>graph.nodes.get(p.key).name==='Force Sensitivity'));
+ assert.deepEqual(haze.parents.map(p=>p.key),['talent:clear-mind|']);assert(!haze.available);
+});

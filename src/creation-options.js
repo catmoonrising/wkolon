@@ -28,11 +28,11 @@ export function createCreationOptions(pack){
  const states=new Map(),configs=new Map();
  const state=key=>{if(!states.has(key))states.set(key,{query:'',expanded:new Set(),applications:new Set()});return states.get(key);};
  const rootFor=key=>[...document.querySelectorAll('[data-options-key]')].find(el=>el.dataset.optionsKey===key);
- const link=page=>`<a href="${escape(pack.sources.find(s=>s.id===page.sourceId).url)}" data-rule-page="${page.id}" class="option-name">${escape(page.name)}</a>`;
+ const link=page=>`<span class="option-name">${escape(page.name)}</span>`;
  const fold=(id,key,name)=>`<button type="button" class="option-fold" data-option-toggle="${id}" aria-expanded="${state(key).expanded.has(id)}" aria-label="${state(key).expanded.has(id)?'Fold':'Unfold'} ${escape(name)}">${state(key).expanded.has(id)?'▼':'▶'}</button>`;
  function preview(page,kind,id,key){
-  const parts=optionPreview(page,kind),s=state(key);
-  return `<div class="option-preview" data-option-preview="${id}" ${s.expanded.has(id)?'':'hidden'}>${renderArticle(parts.preview)}${parts.applications?`<details data-option-applications="${id}" ${s.applications.has(id)?'open':''}><summary>${escape(parts.applicationHeading)}</summary>${renderArticle(parts.applications)}</details>`:''}</div>`;
+  const s=state(key);
+  return `<div class="option-preview" data-option-preview="${id}" ${s.expanded.has(id)?'':'hidden'}>${renderArticle(page.article)}</div>`;
  }
  function results(key){
   const config=configs.get(key),s=state(key),query=s.query.trim().toLocaleLowerCase();
@@ -46,9 +46,7 @@ export function createCreationOptions(pack){
   }
   return `<div class="skill-picks">${config.rows.filter(r=>matches(optionArticle(pack,r.name))).map(r=>{
    const page=optionArticle(pack,r.name);
-   // Checkbox names double as the full-article link; all selection controls stay
-   // in their existing vertical order, including Knowledge's secondary fields.
-   const control=r.control.replace(escape(r.name)+'</label>',link(page)+'</label>');
+   const control=r.control;
    return `<article class="creation-option ${r.selected?'selected':''} ${r.unavailable?'unavailable':''}" data-skill-option="${r.id}"><div class="option-head">${fold(r.id,key,r.name)}${control}<small>${escape(r.ability.toUpperCase())}</small>${automationBadge(pack.skills.find(s=>s.id===r.id))}</div>${preview(page,'skill',r.id,key)}</article>`;
   }).join('')}</div>`;
  }

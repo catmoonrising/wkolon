@@ -5,7 +5,7 @@ module.exports=async(browser,base,root,transport)=>{
  const c=hero('noble',3),j=hero('jedi',7),context=await browser.newContext({viewport:{width:1440,height:1050}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(25000);
  await context.addInitScript(({c,j})=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify({schemaVersion:1,activeId:c.id,characters:[c,j]}));},{c,j});
  const saved=()=>page.evaluate(()=>{const r=JSON.parse(localStorage.getItem('wkolon-roster-v1'));return r.characters.find(c=>c.id===r.activeId);}),settle=()=>page.waitForFunction(()=>document.querySelector('#save-status').textContent==='Saved'),body=page.locator('#feature-tree-body');
- async function feat(level,slot,id){await creation.openChoice(page,'feat',level,slot);await body.locator('[data-tree-search]').fill(id.replaceAll('-',' '));await body.locator(`[data-tree-pick="feat:${id}|"]`).click();await settle();}
+ async function feat(level,slot,id){await creation.openChoice(page,'feat',level,slot);if(await page.locator('[data-feature-primary]').count())await page.locator('[data-feature-primary]').click();await body.locator('[data-tree-search]').fill(id.replaceAll('-',' '));await body.locator(`[data-tree-pick="feat:${id}|"]`).click();await settle();}
  try{
   await page.goto(base+'#creation');await page.locator('.level-plan').waitFor();await feat(0,0,'force-sensitivity');await feat(0,1,'force-training');
   assert(await body.locator('[data-power-library="0"]').isVisible());assert.equal(await body.locator('[data-tree-pick]').count(),0);assert((await body.locator('.power-picks').innerText()).includes('0 / 3'));

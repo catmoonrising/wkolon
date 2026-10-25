@@ -1,3 +1,4 @@
+const followup=require('./secondary-actions.cjs');
 const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
 const choose=require('./choice-actions.cjs');
@@ -10,14 +11,14 @@ module.exports=async function(browser,base,root){
   await creationUI.tab(page,'abilities');await body.locator('[data-generation-assign="str"]').selectOption('0');
 
   await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:soldier');
-  await creationUI.openChoice(page,'feat');await choose(page,'feat','family:Armor Proficiency');await body.locator('[data-secondary][data-slot="0"]').selectOption('feat:armor-proficiency-heavy|');
+  await creationUI.openChoice(page,'feat');await choose(page,'feat','family:Armor Proficiency');await followup(page).pick('feat:armor-proficiency-heavy|');
   await creationUI.openChoice(page,'talent');await body.locator('[data-tree-group="tree:weapon-specialist"]').click();
   assert(await body.locator('[data-tree-pick="talent:penetrating-attack|"]').isDisabled());
   await body.locator('[data-tree-pick="talent:devastating-attack|"]').click();
-  const secondary=body.locator('[data-secondary][data-choice="talent"]');
-  assert(await secondary.isVisible());await secondary.selectOption('talent:devastating-attack|rifles');
-  await body.locator('[data-tree-fold="talent:devastating-attack|"]').click();
-  assert((await page.locator('[data-tree-fold="talent:devastating-attack|"]').locator('xpath=ancestor::article[1]').locator('.feature-tree-description').innerText()).includes("Damage Threshold"));await page.locator('[data-tree-fold="talent:devastating-attack|"]').click();
+  const secondary=page.locator('#feature-tree-body .secondary-options');
+  assert(await secondary.isVisible());await followup(page).pick('talent:devastating-attack|rifles');
+  await body.locator('.rules-ref-detail > summary').first().click();
+  assert((await body.locator('.rules-ref-detail').first().innerText()).includes('Damage Threshold'));
   await choose(page,'talent','talent:armored-defense|');await creationUI.done(page,'done');
   await page.locator('#module-inventory [data-field="credits"]').fill('100000');await page.locator('#module-inventory [data-field="credits"]').press('Tab');
   await page.locator('#equipment-catalog > summary').click();await page.locator('#purchase-item').selectOption('equipment:heavy-battle-armor');await page.locator('#purchase button[type="submit"]').click();

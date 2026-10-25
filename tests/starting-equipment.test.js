@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {newCharacter,validateCharacter,derive} from '../src/rules.js';
-import {startingEquipmentGrants,claimStartingEquipment,canRollStartingCredits,resolveEquipment,purchaseQuote} from '../src/equipment.js';
+import {startingEquipmentGrants,claimStartingEquipment,prepareStartingLightsaber,canRollStartingCredits,resolveEquipment,purchaseQuote} from '../src/equipment.js';
 import {validatePack} from '../tools/validate-rules.js';
 import {articleText} from '../src/wiki-content.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
@@ -62,4 +62,16 @@ test('legacy saves still validate; forged claims, origins, quantities and rule r
  }
  const p=structuredClone(pack);p.species.find(s=>s.id===c.species).startingEquipment.items[0].equipmentId='equipment:missing';assert.throws(()=>validatePack(p),/Unknown equipment/);
  const full=hero();full.inventory=Array.from({length:1000},()=>({id:'equipment:medpac',quantity:1,equipped:false,twoHanded:false,attackMod:0,damageMod:0}));assert.throws(()=>claimStartingEquipment(full,pack,full.species),/full/);assert.equal(full.startingEquipmentClaims,undefined);assert.equal(full.inventory.length,1000);
+});
+
+
+test('starting Jedi receive the printed Lightsaber automatically once, including higher-level builds',()=>{
+ const c=hero();c.levels[0].classId='class:jedi';const credits=c.credits;
+ assert(prepareStartingLightsaber(c,pack));assert.equal(c.inventory.filter(e=>e.id==='equipment:lightsaber').length,1);
+ assert.equal(c.inventory.find(e=>e.id==='equipment:lightsaber').startingGrant,'class:jedi');assert.equal(c.credits,credits);
+ assert(canRollStartingCredits(c));assert(!prepareStartingLightsaber(c,pack));
+ c.inventory=[];assert(!prepareStartingLightsaber(c,pack));
+ const higher=hero();higher.levels[0].classId='class:jedi';higher.levels.push({...structuredClone(higher.levels[0]),hpRoll:5});
+ assert(prepareStartingLightsaber(higher,pack));assert.equal(higher.inventory.filter(e=>e.id==='equipment:lightsaber').length,1);
+ const multiclass=hero();multiclass.levels.push({...structuredClone(multiclass.levels[0]),classId:'class:jedi',hpRoll:5});assert(!prepareStartingLightsaber(multiclass,pack));
 });

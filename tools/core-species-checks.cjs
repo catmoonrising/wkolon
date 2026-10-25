@@ -1,3 +1,4 @@
+const followup=require('./secondary-actions.cjs');
 const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict');
 const path=require('node:path');
@@ -23,9 +24,9 @@ module.exports=async function checkCoreSpecies(browser,base,root){
   await page.locator('#module-header a[href="#creation"]').click();await species('ewok');
   await creationUI.openChoice(page,'class');await creationUI.chooseClass(page,'class:soldier');
   await creationUI.openChoice(page,'feat');await choose(page,'feat','family:Weapon Proficiency');
-  const secondary=creationUI.body(page).locator('[data-choice="feat"][data-secondary]');
-  assert(await secondary.locator('option[value="feat:weapon-proficiency-heavy-weapons|"]').count());
-  await secondary.selectOption('feat:weapon-proficiency-heavy-weapons|');
+  const secondary=page.locator('#feature-tree-body .secondary-options');
+  assert(await followup(page).choice('feat:weapon-proficiency-heavy-weapons|').count());
+  await followup(page).pick('feat:weapon-proficiency-heavy-weapons|');
   await creationUI.done(page,'close');
   const features=page.locator('#module-feats');assert((await features.innerText()).includes('Weapon Proficiency (Heavy Weapons)'));
   assert(!(await features.innerText()).includes('Weapon Proficiency (Pistols)'));assert(!(await features.innerText()).includes('Weapon Proficiency (Rifles)'));

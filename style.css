@@ -391,3 +391,14 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .resistance-power-effect > label { flex-wrap: wrap; }
 .resistance-power-effect select { min-width: 5rem; flex-shrink: 0; }
 .resistance-check > button { white-space: nowrap; }
+
+/* Keep choosing a record separate from reading its rules. */
+.issue-link{color:inherit;background:transparent;border:0;padding:0;text-align:left;font:inherit;text-decoration:underline;cursor:pointer}
+.issue-link:hover,.issue-link:focus-visible{text-decoration-thickness:2px}
+.secondary-options{display:flex;flex-direction:column;gap:.5rem;margin-block:.6rem}
+.secondary-option{display:flex;align-items:flex-start;gap:.6rem}
+.secondary-option>button{flex-shrink:0}
+.secondary-option>div{min-width:0}
+.option-head [data-training-toggle]{margin-right:.5rem}
+.species-table .nm>.option-fold{margin-right:.4rem}
+.feature-tree-node-head>.feature-pick{font-size:.8em}

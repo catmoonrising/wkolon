@@ -112,6 +112,10 @@ export function startingEquipmentGrants(c,pack){
 export function claimStartingEquipment(c,pack,id){
  const grant=startingEquipmentGrants(c,pack).find(g=>g.id===id);
  if(!grant||grant.claimed)throw new Error('Starting equipment is unavailable.');
+ return claimEquipmentGrant(c,pack,grant);
+}
+function claimEquipmentGrant(c,pack,grant){
+ const id=grant.id;
  const additions=grant.items.flatMap(item=>{
   const owned=c.inventory.filter(e=>e.id===item.equipmentId).reduce((n,e)=>n+e.quantity,0);
   return owned>=item.quantity?[]:[{id:item.equipmentId,uid:crypto.randomUUID(),quantity:item.quantity-owned,startingGrant:id,carried:true,equipped:pack.equipment.find(r=>r.id===item.equipmentId).kind==='weapon',twoHanded:false,attackMod:0,damageMod:0}];
@@ -121,9 +125,18 @@ export function claimStartingEquipment(c,pack,id){
  c.startingEquipmentClaims=[...(c.startingEquipmentClaims||[]),id];
  return additions;
 }
-export function claimStartingCredits(c,pack,die=sides=>1+Math.floor(Math.random()*sides)){
+// A starting Jedi's class item is automatic, once per character. Keep its
+// claim after removal or a class edit so rerendering cannot replenish or farm it.
+export function prepareStartingLightsaber(c,pack){
+ if(c.levels[0]?.pendingClass||c.levels[0]?.classId!=='class:jedi'||(c.startingEquipmentClaims||[]).includes('class:jedi'))return false;
+ if((pack.species.find(r=>r.id===c.species)?.forbiddenClasses||[]).includes('class:jedi'))return false;
+ const grant=pack.classes.find(r=>r.id==='class:jedi')?.startingEquipment;
+ if(!grant)return false;
+ claimEquipmentGrant(c,pack,{...grant,id:'class:jedi'});return true;
+}
+export function claimStartingCredits(c,pack,die=sides=>1+Math.floor(Math.random()*sides),{average:chooseAverage=false}={}){
  if(!canRollStartingCredits(c))throw new Error('Starting credits already assigned or unavailable');
- const cls=pack.classes.find(r=>r.id===c.levels[0].classId),r=cls.credits,average=campaignRuleEnabled(c,'averageCredits');
+ const cls=pack.classes.find(r=>r.id===c.levels[0].classId),r=cls.credits,average=chooseAverage||campaignRuleEnabled(c,'averageCredits');
  const rolls=average?[]:Array.from({length:r.dice},()=>die(r.sides));
  if(rolls.some(n=>!Number.isInteger(n)||n<1||n>r.sides))throw new Error('Invalid starting credit roll');
  const amount=average?startingCreditAverage(cls):rolls.reduce((a,b)=>a+b,0)*r.multiplier;

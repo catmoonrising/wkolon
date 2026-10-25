@@ -1,3 +1,4 @@
+const followup=require('./secondary-actions.cjs');
 const creationUI=require('./creator-actions.cjs');
 const assert=require('node:assert/strict');
 const path=require('node:path');
@@ -15,7 +16,7 @@ module.exports=async function(browser,base,root){
   for(const [i,a] of ['str','dex','con','int','wis','cha'].entries())await editor.locator(`[data-generation-assign="${a}"]`).selectOption(String(i));
   await creationUI.openChoice(page,'feat');
   await choose(page,'feat','family:Armor Proficiency');
-  await creationUI.body(page).locator('[data-secondary][data-slot="0"]').selectOption('feat:armor-proficiency-heavy|');
+  await followup(page).pick('feat:armor-proficiency-heavy|');
   await creationUI.done(page,'done');
   await page.locator('#module-inventory [data-field="credits"]').fill('100000');await page.locator('#module-inventory [data-field="credits"]').press('Tab');
   await page.locator('#equipment-catalog > summary').click();

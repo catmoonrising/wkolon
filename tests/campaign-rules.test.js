@@ -78,3 +78,11 @@ test('scaled Skill Focus competes with other competence bonuses instead of stack
 test('enabling daily pools clamps old points atomically without a refill, and disabling does not award points',()=>{
  const c=hero(),ui=createHouseRules(pack),el={dataset:{campaignRule:'dailyForcePoints'},checked:true,hasAttribute:k=>k==='data-campaign-rule'};assert(ui.change(el,c));validateCharacter(c,pack);assert.equal(c.forcePoints,1);c.forcePoints=0;el.checked=false;ui.change(el,c);assert.equal(c.forcePoints,0);
 });
+
+test('taking average credits explicitly uses the same mean and guard without changing house rules',()=>{
+ const c=hero(),before=JSON.stringify(c.houseRules);
+ const result=claimStartingCredits(c,pack,()=>{throw new Error('Must not roll');},{average:true});
+ assert(result.average);assert.equal(result.amount,1875);assert.equal(c.credits,1875);
+ assert.equal(JSON.stringify(c.houseRules),before);assert(c.startingCreditsRolled);
+ assert.throws(()=>claimStartingCredits(c,pack,()=>1,{average:true}),/already assigned/);
+});
