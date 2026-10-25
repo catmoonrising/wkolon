@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {newCharacter,derive} from '../src/rules.js';
+import {prepareDroidSystems} from '../src/droid-installation.js';
 import {resizeLevelPlan,choosePlannedClass} from '../src/level-plan.js';
 import {creationIssueTarget} from '../src/creation-issues.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
@@ -29,4 +30,20 @@ test('global point-buy, species and story issues navigate without changing a cha
  assert.deepEqual(target(c,'Choose a Destiny'),{tab:'character'});
  assert.equal(creationIssueTarget(c,derive(c,pack),pack,-1),null);
  assert.equal(JSON.stringify(c),before);
+});
+
+
+test('feature names containing ability-like words still target their selection, not ASI fields',()=>{
+ const c=newCharacter(pack,{classId:'class:jedi'});c.levels[0].talent={id:'talent:known-vulnerability'};
+ assert.deepEqual(target(c,'Known Vulnerability is not eligible'),{tab:'levels',tree:'talent:0:0'});
+});
+
+
+test('species language choices stay on Species and missing droid installation choices target Equipment',()=>{
+ for(const [species,label]of [['species:nikto','Choose Nikto Language'],['species:replica-droid','Choose Replica Droid Native language']]){
+  const c=hero();c.species=species;assert.deepEqual(target(c,label),{tab:'species'});
+ }
+ const c=hero();c.species='species:custom-droid';prepareDroidSystems(c,pack);
+ const processor=c.inventory.find(e=>pack.equipment.find(r=>r.id===e.id)?.droidSystem?.category==='processor');assert(processor);
+ processor.equipped=false;assert.deepEqual(target(c,'Install a Processor'),{tab:'equipment'});
 });

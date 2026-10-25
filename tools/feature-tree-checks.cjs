@@ -31,7 +31,7 @@ module.exports=async function checkTrees(browser,base,root){
   });assert.deepEqual(blocked,[]);
   // The limit applies to route chords before smoothing, tested in the pure
   // layout suite. Actual shafts remain curved and arrowheads join their tips.
-  assert(await body.locator('.feature-tree-arrows .feature-edge').evaluateAll(edges=>edges.some(edge=>{const c=edge.getAttribute('d').match(/C ([\d.-]+),([\d.-]+) ([\d.-]+),([\d.-]+) ([\d.-]+),([\d.-]+)/);return c&&Math.abs(Number(c[1])-Number(c[3]))>20&&Number(c[2])!==Number(c[6]);})));
+  assert(await body.locator('.feature-tree-arrows .feature-edge').evaluateAll(edges=>edges.some(edge=>{const c=edge.getAttribute('d').match(/C\s*([\d.-]+),([\d.-]+) ([\d.-]+),([\d.-]+) ([\d.-]+),([\d.-]+)/);return c&&Math.abs(Number(c[1])-Number(c[3]))>20&&Number(c[2])!==Number(c[6]);})));
   await page.screenshot({path:path.join(root,'.build/feat-tree-folded.png')});
   await choose(page,'feat','feat:force-sensitivity|');await creationUI.tab(page,'skills');assert(!(await body.locator('[data-trained="skill:use-the-force"]').isDisabled()));
   await body.locator('[data-trained="skill:use-the-force"]').check();

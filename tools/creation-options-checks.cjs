@@ -9,7 +9,7 @@ module.exports=async function(browser,base,root){
   await creationUI.openChoice(page,'class');assert.equal(await body.locator('[data-tree-pick^="class:"]').count(),37);
   assert(await body.locator('[data-tree-pick="class:jedi-knight|"]').isDisabled());
   await body.locator('[data-tree-fold="class:soldier|"]').click();assert((await body.locator('.base-class-node.expanded .feature-tree-description').innerText()).includes('CLASS LEVEL'));await body.locator('[data-tree-fold="class:soldier|"]').click();
-  await body.locator('[data-tree-search]').fill('cold-hearted killers');assert(await body.locator('[data-tree-pick="class:soldier|"]').isVisible());
+  await require('./creator-actions.cjs').search(page,'cold-hearted killers');assert(await body.locator('[data-tree-pick="class:soldier|"]').isVisible());
   await creationUI.chooseClass(page,'class:soldier');await page.screenshot({path:path.join(root,'.build/class-options.png')});
   await creationUI.tab(page,'skills');assert.equal(await body.locator('[data-skill-option]').count(),19);assert.equal(await body.locator('[data-trained]').count(),18);
   assert.equal(await body.locator('[data-knowledge-group]').count(),1);assert.equal(await body.locator('[data-trained^="skill:knowledge-"]').count(),0);

@@ -9,5 +9,6 @@ const choose=async(page,kind,value,level=0,slot=0)=>{
  if(await root.locator('[data-tree-group="all"]').count())await root.locator('[data-tree-group="all"]').click();
  await root.locator(`[data-tree-pick="${value}"]`).click();
  // Follow-up choices stay in the picker for both creation and advancement.
+ if(!creation&&await modal.isVisible()&&!await root.locator('[data-feature-primary]').count())await creationUI.closePicker(page);
 };
 module.exports=choose;

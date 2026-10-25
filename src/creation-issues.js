@@ -10,7 +10,7 @@ export function creationIssueTarget(c,d,pack,index){
   if(row.valid===false||/choose a class|class entry/i.test(text))return tree('class');
   if(/starting trained skills|starting class skill|already trained by/.test(text))return {tab:'skills'};
   if(/Intelligence increases|additional trained skill/.test(text))return tree('training');
-  if(/abilit|Constitution score/.test(text))return {tab:'levels',selector:`[data-increase][data-level="${level}"]`,level};
+  if(/^(increase two different abilities|ability increases are not available|Droids have no Constitution score)$/.test(text))return {tab:'levels',selector:`[data-increase][data-level="${level}"]`,level};
   if(/Force powers/.test(text))return tree('powers');
   if(/Starship Maneuvers/.test(text))return tree('maneuvers');
   if(/multiclass starting feat/.test(text))return tree('startingFeat');
@@ -33,8 +33,9 @@ export function creationIssueTarget(c,d,pack,index){
   return {tab:'levels',selector:`[data-plan-level="${level}"]`,level};
  }
  if(/abilit|score is below|package|Generation|Point-buy/i.test(issue))return {tab:'abilities'};
- if(/Destiny|Background|language/i.test(issue)&&!/Understood|Spoken/.test(issue))return {tab:'character'};
- if(/armor|installed|shell speed|locomotion|appendage|system|equipment/i.test(issue))return {tab:'equipment'};
+ if(/^Choose (a Destiny|a Background|\d+ Background class skills?)/.test(issue))return {tab:'character'};
+ if(d.droidSystems?.issues?.includes(issue))return {tab:'equipment'};
+ if(/armor|installed|shell speed|locomotion|appendage|system|equipment| fits .* creatures$| requires a Droid body$/i.test(issue))return {tab:'equipment'};
  if(/Use the Force training/.test(issue))return {tab:'skills'};
  return {tab:'species'};
 }

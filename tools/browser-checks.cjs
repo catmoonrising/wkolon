@@ -174,7 +174,7 @@ const server=http.createServer((req,res)=>{
   await page.locator('#module-classes a[href="#advancement"]').click();
   await editor.locator('[data-action="add-level"]').click();
   await choose(page,'feat','feat:skill-focus|',1,0);
-  await followup(page).pick('feat:skill-focus|skill:pilot');
+  await followup(page).pick('feat:skill-focus|skill:pilot');await creationUI.closePicker(page);
   assert.equal(await page.locator('.validation').count(),0);
   await editor.locator('#next-class').selectOption('class:scout');await editor.locator('[data-action="add-level"]').click();
   await choose(page,'startingFeat','feat:shake-it-off|',2,0);
