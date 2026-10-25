@@ -42,3 +42,30 @@ with the Flat-Footed checkbox cleared. An Aware phase alone does not. The setter
 checks both derived and saved state before mutation. Shared loss cleanup runs
 on phase changes and render/load, including balancing and legacy saves. Other
 trigger rows retain their own loss rules.
+
+## Until the end of your next turn
+
+Rows may use `duration: 'end-next-turn'`. They are saved as
+`turnEndTriggers: [{id, endsRemaining, ended}]` with the shared turn-end helper,
+snapshotted like Soft to Solid: declared during the user's own active, unended
+turn they last through two turn ends; otherwise one, already marked ended. A
+repeat trigger refreshes only if it extends the expiry. New Turn implicitly ends
+an unended turn; End turn and Charge's early end consume one end. End combat,
+new encounter, New day, rests and death clear them.
+
+- Knight's Morale (Knight's Resolve Talent Tree revision 20228): "When an ally
+  within 12 squares of you and within your Line of Sight hits with a Lightsaber
+  attack, you gain a +1 morale bonus to all your Defenses until the end of your
+  next turn."
+- For the Cause (Revolutionary Talent Tree revision 21239): "Whenever you or an
+  ally within 6 squares of you takes damage that exceeds that character's Damage
+  Threshold, you and all allies within 6 squares of you gain a +2 bonus to
+  attack rolls and damage rolls until the end of your next turn." The user's
+  part is +2 unnamed attack and damage; allies remain manual.
+
+Both triggers are declared, and both records are Partial.
+
+For the Cause currently applies the user's attack and weapon-damage benefits.
+Nonweapon damage and ally effects remain manual. Trigger declarations confirm
+external events and range; the sheet does not infer enemy or ally state. Keep
+the separate Focused Warrior removal rules and each existing duration scope.

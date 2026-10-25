@@ -2864,3 +2864,11 @@ a folded Rifle remains a Rifle for the benefit. Nonlethal Tactics (Enforcement
 r26769) adds +1 attack for Stun-set ranged weapons and its listed weapons,
 with +1 die for ranged Stun damage. The talent's extra die on a Stun Baton's melee Stun attack, and
 manual attacks, remain manual; the Baton's existing Stun setting still rolls 2d6. All three retain Partial status.
+
+Knight's Morale (Knight's Resolve r20228) grants a declared +1 morale all
+Defenses after a qualifying nearby ally Lightsaber hit. For the Cause
+(Revolutionary r21239) grants the user's declared +2 unnamed attack and weapon
+damage after qualifying damage exceeding Damage Threshold. Both last until
+end of next turn, using the shared own/off-turn clock and reset services.
+External event/range checks, ally effects and nonweapon damage remain manual.
+Both Partial.

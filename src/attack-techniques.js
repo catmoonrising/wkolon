@@ -1,4 +1,4 @@
-import {clearTriggeredDefenses} from './triggered-defenses.js';
+import {clearTriggeredDefenses,startTriggerTurn} from './triggered-defenses.js';
 import {clearResistancePowers,assertResistanceResolved} from './resistance-powers.js';
 import {clearShieldPowers} from './shield-powers.js';
 import {clearSurprisePhase} from './action-economy.js';
@@ -50,6 +50,7 @@ export function startNextTurn(c){
  clearDefenseShifts(c);
  clearMoveTalentEffects(c);
  clearTriggeredDefenses(c);
+ startTriggerTurn(c);
  nextCombatantTurn(c);
  clearBracing(c);
  if(c.defenseStance!==undefined)c.defenseStance='none';

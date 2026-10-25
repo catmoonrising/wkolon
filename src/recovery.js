@@ -1,3 +1,4 @@
+import {clearEncounterTriggers} from './triggered-defenses.js';
 import {assertDeflectionResolved} from './deflection.js';
 import {derive} from './rules.js';
 import {campaignRuleEnabled} from './campaign-rules.js';
@@ -113,7 +114,7 @@ export function setPersistent(c,cause,on){
 }
 export function setDead(c,on,pack){
  state(c).dead=on;
- if(on){endChannelRage(c);clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
+ if(on){endChannelRage(c);clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);delete c.turnEndTriggers;clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
  if(pack)endUnconsciousTalents(c,pack);
 }
 export function receiveHealing(c,d,pack,amount){
@@ -130,7 +131,7 @@ export function restEightHours(c,d,pack){
  assertDeflectionResolved(c);
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
  endUnconsciousTalents(c,pack);
- clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
+ clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearEncounterTriggers(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
  if(recoveryState(c).rageRounds)endRage(c);
  endChannelRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;
