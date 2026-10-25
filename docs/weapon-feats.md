@@ -39,3 +39,16 @@ equipment identity and resolved weapon proficiency remain separate requirements.
 
 Additional size and Point-Blank die behavior is defined in
 [weapon-feat-extras.md](weapon-feat-extras.md).
+
+## Weapon group attack bonuses
+
+This section precedes calculations. Ember of Vahl Talent Tree revision 20145
+(Sword of Vahl, Legacy Era Campaign Guide): "You gain a +1 Force bonus on attack
+rolls made with Simple Weapons." `{target:'groupAttack', weaponGroup:
+'simple-weapons', amount:1, type:'force'}` joins the typed attack modifiers of
+an attack whose shared `weaponIdentityGroup` is Simple Weapons. Unarmed attacks
+already resolve to the Simple Weapons group, so they qualify. Force bonuses use
+the highest-of-type resolver. The target is separate from `attacks` so that
+weaponless totals (Battle Strike, special attack penalties) never receive it.
+Tradition membership and the Initiate of Vahl prerequisite use the existing
+tradition access rules. The record is Partial.

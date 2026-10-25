@@ -2970,3 +2970,8 @@ Partial.
 Cunning Attack r19415 (Force Unleashed Campaign Guide): +2 unnamed attack bonus
 against a Flat-Footed or Dexterity-denied opponent, through the shared
 denied-Dexterity check. Partial.
+
+## Sword of Vahl
+
+Ember of Vahl Talent Tree r20145: +1 Force bonus on attacks with Simple Weapons
+(including Unarmed Attacks), by shared weapon identity. Partial.

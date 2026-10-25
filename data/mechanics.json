@@ -60930,9 +60930,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"groupAttack","weaponGroup":"simple-weapons","amount":1,"type":"force"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:vahl-s-brand",
