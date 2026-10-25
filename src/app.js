@@ -218,8 +218,9 @@ function renderTreeDialog() {
   const record=options.selected&&ix[options.type].get(options.selected.id),powers=record?.effects?.some(e=>e.target==='forcePowerSlots')?forcePowersUI.library(level):'';
   const choices=record?selectChoice(level,kind,slotIndex,slot,options.selected,true):'';
   if(treeTarget.secondary&&record){
-    $('feature-tree-title').textContent=record.name;
-    $('feature-tree-body').innerHTML='<button type="button" data-feature-primary>Back</button>'+ruleReference(record,record.name,options.selected,'secondary')+'<div class="actions"><button type="button" data-secondary-fold="fold">Fold all</button><button type="button" data-secondary-fold="unfold">Unfold all</button></div>'+secondaryChoices(choices,record)+powers;return;
+    const family=options.type==='feats'&&/^(Weapon Proficiency|Armor Proficiency) \(/.test(record.name);
+    $('feature-tree-title').textContent=family?record.name.replace(/ \(.*\)$/, ''):record.name;
+    $('feature-tree-body').innerHTML='<button type="button" data-feature-primary>Back</button>'+(family?'':ruleReference(record,record.name,options.selected,'secondary'))+'<div class="actions"><button type="button" data-secondary-fold="fold">Fold all</button><button type="button" data-secondary-fold="unfold">Unfold all</button></div>'+secondaryChoices(choices,record)+powers;return;
   }
   $('feature-tree-body').innerHTML=featureTrees.render(options);
 }

@@ -91,6 +91,7 @@ module.exports=async function checkGeneration(browser,base,root){
   await secondary().locator('[data-feature-secondary-value="feat:skill-focus|skill:pilot"]').click();
   assert((await primary().innerText()).includes('Skill Focus'));
   await creationUI.openChoice(page,'feat');await page.locator('[data-feature-primary]').click();await choose(page,'feat','family:Weapon Proficiency');
+  assert.equal(await page.locator('#feature-tree-title').innerText(),'Weapon Proficiency');
   assert.deepEqual(await secondary().locator('[data-feature-secondary-value]:not([data-feature-secondary-value=""])').evaluateAll(es=>es.map(e=>e.getAttribute('aria-label'))),['Select Advanced Melee Weapons','Select Heavy Weapons','Select Lightsabers']);
   await page.screenshot({path:path.join(root,'.build/feat-secondary.png')});
   await secondary().locator('[data-feature-secondary-value="feat:weapon-proficiency-lightsabers|"]').click();

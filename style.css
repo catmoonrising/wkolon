@@ -402,3 +402,5 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .option-head [data-training-toggle]{margin-right:.5rem}
 .species-table .nm>.option-fold{margin-right:.4rem}
 .feature-tree-node-head>.feature-pick{font-size:.8em}
+
+.secondary-options>button{align-self:flex-start}
