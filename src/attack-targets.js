@@ -2,8 +2,8 @@ import {weaponIdentityGroup} from './weapon-rules.js';
 import {ambiguityValue} from './house-rules.js';
 import {modifierIncrease} from './modifiers.js';
 
-export const attackTarget=c=>({cover:'none',concealment:'none',darkness:false,prone:false,helpless:false,adjacentToAlly:false,attackSquare:false,dexDenied:false,jedi:false,forceSensitive:false,darkSide:false,noCover:false,adjacent:false,concealed:false,flanking:false,beastDarkSide:false,flankedSelf:false,...c.attackTarget});
-export const TARGET_TRAITS=[['dexDenied','Denied Dexterity'],['jedi','Jedi'],['forceSensitive','Force Sensitivity'],['darkSide','Dark Side Score 1+'],['noCover','You lack Cover'],['adjacent','Adjacent'],['concealed','You have Concealment'],['flanking','You flank'],['beastDarkSide','Beast, Dark Side Score 1+'],['flankedSelf','You are Flanked']];
+export const attackTarget=c=>({cover:'none',concealment:'none',darkness:false,prone:false,helpless:false,adjacentToAlly:false,attackSquare:false,dexDenied:false,jedi:false,forceSensitive:false,darkSide:false,noCover:false,adjacent:false,concealed:false,flanking:false,beastDarkSide:false,flankedSelf:false,harmedAlly:false,...c.attackTarget});
+export const TARGET_TRAITS=[['dexDenied','Denied Dexterity'],['jedi','Jedi'],['forceSensitive','Force Sensitivity'],['darkSide','Dark Side Score 1+'],['noCover','You lack Cover'],['adjacent','Adjacent'],['concealed','You have Concealment'],['flanking','You flank'],['beastDarkSide','Beast, Dark Side Score 1+'],['flankedSelf','You are Flanked'],['harmedAlly','Moved an ally down the Condition Track']];
 export function targetConcealment(target,vision,scope=false){
  if(!target.darkness)return target.concealment;
  if(vision==='darkvision'||target.concealment!=='total'&&(vision==='low-light'||scope))return 'none';

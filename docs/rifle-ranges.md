@@ -29,3 +29,20 @@ Stun settings with a fixed stun range are unchanged. Both records are Partial.
 
 Runtime Rifle-group benefits also use the existing Counseling112 familiarity
 conversion through the shared weapon identity resolver; see weapon-identity.md.
+
+## Old Faithful
+
+This section precedes calculations. Carbineer Talent Tree revision 20110 (Old
+Faithful, Legacy Era Campaign Guide): "The Trusty Sidearm Class Feature of the
+Gunslinger Prestige Class also applies to any Rifle or carbine that you use."
+Gunslinger revision 18230 (Trusty Sidearm): "a bonus on Damage rolls equal to
+one-half their Class Level (rounded down) when wielding a Pistol".
+
+`{target:'trustySidearmGroups', weaponGroup:'rifles'}` adds Rifles (carbines
+are Rifles) to the groups receiving the existing Gunslinger `pistolDamage`
+class passive. Matching uses the shared `weaponIdentityGroup` (printed identity
+plus the Jedi Counseling 112 familiarity switch), so a folded Rifle still
+qualifies and the folded-stock range alternative does not affect it. The amount
+is unchanged: floor(Gunslinger level / 2), zero before level 2, with no extra
+proficiency requirement. A weapon receives the bonus at most once. The record
+is Partial.

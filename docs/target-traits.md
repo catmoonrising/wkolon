@@ -78,3 +78,14 @@ manual, including under Great Hunt's broader attack-bonus interpretation. The
 weapon-group comparison uses the shared Counseling-aware identity, preserving
 folded-stock proficiency and range semantics. Temporary target declarations
 remain excluded from the ordinary stat block. No target type is inferred.
+
+## Retribution
+
+Opportunist Talent Tree revision 20013 (Clone Wars Campaign Guide): "When a
+target moves one of your allies in your Line of Sight down the Condition Track
+by any means, you gain a +2 insight bonus to your attack rolls against that
+target until the end of your next turn." A declared `harmedAlly` flag ("Moved an
+ally down the Condition Track") marks that opponent; `{target:'targetAttack',
+against:'harmedAlly', amount:2, type:'insight'}` applies through the shared
+resolver. The flag is the declaration, so clearing it when the duration ends is
+manual. The record is Partial.

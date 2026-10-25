@@ -90,3 +90,12 @@ test('Cantina Brawler adds +2 to Unarmed attack and damage only while the user i
  const k=get(false,{}),kf=get(false,{flankedSelf:true});assert.equal(kf.attack,k.attack);assert.equal(kf.damageDisplay,k.damageDisplay,'knife is not Unarmed');
  assert(derive(c,core).targetTraitsUsed.includes('flankedSelf'));assert.equal(core.talents.find(t=>t.id==='talent:cantina-brawler').automation,'partial');
 });
+
+test('Retribution adds +2 insight against a declared opponent who moved an ally down the Condition Track',()=>{
+ const c=newCharacter(core,{classId:'class:scoundrel'});c.abilityMethod='manual';c.abilities={str:12,dex:14,con:12,int:12,wis:10,cha:12};c.levels[0].talent={id:'talent:retribution'};
+ c.inventory=[{id:'equipment:blaster-pistol',uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0}];validateCharacter(c,core);
+ const get=t=>{const q=structuredClone(c);q.attackTarget=t;validateCharacter(q,core);return derive(q,core).attacks.find(a=>a.uid===c.inventory[0].uid);};
+ assert.equal(get({harmedAlly:true}).attack,get({}).attack+2);assert.match(get({harmedAlly:true}).breakdown,/Retribution: \+2 attack/);assert(derive(c,core).targetTraitsUsed.includes('harmedAlly'));
+ const p=structuredClone(core);p.talents.find(t=>t.id==='talent:retribution').effects.push({target:'attacks',amount:3,type:'insight'});const q=structuredClone(c);q.attackTarget={harmedAlly:true};const r=structuredClone(c);r.attackTarget={};assert.equal(derive(q,p).attacks[0].attack,derive(r,p).attacks[0].attack,'insight bonuses do not stack');
+ assert.equal(core.talents.find(t=>t.id==='talent:retribution').automation,'partial');
+});

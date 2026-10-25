@@ -46163,9 +46163,14 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "trustySidearmGroups",
+          "weaponGroup": "rifles"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:opportunity-fire",
@@ -54820,9 +54825,16 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetAttack",
+          "against": "harmedAlly",
+          "amount": 2,
+          "type": "insight"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:slip-by",

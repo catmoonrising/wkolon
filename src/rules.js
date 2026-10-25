@@ -576,12 +576,14 @@ export function derive(c, pack) {
   const powerAttack=powerAttackState(c,pack,{bab:ctx.bab,owned:featHas('power-attack')});
   const fullAttack=fullAttackState(c,pack,ctx);
   // Reviewed talent and feat weapon changes apply to the resolved weapon before range and damage are read.
+  // Nonlethal Tactics names ranged Stun settings and, for melee, only its listed Stun Baton.
+  const stunDice=w=>w.damageEffect==='stun'&&w.damage&&(w.mode==='ranged'||effects.some(f=>f.target==='stunAttack'&&f.weapons.includes(w.id)))?effects.filter(f=>f.target==='stunDice').reduce((n,f)=>n+f.dice,0):0;
   const weaponTalents=raw=>{
-    if(raw.mode!=='ranged')return raw;
+    if(raw.mode!=='ranged'){const n=stunDice(raw);return n?{...raw,damage:extraDamageDice(raw.damage,n)}:raw;}
     const foldedRifle=raw.printedGroup==='rifles'&&raw.group==='pistols',excludeRifleRange=foldedRifle&&ambiguityValue(c,pack,'ambiguity:folded-stock-rifle-range')==='pistol-ranges';
     const rangeGroup=excludeRifleRange?raw.group:weaponIdentityGroup(raw,ctx);
     const traits=effects.filter(f=>f.target==='weaponTrait'&&f.weapon===raw.id&&!(excludeRifleRange&&f.selection?.id==='feat:riflemaster'&&f.accurate)),proficientTraits=traits.length&&weaponProficient(raw,ctx,ix)?traits:[];
-    const modeDice=(/Ion/.test(raw.damageType||'')&&raw.damage?effects.filter(f=>f.target==='ionDice').reduce((n,f)=>n+f.dice,0):0)+(raw.damageEffect==='stun'&&raw.damage?effects.filter(f=>f.target==='stunDice').reduce((n,f)=>n+f.dice,0):0);
+    const modeDice=(/Ion/.test(raw.damageType||'')&&raw.damage?effects.filter(f=>f.target==='ionDice').reduce((n,f)=>n+f.dice,0):0)+stunDice(raw);
     raw=modeDice?{...raw,damage:extraDamageDice(raw.damage,modeDice)}:raw;
     const w=proficientTraits.reduce((x,f)=>({...x,...(f.accurate?{accurate:true}:{}),...(f.inaccurate===false?{inaccurate:false}:{}),...(f.damageDie&&x.damage?{damage:x.damage.replace(/d\d+/,'d'+f.damageDie)}:{}),...(f.size?{size:f.size}:{}),...(f.pointBlankDice?{pointBlankDice:f.pointBlankDice}:{}),...(f.aimAttack?{aimAttack:(x.aimAttack||0)+f.aimAttack}:{})}),raw);
     const pbRows=effects.filter(f=>f.target==='pointBlankRange'&&f.weaponGroup===rangeGroup),extension=pbRows.length?Math.min(pbRows[0].maximum,pbRows.reduce((n,f)=>n+f.amount,0)):0;
@@ -621,7 +623,7 @@ export function derive(c, pack) {
     const twinShot=technique.selected==='rapid-shot'&&weaponIdentityGroup(w,ctx)==='pistols'&&dualPistols?modifierTotal(effects.filter(f=>f.target==='twinShotDamage').map(f=>({amount:f.amount}))):0;
     const meleeBonus = modifierTotal([...effects.filter(e=>e.target==='damage'&&applies(e,w)),...effects.filter(e=>e.target==='meleeDamage'&&applies(e,w)).map(e=>({...e,amount:e.amount*(e.perLevel?level:1)})),...(w.mode==='melee'?[{type:'rage',amount:rageBonus},...powerRage]:[])]);
     const flurryBonus=w.mode==='melee'?flurry.attackBonus:0;
-    const damageBonus = half + (weaponIdentityGroup(w,ctx)==='pistols'?classPassives.filter(e=>e.target==='pistolDamage').reduce((n,e)=>n+e.amount,0):0) + strength + specialization + meleeBonus + pointBlank + c.modifiers.damage + e.damageMod + power.damage + twinShot;
+    const damageBonus = half + (['pistols',...effects.filter(f=>f.target==='trustySidearmGroups').map(f=>f.weaponGroup)].includes(weaponIdentityGroup(w,ctx))?classPassives.filter(e=>e.target==='pistolDamage').reduce((n,e)=>n+e.amount,0):0) + strength + specialization + meleeBonus + pointBlank + c.modifiers.damage + e.damageMod + power.damage + twinShot;
     const mightySwingAvailable=w.mode==='melee'&&featHas('mighty-swing'),mightySwing=mightySwingAvailable&&!!c.mightySwing;
     const independentDice=range.band===0?(w.pointBlankDice||0):0,unAimedDice=technique.extraDice+independentDice;
     const diceBonus=independentDice+Math.max(technique.extraDice,aimed&&featHas('deadeye')?accessories.deadeyeDice:0,mightySwing?pack.rules.mightySwing.extraDice:0);

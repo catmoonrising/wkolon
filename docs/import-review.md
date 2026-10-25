@@ -2872,3 +2872,14 @@ damage after qualifying damage exceeding Damage Threshold. Both last until
 end of next turn, using the shared own/off-turn clock and reset services.
 External event/range checks, ally effects and nonweapon damage remain manual.
 Both Partial.
+
+Nonlethal Tactics now adds its extra die to the Stun Baton's existing melee
+Stun setting, giving 3d6, while normal Bludgeoning and unlisted melee weapons
+retain their existing dice. Nets still deal no damage. Old Faithful
+(Carbineer r20110) extends the existing Gunslinger Trusty Sidearm amount to
+Rifles/carbines through shared weapon identity, including the Counseling
+familiarity switch, without extra proficiency requirements or Pistol double
+counting. Retribution (Opportunist r20013) adds +2 insight against a declared
+opponent who moved an ally down the Condition Track. Its current-target
+qualification and end-next-turn clearing remain manual; area and nonweapon
+resolution remain manual as with the other target traits. All remain Partial.

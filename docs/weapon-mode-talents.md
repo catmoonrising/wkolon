@@ -28,10 +28,13 @@ you gain a +1 bonus on your attack roll and deal +1 die of Stun Damage."
 Electronet, Stun Baton]}` applies to a ranged weapon whose resolved damage effect
 is Stun and to those exact items. `{target:'stunDice', dice:1}` adds one die of
 the weapon's own dice when a ranged attack's damage is Stun (Stun setting, Stun
-Grenade). Nets deal no damage. The Stun Baton already has a working Stun setting (2d6). This
-batch leaves the talent's additional melee Stun die manual. The record is Partial.
+Grenade). Nets deal no damage. The Stun Baton's existing Stun setting resolves
+to 2d6 Energy (Stun); while that setting is selected, the same `stunDice` adds
+one die (3d6). The die applies to melee only for the listed Stun Baton, never to
+its normal Bludgeoning 1d6 setting, and no mixed normal/Stun damage is created.
+The record is Partial.
 
-The integration retains Partial status and the manual Nonlethal Tactics extra die on a Stun Baton. Unknown/manual attacks stay manual. The Pistol identity check
+The integration retains Partial status. Unknown/manual attacks stay manual. The Pistol identity check
 uses the shared Counseling-aware weapon identity, so a folded Rifle does not
 become a Pistol for Twin Shot. Daily/turn effects and source prerequisites retain
 their existing resolvers. Resolved Ion and ranged Stun bonus dice become part of

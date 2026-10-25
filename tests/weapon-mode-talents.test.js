@@ -36,7 +36,7 @@ test('Nonlethal Tactics: +1 attack for Stun-set ranged weapons and listed items,
  const stunPistol=find(c,'blaster-pistol'),base=find(b,'blaster-pistol');assert.equal(base.damageEffect,'stun');assert.equal(stunPistol.attack,base.attack+1);assert.equal(stunPistol.damage,'4d6');
  assert.equal(find(c,'blaster-rifle').attack,find(b,'blaster-rifle').attack,'normal setting');assert.equal(find(c,'blaster-rifle').damage,find(b,'blaster-rifle').damage);
  assert.equal(find(c,'stun-grenade').attack,find(b,'stun-grenade').attack+1);assert.equal(find(c,'stun-grenade').damage,'5d6');
- assert.equal(find(c,'net').attack,find(b,'net').attack+1);assert.equal(find(c,'stun-baton').attack,find(b,'stun-baton').attack+1);assert.equal(find(c,'stun-baton').damage,find(b,'stun-baton').damage,'baton die stays manual');
+ assert.equal(find(c,'net').attack,find(b,'net').attack+1);assert.equal(find(c,'stun-baton').attack,find(b,'stun-baton').attack+1);assert.equal(find(c,'stun-baton').damage,find(b,'stun-baton').damage,'normal Baton setting gains no Stun die');
  assert.equal(core.talents.find(t=>t.id==='talent:nonlethal-tactics').automation,'partial');
 });
 
@@ -47,5 +47,14 @@ test('real prestige classes grant the three talents and weapon settings preserve
  assert.equal(find(ion).damage,'4d6');ion.inventory[0].attackTechnique='rapid-shot';assert.equal(find(ion).damage,'5d6');assert.equal(find(ion).technique.issue,'');
  const boosted=find(twin).damageBonus;twin.inventory[1].equipped=false;twin.inventory[2].equipped=true;assert.equal(find(twin).damageBonus,boosted-2,'folded Rifle is not a second Pistol');
  twin.inventory[1].equipped=true;twin.inventory[0].carried=false;assert.equal(find(twin,1).damageBonus,find({...twin,inventory:twin.inventory.map(e=>({...e,attackTechnique:'normal'}))},1).damageBonus);
- const s=find(stun);assert.equal(s.damageEffect,'stun');assert.equal(s.damage,'4d6');stun.inventory[0].damageSetting='normal';assert.equal(find(stun).damage,'3d6');assert.equal(find(stun).attack,s.attack-1);assert.equal(find(stun,4).damage,'1d6','Baton separate Stun die stays manual');
+ const s=find(stun);assert.equal(s.damageEffect,'stun');assert.equal(s.damage,'4d6');stun.inventory[0].damageSetting='normal';assert.equal(find(stun).damage,'3d6');assert.equal(find(stun).attack,s.attack-1);assert.equal(find(stun,4).damage,'1d6','normal Bludgeoning setting unchanged');assert.equal(find(stun,4).damageEffect,'normal');
+ stun.inventory[4].damageSetting='stun';validateCharacter(stun,core);const baton=find(stun,4);assert.equal(baton.damageEffect,'stun');assert.equal(baton.damage,'3d6','2d6 Stun setting + Nonlethal Tactics die');assert.match(baton.damageType,/Stun/);
+ const plain=structuredClone(stun);plain.levels.at(-1).talent=null;assert.equal(derive(plain,core).attacks.find(a=>a.uid===stun.inventory[4].uid).damage,'2d6','no talent, no die');
+ assert.equal(find(stun,3).damage,null,'Nets still deal no damage');
+ const bayonet=structuredClone(stun);bayonet.inventory.push({id:'equipment:force-pike',uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,damageSetting:'stun'});validateCharacter(bayonet,core);const by=derive(bayonet,core).attacks.find(a=>a.uid===bayonet.inventory.at(-1).uid);const byPlain=structuredClone(bayonet);byPlain.levels.at(-1).talent=null;assert.equal(by.damage,derive(byPlain,core).attacks.find(a=>a.uid===bayonet.inventory.at(-1).uid).damage,'unlisted melee Stun weapons gain nothing');
+});
+
+test('Nonlethal Baton extra Stun die participates in ordinary critical damage',async()=>{
+ const {default:fixtures}=await import('../tools/weapon-mode-fixtures.cjs'),{rollRoutine}=await import('../src/combat.js');const {stun:c}=fixtures(core,newCharacter);c.inventory[4].damageSetting='stun';const d=derive(c,core),a=d.attacks.find(a=>a.uid===c.inventory[4].uid);assert.equal(a.damage,'3d6');const calls=[];
+ rollRoutine({name:'Baton',steps:[{attackId:a.uid,count:1,attackMod:0,damageMod:0}]},d.attacks,core.rules.combat,expr=>{calls.push(expr);const m=/^1d20([+-]\d+)$/.exec(expr);return {value:m?20+Number(m[1]):5,d20:m?[20]:[],display:expr,coeffs:[1]};});assert(calls.some(e=>e.includes('3d6')&&e.includes('*2')),calls.join(' | '));
 });
