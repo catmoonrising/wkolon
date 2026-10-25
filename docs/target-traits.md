@@ -172,3 +172,15 @@ against:'corneredBy', amount:2, type:'untyped'}`.
 Positions, Cover sources and Withdraw eligibility are declarations, never
 inferred. Both apply to non-area attacks through the shared opponent-trait
 resolver; flags appear only to owners or while set. Both records are Partial.
+
+## Droid Hunter
+
+This section precedes calculations. Droid Hunter revision 19882 (Clone Wars
+Campaign Guide): "While wielding a weapon with which you are proficient, you gain
+a +2 bonus on damage rolls against Droid enemies, or +4 if you are using a weapon
+that deals Ion Damage." Declared flag `droidEnemy` ("Droid"); `{target:
+'targetDamage', against:'droidEnemy', amount:2, ionAmount:4, proficient:true}`.
+`proficient` limits the row to attacks the shared proficiency check marks
+proficient; `ionAmount` replaces the amount (it does not add) when the attack's
+resolved damage type is Ion. Unnamed, non-area, through the shared opponent-trait
+resolver. Partial.

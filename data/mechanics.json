@@ -35220,9 +35220,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetDamage","against":"droidEnemy","amount":2,"ionAmount":4,"proficient":true}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:droidcraft",

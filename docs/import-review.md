@@ -2991,3 +2991,8 @@ level. Partial.
 
 Autonomy Talent Tree r16043: Will Defense vs. Reprogram increased by the
 Independent Droid level. Partial.
+
+## Droid Hunter
+
+Droid Hunter r19882: +2 damage (or +4 with an Ion-damage weapon) against a
+declared Droid, with proficient weapons only. Partial.
