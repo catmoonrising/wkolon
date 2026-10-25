@@ -599,9 +599,10 @@ export function derive(c, pack) {
     const group=weaponEffectGroup(w,ctx);
     const allowFocus=!counselingEnabled(c,'jc:112-weapon-focus-proficiency')||proficient;
     const mechanical=species.technophobic&&(e.mechanical??w.mechanical)&&!w.biotech?-5:0;
-    // Shoto Focus: a listed short blade while a different one-handed activated Lightsaber is also wielded.
+    // Shoto Focus: a listed short blade while a one-handed partner is wielded (standard Lightsaber by default; saved alternative: any Lightsaber).
     const shotoBonus=(w,e)=>{const rows=effects.filter(f=>f.target==='shotoAttack'&&f.weapons.includes(w.id));if(!rows.length)return [];
-     const partner=wielded.some(x=>x.uid!==e.uid&&!rows[0].weapons.includes(x.id)&&resolveEquipment(x,pack,c).group==='lightsabers'&&fullAttackGrip(resolveEquipment(x,pack,c),x,pack,effectiveSize).oneHanded);
+     const anyBlade=ambiguityValue(c,pack,rows[0].partnerAmbiguityId)==='any-one-handed';
+     const partner=wielded.some(x=>x.uid!==e.uid&&(anyBlade?resolveEquipment(x,pack,c).group==='lightsabers':x.id==='equipment:lightsaber')&&fullAttackGrip(resolveEquipment(x,pack,c),x,pack,effectiveSize).oneHanded);
      return partner?rows.map(f=>({amount:f.amount,type:f.type})):[];};
     const attackModifiers = [...(allowFocus?effects.filter(f => f.target === 'weaponFocus' && (f.weaponGroup||f.selection.choice) === group && applies(f,w)):[]),...effects.filter(f=>f.target==='attacks'&&applies(f,w)),...(/Ion/.test(w.damageType||'')?effects.filter(f=>f.target==='ionAttack'):[]),...effects.filter(f=>f.target==='stunAttack'&&(w.mode==='ranged'&&w.damageEffect==='stun'||f.weapons.includes(w.id))),...turnFeatAttackEffects(c,pack,ctx,w),...(w.mode==='melee'?[{type:'rage',amount:rageBonus},...powerRage]:[]),...shotoBonus(w,e)];
     const strike=battleStrike(c,pack,attackModifiers),focus=modifierTotal(attackModifiers)+(strike?.attackBonus||0);

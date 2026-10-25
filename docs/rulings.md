@@ -128,3 +128,4 @@ alternative broadening the attack bonus while keeping its die Lightsaber-only.
 Sentinel Strike applies its Lightsaber dice against denied-Dexterity targets by
 default. Ambiguities offers applying those dice to any Lightsaber attack; its
 Force Power damage clause remains manual.
+| Shoto Focus partner | Standard Lightsaber (linked article) | Any one-handed Lightsaber |
