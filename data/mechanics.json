@@ -38052,9 +38052,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetAttack","against":"deniedDexterity","amount":2,"type":"untyped"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:cut-the-red-tape",

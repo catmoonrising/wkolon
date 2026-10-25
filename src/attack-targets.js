@@ -54,7 +54,7 @@ export function sentinelStrikeDice(c,pack,ctx,effects,a){
 // Reviewed opponent-trait bonuses: typed attack increase, flat damage and extra weapon dice.
 export function targetTraitBonuses(c,pack,effects,a,mods={},ctx={}){
  const t=attackTarget(c),group=weaponIdentityGroup(a,ctx);
- const match=e=>t[e.against]&&(!e.mode||a.mode===e.mode)&&(!e.unarmed||!!a.unarmed)&&(!e.singleTwoHanded||!!a.singleTwoHandedLightsaber)&&(!e.weaponGroup||group===e.weaponGroup||!!e.scopeAmbiguityId&&ambiguityValue(c,pack,e.scopeAmbiguityId)==='attack-any');
+ const denied=deniedDexterity(c,effects),match=e=>(e.against==='deniedDexterity'?denied:t[e.against])&&(!e.mode||a.mode===e.mode)&&(!e.unarmed||!!a.unarmed)&&(!e.singleTwoHanded||!!a.singleTwoHandedLightsaber)&&(!e.weaponGroup||group===e.weaponGroup||!!e.scopeAmbiguityId&&ambiguityValue(c,pack,e.scopeAmbiguityId)==='attack-any');
  if(a.areaType||!a.damage)return null;
  const source=e=>(pack.talents.find(r=>r.id===e.selection?.id)||pack.feats.find(r=>r.id===e.selection?.id))?.name||'';
  const attackRows=effects.filter(e=>e.target==='targetAttack'&&match(e)),damageRows=effects.filter(e=>e.target==='targetDamage'&&match(e)),diceRows=effects.filter(e=>e.target==='targetDice'&&match(e));

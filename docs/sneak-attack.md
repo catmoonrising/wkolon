@@ -79,3 +79,15 @@ threatened area"). The flags are shown only when the character owns the talent
 and a denied-Dexterity consumer, because the opponent's own Reflex Defense is
 not on this sheet. No Escape's duration is a declaration: clear the flag when it
 ends. Both records are Partial.
+
+## Cunning Attack
+
+This section precedes calculations. Cunning Attack revision 19415 (Force
+Unleashed Campaign Guide): "You gain a +2 bonus on attack rolls against a
+Flat-Footed enemy or one who is denied its Dexterity bonus to its Reflex
+Defense." `{target:'targetAttack', against:'deniedDexterity', amount:2,
+type:'untyped'}` uses the shared denied-Dexterity check above (declared Denied
+Dexterity, flanking with Advantageous Positioning, or a reviewed Flat-Footed
+declaration), so a Flat-Footed opponent counts. The bonus is unnamed, so it adds
+to other unnamed bonuses, and it applies to non-area attacks like other
+opponent-trait bonuses. The record is Partial.

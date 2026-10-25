@@ -2964,3 +2964,9 @@ Lightsaber Combat Talent Tree r26712: +2 competence on Short Lightsaber or Guard
 Shoto attacks while also wielding a different one-handed activated Lightsaber.
 The Guard Shoto is a manual-attack catalog weapon, so its bonus stays manual.
 Partial.
+
+## Cunning Attack
+
+Cunning Attack r19415 (Force Unleashed Campaign Guide): +2 unnamed attack bonus
+against a Flat-Footed or Dexterity-denied opponent, through the shared
+denied-Dexterity check. Partial.
