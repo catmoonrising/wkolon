@@ -7,7 +7,7 @@ module.exports=async function checkSpecies(browser,base,root){
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base+'#creation');await creationUI.tab(page,'species');
   const results=page.locator('#species-results'),search=page.locator('#species-search');
-  const names=()=>results.locator('.sp-name-link').allTextContents();
+  const names=()=>results.locator('[data-select-species]').evaluateAll(es=>es.map(e=>e.getAttribute('aria-label').replace(/^Select /,'')));
   const species=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))).species,byName=new Map(species.map(r=>[r.name,r]));
   const ordered=async(metric,descending)=>{const rows=(await names()).map(n=>byName.get(n));for(let i=1;i<rows.length;i++){const a=metric(rows[i-1]),b=metric(rows[i]);if(a===null||b===null){assert(a!==null||b===null,'Unknown values sort last in either direction');continue;}let cmp=0;for(let j=0;j<a.length&&!cmp;j++)cmp=a[j]-b[j];assert(descending?cmp>=0:cmp<=0,'Numeric order: '+rows[i-1].name+' / '+rows[i].name);if(!cmp)assert(rows[i-1].name.localeCompare(rows[i].name)<=0,'Alphabetical tie-break');}};
   const speed=r=>r.speed===null?null:[r.speed,r.speed+Object.values(r.speeds||{}).reduce((a,b)=>a+b,0)],abilities=r=>{
