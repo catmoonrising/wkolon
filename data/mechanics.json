@@ -37151,9 +37151,15 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "regenerativeHealing",
+          "amount": 5,
+          "dailyUses": 1
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:resurgent-vitality",

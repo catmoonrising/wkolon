@@ -19,7 +19,7 @@ import {counselingEnabled,ambiguityValue} from './house-rules.js';
 import {evalExpr} from './dice.js';
 import {clearAiming,clearBracing,startNextTurn} from './attack-techniques.js';
 
-const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,strongBellowUsed:false,ragesSpent:0,rageRounds:0,channelRage:false,channelRageUsed:false,indomitableSpent:0,knacksSpent:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
+const empty=()=>({secondWindsSpent:0,secondWindEncounter:false,regenerationUsed:false,regenerationActive:false,regenerationEnded:false,strongBellowUsed:false,ragesSpent:0,rageRounds:0,channelRage:false,channelRageUsed:false,indomitableSpent:0,knacksSpent:0,persistent:[],naturalHealingUsed:false,unconsciousRetry:false,stunUnconscious:false,dead:false,limbs:[]});
 export const recoveryState=c=>({...empty(),...c.recovery});
 const state=c=>{c.recovery??={};Object.assign(c.recovery,recoveryState(c));return c.recovery;};
 const causes=Object.freeze({'rage':'Rage','second-wind':'Second Wind','injury':'Injury','limb-loss':'Lost limb','other':'Other'});
@@ -30,6 +30,8 @@ export function validateRecovery(c,bad){
  if(r?.strongBellowUsed!==undefined&&typeof r.strongBellowUsed!=='boolean')bad('recovery state');
  if(r?.knacksSpent!==undefined&&!integer(r.knacksSpent))bad('recovery state');
  if(r?.indomitableSpent!==undefined&&!integer(r.indomitableSpent))bad('recovery state');
+ for(const key of ['regenerationUsed','regenerationActive','regenerationEnded'])if(r?.[key]!==undefined&&typeof r[key]!=='boolean')bad('regenerative healing');
+ if(r?.regenerationActive&&!r.regenerationUsed||r?.regenerationEnded&&!r.regenerationActive)bad('regenerative healing');
  if(!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).some(k=>!Object.keys(empty()).includes(k))||!['secondWindsSpent','ragesSpent','rageRounds'].every(k=>integer(r[k]))||typeof r.secondWindEncounter!=='boolean'||!Array.isArray(r.persistent)||new Set(r.persistent).size!==r.persistent.length||r.persistent.some(p=>!persistentName(p))||['naturalHealingUsed','unconsciousRetry','stunUnconscious','dead','channelRage','channelRageUsed'].some(k=>r[k]!==undefined&&typeof r[k]!=='boolean'))bad('recovery state');
  if(r.limbs!==undefined&&(!Array.isArray(r.limbs)||r.limbs.length>20||new Set(r.limbs.map(l=>l?.id)).size!==r.limbs.length||r.limbs.some(l=>!l||Object.keys(l).some(k=>!['id','name','days','persistent'].includes(k))||typeof l.id!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(l.id)||typeof l.name!=='string'||!l.name.trim()||l.name.length>100||typeof l.persistent!=='boolean'||!Number.isInteger(l.days)||l.days<1||l.days>10)))bad('limb regeneration');
 }
@@ -42,21 +44,39 @@ export function recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude,ex
  const windReason=species.isDroid||species.repairOnly?'Droids regain HP through repair':!able?'Second Wind unavailable':!windBonuses.aboveHalf&&current>hp*rule.maximumHitPointFraction?'HP above half maximum':r.secondWindEncounter&&!windBonuses.multipleUses?'Used this encounter':!remaining&&!exhaustion?'No daily uses remaining':'';
  const rage=species.rage?{active:r.rageRounds>0,rounds:r.rageRounds,duration:Math.max(1,species.rage.durationBase+mods.con),bonus:species.rage.bonus+rageBonus,daily:species.rage.dailyUses+extraRages,remaining:Math.max(0,species.rage.dailyUses+extraRages-r.ragesSpent)}:null;
  const conHealing=windBonuses.constitution?Math.max(windBonuses.constitution,windBonuses.constitution*mods.con):0;
- return {secondWind:{daily,remaining,healing:Math.max(Math.floor(hp*rule.hitPointFraction),scores.con)+conHealing,action:windBonuses.freeAction?'Free Action (on your turn)':'Swift Action',conditionRecovery:r.persistent.length?0:windBonuses.condition||0,forceDice:forceRecovery?Math.min(rule.forceRecovery.maxDice,c.forcePoints):0,exhaustion,reason:windReason,available:!windReason},rage,persistent:r.persistent,recoverable:able&&c.condition>0&&!r.persistent.length,naturalHealing:{amount:level*(species.naturalHealingMultiplier||1),used:r.naturalHealingUsed,available:!species.isDroid&&!species.repairOnly&&!r.dead},unconscious:{available:!species.isDroid&&!r.dead&&(c.condition===5||current===0),retry:r.unconsciousRetry,modifier:mods.con},dead:r.dead,limbs:r.limbs};
+ const regeneration=windBonuses.regeneration?{amount:windBonuses.regeneration.amount,available:!r.regenerationUsed,active:r.regenerationActive&&!r.dead&&current<hp}:null;
+ return {secondWind:{daily,remaining,regeneration,healing:Math.max(Math.floor(hp*rule.hitPointFraction),scores.con)+conHealing,action:windBonuses.freeAction?'Free Action (on your turn)':'Swift Action',conditionRecovery:r.persistent.length?0:windBonuses.condition||0,forceDice:forceRecovery?Math.min(rule.forceRecovery.maxDice,c.forcePoints):0,exhaustion,reason:windReason,available:!windReason},rage,persistent:r.persistent,recoverable:able&&c.condition>0&&!r.persistent.length,naturalHealing:{amount:level*(species.naturalHealingMultiplier||1),used:r.naturalHealingUsed,available:!species.isDroid&&!species.repairOnly&&!r.dead},unconscious:{available:!species.isDroid&&!r.dead&&(c.condition===5||current===0),retry:r.unconsciousRetry,modifier:mods.con},dead:r.dead,limbs:r.limbs};
 }
 const persistent=(c,cause)=>{const r=state(c);c.condition=Math.min(5,c.condition+1);if(!r.persistent.includes(cause))r.persistent.push(cause);};
-export function catchSecondWind(c,d,pack,roll=evalExpr){
+export function catchSecondWind(c,d,pack,roll=evalExpr,{regenerate=false}={}){
  const wind=d.recovery.secondWind;if(!wind.available)throw new Error(wind.reason);
- const forceRoll=wind.forceDice?roll(`${wind.forceDice}d${pack.rules.secondWind.forceRecovery.die}`):null;
+ if(typeof regenerate!=='boolean')throw new Error('Invalid Second Wind choice');
+ if(regenerate&&!wind.regeneration?.available)throw new Error('Regenerative Healing unavailable');
+ const forceRoll=!regenerate&&wind.forceDice?roll(`${wind.forceDice}d${pack.rules.secondWind.forceRecovery.die}`):null;
  const extra=forceRoll?.value??0;
  if(!Number.isFinite(extra)||extra<0)throw new Error('Invalid Force Recovery roll');
  clearFollowUps(c);clearAiming(c);clearBracing(c);
  const before=c.currentHP??d.hp,r=state(c);
- c.currentHP=Math.min(d.hp,before+wind.healing+extra);r.secondWindsSpent++;r.secondWindEncounter=true;
+ c.currentHP=regenerate?before:Math.min(d.hp,before+wind.healing+extra);r.secondWindsSpent++;r.secondWindEncounter=true;
+ if(regenerate){r.regenerationUsed=true;r.regenerationActive=true;r.regenerationEnded=false;}
+ else if(c.currentHP>=d.hp)endRegenerativeHealing(c);
  const conditionRecovery=Math.min(c.condition,wind.conditionRecovery||0);c.condition-=conditionRecovery;
  if(wind.exhaustion)persistent(c,'second-wind');
- return {healed:c.currentHP-before,conditionRecovery,forceRecovery:extra,forceRoll,exhaustion:wind.exhaustion};
+ return {healed:c.currentHP-before,conditionRecovery,forceRecovery:extra,forceRoll,exhaustion:wind.exhaustion,regenerative:regenerate};
 }
+export function endRegenerativeHealing(c){if(c.recovery){c.recovery.regenerationActive=false;c.recovery.regenerationEnded=false;}}
+export function syncRegenerativeHealing(c,d){
+ if(!c.recovery?.regenerationActive)return false;
+ if(!d.recovery.secondWind.regeneration||d.recovery.dead||(c.currentHP??d.hp)>=d.hp){endRegenerativeHealing(c);return true;}
+ return false;
+}
+export function advanceRegenerativeHealing(c,pack){
+ if(!c.recovery?.regenerationActive||c.recovery.regenerationEnded)return null;
+ const d=derive(c,pack);syncRegenerativeHealing(c,d);if(!c.recovery.regenerationActive)return null;
+ c.recovery.regenerationEnded=true;
+ return receiveHealing(c,d,pack,d.recovery.secondWind.regeneration.amount);
+}
+export function startRegenerativeHealingTurn(c){if(c.recovery?.regenerationActive)c.recovery.regenerationEnded=false;}
 export function startRage(c,d){
  const rage=d.recovery.rage;
  if(!rage||rage.active||!rage.remaining||d.incapacitated)throw new Error('Rage unavailable');
@@ -90,9 +110,9 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
-export function newEncounter(c){assertDeflectionResolved(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
+export function newEncounter(c){assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
- assertDeflectionResolved(c);c.deflectionAttempts=0;
+ assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;
  if(pack&&campaignRuleEnabled(c,'dailyForcePoints'))c.forcePoints=derive(c,pack).forceMaximum;
  clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);
  clearTurnFeatEffects(c);clearReactionTalents(c);
@@ -100,7 +120,7 @@ export function newDay(c,pack){
  resetActionTurn(c);
  endEncounterTalents(c);
  startNextTurn(c);startNextRound(c);
- const r=state(c);r.secondWindsSpent=0;r.ragesSpent=0;r.indomitableSpent=0;r.knacksSpent=0;r.naturalHealingUsed=false;r.channelRage=false;r.channelRageUsed=false;
+ const r=state(c);r.secondWindsSpent=0;r.regenerationUsed=false;r.ragesSpent=0;r.indomitableSpent=0;r.knacksSpent=0;r.naturalHealingUsed=false;r.channelRage=false;r.channelRageUsed=false;
  const regrown=[];
  if(pack?.species.find(s=>s.id===c.species)?.limbRegeneration&&!r.dead){
   r.limbs=r.limbs.filter(l=>{l.days--;if(l.days)return true;regrown.push(l.name);return false;});
@@ -114,7 +134,7 @@ export function setPersistent(c,cause,on){
 }
 export function setDead(c,on,pack){
  state(c).dead=on;
- if(on){endChannelRage(c);clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);delete c.turnEndTriggers;clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
+ if(on){endRegenerativeHealing(c);endChannelRage(c);clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);delete c.turnEndTriggers;clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
  if(pack)endUnconsciousTalents(c,pack);
 }
 export function receiveHealing(c,d,pack,amount){
@@ -124,12 +144,14 @@ export function receiveHealing(c,d,pack,amount){
  const before=c.currentHP??d.hp,unconscious=c.condition===5||before===0;
  const additive=!unconscious||ambiguityValue(c,pack,'ambiguity:unconscious-healing')==='add';
  c.currentHP=Math.min(d.hp,(additive?before:0)+amount);
+ if(c.currentHP>=d.hp)endRegenerativeHealing(c);
  if(unconscious){c.condition=4;state(c).unconsciousRetry=false;state(c).stunUnconscious=false;}
  return {before,after:c.currentHP,revived:unconscious};
 }
 export function restEightHours(c,d,pack){
  assertDeflectionResolved(c);
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
+ endRegenerativeHealing(c);
  endUnconsciousTalents(c,pack);
  clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearEncounterTriggers(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
  if(recoveryState(c).rageRounds)endRage(c);
@@ -153,7 +175,7 @@ export function checkConsciousness(c,d,pack,roller=evalExpr){
  const dead=fatal&&!(recoveryState(c).stunUnconscious&&rule.stunNoFatalCheck),success=!fatal&&rolled.value>=rule.dc;
  const r=state(c);
  if(dead)setDead(c,true,pack);
- else if(success){c.currentHP=Math.min(d.hp,(c.currentHP??d.hp)+d.level);c.condition=4;r.unconsciousRetry=false;r.stunUnconscious=false;}
+ else if(success){c.currentHP=Math.min(d.hp,(c.currentHP??d.hp)+d.level);if(c.currentHP>=d.hp)endRegenerativeHealing(c);c.condition=4;r.unconsciousRetry=false;r.stunUnconscious=false;}
  else {r.unconsciousRetry=true;setPersistent(c,'injury',true);c.condition=5;}
  return {rolled,success,dead};
 }

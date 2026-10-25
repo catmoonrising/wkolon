@@ -74,7 +74,7 @@ import {featureChoices,choiceName,UNARMED_ID,talentTreeIds,resolveFeatureSelecti
 import {createSpeciesChecks} from './species-rules.js';
 import {canAim} from './weapon-rules.js';
 import {ammunitionProfile} from './ammunition.js';
-import {recordKnockout} from './recovery.js';
+import {recordKnockout,syncRegenerativeHealing} from './recovery.js';
 
 const $ = id => document.getElementById(id);
 const escape = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -692,6 +692,7 @@ function render() {
   actionsUI?.refresh();
   if(preparePointBuy(current(),pack))store.schedule();
   derived = derive(current(),pack);
+  if(syncRegenerativeHealing(current(),derived)){store.schedule();derived=derive(current(),pack);}
   if(endFlatFootedTriggers(current(),pack,derived.flatFooted)){store.schedule();derived=derive(current(),pack);}
   const scroll = window.scrollY;
   const openDetails = [...document.querySelectorAll('.modules details[open][id]')].map(el=>el.id);
@@ -706,7 +707,7 @@ function render() {
   numericFields($('main'));window.__layout.refresh();paintLogs();renderEditor();
   window.scrollTo({top:scroll});
 }
-function changed() { endUnconsciousTalents(current(),pack);speciesChecks?.invalidate();const next=derive(current(),pack);recordPrivateerFall(current(),next);if(derived&&next.forceMaximum!==derived.forceMaximum){const bonus=campaignRuleEnabled(current(),'dailyForcePoints')?0:3*(Number(next.ctx.feats.some(f=>f.id==='feat:force-boon'))-Number(derived.ctx.feats.some(f=>f.id==='feat:force-boon')));if(bonus>0)current().forcePoints+=bonus;else current().forcePoints=Math.min(current().forcePoints,next.forceMaximum);}store.schedule(); queueMicrotask(render); }
+function changed() { endUnconsciousTalents(current(),pack);speciesChecks?.invalidate();const next=derive(current(),pack);syncRegenerativeHealing(current(),next);recordPrivateerFall(current(),next);if(derived&&next.forceMaximum!==derived.forceMaximum){const bonus=campaignRuleEnabled(current(),'dailyForcePoints')?0:3*(Number(next.ctx.feats.some(f=>f.id==='feat:force-boon'))-Number(derived.ctx.feats.some(f=>f.id==='feat:force-boon')));if(bonus>0)current().forcePoints+=bonus;else current().forcePoints=Math.min(current().forcePoints,next.forceMaximum);}store.schedule(); queueMicrotask(render); }
 function d(sides) { const a=new Uint32Array(1); const ceiling=Math.floor(2**32/sides)*sides; do { crypto.getRandomValues(a); } while(a[0]>=ceiling); return a[0]%sides+1; }
 function addInventory(id,quantity=1,options={}) {
   const c=current(),r=resolveEquipment({id,...options},pack,c),species=resolveSpecies(c,pack);

@@ -1,3 +1,4 @@
+import {endRegenerativeHealing} from './recovery.js';
 import {incomingDamageDeclaration} from './damage-declarations.js';
 import {applyIncomingDamage,damageOutcome} from './incoming-damage.js';
 export const negatingPowerRule=(pack,id)=>(pack.rules.negatingPowers||[]).find(r=>r.powerId===id);
@@ -30,6 +31,6 @@ export function finishNegatingPower(c,d,pack,powerId,check,incoming,{heal=false}
   return {negated:false,damage,text:`Not negated; SR -${damage.srBlocked}, DR -${damage.drBlocked}; HP ${damage.beforeHP} → ${damage.afterHP}${damage.dead?'; '+(d.ctx.isDroid?'Destroyed':'Dead'):''}${damage.forcePointSpent?'; Force Points -1':''}`};
  }
  if(!heal)return {negated:true,healed:0,text:'Negated'};
- const before=c.currentHP??d.hp,after=before+Math.min(snapshot.amount,Math.max(0,d.hp-before));c.currentHP=after;
+ const before=c.currentHP??d.hp,after=before+Math.min(snapshot.amount,Math.max(0,d.hp-before));c.currentHP=after;if(after>=d.hp)endRegenerativeHealing(c);
  return {negated:true,healed:after-before,text:`Negated; HP ${before} → ${after}`};
 }

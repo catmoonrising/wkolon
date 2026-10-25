@@ -1690,3 +1690,6 @@ pending its separate loss review.
 Channel Rage and Powerful Rage follow the [Rage feat contract](rage-feats.md).
 
 Ion Mastery, Twin Shot and Nonlethal Tactics follow the [weapon mode talent contract](weapon-mode-talents.md).
+
+Regenerative Healing: see [recovery contract](regenerative-healing.md) for the
+Second Wind replacement, daily use and own-turn-end healing lifecycle.

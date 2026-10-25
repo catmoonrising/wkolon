@@ -162,6 +162,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   if(id==='attack')fields+=select('fp','Force Point',[['none','None'],['before','Bonus before roll (1 FP)']],o.fp||'none');
   if(v.cost.type==='reaction')fields+=text('trigger','Trigger',o.trigger||'');
   if(id==='reload')fields+=check('confirmed','Reload supplied',o.confirmed);
+  if(id==='second-wind'&&d.recovery.secondWind.regeneration)fields+=check('regenerate','Regenerative Healing',o.regenerate);
   if(id==='recover')fields+=select('count','Swift actions',[[1,'1'],[2,'2'],[3,'3']],o.count??1);
   if(id==='bellow')fields+=input('extraDice','Extra d6',o.extraDice)+check('strong','Strong Bellow',o.strong)+input('damage','Entered damage (over 500 dice)',o.damage);
   if(id.startsWith('manual-')&&r.name==='Other')fields+=text('note','Action',o.note||'');
@@ -206,14 +207,14 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   panel.anchor(el,event);
   const powerUid=el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10,knownPower=powerUid&&selfPowerRule(pack,derived().forcePowers.find(p=>p.copyId===powerUid)?.id);
   if(pendingResistanceChecks(current()).length&&el.matches('[data-combat],[data-recovery],[data-use-power],[data-power-adept],[data-power-take10],[data-recover-power],[data-next-turn]')){error('Resolve or release Energy Resistance maintenance');return true;}
-  if(!current().actionState?.active&&!knownPower&&!(el.hasAttribute('data-next-turn')&&maintainedPowers(current(),pack).length))return false;
+  if(!current().actionState?.active&&!knownPower&&el.dataset.recovery!=='regenerative-healing'&&!(el.hasAttribute('data-next-turn')&&maintainedPowers(current(),pack).length))return false;
   const c=current(),id=el.dataset.combat;
   const map={jump:'jump',attack:'attack',charge:'charge','running-attack':'running-attack',withdraw:'withdraw','acrobatics-move':'move',balance:'balance','balance-recheck':'balance-recheck','escape-bonds':'escape-bonds','prone-action':c.prone?'stand':'prone','acrobatics-prone':'acrobatics-prone',opportunity:'opportunity',cleave:'cleave','follow-through':'follow-through',reload:'reload'};
   let action=map[id],o=action?options(action):{};
   if(action==='jump'){o.path=jumpState(c);draft={id:action,o};owner=c.id;category='move';form();return true;}
   if(action){if(el.dataset.attackId)o.uid=el.dataset.attackId;if(action==='reload'||action==='balance-recheck'){draft={id:action,o};category=action==='balance-recheck'?'reaction':'move';owner=c.id;form();return true;}}
   else if(['run','step'].includes(id)){const r=c.routines.find(r=>r.id===el.closest('[data-routine]')?.dataset.routine);if(r?.kind!=='fullAttack'){action=id==='run'?'routine':'routine-step';o={...options(action),routineId:r?.id};draft={id:action,o};owner=c.id;category='full';form();return true;}action=id==='run'?'full-attack':'full-attack-step';o={routineId:r.id};}
-  else if(['recover','second-wind','rage'].includes(el.dataset.recovery)){action=el.dataset.recovery;o=options(action);if(action==='recover')o.count=recoverActions(derived(),pack)-(actionState(c).recover.count%recoverActions(derived(),pack));}
+  else if(['recover','second-wind','regenerative-healing','rage'].includes(el.dataset.recovery)){action=el.dataset.recovery==='regenerative-healing'?'second-wind':el.dataset.recovery;o=options(action);if(el.dataset.recovery==='regenerative-healing')o.regenerate=true;if(action==='recover')o.count=recoverActions(derived(),pack)-(actionState(c).recover.count%recoverActions(derived(),pack));}
   else if(el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10){action='power';o=options(action);o.powerId=el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10;const p=derived().forcePowers.find(p=>p.copyId===o.powerId);o.action=p.action;o.rollMode=el.dataset.powerAdept?'adept':el.dataset.powerTake10?'take10':'roll';if(o.rollMode==='take10')o.fp='none';if(knownPower)o.enhance=o.rollMode!=='adept'&&!resistancePowerRule(pack,p.id);if(resistancePowerRule(pack,p.id)||p.action==='reaction'||movementPowerRule(pack,p.id)||pack.rules.actionEconomy.powerRequirements?.[p.id]?.aware){draft={id:action,o};owner=c.id;category='reaction';form();return true;}}
   else if(el.dataset.recoverPower){action='recover-power';o={powerId:el.dataset.recoverPower};draft={id:action,o};owner=c.id;category='reaction';form();return true;}
   else if(el.dataset.energyActivate||el.dataset.energyRecharge){action=el.dataset.energyActivate?'shield':'shield-recharge';o={uid:el.dataset.energyActivate||el.dataset.energyRecharge};}

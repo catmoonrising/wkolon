@@ -2949,3 +2949,11 @@ starting in Jedi automatically receives the existing printed standard Lightsaber
 grant once, including higher-level builds. Starting-grant claims prevent repeated
 free items after edits/removal. This uses the conservative named-item reading of
 the Jedi class feature; a choice among the entire weapon group is not assumed.
+
+## Regenerative Healing
+
+Reviewed feat revision 20752 (Rebellion Era Campaign Guide). A closed 5-HP,
+once-daily Second Wind replacement uses shared healing and turn boundaries.
+The source is unchanged. Healing stops at full HP, loss of the feature or the
+encounter boundary; only New Day restores its daily use. Other actors and
+game-time progression are not inferred.
