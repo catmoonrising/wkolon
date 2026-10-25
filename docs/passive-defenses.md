@@ -66,3 +66,10 @@ Force Adept level. `{target:'defenseBonus', defense:'will', type:'force',
 classLevel:'class:force-adept'}` resolves its amount from that level (zero while
 the class is inactive) through the existing Defense modifier resolver, where
 Force bonuses do not stack with each other. Partial.
+
+Autonomy Talent Tree revision 16043 (Defensive Electronics, Force Unleashed
+Campaign Guide): "When someone tries to Reprogram you, add your Independent
+Droid Class Level to your Will Defense." Only the Independent Droid class has
+this tree. `{target:'conditionalDefense', defense:'will', against:'reprogram',
+type:'untyped', classLevel:'class:independent-droid'}` adds a "vs. Reprogram"
+Will row whose amount is the active Independent Droid level. Partial.

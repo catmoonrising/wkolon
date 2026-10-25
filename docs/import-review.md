@@ -2986,3 +2986,8 @@ Both Partial.
 
 Telepath Talent Tree r20549: Force bonus to Will Defense equal to Force Adept
 level. Partial.
+
+## Defensive Electronics
+
+Autonomy Talent Tree r16043: Will Defense vs. Reprogram increased by the
+Independent Droid level. Partial.

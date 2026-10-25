@@ -44995,9 +44995,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"conditionalDefense","defense":"will","against":"reprogram","type":"untyped","classLevel":"class:independent-droid"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:ion-resistance-10",
