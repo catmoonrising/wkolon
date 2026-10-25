@@ -1680,7 +1680,7 @@ See [skill-abilities.md](skill-abilities.md).
 
 Reviewed ranged weapon traits and opportunity modifiers are documented in
 [opportunity-bonuses.md](opportunity-bonuses.md), [rifle-ranges.md](rifle-ranges.md)
-and [weapon-feats.md](weapon-feats.md). Printed weapon identity is distinct from
+and [weapon-feats.md](weapon-feats.md). Shoto Focus follows [shoto-focus.md](shoto-focus.md). Printed weapon identity is distinct from
 resolved proficiency and range after stock changes.
 
 Source declarations with turn/encounter typed bonuses follow

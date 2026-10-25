@@ -52464,9 +52464,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"shotoAttack","amount":2,"type":"competence","weapons":["equipment:short-lightsaber","equipment:guard-shoto"]}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:engineer-lineage",

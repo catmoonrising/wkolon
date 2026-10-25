@@ -2957,3 +2957,10 @@ once-daily Second Wind replacement uses shared healing and turn boundaries.
 The source is unchanged. Healing stops at full HP, loss of the feature or the
 encounter boundary; only New Day restores its daily use. Other actors and
 game-time progression are not inferred.
+
+## Shoto Focus
+
+Lightsaber Combat Talent Tree r26712: +2 competence on Short Lightsaber or Guard
+Shoto attacks while also wielding a different one-handed activated Lightsaber.
+The Guard Shoto is a manual-attack catalog weapon, so its bonus stays manual.
+Partial.
