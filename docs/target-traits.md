@@ -89,3 +89,15 @@ ally down the Condition Track") marks that opponent; `{target:'targetAttack',
 against:'harmedAlly', amount:2, type:'insight'}` applies through the shared
 resolver. The flag is the declaration, so clearing it when the duration ends is
 manual. The record is Partial.
+
+## Starship Raider
+
+This section precedes calculations. Spacer Talent Tree revision 18516 (Starship
+Raider, Core Rulebook): "You gain a +1 bonus on attack rolls made while aboard a
+Starship. This bonus applies to attacks made with Starship Weapons, as well as
+personal weapons used aboard a Starship." A declared attacker-state flag,
+`aboardStarship` ("You are aboard a Starship"), activates `{target:'attacks',
+amount:1, type:'untyped', when:'aboardStarship'}` for every personal attack,
+including area attacks. Starship Weapons are not personal attack rows yet, so
+that clause stays manual. The flag appears only to owners or while set. The
+record is Partial.

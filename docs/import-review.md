@@ -2883,3 +2883,25 @@ counting. Retribution (Opportunist r20013) adds +2 insight against a declared
 opponent who moved an ally down the Condition Track. Its current-target
 qualification and end-next-turn clearing remain manual; area and nonweapon
 resolution remain manual as with the other target traits. All remain Partial.
+
+
+## Sentinel Strike
+
+Jedi Sentinel Talent Tree r26765: +1d6 per selection (max 5d6) on Lightsaber
+attacks against a denied-Dexterity opponent; an Ambiguities switch applies it to
+any Lightsaber attack. The damage-dealing Force Power clause stays manual.
+Partial.
+
+
+## Squad Superiority and No Escape
+
+Brute Squad Talent Tree r16400 and Run and Gun Talent Tree r19313: declared
+opponent conditions make the target Flat-Footed against you, feeding Sneak
+Attack and Sentinel Strike's denied-Dexterity check. No Escape's duration is a
+declaration. Both Partial.
+
+
+## Starship Raider
+
+Spacer Talent Tree r18516 (Core Rulebook): +1 on personal attack rolls while
+declared aboard a Starship. Starship Weapons stay manual. Partial.

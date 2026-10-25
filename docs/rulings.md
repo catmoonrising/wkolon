@@ -124,3 +124,7 @@ Battle Meditation keeps its own bonus on knockout by default under the printed
 ally-only loss wording; Ambiguities can remove the user's bonus too. Master of
 the Great Hunt defaults to Lightsaber-only attack and damage benefits, with an
 alternative broadening the attack bonus while keeping its die Lightsaber-only.
+
+Sentinel Strike applies its Lightsaber dice against denied-Dexterity targets by
+default. Ambiguities offers applying those dice to any Lightsaber attack; its
+Force Power damage clause remains manual.

@@ -42055,8 +42055,15 @@
       },
       "repeat": "never",
       "reminder": "",
-      "effects": [],
-      "automation": "manual"
+      "effects": [
+        {
+          "target": "attacks",
+          "amount": 1,
+          "type": "untyped",
+          "when": "aboardStarship"
+        }
+      ],
+      "automation": "partial"
     },
     {
       "id": "talent:stellar-warrior",
@@ -46007,9 +46014,14 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "deniedDexterityWhen",
+          "against": "squadAdjacent"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:dig-in",
@@ -51542,9 +51554,17 @@
         "requirements": []
       },
       "repeat": "stack",
-      "effects": [],
+      "effects": [
+        {
+          "target": "sentinelStrike",
+          "die": 6,
+          "maximum": 5,
+          "weaponGroup": "lightsabers",
+          "scopeAmbiguityId": "ambiguity:sentinel-strike-scope"
+        }
+      ],
       "reminder": "",
-      "automation": "manual",
+      "automation": "partial",
       "maxSelections": 5
     },
     {
@@ -56701,9 +56721,14 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "deniedDexterityWhen",
+          "against": "withdrewFromYou"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:opportunistic-strike",
@@ -67377,6 +67402,7 @@
         ]
       },
       {"id":"ambiguity:wan-shen-defense-weapon-change","name":"Wan-Shen Defense: weapon change","sourceIds":["source:wiki-matukai-adept-talent-tree-wan-shen-defense"],"passages":[{"ruleId":"rule:talent-matukai-adept-talent-tree-wan-shen-defense","fullText":true}],"default":"activation-only","options":[{"value":"activation-only","name":"Keep until next turn"},{"value":"require-weapon","name":"Require wielded Wan-Shen"}]},
+      {"id":"ambiguity:sentinel-strike-scope","name":"Sentinel Strike: Lightsaber attacks","sourceIds":["source:wiki-jedi-sentinel-talent-tree-sentinel-strike"],"passages":[{"ruleId":"rule:talent-jedi-sentinel-talent-tree-sentinel-strike","fullText":true}],"default":"denied-dexterity","options":[{"value":"denied-dexterity","name":"Denied Dexterity targets"},{"value":"any-lightsaber","name":"Any Lightsaber attack"}]},
       {"id":"ambiguity:great-hunt-scope","name":"Master of the Great Hunt: attack bonus","sourceIds":["source:wiki-jedi-sentinel-talent-tree-master-of-the-great-hunt"],"passages":[{"ruleId":"rule:talent-jedi-sentinel-talent-tree-master-of-the-great-hunt","fullText":true}],"default":"lightsaber-only","options":[{"value":"lightsaber-only","name":"Lightsaber attacks only"},{"value":"attack-any","name":"Any attack"}]},
       {"id":"ambiguity:battle-meditation-unconscious","name":"Battle Meditation: user knocked out","sourceIds":["source:wiki-jedi-guardian-talent-tree-battle-meditation"],"passages":[{"ruleId":"rule:battle-meditation","fullText":true}],"default":"allies-only","options":[{"value":"allies-only","name":"Allies lose it"},{"value":"self-lost","name":"User loses it too"}]},
       {"id":"ambiguity:lightsaber-defense-weapon-change","name":"Lightsaber Defense: weapon change","sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense"],"passages":[{"ruleId":"rule:lightsaber-defense","fullText":true}],"default":"activation-only","options":[{"value":"activation-only","name":"Keep until next turn"},{"value":"require-weapon","name":"Require active Lightsaber"}]},
