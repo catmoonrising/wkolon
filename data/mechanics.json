@@ -42601,10 +42601,16 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "attunedAttack",
+          "amount": 1,
+          "type": "force"
+        }
+      ],
       "reminder": "",
       "forceActivation": "forcePoint",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:channel-aggression",
@@ -42865,10 +42871,15 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "empoweredDice",
+          "dice": 1
+        }
+      ],
       "reminder": "",
       "forceActivation": "forcePoint",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:exotic-weapon-mastery",
@@ -42991,10 +43002,17 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "talismanDefense",
+          "talisman": "one",
+          "amount": 1,
+          "type": "force"
+        }
+      ],
       "reminder": "",
       "forceActivation": "forcePoint",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:force-treatment",
@@ -43096,10 +43114,17 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "talismanDefense",
+          "talisman": "all",
+          "amount": 1,
+          "type": "force"
+        }
+      ],
       "reminder": "",
       "forceActivation": "forcePoint",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:greater-penetrating-attack",
@@ -50582,9 +50607,16 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "activationAmount",
+          "talent": "talent:battle-meditation",
+          "choice": "attacks",
+          "amount": 2
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:slashing-charge",

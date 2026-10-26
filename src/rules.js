@@ -164,6 +164,7 @@ export function validateCharacter(c, pack) {
   }
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
+  const talismans=c.inventory.filter(e=>e.talisman);if(talismans.filter(e=>e.talisman==='all').length>1||talismans.filter(e=>e.talisman!=='all').length>1)bad('Talisman');
   validateDroidInstallation(c,pack,bad);
   validateSpeciesProfileCharacter(c,pack,bad);
   c.inventory.forEach(e=>validateAmmunition(e,pack,bad));
@@ -478,6 +479,7 @@ export function derive(c, pack) {
   if(recoveryState(c).channelRage)effects.push(...effects.filter(e=>e.target==='channelRage').map(e=>({target:'defenseBonus',defense:e.defense,amount:e.amount,type:e.type})));
   const powerRage=ragePowerModifiers(c,pack),blockedRageSkills=rageBlockedSkills(c,pack);
   const carried=c.inventory.filter(e=>e.carried!==false);
+  const talismans=new Set(carried.map(e=>e.talisman).filter(Boolean));
   const weight=carried.reduce((n,e)=>n+(droidCarryingWeight(c,pack,e,resolveEquipment(e,pack,c).weight)||0)*e.quantity,0)+droidSystems.virtual.reduce((n,e)=>n+(droidCarryingWeight(c,pack,e,ix.equipment.get(e.id).weight)||0)*e.quantity,0);
   const load=carryingLimits(scores.str,effectiveSize,weight,pack.rules.encumbrance);
   const armorPenalty=armorCheckPenalty(armorItems,ctx,pack,c.armorChecks,false,shieldLimits.checkPenalty),armorSkillPenalty=armorCheckPenalty(armorItems,ctx,pack,c.armorChecks,true,shieldLimits.checkPenalty);
@@ -503,7 +505,7 @@ export function derive(c, pack) {
     const sp = species.defenses[key] || 0;
     const armorFortitude=Math.max(0,...armorItems.filter(r=>armorProficient(r,ctx)).map(r=>r.fortitudeBonus+armorEffect(r,'armorFortitude')));
     const equipment=key==='fortitude'?armorFortitude:key==='will'&&total('armorFortitudeToWill')?armorFortitude:0;
-    const defenseEffects=effects.filter(e=>(e.target==='defenses'||e.target==='defenseBonus'&&e.defense===key)&&(e.when==='fightDefensively'?defensiveCombat.stance!=='none':applies(e))).map(e=>({...e,amount:e.classLevel?(ctx.inactiveClasses.has(e.classLevel)?0:ctx.classLevels.get(e.classLevel)||0):e.amount*(e.perLevel?level:1)}));
+    const defenseEffects=[...effects.filter(e=>(e.target==='defenses'||e.target==='defenseBonus'&&e.defense===key)&&(e.when==='fightDefensively'?defensiveCombat.stance!=='none':applies(e))).map(e=>({...e,amount:e.classLevel?(ctx.inactiveClasses.has(e.classLevel)?0:ctx.classLevels.get(e.classLevel)||0):e.amount*(e.perLevel?level:1)})),...effects.filter(e=>e.target==='talismanDefense'&&talismans.has(e.talisman==='all'?'all':key))];
     defenseModifiers[key]=[{type:'equipment',amount:equipment},...defenseEffects];
     const featDefense=modifierTotal(defenseModifiers[key])-equipment;
     equipmentDefenseBonuses[key]=equipment;
@@ -598,7 +600,8 @@ export function derive(c, pack) {
     return {...w,...(accurate?{accurate:true}:{}),...(extension&&limits?{ranges:[limits[0]+extension,...limits.slice(1)]}:{})};
   };
   const attacks = weaponEntries.map(e => {
-    const w = weaponTalents(e.virtualWeapon||(e.id===UNARMED_ID?unarmed:resolveEquipment(e,pack,c)));
+    const talentWeapon=weaponTalents(e.virtualWeapon||(e.id===UNARMED_ID?unarmed:resolveEquipment(e,pack,c))),empowered=e.empowered&&talentWeapon.mode==='melee'&&talentWeapon.damage?effects.filter(f=>f.target==='empoweredDice').reduce((n,f)=>n+f.dice,0):0;
+    const w = empowered?{...talentWeapon,damage:extraDamageDice(talentWeapon.damage,empowered)}:talentWeapon;
     const proficient = weaponProficient(w,ctx,ix);
     const proficiencyPenalty=proficient?0:species.unproficientWeaponPenalty??-5;
     const group=weaponEffectGroup(w,ctx);
@@ -609,7 +612,7 @@ export function derive(c, pack) {
      const anyBlade=ambiguityValue(c,pack,rows[0].partnerAmbiguityId)==='any-one-handed';
      const partner=wielded.some(x=>x.uid!==e.uid&&(anyBlade?resolveEquipment(x,pack,c).group==='lightsabers':x.id==='equipment:lightsaber')&&fullAttackGrip(resolveEquipment(x,pack,c),x,pack,effectiveSize).oneHanded);
      return partner?rows.map(f=>({amount:f.amount,type:f.type})):[];};
-    const attackModifiers = [...(allowFocus?effects.filter(f => f.target === 'weaponFocus' && (f.weaponGroup||f.selection.choice) === group && applies(f,w)):[]),...effects.filter(f=>f.target==='attacks'&&applies(f,w)),...(/Ion/.test(w.damageType||'')?effects.filter(f=>f.target==='ionAttack'):[]),...effects.filter(f=>f.target==='stunAttack'&&(w.mode==='ranged'&&w.damageEffect==='stun'||f.weapons.includes(w.id))),...turnFeatAttackEffects(c,pack,ctx,w),...(w.mode==='melee'?[{type:'rage',amount:rageBonus},...powerRage]:[]),...shotoBonus(w,e),...effects.filter(f=>f.target==='groupAttack'&&f.weaponGroup===weaponIdentityGroup(w,ctx)).map(f=>({amount:f.amount,type:f.type}))];
+    const attackModifiers = [...(allowFocus?effects.filter(f => f.target === 'weaponFocus' && (f.weaponGroup||f.selection.choice) === group && applies(f,w)):[]),...effects.filter(f=>f.target==='attacks'&&applies(f,w)),...(/Ion/.test(w.damageType||'')?effects.filter(f=>f.target==='ionAttack'):[]),...effects.filter(f=>f.target==='stunAttack'&&(w.mode==='ranged'&&w.damageEffect==='stun'||f.weapons.includes(w.id))),...turnFeatAttackEffects(c,pack,ctx,w),...(w.mode==='melee'?[{type:'rage',amount:rageBonus},...powerRage]:[]),...shotoBonus(w,e),...effects.filter(f=>f.target==='groupAttack'&&f.weaponGroup===weaponIdentityGroup(w,ctx)).map(f=>({amount:f.amount,type:f.type})),...(e.attuned&&w.mode==='melee'?effects.filter(f=>f.target==='attunedAttack').map(f=>({amount:f.amount,type:f.type})):[])];
     const strike=battleStrike(c,pack,attackModifiers),focus=modifierTotal(attackModifiers)+(strike?.attackBonus||0);
     const specialization = effects.filter(f => f.target === 'weaponSpecialization' && (f.weaponGroup||f.selection.choice) === group && applies(f,w)).reduce((n, f) => n + f.amount, 0);
     const light = pack.rules.weaponSizeOrder.indexOf(w.size) < pack.rules.weaponSizeOrder.indexOf(effectiveSize)||w.unarmed&&counselingEnabled(c,'jc:112-unarmed-attacks-and-weapon-finesse');

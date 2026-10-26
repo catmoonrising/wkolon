@@ -12,7 +12,8 @@ export function activeTalentActivations(c,pack,ctx){
   if(!ctx.talents.some(t=>t.id===s.id)||ctx.inactiveTalents.has(s.id))return [];
   const talent=pack.talents.find(t=>t.id===s.id),option=talent?.activation?.choices.find(o=>o.id===s.choice);
   if(lostWhenUnconscious(c,pack,talent?.activation)&&unconscious(c))return [];
-  return option?[{...s,name:talent.name,benefit:option.name,effects:option.effects}]:[];
+  const override=ctx.talents.filter(t=>!ctx.inactiveTalents.has(t.id)).flatMap(t=>pack.talents.find(r=>r.id===t.id)?.effects||[]).find(e=>e.target==='activationAmount'&&e.talent===s.id&&e.choice===s.choice);
+  return option?[{...s,name:talent.name,benefit:option.name,effects:override?option.effects.map(e=>({...e,amount:override.amount})):option.effects}]:[];
  });
 }
 export const encounterTalentEffects=(c,pack,ctx)=>activeTalentActivations(c,pack,ctx).flatMap(s=>s.effects.map(e=>({...e,selection:{id:s.id,choice:s.choice}})));

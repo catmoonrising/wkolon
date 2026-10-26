@@ -3016,3 +3016,14 @@ the shared Counseling-aware identity, including Unarmed Attacks. Teräs Käsi
 Basics adds one die to Unarmed Attacks after Martial Arts sizing. They combine
 and enter ordinary critical multiplication. Actual prestige entry is retained.
 Both remain Partial. Sources and exact contract: docs/melee-damage-dice.md.
+
+## Personal Force items and Jedi Battle Commander
+
+Force Talisman and Greater Force Talisman apply +1 Force Defense bonuses from
+carried designated personal items; duplicate slots are rejected. Attune Weapon
+and Empower Weapon apply a personal +1 Force melee attack bonus or one current
+weapon damage die to designated inventory entries. Creation costs, time and
+destruction restrictions remain manual. Thrown use remains manual in this
+batch. Jedi Battle Commander upgrades active Battle Meditation to +2 insight
+while retaining its shared action/FP/duration handling. All remain Partial.
+Pinned source clauses and data contract: docs/force-item-commander.md.
