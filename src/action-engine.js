@@ -277,6 +277,13 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
   }else {assert(step.result.enhanceAllowed,'Enhancement unavailable');step.result.text+='; Force Points -1'+(step.action==='power'&&selfPowerRule(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id)&&!historicalManualPower(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id,step.options)?'':'; enhancement manual');}
   q.forcePoints--;s.forceSpent=true;
  }
+ // A boosted check can unlock another earned damage tier. Commit the FP,
+ // retain the new check and ask for the effect before rolling any damage.
+ const offensive=step.options.offensivePowerSnapshot&&offensivePowerRule(pack,step.options.offensivePowerSnapshot.powerId);
+ if(mode==='bonus'&&offensive?.thresholds&&step.options.effectDC==null&&offensive.thresholds.filter(t=>t.dc<=step.result.check.total).length>1){
+  step.result.effectChoiceAllowed=true;step.result.fpAllowed=false;step.result.enhanceAllowed=false;
+  validateCharacter(q,pack);commit(c,q);return {text:step.result.text,html:escape(step.result.text)+(extra?'<div>'+extra.display+' = '+totalHtml(extra)+'</div>':'')};
+ }
  if(pack.rules.skillActions?.some(r=>r.id===step.action))step.result.text+='; '+finishSkillAction(q,derive(q,pack),pack,step.action,step.options,step.result.check);
  if(step.action==='jump'){const snapshot=step.options.jumpResolution;assert(snapshot&&Number.isFinite(snapshot.dc)&&snapshot.dc>=0&&snapshot.dc<=2400000&&Number.isFinite(snapshot.cost)&&snapshot.cost>=0&&Number.isFinite(snapshot.maximum)&&snapshot.maximum>=snapshot.cost&&typeof snapshot.noCheck==='boolean','Invalid saved Jump');step.result.text+='; '+finishJump(q,{...snapshot,path:step.options.path},step.result.check).text;}
  const effectHeading=step.result.text;let effectHTML='';if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,effectDC:step.options.effectDC,roller});step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}

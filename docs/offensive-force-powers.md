@@ -36,7 +36,10 @@ resolving the saved result. Slam has no printed lesser damage tier.
 
 Queue/preview never rolls or spends. Damage rolls once after the final FP
 decision, whether that is no FP, a check bonus, or the power's enhancement.
-These choices share the existing one-FP-per-round ledger. Preserve the original
+These choices share the existing one-FP-per-round ledger. If the FP bonus
+unlocks multiple achieved tiers, commit that FP/check and retain a pending
+effect choice before any damage roll; the second choice cannot spend another
+FP or reroll the check. Preserve the original
 check and snapshot on save/reload; completed steps never roll again. Invalid
 rolls or state fail atomically. Route suite shortcuts and eligible Adept/Take
 10 controls through the same path. Keep current powers and their saved states
