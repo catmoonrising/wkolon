@@ -1,6 +1,7 @@
+import {takeAction} from './action-engine.js';
 import {substitutionScope} from './skill-substitutions.js';
 import {creationIssueTarget} from './creation-issues.js';
-import {setTriggeredDefense,endFlatFootedTriggers} from './triggered-defenses.js';
+import {triggeredDefenseRule,ownedTriggeredDefenses,setTriggeredDefense,endFlatFootedTriggers} from './triggered-defenses.js';
 import {sensesView} from './senses.js';
 import {endUnconsciousTalents} from './talent-activations.js';
 import {setSkillAbility,skillAbilityControl} from './skill-abilities.js';
@@ -370,11 +371,14 @@ function ammunitionControls(r,e,i,scope){
  return `<details id="${scope}ammunition-${i}"><summary>Ammunition${e.shotsRemaining===undefined?'':', '+e.shotsRemaining+'/'+p.capacity}</summary><div class="actions">${r.ammunitionProfiles.length>1?`<label>Supply<select data-inventory="ammoProfile" data-index="${i}">${r.ammunitionProfiles.map(p=>option(p.id,p.name,e.ammoProfile||r.ammunitionProfiles[0].id)).join('')}</select></label>`:''}<label>Shots <input type="number" min="0" max="${p.capacity}" data-inventory="shotsRemaining" data-index="${i}" value="${e.shotsRemaining??''}" placeholder="-" aria-label="${escape(r.name)} loaded shots"> / ${p.capacity}</label>${p.reloadAction==='free-action'?`<label class="checkbox" title="Supplied arrows; Free Actions"><input type="checkbox" data-inventory="freeReloads" data-index="${i}" ${e.freeReloads?'checked':''} ${derived.flatFooted?'disabled':''}>Free reloads</label>${ruleReference(pack.rulePages.find(r=>r.id==='rule:free-actions'),'ⓘ',null,scope+'free-reload-'+i)}`:''}<button data-combat="reload" data-attack-id="${e.uid}" title="${action}" ${derived.incapacitated||e.shotsRemaining===p.capacity||p.reloadAction==='free-action'&&derived.flatFooted?'disabled':''}>Reload</button>${ruleReference(p.reloadAction==='move-action'?pack.rulePages.find(r=>r.id==='rule:manipulate-an-item'):ix.equipment.get(e.id),'ⓘ',null,scope+'reload-'+i)}</div></details>`;
 }
 function talismanControl(c,e,i){
- const owned=id=>derived?.ctx.talents.some(t=>t.id===id),one=owned('talent:force-talisman'),all=owned('talent:greater-force-talisman');
- if(!one&&!all&&!e.talisman)return '';
- const taken=v=>c.inventory.some(o=>o!==e&&o.talisman&&(o.talisman==='all')===(v==='all'));
- const rows=[...(one||['reflex','fortitude','will'].includes(e.talisman)?[['reflex','Reflex'],['fortitude','Fortitude'],['will','Will']]:[]),...(all||e.talisman==='all'?[['all','All Defenses']]:[])];
- return `<label>Talisman<select data-inventory="talisman" data-index="${i}">${option('','None',e.talisman||'')}${rows.map(([id,name])=>option(id,name,e.talisman||'',taken(id))).join('')}</select></label>`;
+ const owned=id=>derived?.ctx.talents.some(t=>t.id===id);
+ const select=(key,label,one,all,taken)=>{
+  if(!one&&!all&&!e[key])return '';
+  const rows=[...(one||['reflex','fortitude','will'].includes(e[key])?[['reflex','Reflex'],['fortitude','Fortitude'],['will','Will']]:[]),...(all||e[key]==='all'?[['all','All Defenses']]:[])];
+  return `<label>${label}<select data-inventory="${key}" data-index="${i}">${option('','None',e[key]||'')}${rows.map(([id,name])=>option(id,name,e[key]||'',taken(id))).join('')}</select></label>`;
+ };
+ return select('talisman','Talisman',owned('talent:force-talisman'),owned('talent:greater-force-talisman'),v=>c.inventory.some(o=>o!==e&&o.talisman&&(o.talisman==='all')===(v==='all')))+
+  select('darkSideTalisman','Dark Side Talisman',owned('talent:dark-side-talisman'),owned('talent:greater-dark-side-talisman'),()=>c.inventory.some(o=>o!==e&&o.darkSideTalisman));
 }
 function weaponOptions(r,e,i,scope=''){
  const select=(key,label,records,value,empty=false)=>`<label>${label}<select data-inventory="${key}" data-index="${i}">${empty?option('',typeof empty==='string'?empty:'Choose…',value):''}${records.map(o=>option(o.id,o.name,value,o.disabled)).join('')}</select></label>`;
@@ -857,7 +861,7 @@ function events() {
     if(el.hasAttribute('data-mighty-swing')){c.mightySwing=el.checked;if(el.checked){clearBracing(c);for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;}changed();return;}
     if(el.dataset.unarmedModifier){const n=Number(el.value);if(!Number.isInteger(n)||n<-100||n>100){notify('Enter a valid modifier.');render();return;}c.unarmedModifiers??={attackMod:0,damageMod:0};c.unarmedModifiers[el.dataset.unarmedModifier]=n;changed();return;}
     if(el.dataset.skillModifier){const n=Number(el.value);if(!Number.isInteger(n)||n<-1000||n>1000){notify('Enter a valid modifier.');render();return;}c.skillModifiers??={};c.skillModifiers[el.dataset.skillModifier]=n;changed();return;}
-    if(el.dataset.triggeredDefense!==undefined){try{setTriggeredDefense(c,pack,derived.ctx,el.dataset.triggeredDefense,el.checked,{flatFooted:derived.flatFooted});}catch(e){notify(e.message);render();return;}changed();return;}
+    if(el.dataset.triggeredDefense!==undefined){try{if(el.checked&&triggeredDefenseRule(pack,el.dataset.triggeredDefense)?.action)takeAction(c,pack,el.dataset.triggeredDefense,{adjacent:true});else setTriggeredDefense(c,pack,derived.ctx,el.dataset.triggeredDefense,el.checked,{flatFooted:derived.flatFooted});}catch(e){notify(e.message);render();return;}changed();return;}
     if(el.hasAttribute('data-flat-footed')){c.flatFooted=el.checked;changed();return;}
     if(el.dataset.teamAllies){try{setTeamAllies(c,pack,el.dataset.teamAllies,Number(el.value));changed();}catch(e){notify(e.message);render();}return;}
     if(el.dataset.defenseAbility){const key=el.dataset.defenseAbility;if(!Object.hasOwn(derived.defenseAbilities,key)||!['auto',...derived.defenseAbilities[key].options.map(o=>o.ability)].includes(el.value))return;c.defenseAbilities??={};c.defenseAbilities[key]=el.value;changed();return;}
@@ -951,7 +955,7 @@ function events() {
       if(el.dataset.inventory==='equipped'&&el.checked)e.carried=true;
       if(el.dataset.inventory==='carried'&&!el.checked)e.equipped=false;
       if(el.dataset.inventory==='equipped'&&el.checked&&ix.equipment.get(e.id).kind==='armor') c.inventory.filter(other=>armorExclusive(ix.equipment.get(e.id),ix.equipment.get(other.id))).forEach(other=>other.equipped=false);
-      const val=el.type==='checkbox'?el.checked:['licenseStatus','talisman','weaponMode','launcher','ammunitionId','fireMode','attackStyle','scopeUid','stockPosition','ammoProfile','damageSetting','attackTechnique','targetKind'].includes(el.dataset.inventory)?el.value:Number(el.value);
+      const val=el.type==='checkbox'?el.checked:['licenseStatus','talisman','darkSideTalisman','weaponMode','launcher','ammunitionId','fireMode','attackStyle','scopeUid','stockPosition','ammoProfile','damageSetting','attackTechnique','targetKind'].includes(el.dataset.inventory)?el.value:Number(el.value);
       if(el.dataset.inventory==='distance'&&el.value===''){delete e.distance;changed();return;}
       if(el.dataset.inventory==='weightOverride'&&el.value===''){delete e.weightOverride;changed();return;}
       if(el.dataset.inventory==='shotsRemaining'&&el.value===''){delete e.shotsRemaining;changed();return;}
@@ -960,7 +964,7 @@ function events() {
       if(el.dataset.inventory==='damageSetting')c.inventory.filter(item=>ix.equipment.get(item.id).kind==='weapon').forEach(item=>item.aimed=false);
       if(el.dataset.inventory==='scopeUid'&&!el.value){delete e.scopeUid;e.aimed=false;changed();return;}
       if(el.dataset.inventory==='ammunitionId'&&!el.value){delete e.ammunitionId;changed();return;}
-      if(el.dataset.inventory==='talisman'&&!el.value){delete e.talisman;changed();return;}
+      if(['talisman','darkSideTalisman'].includes(el.dataset.inventory)&&!el.value){delete e[el.dataset.inventory];changed();return;}
       if(el.dataset.inventory==='distance'&&(!Number.isInteger(val)||val<0||val>100000)){notify('Enter a valid distance.');render();return;}
       if(el.dataset.inventory==='weightOverride'&&(!Number.isFinite(val)||val<0||val>1000000)){notify('Enter a valid weight.');render();return;}
       if(['damageSetting','fireMode'].includes(el.dataset.inventory))changeWeaponSetting(e,pack,el.dataset.inventory,val);
@@ -988,7 +992,7 @@ function events() {
     const actionButton=event.target.closest('button');if(actionButton&&(actionsUI.click(actionButton,event)||actionsUI.legacy(actionButton,event)))return;
     if(event.target.closest('[data-next-turn]')){current().deflectionAttempts=0;advanceTimedTalents(current());startNextTurn(current());changed();return;}
     if(event.target.closest('[data-flurry]')){try{declareFlurry(current(),derived);}catch(err){notify(err.message);}changed();return;}
-    const stance=event.target.closest('[data-defense-stance]');if(stance){try{declareDefenseStance(current(),derived,stance.dataset.defenseStance);}catch(err){notify(err.message);}changed();return;}
+    const stance=event.target.closest('[data-defense-stance]');if(stance){try{declareDefenseStance(current(),derived,stance.dataset.defenseStance);if(stance.dataset.defenseStance==='fight'&&ownedTriggeredDefenses(pack,derived.ctx).some(r=>r.id==='defensive-acuity'))setTriggeredDefense(current(),pack,derived.ctx,'defensive-acuity',true,{flatFooted:derived.flatFooted});}catch(err){notify(err.message);}changed();return;}
     const houseTab=event.target.closest('[data-house-tab]');if(houseTab){houseRules.setTab(houseTab.dataset.houseTab);render();return;}
     const trainingToggle=event.target.closest('[data-training-toggle]');
     if(trainingToggle){trainingToggle.checked=trainingToggle.getAttribute('aria-checked')!=='true';trainingToggle.dispatchEvent(new Event('change',{bubbles:true}));return;}

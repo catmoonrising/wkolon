@@ -1,9 +1,16 @@
 // Declared turn and encounter triggers, with shared typed modifiers.
 import {escapeHTML as escape} from './wiki-content.js';
 import {endTurnEffects,startTurnEffects} from './effect-duration.js';
+import {conditionalDefenseLabel} from './defensive-combat.js';
 export const triggeredDefenseRule=(pack,id)=>pack.rules.triggeredDefenseBonuses?.find(r=>r.id===id);
 const owns=(ctx,id)=>ctx.feats.some(f=>f.id===id)||ctx.talents.some(t=>t.id===id&&!ctx.inactiveTalents.has(t.id));
 export const ownedTriggeredDefenses=(pack,ctx)=>(pack.rules.triggeredDefenseBonuses||[]).filter(r=>owns(ctx,r.recordId));
+export function triggeredDefenseActivation(c,d,pack,id,options){
+ const rule=triggeredDefenseRule(pack,id);
+ if(!rule?.action||!owns(d.ctx,rule.recordId))throw new Error('Talent unavailable');
+ if(rule.trigger==='swift-adjacent-creature'&&options.adjacent!==true)throw new Error('Confirm an adjacent creature');
+ return rule;
+}
 // Turn-length rows live in triggeredDefenses (cleared by New Turn); encounter rows in encounterTriggers.
 const keyFor=r=>r.duration==='encounter'?'encounterTriggers':r.duration==='end-next-turn'?'turnEndTriggers':'triggeredDefenses';
 const rowId=x=>typeof x==='string'?x:x?.id;
@@ -47,6 +54,6 @@ export function endFlatFootedTriggers(c,pack,flatFooted){
 }
 export function clearTriggeredDefenses(c){delete c.triggeredDefenses;}
 export function triggeredDefenseControls(c,pack,ctx){
- const label=e=>(e.defense?e.defense[0].toUpperCase()+e.defense.slice(1):e.target==='attacks'?'Attack':e.target==='defenses'?'Defenses':'Damage')+' +'+e.amount;
+ const label=e=>e.target==='groupDice'?'Damage +'+e.dice+' die':(e.defense?e.defense[0].toUpperCase()+e.defense.slice(1):e.target==='deflectionCheckBonus'?'Block/Deflect':e.target==='attacks'?'Attack':e.target==='defenses'?'Defenses':'Damage')+' +'+e.amount+(e.target==='conditionalDefense'?' '+conditionalDefenseLabel(e):'');
  return ownedTriggeredDefenses(pack,ctx).map(r=>{const name=([...pack.feats,...pack.talents].find(x=>x.id===r.recordId)).name,title=(r.effects||[r.effect]).map(label).join(', ')+(r.duration==='encounter'?' until the end of the encounter':r.duration==='end-next-turn'?' until the end of your next turn':' until your next turn');return `<label class="checkbox" title="${escape(title)}"><input type="checkbox" data-triggered-defense="${r.id}" ${hasRow(c,r)?'checked':''}>${escape(name)}</label>`;}).join('');
 }

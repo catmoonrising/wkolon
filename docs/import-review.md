@@ -3037,3 +3037,15 @@ existing Swim and Climb speeds; its Jump-distance and climbing Dexterity
 clauses remain manual. Keen Scent gives an Ewok a calculated/printed range of
 20 squares without broadening separate reroll permissions. All remain Partial.
 Pinned clauses and boundaries: docs/movement-sense-charge.md.
+
+## Talismans and triggered defenses
+
+Dark Side and Greater Dark Side Talismans calculate conditional +2 Force
+Defenses against Light Side descriptor powers only, on carried personal items.
+Defensive Acuity adds Lightsaber dice and the scoped Block/Deflect check bonus
+through the shared next-turn-end clock. Improved Soft Cover spends a Swift
+action through the action tracker; external adjacency remains declared. Gradual
+Resistance uses encounter-long conditional totals against the particular power
+that damaged the character. Item creation/destruction/time and opposing-power
+identity remain manual. All five stay Partial. See the pinned clauses and
+contract in docs/talisman-trigger-followups.md.

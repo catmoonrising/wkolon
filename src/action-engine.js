@@ -1,4 +1,4 @@
-import {clearTriggeredDefenses,endTriggerTurn} from './triggered-defenses.js';
+import {triggeredDefenseRule,triggeredDefenseActivation,setTriggeredDefense,clearTriggeredDefenses,endTriggerTurn} from './triggered-defenses.js';
 import {applyMoveTalentEffects,clearMoveTalentEffects} from './move-talent-effects.js';
 import {deflectionRule,deflectionPlan,deflectionRerollSources,snapshotDeflectionRerolls,rerollDeflection,finishDeflection,assertDeflectionResolved} from './deflection.js';
 import {balanceAfterDamage} from './balance.js';
@@ -80,6 +80,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(id==='bellow'){o.extraDice=0;o.strong=false;}
  if(reactionTalentRule(pack,id))o.damaged=false;
  if(defenseShiftRule(pack,id)){o.bonus='reflex';o.penalty='will';}
+ if(triggeredDefenseRule(pack,id)?.action)o.adjacent=false;
  if(id==='encounter-talent'){const t=pack.talents.find(t=>t.activation&&d.ctx.talents.some(s=>s.id===t.id)&&!d.ctx.inactiveTalents.has(t.id));o.talentId=t?.id||'';o.choice=t?.activation.choices.find(o=>!c.talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||'';}
  if(id.startsWith('manual-'))o.note=pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name==='Other'?'':pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name||'';
  return o;
@@ -130,6 +131,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'soft-to-solid':view.reactionTalent=reactionTalentPlan(q,d,pack,id,o);view.forceCost=view.reactionTalent.rule.forcePoints;break;
  case 'resilience':case 'equilibrium':case 'indomitable':view.conditionRecovery=conditionRecoveryPlan(q,d,pack,id);view.forceCost=view.conditionRecovery.rule.forcePoints;break;
  case 'bellow':assert(bellowDetails(q,d,pack,o.extraDice??0,{strong:o.strong??false})?.available,'Bellow unavailable');break;
+ case 'improved-soft-cover':view.triggeredDefense=triggeredDefenseActivation(q,d,pack,id,o);view.cost.type=view.triggeredDefense.action;break;
  case 'total-defense':break;
  case 'encounter-talent':{const t=talentActivation(q,pack,d,o.talentId,o.choice);view.name=t.talent.name+' ('+t.option.name+')';view.cost.type=t.activation.action;view.forceCost=t.activation.forcePoints;break;}
  case 'force-bonus':assert(!s.ended,'Force Point bonus requires your turn');view.forceCost=1;break;
@@ -218,6 +220,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(v.reactionTalent){clearFollowUps(c);clearAiming(c);clearBracing(c);applyReactionTalent(c,id,v.reactionTalent);c.forcePoints-=v.forceCost;r={text:v.name+': DR '+v.reactionTalent.rule.damageReduction+'; Force Points -'+v.forceCost};}
  else if(v.conditionRecovery){invalidate(c);applyConditionRecovery(c,v.conditionRecovery);c.forcePoints-=v.forceCost;r={text:v.name+': '+(c.condition===0?'Normal State':'+'+v.conditionRecovery.steps+' condition steps')+(v.conditionRecovery.rule.removePersistent?'; persistent conditions removed':'')+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
  else if(id==='bellow')r=rollBellow(c,d,pack,o.extraDice??0,o.damage??null,roller,{strong:o.strong??false});
+ else if(v.triggeredDefense)setTriggeredDefense(c,pack,d.ctx,id,true,{flatFooted:d.flatFooted});
  else if(id==='total-defense')declareDefenseStance(c,d,'total');
  else if(id==='encounter-talent'){invalidate(c);applyTalentActivation(c,o.talentId,o.choice);c.forcePoints-=v.forceCost;r={text:v.name+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
  else if(id==='force-bonus'){const x=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);c.forcePoints--;r={text:'Force Point: +'+x.value,html:x.display+' = '+totalHtml(x)};}
@@ -311,6 +314,7 @@ export function previewPlan(c,pack){
    if(v.defenseShift){clearAiming(q);clearBracing(q);applyDefenseShift(q,step.action,v.defenseShift);}
    if(v.reactionTalent){clearAiming(q);clearBracing(q);applyReactionTalent(q,step.action,v.reactionTalent);}
    if(v.conditionRecovery){clearAiming(q);clearBracing(q);applyConditionRecovery(q,v.conditionRecovery);}
+   if(v.triggeredDefense)setTriggeredDefense(q,pack,v.derived.ctx,step.action,true,{flatFooted:v.derived.flatFooted});
    if(step.action==='total-defense')declareDefenseStance(q,v.derived,'total');
    if(step.action==='reload'){const e=q.inventory.find(e=>e.uid===step.options.uid);e.shotsRemaining=ammunitionProfile(e,pack).capacity;}
    if(step.action==='aim'){clearAiming(q);q.inventory.find(e=>e.uid===step.options.uid).aimed=true;}

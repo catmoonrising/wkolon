@@ -45,7 +45,7 @@ export function deflectionPlan(c,d,pack,id,o){
  // Preflight the failure without changing any resources. Allies resolve protection separately.
  if(declaration.target==='self'){const failed=deflectionDamage(c,d,pack,rule,declaration,false);if(failed.amount||failed.options.conditionSteps)damageOutcome(c,d,pack,failed.amount,failed.options);}
  const skill=d.skills.find(s=>s.id===pack.rules.deflection.skillId),penalty=deflectionPenalty(c,pack,d.ctx);
- return {rule,declaration,forceCost,penalty,bonus:skill.total-penalty};
+ return {rule,declaration,forceCost,penalty,bonus:skill.total-penalty+(d.deflectionCheckBonus||0)};
 }
 export function deflectionRerollSources(c,d,pack,step){
  const saved=step.options.deflectionCheck;if(!saved)return [];

@@ -73,6 +73,7 @@ export function validateInventoryOptions(e,pack,bad){
  if(e.activated!==undefined&&(r.group!=='lightsabers'||typeof e.activated!=='boolean'))bad('Lightsaber activation');
  if(e.carried!==undefined&&typeof e.carried!=='boolean')bad('carried equipment');
  if(e.talisman!==undefined&&!['reflex','fortitude','will','all'].includes(e.talisman))bad('Talisman');
+ if(e.darkSideTalisman!==undefined&&!['reflex','fortitude','will','all'].includes(e.darkSideTalisman))bad('Dark Side Talisman');
  if(e.attuned!==undefined&&(r.kind!=='weapon'||r.mode!=='melee'||typeof e.attuned!=='boolean'))bad('attuned weapon');
  if(e.empowered!==undefined&&(r.kind!=='weapon'||r.mode!=='melee'||typeof e.empowered!=='boolean'))bad('empowered weapon');
  if(e.distance!==undefined&&(r.kind!=='weapon'||!Number.isInteger(e.distance)||e.distance<0||e.distance>100000))bad('weapon distance');

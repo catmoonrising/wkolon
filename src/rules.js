@@ -164,6 +164,7 @@ export function validateCharacter(c, pack) {
   }
   if (!Array.isArray(c.inventory) || c.inventory.length > 1000 || !c.inventory.every(e => obj(e) && ix.equipment.has(e.id) && num(e.quantity, 1, 999) && typeof e.equipped === 'boolean' && typeof e.twoHanded === 'boolean' && num(e.attackMod, -100, 100) && num(e.damageMod, -100, 100))) bad('inventory');
   c.inventory.forEach(e=>validateInventoryOptions(e,pack,bad));
+  if(c.inventory.filter(e=>e.darkSideTalisman).length>1)bad('Dark Side Talisman');
   const talismans=c.inventory.filter(e=>e.talisman);if(talismans.filter(e=>e.talisman==='all').length>1||talismans.filter(e=>e.talisman!=='all').length>1)bad('Talisman');
   validateDroidInstallation(c,pack,bad);
   validateSpeciesProfileCharacter(c,pack,bad);
@@ -480,6 +481,7 @@ export function derive(c, pack) {
   const powerRage=ragePowerModifiers(c,pack),blockedRageSkills=rageBlockedSkills(c,pack);
   const carried=c.inventory.filter(e=>e.carried!==false);
   const talismans=new Set(carried.map(e=>e.talisman).filter(Boolean));
+  const darkSideTalisman=carried.find(e=>e.darkSideTalisman)?.darkSideTalisman;
   const weight=carried.reduce((n,e)=>n+(droidCarryingWeight(c,pack,e,resolveEquipment(e,pack,c).weight)||0)*e.quantity,0)+droidSystems.virtual.reduce((n,e)=>n+(droidCarryingWeight(c,pack,e,ix.equipment.get(e.id).weight)||0)*e.quantity,0);
   const load=carryingLimits(scores.str,effectiveSize,weight,pack.rules.encumbrance);
   const armorPenalty=armorCheckPenalty(armorItems,ctx,pack,c.armorChecks,false,shieldLimits.checkPenalty),armorSkillPenalty=armorCheckPenalty(armorItems,ctx,pack,c.armorChecks,true,shieldLimits.checkPenalty);
@@ -519,7 +521,7 @@ export function derive(c, pack) {
     breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability (${defenseAbilities[key].ability.toUpperCase()}) + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${featDefense} feats + ${lightsaberBonus} Lightsaber + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc${charge?' + '+charge+' Charge':''}${shieldPenalty?' + '+shieldPenalty+' energy shield':''}${key==='reflex'&&flurry.reflexPenalty?' + '+flurry.reflexPenalty+' Flurry':''}`;
   }
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
-  const conditionalEffects=[...turnTalentEffects(c,pack,ctx,{flatFooted,helpless}),...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='conditionalDefense').map(e=>e.classLevel?{...e,amount:ctx.inactiveClasses?.has(e.classLevel)?0:ctx.classLevels.get(e.classLevel)||0}:e).filter(e=>e.amount>0),...armorConditionalDefenses(armorItems,ctx,defenses)];
+  const conditionalEffects=[...turnTalentEffects(c,pack,ctx,{flatFooted,helpless}),...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='darkSideTalismanDefense'&&darkSideTalisman&&(e.talisman==='all')===(darkSideTalisman==='all')).flatMap(e=>(e.talisman==='all'?['reflex','fortitude','will']:[darkSideTalisman]).map(defense=>({target:'conditionalDefense',defense,against:e.against,amount:e.amount,type:e.type}))),...effects.filter(e=>e.target==='conditionalDefense').map(e=>e.classLevel?{...e,amount:ctx.inactiveClasses?.has(e.classLevel)?0:ctx.classLevels.get(e.classLevel)||0}:e).filter(e=>e.amount>0),...armorConditionalDefenses(armorItems,ctx,defenses)];
   // Melee-only awareness bonuses share their type with every while-aware bonus.
   const meleeAware=conditionalEffects.some(e=>e.against==='melee-aware')?conditionalEffects.filter(e=>e.against==='aware').map(e=>({...e,against:'melee-aware'})):[];
   const groupedDefenses=combineArmorDefenses([...conditionalEffects,...meleeAware],[],defenses,equipmentDefenseBonuses,defenseModifiers).filter(r=>!['aware','melee-aware'].includes(r.against)||r.amount>0);
@@ -695,6 +697,7 @@ export function derive(c, pack) {
     recovery:recoveryDetails(c,pack,{species,hp,scores,mods,level,classFortitude:Math.max(0,...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id=>ix.classes.get(id).defenses.fortitude||0)),extraSecondWinds:total('secondWinds'),windBonuses:{freeAction:total('secondWindFreeAction')>0,multipleUses:total('secondWindMultipleUses')>0,aboveHalf:total('secondWindAboveHalf')>0,condition:total('secondWindCondition'),constitution:total('secondWindConstitution'),regeneration:effects.find(e=>e.target==='regenerativeHealing')},extraRages:total('rageUses'),rageBonus:total('rageBonus'),forceRecovery:has('force-recovery')}),
     forcePowers:ctx.forcePowers.map(p=>{const record=ix.forcePowers.get(p.powerId),removedDescriptors=record.descriptors.filter(descriptor=>effects.some(e=>e.target==='powerDescriptorRemoval'&&e.selection.choice===p.powerId&&e.descriptors.includes(descriptor)));return {...record,descriptors:record.descriptors.filter(d=>!removedDescriptors.includes(d)),removedDescriptors,copyId:p.id,action:p.action||record.action,spent:p.spent,level:p.level,take10:classChoiceEffects.some(e=>e.target==='powerTake10'&&e.choice===p.powerId),adept:ctx.talents.some(t=>t.id==='talent:force-power-adept'&&t.choice===p.powerId&&!ctx.inactiveTalents.has(t.id))};}),powerSlots:ctx.powerSlots,
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
+    deflectionCheckBonus:total('deflectionCheckBonus'),
     conditionalDefenses,hazardImmunities,targetTraitsUsed:[...new Set(effects.flatMap(e=>['sneakAttack','sentinelStrike'].includes(e.target)||e.against==='deniedDexterity'?['dexDenied']:e.target==='flankingDeniesDexterity'?['flanking']:e.when==='aboardStarship'?['aboardStarship']:e.target==='deniedDexterityWhen'&&effects.some(x=>['sneakAttack','sentinelStrike'].includes(x.target)||x.against==='deniedDexterity')?[e.against]:['targetAttack','targetDamage','targetDice'].includes(e.target)?[e.against]:[]))],conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     scentRange:species.scentRange?Math.max(species.scentRange,...effects.filter(e=>e.target==='scentRange').map(e=>e.range)):undefined,
