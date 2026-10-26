@@ -9,7 +9,7 @@ export const MODULES=[
 ].map(([id,title,classes=''])=>Object.freeze({id,title,classes}));
 export const moduleDefinition=id=>MODULES.find(m=>m.id===id);
 export function moduleRelevant(id,c,d){
- if(id==='senses')return !!d.blind||!!d.vision&&d.vision!=='normal';
+ if(id==='senses')return !!d.blind||!!d.scentRange||!!d.vision&&d.vision!=='normal';
  if(id==='vehicles')return !!(c.vehicles?.length||d.ctx.trained.has('skill:pilot'));
  if(id==='droid-systems')return !!(d.ctx.isDroid||d.droidSystems?.enabled||d.droidSystems?.owned.length);
  if(id==='starship-maneuvers')return !!(d.maneuverSlots||c.levels.some(l=>l.starshipManeuvers?.length));

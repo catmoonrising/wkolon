@@ -41,17 +41,18 @@ export function movementSpeed(d,mode='normal'){
  if(!Number.isFinite(speed)||speed<0)throw new Error('Movement mode unavailable');
  return speed;
 }
+export function runningAttackSpeedBonus(d,pack,before,after){return before>0&&after>0?d.ctx.feats.flatMap(f=>pack.feats.find(r=>r.id===f.id)?.effects||[]).filter(e=>e.target==='runningAttackSpeed').reduce((n,e)=>n+e.amount,0):0;}
 export function planRunningAttack(c,d,pack,uid){
  validateCombatMovement(c,message=>{throw new Error('Invalid '+message);});
  const rule=pack.rules.combatMovement,p=runningPath(c),attack=d.attacks.find(a=>a.uid===uid);
  if(d.incapacitated||d.helpless)throw new Error('Running Attack unavailable');
  if(!d.ctx.feats.some(f=>f.id===rule.running.featId))throw new Error('Requires Running Attack');
  if(!attack||!['melee','ranged'].includes(attack.mode))throw new Error('Requires a melee or ranged weapon');
- const before=movementCost(movementSegment(p.before),rule,d,p.mode),after=movementCost(movementSegment(p.after),rule,d,p.mode),cost=before+after,maximum=movementSpeed(d,p.mode)*rule.running.speedMultiplier;
+ const before=movementCost(movementSegment(p.before),rule,d,p.mode),after=movementCost(movementSegment(p.after),rule,d,p.mode),cost=before+after,fleet=runningAttackSpeedBonus(d,pack,before,after),maximum=(movementSpeed(d,p.mode)+fleet)*rule.running.speedMultiplier;
  if(cost&&d.load?.overloaded)throw new Error('Straining requires full-round movement');
  if(cost>maximum)throw new Error('Running Attack movement exceeds Speed');
  if(!attack.available||!attack.damage)throw new Error(attack.issue||'Attack unavailable');
- return {path:p,before,after,cost,maximum,attack};
+ return {path:p,before,after,cost,maximum,speedBonus:fleet,attack};
 }
 export function planWithdraw(c,d,pack){
  validateCombatMovement(c,message=>{throw new Error('Invalid '+message);});

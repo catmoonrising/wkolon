@@ -34964,9 +34964,18 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "swimSpeed",
+          "amount": 2
+        },
+        {
+          "target": "climbSpeed",
+          "amount": 2
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:logic-upgrade-self-defense",
@@ -36845,9 +36854,14 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "scentRange",
+          "range": 20
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:lasting-influence",
@@ -38455,9 +38469,14 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "runningAttackSpeed",
+          "amount": 2
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:fl-che",
@@ -59506,9 +59525,15 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "chargeDamage",
+          "ability": "wis",
+          "minimum": 1
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:seen-it-all",

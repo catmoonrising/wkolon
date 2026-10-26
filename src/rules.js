@@ -697,7 +697,8 @@ export function derive(c, pack) {
     purchaseBenefits:{licenseAllowance:total('licenseAllowance'),blackMarketReduction:total('blackMarketReduction')},
     conditionalDefenses,hazardImmunities,targetTraitsUsed:[...new Set(effects.flatMap(e=>['sneakAttack','sentinelStrike'].includes(e.target)||e.against==='deniedDexterity'?['dexDenied']:e.target==='flankingDeniesDexterity'?['flanking']:e.when==='aboardStarship'?['aboardStarship']:e.target==='deniedDexterityWhen'&&effects.some(x=>['sneakAttack','sentinelStrike'].includes(x.target)||x.against==='deniedDexterity')?[e.against]:['targetAttack','targetDamage','targetDice'].includes(e.target)?[e.against]:[]))],conditionalThresholds:thresholdState.conditional,
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
-    speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,type==='fly'&&species.flightHeavyLoadForbidden&&load.heavy?0:move(n+(type==='swim'?total('swimSpeed'):0))])),
+    scentRange:species.scentRange?Math.max(species.scentRange,...effects.filter(e=>e.target==='scentRange').map(e=>e.range)):undefined,
+    speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,type==='fly'&&species.flightHeavyLoadForbidden&&load.heavy?0:move(n+(type==='swim'?total('swimSpeed'):type==='climb'?total('climbSpeed'):0))])),
     incapacitated: droidSystems.inoperative || c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forcePointsForbidden:!!(species.forceImmune||ctx.forceRestrictions.forbidPoints), forceMaximum, forceCurrent:forceForbidden?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,hpGains,
     weightUnknown:carried.some(e=>droidCarryingWeight(c,pack,e,resolveEquipment(e,pack,c).weight)===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};

@@ -3027,3 +3027,13 @@ destruction restrictions remain manual. Thrown use remains manual in this
 batch. Jedi Battle Commander upgrades active Battle Meditation to +2 insight
 while retaining its shared action/FP/duration handling. All remain Partial.
 Pinned source clauses and data contract: docs/force-item-commander.md.
+
+## Movement, Scent and Charge
+
+Reckless adds Wisdom (minimum +1) to Charge damage, preserving ordinary weapon
+rows. Fleet-Footed raises the split Running Attack path limit by 2 squares;
+subsequent movement until turn end remains manual. Increased Agility raises
+existing Swim and Climb speeds; its Jump-distance and climbing Dexterity
+clauses remain manual. Keen Scent gives an Ewok a calculated/printed range of
+20 squares without broadening separate reroll permissions. All remain Partial.
+Pinned clauses and boundaries: docs/movement-sense-charge.md.

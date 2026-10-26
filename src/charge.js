@@ -29,7 +29,7 @@ export function planCharge(c,d,pack,uid){
  const normalCost=chargeMovementCost(c,pack,false,d),successfulCost=chargeMovementCost(c,pack,undefined,d);
  if(successfulCost>maximum)throw new Error('Charge exceeds Speed');
  const dc=chargeAcrobaticsDC(c,pack,path);
- const attackBonus=rule.attackBonus+(powerful?rule.powerful.attackBonus:0),damageBonus=powerful?Math.floor(d.level*rule.powerful.damagePerLevel):0;
+ const attackBonus=rule.attackBonus+(powerful?rule.powerful.attackBonus:0),damageBonus=(powerful?Math.floor(d.level*rule.powerful.damagePerLevel):0)+d.ctx.talents.filter(t=>!d.ctx.inactiveTalents.has(t.id)).flatMap(t=>pack.talents.find(r=>r.id===t.id)?.effects||[]).filter(e=>e.target==='chargeDamage').reduce((n,e)=>n+Math.max(e.minimum,d.mods[e.ability]||0),0);
  return {path,nimbleRequired,attack:{...attack,attack:attack.attack+attackBonus,damageBonus:attack.damageBonus+damageBonus,damageDisplay:attack.damageDisplay+(damageBonus?'+'+damageBonus:''),...(attack.rollDamageDisplay?{rollDamageDisplay:attack.rollDamageDisplay+(damageBonus?'+'+damageBonus:'')}:{}),...(attack.rollCriticalDamageDisplay?{rollCriticalDamageDisplay:attack.rollCriticalDamageDisplay+(damageBonus?'+'+damageBonus:'')}:{}),...(attack.criticalDamageDisplay?{criticalDamageDisplay:attack.criticalDamageDisplay+(damageBonus?'+'+damageBonus:'')}:{})},attackBonus,damageBonus,normalCost,successfulCost,maximum,dc,skill,improved,powerful,reflexPenalty:rule.reflexPenalty};
 }
 

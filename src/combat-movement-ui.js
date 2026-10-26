@@ -1,4 +1,4 @@
-import {runningPath,withdrawPath,movementCost,movementSpeed,planWithdraw} from './combat-movement.js';
+import {runningPath,withdrawPath,movementCost,movementSpeed,runningAttackSpeedBonus,planWithdraw} from './combat-movement.js';
 import {runningAttackIssue} from './combat-movement-actions.js';
 import {escapeHTML as escape} from './wiki-content.js';
 
@@ -15,8 +15,8 @@ function terrain(key,segments,headers,id,d){
  return `<details id="${id}"><summary>Terrain</summary><div class="movement-terrain-grid" style="grid-template-columns:max-content repeat(${headers.length},minmax(0,1fr))"><span></span>${headers.map(h=>`<strong>${h}</strong>`).join('')}${rows.map(([k,label,title])=>`<span title="${title}">${label}</span>${segments.map(([name,p],i)=>number(key+'.'+name+'.'+k,p[k]??0,headers[i]+' '+label)).join('')}`).join('')}</div></details>`;
 }
 export function runningCostLabel(c,d,pack){
- const p=runningPath(c),cost=movementCost(p.before,pack.rules.combatMovement,d,p.mode)+movementCost(p.after,pack.rules.combatMovement,d,p.mode);
- let speed;try{speed=movementSpeed(d,p.mode);}catch{speed='-';}
+ const p=runningPath(c),before=movementCost(p.before,pack.rules.combatMovement,d,p.mode),after=movementCost(p.after,pack.rules.combatMovement,d,p.mode),cost=before+after;
+ let speed;try{speed=(movementSpeed(d,p.mode)+runningAttackSpeedBonus(d,pack,before,after))*pack.rules.combatMovement.running.speedMultiplier;}catch{speed='-';}
  return `${cost}/${speed} squares`;
 }
 export function runningAttackControls(c,d,pack,a,scope='',view){
