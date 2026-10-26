@@ -3049,3 +3049,14 @@ Resistance uses encounter-long conditional totals against the particular power
 that damaged the character. Item creation/destruction/time and opposing-power
 identity remain manual. All five stay Partial. See the pinned clauses and
 contract in docs/talisman-trigger-followups.md.
+
+
+## Designated targets and ally counts
+
+Knowledge is Strength, Spotter and Target Acquisition calculate personal bonuses
+against their declared targets, preserving morale, insight and circumstance
+types. Target Acquisition's damage bonus is also circumstance. Mercenary's
+Teamwork counts qualifying allies with the printed +10 maximum. Swarm Attack
+uses a numeric adjacent-ally count with no rules cap. Actions/checks, sight,
+positions and expiry remain declared; these five stay Partial. See
+docs/designated-counted-targets.md for source pins and boundaries.

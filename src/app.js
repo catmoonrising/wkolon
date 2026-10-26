@@ -46,7 +46,7 @@ import {fallingControls} from './falling-ui.js';
 import {followUpControls} from './attack-follow-up-ui.js';
 import {opportunityControls,opportunityButton} from './opportunity-ui.js';
 import {attackTargetControls} from './attack-targets-ui.js';
-import {attackTarget,validateAttackTarget,canAimAtTarget} from './attack-targets.js';
+import {TARGET_COUNTS,attackTarget,validateAttackTarget,canAimAtTarget} from './attack-targets.js';
 import {chargePath,validateCharge} from './charge.js';
 import {createForcePowers} from './force-powers-ui.js';
 import {createHouseRules} from './house-rules.js';
@@ -851,7 +851,7 @@ function events() {
       const uid=el.dataset.energyCharges||el.dataset.energySr;try{const x=energyShieldDetails(c,derived,pack,uid),key=el.hasAttribute('data-energy-charges')?'charges':'sr',n=Number(el.value),max=key==='charges'?x.record.energyShield.charges:x.record.energyShield.rating;if(el.value.trim()===''||!Number.isInteger(n)||n<0||n>max)throw new Error('Enter a valid shield value');x.entry.shield={...x.state,[key]:n};}catch(error){notify(error.message);}changed();return;
     }
     if(el.hasAttribute('data-armor-check')){if(ARMOR_CHECKS.includes(el.dataset.armorCheck)){c.armorChecks||={};c.armorChecks[el.dataset.armorCheck]=el.checked;changed();}return;}
-    if(el.hasAttribute('data-attack-target')){const target=attackTarget(c);target[el.dataset.attackTarget]=el.type==='checkbox'?el.checked:el.value;try{validateAttackTarget({...c,attackTarget:target},reason=>{throw new Error('Invalid '+reason);});c.attackTarget=target;if(!canAimAtTarget(c,{...ix.species.get(c.species),vision:derived.vision,blind:derived.blind}))for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;}catch(err){notify(err.message);}changed();return;}
+    if(el.hasAttribute('data-attack-target')){const target=attackTarget(c);target[el.dataset.attackTarget]=el.type==='checkbox'?el.checked:TARGET_COUNTS.some(([key])=>key===el.dataset.attackTarget)?(el.value.trim()===''?NaN:Number(el.value)):el.value;try{validateAttackTarget({...c,attackTarget:target},reason=>{throw new Error('Invalid '+reason);});c.attackTarget=target;if(!canAimAtTarget(c,{...ix.species.get(c.species),vision:derived.vision,blind:derived.blind}))for(const e of c.inventory)if(e.aimed!==undefined)e.aimed=false;}catch(err){notify(err.message);}changed();return;}
     if(el.hasAttribute('data-prone')){c.prone=el.checked;changed();return;}
     if(el.hasAttribute('data-power-attack')){try{declarePowerAttack(c,derived,Number(el.value));}catch(err){notify(err.message);}changed();return;}
     if(el.hasAttribute('data-melee-defense')){try{declareMeleeDefense(c,derived,Number(el.value));}catch(err){notify(err.message);}changed();return;}
