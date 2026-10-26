@@ -3060,3 +3060,14 @@ Teamwork counts qualifying allies with the printed +10 maximum. Swarm Attack
 uses a numeric adjacent-ally count with no rules cap. Actions/checks, sight,
 positions and expiry remain declared; these five stay Partial. See
 docs/designated-counted-targets.md for source pins and boundaries.
+
+
+## Tradition, mount and marked-target bonuses
+
+Sith Reverence uses typed morale attack bonuses while its ally condition is
+declared. Quickseeing gives insight against a declared target; its activation,
+Farseeing use and expiry stay manual. Murderous Arts II preserves a fixed d6
+against a marked opponent while Momentum Strike adds the current melee weapon
+die after declared mount/Speeder Bike movement. Separate fixed and current dice
+combine in critical routines. All four stay Partial; see source pins and
+boundaries in docs/tradition-mount-mark.md.

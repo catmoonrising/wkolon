@@ -39367,9 +39367,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetDice","against":"mountMovedSpeed","dice":1,"mode":"melee"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:mounted-combat",
@@ -44965,9 +44965,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetDice","against":"markedTarget","dice":1,"die":6}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:ruthless",
@@ -60634,9 +60634,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"attacks","amount":1,"type":"morale","when":"nearDarkAlly"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:force-directed-shot",
@@ -62149,9 +62149,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"targetAttack","against":"quickseenTarget","amount":2,"type":"insight"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:body-control",

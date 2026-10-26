@@ -5205,6 +5205,10 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target","amount","type","when"],"properties":{"target":{"const":"attacks"},"amount":{"const":1},"type":{"const":"morale"},"when":{"const":"nearDarkAlly"}}},
+        {"type":"object","additionalProperties":false,"required":["target","against","amount","type"],"properties":{"target":{"const":"targetAttack"},"against":{"const":"quickseenTarget"},"amount":{"const":2},"type":{"const":"insight"}}},
+        {"type":"object","additionalProperties":false,"required":["target","against","dice","die"],"properties":{"target":{"const":"targetDice"},"against":{"const":"markedTarget"},"dice":{"const":1},"die":{"const":6}}},
+        {"type":"object","additionalProperties":false,"required":["target","against","dice","mode"],"properties":{"target":{"const":"targetDice"},"against":{"const":"mountMovedSpeed"},"dice":{"const":1},"mode":{"const":"melee"}}},
         {"type":"object","additionalProperties":false,"required":["target","against","amountPerCount","type","circumstance","mode"],"properties":{"target":{"const":"targetAttack"},"against":{"const":"alliesAdjacentToTarget"},"amountPerCount":{"const":1},"type":{"const":"circumstance"},"circumstance":{"const":"swarm-attack"},"mode":{"const":"melee"}}},
         {"type":"object","additionalProperties":false,"required":["target","against","amount","type","circumstance"],"properties":{"target":{"const":"targetDamage"},"against":{"const":"acquiredTarget"},"amount":{"const":1},"type":{"const":"circumstance"},"circumstance":{"const":"acquired-target"}}},
         {"type":"object","additionalProperties":false,"required":["target","against","amountPerCount","maximum"],"properties":{"target":{"const":"targetDamage"},"against":{"const":"alliesDamagedTarget"},"amountPerCount":{"const":2},"maximum":{"const":10}}},
