@@ -625,6 +625,8 @@ export function derive(c, pack) {
     const abilityDetails=attackAbilityDetails(c,pack,ctx,w,e,mods,{proficient,group,wielded}),ability=abilityDetails.modifier;
     const power=powerAttackBonuses(w,e,pack,effectiveSize,powerAttack);
     let strength = w.mode === 'melee' ? (power.twoHanded && !light && !w.unarmed && mods.str > 0 ? 2 * mods.str : mods.str) : w.addsStrength||w.rangeType==='thrown'?mods.str:0;
+    const smash=effects.find(f=>f.target==='oneHandedStrengthDamage');
+    if(smash&&w.mode==='melee'&&!w.unarmed&&mods.str>0&&!power.twoHanded&&fullAttackGrip(w,e,pack,effectiveSize).oneHanded)strength=Math.max(strength,smash.multiplier*mods.str);
     if(w.group==='lightsabers'&&total('lightsaberDexDamage'))strength=Math.max(strength,mods.dex*((power.twoHanded||e.twoHanded)&&mods.dex>0?2:1));
     const aimed=!!e.aimed&&canAim(w,e)&&canAimAtTarget(c,visionSpecies),accessories=pack.rules.weaponAccessories;
     const range=weaponRange(w,{...e,aimed},pack,featHas,c),pointBlank=w.mode==='ranged'&&range.band===0&&featHas('point-blank-shot')?1:0;

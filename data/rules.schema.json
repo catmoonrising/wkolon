@@ -5205,6 +5205,7 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target","multiplier"],"properties":{"target":{"const":"oneHandedStrengthDamage"},"multiplier":{"const":2}}},
         {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:use-computer"},"application":{"const":"astrogate-starship"},"amount":{"const":5},"type":{"const":"species"}}},
         {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type","rushPenalty"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:deception"},"application":{"const":"deceptive-appearance"},"amount":{"const":5},"type":{"const":"insight"},"rushPenalty":{"const":-2}}},
         {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:mechanics"},"application":{"const":"handle-explosives"},"amount":{"const":5},"type":{"const":"untyped"}}},

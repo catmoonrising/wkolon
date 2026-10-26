@@ -3083,3 +3083,14 @@ ordinary totals; a shared application selection, typed modifier resolver and
 reroll snapshot prevent bonus/reroll scope leakage. Context, supplies and elapsed
 time remain external declarations. All three stay Partial. Source pins and
 contract: docs/skill-applications.md.
+
+
+## Droid Smash
+
+4th-Degree Droid tree26315 adds twice the positive Strength bonus for a real
+one-handed manufactured melee weapon, including light weapons, without
+requiring proficiency. Shared grip checks exclude two-handed, unarmed/natural
+and ranged use; zero/negative modifiers and other damage terms stay unchanged.
+Complete custom-droid fixtures preserve actual processors/arms/access and
+critical routines. Partial. Contract: docs/droid-smash.md. Heavy-Duty Actuators
+is pending the user's separate multiplier ruling.
