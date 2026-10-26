@@ -1,3 +1,4 @@
+import {validateSkillApplications,skillApplicationState} from './skill-applications.js';
 import {skillSubstitutionSources,substitutionScope} from './skill-substitutions.js';
 import {weaponIdentityGroup} from './weapon-rules.js';
 import {validateTriggeredDefenses,triggeredDefenseEffects} from './triggered-defenses.js';
@@ -141,6 +142,7 @@ export function validateCharacter(c, pack) {
   if(c.cybernetic!==undefined&&typeof c.cybernetic!=='boolean')bad('cybernetic state');
   if(c.mightySwing!==undefined&&typeof c.mightySwing!=='boolean')bad('Mighty Swing');
   if(c.powerAttack!==undefined&&!num(c.powerAttack,0,20))bad('Power Attack');
+  validateSkillApplications(c,bad);
   if(c.skillModifiers!==undefined&&(!obj(c.skillModifiers)||Object.entries(c.skillModifiers).some(([id,n])=>!ix.skills.has(id)||!num(n,-1000,1000))))bad('skill modifiers');
   validateTurnTalents(c,pack,bad);
   validateMoveTalentEffects(c,pack,bad);
@@ -541,14 +543,15 @@ export function derive(c, pack) {
     const backgroundBonus=!trained && background?.relevantSkills.includes(s.id)?background.untrainedBonus:0;
     const equipment=Math.max(armorSkillBonus(armorItems,ctx,c.armorChecks,s.id),s.id==='skill:perception'?droidSystems.perceptionBonus:0);
     const strengthRage=abilityDetails.ability==='str'?ragingStrength:0;
-    const bonuses=resolveModifiers([{type:'untyped',amount:strengthRage},{type:'competence',amount:focus},{type:'competence',amount:backgroundBonus},{type:'competence',amount:teamBonus},{type:'equipment',amount:equipment},...effects.filter(e=>e.target==='skills'),...(s.id==='skill:jump'?movementPowers.jumpModifiers:[])]);
+    const bonusModifierRows=[{type:'untyped',amount:strengthRage},{type:'competence',amount:focus},{type:'competence',amount:backgroundBonus},{type:'competence',amount:teamBonus},{type:'equipment',amount:equipment},...effects.filter(e=>e.target==='skills'),...(s.id==='skill:jump'?movementPowers.jumpModifiers:[])];
+    const bonuses=resolveModifiers(bonusModifierRows);
     const penalty = s.armorCheck ? armorSkillPenalty : 0;
     const size = s.id === 'skill:stealth' ? pack.rules.sizeStealth[effectiveSize] : 0;
     const tools=species.technophobic&&c.mechanicalSkills?.includes(s.id)?-5:0;
     const misc=c.skillModifiers?.[s.id]||0;
     const encumbrance=load.heavy&&pack.rules.encumbrance.skills.includes(s.id)?pack.rules.encumbrance.skillPenalty:0;
     const checkAllowed= !blockedRageSkills.includes(s.id) && !(raging&&species.rage.blockedSkills.includes(s.id)) && (!species.isDroid||species.heuristicProcessor||trained||pack.rules.droidAbilities.untrainedSkills.includes(s.id)) && !(s.trainedOnly && !trained) && (s.id !== 'skill:use-the-force' || !ctx.forceRestrictions.forbidChecks && ctx.feats.some(f => f.id === F('force-sensitivity')));
-    return {...s, trained, focus, checkAllowed, abilityDetails, ability:abilityDetails.ability, available:checkAllowed&&abilityDetails.available,
+    return {...s, trained, focus, bonusModifierRows, checkAllowed, abilityDetails, ability:abilityDetails.ability, available:checkAllowed&&abilityDetails.available,
       total: half + abilityDetails.modifier + (trained ? pack.rules.trainingBonus : 0) + bonuses.total + penalty + size + condition + tools + misc + encumbrance,
       breakdown: `${half} half level + ${abilityDetails.modifier} ${abilityDetails.ability.toUpperCase()} + ${trained ? 5 : 0} training + ${bonuses.bonuses.competence||0} competence + ${equipment} equipment + ${bonuses.bonuses.force||0} Force + ${penalty} armor + ${size} size + ${condition} condition + ${tools} mechanical tools + ${misc} misc + ${encumbrance} load${strengthRage?' + '+strengthRage+' Powerful Rage':''}`};
   });
@@ -563,7 +566,8 @@ export function derive(c, pack) {
     const native=nativeById.get(source.id);
     const scope=substitutionScope(source.when);
     const climb=s.id==='skill:climb'?droidSystems.movement?.climbPenalty||0:0;
-    return {...s,available:s.checkAllowed&&native.available&&!(s.id==='skill:climb'&&droidSystems.movement?.climbAllowed===false),total:source.total+climb,checkSource:source.id,carryRerolls:source.carryRerolls===true,rerollApplications:source.rerollApplications||null,checkSources:sources.map(r=>({...r,total:r.total+climb})),breakdown:(source.id===s.id?s.breakdown+(circumstance?'; +'+circumstance+' Intimidate':''):`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}${circumstance?'; +'+circumstance+' Intimidate':''}`)+(climb?'; '+climb+' Tracked':'')};
+    const application=skillApplicationState(c,s.id,source.id,effects,s.bonusModifierRows);
+    return {...s,...application,available:s.checkAllowed&&native.available&&!(s.id==='skill:climb'&&droidSystems.movement?.climbAllowed===false),total:source.total+climb,checkTotal:source.total+climb+application.applicationBonus,checkSource:source.id,carryRerolls:source.carryRerolls===true,rerollApplications:source.rerollApplications||null,checkSources:sources.map(r=>({...r,total:r.total+climb+skillApplicationState(c,s.id,r.id,effects,s.bonusModifierRows).applicationBonus})),breakdown:(source.id===s.id?s.breakdown+(circumstance?'; +'+circumstance+' Intimidate':''):`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}${circumstance?'; +'+circumstance+' Intimidate':''}`)+(climb?'; '+climb+' Tracked':'')+(application.applicationLabel?'; '+application.applicationLabel+': '+signed(application.applicationBonus):'')};
   });
   const unarmed=species.isDroid||species.usesDroidSystems?null:unarmedWeapon(pack,effectiveSize,total('unarmedDieSteps'));
   const gloves=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).unarmed);

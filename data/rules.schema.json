@@ -5205,6 +5205,10 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:use-computer"},"application":{"const":"astrogate-starship"},"amount":{"const":5},"type":{"const":"species"}}},
+        {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type","rushPenalty"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:deception"},"application":{"const":"deceptive-appearance"},"amount":{"const":5},"type":{"const":"insight"},"rushPenalty":{"const":-2}}},
+        {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:mechanics"},"application":{"const":"handle-explosives"},"amount":{"const":5},"type":{"const":"untyped"}}},
+        {"type":"object","additionalProperties":false,"required":["target","equipmentId","action","requiresSupplies"],"properties":{"target":{"const":"craftItem"},"equipmentId":{"const":"equipment:frag-grenade"},"action":{"const":"full"},"requiresSupplies":{"const":true}}},
         {"type":"object","additionalProperties":false,"required":["target","amount","type","when"],"properties":{"target":{"const":"attacks"},"amount":{"const":1},"type":{"const":"morale"},"when":{"const":"nearDarkAlly"}}},
         {"type":"object","additionalProperties":false,"required":["target","against","amount","type"],"properties":{"target":{"const":"targetAttack"},"against":{"const":"quickseenTarget"},"amount":{"const":2},"type":{"const":"insight"}}},
         {"type":"object","additionalProperties":false,"required":["target","against","dice","die"],"properties":{"target":{"const":"targetDice"},"against":{"const":"markedTarget"},"dice":{"const":1},"die":{"const":6}}},

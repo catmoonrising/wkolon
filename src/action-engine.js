@@ -1,3 +1,4 @@
+import {craftActionId,craftingPlan,craftItem} from './crafting.js';
 import {triggeredDefenseRule,triggeredDefenseActivation,setTriggeredDefense,clearTriggeredDefenses,endTriggerTurn} from './triggered-defenses.js';
 import {applyMoveTalentEffects,clearMoveTalentEffects} from './move-talent-effects.js';
 import {deflectionRule,deflectionPlan,deflectionRerollSources,snapshotDeflectionRerolls,rerollDeflection,finishDeflection,assertDeflectionResolved} from './deflection.js';
@@ -78,6 +79,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(['shield','shield-recharge'].includes(id))o.uid=c.inventory.find(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield)?.uid||'';
  if(deflectionRule(pack,id)){o.attackRoll=0;o.aware=false;o.kind='single';o.target='self';o.hit=true;o.rerolls='failed';o.incoming={amount:0,options:{type:'normal',against:[]}};}
  if(id==='bellow'){o.extraDice=0;o.strong=false;}
+ if(id===craftActionId)o.supplies=false;
  if(reactionTalentRule(pack,id))o.damaged=false;
  if(defenseShiftRule(pack,id)){o.bonus='reflex';o.penalty='will';}
  if(triggeredDefenseRule(pack,id)?.action)o.adjacent=false;
@@ -131,6 +133,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'soft-to-solid':view.reactionTalent=reactionTalentPlan(q,d,pack,id,o);view.forceCost=view.reactionTalent.rule.forcePoints;break;
  case 'resilience':case 'equilibrium':case 'indomitable':view.conditionRecovery=conditionRecoveryPlan(q,d,pack,id);view.forceCost=view.conditionRecovery.rule.forcePoints;break;
  case 'bellow':assert(bellowDetails(q,d,pack,o.extraDice??0,{strong:o.strong??false})?.available,'Bellow unavailable');break;
+ case 'craft-frag-grenade':view.crafting=craftingPlan(q,d,pack,id,o);break;
  case 'improved-soft-cover':view.triggeredDefense=triggeredDefenseActivation(q,d,pack,id,o);view.cost.type=view.triggeredDefense.action;break;
  case 'total-defense':break;
  case 'encounter-talent':{const t=talentActivation(q,pack,d,o.talentId,o.choice);view.name=t.talent.name+' ('+t.option.name+')';view.cost.type=t.activation.action;view.forceCost=t.activation.forcePoints;break;}
@@ -220,6 +223,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(v.reactionTalent){clearFollowUps(c);clearAiming(c);clearBracing(c);applyReactionTalent(c,id,v.reactionTalent);c.forcePoints-=v.forceCost;r={text:v.name+': DR '+v.reactionTalent.rule.damageReduction+'; Force Points -'+v.forceCost};}
  else if(v.conditionRecovery){invalidate(c);applyConditionRecovery(c,v.conditionRecovery);c.forcePoints-=v.forceCost;r={text:v.name+': '+(c.condition===0?'Normal State':'+'+v.conditionRecovery.steps+' condition steps')+(v.conditionRecovery.rule.removePersistent?'; persistent conditions removed':'')+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
  else if(id==='bellow')r=rollBellow(c,d,pack,o.extraDice??0,o.damage??null,roller,{strong:o.strong??false});
+ else if(v.crafting){craftItem(c,v.crafting);r={text:'Craft '+v.crafting.item.name};}
  else if(v.triggeredDefense)setTriggeredDefense(c,pack,d.ctx,id,true,{flatFooted:d.flatFooted});
  else if(id==='total-defense')declareDefenseStance(c,d,'total');
  else if(id==='encounter-talent'){invalidate(c);applyTalentActivation(c,o.talentId,o.choice);c.forcePoints-=v.forceCost;r={text:v.name+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
@@ -314,6 +318,7 @@ export function previewPlan(c,pack){
    if(v.defenseShift){clearAiming(q);clearBracing(q);applyDefenseShift(q,step.action,v.defenseShift);}
    if(v.reactionTalent){clearAiming(q);clearBracing(q);applyReactionTalent(q,step.action,v.reactionTalent);}
    if(v.conditionRecovery){clearAiming(q);clearBracing(q);applyConditionRecovery(q,v.conditionRecovery);}
+   if(v.crafting)craftItem(q,v.crafting);
    if(v.triggeredDefense)setTriggeredDefense(q,pack,v.derived.ctx,step.action,true,{flatFooted:v.derived.flatFooted});
    if(step.action==='total-defense')declareDefenseStance(q,v.derived,'total');
    if(step.action==='reload'){const e=q.inventory.find(e=>e.uid===step.options.uid);e.shotsRemaining=ammunitionProfile(e,pack).capacity;}

@@ -3071,3 +3071,15 @@ against a marked opponent while Momentum Strike adds the current melee weapon
 die after declared mount/Speeder Bike movement. Separate fixed and current dice
 combine in critical routines. All four stay Partial; see source pins and
 boundaries in docs/tradition-mount-mark.md.
+
+
+## Scoped skill uses and improvised grenades
+
+Veteran Spacer calculates +5 species for Astrogate aboard a Starship. Master of
+Disguise calculates +5 insight for Deceptive Appearance and the reduced -2 rush
+penalty. Bomb Thrower adds +5 to Handle Explosives and a Full-Round crafting
+action for one Frag Grenade with declared supplies. General skills retain their
+ordinary totals; a shared application selection, typed modifier resolver and
+reroll snapshot prevent bonus/reroll scope leakage. Context, supplies and elapsed
+time remain external declarations. All three stay Partial. Source pins and
+contract: docs/skill-applications.md.

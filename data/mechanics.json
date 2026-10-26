@@ -37436,9 +37436,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"skillApplicationBonus","skill":"skill:use-computer","application":"astrogate-starship","amount":5,"type":"species"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:vitality-surge",
@@ -39249,9 +39249,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"skillApplicationBonus","skill":"skill:deception","application":"deceptive-appearance","amount":5,"type":"insight","rushPenalty":-2}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:meat-shield",
@@ -56730,9 +56730,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"skillApplicationBonus","skill":"skill:mechanics","application":"handle-explosives","amount":5,"type":"untyped"},{"target":"craftItem","equipmentId":"equipment:frag-grenade","action":"full","requiresSupplies":true}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:for-the-cause",
@@ -68836,6 +68836,7 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
+        {"id":"craft-frag-grenade","name":"Craft Frag Grenade","type":"full","count":1,"ruleId":"rule:talent-revolutionary-talent-tree-bomb-thrower"},
         {"id":"block","name":"Block","type":"reaction","count":1,"ruleId":"rule:lightsaber-combat-talent-tree"},{"id":"deflect","name":"Deflect","type":"reaction","count":1,"ruleId":"rule:lightsaber-combat-talent-tree"},
 {"id":"maintain-power","name":"Maintain","type":"standard","count":1},
         {"id":"jump","name":"Jump","type":"move","count":1,"ruleId":"rule:jump"},

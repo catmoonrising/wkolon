@@ -9,7 +9,7 @@ export function carryingLimits(str,size,weight,rules){
 }
 export function createSpeciesChecks({current,derived,log},roller=evalExpr){
  const checks=new Map(),key=id=>current().id+':'+id;
- const valid=(s,p)=>p&&p.source===s.checkSource&&p.bonus===s.total;
+ const valid=(s,p)=>p&&p.source===s.checkSource&&p.bonus===(s.checkTotal??s.total)&&p.application===(s.application||'general');
  const invalidate=()=>{let cleared=false;for(const k of checks.keys())if(k.startsWith(current().id+':')){checks.delete(k);cleared=true;}return cleared;};
  return {
   invalidate,
@@ -22,15 +22,16 @@ export function createSpeciesChecks({current,derived,log},roller=evalExpr){
    if(!id)return false;
    const s=derived().skills.find(s=>s.id===id);
    if(!s?.available||derived().incapacitated)return true;
-   const expression='1d20'+(s.total>=0?'+':'')+s.total,sources=skillRerollSources(s,species,derived());
-   if(el.dataset.skillRoll){const roll=roller(expression);invalidate();checks.set(key(id),{source:s.checkSource,bonus:s.total,roll,allowed:new Set(sources.map(r=>r.id)),used:new Set(),applications:null});log('roll',`${s.name}: ${expression} = ${roll.value}`,`${escape(s.name)}: ${roll.display} = ${totalHtml(roll)}`);return true;}
+   const label=s.applicationLabel?s.name+' ('+s.applicationLabel+')':s.name;
+   const bonus=s.checkTotal??s.total,expression='1d20'+(bonus>=0?'+':'')+bonus,sources=skillRerollSources(s,species,derived());
+   if(el.dataset.skillRoll){const roll=roller(expression);invalidate();checks.set(key(id),{source:s.checkSource,bonus,application:s.application||'general',roll,allowed:new Set(sources.map(r=>r.id)),used:new Set(),applications:s.applicationScope?[s.applicationScope]:null});log('roll',`${label}: ${expression} = ${roll.value}`,`${escape(label)}: ${roll.display} = ${totalHtml(roll)}`);return true;}
    const p=checks.get(key(id)),source=sources.find(r=>el.dataset.rerollSource?r.id===el.dataset.rerollSource:el.dataset.talentReroll?r.talentId===el.dataset.talentReroll:r.kind==='species');
    if((el.dataset.speciesReroll||el.dataset.talentReroll)&&source&&rerollUsesAvailable(source)&&valid(s,p)&&p.allowed.has(source.id)&&!p.used.has(source.id)&&compatibleReroll(p,source)){
     const roll=roller(expression),{before,kept}=useSkillReroll(p,source,roll),name=source.name+(source.label?' ('+source.label+')':'');
     spendRerollUse(current(),source);
-    log('roll',`${s.name}: ${before} → ${roll.value}; kept ${kept}; ${name}`,`${escape(s.name)}: ${before} → ${roll.display} = ${totalHtml(roll)}; kept <b>${kept}</b>; ${escape(name)}`);return true;
+    log('roll',`${label}: ${before} → ${roll.value}; kept ${kept}; ${name}`,`${escape(label)}: ${before} → ${roll.display} = ${totalHtml(roll)}; kept <b>${kept}</b>; ${escape(name)}`);return true;
    }
-   if(el.dataset.speciesTake10&&s.checkSource===id&&species.take10Skills?.includes(id)){invalidate();log('roll',`${s.name}: 10 ${s.total>=0?'+':'−'} ${Math.abs(s.total)} = ${10+s.total}`);return true;}
+   if(el.dataset.speciesTake10&&s.checkSource===id&&species.take10Skills?.includes(id)){invalidate();log('roll',`${label}: 10 ${bonus>=0?'+':'−'} ${Math.abs(bonus)} = ${10+bonus}`);return true;}
    return true;
   }
  };
