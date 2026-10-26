@@ -2175,6 +2175,7 @@
             }
           }
         },
+        "offensivePowerEffects": {"const":[{"powerId":"power:force-slam","kind":"outgoing-damage","defense":"fortitude","inclusive":true,"dice":4,"die":6,"area":true,"proneOnHit":true,"sizeModifiers":{"large":5,"huge":10,"gargantuan":20,"colossal":50},"enhancement":{"forcePoints":1,"dice":2},"sourceIds":["source:wiki-force-slam","source:wiki-force-powers","source:wiki-attacks"]},{"powerId":"power:force-blast","kind":"outgoing-damage","defense":"reflex","inclusive":false,"thresholds":[{"dc":15,"dice":2},{"dc":20,"dice":3},{"dc":25,"dice":4},{"dc":30,"dice":5}],"die":6,"area":false,"enhancement":{"forcePoints":1,"halfHeroicLevel":true},"sourceIds":["source:wiki-force-blast","source:wiki-force-powers","source:wiki-attacks"]}]},
         "selfPowerEffects": {
           "const": [
             {

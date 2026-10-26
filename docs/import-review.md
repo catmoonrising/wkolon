@@ -3104,3 +3104,15 @@ that target/context; native skills and unrelated actions stay unchanged. A
 named circumstance identity preserves typed stacking, and no particular
 Perception application or reroll permission is invented. Partial, with source
 loss/save/native-replacement boundaries in docs/hidden-eyes.md.
+
+
+## Offensive Force power results
+
+Force Slam18194 and Force Blast19447 gain reviewed outgoing damage resolvers
+through the shared Actions/suite/check/FP pipeline. Slam uses >=Fortitude,
+printed size adjustments, half misses and Prone; Blast uses strict >Reflex and
+DC-based damage dice. Enhancements add two dice or half Heroic Level. Shared
+defense-range tables preserve area Evasion/Cover math without exposing or
+requiring enemy stats. Damage waits for the final FP choice and is saved once.
+Position, target HP/protection and applying Prone remain external; both remain
+Partial. Contract and boundaries: docs/offensive-force-powers.md.

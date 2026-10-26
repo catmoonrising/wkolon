@@ -1,3 +1,4 @@
+import {offensivePowerRule,offensivePowerSnapshot,validOffensivePowerLimit,historicalManualPower} from './offensive-powers.js';
 import {craftActionId,craftingPlan,craftItem} from './crafting.js';
 import {triggeredDefenseRule,triggeredDefenseActivation,setTriggeredDefense,clearTriggeredDefenses,endTriggerTurn} from './triggered-defenses.js';
 import {applyMoveTalentEffects,clearMoveTalentEffects} from './move-talent-effects.js';
@@ -9,7 +10,7 @@ import {resistancePowerRule,assertResistanceResolved,pendingResistanceChecks,rec
 import {ragePowerRule,hasRageTechnique,endRagePowerTurn,clearRagePowers} from './rage-powers.js';
 import {actionPhase,surpriseActionIssue} from './surprise-round.js';
 import {jumpState,planJump,rollJump,finishJump} from './jump.js';
-import {reviewedPowerRule as selfPowerRule,reviewedPowerTier as selfPowerTier,finishPowerEffect} from './power-effects.js';
+import {reviewedPowerRule as selfPowerRule,reviewedPowerTier as selfPowerTier,finishPowerEffectResult} from './power-effects.js';
 import {movementPowerRule} from './movement-powers.js';
 import {endSelfPowerTurn,reopenSelfPowerTurn,consumeBattleStrike} from './self-power-effects.js';
 import {timedTalentPlan,applyTimedTalent,advanceTimedTalents} from './timed-talents.js';
@@ -140,9 +141,9 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'force-bonus':assert(!s.ended,'Force Point bonus requires your turn');view.forceCost=1;break;
  case 'power':{
   const p=d.forcePowers.find(p=>p.copyId===o.powerId);assert(p,'Choose a power');assert(!o.action||p.actions?.includes(o.action)||p.action===o.action,'Power action changed');
-  if(o.action)p.action=o.action;assert(!powerActivationIssue(q,d,pack,p),powerActivationIssue(q,d,pack,p));view.power=p;view.name=p.name;view.selfPower=selfPowerRule(pack,p.id);view.manual=!view.selfPower;view.cost.type=typeOf(p.action);assert(view.cost.type,'Power duration requires manual resolution');
+  if(o.action)p.action=o.action;assert(!powerActivationIssue(q,d,pack,p),powerActivationIssue(q,d,pack,p));view.power=p;view.name=p.name;assert(o.effectDC===undefined||validOffensivePowerLimit(pack,p.id,o.effectDC),'Power effect unavailable');view.selfPower=selfPowerRule(pack,p.id);view.manual=!view.selfPower;view.cost.type=typeOf(p.action);assert(view.cost.type,'Power duration requires manual resolution');
   assert(['roll','take10','adept'].includes(o.rollMode||'roll'),'Invalid power check');assert(o.rollMode!=='take10'||p.take10,'Power Mastery required');assert(o.rollMode!=='adept'||p.adept,'Force Power Adept required');
-  if(view.selfPower&&!negatingPowerRule(pack,p.id))assert((q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)+(q.shieldPowerEffects?.length||0)+(q.resistancePowerEffects?.length||0)<1000,'Too many active effects');
+  if(view.selfPower&&!offensivePowerRule(pack,p.id)&&!negatingPowerRule(pack,p.id))assert((q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)+(q.shieldPowerEffects?.length||0)+(q.resistancePowerEffects?.length||0)<1000,'Too many active effects');
   assert(o.destiny===undefined||typeof o.destiny==='boolean','Invalid Destiny choice');
   if(movementPowerRule(pack,p.id))assert(!s.ended,'Turn ended');
   if(o.destiny){assert(movementPowerRule(pack,p.id),'Power has no Destiny option');assert(q.story?.kind==='destiny'&&q.story.points>0&&d.level,'Destiny Point unavailable');view.destinyCost=1;}
@@ -237,8 +238,9 @@ function resolve(c,pack,id,o,v,roller,activationId){
   else if(o.rollMode==='adept'){const rolls=[roller('1d20'+signed(bonus)),roller('1d20'+signed(bonus))],x=useAdeptPower(c,d,pack,o.powerId,rolls.map(r=>r.d20[0]));check={natural:x.selected,bonus,total:x.selected+bonus};r={html:rolls.map(r=>r.display+' = '+totalHtml(r)).join('; ')};}
   else {const x=roller('1d20'+signed(bonus));usePower(c,d,pack,o.powerId,x.d20[0],{action:o.quicken?'swift-action':null});check={natural:x.d20[0],bonus,total:x.value};r={html:x.display+' = '+totalHtml(x)};}
   r={...r,text:v.name+': Use the Force '+check.total+(o.rollMode==='take10'?' (Take 10)':o.rollMode==='adept'?' (Force Power Adept)':'')+(v.forceCost?'; Force Points -1':'')+(v.selfPower?'':'; effects manual'),check,fpAllowed:v.fpAllowed,enhanceAllowed:v.enhanceAllowed&&(v.negation?check.total>=v.negation.incoming.amount:!v.selfPower||!!selfPowerTier(pack,v.power.id,check.total))};
-  if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed))r.text+='; '+finishPowerEffect(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,incoming:o.incoming,roller});
-  r.html=escape(r.text)+(r.html?'<div>'+r.html+'</div>':'');
+  if((o.effectDC===undefined||o.effectDC===null)&&offensivePowerRule(pack,v.power.id)?.thresholds?.filter(t=>t.dc<=check.total).length>1)r.effectChoiceAllowed=true;
+  const effectHeading=r.text;let effectHTML='';if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed||r.effectChoiceAllowed)){const effect=finishPowerEffectResult(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,incoming:o.incoming,offensivePowerSnapshot:o.offensivePowerSnapshot,effectDC:o.effectDC,roller});r.text+='; '+effect.text;effectHTML=effect.html||'';}
+  r.html=escape(effectHTML?effectHeading:r.text)+(r.html?'<div>'+r.html+'</div>':'')+effectHTML;
  }else if(v.skillAction){
   invalidate(c);const x=rollSkillAction(v.skillAction,roller);r={...x,text:v.name+': '+x.text,fpAllowed:v.fpAllowed};
   if(!(r.fpAllowed&&o.fp==='ask'))r.text+='; '+finishSkillAction(c,d,pack,id,o,r.check);
@@ -250,16 +252,17 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(id==='shield-recharge'){const x=rechargeEnergyShield(c,d,pack,o.uid,roller);r={text:'Shield recharge: Mechanics '+x.roll.value+'; SR '+x.before+' → '+x.after,html:x.roll.display+' = '+totalHtml(x.roll)};}
  else {invalidate(c);r={text:v.name+' (Manual)'};}
  if(v.forceCost)c.actionState.forceSpent=true;
- return {text:r?.text||v.name,...(r?.html?{html:r.html}:{}),...(r?.check?{check:r.check,fpAllowed:r.fpAllowed,enhanceAllowed:r.enhanceAllowed,...(r.rerollAllowed!==undefined?{rerollAllowed:r.rerollAllowed}:{})}:{})};
+ return {text:r?.text||v.name,...(r?.html?{html:r.html}:{}),...(r?.check?{check:r.check,fpAllowed:r.fpAllowed,enhanceAllowed:r.enhanceAllowed,...(r.rerollAllowed!==undefined?{rerollAllowed:r.rerollAllowed}:{}),...(r.effectChoiceAllowed?{effectChoiceAllowed:true}:{})}:{})};
 }
 function commit(c,q){for(const k of Object.keys(c))if(!Object.hasOwn(q,k))delete c[k];Object.assign(c,q);}
 export function executeAction(c,pack,stepId,roller=evalExpr){
  const original=c.actionState?.plan.find(p=>p.id===stepId);assert(original?.status==='queued','Action already resolved or unavailable');assert(!c.actionState.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));
  const v=describeAction(c,pack,original.action,original.options),q=v.character;q.actionState??=emptyActionState();if(!q.actionState.active&&v.cost.type==='reaction')q.actionState.ended=true;if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')&&reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;let step=q.actionState.plan.find(p=>p.id===stepId);
  if(v.selfPower)step.options.effectPowerId=v.power.id;else delete step.options.effectPowerId;
+ if(offensivePowerRule(pack,v.power?.id))step.options.offensivePowerSnapshot=offensivePowerSnapshot(v.derived,pack,v.power.id);else delete step.options.offensivePowerSnapshot;
  if(v.power&&ragePowerRule(pack,v.power.id))step.options.rageFocusAllowed=hasRageTechnique(v.derived.ctx,pack);else delete step.options.rageFocusAllowed;
  const result=resolve(q,pack,step.action,step.options,v,roller,step.id);spendActions(q.actionState,v.allocation);step=q.actionState.plan.find(p=>p.id===stepId);
- step.result={text:result.text.slice(0,2000),...(result.check?{check:result.check,fpAllowed:result.fpAllowed,enhanceAllowed:result.enhanceAllowed,...(result.rerollAllowed!==undefined?{rerollAllowed:result.rerollAllowed}:{})}:{})};step.turn=q.actionState.turn;step.status=(result.rerollAllowed||result.fpAllowed&&step.options.fp==='ask'||result.enhanceAllowed)?'waiting':'done';
+ step.result={text:result.text.slice(0,2000),...(result.check?{check:result.check,fpAllowed:result.fpAllowed,enhanceAllowed:result.enhanceAllowed,...(result.rerollAllowed!==undefined?{rerollAllowed:result.rerollAllowed}:{}),...(result.effectChoiceAllowed?{effectChoiceAllowed:true}:{})}:{})};step.turn=q.actionState.turn;step.status=(result.effectChoiceAllowed||result.rerollAllowed||result.fpAllowed&&step.options.fp==='ask'||result.enhanceAllowed)?'waiting':'done';
  validateCharacter(q,pack);commit(c,q);return result;
 }
 export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
@@ -271,13 +274,13 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
   if(mode==='bonus'){
    const skillAction=step.action==='jump'||pack.rules.skillActions?.some(r=>r.id===step.action),power=skillAction?null:d.forcePowers.find(p=>p.copyId===step.options.powerId);
    assert(step.result.fpAllowed&&(skillAction||power)&&checkForcePointAvailable(q,d,{power,reaction:step.options.action==='reaction'}),'Force Point bonus unavailable');extra=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);assert(Number.isInteger(extra.value)&&extra.value>=1&&extra.value<=d.forcePointDie,'Invalid Force Point roll');step.result.check.total+=extra.value;step.result.text+='; Force Point +'+extra.value+' = '+step.result.check.total;
-  }else {assert(step.result.enhanceAllowed,'Enhancement unavailable');step.result.text+='; Force Points -1'+(step.action==='power'&&selfPowerRule(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id)?'':'; enhancement manual');}
+  }else {assert(step.result.enhanceAllowed,'Enhancement unavailable');step.result.text+='; Force Points -1'+(step.action==='power'&&selfPowerRule(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id)&&!historicalManualPower(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id,step.options)?'':'; enhancement manual');}
   q.forcePoints--;s.forceSpent=true;
  }
  if(pack.rules.skillActions?.some(r=>r.id===step.action))step.result.text+='; '+finishSkillAction(q,derive(q,pack),pack,step.action,step.options,step.result.check);
  if(step.action==='jump'){const snapshot=step.options.jumpResolution;assert(snapshot&&Number.isFinite(snapshot.dc)&&snapshot.dc>=0&&snapshot.dc<=2400000&&Number.isFinite(snapshot.cost)&&snapshot.cost>=0&&Number.isFinite(snapshot.maximum)&&snapshot.maximum>=snapshot.cost&&typeof snapshot.noCheck==='boolean','Invalid saved Jump');step.result.text+='; '+finishJump(q,{...snapshot,path:step.options.path},step.result.check).text;}
- if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id))step.result.text+='; '+finishPowerEffect(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,incoming:step.options.incoming,roller});}
-  step=q.actionState.plan.find(p=>p.id===stepId);step.status='done';validateCharacter(q,pack);commit(c,q);return {text:step.result.text,...(extra?{html:escape(step.result.text)+'<div>'+extra.display+' = '+totalHtml(extra)+'</div>'}:{})};
+ const effectHeading=step.result.text;let effectHTML='';if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,effectDC:step.options.effectDC,roller});step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}
+  step=q.actionState.plan.find(p=>p.id===stepId);step.status='done';validateCharacter(q,pack);commit(c,q);return {text:step.result.text,...(extra||effectHTML?{html:escape(effectHTML?effectHeading:step.result.text)+(extra?'<div>'+extra.display+' = '+totalHtml(extra)+'</div>':'')+effectHTML}:{})};
 }
 
 export function takeAction(c,pack,id,o={},roller=evalExpr){

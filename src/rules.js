@@ -1,3 +1,4 @@
+import {validateOffensivePowerSnapshots} from './offensive-powers.js';
 import {validateSkillApplications,skillApplicationState} from './skill-applications.js';
 import {skillSubstitutionSources,substitutionScope} from './skill-substitutions.js';
 import {weaponIdentityGroup} from './weapon-rules.js';
@@ -187,6 +188,7 @@ export function validateCharacter(c, pack) {
   validateFinishing(c,pack,bad);
   validateCombatState(c,bad);
   validateActionState(c,bad);
+  validateOffensivePowerSnapshots(c,pack,bad);
   if(campaignRuleEnabled(c,'dailyForcePoints')&&c.forcePoints>derive(c,pack).forceMaximum)bad('daily Force Point pool');
   return c;
 }
