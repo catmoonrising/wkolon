@@ -579,7 +579,12 @@ export function derive(c, pack) {
   // Nonlethal Tactics names ranged Stun settings and, for melee, only its listed Stun Baton.
   const stunDice=w=>w.damageEffect==='stun'&&w.damage&&(w.mode==='ranged'||effects.some(f=>f.target==='stunAttack'&&f.weapons.includes(w.id)))?effects.filter(f=>f.target==='stunDice').reduce((n,f)=>n+f.dice,0):0;
   const weaponTalents=raw=>{
-    if(raw.mode!=='ranged'){const n=stunDice(raw);return n?{...raw,damage:extraDamageDice(raw.damage,n)}:raw;}
+    if(raw.mode!=='ranged'){
+      const melee=raw.mode==='melee'&&raw.damage;
+      const groupDice=melee?effects.filter(f=>f.target==='groupDice'&&f.mode===raw.mode&&f.weaponGroup===weaponIdentityGroup(raw,ctx)).reduce((sum,f)=>sum+f.dice,0):0;
+      const unarmedDice=melee&&raw.unarmed?effects.filter(f=>f.target==='unarmedDice').reduce((sum,f)=>sum+f.dice,0):0;
+      const n=stunDice(raw)+groupDice+unarmedDice;return n?{...raw,damage:extraDamageDice(raw.damage,n)}:raw;
+    }
     const foldedRifle=raw.printedGroup==='rifles'&&raw.group==='pistols',excludeRifleRange=foldedRifle&&ambiguityValue(c,pack,'ambiguity:folded-stock-rifle-range')==='pistol-ranges';
     const rangeGroup=excludeRifleRange?raw.group:weaponIdentityGroup(raw,ctx);
     const traits=effects.filter(f=>f.target==='weaponTrait'&&f.weapon===raw.id&&!(excludeRifleRange&&f.selection?.id==='feat:riflemaster'&&f.accurate)),proficientTraits=traits.length&&weaponProficient(raw,ctx,ix)?traits:[];

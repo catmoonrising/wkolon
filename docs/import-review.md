@@ -3008,3 +3008,11 @@ Awareness adds conditional Will and the two-application Use the Force
 substitution with original Perception rerolls, without ordinary Perception
 training. All remain Partial. See docs/conditional-awareness.md for the pinned
 sources and exact scope.
+
+## Primitive Warrior and Teräs Käsi Basics
+
+Primitive Warrior adds one current weapon die to melee Simple Weapons through
+the shared Counseling-aware identity, including Unarmed Attacks. Teräs Käsi
+Basics adds one die to Unarmed Attacks after Martial Arts sizing. They combine
+and enter ordinary critical multiplication. Actual prestige entry is retained.
+Both remain Partial. Sources and exact contract: docs/melee-damage-dice.md.

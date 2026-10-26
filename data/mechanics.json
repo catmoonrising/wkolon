@@ -37053,9 +37053,16 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "groupDice",
+          "weaponGroup": "simple-weapons",
+          "mode": "melee",
+          "dice": 1
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:quick-comeback",
@@ -53186,9 +53193,14 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "unarmedDice",
+          "dice": 1
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:ignore-damage-reduction",
