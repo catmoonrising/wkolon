@@ -58701,9 +58701,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"skillApplicationBonus","skill":"skill:perception","application":"perception-concealed-target","amount":5,"type":"circumstance","circumstance":"hidden-eyes"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:hunt-the-hunter",

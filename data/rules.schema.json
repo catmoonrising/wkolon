@@ -5205,6 +5205,7 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type","circumstance"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:perception"},"application":{"const":"perception-concealed-target"},"amount":{"const":5},"type":{"const":"circumstance"},"circumstance":{"const":"hidden-eyes"}}},
         {"type":"object","additionalProperties":false,"required":["target","multiplier"],"properties":{"target":{"const":"oneHandedStrengthDamage"},"multiplier":{"const":2}}},
         {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:use-computer"},"application":{"const":"astrogate-starship"},"amount":{"const":5},"type":{"const":"species"}}},
         {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type","rushPenalty"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:deception"},"application":{"const":"deceptive-appearance"},"amount":{"const":5},"type":{"const":"insight"},"rushPenalty":{"const":-2}}},

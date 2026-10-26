@@ -3094,3 +3094,13 @@ and ranged use; zero/negative modifiers and other damage terms stay unchanged.
 Complete custom-droid fixtures preserve actual processors/arms/access and
 critical routines. Partial. Contract: docs/droid-smash.md. Heavy-Duty Actuators
 is pending the user's separate multiplier ruling.
+
+
+## Hidden Eyes
+
+Surveillance20064 adds +5 circumstance for Perception against a target from
+which the character has Concealment. The shared skill-use selector declares
+that target/context; native skills and unrelated actions stay unchanged. A
+named circumstance identity preserves typed stacking, and no particular
+Perception application or reroll permission is invented. Partial, with source
+loss/save/native-replacement boundaries in docs/hidden-eyes.md.

@@ -2,6 +2,7 @@ import {modifierIncrease} from './modifiers.js';
 import {escapeHTML as escape} from './wiki-content.js';
 
 const applications={
+ 'perception-concealed-target':{skill:'skill:perception',label:'Against target (you have Concealment)',scope:null},
  'astrogate-starship':{skill:'skill:use-computer',label:'Astrogate (Starship)',scope:'astrogate'},
  'deceptive-appearance':{skill:'skill:deception',label:'Deceptive Appearance',scope:'deceptive-appearance'},
  'deceptive-appearance-rushed':{skill:'skill:deception',label:'Deceptive Appearance (rushed)',scope:'deceptive-appearance',base:'deceptive-appearance',rushed:true},
@@ -15,7 +16,7 @@ export function validateSkillApplications(c,bad){
 export function skillApplicationState(c,skill,source,effects,baseRows){
  const rows=effects.filter(e=>e.target==='skillApplicationBonus'&&e.skill===skill),choices=Object.entries(applications).filter(([id,r])=>r.skill===skill&&rows.some(e=>e.application===(r.base||id))).map(([id,r])=>({id,label:r.label}));
  const selected=choices.some(r=>r.id===c.skillApplications?.[skill])?c.skillApplications[skill]:'general',rule=applications[selected];
- const extra=rule&&source===skill?rows.filter(e=>e.application===(rule.base||selected)).flatMap(e=>[{amount:e.amount,type:e.type},...(rule.rushed?[{amount:e.rushPenalty,type:'untyped'}]:[])]):[];
+ const extra=rule&&source===skill?rows.filter(e=>e.application===(rule.base||selected)).flatMap(e=>[{amount:e.amount,type:e.type,...(e.circumstance?{circumstance:e.circumstance}:{})},...(rule.rushed?[{amount:e.rushPenalty,type:'untyped'}]:[])]):[];
  return {application:selected,applicationScope:rule?.scope||null,applicationLabel:rule?.label||'',applicationOptions:choices,applicationBonus:modifierIncrease(baseRows,extra)};
 }
 export function skillApplicationControl(s){
