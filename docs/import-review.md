@@ -2996,3 +2996,15 @@ Independent Droid level. Partial.
 
 Droid Hunter r19882: +2 damage (or +4 with an Ion-damage weapon) against a
 declared Droid, with proficient weapons only. Partial.
+
+## Conditional awareness and ally damage
+
+Justice Seeker, Combined Mercenary Fire and Ruthless Mercenary calculate their
+unnamed target damage bonuses on declared non-area weapon attacks. Ally windows
+start at the end of your last turn; tracking the triggering damage, qualifying
+threshold hit and encounter duration remains manual. Resist the Dark Side adds
+conditional typed Defense totals for both printed power categories. Deception
+Awareness adds conditional Will and the two-application Use the Force
+substitution with original Perception rerolls, without ordinary Perception
+training. All remain Partial. See docs/conditional-awareness.md for the pinned
+sources and exact scope.

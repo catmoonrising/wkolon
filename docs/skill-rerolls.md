@@ -77,3 +77,10 @@ rerolls retain their scopes. Force Perception limits inherited rerolls to Avoid
 Surprise, Notice Targets, Sense Deception and Sense Influence; discard a source
 whose application set does not overlap. Never transfer Sensors or scent-only
 rerolls merely because Perception was substituted. Take 10 is separate.
+
+Deception Awareness (Order of Shasa revision 25727) is an eighth explicit
+carryover grant. It permits only Sense Deception and Sense Influence and grants
+no ordinary Perception training. Its original-skill reroll applications are
+intersected with that pair. When combined with Force Perception, a single saved
+Use the Force option retains the union of the active permissions, with each
+reroll source still restricted to its own application set.

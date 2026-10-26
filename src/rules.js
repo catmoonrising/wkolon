@@ -1,3 +1,4 @@
+import {skillSubstitutionSources,substitutionScope} from './skill-substitutions.js';
 import {weaponIdentityGroup} from './weapon-rules.js';
 import {validateTriggeredDefenses,triggeredDefenseEffects} from './triggered-defenses.js';
 import {validateMoveTalentEffects,moveTalentModifiers} from './move-talent-effects.js';
@@ -549,17 +550,16 @@ export function derive(c, pack) {
   });
   const nativeById=new Map(nativeSkills.map(s=>[s.id,s]));
   const skills=nativeSkills.map(s=>{
-    const replacements=effects.filter(e=>e.target==='skillSubstitution'&&e.skill===s.id&&nativeById.get(e.replacement)?.available);
     const circumstance=armorCircumstance(armorItems,c.armorChecks,s.id);
-    const sources=[{id:s.id,name:s.name,total:s.total,ability:s.ability,available:s.available},...replacements.map(e=>{const r=nativeById.get(e.replacement);return {id:r.id,name:r.name,total:r.total,ability:r.ability,carryRerolls:e.carryRerolls===true,...(e.when?{when:e.when}:{})};})];
+    const sources=skillSubstitutionSources(s,nativeById,effects);
     for(const source of sources)source.total+=circumstance;
     const saved=c.skillCheckSources?.[s.id];
     const automatic=sources.filter(r=>!r.when&&r.available!==false).reduce((best,r)=>!best||r.total>best.total?r:best,null)||sources[0];
     const source=saved?(sources.find(r=>r.id===saved)||sources[0]):automatic;
     const native=nativeById.get(source.id);
-    const scope=source.when==='computerNetwork'?'computer network':source.when==='perceptionApplications'?'Avoid Surprise, Notice Targets, Sense Deception, Sense Influence':'';
+    const scope=substitutionScope(source.when);
     const climb=s.id==='skill:climb'?droidSystems.movement?.climbPenalty||0:0;
-    return {...s,available:s.checkAllowed&&native.available&&!(s.id==='skill:climb'&&droidSystems.movement?.climbAllowed===false),total:source.total+climb,checkSource:source.id,carryRerolls:source.carryRerolls===true,rerollApplications:source.when==='perceptionApplications'?['avoid-surprise','notice-targets','sense-deception','sense-influence']:null,checkSources:sources.map(r=>({...r,total:r.total+climb})),breakdown:(source.id===s.id?s.breakdown+(circumstance?'; +'+circumstance+' Intimidate':''):`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}${circumstance?'; +'+circumstance+' Intimidate':''}`)+(climb?'; '+climb+' Tracked':'')};
+    return {...s,available:s.checkAllowed&&native.available&&!(s.id==='skill:climb'&&droidSystems.movement?.climbAllowed===false),total:source.total+climb,checkSource:source.id,carryRerolls:source.carryRerolls===true,rerollApplications:source.rerollApplications||null,checkSources:sources.map(r=>({...r,total:r.total+climb})),breakdown:(source.id===s.id?s.breakdown+(circumstance?'; +'+circumstance+' Intimidate':''):`${native.name}${scope?' ('+scope+')':''}: ${native.breakdown}${circumstance?'; +'+circumstance+' Intimidate':''}`)+(climb?'; '+climb+' Tracked':'')};
   });
   const unarmed=species.isDroid||species.usesDroidSystems?null:unarmedWeapon(pack,effectiveSize,total('unarmedDieSteps'));
   const gloves=carried.filter(e=>e.equipped&&ix.equipment.get(e.id).unarmed);

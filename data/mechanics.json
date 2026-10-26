@@ -36821,9 +36821,15 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetDamage",
+          "against": "damagedYourAlly",
+          "amount": 2
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:keen-scent",
@@ -41564,8 +41570,30 @@
       },
       "repeat": "never",
       "reminder": "",
-      "effects": [],
-      "automation": "manual"
+      "effects": [
+        {
+          "target": "conditionalDefense",
+          "defense": "reflex",
+          "against": "dark-side-powers",
+          "type": "force",
+          "amount": 5
+        },
+        {
+          "target": "conditionalDefense",
+          "defense": "fortitude",
+          "against": "dark-side-powers",
+          "type": "force",
+          "amount": 5
+        },
+        {
+          "target": "conditionalDefense",
+          "defense": "will",
+          "against": "dark-side-powers",
+          "type": "force",
+          "amount": 5
+        }
+      ],
+      "automation": "partial"
     },
     {
       "id": "talent:weapon-specialization-lightsabers",
@@ -53971,9 +53999,15 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetDamage",
+          "against": "exceededThreshold",
+          "amount": 2
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:combined-mercenary-fire",
@@ -53990,9 +54024,15 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "targetDamage",
+          "against": "damagedByAlly",
+          "amount": 2
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:mercenary-s-determination",
@@ -62212,9 +62252,25 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [
+        {
+          "target": "conditionalDefense",
+          "defense": "will",
+          "against": "deception",
+          "type": "untyped",
+          "amount": 5
+        },
+        {
+          "target": "skillSubstitution",
+          "skill": "skill:perception",
+          "replacement": "skill:use-the-force",
+          "grantsTraining": false,
+          "carryRerolls": true,
+          "when": "senseDeceptionInfluence"
+        }
+      ],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:greater-weapon-focus-fira",
