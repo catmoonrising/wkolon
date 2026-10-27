@@ -3192,3 +3192,18 @@ UTF total as the ongoing Fire's attack bonus. Special FP selects one hit
 target for a CT step, without extra dice or a CT step for every target.
 Targets, immunities, protection, later Fire attacks and application remain
 external; both records stay Partial. Contract: docs/slow-combustion.md.
+
+
+## Mind Trick
+
+Mind Trick24983 resolves Hallucination, Feint, Suggestion and Fear against an
+inclusive declared Will or a conditional hidden-Will limit. Known Intelligence
+below3 and unsafe/uncommunicable Suggestions reject before spending. Fear
+uses snapshotted Character Level and the printed wounded end condition.
+Special FP applies only to successful Suggestion and computes Attitude steps
+from the final UTF margin when Will is known; hidden Will remains conditional.
+NPC behavior, Dexterity, immunity, movement and actual Attitude stay external.
+The Counseling examples remain Manual, and no Friendly-to-ally inference or
+Persuasion/Master Manipulator trigger is invented. Partial; contract:
+docs/mind-trick.md. Power forms omit redundant single-action selectors while
+retaining the selector for powers with genuinely different actions.

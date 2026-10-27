@@ -42,7 +42,8 @@ the special FP. Non-Suggestion modes must not offer an invented enhancement.
 Older manual pending results remain manual, without retroactive NPC effects.
 
 Use the same pointer form, terse labels, default folded details and theme
-controls as other powers. Show known misses/immunities accurately, and keep
+controls as other powers. Show an Action selector only for powers with more
+than one available action; their normal cost remains visible in the footer. Show known misses/immunities accurately, and keep
 unknown outcomes conditional. Test target constraints, exact ties/margins,
 fear level equality, mode-specific FP, real complete Adept/Mastery builds,
 snapshots/legacy/replay, ordinary descriptor/DSS behavior and unchanged caster

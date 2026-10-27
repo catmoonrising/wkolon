@@ -1,3 +1,4 @@
+import {mentalPowerRule,resolveMentalPower} from './mental-powers.js';
 import {conditionPowerRule,conditionPowerTier,resolveConditionPower} from './condition-powers.js';
 import {opportunityPowerRule,opportunityPowerTier,finishOpportunityPower} from './opportunity-powers.js';
 import {displacementPowerRule,finishForceThrust} from './force-thrust.js';
@@ -12,15 +13,17 @@ import {ragePowerRule,ragePowerTier,finishRagePower,activeRagePowers,hasRageTech
 import {selfPowerRule,selfPowerTier,finishSelfPower} from './self-power-effects.js';
 import {movementPowerRule,movementPowerTier,finishMovementPower,activeMovementPowers} from './movement-powers.js';
 import {spendDestinyPoint} from './heroic-traits.js';
-export const reviewedPowerRule=(pack,id)=>conditionPowerRule(pack,id)||opportunityPowerRule(pack,id)||displacementPowerRule(pack,id)||offensivePowerRule(pack,id)||thresholdPowerRule(pack,id)||negatingPowerRule(pack,id)||resistancePowerRule(pack,id)||selfPowerRule(pack,id)||movementPowerRule(pack,id)||ragePowerRule(pack,id)||shieldPowerRule(pack,id);
-export const reviewedPowerTier=(pack,id,total)=>conditionPowerRule(pack,id)?conditionPowerTier(pack,id,total):opportunityPowerRule(pack,id)?opportunityPowerTier(pack,id,total):displacementPowerRule(pack,id)?1:thresholdPowerRule(pack,id)?thresholdPowerTier(pack,id,total):offensivePowerRule(pack,id)?offensivePowerTier(pack,id,total):resistancePowerRule(pack,id)?resistancePowerTier(pack,id,total):shieldPowerRule(pack,id)?shieldPowerTier(pack,id,total):ragePowerRule(pack,id)?ragePowerTier(pack,id,total):movementPowerRule(pack,id)?movementPowerTier(pack,id,total):selfPowerTier(pack,id,total);
+export const reviewedPowerRule=(pack,id)=>mentalPowerRule(pack,id)||conditionPowerRule(pack,id)||opportunityPowerRule(pack,id)||displacementPowerRule(pack,id)||offensivePowerRule(pack,id)||thresholdPowerRule(pack,id)||negatingPowerRule(pack,id)||resistancePowerRule(pack,id)||selfPowerRule(pack,id)||movementPowerRule(pack,id)||ragePowerRule(pack,id)||shieldPowerRule(pack,id);
+export const reviewedPowerTier=(pack,id,total)=>mentalPowerRule(pack,id)?1:conditionPowerRule(pack,id)?conditionPowerTier(pack,id,total):opportunityPowerRule(pack,id)?opportunityPowerTier(pack,id,total):displacementPowerRule(pack,id)?1:thresholdPowerRule(pack,id)?thresholdPowerTier(pack,id,total):offensivePowerRule(pack,id)?offensivePowerTier(pack,id,total):resistancePowerRule(pack,id)?resistancePowerTier(pack,id,total):shieldPowerRule(pack,id)?shieldPowerTier(pack,id,total):ragePowerRule(pack,id)?ragePowerTier(pack,id,total):movementPowerRule(pack,id)?movementPowerTier(pack,id,total):selfPowerTier(pack,id,total);
 export function finishPowerEffectResult(c,d,pack,id,powerId,check,enhanced=false,destiny=false,options={}){
+ if(mentalPowerRule(pack,powerId))return resolveMentalPower(pack,check,options.mentalPowerSnapshot,{enhanced});
  if(conditionPowerRule(pack,powerId))return resolveConditionPower(pack,powerId,check,{enhanced,effectDC:options.effectDC});
  if(displacementPowerRule(pack,powerId))return finishForceThrust(pack,check,options.forceThrustSnapshot,{enhanced,roller:options.roller});
  if(offensivePowerRule(pack,powerId))return resolveOffensivePower(pack,powerId,check,{enhanced,snapshot:options.offensivePowerSnapshot,effectDC:options.effectDC,roller:options.roller});
  return {text:finishPowerEffect(c,d,pack,id,powerId,check,enhanced,destiny,options)};
 }
 export function finishPowerEffect(c,d,pack,id,powerId,check,enhanced=false,destiny=false,options={}){
+ if(mentalPowerRule(pack,powerId))return resolveMentalPower(pack,check,options.mentalPowerSnapshot,{enhanced}).text;
  if(conditionPowerRule(pack,powerId))return resolveConditionPower(pack,powerId,check,{enhanced,effectDC:options.effectDC}).text;
  if(opportunityPowerRule(pack,powerId)){const row=finishOpportunityPower(c,pack,id,powerId,check,{enhanced,formAllowed:options.formAllowed,effectDC:options.effectDC});return row?'AoO +'+opportunityPowerRule(pack,powerId).thresholds[row.tier-1].attack+' Force'+(row.formAllowed?'; +1 damage die':'')+(enhanced?'; Move 1 square without provoking':''):'No effect';}
  if(displacementPowerRule(pack,powerId))return finishForceThrust(pack,check,options.forceThrustSnapshot,{enhanced,roller:options.roller}).text;
