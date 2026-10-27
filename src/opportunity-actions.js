@@ -15,5 +15,5 @@ export function opportunityPlan(c,pack,uid,view=opportunityView(c,pack)){
 export function opportunityIssue(c,pack,uid,view){try{opportunityPlan(c,pack,uid,view);return '';}catch(e){return e.message;}}
 export function rollOpportunity(c,pack,uid,roller){
  const p=opportunityPlan(c,pack,uid),result=rollRoutine(p.routine,[p.attack],pack.rules.combat,roller);
- return {...result,opportunitySpent:p.spent,opportunityPrevious:p.previous};
+ return {...result,...(p.movementSquares?{opportunityMovement:p.movementSquares,text:result.text+'; May move '+p.movementSquares+' square without provoking',html:result.html+'<p>May move '+p.movementSquares+' square without provoking</p>'}:{}),opportunitySpent:p.spent,opportunityPrevious:p.previous};
 }

@@ -38,7 +38,7 @@ export function removeSelfPowerEffect(c,id){
 export function battleStrike(c,pack,base=[]){
  const rows=strikeRows(c);if(!rows.length)return null;
  const rule=selfPowerRule(pack,BATTLE_STRIKE);
- return {attackBonus:modifierIncrease(base,[{amount:rule.attackBonus,type:rule.type}]),dice:rows.reduce((n,s)=>n+s.baseDice+(s.enhanced?rule.enhancementDice:0),0),die:rule.die,previous:JSON.stringify(rows)};
+ return {modifier:{amount:rule.attackBonus,type:rule.type},attackBonus:modifierIncrease(base,[{amount:rule.attackBonus,type:rule.type}]),dice:rows.reduce((n,s)=>n+s.baseDice+(s.enhanced?rule.enhancementDice:0),0),die:rule.die,previous:JSON.stringify(rows)};
 }
 export function withBattleStrike(attack,strike){
  if(!strike)return attack;
@@ -48,7 +48,7 @@ export function withBattleStrike(attack,strike){
   for(const [key,raw]of [['damageDisplay','rollDamageDisplay'],['criticalDamageDisplay','rollCriticalDamageDisplay']])if(row[key]!==undefined){result[raw]=row[key];result[key]+=extra;}
   return result;
  }
- return {...damage(attack),battleStrike:strike,...Object.fromEntries(['unAimed','unBraced','unSwing'].filter(k=>attack[k]).map(k=>[k,damage(attack[k])]))};
+ return {...damage(attack),attackModifierRows:[...(attack.attackModifierRows||[]),strike.modifier],battleStrike:strike,...Object.fromEntries(['unAimed','unBraced','unSwing'].filter(k=>attack[k]).map(k=>[k,damage(attack[k])]))};
 }
 export function checkBattleStrikeState(c,previous){if(previous!==undefined&&JSON.stringify(strikeRows(c))!==previous)throw new Error('Power effect changed; roll again');}
 export function consumeBattleStrike(c){

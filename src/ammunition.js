@@ -56,7 +56,7 @@ export function spendAttackResources(c,result){
  });
  if(result.battleStrikePrevious!==undefined)consumeBattleStrike(c);
  if(result.followUpConsume)applyFollowUpClaim(c,result.followUpConsume);
- if(result.opportunitySpent){c.opportunity??={};c.opportunity.used??=[];c.opportunity.used.push({...result.opportunitySpent});c.opportunity.provoked=false;}
+ if(result.opportunitySpent){c.opportunity??={};c.opportunity.used??=[];c.opportunity.used.push({...result.opportunitySpent});c.opportunity.provoked=false;c.opportunity.entersAdjacent=false;}
  for(const {entry,shots,reloadShots} of spending)entry.shotsRemaining+=reloadShots-shots;
  for(const uid of result.aimConsumed||[]){const entry=c.inventory.find(e=>e.uid===uid);if(entry)entry.aimed=false;}
  if(result.mightySwingConsumed)c.mightySwing=false;

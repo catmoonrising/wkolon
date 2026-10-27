@@ -1,0 +1,7 @@
+module.exports=(pack,api)=>({
+ adept({sokan=false,mastery=false}={}){
+  const c=require('./offensive-power-fixtures.cjs')(pack,api).adept({mastery:mastery&&!sokan});c.name='High Ground Defense';for(const l of c.levels){for(const p of l.forcePowers||[])if(p.powerId==='power:force-slam')p.powerId='power:high-ground-defense';if(l.talent?.id==='talent:force-power-adept')l.talent.choice='power:high-ground-defense';for(const choice of l.classChoices||[])if(choice.id==='classchoice:force-power-mastery')choice.choice='power:high-ground-defense';}
+  if(sokan){c.levels[6].talent={id:'talent:acrobatic-recovery'};const cls=pack.classes.find(r=>r.id==='class:jedi-knight');for(let n=1;n<=3;n++)c.levels.push({classId:cls.id,hpRoll:6,feats:n===1?[{id:'feat:combat-reflexes'}]:[],talent:n===1?{id:'talent:block'}:n===3?{id:'talent:sokan'}:null,startingFeat:null,abilityIncreases:[],trainedSkills:[],...(n===1?{entryDeclarations:Object.fromEntries(cls.entrySpecials.map(s=>[s.id,true]))}:{}),...(n===2?{classChoices:[{id:'classchoice:force-power-mastery',choice:'power:high-ground-defense'}]}:{})});}
+  c.inventory.push({id:'equipment:lightsaber',uid:crypto.randomUUID(),quantity:1,carried:true,equipped:true,activated:true,twoHanded:false,attackMod:0,damageMod:0});c.currentHP=api.derive(c,pack).hp;api.validateCharacter(c,pack);const issues=api.derive(c,pack).issues;if(issues.length)throw Error(issues.join('; '));return c;
+ }
+});

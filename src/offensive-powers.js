@@ -5,7 +5,7 @@ import {evalExpr,totalHtml} from './dice.js';
 import {escapeHTML as escape} from './wiki-content.js';
 
 export const offensivePowerRule=(pack,id)=>pack.rules.offensivePowerEffects?.find(r=>r.powerId===id);
-export const historicalManualPower=(pack,id,options)=>!!(pack.rules.displacementPowers?.find(r=>r.powerId===id)||offensivePowerRule(pack,id)||pack.rules.thresholdPowers?.find(r=>r.powerId===id))&&options.effectPowerId===undefined&&options.offensivePowerSnapshot===undefined&&options.forceThrustSnapshot===undefined;
+export const historicalManualPower=(pack,id,options)=>!!(pack.rules.opportunityPowers?.find(r=>r.powerId===id)||pack.rules.displacementPowers?.find(r=>r.powerId===id)||offensivePowerRule(pack,id)||pack.rules.thresholdPowers?.find(r=>r.powerId===id))&&options.effectPowerId===undefined&&options.offensivePowerSnapshot===undefined&&options.forceThrustSnapshot===undefined;
 export function offensivePowerTier(pack,id,total,effectDC=null){
  const rule=offensivePowerRule(pack,id);
  if(!rule||!Number.isInteger(total))return null;
@@ -19,8 +19,8 @@ const validSnapshot=(snapshot,pack)=>snapshot&&typeof snapshot==='object'&&!Arra
 export function validateOffensivePowerSnapshots(c,pack,bad){
  for(const step of [...(c.actionState?.plan||[]),...(c.actionState?.history||[])]){
   const snapshot=step.options?.offensivePowerSnapshot;
-  if(step.options?.effectDC!==undefined&&step.action==='power'){const copy=c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===step.options.powerId);if(!validOffensivePowerLimit(pack,copy?.powerId,step.options.effectDC))bad('power effect tier');}
-  if(step.result?.effectChoiceAllowed!==undefined&&!pack.rules.thresholdPowers?.some(r=>r.powerId===step.options?.effectPowerId)&&(!snapshot||!offensivePowerRule(pack,snapshot.powerId)?.thresholds))bad('power effect choice');
+  if(step.options?.effectDC!==undefined&&step.action==='power'){const copy=c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===step.options.powerId);if(!validOffensivePowerLimit(pack,step.status==='queued'?copy?.powerId:step.options.effectPowerId??copy?.powerId,step.options.effectDC))bad('power effect tier');}
+  if(step.result?.effectChoiceAllowed!==undefined&&![...(pack.rules.thresholdPowers||[]),...(pack.rules.opportunityPowers||[])].some(r=>r.powerId===step.options?.effectPowerId)&&(!snapshot||!offensivePowerRule(pack,snapshot.powerId)?.thresholds))bad('power effect choice');
   if(snapshot===undefined){if(offensivePowerRule(pack,step.options?.effectPowerId))bad('offensive power snapshot');continue;}
   if(step.action!=='power'||step.status==='queued'||!validSnapshot(snapshot,pack)||snapshot.powerId!==step.options.effectPowerId)bad('offensive power snapshot');
  }

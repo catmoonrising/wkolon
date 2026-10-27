@@ -3166,3 +3166,16 @@ Category:Web Enhancements26287) uses a declared Break DC only while enabled;
 its Move Object procedure remains manual, so the topic is marked Partial.
 Target position, geometry and damage application remain external. Partial;
 contract: docs/force-thrust.md.
+
+
+## High Ground Defense
+
+High Ground Defense20436 grants its conditional adjacent-entry AoO trigger and
+Force attack bonus through the shared opportunity resolver. Source24952 Sokan
+adds weapon dice, including natural fixed-d1 profiles, separately from Battle
+Strike. Shared typed increments include Battle Strike's actual Force modifier,
+so it cannot stack with another Force bonus on the same AoO. Unnamed per-copy
+damage dice retain16336 stacking. Special FP grants the printed one-square
+unprovoking movement allowance per AoO; actual positions remain external.
+Terrain/provoking events are declarations, and the record remains Partial.
+Contract: docs/high-ground-defense.md.

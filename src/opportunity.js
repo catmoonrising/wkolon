@@ -1,10 +1,11 @@
+import {activeOpportunityPowers,opportunityPowerAttackModifiers,opportunityPowerDice,opportunityPowerMovement,withOpportunityPowerDice} from './opportunity-powers.js';
 import {weaponIdentityGroup} from './weapon-rules.js';
-import {modifierTotal} from './modifiers.js';
+import {modifierIncrease} from './modifiers.js';
 import {nextFollowUpRound} from './attack-follow-ups.js';
 import {ambiguityValue} from './house-rules.js';
 import {attackTarget,targetConcealment} from './attack-targets.js';
 
-export const opportunityContext=c=>({opponent:'',action:'',distance:1,provoked:false,used:[],...c.opportunity});
+export const opportunityContext=c=>({opponent:'',action:'',distance:1,provoked:false,terrain:'none',entersAdjacent:false,used:[],...c.opportunity});
 export const opportunityKey=value=>value.trim().normalize('NFKC').toLowerCase();
 export function opportunityState(c,pack,ctx,mods){
  const rule=pack.rules.opportunity,reflexes=ctx.feats.some(f=>f.id===rule.reflexes),used=opportunityContext(c).used.length;
@@ -27,7 +28,8 @@ export function planOpportunity(c,d,pack,uid){
  if((d.flatFooted||c.flatFooted)&&!state.reflexes)fail('Flat-footed: requires Combat Reflexes');
  if(!state.remaining)fail('No attacks of opportunity remaining this round');
  if(!p.opponent.trim()||!p.action.trim())fail('Identify opponent and provoking action');
- if(!p.provoked)fail('Confirm a provoking action in your threatened area');
+ const highGround=activeOpportunityPowers(c,pack).length&&p.entersAdjacent&&['low-object','difficult'].includes(p.terrain)&&p.distance===1;
+ if(!p.provoked&&!highGround)fail('Confirm a provoking action in your threatened area');
  const opponent=opportunityKey(p.opponent),action=opportunityKey(p.action);
  if(state.limit!=='action'&&p.used.some(u=>opportunityKey(u.opponent)===opponent))fail('Already attacked this opponent this round');
  if(state.limit!=='opponent'&&p.used.some(u=>opportunityKey(u.action)===action))fail('Already attacked for this provoking action');
@@ -40,23 +42,25 @@ export function planOpportunity(c,d,pack,uid){
  if(!attack?.opportunityWeapon)fail('Weapon cannot make attacks of opportunity');
  if(!attack.available||!attack.damage)fail(attack.issue||'Attack unavailable');
  const shooter=attack.mode==='ranged'?d.rangedOpportunityBonus||0:0;
- const extra=(d.opportunityAttackEffects||[]).filter(e=>(!e.weaponGroup||weaponIdentityGroup(attack,d.ctx)===e.weaponGroup)&&(!e.mode||attack.mode===e.mode)&&(!e.proficient||attack.proficient));
- const bonus=shooter+modifierTotal(extra);
- const result=bonus?{...attack,attack:attack.attack+bonus,breakdown:attack.breakdown+(shooter?'; Opportunistic Shooter: +'+shooter:'')+extra.map(e=>'; '+e.name+': +'+e.amount).join('')}:attack;
- return {attack:result,spent:{opponent:p.opponent.trim(),action:p.action.trim()},previous:structuredClone(p.used)};
+ const extra=[...(d.opportunityAttackEffects||[]),...opportunityPowerAttackModifiers(c,pack)].filter(e=>(!e.weaponGroup||weaponIdentityGroup(attack,d.ctx)===e.weaponGroup)&&(!e.mode||attack.mode===e.mode)&&(!e.proficient||attack.proficient));
+ const increase=modifierIncrease(attack.attackModifierRows||[],extra),bonus=shooter+increase;
+ const result=bonus?{...attack,attack:attack.attack+bonus,breakdown:attack.breakdown+(shooter?'; Opportunistic Shooter: +'+shooter:'')+(increase?'; '+extra.map(e=>e.name).join(', ')+': +'+increase:'')}:attack;
+ return {attack:withOpportunityPowerDice(result,opportunityPowerDice(c,pack,d.ctx)),movementSquares:opportunityPowerMovement(c,pack),spent:{opponent:p.opponent.trim(),action:p.action.trim()},previous:structuredClone(p.used)};
 }
 export function startNextRound(c){
  nextFollowUpRound(c);
- if(c.opportunity){c.opportunity.used=[];c.opportunity.provoked=false;c.opportunity.action='';}
+ if(c.opportunity){c.opportunity.used=[];c.opportunity.provoked=false;c.opportunity.entersAdjacent=false;c.opportunity.action='';}
  if(c.mightySwing!==undefined)c.mightySwing=false;
 }
 export function validateOpportunity(c,bad){
  if(c.opportunity===undefined)return;
  const p=c.opportunity,obj=v=>v!==null&&typeof v==='object'&&!Array.isArray(v),name=v=>typeof v==='string'&&v.length<=200;
- if(!obj(p)||Object.keys(p).some(k=>!['opponent','action','distance','provoked','used'].includes(k)))bad('opportunity state');
+ if(!obj(p)||Object.keys(p).some(k=>!['opponent','action','distance','provoked','terrain','entersAdjacent','used'].includes(k)))bad('opportunity state');
  for(const key of ['opponent','action'])if(p[key]!==undefined&&!name(p[key]))bad('opportunity '+key);
  if(p.distance!==undefined&&(!Number.isInteger(p.distance)||p.distance<1||p.distance>100000))bad('opportunity distance');
  if(p.provoked!==undefined&&typeof p.provoked!=='boolean')bad('opportunity provoked');
+ if(p.entersAdjacent!==undefined&&typeof p.entersAdjacent!=='boolean')bad('opportunity adjacency');
+ if(p.terrain!==undefined&&!['none','low-object','difficult'].includes(p.terrain))bad('opportunity terrain');
  if(p.used!==undefined){
   if(!Array.isArray(p.used)||p.used.length>1000)bad('opportunity history');
   const pairs=new Set();

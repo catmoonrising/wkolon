@@ -1,3 +1,4 @@
+import {opportunityPowerRule,hasOpportunityForm,clearOpportunityPowers} from './opportunity-powers.js';
 import {displacementPowerRule,forceThrustSnapshot} from './force-thrust.js';
 import {thresholdPowerRule,thresholdPowerPlan} from './threshold-powers.js';
 import {powerEffectChoiceRule} from './power-effect-choices.js';
@@ -63,7 +64,7 @@ function withOptions(c,id,o){
  const q=structuredClone(c),key=paths[id];if(!key||o.path===undefined)return q;
  const pick=keys=>Object.fromEntries(keys.filter(k=>Object.hasOwn(o.path,k)).map(k=>[k,structuredClone(o.path[k])]));
  // Plans snapshot declarations, never resource histories or trigger tickets.
- if(id==='opportunity')q[key]={...opportunityContext(q),...pick(['opponent','action','distance','provoked'])};
+ if(id==='opportunity')q[key]={...opportunityContext(q),...pick(['opponent','action','distance','provoked','terrain','entersAdjacent'])};
  else if(['cleave','follow-through'].includes(id))q[key]={...followUpState(q),...pick(['selected','opponent','nextOpponent','dropped','immediate','inReach','moveBefore','mode','path'])};
  else if(['balance','balance-recheck'].includes(id))q[key]={...q.balance,...pick(['width','unstable','check','catchCheck','path'])};
  else q[key]=structuredClone(o.path);
@@ -146,7 +147,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   const p=d.forcePowers.find(p=>p.copyId===o.powerId);assert(p,'Choose a power');assert(!o.action||p.actions?.includes(o.action)||p.action===o.action,'Power action changed');
   if(o.action)p.action=o.action;assert(!powerActivationIssue(q,d,pack,p),powerActivationIssue(q,d,pack,p));view.power=p;view.name=p.name;assert(o.effectDC===undefined||validOffensivePowerLimit(pack,p.id,o.effectDC),'Power effect unavailable');view.selfPower=selfPowerRule(pack,p.id);view.manual=!view.selfPower;view.cost.type=typeOf(p.action);assert(view.cost.type,'Power duration requires manual resolution');
   assert(['roll','take10','adept'].includes(o.rollMode||'roll'),'Invalid power check');assert(o.rollMode!=='take10'||p.take10,'Power Mastery required');assert(o.rollMode!=='adept'||p.adept,'Force Power Adept required');
-  if(view.selfPower&&!offensivePowerRule(pack,p.id)&&!negatingPowerRule(pack,p.id)&&!thresholdPowerRule(pack,p.id)&&!displacementPowerRule(pack,p.id))assert((q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)+(q.shieldPowerEffects?.length||0)+(q.resistancePowerEffects?.length||0)<1000,'Too many active effects');
+  if(view.selfPower&&!offensivePowerRule(pack,p.id)&&!negatingPowerRule(pack,p.id)&&!thresholdPowerRule(pack,p.id)&&!displacementPowerRule(pack,p.id))assert((q.opportunityPowerEffects?.length||0)+(q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)+(q.shieldPowerEffects?.length||0)+(q.resistancePowerEffects?.length||0)<1000,'Too many active effects');
   assert(o.destiny===undefined||typeof o.destiny==='boolean','Invalid Destiny choice');
   if(movementPowerRule(pack,p.id))assert(!s.ended,'Turn ended');
   if(o.destiny){assert(movementPowerRule(pack,p.id),'Power has no Destiny option');assert(q.story?.kind==='destiny'&&q.story.points>0&&d.level,'Destiny Point unavailable');view.destinyCost=1;}
@@ -243,7 +244,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   else {const x=roller('1d20'+signed(bonus));usePower(c,d,pack,o.powerId,x.d20[0],{action:o.quicken?'swift-action':null});check={natural:x.d20[0],bonus,total:x.value};r={html:x.display+' = '+totalHtml(x)};}
   r={...r,text:v.name+': Use the Force '+check.total+(o.rollMode==='take10'?' (Take 10)':o.rollMode==='adept'?' (Force Power Adept)':'')+(v.forceCost?'; Force Points -1':'')+(v.selfPower?'':'; effects manual'),check,fpAllowed:v.fpAllowed,enhanceAllowed:v.enhanceAllowed&&(v.negation?check.total>=v.negation.incoming.amount:!v.selfPower||!!selfPowerTier(pack,v.power.id,check.total))};
   if((o.effectDC===undefined||o.effectDC===null)&&powerEffectChoiceRule(pack,v.power.id)?.thresholds?.filter(t=>t.dc<=check.total).length>1)r.effectChoiceAllowed=true;
-  const effectHeading=r.text;let effectHTML='';if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed||r.effectChoiceAllowed)){const effect=finishPowerEffectResult(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,incoming:o.incoming,offensivePowerSnapshot:o.offensivePowerSnapshot,forceThrustSnapshot:o.forceThrustSnapshot,effectDC:o.effectDC,roller});r.text+='; '+effect.text;effectHTML=effect.html||'';}
+  const effectHeading=r.text;let effectHTML='';if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed||r.effectChoiceAllowed)){const effect=finishPowerEffectResult(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,formAllowed:o.opportunityFormAllowed,incoming:o.incoming,offensivePowerSnapshot:o.offensivePowerSnapshot,forceThrustSnapshot:o.forceThrustSnapshot,effectDC:o.effectDC,roller});r.text+='; '+effect.text;effectHTML=effect.html||'';}
   r.html=escape(effectHTML?effectHeading:r.text)+(r.html?'<div>'+r.html+'</div>':'')+effectHTML;
  }else if(v.skillAction){
   invalidate(c);const x=rollSkillAction(v.skillAction,roller);r={...x,text:v.name+': '+x.text,fpAllowed:v.fpAllowed};
@@ -264,6 +265,7 @@ export function executeAction(c,pack,stepId,roller=evalExpr){
  const v=describeAction(c,pack,original.action,original.options),q=v.character;q.actionState??=emptyActionState();if(!q.actionState.active&&v.cost.type==='reaction')q.actionState.ended=true;if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')&&reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;let step=q.actionState.plan.find(p=>p.id===stepId);
  if(v.selfPower)step.options.effectPowerId=v.power.id;else delete step.options.effectPowerId;
  if(offensivePowerRule(pack,v.power?.id))step.options.offensivePowerSnapshot=offensivePowerSnapshot(v.derived,pack,v.power.id);else delete step.options.offensivePowerSnapshot;
+ if(opportunityPowerRule(pack,v.power?.id))step.options.opportunityFormAllowed=hasOpportunityForm(v.derived.ctx,pack);else delete step.options.opportunityFormAllowed;
  if(v.thrust)step.options.forceThrustSnapshot=v.thrust;else delete step.options.forceThrustSnapshot;
  if(v.threshold)step.options.incoming=v.threshold.incoming;
  if(v.power&&ragePowerRule(pack,v.power.id))step.options.rageFocusAllowed=hasRageTechnique(v.derived.ctx,pack);else delete step.options.rageFocusAllowed;
@@ -283,16 +285,16 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
   }else {assert(step.result.enhanceAllowed,'Enhancement unavailable');step.result.text+='; Force Points -1'+(step.action==='power'&&selfPowerRule(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id)&&!historicalManualPower(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id,step.options)?'':'; enhancement manual');}
   q.forcePoints--;s.forceSpent=true;
  }
- // A boosted check can unlock another earned damage tier. Commit the FP,
- // retain the new check and ask for the effect before rolling any damage.
- const offensive=step.options.offensivePowerSnapshot&&offensivePowerRule(pack,step.options.offensivePowerSnapshot.powerId);
+ // A boosted check can unlock another earned effect tier. Commit the FP,
+ // retain the check and ask before applying effects or rolling damage.
+ const offensive=powerEffectChoiceRule(pack,step.options.effectPowerId);
  if(mode==='bonus'&&offensive?.thresholds&&step.options.effectDC==null&&offensive.thresholds.filter(t=>t.dc<=step.result.check.total).length>1){
   step.result.effectChoiceAllowed=true;step.result.fpAllowed=false;step.result.enhanceAllowed=false;
   validateCharacter(q,pack);commit(c,q);return {text:step.result.text,html:escape(step.result.text)+(extra?'<div>'+extra.display+' = '+totalHtml(extra)+'</div>':'')};
  }
  if(pack.rules.skillActions?.some(r=>r.id===step.action))step.result.text+='; '+finishSkillAction(q,derive(q,pack),pack,step.action,step.options,step.result.check);
  if(step.action==='jump'){const snapshot=step.options.jumpResolution;assert(snapshot&&Number.isFinite(snapshot.dc)&&snapshot.dc>=0&&snapshot.dc<=2400000&&Number.isFinite(snapshot.cost)&&snapshot.cost>=0&&Number.isFinite(snapshot.maximum)&&snapshot.maximum>=snapshot.cost&&typeof snapshot.noCheck==='boolean','Invalid saved Jump');step.result.text+='; '+finishJump(q,{...snapshot,path:step.options.path},step.result.check).text;}
- const effectHeading=step.result.text;let effectHTML='';if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,forceThrustSnapshot:step.options.forceThrustSnapshot,effectDC:step.options.effectDC,roller});step=q.actionState.plan.find(p=>p.id===stepId);step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}
+ const effectHeading=step.result.text;let effectHTML='';if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,formAllowed:step.options.opportunityFormAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,forceThrustSnapshot:step.options.forceThrustSnapshot,effectDC:step.options.effectDC,roller});step=q.actionState.plan.find(p=>p.id===stepId);step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}
   step=q.actionState.plan.find(p=>p.id===stepId);step.status='done';validateCharacter(q,pack);commit(c,q);return {text:step.result.text,...(extra||effectHTML?{html:escape(effectHTML?effectHeading:step.result.text)+(extra?'<div>'+extra.display+' = '+totalHtml(extra)+'</div>':'')+effectHTML}:{})};
 }
 
@@ -314,7 +316,7 @@ export function beginNextTurn(c,pack,{maintain=[]}={}){
  validateCharacter(q,pack);commit(c,q);return results;
 }
 export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endReactionTalentTurn(q);endTriggerTurn(q);endRagePowerTurn(q);advanceRegenerativeHealing(q,pack);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
-export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));endRegenerativeHealing(c);clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);clearReactionTalents(c);clearDefenseShifts(c);clearMoveTalentEffects(c);clearTriggeredDefenses(c);endChannelRage(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
+export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));endRegenerativeHealing(c);clearOpportunityPowers(c);clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);clearReactionTalents(c);clearDefenseShifts(c);clearMoveTalentEffects(c);clearTriggeredDefenses(c);endChannelRage(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false,uncertainMovement=false;
  for(const step of q.actionState.plan){

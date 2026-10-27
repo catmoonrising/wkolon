@@ -1,3 +1,4 @@
+import {validateOpportunityPowers,validateOpportunityPowerResults} from './opportunity-powers.js';
 import {validateForceThrustResults} from './force-thrust.js';
 import {validateThresholdPowers} from './threshold-powers.js';
 import {validateOffensivePowerSnapshots} from './offensive-powers.js';
@@ -158,7 +159,7 @@ export function validateCharacter(c, pack) {
   validateSelfPowerEffects(c,pack,bad);
   validateMovementPowerEffects(c,pack,bad);
   validateRagePowers(c,pack,bad);
-  validateForceThrustResults(c,pack,bad);validateNegatingPowers(c,pack,bad);validateThresholdPowers(c,pack,bad);validateDeflection(c,pack,bad);
+  validateOpportunityPowers(c,pack,bad);validateOpportunityPowerResults(c,pack,bad);validateForceThrustResults(c,pack,bad);validateNegatingPowers(c,pack,bad);validateThresholdPowers(c,pack,bad);validateDeflection(c,pack,bad);
   validateShieldPowers(c,pack,bad);validateResistancePowers(c,pack,bad);
   const maintainedIds=[...(c.shieldPowerEffects||[]),...(c.resistancePowerEffects||[])].map(s=>s.id);if(new Set(maintainedIds).size!==maintainedIds.length)bad('maintained power identities');
   validateJump(c,bad);
