@@ -1,6 +1,6 @@
 # Stagger
 
-Define this contract before calculations. Preserve the pinned Stagger and
+Define this contract before calculations. Preserve the pinned Stagger20319 and
 Force Powers articles. Swift Action targets one adjacent target; compare UTF
 inclusively against Fortitude for2d6 Force damage and a1square push away from
 you. The push does not provoke Attacks of Opportunity. A miss deals no damage

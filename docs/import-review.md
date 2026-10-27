@@ -3222,3 +3222,14 @@ ordinary check-FP choices for Reaction/Dark Side uses and restores them after
 genuine Many Shades descriptor removal. No NPC rolls, turns, positions or
 Defenses are mutated: both remain Partial for those external consequences.
 Sources and printed text remain verbatim; contract docs/fear-obscure.md.
+
+## Stagger
+
+Stagger20319 is Swift, inclusive Fortitude,2d6 Force damage and1square push
+away from the caster without provoking. Special FP broadens one adjacent
+target to all adjacent enemies using the same check and damage. This is not
+classified as an area attack: no inferred Evasion/Cover or half-on-miss.
+Shared check/FP/Adept/Mastery/recovery/saved snapshots apply; outgoing damage
+rolls once. Enemy selection, target HP/protection and positions remain
+external, so Partial. No caster movement, NPC mutation or invented size
+adjustments. Contract docs/stagger.md; source text/pins unchanged.
