@@ -3179,3 +3179,16 @@ damage dice retain16336 stacking. Special FP grants the printed one-square
 unprovoking movement allowance per AoO; actual positions remain external.
 Terrain/provoking events are declarations, and the record remains Partial.
 Contract: docs/high-ground-defense.md.
+
+
+## Slow and Combustion
+
+Slow19342 resolves its inclusive Fortitude hit limits, printed size modifiers,
+earned Speed reductions, Heavy Load skill penalties and special FP penalty
+against this use. The caster's own Speed, load, skills and Defenses stay
+unchanged. Combustion20117 uses the explicit Area Attack Fire4d6 path with
+shared half-miss, Evasion and Cover. Hit targets catch Fire using the final
+UTF total as the ongoing Fire's attack bonus. Special FP selects one hit
+target for a CT step, without extra dice or a CT step for every target.
+Targets, immunities, protection, later Fire attacks and application remain
+external; both records stay Partial. Contract: docs/slow-combustion.md.

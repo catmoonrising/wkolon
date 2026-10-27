@@ -1,8 +1,9 @@
+import {conditionPowerRule} from './condition-powers.js';
 import {opportunityPowerRule,activeOpportunityPowers,hasOpportunityForm,removeOpportunityPower} from './opportunity-powers.js';
 import {displacementPowerRule,forceThrustRange} from './force-thrust.js';
 import {counselingEnabled} from './house-rules.js';
 import {thresholdPowerRule} from './threshold-powers.js';
-import {powerEffectChoiceRule} from './power-effect-choices.js';
+import {powerEffectChoiceRule,powerEffectLabel,powerEffectTierLabel} from './power-effect-choices.js';
 import {offensivePowerRule,offensivePowerChoice,chooseOffensivePowerTier,historicalManualPower} from './offensive-powers.js';
 import {craftActionId,craftingRule} from './crafting.js';
 import {activeMoveTalentEffects,moveTalentsOwned} from './move-talent-effects.js';
@@ -151,7 +152,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   }
   if(id==='power'){
    const p=d.forcePowers.find(p=>p.copyId===o.powerId);
-   if(p){const tiers=powerEffectChoiceRule(pack,p.id),opportunity=!!opportunityPowerRule(pack,p.id),threshold=!!thresholdPowerRule(pack,p.id)||opportunity;if(tiers?.thresholds)fields+=select('effectDC',opportunity?'AoO':threshold?'Threshold':'Damage',[['','Highest'],...tiers.thresholds.map(r=>[String(r.dc),threshold?'Up to +'+(opportunity?r.attack:r.bonus)+' Force':'Up to '+r.dice+'d6'])],String(o.effectDC??''));fields+=select('action','Action',(p.actions||[p.action]).map(a=>[a,a.replaceAll('-',' ')]),o.action);
+   if(p){const tiers=powerEffectChoiceRule(pack,p.id);if(tiers?.thresholds)fields+=select('effectDC',powerEffectLabel(tiers),[['','Highest'],...tiers.thresholds.map(r=>[String(r.dc),'Up to '+powerEffectTierLabel(tiers,r)])],String(o.effectDC??''));fields+=select('action','Action',(p.actions||[p.action]).map(a=>[a,a.replaceAll('-',' ')]),o.action);
     fields+=select('rollMode','Check',[['roll','Roll'],...(p.take10?[['take10','Take 10']]:[]),...(p.adept?[['adept','Adept (1 FP)']]:[])],o.rollMode||'roll');
     fields+=(negatingPowerRule(pack,p.id)||thresholdPowerRule(pack,p.id)?'':select('fp','Force Point',[['ask','Ask after check'],['none','None']],o.fp||'none'))+(resistancePowerRule(pack,p.id)?check('quicken','Swift (1 FP)',o.quicken):(displacementPowerRule(pack,p.id)&&o.thrust?.mode==='door'?'':check('enhance',negatingPowerRule(pack,p.id)?'Healing (1 FP)':'Ask about enhancement (1 FP'+(selfPowerRule(pack,p.id)?'':', Manual')+')',o.enhance)));
     if(displacementPowerRule(pack,p.id)){
@@ -232,7 +233,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   if(action){if(el.dataset.attackId)o.uid=el.dataset.attackId;if(action==='reload'||action==='balance-recheck'){draft={id:action,o};category=action==='balance-recheck'?'reaction':'move';owner=c.id;form();return true;}}
   else if(['run','step'].includes(id)){const r=c.routines.find(r=>r.id===el.closest('[data-routine]')?.dataset.routine);if(r?.kind!=='fullAttack'){action=id==='run'?'routine':'routine-step';o={...options(action),routineId:r?.id};draft={id:action,o};owner=c.id;category='full';form();return true;}action=id==='run'?'full-attack':'full-attack-step';o={routineId:r.id};}
   else if(['recover','second-wind','regenerative-healing','rage'].includes(el.dataset.recovery)){action=el.dataset.recovery==='regenerative-healing'?'second-wind':el.dataset.recovery;o=options(action);if(el.dataset.recovery==='regenerative-healing')o.regenerate=true;if(action==='recover')o.count=recoverActions(derived(),pack)-(actionState(c).recover.count%recoverActions(derived(),pack));}
-  else if(el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10){action='power';o=options(action);o.powerId=el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10;const p=derived().forcePowers.find(p=>p.copyId===o.powerId);o.action=p.action;o.rollMode=el.dataset.powerAdept?'adept':el.dataset.powerTake10?'take10':'roll';if(o.rollMode==='take10')o.fp='none';if(knownPower)o.enhance=o.rollMode!=='adept'&&!resistancePowerRule(pack,p.id);if(opportunityPowerRule(pack,p.id)||displacementPowerRule(pack,p.id)||resistancePowerRule(pack,p.id)||p.action==='reaction'||movementPowerRule(pack,p.id)||pack.rules.actionEconomy.powerRequirements?.[p.id]?.aware){draft={id:action,o};owner=c.id;category='reaction';form();return true;}}
+  else if(el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10){action='power';o=options(action);o.powerId=el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10;const p=derived().forcePowers.find(p=>p.copyId===o.powerId);o.action=p.action;o.rollMode=el.dataset.powerAdept?'adept':el.dataset.powerTake10?'take10':'roll';if(o.rollMode==='take10')o.fp='none';if(knownPower)o.enhance=o.rollMode!=='adept'&&!resistancePowerRule(pack,p.id);if(conditionPowerRule(pack,p.id)||opportunityPowerRule(pack,p.id)||displacementPowerRule(pack,p.id)||resistancePowerRule(pack,p.id)||p.action==='reaction'||movementPowerRule(pack,p.id)||pack.rules.actionEconomy.powerRequirements?.[p.id]?.aware){draft={id:action,o};owner=c.id;category='reaction';form();return true;}}
   else if(el.dataset.recoverPower){action='recover-power';o={powerId:el.dataset.recoverPower};draft={id:action,o};owner=c.id;category='reaction';form();return true;}
   else if(el.dataset.energyActivate||el.dataset.energyRecharge){action=el.dataset.energyActivate?'shield':'shield-recharge';o={uid:el.dataset.energyActivate||el.dataset.energyRecharge};}
   else if(el.dataset.defenseStance==='total'){action='total-defense';}

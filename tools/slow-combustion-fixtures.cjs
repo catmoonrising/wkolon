@@ -1,0 +1,3 @@
+module.exports=(pack,api)=>({
+ adept({power='slow',mastery=false}={}){const c=require('./offensive-power-fixtures.cjs')(pack,api).adept({mastery});c.name=power==='slow'?'Slow':'Combustion';for(const l of c.levels){for(const p of l.forcePowers||[])if(p.powerId==='power:force-slam')p.powerId='power:'+power;if(l.talent?.id==='talent:force-power-adept')l.talent.choice='power:'+power;for(const choice of l.classChoices||[])if(choice.id==='classchoice:force-power-mastery')choice.choice='power:'+power;}api.validateCharacter(c,pack);const issues=api.derive(c,pack).issues;if(issues.length)throw Error(issues.join('; '));return c;}
+});
