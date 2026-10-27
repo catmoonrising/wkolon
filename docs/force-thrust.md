@@ -1,14 +1,16 @@
 # Force Thrust
 
 Define this contract before calculations. Preserve Force Thrust revision 24977,
-Force Powers 18202 and the existing Moving a Door Jedi Counseling entry.
+Force Powers 18202, Extended Force Thrust 20409 and the existing Moving a Door
+Jedi Counseling entry (Category:Web Enhancements 26287).
 Reuse the normal power-copy, action, check, after-check FP, Adept, Mastery,
 natural-20 suite recovery and transactional saved-result machinery. Keep the
 catalog Partial: target checks, positions, collision geometry and HP belong to
 an external character or encounter, not the user's editable character.
 
 A Standard Action targets one object or character within 12 squares and Line
-of Sight. Declare the opponent's rolled Strength check (including Strength),
+of Sight. Extended Force Thrust raises that range to 18 squares when the
+active class grants the technique. Declare the opponent's rolled Strength check (including Strength),
 Base Attack Bonus, size and exceptional stability separately. Add BAB, printed
 size adjustment (Fine -20 through Colossal +20 in increments of 5), and +5
 when more than two legs or otherwise exceptionally stable. Do not roll the
