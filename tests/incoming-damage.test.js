@@ -7,6 +7,7 @@ import {damageOutcome,applyIncomingDamage} from '../src/incoming-damage.js';
 import {recordKnockout,recoveryState,checkConsciousness,receiveHealing,restEightHours} from '../src/recovery.js';
 import {rollBellow} from '../src/species-actions.js';
 import {validatePack} from '../tools/validate-rules.js';
+import {beginNextTurn} from '../src/action-engine.js';
 import {createHouseRules} from '../src/house-rules.js';
 const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url)));
 const item=(id,extra={})=>({id:'equipment:'+id,uid:crypto.randomUUID(),quantity:1,equipped:true,twoHanded:false,attackMod:0,damageMod:0,...extra});
@@ -39,6 +40,11 @@ test('normal lethal damage records death, while an explicitly spent FP prevents 
  const doomed=hero();doomed.currentHP=5;r=applyIncomingDamage(doomed,stats(doomed),pack,10);assert(r.dead);assert(recoveryState(doomed).dead);assert.throws(()=>applyIncomingDamage(doomed,stats(doomed),pack,1),/dead/);
  const safe=hero();safe.currentHP=30;applyIncomingDamage(safe,stats(safe),pack,1,{spendForcePoint:true});assert.equal(safe.forcePoints,5,'No gratuitous FP spending');
  const empty=hero();empty.currentHP=5;empty.forcePoints=0;const before=structuredClone(empty);assert.throws(()=>applyIncomingDamage(empty,stats(empty),pack,10,{spendForcePoint:true}),/cannot prevent/);assert.deepEqual(empty,before);
+});
+
+test('survival FP explicitly bypasses an earlier round FP without refreshing ordinary spending',()=>{
+ const c=hero();beginNextTurn(c,pack);c.actionState.forceSpent=true;c.forcePoints=1;c.currentHP=5;
+ assert(damageOutcome(c,stats(c),pack,10).canSurvive);const out=applyIncomingDamage(c,stats(c),pack,10,{spendForcePoint:true});assert.equal(out.forcePointSpent,1);assert.equal(c.forcePoints,0);assert(c.actionState.forceSpent);assert.equal(c.currentHP,0);assert.equal(recoveryState(c).dead,false);validateCharacter(c,pack);
 });
 
 test('already-unconscious normal targets die at threshold even with HP remaining; FPs cannot save that positive-HP case',()=>{

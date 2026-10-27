@@ -10,8 +10,17 @@ test('free planning, saved original check, blocked extra damage and final enhanc
 test('a failed activation consumes its copy and reaction while applying the original incoming damage',()=>{
  const c=f.adept(),d=api.derive(c,pack);c.skillModifiers={'skill:use-the-force':13-d.skills.find(s=>s.id==='skill:use-the-force').total};const hp=c.currentHP,r=roller(c,1);takeAction(c,pack,'power',{...options(c),incoming:{amount:10,options:{}}},r.roll);assert.equal(c.actionState.plan[0].status,'done');assert.equal(c.currentHP,hp-10);assert(c.levels[0].forcePowers[0].spent);assert.equal(r.calls.length,1);assert.equal(c.forcePoints,d.forceCurrent);
 });
-test('conflicting FP plans reject atomically, and no Energy or flat-footed guard is invented',()=>{
- const c=f.adept();c.flatFooted=true;const r=roller(c),original=structuredClone(c);for(const changes of [{},{rollMode:'adept',enhance:false}])assert.throws(()=>takeAction(c,pack,'power',{...options(c),...changes,incoming:{amount:10,options:{spendForcePoint:true}}},r.roll),/one Force Point/);assert.deepEqual(c,original);assert.equal(r.calls.length,0);takeAction(c,pack,'power',{...options(c),effectDC:15,enhance:false},r.roll);assert.equal(c.actionState.plan[0].status,'done');assert.equal(c.currentHP,original.currentHP-25);
+test('survival allows enhancement or Adept after a prior FP, and costs only what the event needs',()=>{
+ for(const mode of ['enhance','adept'])for(const fatal of [false,true]){
+  const c=f.adept();c.flatFooted=true;c.forcePoints=2;c.currentHP=fatal?1:c.currentHP;const r=roller(c),hp=c.currentHP;
+  takeAction(c,pack,'power',{...options(c),...(mode==='adept'?{rollMode:'adept'}:{}),enhance:mode==='enhance',effectDC:15,incoming:{amount:fatal?100:10,options:{spendForcePoint:true}}},r.roll);
+  if(mode==='enhance'){assert.equal(c.actionState.plan[0].status,'waiting');api.validateCharacter(c,pack);const saved=JSON.parse(JSON.stringify(c));finishForceChoice(saved,pack,saved.actionState.plan[0].id,'enhance',r.roll);Object.assign(c,saved);}
+  assert.equal(c.forcePoints,fatal?0:1);assert.equal(c.currentHP,fatal?0:hp-10);assert.equal(!!c.recovery?.dead,false);assert(c.actionState.forceSpent);assert.equal(c.actionState.plan[0].status,'done');assert.equal(r.calls.length,mode==='adept'?2:1);api.validateCharacter(c,pack);
+ }
+});
+test('ordinary Adept and enhancement remain mutually exclusive, and absent survival resources roll back',()=>{
+ const c=f.adept(),r=roller(c),before=structuredClone(c);assert.throws(()=>takeAction(c,pack,'power',{...options(c),rollMode:'adept'},r.roll),/Only one Force Point/);assert.deepEqual(c,before);assert.equal(r.calls.length,0);
+ c.forcePoints=1;c.currentHP=1;takeAction(c,pack,'power',{...options(c),effectDC:15,incoming:{amount:100,options:{spendForcePoint:true}}},r.roll);const pending=structuredClone(c);assert.throws(()=>finishForceChoice(c,pack,c.actionState.plan[0].id,'enhance',r.roll),/cannot prevent/);assert.deepEqual(c,pending);finishForceChoice(c,pack,c.actionState.plan[0].id,false,r.roll);assert.equal(c.forcePoints,0);assert.equal(!!c.recovery?.dead,false);
 });
 test('real Adept and Mastery retain the single-FP ledger and natural20 recovery',()=>{
  const c=f.adept({mastery:true}),r=roller(c,20),fp=c.forcePoints;beginNextTurn(c,pack);takeAction(c,pack,'power',{...options(c),rollMode:'adept',enhance:false,effectDC:15},r.roll);assert.equal(c.forcePoints,fp-1);assert.equal(r.calls.length,2);assert(c.forcePowerRecoveryPending);endCurrentTurn(c,pack);assert(c.levels.flatMap(l=>l.forcePowers||[]).every(p=>!p.spent));beginNextTurn(c,pack);const next=roller(c);takeAction(c,pack,'power',{...options(c),rollMode:'take10',enhance:false,effectDC:15,trigger:'Incoming attack 2',incoming:{amount:1,options:{}}},next.roll);assert.equal(next.calls.length,0);assert.equal(c.actionState.plan[0].result.check.natural,10);

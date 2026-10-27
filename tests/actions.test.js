@@ -81,9 +81,9 @@ test('ending a turn recovers a natural-20 suite, while Aim survives a new turn u
  const c=jedi(),id=c.levels[0].forcePowers[0].id;takeAction(c,pack,'power',{powerId:id,fp:'none'},roller(20));endCurrentTurn(c,pack);assert(!c.levels[0].forcePowers[0].spent);assert(c.actionState.ended);
  const a=hero();a.inventory=[item('blaster-rifle')];takeAction(a,pack,'aim',{uid:a.inventory[0].uid});beginNextTurn(a,pack);assert(a.inventory[0].aimed);manual(a,'swift');assert(!a.inventory[0].aimed);
 });
-test('surviving death consumes the same per-round Force Point allowance as action checks',()=>{
+test('survival prevents later ordinary FP use but explicitly remains available after an earlier FP',()=>{
  const c=hero();beginNextTurn(c,pack);const r=applyIncomingDamage(c,derive(c,pack),pack,1000,{spendForcePoint:true});assert(r.forcePointSpent);assert(c.actionState.forceSpent);assert.throws(()=>takeAction(c,pack,'force-bonus',{},roller()));
- const q=hero();takeAction(q,pack,'force-bonus',{},roller());const before=structuredClone(q);assert.throws(()=>applyIncomingDamage(q,derive(q,pack),pack,1000,{spendForcePoint:true}),/cannot prevent/);assert.deepEqual(q,before);
+ const q=hero();takeAction(q,pack,'force-bonus',{},roller());const fp=q.forcePoints;const survival=applyIncomingDamage(q,derive(q,pack),pack,1000,{spendForcePoint:true});assert.equal(survival.forcePointSpent,1);assert.equal(q.forcePoints,fp-1);assert(q.actionState.forceSpent);assert.equal(!!q.recovery?.dead,false);validateCharacter(q,pack);
 });
 test('power enhancements wait for the original result and spend only after explicit confirmation',()=>{
  const c=jedi('negate-energy'),id=c.levels[0].forcePowers[0].id;assert.throws(()=>takeAction(c,pack,'power',{powerId:id,trigger:'Bolt 1'}),/awareness/);c.flatFooted=true;assert.throws(()=>takeAction(c,pack,'power',{powerId:id,trigger:'Bolt 1',aware:true}),/flat-footed/);c.flatFooted=false;

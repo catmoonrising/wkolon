@@ -44,7 +44,8 @@ export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spen
  // It leaves special-damage knockout and recovery rules otherwise intact.
  const generalDeath=ambiguityValue(c,pack,'ambiguity:stun-ion-death')==='general-death';
  const fatal=exceeded&&(type==='normal'?(afterDamage===0||wasUnconscious):generalDeath&&afterDamage===0);
- const canSurvive=fatal&&beforeHP>0&&afterDamage===0&&d.forceCurrent>=rule.forcePointCost&&(!c.actionState?.active||!c.actionState.forceSpent);
+ // Hit Points permits this emergency FP even after another FP in the round.
+ const canSurvive=fatal&&beforeHP>0&&afterDamage===0&&d.forceCurrent>=rule.forcePointCost;
  if(spendForcePoint&&fatal&&!canSurvive)throw new Error('A Force Point cannot prevent this death');
  const forcePointSpent=spendForcePoint&&canSurvive?rule.forcePointCost:0,dead=fatal&&!forcePointSpent;
  return {...protection,penetrating,threshold,shieldSource:shield.source,shieldKind:shield.kind,shieldBefore:shield.sr,type,immune:false,bonusHPBlocked,bonusHPBefore,bonusHPAfter,hpDamage,beforeHP,afterHP:dead?0:afterDamage,conditionAfter:dead?rule.helplessStep:conditionAfter,conditionSteps:(dead?rule.helplessStep:conditionAfter)-c.condition,dead,canSurvive,forcePointSpent,knockout:!wasUnconscious&&(conditionAfter===rule.helplessStep||afterDamage===0),balanceCheckRequired:!!c.balance?.active&&penetrating>0};

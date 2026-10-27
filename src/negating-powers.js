@@ -18,7 +18,6 @@ export function negateEnergyPlan(c,d,pack,powerId,incoming,{forceCost=0}={}){
  const rule=negatingPowerRule(pack,powerId);if(!rule)throw new Error('Power cannot negate incoming damage');
  const snapshot=incomingDamageDeclaration(incoming);
  if(!snapshot.options.energy&&!snapshot.options.sonic)throw new Error('Requires an Energy attack');
- if(forceCost&&snapshot.options.spendForcePoint)throw new Error('Only one Force Point per round');
  const damage=damageOutcome(c,d,pack,snapshot.amount,snapshot.options);
  return {rule,incoming:snapshot,damage};
 }

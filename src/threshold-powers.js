@@ -10,8 +10,8 @@ export function validateThresholdPowers(c,pack,bad){
   const rule=thresholdPowerRule(pack,step.options?.effectPowerId);if(!rule)continue;
   try{
    if(step.action!=='power'||step.status==='queued'||!step.result?.check||step.result.check.total!==step.result.check.natural+step.result.check.bonus||step.result.fpAllowed!==false)throw new Error();
-   const snapshot=incomingDamageDeclaration(step.options.incoming),tier=thresholdPowerTier(pack,rule.powerId,step.result.check.total,step.options.effectDC??null);
-   if(step.result.enhanceAllowed&&(!tier||snapshot.options.spendForcePoint)||step.result.effectChoiceAllowed&&rule.thresholds.filter(t=>t.dc<=step.result.check.total).length<2)throw new Error();
+   incomingDamageDeclaration(step.options.incoming);const tier=thresholdPowerTier(pack,rule.powerId,step.result.check.total,step.options.effectDC??null);
+   if(step.result.enhanceAllowed&&!tier||step.result.effectChoiceAllowed&&rule.thresholds.filter(t=>t.dc<=step.result.check.total).length<2)throw new Error();
    if(step.status==='waiting'&&(!c.levels.flatMap(l=>l.forcePowers||[]).some(p=>p.id===step.options.powerId&&p.powerId===rule.powerId)||!step.result.enhanceAllowed&&!step.result.effectChoiceAllowed))throw new Error();
   }catch{bad('threshold power result');return;}
  }
@@ -24,12 +24,11 @@ export function thresholdPowerTier(pack,id,total,effectDC=null){
 export function thresholdPowerPlan(c,d,pack,id,incoming,{forceCost=0,enhanceAsk=false}={}){
  const rule=thresholdPowerRule(pack,id);if(!rule||![0,1].includes(forceCost)||typeof enhanceAsk!=='boolean')throw new Error('Invalid threshold power plan');
  const snapshot=incomingDamageDeclaration(incoming);
- if((forceCost||enhanceAsk)&&snapshot.options.spendForcePoint)throw new Error('Choose one Force Point use');
  return {rule,incoming:snapshot,damage:damageOutcome(c,d,pack,snapshot.amount,snapshot.options)};
 }
 export function finishThresholdPower(c,d,pack,id,check,incoming,{enhanced=false,effectDC=null,stepId=null}={}){
  const rule=thresholdPowerRule(pack,id),tier=thresholdPowerTier(pack,id,check?.total,effectDC),snapshot=incomingDamageDeclaration(incoming);
- if(typeof enhanced!=='boolean'||enhanced&&(!tier||snapshot.options.spendForcePoint))throw new Error('Enhancement unavailable');
+ if(typeof enhanced!=='boolean'||enhanced&&!tier)throw new Error('Enhancement unavailable');
  const bonus=tier?tier.bonus+(enhanced?rule.enhancement.bonus:0):0,view=bonus?withDamageThresholdBonus(d,{amount:bonus,type:rule.type}):d;
  const q=structuredClone(c),step=q.actionState?.plan.find(s=>s.id===stepId);
  if(step?.status==='waiting'&&step.options.effectPowerId===id)step.status='done';

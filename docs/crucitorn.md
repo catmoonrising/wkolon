@@ -30,10 +30,12 @@ The printed power has no Energy-only, awareness or flat-footed restriction;
 do not copy those extra guards from Negate Energy. Retain common activation
 and Reaction-trigger eligibility. Ordinary Free-action FP check bonuses are
 unavailable on a Reaction under the existing shared action rules. Adept and
-the printed enhancement obey the one-FP ledger, including a declared survival
-FP. Reject incompatible FP plans before rolling or spending; do not silently
-discard a requested survival choice. Mastery and natural-20 suite recovery
-retain their existing permissions and turn timing.
+the printed enhancement obey the ordinary one-FP-per-round ledger. Hit Points
+23421 explicitly permits an emergency survival FP even after another FP in the
+round. Allow that combination when points remain, charging survival only if
+the resolved damage would cause an eligible death. Never silently discard a
+requested survival choice or reset the ordinary FP ledger. Mastery and
+natural-20 suite recovery retain their existing permissions and turn timing.
 
 Queue and preview cost nothing. A pending decision blocks another incoming
 damage application and turn advancement. Save/reload cannot reroll a check,

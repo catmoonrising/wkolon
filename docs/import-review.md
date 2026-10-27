@@ -3148,3 +3148,8 @@ shared rules. Reaction check/FP choices and lesser earned tiers are saved
 before applying damage once. No Energy-only or awareness guard is imported
 from Negate Energy. Incoming attacks remain declarations, and the record
 stays Partial. Contract: docs/crucitorn.md.
+
+Hit Points23421 explicitly permits the emergency survival Force Point after
+another Force Point in the same round. Shared incoming damage, Crucitorn and
+Negate Energy honor that exception without changing ordinary FP limits. The
+survival point is charged only if resolved damage actually requires it.

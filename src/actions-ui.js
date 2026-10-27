@@ -246,7 +246,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
    if(el.dataset.actionMenu){menu(el.dataset.actionMenu);return true;}
    const c=current(),s=c.actionState;
    try{
-    if(el.hasAttribute('data-threshold-damage')){const p=derived().forcePowers.find(p=>thresholdPowerRule(pack,p.id)&&!p.spent);if(!p)throw new Error('Crucitorn unavailable');const incoming=readDamageForm(el.closest('form'));draft={id:'power',o:{...options('power'),powerId:p.copyId,action:p.action,incoming,enhance:!incoming.options.spendForcePoint}};category='reaction';owner=c.id;form();return true;}
+    if(el.hasAttribute('data-threshold-damage')){const p=derived().forcePowers.find(p=>thresholdPowerRule(pack,p.id)&&!p.spent);if(!p)throw new Error('Crucitorn unavailable');const incoming=readDamageForm(el.closest('form'));draft={id:'power',o:{...options('power'),powerId:p.copyId,action:p.action,incoming,enhance:true}};category='reaction';owner=c.id;form();return true;}
     if(el.hasAttribute('data-negate-damage')){const p=derived().forcePowers.find(p=>negatingPowerRule(pack,p.id)&&!p.spent);if(!p)throw new Error('Negate Energy unavailable');draft={id:'power',o:{...options('power'),powerId:p.copyId,action:p.action,incoming:readDamageForm(el.closest('form')),enhance:true}};category='reaction';owner=c.id;form();return true;}
     else if(el.dataset.resistancePowerRemove)removeResistancePower(c,el.dataset.resistancePowerRemove);
     else if(el.dataset.resistanceCheck){const r=rollResistanceMaintenance(c,pack,el.dataset.resistanceCheck);log('roll',r.text,r.html);}

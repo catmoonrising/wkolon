@@ -31,7 +31,10 @@ resources. Queueing only plans the reaction. Actual execution snapshots the
 normalized declaration with its original Use the Force roll. Successful optional
 healing uses the existing saved after-check decision. Reloading never rolls again;
 ordinary FP check bonuses are unavailable on a Reaction. The optional healing and
-Adept/survival costs obey the same one-FP-per-round ledger as other actions.
+Adept costs obey the ordinary one-FP-per-round ledger. The emergency survival
+FP follows Hit Points23421's explicit exception, even after an earlier FP in the
+round. Charge it only when failed negation actually causes an eligible death
+and a point remains; successful negation never charges survival.
 
 A pending negation decision blocks additional incoming damage and turn advancement.
 It does not create an editable persistent DR/SR pool. Failure resolves immediately;
