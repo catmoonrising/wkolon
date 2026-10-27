@@ -30,6 +30,6 @@ test('active Extended Force Thrust grants range18 on a complete legal build, los
 });
 test('malformed or hidden target fields reject without calling the roller or mutating declarations',()=>{
  const t=target(),before=structuredClone(t);assert.deepEqual(forceThrustTarget(pack,t),{...t,collisionAt:null});assert.deepEqual(t,before);
- for(const extra of [{distance:13},{distance:NaN},{lineOfSight:false},{lineOfSight:1},{stable:1},{baseAttack:-1},{baseAttack:2.5},{size:'constructor'},{size:'enormous'},{strengthCheck:'10'},{collisionAt:0},{collisionAt:-2},{secret:true}])assert.throws(()=>resolve(30,target(extra)));
+ for(const extra of [{distance:13},{distance:NaN},{lineOfSight:false},{lineOfSight:1},{stable:1},{baseAttack:-1},{baseAttack:2.5},{size:'constructor'},{size:['medium']},{size:'enormous'},{strengthCheck:'10'},{collisionAt:0},{collisionAt:-2},{secret:true}])assert.throws(()=>resolve(30,target(extra)));
  assert.throws(()=>resolve(30,{mode:'door',distance:1,lineOfSight:true,breakDC:20,stable:true}));assert.throws(()=>resolve(1.5));assert.throws(()=>resolve(30,t,{enhanced:1}));
 });
