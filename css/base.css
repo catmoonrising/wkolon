@@ -567,7 +567,7 @@ input[readonly] { background: rgba(128,128,128,.12); cursor: default; }
 .roll-total { font-variant-numeric: tabular-nums; }
 .ev.rolled { animation: roll-settle .55s ease-out; }
 @keyframes roll-settle {
-  0%   { background: rgba(255, 196, 0, .30); }
+  0%   { background: color-mix(in srgb, var(--accent) 30%, transparent); }
   100% { background: transparent; }
 }
 @media (prefers-reduced-motion: reduce) { .ev.rolled { animation: none; } }
