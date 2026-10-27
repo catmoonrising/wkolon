@@ -52,7 +52,7 @@ test('declining optional FP keeps the original roll and natural 20 recovery happ
  const c=jedi(),id=c.levels[0].forcePowers[0].id;takeAction(c,pack,'power',{powerId:id,fp:'ask'},roller(20));const step=c.actionState.plan[0],fp=c.forcePoints;assert(c.forcePowerRecoveryPending);finishForceChoice(c,pack,step.id,false,()=>assert.fail('No roll'));assert.equal(c.forcePoints,fp);beginNextTurn(c,pack);assert(!c.levels[0].forcePowers[0].spent);assert(!c.forcePowerRecoveryPending);
 });
 test('Dark Side powers and corrupted Light Side powers do not offer check bonuses',()=>{
- const c=jedi('force-lightning'),id=c.levels[0].forcePowers[0].id;const v=describeAction(c,pack,'power',{powerId:id,fp:'ask'});assert(!v.fpAllowed);takeAction(c,pack,'power',{powerId:id,fp:'ask'},roller());assert.equal(c.actionState.plan[0].status,'done');assert.equal(c.darkSideScore,1);
+ const c=jedi('force-lightning'),id=c.levels[0].forcePowers[0].id;const v=describeAction(c,pack,'power',{powerId:id,fp:'ask'});assert(!v.fpAllowed);takeAction(c,pack,'power',{powerId:id,fp:'ask'},expr=>expr==='8d6'?{value:24,d20:[],display:expr,coeffs:[1]}:roller()(expr));assert.equal(c.actionState.plan[0].status,'done');assert.equal(c.darkSideScore,1);assert.match(c.actionState.plan[0].result.text,/8d6 = 24/);
 });
 test('mandatory power recovery and other FP spending share the one-per-round limit',()=>{
  const c=jedi();beginNextTurn(c,pack);c.levels[0].forcePowers[0].spent=true;takeAction(c,pack,'recover-power',{powerId:c.levels[0].forcePowers[0].id,trigger:'Power used'});assert.equal(c.forcePoints,4);assert.throws(()=>takeAction(c,pack,'force-bonus',{},roller()),/already spent/);beginNextTurn(c,pack);takeAction(c,pack,'force-bonus',{},roller());assert.equal(c.forcePoints,3);
