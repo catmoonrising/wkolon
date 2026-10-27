@@ -1,3 +1,4 @@
+import {assertThresholdPowerResolved} from './threshold-powers.js';
 import {assertDeflectionResolved} from './deflection.js';
 import {assertNegationResolved} from './negating-powers.js';
 import {resistancePowerDR,assertResistanceResolved,lockResistancePowers,requireResistanceDamageChecks,clearResistancePowers} from './resistance-powers.js';
@@ -13,7 +14,7 @@ import {ambiguityValue} from './house-rules.js';
 import {endUnconsciousTalents} from './talent-activations.js';
 
 export function damageOutcome(c,d,pack,amount,{type='normal',ignoreDR=false,spendForcePoint=false,energy=false,sonic=false,fire=false,cold=false,electrical=false,lightsaber=false,otherDamage=false,requiresUseTheForce=false,against=[],conditionSteps=0}={}){
- assertResistanceResolved(c);assertNegationResolved(c);assertDeflectionResolved(c);
+ assertResistanceResolved(c);assertNegationResolved(c);assertDeflectionResolved(c);assertThresholdPowerResolved(c);
  if(!Number.isInteger(conditionSteps)||conditionSteps<0||conditionSteps>5)throw new Error('Invalid Condition Track steps');
  if([energy,sonic,fire,cold,electrical,lightsaber,ignoreDR,otherDamage].some(v=>typeof v!=='boolean'))throw new Error('Invalid damage declaration');
  if(!Array.isArray(against)||against.some(a=>typeof a!=='string'||!d.thresholdContext?.bonuses.some(r=>r.against===a)))throw new Error('Invalid damage context');

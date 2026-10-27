@@ -1,9 +1,11 @@
+import {validPowerEffectLimit as validOffensivePowerLimit} from './power-effect-choices.js';
+export {validPowerEffectLimit as validOffensivePowerLimit,choosePowerEffectTier as chooseOffensivePowerTier,powerEffectChoice as offensivePowerChoice} from './power-effect-choices.js';
 import {defenseRangeRows} from './combat.js';
 import {evalExpr,totalHtml} from './dice.js';
 import {escapeHTML as escape} from './wiki-content.js';
 
 export const offensivePowerRule=(pack,id)=>pack.rules.offensivePowerEffects?.find(r=>r.powerId===id);
-export const historicalManualPower=(pack,id,options)=>!!offensivePowerRule(pack,id)&&options.effectPowerId===undefined&&options.offensivePowerSnapshot===undefined;
+export const historicalManualPower=(pack,id,options)=>!!(offensivePowerRule(pack,id)||pack.rules.thresholdPowers?.find(r=>r.powerId===id))&&options.effectPowerId===undefined&&options.offensivePowerSnapshot===undefined;
 export function offensivePowerTier(pack,id,total,effectDC=null){
  const rule=offensivePowerRule(pack,id);
  if(!rule||!Number.isInteger(total))return null;
@@ -18,20 +20,10 @@ export function validateOffensivePowerSnapshots(c,pack,bad){
  for(const step of [...(c.actionState?.plan||[]),...(c.actionState?.history||[])]){
   const snapshot=step.options?.offensivePowerSnapshot;
   if(step.options?.effectDC!==undefined&&step.action==='power'){const copy=c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===step.options.powerId);if(!validOffensivePowerLimit(pack,copy?.powerId,step.options.effectDC))bad('power effect tier');}
-  if(step.result?.effectChoiceAllowed!==undefined&&(!snapshot||!offensivePowerRule(pack,snapshot.powerId)?.thresholds))bad('power effect choice');
+  if(step.result?.effectChoiceAllowed!==undefined&&!pack.rules.thresholdPowers?.some(r=>r.powerId===step.options?.effectPowerId)&&(!snapshot||!offensivePowerRule(pack,snapshot.powerId)?.thresholds))bad('power effect choice');
   if(snapshot===undefined){if(offensivePowerRule(pack,step.options?.effectPowerId))bad('offensive power snapshot');continue;}
   if(step.action!=='power'||step.status==='queued'||!validSnapshot(snapshot,pack)||snapshot.powerId!==step.options.effectPowerId)bad('offensive power snapshot');
  }
-}
-export const validOffensivePowerLimit=(pack,id,dc)=>dc===null||offensivePowerRule(pack,id)?.thresholds?.some(t=>t.dc===dc)===true;
-export function chooseOffensivePowerTier(c,pack,stepId,dc){
- const step=c.actionState?.plan.find(p=>p.id===stepId),id=step?.options.offensivePowerSnapshot?.powerId,rule=offensivePowerRule(pack,id);
- if(step?.status!=='waiting'||!step.result?.effectChoiceAllowed||!rule?.thresholds||!validOffensivePowerLimit(pack,id,dc)||dc!==null&&dc>step.result.check.total)throw new Error('Power effect unavailable');
- step.options.effectDC=dc;
-}
-export function offensivePowerChoice(step,pack){
- if(!step?.result?.effectChoiceAllowed)return '';const rule=offensivePowerRule(pack,step.options.offensivePowerSnapshot.powerId),rows=rule.thresholds.filter(t=>t.dc<=step.result.check.total),selected=rows.some(r=>r.dc===step.options.effectDC)?step.options.effectDC:null;
- return `<label>Damage<select data-offensive-power-tier="${step.id}"><option value="" ${selected===null?'selected':''}>Highest</option>${rows.map(r=>`<option value="${r.dc}" ${selected===r.dc?'selected':''}>${r.dice}d${rule.die}</option>`).join('')}</select></label>`;
 }
 const range=r=>r.lo===null?'≤ '+r.hi:r.hi===null?'≥ '+r.lo:String(r.lo);
 export function resolveOffensivePower(pack,powerId,check,{enhanced=false,snapshot,effectDC=null,roller=evalExpr}={}){

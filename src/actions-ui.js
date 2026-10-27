@@ -1,3 +1,5 @@
+import {thresholdPowerRule} from './threshold-powers.js';
+import {powerEffectChoiceRule} from './power-effect-choices.js';
 import {offensivePowerRule,offensivePowerChoice,chooseOffensivePowerTier,historicalManualPower} from './offensive-powers.js';
 import {craftActionId,craftingRule} from './crafting.js';
 import {activeMoveTalentEffects,moveTalentsOwned} from './move-talent-effects.js';
@@ -88,7 +90,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
  }
  function form(){
   if(owner!==current().id){panel.close();return;}
-  const {id,o}=draft,c=current(),d=derived();if(id==='power'){if(negatingPowerRule(pack,d.forcePowers.find(p=>p.copyId===o.powerId)?.id))o.incoming??={amount:0,options:{type:'normal',energy:false,against:[]}};else delete o.incoming;}const v=describe(id,o),r=def(id);title.textContent=r.name;
+  const {id,o}=draft,c=current(),d=derived();if(id==='power'){if(negatingPowerRule(pack,d.forcePowers.find(p=>p.copyId===o.powerId)?.id)||thresholdPowerRule(pack,d.forcePowers.find(p=>p.copyId===o.powerId)?.id))o.incoming??={amount:0,options:{type:'normal',energy:false,against:[]}};else delete o.incoming;}const v=describe(id,o),r=def(id);title.textContent=r.name;
   const skillAction=pack.rules.skillActions?.find(r=>r.id===id);
   const conditionRecovery=pack.rules.conditionRecoveryActions?.find(r=>r.id===id);
   let fields='';
@@ -146,10 +148,10 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   }
   if(id==='power'){
    const p=d.forcePowers.find(p=>p.copyId===o.powerId);
-   if(p){if(offensivePowerRule(pack,p.id)?.thresholds)fields+=select('effectDC','Damage',[['','Highest'],...offensivePowerRule(pack,p.id).thresholds.map(r=>[String(r.dc),'Up to '+r.dice+'d6'])],String(o.effectDC??''));fields+=select('action','Action',(p.actions||[p.action]).map(a=>[a,a.replaceAll('-',' ')]),o.action);
+   if(p){const tiers=powerEffectChoiceRule(pack,p.id),threshold=!!thresholdPowerRule(pack,p.id);if(tiers?.thresholds)fields+=select('effectDC',threshold?'Threshold':'Damage',[['','Highest'],...tiers.thresholds.map(r=>[String(r.dc),threshold?'Up to +'+r.bonus+' Force':'Up to '+r.dice+'d6'])],String(o.effectDC??''));fields+=select('action','Action',(p.actions||[p.action]).map(a=>[a,a.replaceAll('-',' ')]),o.action);
     fields+=select('rollMode','Check',[['roll','Roll'],...(p.take10?[['take10','Take 10']]:[]),...(p.adept?[['adept','Adept (1 FP)']]:[])],o.rollMode||'roll');
-    fields+=(negatingPowerRule(pack,p.id)?'':select('fp','Force Point',[['ask','Ask after check'],['none','None']],o.fp||'none'))+(resistancePowerRule(pack,p.id)?check('quicken','Swift (1 FP)',o.quicken):check('enhance',negatingPowerRule(pack,p.id)?'Healing (1 FP)':'Ask about enhancement (1 FP'+(selfPowerRule(pack,p.id)?'':', Manual')+')',o.enhance));
-    if(negatingPowerRule(pack,p.id)){
+    fields+=(negatingPowerRule(pack,p.id)||thresholdPowerRule(pack,p.id)?'':select('fp','Force Point',[['ask','Ask after check'],['none','None']],o.fp||'none'))+(resistancePowerRule(pack,p.id)?check('quicken','Swift (1 FP)',o.quicken):check('enhance',negatingPowerRule(pack,p.id)?'Healing (1 FP)':'Ask about enhancement (1 FP'+(selfPowerRule(pack,p.id)?'':', Manual')+')',o.enhance));
+    if(negatingPowerRule(pack,p.id)||thresholdPowerRule(pack,p.id)){
      fields+=input('incoming.amount','Damage',o.incoming.amount,0,1000000000)+select('incoming.options.type','Type',[['normal','Normal'],['stun','Stun'],['ion','Ion']],o.incoming.options.type||'normal');
      for(const [key,label]of [['energy','Energy'],['sonic','Sonic'],['lightsaber','Lightsaber'],['ignoreDR','Ignore DR']])fields+=check('incoming.options.'+key,label,o.incoming.options[key]);
      if(d.resistancePowers?.length||d.armorItems?.some(a=>a.armorDR?.damageTypes.includes('fire')))fields+=check('incoming.options.fire','Fire',o.incoming.options.fire);
@@ -244,6 +246,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
    if(el.dataset.actionMenu){menu(el.dataset.actionMenu);return true;}
    const c=current(),s=c.actionState;
    try{
+    if(el.hasAttribute('data-threshold-damage')){const p=derived().forcePowers.find(p=>thresholdPowerRule(pack,p.id)&&!p.spent);if(!p)throw new Error('Crucitorn unavailable');const incoming=readDamageForm(el.closest('form'));draft={id:'power',o:{...options('power'),powerId:p.copyId,action:p.action,incoming,enhance:!incoming.options.spendForcePoint}};category='reaction';owner=c.id;form();return true;}
     if(el.hasAttribute('data-negate-damage')){const p=derived().forcePowers.find(p=>negatingPowerRule(pack,p.id)&&!p.spent);if(!p)throw new Error('Negate Energy unavailable');draft={id:'power',o:{...options('power'),powerId:p.copyId,action:p.action,incoming:readDamageForm(el.closest('form')),enhance:true}};category='reaction';owner=c.id;form();return true;}
     else if(el.dataset.resistancePowerRemove)removeResistancePower(c,el.dataset.resistancePowerRemove);
     else if(el.dataset.resistanceCheck){const r=rollResistanceMaintenance(c,pack,el.dataset.resistanceCheck);log('roll',r.text,r.html);}

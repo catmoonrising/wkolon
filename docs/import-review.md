@@ -3137,3 +3137,14 @@ damage before target protections and Ion26732 adjustments. Wound uses printed
 size limits and retains its conditional persistent injury and DC20 Surgery
 treatment; it does not add a CT step on every hit. Target state and applying
 these effects remain external. Partial; contract: docs/ionize-wound.md.
+
+
+## Crucitorn reactions
+
+Crucitorn20383 resolves its Force Damage Threshold bonus for the triggering
+attack through the incoming-damage pipeline. Its bonus is typed and temporary;
+Fortitude/Will, contextual thresholds, SR/DR and HP-only halving retain their
+shared rules. Reaction check/FP choices and lesser earned tiers are saved
+before applying damage once. No Energy-only or awareness guard is imported
+from Negate Energy. Incoming attacks remain declarations, and the record
+stays Partial. Contract: docs/crucitorn.md.

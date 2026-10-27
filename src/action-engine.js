@@ -1,3 +1,5 @@
+import {thresholdPowerRule,thresholdPowerPlan} from './threshold-powers.js';
+import {powerEffectChoiceRule} from './power-effect-choices.js';
 import {offensivePowerRule,offensivePowerSnapshot,validOffensivePowerLimit,historicalManualPower} from './offensive-powers.js';
 import {craftActionId,craftingPlan,craftItem} from './crafting.js';
 import {triggeredDefenseRule,triggeredDefenseActivation,setTriggeredDefense,clearTriggeredDefenses,endTriggerTurn} from './triggered-defenses.js';
@@ -143,7 +145,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   const p=d.forcePowers.find(p=>p.copyId===o.powerId);assert(p,'Choose a power');assert(!o.action||p.actions?.includes(o.action)||p.action===o.action,'Power action changed');
   if(o.action)p.action=o.action;assert(!powerActivationIssue(q,d,pack,p),powerActivationIssue(q,d,pack,p));view.power=p;view.name=p.name;assert(o.effectDC===undefined||validOffensivePowerLimit(pack,p.id,o.effectDC),'Power effect unavailable');view.selfPower=selfPowerRule(pack,p.id);view.manual=!view.selfPower;view.cost.type=typeOf(p.action);assert(view.cost.type,'Power duration requires manual resolution');
   assert(['roll','take10','adept'].includes(o.rollMode||'roll'),'Invalid power check');assert(o.rollMode!=='take10'||p.take10,'Power Mastery required');assert(o.rollMode!=='adept'||p.adept,'Force Power Adept required');
-  if(view.selfPower&&!offensivePowerRule(pack,p.id)&&!negatingPowerRule(pack,p.id))assert((q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)+(q.shieldPowerEffects?.length||0)+(q.resistancePowerEffects?.length||0)<1000,'Too many active effects');
+  if(view.selfPower&&!offensivePowerRule(pack,p.id)&&!negatingPowerRule(pack,p.id)&&!thresholdPowerRule(pack,p.id))assert((q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)+(q.shieldPowerEffects?.length||0)+(q.resistancePowerEffects?.length||0)<1000,'Too many active effects');
   assert(o.destiny===undefined||typeof o.destiny==='boolean','Invalid Destiny choice');
   if(movementPowerRule(pack,p.id))assert(!s.ended,'Turn ended');
   if(o.destiny){assert(movementPowerRule(pack,p.id),'Power has no Destiny option');assert(q.story?.kind==='destiny'&&q.story.points>0&&d.level,'Destiny Point unavailable');view.destinyCost=1;}
@@ -153,7 +155,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   view.fpAllowed=checkForcePointAvailable(q,d,{power:p,forceCost:view.forceCost,reaction:view.cost.type==='reaction'});
   const requirement=pack.rules.actionEconomy.powerRequirements?.[p.id];if(requirement?.notFlatFooted)assert(!d.flatFooted,'Power unavailable while flat-footed');if(requirement?.aware)assert(o.aware,'Confirm awareness of the attack');
   view.enhanceAllowed=!resistance&&!!o.enhance&&!s.forceSpent&&d.forceCurrent>0&&!view.forceCost;
-  if(negatingPowerRule(pack,p.id))view.negation=negateEnergyPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost});else assert(o.incoming===undefined,'Power does not use incoming damage');
+  if(negatingPowerRule(pack,p.id))view.negation=negateEnergyPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost});else if(thresholdPowerRule(pack,p.id))view.threshold=thresholdPowerPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost,enhanceAsk:!!o.enhance});else assert(o.incoming===undefined,'Power does not use incoming damage');
   break;
  }
  case 'recover-power':assert(d.forcePowers.some(p=>p.copyId===o.powerId&&p.spent),'Choose a spent power');view.forceCost=pack.rules.forcePowerRecovery.forcePointCost;break;
@@ -238,7 +240,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   else if(o.rollMode==='adept'){const rolls=[roller('1d20'+signed(bonus)),roller('1d20'+signed(bonus))],x=useAdeptPower(c,d,pack,o.powerId,rolls.map(r=>r.d20[0]));check={natural:x.selected,bonus,total:x.selected+bonus};r={html:rolls.map(r=>r.display+' = '+totalHtml(r)).join('; ')};}
   else {const x=roller('1d20'+signed(bonus));usePower(c,d,pack,o.powerId,x.d20[0],{action:o.quicken?'swift-action':null});check={natural:x.d20[0],bonus,total:x.value};r={html:x.display+' = '+totalHtml(x)};}
   r={...r,text:v.name+': Use the Force '+check.total+(o.rollMode==='take10'?' (Take 10)':o.rollMode==='adept'?' (Force Power Adept)':'')+(v.forceCost?'; Force Points -1':'')+(v.selfPower?'':'; effects manual'),check,fpAllowed:v.fpAllowed,enhanceAllowed:v.enhanceAllowed&&(v.negation?check.total>=v.negation.incoming.amount:!v.selfPower||!!selfPowerTier(pack,v.power.id,check.total))};
-  if((o.effectDC===undefined||o.effectDC===null)&&offensivePowerRule(pack,v.power.id)?.thresholds?.filter(t=>t.dc<=check.total).length>1)r.effectChoiceAllowed=true;
+  if((o.effectDC===undefined||o.effectDC===null)&&powerEffectChoiceRule(pack,v.power.id)?.thresholds?.filter(t=>t.dc<=check.total).length>1)r.effectChoiceAllowed=true;
   const effectHeading=r.text;let effectHTML='';if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed||r.effectChoiceAllowed)){const effect=finishPowerEffectResult(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,incoming:o.incoming,offensivePowerSnapshot:o.offensivePowerSnapshot,effectDC:o.effectDC,roller});r.text+='; '+effect.text;effectHTML=effect.html||'';}
   r.html=escape(effectHTML?effectHeading:r.text)+(r.html?'<div>'+r.html+'</div>':'')+effectHTML;
  }else if(v.skillAction){
@@ -260,6 +262,7 @@ export function executeAction(c,pack,stepId,roller=evalExpr){
  const v=describeAction(c,pack,original.action,original.options),q=v.character;q.actionState??=emptyActionState();if(!q.actionState.active&&v.cost.type==='reaction')q.actionState.ended=true;if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')&&reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;let step=q.actionState.plan.find(p=>p.id===stepId);
  if(v.selfPower)step.options.effectPowerId=v.power.id;else delete step.options.effectPowerId;
  if(offensivePowerRule(pack,v.power?.id))step.options.offensivePowerSnapshot=offensivePowerSnapshot(v.derived,pack,v.power.id);else delete step.options.offensivePowerSnapshot;
+ if(v.threshold)step.options.incoming=v.threshold.incoming;
  if(v.power&&ragePowerRule(pack,v.power.id))step.options.rageFocusAllowed=hasRageTechnique(v.derived.ctx,pack);else delete step.options.rageFocusAllowed;
  const result=resolve(q,pack,step.action,step.options,v,roller,step.id);spendActions(q.actionState,v.allocation);step=q.actionState.plan.find(p=>p.id===stepId);
  step.result={text:result.text.slice(0,2000),...(result.check?{check:result.check,fpAllowed:result.fpAllowed,enhanceAllowed:result.enhanceAllowed,...(result.rerollAllowed!==undefined?{rerollAllowed:result.rerollAllowed}:{}),...(result.effectChoiceAllowed?{effectChoiceAllowed:true}:{})}:{})};step.turn=q.actionState.turn;step.status=(result.effectChoiceAllowed||result.rerollAllowed||result.fpAllowed&&step.options.fp==='ask'||result.enhanceAllowed)?'waiting':'done';
@@ -286,7 +289,7 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
  }
  if(pack.rules.skillActions?.some(r=>r.id===step.action))step.result.text+='; '+finishSkillAction(q,derive(q,pack),pack,step.action,step.options,step.result.check);
  if(step.action==='jump'){const snapshot=step.options.jumpResolution;assert(snapshot&&Number.isFinite(snapshot.dc)&&snapshot.dc>=0&&snapshot.dc<=2400000&&Number.isFinite(snapshot.cost)&&snapshot.cost>=0&&Number.isFinite(snapshot.maximum)&&snapshot.maximum>=snapshot.cost&&typeof snapshot.noCheck==='boolean','Invalid saved Jump');step.result.text+='; '+finishJump(q,{...snapshot,path:step.options.path},step.result.check).text;}
- const effectHeading=step.result.text;let effectHTML='';if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,effectDC:step.options.effectDC,roller});step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}
+ const effectHeading=step.result.text;let effectHTML='';if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,effectDC:step.options.effectDC,roller});step=q.actionState.plan.find(p=>p.id===stepId);step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}
   step=q.actionState.plan.find(p=>p.id===stepId);step.status='done';validateCharacter(q,pack);commit(c,q);return {text:step.result.text,...(extra||effectHTML?{html:escape(effectHTML?effectHeading:step.result.text)+(extra?'<div>'+extra.display+' = '+totalHtml(extra)+'</div>':'')+effectHTML}:{})};
 }
 
