@@ -1,13 +1,12 @@
 # High Ground Defense
 
-Define this contract before calculations. Preserve High Ground Defense revision
-from the pinned power article and Sokan from Lightsaber Forms24952. Reuse the
+Define this contract before calculations. Preserve High Ground Defense20436 and Sokan from Lightsaber Forms24952. Reuse the
 power-copy, Swift action, normal check/FP, Adept/Mastery, typed modifier,
 Attack of Opportunity and turn-duration machinery. This is a Lightsaber Form:
 common activation requires an activated, wielded Lightsaber.
 
 UTF DC15/20/25/30 grants the printed effect until the start of the next turn.
-While standing on a low object or in Difficult Terrain, an enemy moving
+While standing on a low object or in Difficult Terrain, a creature moving
 adjacent provokes. These positions and external provoking events must remain
 explicit declarations; the sheet has no grid or opponent state. Every successful
 tier grants this permission. DC20/25/30 additionally grants +1/+2/+5 Force on
@@ -24,15 +23,15 @@ With active Sokan, a successful power grants +1 weapon damage die on AoOs
 until the start of the next turn. Use the existing extra-weapon-die calculation,
 including natural/unarmed and critical damage profiles, rather than replacing
 the attack's dice or inventing a fixed d6. This is not the separately declared
-Battle Strike damage rider. Multiple active copies must not multiply the same
-source's numeric bonus or Sokan damage rider; choose applicable strongest
-Force bonus and the one Sokan rider.
+Battle Strike damage rider. Multiple active copies use the strongest typed Force bonus. The Sokan extra
+damage die has no descriptor and follows the shared unnamed-bonus stacking
+rule, as with separate Battle Strike damage riders. Preserve per-copy grants
+while avoiding duplicate resolution of one activation.
 
 Special FP grants permission to move1square each time an AoO is made, without
 provoking AoOs. Keep actual movement and destination external, as with other
 movement allowances. Display and preserve the earned per-attack allowance;
-do not charge a Move action, create additional attacks, or modify the normal
-5-foot/1-square movement limit. Losing/expiring the source must suppress new
+do not charge a Move action, create additional attacks, or invent a general movement exception outside this power. Losing/expiring the source must suppress new
 allowances without replaying a completed attack.
 
 Queue and preview cost nothing. Save the original check, earned/lower tier and
