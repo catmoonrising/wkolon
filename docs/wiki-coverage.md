@@ -73,7 +73,7 @@ Partial means some mechanics are implemented, not that the whole option is autom
 | Force powers | 90 | 0 |
 | Starship Maneuvers | 0 | 27 |
 | Vehicles and starships | 0 | 483 |
-| Force Techniques | 2 | 55 |
+| Force Techniques | 3 | 54 |
 | Force Secrets | 0 | 15 |
 | Medical Secrets | 0 | 7 |
 | Destinies | 11 | 0 |
