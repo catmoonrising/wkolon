@@ -1,3 +1,4 @@
+import {finishResistancePower,renewResistancePower,requireResistanceDamageChecks} from '../src/resistance-powers.js';
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import * as api from '../src/rules.js';import make from '../tools/high-ground-defense-fixtures.cjs';
 import {emptyActionState} from '../src/action-economy.js';import {startNextTurn} from '../src/attack-techniques.js';import {opportunityView,opportunityPlan,rollOpportunity} from '../src/opportunity-actions.js';import {finishSelfPower} from '../src/self-power-effects.js';import {validatePack} from '../tools/validate-rules.js';
 import {opportunityPowerTier,finishOpportunityPower,chooseOpportunityPowerTier,opportunityPowerMovement,withOpportunityPowerDice} from '../src/opportunity-powers.js';
@@ -24,4 +25,8 @@ test('extra weapon die handles fixed d1 natural damage, critical profiles and in
 });
 test('failed, lesser, enhanced, duplicate and saved states preserve permissions and turn expiry',()=>{
  const c=ready();assert.equal(cast(c,14),null);assert(!c.opportunityPowerEffects);const row=cast(c,30,{enhanced:true});assert.equal(opportunityPowerMovement(c,pack),1);chooseOpportunityPowerTier(c,row.id,1);assert.equal(c.opportunityPowerEffects[0].tier,1);assert.throws(()=>chooseOpportunityPowerTier(c,row.id,5));assert.throws(()=>finishOpportunityPower(c,pack,row.id,id,{total:20}),/already resolved/);api.validateCharacter(JSON.parse(JSON.stringify(c)),pack);const bad=structuredClone(c);bad.opportunityPowerEffects[0].formAllowed=1;assert.throws(()=>api.validateCharacter(bad,pack));startNextTurn(c);assert(!c.opportunityPowerEffects);assert.equal(opportunityPowerMovement(c,pack),0);
+});
+
+test('a pending resistance check rejects direct turn reset without deleting High Ground Defense',()=>{
+ const c=ready(),resistance=finishResistancePower(c,pack,crypto.randomUUID(),'power:energy-resistance',{total:20});c.actionState.turn++;renewResistancePower(c,resistance.id);cast(c,30);requireResistanceDamageChecks(c,pack,1);api.validateCharacter(c,pack);const before=structuredClone(c);assert.throws(()=>startNextTurn(c),/Resolve or release Energy Resistance/);assert.deepEqual(c,before);
 });

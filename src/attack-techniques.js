@@ -39,8 +39,8 @@ export function declarePowerAttack(c,d,amount){
 }
 
 export function startNextTurn(c){
- clearOpportunityPowers(c);
  assertResistanceResolved(c);
+ clearOpportunityPowers(c);
  clearShieldPowers(c);clearResistancePowers(c);
  clearSurprisePhase(c);
  startTurnFeatEffects(c);
