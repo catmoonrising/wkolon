@@ -1,4 +1,5 @@
 import {evalExpr,totalHtml} from './dice.js';
+import {counselingEnabled} from './house-rules.js';
 
 export const displacementPowerRule=(pack,id)=>pack.rules.displacementPowers?.find(r=>r.powerId===id);
 export function forceThrustRange(d,pack){
@@ -20,8 +21,32 @@ export function forceThrustTarget(pack,value,{range=12,doorEnabled=true}={}){
   if(!integer(value.breakDC,0))throw new Error('Enter the door Break DC');
   return {...base,breakDC:value.breakDC};
  }
- if(!integer(value.strengthCheck)||!integer(value.baseAttack,0,1000)||!Object.hasOwn(r.sizeModifiers,value.size)||typeof value.stable!=='boolean'||value.collisionAt!==undefined&&value.collisionAt!==null&&!integer(value.collisionAt,1))throw new Error('Invalid opposing Strength check');
+ if(!integer(value.strengthCheck)||!integer(value.baseAttack,0,1000)||typeof value.size!=='string'||!Object.hasOwn(r.sizeModifiers,value.size)||typeof value.stable!=='boolean'||value.collisionAt!==undefined&&value.collisionAt!==null&&!integer(value.collisionAt,1))throw new Error('Invalid opposing Strength check');
  return {...base,strengthCheck:value.strengthCheck,baseAttack:value.baseAttack,size:value.size,stable:value.stable,collisionAt:value.collisionAt??null};
+}
+export function forceThrustSnapshot(c,d,pack,target){
+ const range=forceThrustRange(d,pack),doorEnabled=counselingEnabled(c,displacementPowerRule(pack,'power:force-thrust').door.counselingId);
+ return {powerId:'power:force-thrust',range,doorEnabled,target:forceThrustTarget(pack,target,{range,doorEnabled})};
+}
+export function validateForceThrustSnapshot(pack,snapshot){
+ if(!object(snapshot)||Object.keys(snapshot).sort().join()!=='doorEnabled,powerId,range,target'||snapshot.powerId!=='power:force-thrust')throw new Error('Invalid Force Thrust snapshot');
+ const t=forceThrustTarget(pack,snapshot.target,snapshot);
+ if(Object.keys(t).sort().join()!==Object.keys(snapshot.target).sort().join())throw new Error('Invalid Force Thrust snapshot');
+ return t;
+}
+export function validateForceThrustResults(c,pack,bad){
+ for(const step of [...(c.actionState?.plan||[]),...(c.actionState?.history||[])]){
+  const snapshot=step.options?.forceThrustSnapshot;
+  if(snapshot===undefined){if(step.options?.effectPowerId==='power:force-thrust')bad('Force Thrust snapshot');continue;}
+  try{
+   validateForceThrustSnapshot(pack,snapshot);
+   if(step.action!=='power'||step.status==='queued'||step.options.effectPowerId!==snapshot.powerId||!integer(step.result?.check?.total)||step.result.effectChoiceAllowed||snapshot.target.mode==='door'&&step.result.enhanceAllowed)throw new Error();
+  }catch{bad('Force Thrust result');return;}
+ }
+}
+export function finishForceThrust(pack,check,snapshot,options={}){
+ const target=validateForceThrustSnapshot(pack,snapshot);
+ return resolveForceThrust(pack,check,target,{...options,range:snapshot.range,doorEnabled:snapshot.doorEnabled});
 }
 export function resolveForceThrust(pack,check,target,{enhanced=false,range=12,doorEnabled=true,roller=evalExpr}={}){
  const r=displacementPowerRule(pack,'power:force-thrust'),t=forceThrustTarget(pack,target,{range,doorEnabled});

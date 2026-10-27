@@ -67176,6 +67176,7 @@
       }
     },
     "counselingApplications": {
+      "jc:111-moving-a-door": "force-thrust-door",
       "jc:105-deflect-and-block-vs-area-attacks":"raw-equivalent",
       "jc:106-block-deflect-and-redirect":"raw-equivalent",
       "jc:114-equilibrium-and-persistent-conditions":"raw-equivalent",
@@ -71753,7 +71754,7 @@
         "kind": "all",
         "requirements": []
       },
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "classchoice:extended-move-object",

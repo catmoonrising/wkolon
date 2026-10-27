@@ -3153,3 +3153,16 @@ Hit Points23421 explicitly permits the emergency survival Force Point after
 another Force Point in the same round. Shared incoming damage, Crucitorn and
 Negate Energy honor that exception without changing ordinary FP limits. The
 survival point is charged only if resolved damage actually requires it.
+
+
+## Force Thrust
+
+Force Thrust24977 resolves declared opposed Strength checks with printed BAB,
+size and stability adjustments. Strict success and five-point margins determine
+push distance. FP modifies the opponent check and collision dice; collision
+rolls occur only after the final check/FP decision. Extended Force Thrust20409
+raises range to18 while its class is active. Moving a Door (Jedi Counseling111,
+Category:Web Enhancements26287) uses a declared Break DC only while enabled;
+its Move Object procedure remains manual, so the topic is marked Partial.
+Target position, geometry and damage application remain external. Partial;
+contract: docs/force-thrust.md.

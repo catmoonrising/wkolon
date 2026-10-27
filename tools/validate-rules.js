@@ -569,7 +569,7 @@ export function validatePack(p) {
   if(p.jediCounseling){
     assert(Array.isArray(p.jediCounseling));const topics=new Set();
     for(const r of p.jediCounseling){assert(Object.keys(r).every(k=>['id','name','issue','ruleId','sourceId'].includes(k)));assert(/^jc:\d+-[a-z0-9-]+$/.test(r.id)&&!topics.has(r.id));topics.add(r.id);assert(typeof r.name==='string'&&Number.isInteger(r.issue)&&r.issue>=105&&r.issue<=115);assert(sources.has(r.sourceId)&&p.rulePages.some(page=>page.id===r.ruleId&&page.sourceId===r.sourceId));}
-    for(const [id,mode] of Object.entries(p.rules.counselingApplications||{}))assert(topics.has(id)&&['talent-activation','weapon-familiarity','partial-proficiency','raw-equivalent','range-penalties','unarmed-proficiency','unarmed-finesse','second-winds','second-wind-exhaustion'].includes(mode));
+    for(const [id,mode] of Object.entries(p.rules.counselingApplications||{}))assert(topics.has(id)&&['talent-activation','weapon-familiarity','partial-proficiency','raw-equivalent','range-penalties','unarmed-proficiency','unarmed-finesse','second-winds','second-wind-exhaustion','force-thrust-door'].includes(mode));
   }
   if(p.optionalRules){
     const catalog=p.optionalRules,index=JSON.parse(fs.readFileSync(new URL('../data/reference-index.json',import.meta.url))),ids=new Set();
