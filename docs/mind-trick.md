@@ -14,7 +14,7 @@ an exact success result; otherwise show the inclusive Will hit limit.
 
 Choose one mode. A successful check (UTF >= Will) permits:
 - Hallucination: target awareness does not prevent a Stealth attempt.
-- Feint: the next attack against this target ignores its Dexterity bonus to
+- Feint: your next attack against this target ignores its Dexterity bonus to
   Reflex (if any). Do not deny Dexterity against every opponent or mutate
   the caster's own Dexterity, Defenses or unrelated target flags.
 - Suggestion: require confirmation that communication is possible and the
