@@ -1,0 +1,3 @@
+module.exports=(pack,api)=>({
+ adept({power='fear',shaded=false,mastery=false}={}){if(shaded&&power!=='fear')throw Error('Only Fear has a Dark Side descriptor');const c=require('./force-lightning-fixtures.cjs')(pack,api).adept({shaded,mastery});c.name=power==='fear'?'Fear':'Obscure';for(const l of c.levels){for(const p of l.forcePowers||[])if(p.powerId==='power:force-lightning')p.powerId='power:'+power;for(const t of [l.talent,...(l.talents||[])])if(t?.choice==='power:force-lightning')t.choice='power:'+power;for(const choice of l.classChoices||[])if(choice.choice==='power:force-lightning')choice.choice='power:'+power;}api.validateCharacter(c,pack);const issues=api.derive(c,pack).issues;if(issues.length)throw Error(issues.join('; '));return c;}
+});

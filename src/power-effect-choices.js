@@ -1,6 +1,6 @@
 export const powerEffectChoiceRule=(pack,id)=>pack.rules.offensivePowerEffects?.find(r=>r.powerId===id)||pack.rules.thresholdPowers?.find(r=>r.powerId===id)||pack.rules.opportunityPowers?.find(r=>r.powerId===id)||pack.rules.conditionPowerEffects?.find(r=>r.powerId===id);
-export const powerEffectLabel=rule=>rule.kind==='speed-reduction'?'Speed':rule.kind==='opportunity'?'AoO':rule.kind==='damage-threshold'?'Threshold':'Damage';
-export const powerEffectTierLabel=(rule,tier)=>rule.kind==='speed-reduction'?'-'+tier.speedReduction+' square'+(tier.speedReduction===1?'':'s'):['damage-threshold','opportunity'].includes(rule.kind)?'+'+(rule.kind==='opportunity'?tier.attack:tier.bonus)+' Force':tier.dice+'d'+rule.die;
+export const powerEffectLabel=rule=>rule.kind==='action-limit'?'Restriction':rule.kind==='speed-reduction'?'Speed':rule.kind==='opportunity'?'AoO':rule.kind==='damage-threshold'?'Threshold':'Damage';
+export const powerEffectTierLabel=(rule,tier)=>rule.kind==='action-limit'?(tier.action?'1 '+tier.action[0].toUpperCase()+tier.action.slice(1)+' Action':'No Actions'):rule.kind==='speed-reduction'?'-'+tier.speedReduction+' square'+(tier.speedReduction===1?'':'s'):['damage-threshold','opportunity'].includes(rule.kind)?'+'+(rule.kind==='opportunity'?tier.attack:tier.bonus)+' Force':tier.dice+'d'+rule.die;
 export const validPowerEffectLimit=(pack,id,dc)=>dc===null||powerEffectChoiceRule(pack,id)?.thresholds?.some(t=>t.dc===dc)===true;
 export function choosePowerEffectTier(c,pack,stepId,dc){
  const step=c.actionState?.plan.find(p=>p.id===stepId),rule=powerEffectChoiceRule(pack,step?.options.effectPowerId);

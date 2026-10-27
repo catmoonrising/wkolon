@@ -28,7 +28,9 @@ Special FP extends the penalty to all that target's attacks until the start of
 the TARGET's next turn. Do not substitute caster-next-turn timing. The printed
 power lacks Negate Energy's awareness/flat-footed and Energy restrictions;
 retain common activation eligibility without adding those guards. Ordinary
-Free-action FP check bonuses remain unavailable on a Reaction. Obscure is
+Free-action FP check bonuses remain unavailable on a Reaction. The shared
+form hides intrinsically unavailable check-FP controls for Reaction and
+Dark Side powers, restoring them after a genuine descriptor removal. Obscure is
 Mind-Affecting, without an invented Dark Side descriptor.
 
 Reuse shared action/copy costs, after-check special FP versus ordinary FP,

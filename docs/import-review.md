@@ -3207,3 +3207,18 @@ The Counseling examples remain Manual, and no Friendly-to-ally inference or
 Persuasion/Master Manipulator trigger is invented. Partial; contract:
 docs/mind-trick.md. Power forms omit redundant single-action selectors while
 retaining the selector for powers with genuinely different actions.
+
+## Fear and Obscure
+
+Fear19129 uses Swift UTF versus Will with its own DC15/20/25/30 next-turn
+Standard/Move/Swift/no-action restrictions, separate from Mind Trick fleeing.
+Special FP adds a successful-hit target Defenses penalty until caster next turn.
+Obscure20268 uses Reaction UTF versus Will for -5 to the triggering attack;
+its optional miss reroll belongs to the attacker against another creature
+adjacent to that attacker. FP extends the penalty until the target next turn.
+Shared saved checks/earned tiers, FP/Adept/Mastery, descriptors/DSS, original
+manual histories and reaction-trigger guards apply. The power form hides
+ordinary check-FP choices for Reaction/Dark Side uses and restores them after
+genuine Many Shades descriptor removal. No NPC rolls, turns, positions or
+Defenses are mutated: both remain Partial for those external consequences.
+Sources and printed text remain verbatim; contract docs/fear-obscure.md.
