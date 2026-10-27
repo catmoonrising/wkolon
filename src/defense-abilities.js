@@ -1,5 +1,6 @@
 import {combineArmorDefenses} from './armor.js';
 import {ambiguityValue} from './house-rules.js';
+import {modifierIncrease} from './modifiers.js';
 
 const base={reflex:'dex',fortitude:'con',will:'wis'};
 export function defenseAbilityDetails(c,pack,effects,mods,{dex,armorMaxDex,dexDenied,helpless,fortitudeAbility='con'}){
@@ -21,6 +22,11 @@ export function thresholdForContext(context,against=[]){
  const conditional=combineArmorDefenses(active,[],context.base,context.equipment,context.baseModifiers);
  const options=context.allowed.map(defense=>({defense,total:context.base[defense]+context.bonus+(conditional.find(r=>r.defense===defense)?.amount||0)}));
  return options.find(o=>o.defense===context.override)||options.reduce((best,o)=>o.total>best.total?o:best);
+}
+export function withDamageThresholdBonus(d,bonus){
+ if(!bonus||typeof bonus!=='object'||!Number.isInteger(bonus.amount)||bonus.amount<0||bonus.amount>1000)throw new Error('Invalid Damage Threshold bonus');
+ const base=d.thresholdModifiers||[],increase=modifierIncrease(base,[bonus]);
+ return {...d,threshold:d.threshold+increase,thresholdModifiers:[...base,{...bonus}]};
 }
 export function thresholdDetails(c,effects,defenses,bonuses,equipment,bonus,baseModifiers={}){
  const context={allowed:effects.some(e=>e.target==='thresholdDefense')?['fortitude','will']:['fortitude'],override:c.thresholdDefense||'auto',base:defenses,bonuses:bonuses.filter(r=>r.defense!=='reflex'),equipment,bonus,baseModifiers};
