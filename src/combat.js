@@ -78,20 +78,21 @@ export function defenseRangeRows(results){
    for(const r of results){
     if(r.failedArea||r.naturalMiss&&!r.areaType)continue;
     const hit=!r.naturalMiss&&(r.naturalHit||total(r)>=defense),half=Math.floor((r.damage-(hit?0:r.hitOnlyDamage||0))/2);
-    damage+=hit?r.damage:r.areaType&&!r.targetCover?half:0;
-    evasion+=r.areaType?(hit?half:0):(hit?r.damage:0);
-    cover+=hit?r.damage:0;
+    damage+=hit?r.damage:(r.areaType&&!r.targetCover||r.halfOnMiss)?half:0;
+    evasion+=r.areaType?(hit?half:0):(hit?r.damage:r.halfOnMiss?half:0);
+    cover+=hit?r.damage:!r.areaType&&r.halfOnMiss?half:0;
     if(r.areaType==='splash'&&hit)splash+=half;
    }
    return {...row,damage,evasion,cover,splash};
   });
  }
- const critical=results.filter(r=>r.naturalHit).reduce((n,r)=>n+r.damage,0);
+ const missed=r=>r.halfOnMiss?Math.floor((r.damage-(r.hitOnlyDamage||0))/2):0;
+ const critical=results.reduce((n,r)=>n+(r.naturalHit?r.damage:missed(r)),0);
  const hits=results.filter(r=>!r.naturalHit&&!r.naturalMiss);
  const totals=[...new Set(hits.map(total))].sort((a,b)=>b-a);
  if(!totals.length)return [{lo:null,hi:null,damage:critical}];
  const rows=[{lo:totals[0]+1,hi:null,damage:critical}];let damage=critical;
- totals.forEach((t,i)=>{damage+=hits.filter(r=>total(r)===t).reduce((n,r)=>n+r.damage,0);rows.push({lo:totals[i+1]===undefined?null:totals[i+1]+1,hi:t,damage});});
+ totals.forEach((t,i)=>{damage+=hits.filter(r=>total(r)===t).reduce((n,r)=>n+r.damage-missed(r),0);rows.push({lo:totals[i+1]===undefined?null:totals[i+1]+1,hi:t,damage});});
  return rows;
 }
 const signed=n=>n>=0?'+'+n:String(n);

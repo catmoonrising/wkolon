@@ -1,0 +1,38 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';
+import * as api from '../src/rules.js';import make from '../tools/force-lightning-fixtures.cjs';
+import {resolveOffensivePower} from '../src/offensive-powers.js';import {defenseRangeRows} from '../src/combat.js';
+import {beginNextTurn,endCurrentTurn,takeAction,finishForceChoice,executeAction,previewPlan} from '../src/action-engine.js';
+import {queueAction} from '../src/action-economy.js';import {validatePack} from '../tools/validate-rules.js';
+const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),f=make(pack,api),id='power:force-lightning';
+const copy=c=>api.derive(c,pack).forcePowers.find(p=>p.id===id).copyId;
+function rolls(c,{natural=1,fp=3,damage=25}={}){const calls=[],bonus=api.derive(c,pack).skills.find(s=>s.id==='skill:use-the-force').total;return {calls,roll:expr=>{calls.push(expr);return {value:expr.startsWith('1d20')?natural+bonus:expr.includes('kh1')?fp:damage,d20:expr.startsWith('1d20')?[natural]:[],display:expr,coeffs:[1]};}};}
+test('Lightning uses pinned closed data and complete ordinary and Aing-Tii Adept/Mastery builds',()=>{
+ validatePack(pack);for(const shaded of [false,true])for(const mastery of [false,true]){const c=f.adept({shaded,mastery}),d=api.derive(c,pack),p=d.forcePowers.find(p=>p.id===id);assert.deepEqual(d.issues,[]);assert.equal(p.descriptors.includes('dark-side'),!shaded);assert(p.adept);assert.equal(p.take10,mastery);}
+ const rule=pack.rules.offensivePowerEffects.find(r=>r.powerId===id);assert.equal(pack.sources.find(s=>s.id===rule.sourceIds[0]).revision,18188);const p=structuredClone(pack);p.rules.offensivePowerEffects.at(-1).area=true;assert.throws(()=>validatePack(p));
+});
+test('Lightning is inclusive single-target Force damage with half misses, hit-only CT and no area defenses or attack natural rules',()=>{
+ for(const natural of [1,20])for(const enhanced of [false,true]){const result=resolveOffensivePower(pack,id,{natural,total:17},{enhanced,snapshot:{powerId:id,heroicLevel:9},roller:expr=>({value:25,display:expr,coeffs:[1]})});assert.equal(result.expression,'8d6');assert.deepEqual(result.rows.map(r=>[r.lo,r.hi,r.damage,r.conditionSteps]),[[18,null,12,0],[null,17,25,enhanced?2:1]]);assert(!result.html.includes('<th>Evasion</th>'));assert(!result.html.includes('<th>Cover</th>'));assert(!result.html.includes('<th>Prone</th>'));assert.match(result.html,/<th[^>]*>CT<\/th>/);assert.match(result.text,enhanced?/CT -2/:/CT -1/);}
+ const low=resolveOffensivePower(pack,id,{natural:1,total:3},{snapshot:{powerId:id,heroicLevel:9},roller:()=>({value:8,display:'8d6',coeffs:[1]})});assert.equal(low.rows[1].damage,8,'no invented attack-roll minimum10');
+});
+test('shared half-on-miss ranges preserve ordinary weapon misses and compound with mixed area results',()=>{
+ const power={total:17,damage:25,halfOnMiss:true},weapon={total:12,damage:10};assert.deepEqual(defenseRangeRows([power,weapon]).map(r=>[r.lo,r.hi,r.damage]),[[18,null,12],[13,17,25],[null,12,35]]);
+ const mixed=defenseRangeRows([power,{total:12,damage:10,areaType:'cone'}]);assert.deepEqual(mixed.map(r=>[r.lo,r.hi,r.damage,r.evasion,r.cover]),[[18,null,17,12,12],[13,17,30,25,25],[null,12,35,30,35]]);
+ assert.deepEqual(defenseRangeRows([weapon]).map(r=>r.damage),[0,10]);
+});
+test('queue, original check, DSS and printed enhancement share saved atomic action and FP accounting',()=>{
+ const c=f.adept(),r=rolls(c),fp=c.forcePoints,step=queueAction(c,'power',{powerId:copy(c),fp:'ask',enhance:true});assert.equal(previewPlan(c,pack)[0].issue,undefined);assert.equal(c.darkSideScore,0);assert.equal(c.levels[0].forcePowers[1].spent,false);assert.deepEqual(r.calls,[]);executeAction(c,pack,step.id,r.roll);assert.equal(c.darkSideScore,1);assert.equal(c.forcePoints,fp);assert.deepEqual(r.calls,['1d20+16']);assert.equal(c.actionState.plan[0].result.fpAllowed,false);assert.equal(c.actionState.plan[0].result.enhanceAllowed,true);
+ const saved=JSON.parse(JSON.stringify(c));api.validateCharacter(saved,pack);const check=structuredClone(saved.actionState.plan[0].result.check);assert.throws(()=>finishForceChoice(saved,pack,step.id,true,r.roll),/bonus unavailable/);assert.equal(saved.forcePoints,fp);const result=finishForceChoice(saved,pack,step.id,'enhance',r.roll);assert.equal(saved.forcePoints,fp-1);assert.equal(saved.darkSideScore,1);assert.deepEqual(saved.actionState.plan[0].result.check,check);assert.match(result.text,/Reflex ≥ 18: 12, CT 0; Reflex ≤ 17: 25, CT -2/);assert.deepEqual(r.calls,['1d20+16','8d6']);const done=structuredClone(saved);assert.throws(()=>finishForceChoice(saved,pack,step.id,'enhance',r.roll),/No pending/);assert.deepEqual(saved,done);
+});
+test('descriptor removal permits a check FP, prevents DSS increase, and never adds enhanced CT for a check bonus',()=>{
+ const c=f.adept({shaded:true}),r=rolls(c,{natural:1}),fp=c.forcePoints;takeAction(c,pack,'power',{powerId:copy(c),fp:'ask',enhance:true},r.roll);assert.equal(c.darkSideScore,0);assert.equal(c.actionState.plan[0].result.fpAllowed,true);const out=finishForceChoice(c,pack,c.actionState.plan[0].id,true,r.roll);assert.match(out.text,/Reflex ≤ 20: 25, CT -1/);assert.equal(c.forcePoints,fp-1);assert.equal(c.darkSideScore,0);assert.deepEqual(r.calls,['1d20+16','2d8kh1','8d6']);
+});
+test('Adept and Take10 cannot spend a second FP; natural20 recovers copies without critical damage',()=>{
+ const c=f.adept({mastery:true}),r=rolls(c,{natural:20}),fp=c.forcePoints;const original=structuredClone(c);assert.throws(()=>takeAction(c,pack,'power',{powerId:copy(c),rollMode:'adept',fp:'ask',enhance:true},r.roll),/Only one Force Point/);assert.deepEqual(c,original);takeAction(c,pack,'power',{powerId:copy(c),rollMode:'adept',fp:'none',enhance:false},r.roll);assert.equal(c.actionState.plan[0].status,'done');assert.equal(c.forcePoints,fp-1);assert.equal(c.darkSideScore,1);assert.equal(r.calls.filter(x=>x.startsWith('1d20')).length,2);assert.equal(r.calls.filter(x=>x==='8d6').length,1);assert.match(c.actionState.plan[0].result.text,/CT -1/);assert(c.forcePowerRecoveryPending);endCurrentTurn(c,pack);assert(!c.levels[0].forcePowers[1].spent);beginNextTurn(c,pack);const next=rolls(c);takeAction(c,pack,'power',{powerId:copy(c),rollMode:'take10',fp:'none',enhance:false},next.roll);assert.deepEqual(next.calls,['8d6']);assert.equal(c.actionState.plan[0].result.check.natural,10);assert.equal(c.darkSideScore,2);
+});
+test('bad damage rolls roll back activation or preserve a previously committed saved pending check',()=>{
+ const c=f.adept(),original=structuredClone(c),bad=rolls(c,{damage:1000});assert.throws(()=>takeAction(c,pack,'power',{powerId:copy(c),fp:'none',enhance:false},bad.roll),/damage roll/);assert.deepEqual(c,original);
+ const r=rolls(c);takeAction(c,pack,'power',{powerId:copy(c),fp:'ask',enhance:true},r.roll);const pending=structuredClone(c);assert.throws(()=>finishForceChoice(c,pack,c.actionState.plan[0].id,'enhance',bad.roll),/damage roll/);assert.deepEqual(c,pending);api.validateCharacter(c,pack);
+});
+test('older manual pending Lightning checks finish without retroactive damage or descriptor side effects',()=>{
+ const c=f.adept(),r=rolls(c);takeAction(c,pack,'power',{powerId:copy(c),fp:'ask',enhance:true},r.roll);const step=c.actionState.plan[0];delete step.options.effectPowerId;delete step.options.offensivePowerSnapshot;step.result.text+='; effects manual';api.validateCharacter(c,pack);const out=finishForceChoice(c,pack,step.id,'enhance',r.roll);assert.equal(r.calls.length,1);assert.equal(c.darkSideScore,1);assert.match(out.text,/enhancement manual/);
+});

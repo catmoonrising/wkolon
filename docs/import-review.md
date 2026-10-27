@@ -3116,3 +3116,14 @@ defense-range tables preserve area Evasion/Cover math without exposing or
 requiring enemy stats. Damage waits for the final FP choice and is saved once.
 Position, target HP/protection and applying Prone remain external; both remain
 Partial. Contract and boundaries: docs/offensive-force-powers.md.
+
+
+## Force Lightning results
+
+Force Lightning18188 uses the outgoing power resolver with inclusive Reflex,
+8d6 Force damage and half damage on a miss. Its printed Condition Track step
+and optional FP step apply only on a hit. The shared range resolver now
+expresses single-target half misses without importing area Evasion/Cover.
+Existing derived descriptors govern DSS and check-FP eligibility, including
+Many Shades of the Force. Target effects remain external and the record stays
+Partial. Contract: docs/force-lightning.md.
