@@ -24,7 +24,9 @@ export function thresholdPowerTier(pack,id,total,effectDC=null){
 export function thresholdPowerPlan(c,d,pack,id,incoming,{forceCost=0,enhanceAsk=false}={}){
  const rule=thresholdPowerRule(pack,id);if(!rule||![0,1].includes(forceCost)||typeof enhanceAsk!=='boolean')throw new Error('Invalid threshold power plan');
  const snapshot=incomingDamageDeclaration(incoming);
- return {rule,incoming:snapshot,damage:damageOutcome(c,d,pack,snapshot.amount,snapshot.options)};
+ const damage=damageOutcome(c,d,pack,snapshot.amount,snapshot.options);
+ if(forceCost+damage.forcePointSpent>d.forceCurrent)throw new Error('Not enough Force Points for Adept and survival');
+ return {rule,incoming:snapshot,damage};
 }
 export function finishThresholdPower(c,d,pack,id,check,incoming,{enhanced=false,effectDC=null,stepId=null}={}){
  const rule=thresholdPowerRule(pack,id),tier=thresholdPowerTier(pack,id,check?.total,effectDC),snapshot=incomingDamageDeclaration(incoming);

@@ -19,6 +19,7 @@ export function negateEnergyPlan(c,d,pack,powerId,incoming,{forceCost=0}={}){
  const snapshot=incomingDamageDeclaration(incoming);
  if(!snapshot.options.energy&&!snapshot.options.sonic)throw new Error('Requires an Energy attack');
  const damage=damageOutcome(c,d,pack,snapshot.amount,snapshot.options);
+ if(forceCost+damage.forcePointSpent>d.forceCurrent)throw new Error('Not enough Force Points for Adept and survival');
  return {rule,incoming:snapshot,damage};
 }
 export function finishNegatingPower(c,d,pack,powerId,check,incoming,{heal=false}={}){

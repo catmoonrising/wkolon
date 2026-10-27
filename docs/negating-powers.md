@@ -55,3 +55,8 @@ triggers, no-cost queueing, atomic invalid declarations, Adept/ordinary FP limit
 saved healing decisions, full-HP cap, normal damage/threshold/survival and pending
 checks, natural 20 timing, turn and encounter transitions, mobile layout, shared
 HP controls and a real-offline hosted Firefox reload.
+
+When baseline damage would require a declared survival FP, reserve it alongside
+Adept's up-front FP before rolling. Reject an unfunded plan atomically, rather
+than committing a saved choice that cannot finish. Optional after-check
+enhancement can still be declined to keep that survival point available.

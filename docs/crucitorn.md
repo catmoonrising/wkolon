@@ -51,3 +51,8 @@ guards or changing their damage calculations. Cache new modules/contracts
 for offline use. Keep the catalog Partial for declared external attacks and
 verify complete legal fixtures, stacking/context edges, actual controls,
 resources, saves, mobile and refused-network Firefox before release.
+
+When baseline damage would require a declared survival FP, reserve it alongside
+Adept's up-front FP before rolling. Reject an unfunded plan atomically, rather
+than committing a saved choice that cannot finish. Optional after-check
+enhancement can still be declined to keep that survival point available.
