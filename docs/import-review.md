@@ -3127,3 +3127,13 @@ expresses single-target half misses without importing area Evasion/Cover.
 Existing derived descriptors govern DSS and check-FP eligibility, including
 Many Shades of the Force. Target effects remain external and the record stays
 Partial. Contract: docs/force-lightning.md.
+
+
+## Ionize and Wound results
+
+Ionize19182 and Wound19375 use the outgoing power pipeline, inclusive defenses
+and printed FP damage dice. Ionize meets its DC tiers and displays raw Ion
+damage before target protections and Ion26732 adjustments. Wound uses printed
+size limits and retains its conditional persistent injury and DC20 Surgery
+treatment; it does not add a CT step on every hit. Target state and applying
+these effects remain external. Partial; contract: docs/ionize-wound.md.
