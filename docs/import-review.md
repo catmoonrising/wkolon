@@ -3323,3 +3323,16 @@ results retain severing and automatic death of living creatures actually
 reduced to0HP by this damage. Opponent HP, protection, living status, range
 and Line of Sight stay external, so Partial. No source articles changed;
 contract docs/rend.md, Rend20033 and Force Powers18202.
+
+### Detonate
+
+Detonate20139 uses the shared outgoing power path for one unattended object,
+UTF20/25/30/35 and4/6/8/10d6 raw damage. It has no invented defense comparison,
+area attack, natural20 damage multiplier or Force damage descriptor. A separate
+activation checkbox prepays the special FP+2d6 even on a failed check. Queue
+and previews are free; Adept/ordinary FP use the same per-round ledger. The
+prepaid choice remains frozen across saved check/tier decisions. Lower earned
+tiers, Mastery, suite recovery and older manual history retain shared handling.
+Actual unattended eligibility, range/Line of Sight, object protection/HP and
+destruction consequences remain external, so Partial. No source text changed;
+contract docs/detonate.md, Detonate20139 and Force Powers18202.

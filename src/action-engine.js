@@ -150,6 +150,9 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   const p=d.forcePowers.find(p=>p.copyId===o.powerId);assert(p,'Choose a power');assert(!o.action||p.actions?.includes(o.action)||p.action===o.action,'Power action changed');
   assert(o.offensiveHitConfirmed===undefined,'Confirm a successful hit after the check');
   if(o.targetReflex!==undefined&&o.targetReflex!==null)assert(offensivePowerRule(pack,p.id)?.enhancement.requiresHit&&Number.isInteger(o.targetReflex)&&Math.abs(o.targetReflex)<=100000,'Invalid target Reflex');
+  const activationEnhancement=offensivePowerRule(pack,p.id)?.enhancement.timing==='activation';
+  assert(o.activationEnhancement===undefined||activationEnhancement&&typeof o.activationEnhancement==='boolean','Invalid activation enhancement');
+  view.activationEnhancement=activationEnhancement&&o.activationEnhancement===true;
   if(o.action)p.action=o.action;assert(!powerActivationIssue(q,d,pack,p),powerActivationIssue(q,d,pack,p));view.power=p;view.name=p.name;assert(o.effectDC===undefined||validOffensivePowerLimit(pack,p.id,o.effectDC),'Power effect unavailable');view.selfPower=selfPowerRule(pack,p.id);view.manual=!view.selfPower;view.cost.type=typeOf(p.action);assert(view.cost.type,'Power duration requires manual resolution');
   assert(['roll','take10','adept'].includes(o.rollMode||'roll'),'Invalid power check');assert(o.rollMode!=='take10'||p.take10,'Power Mastery required');assert(o.rollMode!=='adept'||p.adept,'Force Power Adept required');
   if(view.selfPower&&!offensivePowerRule(pack,p.id)&&!negatingPowerRule(pack,p.id)&&!thresholdPowerRule(pack,p.id)&&!displacementPowerRule(pack,p.id)&&!conditionPowerRule(pack,p.id)&&!mentalPowerRule(pack,p.id))assert((q.opportunityPowerEffects?.length||0)+(q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)+(q.shieldPowerEffects?.length||0)+(q.resistancePowerEffects?.length||0)<1000,'Too many active effects');
@@ -158,10 +161,10 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   if(o.destiny){assert(movementPowerRule(pack,p.id),'Power has no Destiny option');assert(q.story?.kind==='destiny'&&q.story.points>0&&d.level,'Destiny Point unavailable');view.destinyCost=1;}
   assert(o.quicken===undefined||typeof o.quicken==='boolean','Invalid quickening choice');
   const quickening=powerQuickening(pack,p.id);if(o.quicken){assert(quickening,'Power has no accelerated activation');assert(o.rollMode!=='adept','Only one Force Point per round');view.cost.type=quickening.action;}
-  view.forceCost=(o.rollMode==='adept'?1:0)+(o.quicken?quickening.forcePoints:0);assert(!(o.rollMode==='adept'&&o.enhance),'Only one Force Point per round');
+  view.forceCost=(o.rollMode==='adept'?1:0)+(o.quicken?quickening.forcePoints:0)+(view.activationEnhancement?1:0);assert(!(o.rollMode==='adept'&&(view.activationEnhancement||!activationEnhancement&&o.enhance)),'Only one Force Point per round');
   view.fpAllowed=checkForcePointAvailable(q,d,{power:p,forceCost:view.forceCost,reaction:view.cost.type==='reaction'});
   const requirement=pack.rules.actionEconomy.powerRequirements?.[p.id];if(requirement?.notFlatFooted)assert(!d.flatFooted,'Power unavailable while flat-footed');if(requirement?.aware)assert(o.aware,'Confirm awareness of the attack');
-  view.enhanceAllowed=!quickening&&!!o.enhance&&!s.forceSpent&&d.forceCurrent>0&&!view.forceCost;
+  view.enhanceAllowed=!activationEnhancement&&!quickening&&!!o.enhance&&!s.forceSpent&&d.forceCurrent>0&&!view.forceCost;
   view.conditionSnapshot=conditionPowerSnapshot(d,pack,p.id);
   if(resistancePowerRule(pack,p.id)?.kind==='defense')view.resistForce=resistForceSelection(o.resistForce);else assert(o.resistForce===undefined,'Power does not select Defenses');
   if(mentalPowerRule(pack,p.id)){view.mental=mentalPowerSnapshot(d,pack,o.mental);if(view.mental.selection.mode!=='suggestion')view.enhanceAllowed=false;}else assert(o.mental===undefined,'Power does not use a mental target');
@@ -256,7 +259,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(id==='power'){
   if(v.negation)o.incoming=structuredClone(v.negation.incoming);
   const copy=c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===o.powerId);copy.action=v.power.action;
-  if(o.quicken){c.forcePoints=d.forceCurrent-v.forceCost;c.actionState.forceSpent=true;}
+  if(o.quicken||v.activationEnhancement){c.forcePoints=d.forceCurrent-v.forceCost;c.actionState.forceSpent=true;}
   const bonus=d.skills.find(s=>s.id==='skill:use-the-force').total;let check;
   if(o.rollMode==='take10'){take10Power(c,d,pack,o.powerId,{action:o.quicken?powerQuickening(pack,v.power.id).action+'-action':null});check={natural:10,bonus,total:10+bonus};}
   else if(o.rollMode==='adept'){const rolls=[roller('1d20'+signed(bonus)),roller('1d20'+signed(bonus))],x=useAdeptPower(c,d,pack,o.powerId,rolls.map(r=>r.d20[0]));check={natural:x.selected,bonus,total:x.selected+bonus};r={html:rolls.map(r=>r.display+' = '+totalHtml(r)).join('; ')};}
@@ -302,6 +305,7 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
  if(step.options.effectPowerId){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);assert(power?.id===step.options.effectPowerId,'Power unavailable');}
  const confirmation=spend==='enhance-hit',mode=confirmation?'enhance':spend===true?'bonus':spend===false?'none':spend;assert(['bonus','enhance','none'].includes(mode),'Invalid Force Point choice');let extra;
  const hitRule=offensivePowerRule(pack,step.options.effectPowerId),requiresHit=!!hitRule?.enhancement.requiresHit&&!historicalManualPower(pack,step.options.effectPowerId,step.options);
+ if(mode==='enhance'&&hitRule?.enhancement.timing==='activation')assert(historicalManualPower(pack,step.options.effectPowerId,step.options),'Enhancement must be chosen at activation');
  if(confirmation)assert(requiresHit,'Power does not use hit confirmation');
  if(mode==='enhance'&&requiresHit){const hit=offensivePowerHit(pack,hitRule.powerId,step.result.check,step.options.offensivePowerSnapshot);assert(hit===true||hit===null&&confirmation,'Confirm a successful hit after the check');if(confirmation)step.options.offensiveHitConfirmed=true;}
  if(mode!=='none'){
