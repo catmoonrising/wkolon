@@ -5,7 +5,7 @@ Powers18202. Standard, one creature within12squares and Line of Sight, with
 Mind-Affecting descriptor. UTF15/20/25/30 yields2/3/4/5d8 Force damage on an
 inclusive Will hit, plus one Condition Track step. Miss/below15 has no effect.
 A special FP adds2d8 damage, not more CT steps, target scope or defense bonuses.
-Lesser achieved tiers use the shared chooser. Do not import Lightning's strict
+Lesser achieved tiers use the shared chooser. Do not import a strict
 comparison, natural attack rules, area half misses/Evasion/Cover or size bonuses.
 
 A hit also prevents the target from improving its OWN Condition until the END
