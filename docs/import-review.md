@@ -3245,3 +3245,17 @@ on failure. The shared quickening resolver also preserves Energy Resistance
 Swift activation, action allocation, one-FP/Adept restrictions and saved
 checks. This is not a post-check enhancement. Pins and text unchanged;
 contract docs/force-blind.md.
+
+## Resist Force
+
+Resist Force19308 shares the existing maintained resistance lifecycle. UTF
+15/20/25 gives an unnamed+1/+2/+3 to one chosen Defense versus Force Powers
+only; one FP adds a second distinct chosen Defense. Canonical saved choices
+prevent pending completion from switching selections. General unnamed bonus
+stacking16336 applies across separately activated instances. Ordinary Defenses
+remain unchanged; conditional Fortitude/threshold use the existing context
+resolver. Each instance costs one Swift to maintain without another activation
+check; damage while maintained triggers its own saved DC15+damage UTF check,
+FP/keep/release, with common cleanup and atomic reset guards. Energy Resistance
+keeps its original saved shape, DR and Swift quickening. Enemy use and target
+context remain declared, so Partial. Sources/text unchanged; docs/resist-force.md.

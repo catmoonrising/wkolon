@@ -7,7 +7,7 @@ import {offensivePowerRule,offensivePowerTier,resolveOffensivePower} from './off
 import {negatingPowerRule,finishNegatingPower} from './negating-powers.js';
 import {balanceAfterDamage} from './balance.js';
 import {derive} from './rules.js';
-import {resistancePowerRule,resistancePowerTier,finishResistancePower} from './resistance-powers.js';
+import {resistancePowerRule,resistancePowerTier,finishResistancePower,resistancePowerLabel} from './resistance-powers.js';
 import {shieldPowerRule,shieldPowerTier,finishShieldPower} from './shield-powers.js';
 import {ragePowerRule,ragePowerTier,finishRagePower,activeRagePowers,hasRageTechnique} from './rage-powers.js';
 import {selfPowerRule,selfPowerTier,finishSelfPower} from './self-power-effects.js';
@@ -30,7 +30,7 @@ export function finishPowerEffect(c,d,pack,id,powerId,check,enhanced=false,desti
  if(offensivePowerRule(pack,powerId))return resolveOffensivePower(pack,powerId,check,{enhanced,snapshot:options.offensivePowerSnapshot,effectDC:options.effectDC,roller:options.roller}).text;
  if(thresholdPowerRule(pack,powerId)){const result=finishThresholdPower(c,d,pack,powerId,check,options.incoming,{enhanced,effectDC:options.effectDC,stepId:id});if(result.damage?.balanceCheckRequired)result.text+='; '+balanceAfterDamage(c,derive(c,pack),pack,options.roller).text;return result.text;}
  if(negatingPowerRule(pack,powerId)){const result=finishNegatingPower(c,d,pack,powerId,check,options.incoming,{heal:enhanced});if(result.damage?.balanceCheckRequired)result.text+='; '+balanceAfterDamage(c,derive(c,pack),pack,options.roller).text;return result.text;}
- if(resistancePowerRule(pack,powerId)){const row=finishResistancePower(c,pack,id,powerId,check);return row?'DR '+resistancePowerRule(pack,powerId).thresholds[row.tier-1].dr:'No effect';}
+ if(resistancePowerRule(pack,powerId)){const row=finishResistancePower(c,pack,id,powerId,check,{enhanced,selection:options.resistForceSnapshot});return row?resistancePowerLabel(row,pack):'No effect';}
  if(shieldPowerRule(pack,powerId)){const row=finishShieldPower(c,pack,id,powerId,check,enhanced);return row?'SR '+row.sr:'No effect';}
  if(ragePowerRule(pack,powerId)){const row=finishRagePower(c,pack,id,powerId,check,{enhanced,focusAllowed:options.focusAllowed??hasRageTechnique(d.ctx,pack)});if(!row)return 'No effect';const effect=activeRagePowers(c,pack).find(s=>s.id===id);return 'Melee attack/damage +'+effect.bonus+' Rage'+(enhanced?'; encounter':'');}
  if(!movementPowerRule(pack,powerId))return finishSelfPower(c,pack,id,powerId,check,enhanced);

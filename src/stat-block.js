@@ -38,7 +38,7 @@ export function renderStatBlock(c,d,pack){
  const languages=[...species.languages,backgroundLanguage(c,pack),c.languages].filter(Boolean).map(escape).join(', ')+(species.understoodLanguages?.length?'; understands '+species.understoodLanguages.map(escape).join(', '):'');
  const classFeatureNames=[...d.ctx.classFeatures.map(f=>f.name+(d.ctx.inactiveClasses.has(f.classId)?' (Inactive)':'')),...d.ctx.classChoices.map(s=>ix.classChoices.get(s.id).name+(s.choice?' ('+choiceName(s.choice,pack)+')':'' )+(d.ctx.inactiveClasses.has(s.classId)?' (Inactive)':''))];
  const points=[c.story?.kind==='destiny'?`<b>Destiny Points:</b> ${c.story.points}`:'',`<b>Force Points:</b> ${d.forceCurrent??c.forcePoints}`,`<b>Dark Side Score:</b> ${c.darkSideScore||0}`].filter(Boolean).join('; ');
- const resistanceDR=(d.resistancePowers||[]).length?Math.max(...d.resistancePowers.map(s=>s.dr)):0;
+ const resistanceDR=(d.resistancePowers||[]).length?Math.max(0,...d.resistancePowers.filter(s=>s.dr!==undefined).map(s=>s.dr)):0;
  const energySR=[...(d.energyShields||[]).map(s=>`${s.sr} (Energy)`),...(d.shieldPowers||[]).map(s=>`${s.sr}/${s.srMax} (Force)`)].join(', ');
  const protection=d.normalProtection||c.protection||{dr:0,sr:0,srMax:0,drBypass:''};
  const condition=c.condition===5?`Helpless (${species.isDroid?'Disabled':'Unconscious'})`:c.condition?`${signed(pack.rules.conditionPenalties[c.condition])} Penalty${c.condition===4?'; Move at Half Speed':''}`:'';

@@ -12,7 +12,7 @@ import {deflectionRule,deflectionPlan,deflectionRerollSources,snapshotDeflection
 import {balanceAfterDamage} from './balance.js';
 import {negatingPowerRule,negateEnergyPlan,assertNegationResolved} from './negating-powers.js';
 import {maintainedPowers,powerMaintenancePlan,renewMaintainedPower} from './maintained-powers.js';
-import {resistancePowerRule,assertResistanceResolved,pendingResistanceChecks,recordResistanceDamageCheck,finishResistanceDamageCheck,removeResistancePower} from './resistance-powers.js';
+import {resistancePowerRule,resistForceSelection,resistancePowerLabel,assertResistanceResolved,pendingResistanceChecks,recordResistanceDamageCheck,finishResistanceDamageCheck,removeResistancePower} from './resistance-powers.js';
 import {ragePowerRule,hasRageTechnique,endRagePowerTurn,clearRagePowers} from './rage-powers.js';
 import {actionPhase,surpriseActionIssue} from './surprise-round.js';
 import {jumpState,planJump,rollJump,finishJump} from './jump.js';
@@ -159,6 +159,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   view.fpAllowed=checkForcePointAvailable(q,d,{power:p,forceCost:view.forceCost,reaction:view.cost.type==='reaction'});
   const requirement=pack.rules.actionEconomy.powerRequirements?.[p.id];if(requirement?.notFlatFooted)assert(!d.flatFooted,'Power unavailable while flat-footed');if(requirement?.aware)assert(o.aware,'Confirm awareness of the attack');
   view.enhanceAllowed=!quickening&&!!o.enhance&&!s.forceSpent&&d.forceCurrent>0&&!view.forceCost;
+  if(resistancePowerRule(pack,p.id)?.kind==='defense')view.resistForce=resistForceSelection(o.resistForce);else assert(o.resistForce===undefined,'Power does not select Defenses');
   if(mentalPowerRule(pack,p.id)){view.mental=mentalPowerSnapshot(d,pack,o.mental);if(view.mental.selection.mode!=='suggestion')view.enhanceAllowed=false;}else assert(o.mental===undefined,'Power does not use a mental target');
   if(displacementPowerRule(pack,p.id)){view.thrust=forceThrustSnapshot(q,d,pack,o.thrust);if(view.thrust.target.mode==='door')view.enhanceAllowed=false;}else assert(o.thrust===undefined,'Power does not use a thrust target');
   if(negatingPowerRule(pack,p.id))view.negation=negateEnergyPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost});else if(thresholdPowerRule(pack,p.id))view.threshold=thresholdPowerPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost,enhanceAsk:!!o.enhance});else assert(o.incoming===undefined,'Power does not use incoming damage');
@@ -211,7 +212,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   const rerollAllowed=o.rerolls!=='none'&&(o.rerolls==='always'||check.total<o.attackRoll)&&deflectionRerollSources(c,d,pack,step).length>0;
   r={...step.result,rerollAllowed,html:x.display+' = '+totalHtml(x)};if(!rerollAllowed){step.status='done';const finished=finishDeflection(c,d,pack,step);r.text=finished.text;if(finished.damage?.balanceCheckRequired)r.text+='; '+balanceAfterDamage(c,derive(c,pack),pack,roller).text;}
  }
- else if(id==='maintain-power'){renewMaintainedPower(c,o.effectId,v.maintenance.family);invalidate(c);r={text:'Maintain '+v.maintenance.name+': '+(v.maintenance.family==='shield'?'SR '+v.maintenance.row.sr:'DR '+v.maintenance.rule.thresholds[v.maintenance.row.tier-1].dr)};}
+ else if(id==='maintain-power'){renewMaintainedPower(c,o.effectId,v.maintenance.family);invalidate(c);r={text:'Maintain '+v.maintenance.name+': '+(v.maintenance.family==='shield'?'SR '+v.maintenance.row.sr:resistancePowerLabel(v.maintenance.row,pack))};}
  else if(id==='jump'){r=rollJump(v.jump,roller);o.jumpResolution={dc:v.jump.dc,cost:v.jump.cost,maximum:v.jump.maximum,noCheck:v.jump.noCheck};const finished=finishJump(c,v.jump,r.check);r.fpAllowed=v.fpAllowed;r.enhanceAllowed=false;if(!(r.fpAllowed&&o.fp==='ask')){r.text+='; '+finished.text;r.html=escape(r.text)+(r.html?'<div>'+r.html+'</div>':'');}}
  else if(id==='move')r=acrobaticsMove(c,d,pack,roller);
  else if(id==='withdraw')r=withdraw(c,d,pack);
@@ -247,7 +248,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   else {const x=roller('1d20'+signed(bonus));usePower(c,d,pack,o.powerId,x.d20[0],{action:o.quicken?powerQuickening(pack,v.power.id).action+'-action':null});check={natural:x.d20[0],bonus,total:x.value};r={html:x.display+' = '+totalHtml(x)};}
   r={...r,text:v.name+': Use the Force '+check.total+(o.rollMode==='take10'?' (Take 10)':o.rollMode==='adept'?' (Force Power Adept)':'')+(v.forceCost?'; Force Points -1':'')+(v.selfPower?'':'; effects manual'),check,fpAllowed:v.fpAllowed,enhanceAllowed:v.enhanceAllowed&&(v.mental?mentalEnhancementAvailable(v.mental,check.total):v.negation?check.total>=v.negation.incoming.amount:!v.selfPower||!!selfPowerTier(pack,v.power.id,check.total))};
   if((o.effectDC===undefined||o.effectDC===null)&&powerEffectChoiceRule(pack,v.power.id)?.thresholds?.filter(t=>t.dc<=check.total).length>1)r.effectChoiceAllowed=true;
-  const effectHeading=r.text;let effectHTML='';if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed||r.effectChoiceAllowed)){const effect=finishPowerEffectResult(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,formAllowed:o.opportunityFormAllowed,incoming:o.incoming,offensivePowerSnapshot:o.offensivePowerSnapshot,forceThrustSnapshot:o.forceThrustSnapshot,mentalPowerSnapshot:o.mentalPowerSnapshot,effectDC:o.effectDC,roller});r.text+='; '+effect.text;effectHTML=effect.html||'';}
+  const effectHeading=r.text;let effectHTML='';if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed||r.effectChoiceAllowed)){const effect=finishPowerEffectResult(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,formAllowed:o.opportunityFormAllowed,incoming:o.incoming,offensivePowerSnapshot:o.offensivePowerSnapshot,forceThrustSnapshot:o.forceThrustSnapshot,mentalPowerSnapshot:o.mentalPowerSnapshot,resistForceSnapshot:o.resistForceSnapshot,effectDC:o.effectDC,roller});r.text+='; '+effect.text;effectHTML=effect.html||'';}
   r.html=escape(effectHTML?effectHeading:r.text)+(r.html?'<div>'+r.html+'</div>':'')+effectHTML;
  }else if(v.skillAction){
   invalidate(c);const x=rollSkillAction(v.skillAction,roller);r={...x,text:v.name+': '+x.text,fpAllowed:v.fpAllowed};
@@ -266,6 +267,7 @@ function commit(c,q){for(const k of Object.keys(c))if(!Object.hasOwn(q,k))delete
 export function executeAction(c,pack,stepId,roller=evalExpr){
  const original=c.actionState?.plan.find(p=>p.id===stepId);assert(original?.status==='queued','Action already resolved or unavailable');assert(!c.actionState.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));
  const v=describeAction(c,pack,original.action,original.options),q=v.character;q.actionState??=emptyActionState();if(!q.actionState.active&&v.cost.type==='reaction')q.actionState.ended=true;if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')&&reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;let step=q.actionState.plan.find(p=>p.id===stepId);
+ if(v.resistForce)step.options.resistForceSnapshot=structuredClone(v.resistForce);
  if(v.selfPower)step.options.effectPowerId=v.power.id;else delete step.options.effectPowerId;
  if(offensivePowerRule(pack,v.power?.id))step.options.offensivePowerSnapshot=offensivePowerSnapshot(v.derived,pack,v.power.id);else delete step.options.offensivePowerSnapshot;
  if(opportunityPowerRule(pack,v.power?.id))step.options.opportunityFormAllowed=hasOpportunityForm(v.derived.ctx,pack);else delete step.options.opportunityFormAllowed;
@@ -298,7 +300,7 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
  }
  if(pack.rules.skillActions?.some(r=>r.id===step.action))step.result.text+='; '+finishSkillAction(q,derive(q,pack),pack,step.action,step.options,step.result.check);
  if(step.action==='jump'){const snapshot=step.options.jumpResolution;assert(snapshot&&Number.isFinite(snapshot.dc)&&snapshot.dc>=0&&snapshot.dc<=2400000&&Number.isFinite(snapshot.cost)&&snapshot.cost>=0&&Number.isFinite(snapshot.maximum)&&snapshot.maximum>=snapshot.cost&&typeof snapshot.noCheck==='boolean','Invalid saved Jump');step.result.text+='; '+finishJump(q,{...snapshot,path:step.options.path},step.result.check).text;}
- const effectHeading=step.result.text;let effectHTML='';if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,formAllowed:step.options.opportunityFormAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,forceThrustSnapshot:step.options.forceThrustSnapshot,mentalPowerSnapshot:step.options.mentalPowerSnapshot,effectDC:step.options.effectDC,roller});step=q.actionState.plan.find(p=>p.id===stepId);step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}
+ const effectHeading=step.result.text;let effectHTML='';if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,formAllowed:step.options.opportunityFormAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,forceThrustSnapshot:step.options.forceThrustSnapshot,mentalPowerSnapshot:step.options.mentalPowerSnapshot,resistForceSnapshot:step.options.resistForceSnapshot,effectDC:step.options.effectDC,roller});step=q.actionState.plan.find(p=>p.id===stepId);step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}
   step=q.actionState.plan.find(p=>p.id===stepId);step.status='done';validateCharacter(q,pack);commit(c,q);return {text:step.result.text,...(extra||effectHTML?{html:escape(effectHTML?effectHeading:step.result.text)+(extra?'<div>'+extra.display+' = '+totalHtml(extra)+'</div>':'')+effectHTML}:{})};
 }
 
@@ -361,16 +363,16 @@ export function previewPlan(c,pack){
 export function rollResistanceMaintenance(c,pack,id,roller=evalExpr){
  const q=structuredClone(c),d=derive(q,pack),row=pendingResistanceChecks(q).find(s=>s.id===id),skill=d.skills.find(s=>s.id==='skill:use-the-force');
  assert(row&&!row.pending.check,'Maintenance check unavailable');
- if(d.incapacitated||d.helpless||!skill?.available){removeResistancePower(q,id);commit(c,q);return {text:'Energy Resistance released'};}
+ if(d.incapacitated||d.helpless||!skill?.available){removeResistancePower(q,id);commit(c,q);return {text:pack.forcePowers.find(p=>p.id===row.powerId).name+' released'};}
  const r=roller('1d20'+signed(skill.total));recordResistanceDamageCheck(q,id,{natural:r.d20?.[0],bonus:skill.total,total:r.value});
  const dc=resistancePowerRule(pack,row.powerId).damageCheck.baseDC+row.pending.damage;
- const text='Energy Resistance: Use the Force '+r.value+' (DC '+dc+')';validateCharacter(q,pack);commit(c,q);return {text,html:r.display+' = '+totalHtml(r)};
+ const text=pack.forcePowers.find(p=>p.id===row.powerId).name+': Use the Force '+r.value+' (DC '+dc+')';validateCharacter(q,pack);commit(c,q);return {text,html:r.display+' = '+totalHtml(r)};
 }
 export function finishResistanceMaintenance(c,pack,id,spend=false,roller=evalExpr){
  assert(typeof spend==='boolean','Invalid Force Point choice');const q=structuredClone(c),d=derive(q,pack);let extra;
  assert(pendingResistanceChecks(q).some(s=>s.id===id&&s.pending.check),'Maintenance roll unavailable');
  if(spend){assert(checkForcePointAvailable(q,d),'Force Point unavailable');extra=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);assert(Number.isInteger(extra.value)&&extra.value>=1&&extra.value<=d.forcePointDie,'Invalid Force Point roll');q.forcePoints=d.forceCurrent-1;q.actionState.forceSpent=true;}
- const result=finishResistanceDamageCheck(q,pack,id,extra?.value||0);validateCharacter(q,pack);commit(c,q);return {text:'Energy Resistance: '+result.total+' / '+result.dc+'; '+(result.success?'maintained':'released')+(extra?'; Force Point +'+extra.value:''),...result};
+ const name=pack.forcePowers.find(p=>p.id===pendingResistanceChecks(q).find(s=>s.id===id).powerId).name,result=finishResistanceDamageCheck(q,pack,id,extra?.value||0);validateCharacter(q,pack);commit(c,q);return {text:name+': '+result.total+' / '+result.dc+'; '+(result.success?'maintained':'released')+(extra?'; Force Point +'+extra.value:''),...result};
 }
 
 export function finishDeflectionChoice(c,pack,stepId,sourceId=null,roller=evalExpr){

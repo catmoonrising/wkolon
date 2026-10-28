@@ -13,7 +13,7 @@ import {skillAbilityDetails,validateSkillAbilities} from './skill-abilities.js';
 import {validateAttackAbilities,attackAbilityDetails} from './attack-abilities.js';
 import {validateDeflection} from './deflection.js';
 import {validateNegatingPowers} from './negating-powers.js';
-import {validateResistancePowers,activeResistancePowers} from './resistance-powers.js';
+import {validateResistancePowers,activeResistancePowers,resistancePowerDefenseEffects,validateResistForceSelections} from './resistance-powers.js';
 import {validateShieldPowers,activeShieldPowers} from './shield-powers.js';
 import {validateRagePowers,ragePowerModifiers,rageBlockedSkills} from './rage-powers.js';
 import {validateJump} from './jump.js';
@@ -162,7 +162,7 @@ export function validateCharacter(c, pack) {
   validateMovementPowerEffects(c,pack,bad);
   validateRagePowers(c,pack,bad);
   validateMentalPowers(c,pack,bad);validateConditionPowerResults(c,pack,bad);validateOpportunityPowers(c,pack,bad);validateOpportunityPowerResults(c,pack,bad);validateForceThrustResults(c,pack,bad);validateNegatingPowers(c,pack,bad);validateThresholdPowers(c,pack,bad);validateDeflection(c,pack,bad);
-  validateShieldPowers(c,pack,bad);validateResistancePowers(c,pack,bad);
+  validateShieldPowers(c,pack,bad);validateResistancePowers(c,pack,bad);validateResistForceSelections(c,pack,bad);
   const maintainedIds=[...(c.shieldPowerEffects||[]),...(c.resistancePowerEffects||[])].map(s=>s.id);if(new Set(maintainedIds).size!==maintainedIds.length)bad('maintained power identities');
   validateJump(c,bad);
   validateNaturalModifiers(c,pack,bad);validateAttackAbilities(c,bad);
@@ -530,7 +530,7 @@ export function derive(c, pack) {
     breakdowns[key] = `10 + ${base} ${key === 'reflex' && armor ? 'armor/level' : 'level'} + ${ability} ability (${defenseAbilities[key].ability.toUpperCase()}) + ${clsBonus} class + ${sp} species + ${equipment} equipment + ${size} size + ${naturalArmor} natural armor + ${featDefense} feats + ${lightsaberBonus} Lightsaber + ${dodge} dodge + ${condition} condition + ${c.modifiers[key]} misc${charge?' + '+charge+' Charge':''}${shieldPenalty?' + '+shieldPenalty+' energy shield':''}${key==='reflex'&&flurry.reflexPenalty?' + '+flurry.reflexPenalty+' Flurry':''}`;
   }
   // RAW defines threshold from Fortitude. Counseling confirms that rule.
-  const conditionalEffects=[...turnTalentEffects(c,pack,ctx,{flatFooted,helpless}),...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='darkSideTalismanDefense'&&darkSideTalisman&&(e.talisman==='all')===(darkSideTalisman==='all')).flatMap(e=>(e.talisman==='all'?['reflex','fortitude','will']:[darkSideTalisman]).map(defense=>({target:'conditionalDefense',defense,against:e.against,amount:e.amount,type:e.type}))),...effects.filter(e=>e.target==='conditionalDefense').map(e=>e.classLevel?{...e,amount:ctx.inactiveClasses?.has(e.classLevel)?0:ctx.classLevels.get(e.classLevel)||0}:e).filter(e=>e.amount>0),...armorConditionalDefenses(armorItems,ctx,defenses)];
+  const conditionalEffects=[...resistancePowerDefenseEffects(c,pack),...turnTalentEffects(c,pack,ctx,{flatFooted,helpless}),...(species.conditionalDefenses||[]),...effects.filter(e=>e.target==='darkSideTalismanDefense'&&darkSideTalisman&&(e.talisman==='all')===(darkSideTalisman==='all')).flatMap(e=>(e.talisman==='all'?['reflex','fortitude','will']:[darkSideTalisman]).map(defense=>({target:'conditionalDefense',defense,against:e.against,amount:e.amount,type:e.type}))),...effects.filter(e=>e.target==='conditionalDefense').map(e=>e.classLevel?{...e,amount:ctx.inactiveClasses?.has(e.classLevel)?0:ctx.classLevels.get(e.classLevel)||0}:e).filter(e=>e.amount>0),...armorConditionalDefenses(armorItems,ctx,defenses)];
   // Melee-only awareness bonuses share their type with every while-aware bonus.
   const meleeAware=conditionalEffects.some(e=>e.against==='melee-aware')?conditionalEffects.filter(e=>e.against==='aware').map(e=>({...e,against:'melee-aware'})):[];
   const groupedDefenses=combineArmorDefenses([...conditionalEffects,...meleeAware],[],defenses,equipmentDefenseBonuses,defenseModifiers).filter(r=>!['aware','melee-aware'].includes(r.against)||r.amount>0);
