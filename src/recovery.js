@@ -1,4 +1,5 @@
 import {clearTrackingPowers} from './tracking-powers.js';
+import {advanceTimedTalents,ROUNDS_PER_MINUTE} from './timed-talents.js';
 import {clearEncounterTriggers} from './triggered-defenses.js';
 import {assertDeflectionResolved} from './deflection.js';
 import {derive} from './rules.js';
@@ -111,6 +112,10 @@ export function recoverCondition(c,d){
 export function removePersistent(c,cause){
  const r=state(c);r.persistent=r.persistent.filter(p=>p!==cause);
 }
+export function recuperate(c){
+ if(!recoveryState(c).persistent.includes('rage'))throw new Error('No Rage condition to recuperate');
+ advanceTimedTalents(c,10*ROUNDS_PER_MINUTE);removePersistent(c,'rage');
+}
 export function newEncounter(c){assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
  assertDeflectionResolved(c);endRegenerativeHealing(c);clearTrackingPowers(c);c.deflectionAttempts=0;
@@ -171,6 +176,7 @@ export function checkConsciousness(c,d,pack,roller=evalExpr){
  const rule=pack.rules.unconsciousRecovery,mod=d.recovery.unconscious.modifier;
  const rolled=roller(`1d20${mod>=0?'+':''}${mod}`),natural=rolled.d20?.[0];
  if(!Number.isInteger(natural)||natural<1||natural>20||!Number.isFinite(rolled.value))throw new Error('Invalid Constitution check');
+ advanceTimedTalents(c,(d.recovery.unconscious.retry?rule.retryHours*60:rule.firstMinutes)*ROUNDS_PER_MINUTE);
  endUnconsciousTalents(c,pack);
  const fatal=natural===rule.fatalNatural||rolled.value<=rule.dc-rule.deathFailureMargin;
  const dead=fatal&&!(recoveryState(c).stunUnconscious&&rule.stunNoFatalCheck),success=!fatal&&rolled.value>=rule.dc;

@@ -1,5 +1,5 @@
 import {escapeHTML as escape} from './wiki-content.js';
-import {catchSecondWind,startRage,advanceRage,recoverCondition,recoverActions,removePersistent,newEncounter,newDay,persistentName,setPersistent,setDead,receiveHealing,restEightHours,checkConsciousness,loseLimb,removeLimb,setLimbPersistent,recoveryState} from './recovery.js';
+import {catchSecondWind,startRage,advanceRage,recoverCondition,recoverActions,removePersistent,recuperate,newEncounter,newDay,persistentName,setPersistent,setDead,receiveHealing,restEightHours,checkConsciousness,loseLimb,removeLimb,setLimbPersistent,recoveryState} from './recovery.js';
 import {bellowDetails,rollBellow} from './species-actions.js';
 import {totalHtml} from './dice.js';
 import {ambiguityValue} from './house-rules.js';
@@ -69,7 +69,7 @@ export function createRecoveryControls(pack,{current,derived,changed,log,error})
     else if(action==='rage'){startRage(c,d);log('condition',`Rage: ${d.recovery.rage.duration} rounds`);}
     else if(action==='round'){advanceRage(c);if(!c.recovery.rageRounds)log('condition','Rage ended: −1 persistent step');}
     else if(action==='recover'){recoverCondition(c,d);log('condition',`Recover: ${recoverActions(d,pack)} Swift Actions; +1 step`);}
-    else if(action==='recuperate'){removePersistent(c,'rage');log('condition','Rage: persistent condition removed after 10 minutes recuperation');}
+    else if(action==='recuperate'){recuperate(c);log('condition','Rage: persistent condition removed after 10 minutes recuperation');}
     else if(action==='exhaustion-rest'){removePersistent(c,'second-wind');log('condition','Second Wind: persistent condition removed after 8 hours rest or Surgery');}
     else if(action==='surgery'){removePersistent(c,'injury');log('condition','Injury: persistent condition removed after Surgery');}
     else if(action==='rest'){const result=restEightHours(c,d,pack);log('hp',`Rest (8h): HP ${result.before} → ${result.after}${result.blocked?'; persistent condition remains':''}`);}
