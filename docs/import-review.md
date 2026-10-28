@@ -3308,3 +3308,18 @@ User ruling: Adept applies to Cloak upkeep by default; Ambiguities offers
 activation-only Adept. Mastery remains activation-only under its wording.
 This does not change damage-triggered concentration checks. Sources19843,
 18180,18191,18202,16336 unchanged; contract docs/cloak.md and docs/rulings.md.
+
+### Rend
+
+Rend20033 now uses shared outgoing Force-power activation, saved checks and FP
+choices. Inclusive Reflex3d6, special success-only FP+2d6, and the explicit
+natural20 double-damage exception are supported. A target Reflex may be saved
+before rolling; known misses cannot use the enhancement. Without a known
+Reflex, the post-check Hit/Enhance button confirms success before spending.
+Adept uses its kept natural die, Mastery does not count as natural20, and
+ordinary FP boosts, Many Shades, DSS and suite recovery use shared rules.
+The damage descriptor remains unspecified. Folded0HP text and structured
+results retain severing and automatic death of living creatures actually
+reduced to0HP by this damage. Opponent HP, protection, living status, range
+and Line of Sight stay external, so Partial. No source articles changed;
+contract docs/rend.md, Rend20033 and Force Powers18202.

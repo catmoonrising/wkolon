@@ -19,7 +19,7 @@ export function finishPowerEffectResult(c,d,pack,id,powerId,check,enhanced=false
  if(mentalPowerRule(pack,powerId))return resolveMentalPower(pack,check,options.mentalPowerSnapshot,{enhanced});
  if(conditionPowerRule(pack,powerId))return resolveConditionPower(pack,powerId,check,{enhanced,effectDC:options.effectDC,snapshot:options.conditionPowerSnapshot});
  if(displacementPowerRule(pack,powerId))return finishForceThrust(pack,check,options.forceThrustSnapshot,{enhanced,roller:options.roller});
- if(offensivePowerRule(pack,powerId))return resolveOffensivePower(pack,powerId,check,{enhanced,snapshot:options.offensivePowerSnapshot,effectDC:options.effectDC,roller:options.roller});
+ if(offensivePowerRule(pack,powerId))return resolveOffensivePower(pack,powerId,check,{enhanced,snapshot:options.offensivePowerSnapshot,effectDC:options.effectDC,hitConfirmed:options.offensiveHitConfirmed,roller:options.roller});
  return {text:finishPowerEffect(c,d,pack,id,powerId,check,enhanced,destiny,options)};
 }
 export function finishPowerEffect(c,d,pack,id,powerId,check,enhanced=false,destiny=false,options={}){
@@ -27,7 +27,7 @@ export function finishPowerEffect(c,d,pack,id,powerId,check,enhanced=false,desti
  if(conditionPowerRule(pack,powerId))return resolveConditionPower(pack,powerId,check,{enhanced,effectDC:options.effectDC,snapshot:options.conditionPowerSnapshot}).text;
  if(opportunityPowerRule(pack,powerId)){const row=finishOpportunityPower(c,pack,id,powerId,check,{enhanced,formAllowed:options.formAllowed,effectDC:options.effectDC});return row?'AoO +'+opportunityPowerRule(pack,powerId).thresholds[row.tier-1].attack+' Force'+(row.formAllowed?'; +1 damage die':'')+(enhanced?'; Move 1 square without provoking':''):'No effect';}
  if(displacementPowerRule(pack,powerId))return finishForceThrust(pack,check,options.forceThrustSnapshot,{enhanced,roller:options.roller}).text;
- if(offensivePowerRule(pack,powerId))return resolveOffensivePower(pack,powerId,check,{enhanced,snapshot:options.offensivePowerSnapshot,effectDC:options.effectDC,roller:options.roller}).text;
+ if(offensivePowerRule(pack,powerId))return resolveOffensivePower(pack,powerId,check,{enhanced,snapshot:options.offensivePowerSnapshot,effectDC:options.effectDC,hitConfirmed:options.offensiveHitConfirmed,roller:options.roller}).text;
  if(thresholdPowerRule(pack,powerId)){const result=finishThresholdPower(c,d,pack,powerId,check,options.incoming,{enhanced,effectDC:options.effectDC,stepId:id});if(result.damage?.balanceCheckRequired)result.text+='; '+balanceAfterDamage(c,derive(c,pack),pack,options.roller).text;return result.text;}
  if(negatingPowerRule(pack,powerId)){const result=finishNegatingPower(c,d,pack,powerId,check,options.incoming,{heal:enhanced});if(result.damage?.balanceCheckRequired)result.text+='; '+balanceAfterDamage(c,derive(c,pack),pack,options.roller).text;return result.text;}
  if(resistancePowerRule(pack,powerId)){const row=finishResistancePower(c,pack,id,powerId,check,{enhanced,selection:options.resistForceSnapshot});return row?resistancePowerLabel(row,pack):'No effect';}
