@@ -1,3 +1,4 @@
+import {checkedMaintenancePlan,finishCheckedMaintenance} from './checked-maintenance.js';
 import {mentalPowerRule,mentalPowerSnapshot,mentalEnhancementAvailable} from './mental-powers.js';
 import {conditionPowerRule,conditionPowerSnapshot} from './condition-powers.js';
 import {opportunityPowerRule,hasOpportunityForm,clearOpportunityPowers} from './opportunity-powers.js';
@@ -47,7 +48,7 @@ import {planWithdraw} from './combat-movement.js';
 import {planCharge} from './charge.js';
 import {catchSecondWind,advanceRegenerativeHealing,startRegenerativeHealingTurn,endRegenerativeHealing,startRage,startChannelRage,endChannelRage,recoverCondition,recoverActions,advanceRage,recoveryState} from './recovery.js';
 import {declareDefenseStance} from './defensive-combat.js';
-import {usePower,take10Power,useAdeptPower,recoverPower,recoverSuite,turnEndRecoveryDue} from './force-powers.js';
+import {usePower,take10Power,useAdeptPower,selectAdeptNatural,recoverPower,recoverSuite,turnEndRecoveryDue} from './force-powers.js';
 import {powerActivationIssue,powerQuickening} from './power-activation.js';
 import {rollOpportunity} from './opportunity-actions.js';
 import {planOpportunity,startNextRound,opportunityContext} from './opportunity.js';
@@ -119,7 +120,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'balance':case 'balance-recheck':planBalance(q,d,pack,id==='balance-recheck');break;
  case 'escape-bonds':{const p=planEscapeBonds(q,d,pack);view.cost.type=typeOf(p.duration);assert(view.cost.type,'Resolve this duration outside turn tracking');break;}
  case 'block':case 'deflect':view.deflection=deflectionPlan(q,d,pack,id,o);view.forceCost=view.deflection.forceCost;break;
- case 'maintain-power':{const p=powerMaintenancePlan(q,d,pack,o.effectId);view.maintenance=p;view.name='Maintain '+p.name;view.cost.type=p.rule.maintenance;break;}
+ case 'maintain-power':{const p=powerMaintenancePlan(q,d,pack,o.effectId);view.maintenance=p;view.name='Maintain '+p.name;view.cost.type=p.rule.maintenance;if(p.rule.maintenanceCheck){view.upkeep=checkedMaintenancePlan(q,d,pack,p,o);view.forceCost=view.upkeep.forceCost;view.fpAllowed=view.upkeep.fpAllowed;}break;}
  case 'jump':{const p=planJump(q,d,pack);assert(p.timeMultiplier===1,'Take 20 requires time outside tracked turns');view.jump=p;view.name=p.name;view.cost.count=p.path.moves;view.fpAllowed=!p.noCheck&&p.path.checkMode==='roll'&&p.path.check===null&&checkForcePointAvailable(q,d);break;}
  case 'move':planAcrobaticsMove(q,d,pack);break;
  case 'withdraw':planWithdraw(q,d,pack);break;
@@ -213,7 +214,18 @@ function resolve(c,pack,id,o,v,roller,activationId){
   const rerollAllowed=o.rerolls!=='none'&&(o.rerolls==='always'||check.total<o.attackRoll)&&deflectionRerollSources(c,d,pack,step).length>0;
   r={...step.result,rerollAllowed,html:x.display+' = '+totalHtml(x)};if(!rerollAllowed){step.status='done';const finished=finishDeflection(c,d,pack,step);r.text=finished.text;if(finished.damage?.balanceCheckRequired)r.text+='; '+balanceAfterDamage(c,derive(c,pack),pack,roller).text;}
  }
- else if(id==='maintain-power'){renewMaintainedPower(c,o.effectId,v.maintenance.family);invalidate(c);r={text:'Maintain '+v.maintenance.name+': '+(v.maintenance.family==='shield'?'SR '+v.maintenance.row.sr:resistancePowerLabel(v.maintenance.row,pack))};}
+ else if(id==='maintain-power'){
+  invalidate(c);
+  if(v.upkeep){
+   const upkeep=v.upkeep;if(upkeep.forceCost){c.forcePoints=d.forceCurrent-upkeep.forceCost;c.actionState.forceSpent=true;}
+   const rolls=Array.from({length:upkeep.rollMode==='adept'?2:1},()=>roller('1d20'+signed(upkeep.bonus)));
+   for(const x of rolls)assert(Number.isInteger(x.d20?.[0])&&x.d20[0]>=1&&x.d20[0]<=20&&x.value===x.d20[0]+upkeep.bonus,'Invalid upkeep roll');
+   const natural=upkeep.rollMode==='adept'?selectAdeptNatural(rolls.map(x=>x.d20[0])):rolls[0].d20[0],check={natural,bonus:upkeep.bonus,total:natural+upkeep.bonus};
+   r={text:v.name+': Use the Force '+check.total+(upkeep.forceCost?'; Force Points -1':''),html:rolls.map(x=>x.display+' = '+totalHtml(x)).join('; '),check,fpAllowed:upkeep.fpAllowed,enhanceAllowed:false};
+   if(!(r.fpAllowed&&o.fp==='ask'))r.text+='; '+finishCheckedMaintenance(c,pack,o.maintenancePowerSnapshot,check);
+   r.html=escape(r.text)+'<div>'+r.html+'</div>';
+  }else {renewMaintainedPower(c,o.effectId,v.maintenance.family);r={text:'Maintain '+v.maintenance.name+': '+(v.maintenance.family==='shield'?'SR '+v.maintenance.row.sr:resistancePowerLabel(v.maintenance.row,pack))};}
+ }
  else if(id==='jump'){r=rollJump(v.jump,roller);o.jumpResolution={dc:v.jump.dc,cost:v.jump.cost,maximum:v.jump.maximum,noCheck:v.jump.noCheck};const finished=finishJump(c,v.jump,r.check);r.fpAllowed=v.fpAllowed;r.enhanceAllowed=false;if(!(r.fpAllowed&&o.fp==='ask')){r.text+='; '+finished.text;r.html=escape(r.text)+(r.html?'<div>'+r.html+'</div>':'');}}
  else if(id==='move')r=acrobaticsMove(c,d,pack,roller);
  else if(id==='withdraw')r=withdraw(c,d,pack);
@@ -268,6 +280,7 @@ function commit(c,q){for(const k of Object.keys(c))if(!Object.hasOwn(q,k))delete
 export function executeAction(c,pack,stepId,roller=evalExpr){
  const original=c.actionState?.plan.find(p=>p.id===stepId);assert(original?.status==='queued','Action already resolved or unavailable');assert(!c.actionState.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));
  const v=describeAction(c,pack,original.action,original.options),q=v.character;q.actionState??=emptyActionState();if(!q.actionState.active&&v.cost.type==='reaction')q.actionState.ended=true;if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')&&reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;let step=q.actionState.plan.find(p=>p.id===stepId);
+ if(v.upkeep)step.options.maintenancePowerSnapshot=structuredClone(v.upkeep.snapshot);
  if(v.conditionSnapshot)step.options.conditionPowerSnapshot=structuredClone(v.conditionSnapshot);
  if(v.resistForce)step.options.resistForceSnapshot=structuredClone(v.resistForce);
  if(v.selfPower)step.options.effectPowerId=v.power.id;else delete step.options.effectPowerId;
@@ -288,7 +301,7 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
  if(mode!=='none'){
   const d=derive(q,pack);assert(!s.forceSpent&&d.forceCurrent>0,'Force Point unavailable');
   if(mode==='bonus'){
-   const skillAction=step.action==='jump'||pack.rules.skillActions?.some(r=>r.id===step.action),power=skillAction?null:d.forcePowers.find(p=>p.copyId===step.options.powerId);
+   const skillAction=step.action==='jump'||step.action==='maintain-power'&&!!step.options.maintenancePowerSnapshot||pack.rules.skillActions?.some(r=>r.id===step.action),power=skillAction?null:d.forcePowers.find(p=>p.copyId===step.options.powerId);
    assert(step.result.fpAllowed&&(skillAction||power)&&checkForcePointAvailable(q,d,{power,reaction:step.options.action==='reaction'}),'Force Point bonus unavailable');extra=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);assert(Number.isInteger(extra.value)&&extra.value>=1&&extra.value<=d.forcePointDie,'Invalid Force Point roll');step.result.check.total+=extra.value;step.result.text+='; Force Point +'+extra.value+' = '+step.result.check.total;
   }else {assert(step.result.enhanceAllowed,'Enhancement unavailable');step.result.text+='; Force Points -1'+(step.action==='power'&&selfPowerRule(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id)&&!historicalManualPower(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id,step.options)?'':'; enhancement manual');}
   q.forcePoints--;s.forceSpent=true;
@@ -301,6 +314,7 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
   validateCharacter(q,pack);commit(c,q);return {text:step.result.text,html:escape(step.result.text)+(extra?'<div>'+extra.display+' = '+totalHtml(extra)+'</div>':'')};
  }
  if(pack.rules.skillActions?.some(r=>r.id===step.action))step.result.text+='; '+finishSkillAction(q,derive(q,pack),pack,step.action,step.options,step.result.check);
+ if(step.action==='maintain-power'&&step.options.maintenancePowerSnapshot)step.result.text+='; '+finishCheckedMaintenance(q,pack,step.options.maintenancePowerSnapshot,step.result.check);
  if(step.action==='jump'){const snapshot=step.options.jumpResolution;assert(snapshot&&Number.isFinite(snapshot.dc)&&snapshot.dc>=0&&snapshot.dc<=2400000&&Number.isFinite(snapshot.cost)&&snapshot.cost>=0&&Number.isFinite(snapshot.maximum)&&snapshot.maximum>=snapshot.cost&&typeof snapshot.noCheck==='boolean','Invalid saved Jump');step.result.text+='; '+finishJump(q,{...snapshot,path:step.options.path},step.result.check).text;}
  const effectHeading=step.result.text;let effectHTML='';if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,formAllowed:step.options.opportunityFormAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,forceThrustSnapshot:step.options.forceThrustSnapshot,mentalPowerSnapshot:step.options.mentalPowerSnapshot,resistForceSnapshot:step.options.resistForceSnapshot,conditionPowerSnapshot:step.options.conditionPowerSnapshot,effectDC:step.options.effectDC,roller});step=q.actionState.plan.find(p=>p.id===stepId);step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}
   step=q.actionState.plan.find(p=>p.id===stepId);step.status='done';validateCharacter(q,pack);commit(c,q);return {text:step.result.text,...(extra||effectHTML?{html:escape(effectHTML?effectHeading:step.result.text)+(extra?'<div>'+extra.display+' = '+totalHtml(extra)+'</div>':'')+effectHTML}:{})};
@@ -310,17 +324,34 @@ export function takeAction(c,pack,id,o={},roller=evalExpr){
  // Invalid immediate actions must not even create a queued step.
  describeAction(c,pack,id,o);const q=structuredClone(c);if(q.actionState?.plan.length>=30)archivePlan(q);const step=queueAction(q,id,o),result=executeAction(q,pack,step.id,roller);commit(c,q);return result;
 }
-export function beginNextTurn(c,pack,{maintain=[]}={}){
- const q=structuredClone(c),previous=q.actionState;assertResistanceResolved(q);assert(Array.isArray(maintain)&&maintain.every(id=>typeof id==='string')&&new Set(maintain).size===maintain.length,'Invalid maintenance choices');const live=maintainedPowers(q,pack);assert(maintain.every(id=>live.some(s=>s.id===id)),'Power maintenance unavailable');const carry=live.filter(s=>maintain.includes(s.id)).map(s=>({family:s.family,row:structuredClone((s.family==='shield'?q.shieldPowerEffects:q.resistancePowerEffects).find(r=>r.id===s.id))}));if(actionPhase(previous)!=='normal')q.flatFooted=false;assert(!previous?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));
+function nextTurnPlan(c,pack,{maintain=[],maintenanceOptions={}}={}){
+ const q=structuredClone(c),previous=q.actionState;assertResistanceResolved(q);
+ assert(Array.isArray(maintain)&&maintain.every(id=>typeof id==='string')&&new Set(maintain).size===maintain.length,'Invalid maintenance choices');
+ assert(maintenanceOptions&&typeof maintenanceOptions==='object'&&!Array.isArray(maintenanceOptions)&&Object.entries(maintenanceOptions).every(([id,o])=>maintain.includes(id)&&o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).every(k=>['rollMode','fp'].includes(k))),'Invalid upkeep options');
+ const live=maintainedPowers(q,pack);assert(maintain.every(id=>live.some(s=>s.id===id)),'Power maintenance unavailable');
+ const carry=live.filter(s=>maintain.includes(s.id)).map(s=>({family:s.family,row:structuredClone((s.family==='shield'?q.shieldPowerEffects:q.resistancePowerEffects).find(r=>r.id===s.id))}));
+ if(actionPhase(previous)!=='normal')q.flatFooted=false;assert(!previous?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));
  if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});
  if(previous?.active)advanceTimedTalents(q);
- advanceRegenerativeHealing(q,pack);startRegenerativeHealingTurn(q);
- q.deflectionAttempts=0;startNextTurn(q);startNextRound(q);
- if(previous){advanceRage(q);resetActionTurn(q);}
- else q.actionState=emptyActionState();
- q.actionState.active=true;
+ advanceRegenerativeHealing(q,pack);startRegenerativeHealingTurn(q);q.deflectionAttempts=0;startNextTurn(q);startNextRound(q);
+ if(previous){advanceRage(q);resetActionTurn(q);}else q.actionState=emptyActionState();q.actionState.active=true;
  for(const {family,row}of carry){const key=family==='shield'?'shieldPowerEffects':'resistancePowerEffects';q[key]??=[];q[key].push(row);}
- const results=maintain.map(effectId=>takeAction(q,pack,'maintain-power',{effectId}));
+ const steps=maintain.map(effectId=>{const source=live.find(s=>s.id===effectId),checked=!!source.rule.maintenanceCheck,options=maintenanceOptions[effectId]||{};assert(checked||!Object.keys(options).length,'Power does not use an upkeep check');return {effectId,checked,options:checked?{effectId,rollMode:'roll',fp:'ask',...options}:{effectId}};});
+ // Commit required FP costs before any optional FP decision can consume them.
+ steps.sort((a,b)=>(a.checked?1:0)-(b.checked?1:0)||Number(b.options.rollMode==='adept')-Number(a.options.rollMode==='adept'));
+ assert(q.actionState.plan.length+steps.length<=30,'Maximum 30 planned actions');
+ const budget=structuredClone(q);
+ for(const step of steps){const view=describeAction(budget,pack,'maintain-power',step.options);spendActions(budget.actionState,view.allocation);if(view.forceCost){budget.forcePoints-=view.forceCost;budget.actionState.forceSpent=true;}step.cost=view.cost;}
+ return {character:q,steps};
+}
+export function previewNextTurn(c,pack,options={}){return nextTurnPlan(c,pack,options).steps.map(s=>({effectId:s.effectId,cost:s.cost}));}
+export function beginNextTurn(c,pack,options={},roller=evalExpr){
+ const {character:q,steps}=nextTurnPlan(c,pack,options),results=[];
+ if(!steps.some(s=>s.checked))for(const step of steps)results.push(takeAction(q,pack,'maintain-power',step.options,roller));
+ else {
+  const existing=q.actionState.plan.splice(0),ids=steps.map(s=>queueAction(q,'maintain-power',s.options).id);q.actionState.plan.push(...existing);
+  for(const id of ids){if(q.actionState.plan.some(s=>s.status==='waiting'))break;results.push(executeAction(q,pack,id,roller));}
+ }
  validateCharacter(q,pack);commit(c,q);return results;
 }
 export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endReactionTalentTurn(q);endTriggerTurn(q);endRagePowerTurn(q);advanceRegenerativeHealing(q,pack);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
@@ -328,7 +359,7 @@ export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.action
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false,uncertainMovement=false;
  for(const step of q.actionState.plan){
-  if(step.status!=='queued'){const powerId=step.options.effectPowerId||q.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===step.options.powerId)?.powerId,name=step.action==='power'&&pack.forcePowers.find(p=>p.id===powerId)?.name;rows.push({id:step.id,status:step.status,...(name?{name}:{})});if(step.status==='waiting')stopped=true;continue;}
+  if(step.status!=='queued'){const powerId=step.options.effectPowerId||q.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===step.options.powerId)?.powerId,name=step.action==='power'&&pack.forcePowers.find(p=>p.id===powerId)?.name||step.action==='maintain-power'&&step.options.maintenancePowerSnapshot&&'Maintain '+pack.forcePowers.find(p=>p.id===step.options.maintenancePowerSnapshot.powerId)?.name;rows.push({id:step.id,status:step.status,...(name?{name}:{})});if(step.status==='waiting')stopped=true;continue;}
   try{
    assert(!uncertainMovement||!['jump','move','charge','running-attack','withdraw','balance'].includes(step.action),'Resolve the power first');
    const v=describeAction(q,pack,step.action,step.options);assert(!stopped,'Resolve the previous step first');if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')){if(reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;}spendActions(q.actionState,v.allocation);

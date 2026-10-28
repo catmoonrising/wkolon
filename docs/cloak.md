@@ -51,3 +51,12 @@ controls. Defaults remain folded. Cache docs/runtime, preserve pins verbatim,
 verify mixed maintenance and stacking, original checks/atomicity, both FP modes,
 Adept/Mastery distinction/ambiguity, damage/release/expiry, real controls/mobile/
 offline, independent review and final combined/hosted gates before publishing.
+
+New Turn uses a pure preview API; preview neither queues UUIDs nor invokes a
+roller. It preflights the combined30-step bound and preserves queued actions.
+No-check upkeep executes first, then any prepaid Adept upkeep, then ordinary
+checked upkeep, before existing queued plans. This reserves the selected
+required FP before any optional FP decision. Current saved upkeep snapshots
+are closed and tied to the original instance, turn and enhancement. Releasing
+or clearing that instance also resolves its pending upkeep as released. Own
+attacks do not end Cloak; the source contains no such ending clause.

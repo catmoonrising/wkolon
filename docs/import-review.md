@@ -3283,3 +3283,28 @@ Structured hit/miss recovery metadata and folded instructions preserve that
 exception. Generic outgoing output now labels Will alongside unchanged Reflex
 and Fortitude. Shared tiers/checks/FP/Adept/Mastery/save/legacy; NPC protection,
 CT and recovery remain external, so Partial. Sources unchanged; docs/mind-shard.md.
+
+## Cloak and checked upkeep
+
+Cloak19843 resolves Standard self activation, Total Concealment atUTF15 and
+Force Stealth+2/+3/+5 at20/25/30. FP adds5; shared typed stacking chooses the
+strongest applicable Force bonus. No NPC auto-misses or general Defense/Speed
+changes; opponents' senses/targeting remain external, so Partial. Own attacks
+do not end Cloak. Skills and stat block expose the active effect.
+
+Standard upkeep makes a new check without suite/DSS/natural20 activation
+recovery. The enhancement persists; the new check earns a fresh tier range.
+Pure New Turn preview never rolls or spends. All selected costs, FP choices
+and the combined30-step queue bound preflight before randomness. No-check
+maintenance precedes reserved Adept and then ordinary checked upkeep, ahead
+of existing queued plans. Original checks/closed instance-turn-enhancement
+snapshots persist for ordinary FP/keep; failed checks release the instance.
+Damage concentration and cleanup reuse the existing maintenance family,
+including clearing pending upkeep without stranding it. Old Energy/Resist
+records and shapes remain intact. General situational Take10 and context
+reroll prompts remain manual as for other maintenance checks.
+
+User ruling: Adept applies to Cloak upkeep by default; Ambiguities offers
+activation-only Adept. Mastery remains activation-only under its wording.
+This does not change damage-triggered concentration checks. Sources19843,
+18180,18191,18202,16336 unchanged; contract docs/cloak.md and docs/rulings.md.

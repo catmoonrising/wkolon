@@ -53,8 +53,9 @@ export function take10Power(c,d,pack,id,options){
 export function useAdeptPower(c,d,pack,id,naturals){
  const power=d.forcePowers.find(p=>p.copyId===id);
  if(!power?.adept||d.forceCurrent<1)throw new Error('Force Power Adept unavailable');
- if(!Array.isArray(naturals)||naturals.length!==2||naturals.some(n=>!Number.isInteger(n)||n<1||n>20))throw new Error('Invalid power checks');
- const selected=Math.max(...naturals),used=usePower(c,d,pack,id,selected);
+ const selected=selectAdeptNatural(naturals),used=usePower(c,d,pack,id,selected);
  c.forcePoints=d.forceCurrent-1;
  return {power:used,naturals:[...naturals],selected};
 }
+
+export function selectAdeptNatural(naturals){if(!Array.isArray(naturals)||naturals.length!==2||naturals.some(n=>!Number.isInteger(n)||n<1||n>20))throw new Error('Invalid power checks');return Math.max(...naturals);}

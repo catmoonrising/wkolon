@@ -17,9 +17,10 @@ export function validateResistancePowers(c,pack,bad){
  if(!c.actionState||!Array.isArray(rows)||rows.length>1000||new Set(rows.map(s=>s?.id)).size!==rows.length){bad('resistance power effects');return;}
  for(const s of rows){
   const rule=object(s)&&resistancePowerRule(pack,s.powerId);
-  if(!keys(s,rule?.kind==='defense'?'defenses,id,maintained,maxTier,pending,powerId,tier,untilTurn,used':'id,maintained,maxTier,pending,powerId,tier,untilTurn,used')||!uuid(s.id)||!rule||!integer(s.maxTier,1,rule.thresholds.length)||!integer(s.tier,1,s.maxTier)||typeof s.used!=='boolean'||typeof s.maintained!=='boolean'||!integer(s.untilTurn,c.actionState.turn,c.actionState.turn+1)){
+  if(!keys(s,rule?.kind==='cloak'?'enhanced,id,maintained,maxTier,pending,powerId,tier,untilTurn,used':rule?.kind==='defense'?'defenses,id,maintained,maxTier,pending,powerId,tier,untilTurn,used':'id,maintained,maxTier,pending,powerId,tier,untilTurn,used')||!uuid(s.id)||!rule||!integer(s.maxTier,1,rule.thresholds.length)||!integer(s.tier,1,s.maxTier)||typeof s.used!=='boolean'||typeof s.maintained!=='boolean'||!integer(s.untilTurn,c.actionState.turn,c.actionState.turn+1)){
    bad('resistance power effects');return;
   }
+  if(rule.kind==='cloak'&&typeof s.enhanced!=='boolean'){bad('Cloak enhancement');return;}
   if(rule.kind==='defense'&&(!Array.isArray(s.defenses)||s.defenses.length<1||s.defenses.length>rule.enhancementDefenses||new Set(s.defenses).size!==s.defenses.length||s.defenses.some(d=>!['reflex','fortitude','will'].includes(d)))){bad('resistance power defenses');return;}
   if(s.pending!==null){
    const p=s.pending,check=p?.check;
@@ -33,7 +34,7 @@ export function validateResistancePowers(c,pack,bad){
 export function activeResistancePowers(c,pack){
  return (c.resistancePowerEffects||[]).filter(s=>s.untilTurn>actionState(c).turn).map(s=>{
   const rule=resistancePowerRule(pack,s.powerId);
-  return {...s,rule,name:pack.forcePowers.find(p=>p.id===s.powerId).name,...(rule.kind==='defense'?{bonus:rule.thresholds[s.tier-1].bonus}:{dr:rule.thresholds[s.tier-1].dr})};
+  return {...s,rule,name:pack.forcePowers.find(p=>p.id===s.powerId).name,...(rule.kind==='cloak'?{stealthBonus:rule.thresholds[s.tier-1].bonus+(s.enhanced?rule.enhancementBonus:0),totalConcealment:true}:rule.kind==='defense'?{bonus:rule.thresholds[s.tier-1].bonus}:{dr:rule.thresholds[s.tier-1].dr})};
  });
 }
 export function resistancePowerDR(c,pack,{energy=false,sonic=false,fire=false,cold=false,electrical=false,lightsaber=false,ignoreDR=false,listedSources=false}={}){
@@ -45,11 +46,12 @@ export function finishResistancePower(c,pack,id,powerId,check,{enhanced=false,se
  const rule=resistancePowerRule(pack,powerId);
  if(!rule||!c.actionState||!uuid(id)||!integer(check?.total,-100000,100000))throw new Error('Invalid resistance power result');
  if(c.resistancePowerEffects?.some(s=>s.id===id))throw new Error('Power effect already resolved');
+ if(rule.kind==='cloak'&&typeof enhanced!=='boolean')throw new Error('Invalid Cloak enhancement');
  if(rule.kind==='defense'){if(typeof enhanced!=='boolean')throw new Error('Invalid resistance enhancement');selection=resistForceSelection(selection);}
  const maxTier=resistancePowerTier(pack,powerId,check.total);
  if(!maxTier)return null;
  if((c.resistancePowerEffects?.length||0)>=1000)throw new Error('Too many active effects');
- const row={id,powerId,maxTier,tier:maxTier,used:false,maintained:false,untilTurn:actionState(c).turn+1,pending:null,...(rule.kind==='defense'?{defenses:enhanced?[selection.primary,selection.secondary]:[selection.primary]}:{})};
+ const row={id,powerId,maxTier,tier:maxTier,used:false,maintained:false,untilTurn:actionState(c).turn+1,pending:null,...(rule.kind==='cloak'?{enhanced}:{}),...(rule.kind==='defense'?{defenses:enhanced?[selection.primary,selection.secondary]:[selection.primary]}:{})};
  c.resistancePowerEffects??=[];c.resistancePowerEffects.push(row);return row;
 }
 export function chooseResistancePowerTier(c,pack,id,tier){
@@ -57,8 +59,9 @@ export function chooseResistancePowerTier(c,pack,id,tier){
  if(!row||row.used||row.untilTurn<=actionState(c).turn||!integer(tier,1,row.maxTier))throw new Error('Resistance effect is fixed or unavailable');
  row.tier=tier;
 }
-export function removeResistancePower(c,id){
+export function removeResistancePower(c,id,{resolving=false}={}){
  if(!c.resistancePowerEffects?.some(s=>s.id===id))throw new Error('Resistance power unavailable');
+ if(!resolving)releasePendingUpkeep(c,id);
  c.resistancePowerEffects=c.resistancePowerEffects.filter(s=>s.id!==id);
  if(!c.resistancePowerEffects.length)delete c.resistancePowerEffects;
 }
@@ -73,6 +76,7 @@ export function resistanceMaintenancePlan(c,d,pack,id){
 export function renewResistancePower(c,id){
  const row=c.resistancePowerEffects?.find(s=>s.id===id);
  if(!row||row.pending||row.untilTurn!==actionState(c).turn)throw new Error('Resistance maintenance unavailable');
+ if(Object.hasOwn(row,'enhanced'))throw new Error('Resolve the upkeep check');
  row.untilTurn=actionState(c).turn+1;row.maintained=true;
 }
 export function requireResistanceDamageChecks(c,pack,damage){
@@ -97,7 +101,8 @@ export function finishResistanceDamageCheck(c,pack,id,fpBonus=0){
  if(success)row.pending=null;else removeResistancePower(c,id);
  return {dc,total,success};
 }
-export function clearResistancePowers(c){delete c.resistancePowerEffects;}
+export function clearResistancePowers(c){for(const row of c.resistancePowerEffects||[])releasePendingUpkeep(c,row.id);delete c.resistancePowerEffects;}
+function releasePendingUpkeep(c,id){for(const s of c.actionState?.plan||[])if(s.status==='waiting'&&s.action==='maintain-power'&&s.options.maintenancePowerSnapshot?.effectId===id){s.status='done';s.result.fpAllowed=false;s.result.enhanceAllowed=false;s.result.text+='; released';}}
 
 export function resistForceSelection(selection={primary:'reflex',secondary:'fortitude'}){
  if(!keys(selection,'primary,secondary')||!['reflex','fortitude','will'].includes(selection.primary)||!['reflex','fortitude','will'].includes(selection.secondary)||selection.primary===selection.secondary)throw new Error('Choose two distinct Defenses');
@@ -106,7 +111,7 @@ export function resistForceSelection(selection={primary:'reflex',secondary:'fort
 export function resistancePowerDefenseEffects(c,pack){return activeResistancePowers(c,pack).filter(s=>s.rule.kind==='defense').flatMap(s=>s.defenses.map(defense=>({target:'conditionalDefense',defense,against:s.rule.against,amount:s.bonus,type:s.rule.type})));}
 export function resistancePowerLabel(row,pack){
  const rule=row.rule||resistancePowerRule(pack,row.powerId),tier=rule.thresholds[row.tier-1];
- return rule.kind==='defense'?row.defenses.map(d=>d[0].toUpperCase()+d.slice(1)).join(', ')+' +'+tier.bonus+' vs. Force Powers':'DR '+tier.dr;
+ return rule.kind==='cloak'?'Total Concealment, Stealth +'+(tier.bonus+(row.enhanced?rule.enhancementBonus:0))+' Force':rule.kind==='defense'?row.defenses.map(d=>d[0].toUpperCase()+d.slice(1)).join(', ')+' +'+tier.bonus+' vs. Force Powers':'DR '+tier.dr;
 }
 export function validateResistForceSelections(c,pack,bad){
  for(const step of [...(c.actionState?.plan||[]),...(c.actionState?.history||[])]){
@@ -115,3 +120,6 @@ export function validateResistForceSelections(c,pack,bad){
   try{resistForceSelection(selection);}catch{bad('resistance power selection');}
  }
 }
+
+export function cloakBonuses(c,pack){const rows=activeResistancePowers(c,pack).filter(s=>s.rule.kind==='cloak');return {totalConcealment:rows.length>0,stealthModifiers:rows.map(s=>({type:s.rule.type,amount:s.stealthBonus}))};}
+export function lockCloakSkill(c,pack,skillId){if(skillId!=='skill:stealth')return;for(const row of c.resistancePowerEffects||[])if(row.untilTurn>actionState(c).turn&&resistancePowerRule(pack,row.powerId)?.kind==='cloak')row.used=true;}

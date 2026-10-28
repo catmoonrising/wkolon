@@ -1,3 +1,4 @@
+import {validateCheckedMaintenance} from './checked-maintenance.js';
 import {validateMentalPowers} from './mental-powers.js';
 import {validateConditionPowerResults} from './condition-powers.js';
 import {validateOpportunityPowers,validateOpportunityPowerResults} from './opportunity-powers.js';
@@ -13,7 +14,7 @@ import {skillAbilityDetails,validateSkillAbilities} from './skill-abilities.js';
 import {validateAttackAbilities,attackAbilityDetails} from './attack-abilities.js';
 import {validateDeflection} from './deflection.js';
 import {validateNegatingPowers} from './negating-powers.js';
-import {validateResistancePowers,activeResistancePowers,resistancePowerDefenseEffects,validateResistForceSelections} from './resistance-powers.js';
+import {validateResistancePowers,activeResistancePowers,resistancePowerDefenseEffects,validateResistForceSelections,cloakBonuses} from './resistance-powers.js';
 import {validateShieldPowers,activeShieldPowers} from './shield-powers.js';
 import {validateRagePowers,ragePowerModifiers,rageBlockedSkills} from './rage-powers.js';
 import {validateJump} from './jump.js';
@@ -162,7 +163,7 @@ export function validateCharacter(c, pack) {
   validateMovementPowerEffects(c,pack,bad);
   validateRagePowers(c,pack,bad);
   validateMentalPowers(c,pack,bad);validateConditionPowerResults(c,pack,bad);validateOpportunityPowers(c,pack,bad);validateOpportunityPowerResults(c,pack,bad);validateForceThrustResults(c,pack,bad);validateNegatingPowers(c,pack,bad);validateThresholdPowers(c,pack,bad);validateDeflection(c,pack,bad);
-  validateShieldPowers(c,pack,bad);validateResistancePowers(c,pack,bad);validateResistForceSelections(c,pack,bad);
+  validateShieldPowers(c,pack,bad);validateResistancePowers(c,pack,bad);validateCheckedMaintenance(c,pack,bad);validateResistForceSelections(c,pack,bad);
   const maintainedIds=[...(c.shieldPowerEffects||[]),...(c.resistancePowerEffects||[])].map(s=>s.id);if(new Set(maintainedIds).size!==maintainedIds.length)bad('maintained power identities');
   validateJump(c,bad);
   validateNaturalModifiers(c,pack,bad);validateAttackAbilities(c,bad);
@@ -543,6 +544,7 @@ export function derive(c, pack) {
   const hpGains=rows.map((row,i)=>row.valid===false?0:i===0?row.cls.startingHP:campaignRuleEnabled(c,'averageHP')?averageHPAmount(row.cls.hitDie):c.levels[i].hpRoll);
   const hp = (rows[0].valid===false?0:hpGains[0] + mods.con) + c.levels.slice(1).reduce((n, l,i) => n + (rows[i+1].valid===false?0:Math.max(1, hpGains[i+1] + (ix.classes.get(l.classId).hpConstitution===false?0:mods.con))), 0) + total('hp') + c.modifiers.hp;
   const movementPowers=movementPowerBonuses(c,pack);
+  const cloak=cloakBonuses(c,pack);
   const nativeSkills = pack.skills.map(s => {
     const trained = ctx.trained.has(s.id);
     const abilityDetails=skillAbilityDetails(c,s,effects,mods);
@@ -551,7 +553,7 @@ export function derive(c, pack) {
     const backgroundBonus=!trained && background?.relevantSkills.includes(s.id)?background.untrainedBonus:0;
     const equipment=Math.max(armorSkillBonus(armorItems,ctx,c.armorChecks,s.id),s.id==='skill:perception'?droidSystems.perceptionBonus:0);
     const strengthRage=abilityDetails.ability==='str'?ragingStrength:0;
-    const bonusModifierRows=[{type:'untyped',amount:strengthRage},{type:'competence',amount:focus},{type:'competence',amount:backgroundBonus},{type:'competence',amount:teamBonus},{type:'equipment',amount:equipment},...effects.filter(e=>e.target==='skills'),...(s.id==='skill:jump'?movementPowers.jumpModifiers:[])];
+    const bonusModifierRows=[{type:'untyped',amount:strengthRage},{type:'competence',amount:focus},{type:'competence',amount:backgroundBonus},{type:'competence',amount:teamBonus},{type:'equipment',amount:equipment},...effects.filter(e=>e.target==='skills'),...(s.id==='skill:jump'?movementPowers.jumpModifiers:[]),...(s.id==='skill:stealth'?cloak.stealthModifiers:[])];
     const bonuses=resolveModifiers(bonusModifierRows);
     const penalty = s.armorCheck ? armorSkillPenalty : 0;
     const size = s.id === 'skill:stealth' ? pack.rules.sizeStealth[effectiveSize] : 0;
@@ -704,7 +706,7 @@ export function derive(c, pack) {
   const forceBase=advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack);
   const forceForbidden=!level||species.forceImmune||ctx.forceRestrictions.forbidPoints||forceBase===null;
   const forceMaximum=forceForbidden?0:campaignRuleEnabled(c,'dailyForcePoints')?dailyForceMaximum(level,ctx.feats.some(f=>f.id==='feat:force-boon')):forceBase+half+total('forcePoints');
-  return {resistancePowers:activeResistancePowers(c,pack),shieldPowers:activeShieldPowers(c,pack),level, half, scores,starshipManeuvers:ctx.starshipManeuvers.map(p=>({...ix.starshipManeuvers.get(p.maneuverId),copyId:p.id,spent:p.spent,level:p.level})),maneuverSlots:ctx.maneuverSlots, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)+ragingStrength}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,ignoreDifficultTerrain:!!pack.rules.terrainMovementAbilities?.some(r=>r.ignoreDifficultTerrain&&ctx.talents.some(t=>t.id===r.talentId&&!ctx.inactiveTalents.has(t.id))),size:effectiveSize,vision,blind,classDR,speciesDR,timedDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR,timedDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,thresholdModifiers,teamSkills,opportunityAttackEffects:effects.filter(e=>e.target==='opportunityAttack').map(e=>({...e,name:(ix.feats.get(e.selection?.id)||ix.talents.get(e.selection?.id))?.name||''})),rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+  return {totalConcealment:cloak.totalConcealment,resistancePowers:activeResistancePowers(c,pack),shieldPowers:activeShieldPowers(c,pack),level, half, scores,starshipManeuvers:ctx.starshipManeuvers.map(p=>({...ix.starshipManeuvers.get(p.maneuverId),copyId:p.id,spent:p.spent,level:p.level})),maneuverSlots:ctx.maneuverSlots, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)+ragingStrength}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,ignoreDifficultTerrain:!!pack.rules.terrainMovementAbilities?.some(r=>r.ignoreDifficultTerrain&&ctx.talents.some(t=>t.id===r.talentId&&!ctx.inactiveTalents.has(t.id))),size:effectiveSize,vision,blind,classDR,speciesDR,timedDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR,timedDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,thresholdModifiers,teamSkills,opportunityAttackEffects:effects.filter(e=>e.target==='opportunityAttack').map(e=>({...e,name:(ix.feats.get(e.selection?.id)||ix.talents.get(e.selection?.id))?.name||''})),rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerolls:effects.filter(e=>e.target==='skillReroll').map(e=>({...e,id:e.selection.id,name:ix.talents.get(e.selection.id).name,...(e.dailyUsesPerSelection?{daily:ctx.talents.filter(t=>t.id===e.selection.id&&!ctx.inactiveTalents.has(t.id)).length*e.dailyUsesPerSelection,spent:recoveryState(c).knacksSpent}:{})})),skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     movementPowers,
     battleStrike:battleStrike(c,pack,effects.filter(e=>e.target==='attacks'&&applies(e))),
