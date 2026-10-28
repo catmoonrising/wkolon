@@ -17,6 +17,12 @@ export function resolveConditionPower(pack,id,check,{enhanced=false,effectDC=nul
  if(!r||!Number.isInteger(check?.total)||Math.abs(check.total)>100000||typeof enhanced!=='boolean'||!validPowerEffectLimit(pack,id,effectDC))throw new Error('Invalid condition power result');
  if(r.kind==='wall-movement'&&(!validConditionSnapshot(snapshot)||snapshot.powerId!==id))throw new Error('Invalid condition power snapshot');
  const tier=conditionPowerTier(pack,id,check.total,effectDC);if(enhanced&&r.quickening)throw new Error('Power has no post-check enhancement');if(!tier)return {text:'No effect',html:'',rows:[]};
+ if(r.kind==='energy-drain'){
+  const sizes=['fine','diminutive','tiny','small','medium','large','huge','gargantuan','colossal'],maximumSize=sizes[Math.min(sizes.indexOf(r.enhancement.maximumSize),sizes.indexOf(tier.maximumSize)+(enhanced?r.enhancement.sizeCategories:0))],size=maximumSize[0].toUpperCase()+maximumSize.slice(1),generator=tier.generator;
+  const effect='Drain all Energy Cells powering a '+size+' or smaller weapon or object',replacement='The object cannot be used until its Energy Cells are replaced',supply=generator?'If the object is powered by a Power Generator, drain all power from that generator instead':'Power Generators require the DC 35 effect';
+  const text=effect+'; '+replacement+'; '+supply;
+  return {text,html:`<table class="routine-result"><thead><tr><th>Maximum size</th><th>Effect</th></tr></thead><tbody><tr><td>${size}</td><td>Drain Energy Cells</td></tr></tbody></table><details><summary>Replacement</summary>${escape(replacement)}</details><details><summary>Power Generator</summary>${escape(supply)}</details>`,maximumSize,drainsEnergyCells:true,generator,replacementRequired:r.replacementRequired};
+ }
  if(r.kind==='wall-movement'){
   const squares=Math.floor(snapshot.speed*tier.speedMultiplier)+tier.extraSquares+(enhanced?r.enhancement.extraSquares:0),text='Move up to '+squares+' squares along a wall; Fall if you are not on the ground when this movement ends';
   return {text,html:`<p>${escape(text)}</p><details><summary>Speed</summary>${snapshot.speed} squares</details>`,squares,baseSpeed:snapshot.speed,duration:r.duration,fallsWithoutGround:r.fallsWithoutGround};

@@ -3336,3 +3336,17 @@ tiers, Mastery, suite recovery and older manual history retain shared handling.
 Actual unattended eligibility, range/Line of Sight, object protection/HP and
 destruction consequences remain external, so Partial. No source text changed;
 contract docs/detonate.md, Detonate20139 and Force Powers18202.
+
+### Drain Energy
+
+Drain Energy20396 resolves UTF20/25/30/35 to Small/Medium/Large/Huge and all
+Energy Cells powering the target. Its special FP increases that limit by one
+category, capped at Gargantuan; it does not unlock the separate DC35 generator
+clause. Lesser-tier choices retain that tier's generator permission. Shared
+saved checks, ordinary versus special FP, genuine Adept/Mastery, natural20 suite
+recovery and legacy manual protection apply. It causes no invented HP/Ion/Force
+damage, defense attack or caster resource drain. Structured output and folded
+details retain cell replacement and generator rules. Actual external object
+size, power supply, range/Line of Sight and applying the loss to another sheet
+remain external, so Partial. Source text unchanged; docs/drain-energy.md,
+Drain Energy20396 and Force Powers18202.
