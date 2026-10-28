@@ -3350,3 +3350,19 @@ details retain cell replacement and generator rules. Actual external object
 size, power supply, range/Line of Sight and applying the loss to another sheet
 remain external, so Partial. Source text unchanged; docs/drain-energy.md,
 Drain Energy20396 and Force Powers18202.
+
+### Force Track
+
+Force Track20424 supports Swift activation, UTF15/20/25/30 trail age1/10/60/1440
+minutes, one-hour game duration, and one quarry or up to2 with special FP.
+Canonical names and lesser earned tiers survive saved check/FP choices. Named
+quarry controls log the Survival-check exemption without dice, action slots or
+instant movement; other Survival applications remain unchanged. The600round
+timer shares actual turn/minute advancement, survives combat/encounter endings
+and natural20 suite recovery, and expires on explicit eight-hour rest or the
+existing New day command (which advances24hours). Merely editing resources does
+not advance time. Remaining game minutes can be edited in0.1minute increments.
+Adept/Mastery, ordinary versus special FP, suite recovery and legacy protection
+use shared paths. Actual trail visibility/age, path, terrain and finding the
+creature remain external, so Partial. Pinned sources unchanged; Force Track20424,
+Force Powers18202, Combat Sequence26725 and docs/force-track.md.

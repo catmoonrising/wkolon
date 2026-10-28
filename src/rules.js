@@ -1,3 +1,4 @@
+import {validateTrackingPowers,activeTrackingPowers} from './tracking-powers.js';
 import {validateCheckedMaintenance} from './checked-maintenance.js';
 import {validateMentalPowers} from './mental-powers.js';
 import {validateConditionPowerResults} from './condition-powers.js';
@@ -158,7 +159,7 @@ export function validateCharacter(c, pack) {
   validateDefenseShifts(c,pack,bad);
   validateBonusHP(c,bad);
   validateTurnFeatEffects(c,pack,bad);
-  validateTimedTalents(c,pack,bad);
+  validateTimedTalents(c,pack,bad);validateTrackingPowers(c,pack,bad);
   validateSelfPowerEffects(c,pack,bad);
   validateMovementPowerEffects(c,pack,bad);
   validateRagePowers(c,pack,bad);
@@ -706,7 +707,7 @@ export function derive(c, pack) {
   const forceBase=advancementForceBase(rows.filter(r=>r.valid!==false).at(-1)?.cls||ix.classes.get(c.levels[0].classId),pack);
   const forceForbidden=!level||species.forceImmune||ctx.forceRestrictions.forbidPoints||forceBase===null;
   const forceMaximum=forceForbidden?0:campaignRuleEnabled(c,'dailyForcePoints')?dailyForceMaximum(level,ctx.feats.some(f=>f.id==='feat:force-boon')):forceBase+half+total('forcePoints');
-  return {totalConcealment:cloak.totalConcealment,resistancePowers:activeResistancePowers(c,pack),shieldPowers:activeShieldPowers(c,pack),level, half, scores,starshipManeuvers:ctx.starshipManeuvers.map(p=>({...ix.starshipManeuvers.get(p.maneuverId),copyId:p.id,spent:p.spent,level:p.level})),maneuverSlots:ctx.maneuverSlots, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)+ragingStrength}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,ignoreDifficultTerrain:!!pack.rules.terrainMovementAbilities?.some(r=>r.ignoreDifficultTerrain&&ctx.talents.some(t=>t.id===r.talentId&&!ctx.inactiveTalents.has(t.id))),size:effectiveSize,vision,blind,classDR,speciesDR,timedDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR,timedDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,thresholdModifiers,teamSkills,opportunityAttackEffects:effects.filter(e=>e.target==='opportunityAttack').map(e=>({...e,name:(ix.feats.get(e.selection?.id)||ix.talents.get(e.selection?.id))?.name||''})),rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
+  return {trackingPowers:activeTrackingPowers(c,pack),totalConcealment:cloak.totalConcealment,resistancePowers:activeResistancePowers(c,pack),shieldPowers:activeShieldPowers(c,pack),level, half, scores,starshipManeuvers:ctx.starshipManeuvers.map(p=>({...ix.starshipManeuvers.get(p.maneuverId),copyId:p.id,spent:p.spent,level:p.level})),maneuverSlots:ctx.maneuverSlots, speedUnknown:droidSystems.speedUnknown,droidSystems, equipmentAbilities,abilityCheckBonuses:{str:armorStrengthCheck(armorItems,ctx,c.armorChecks)+ragingStrength}, armor,armorItems,energyShields,tumbleSokan:total('tumbleSokan')>0,ignoreDifficultTerrain:!!pack.rules.terrainMovementAbilities?.some(r=>r.ignoreDifficultTerrain&&ctx.talents.some(t=>t.id===r.talentId&&!ctx.inactiveTalents.has(t.id))),size:effectiveSize,vision,blind,classDR,speciesDR,timedDR,normalProtection:armorProtection(c,{armorItems,classDR,speciesDR,timedDR}), mods, bab: ctx.bab, defenses, defenseAbilities,breakdowns, threshold,thresholdContext,thresholdModifiers,teamSkills,opportunityAttackEffects:effects.filter(e=>e.target==='opportunityAttack').map(e=>({...e,name:(ix.feats.get(e.selection?.id)||ix.talents.get(e.selection?.id))?.name||''})),rangedOpportunityBonus:total('rangedOpportunity'), hp, skills, attacks, manualAttacks, powerAttack, fullAttack, defensiveCombat, flurry, helpless, flatFooted,balancingFlatFooted, ctx, rows, issues,
     bellowBonuses:{dice:total('bellowDice'),conditionReduction:total('bellowConditionReduction')},skillRerolls:effects.filter(e=>e.target==='skillReroll').map(e=>({...e,id:e.selection.id,name:ix.talents.get(e.selection.id).name,...(e.dailyUsesPerSelection?{daily:ctx.talents.filter(t=>t.id===e.selection.id&&!ctx.inactiveTalents.has(t.id)).length*e.dailyUsesPerSelection,spent:recoveryState(c).knacksSpent}:{})})),skillRerollBest:effects.filter(e=>e.target==='skillRerollBest').map(e=>e.skill),
     movementPowers,
     battleStrike:battleStrike(c,pack,effects.filter(e=>e.target==='attacks'&&applies(e))),

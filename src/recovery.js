@@ -1,3 +1,4 @@
+import {clearTrackingPowers} from './tracking-powers.js';
 import {clearEncounterTriggers} from './triggered-defenses.js';
 import {assertDeflectionResolved} from './deflection.js';
 import {derive} from './rules.js';
@@ -112,7 +113,7 @@ export function removePersistent(c,cause){
 }
 export function newEncounter(c){assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
- assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;
+ assertDeflectionResolved(c);endRegenerativeHealing(c);clearTrackingPowers(c);c.deflectionAttempts=0;
  if(pack&&campaignRuleEnabled(c,'dailyForcePoints'))c.forcePoints=derive(c,pack).forceMaximum;
  clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);
  clearTurnFeatEffects(c);clearReactionTalents(c);
@@ -151,7 +152,7 @@ export function receiveHealing(c,d,pack,amount){
 export function restEightHours(c,d,pack){
  assertDeflectionResolved(c);
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
- endRegenerativeHealing(c);
+ endRegenerativeHealing(c);clearTrackingPowers(c);
  endUnconsciousTalents(c,pack);
  clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearEncounterTriggers(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
  if(recoveryState(c).rageRounds)endRage(c);

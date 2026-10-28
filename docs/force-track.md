@@ -24,10 +24,11 @@ per minute game-time constant and advancement entry point. An actual new
 tracked turn advances1round; the initial Start turn advances none. A minute
 spent recovering the suite advances10rounds. An eight-hour rest expires it.
 Pure turn previews advance only their cloned state. Ending combat, beginning
-an encounter, suite recovery after natural20, or resetting daily resources
-does not by itself represent elapsed time and must not erase the effect.
-Do not derive duration from the operating-system clock or assume midnight
-ends a one-hour effect. Allow editing remaining game minutes in0.1minute
+an encounter and suite recovery after natural20 do not by themselves represent
+elapsed time and must not erase the effect. The existing New day command
+explicitly advances24hours of game time, so it expires the effect. Merely
+editing daily resources does not. Do not derive duration from the operating
+system clock or assume midnight ends a one-hour effect. Allow editing remaining game minutes in0.1minute
 increments, consistent with the existing saved timer controls. Expire at0.
 
 An active quarry control can log following that quarry without making a

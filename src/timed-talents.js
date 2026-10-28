@@ -1,5 +1,6 @@
-// Combat Sequence revision 26725: six seconds per round.
-export const ROUNDS_PER_MINUTE=10;
+import {advanceRoundEffects} from './effect-duration.js';
+import {advanceTrackingPowers} from './tracking-powers.js';
+export {ROUNDS_PER_MINUTE} from './effect-duration.js';
 export function validateTimedTalents(c,pack,bad){
  if(c.timedTalents===undefined)return;
  const rows=c.timedTalents;
@@ -26,8 +27,9 @@ export function setTimedTalentRounds(c,pack,id,rounds){
 }
 export function advanceTimedTalents(c,rounds=1){
  if(!Number.isInteger(rounds)||rounds<0||rounds>1000000000)throw new Error('Invalid elapsed rounds');
+ advanceTrackingPowers(c,rounds);
  if(!c.timedTalents)return;
- c.timedTalents=c.timedTalents.flatMap(s=>s.rounds>rounds?[{...s,rounds:s.rounds-rounds}]:[]);
+ c.timedTalents=advanceRoundEffects(c.timedTalents,rounds);
  if(!c.timedTalents.length)delete c.timedTalents;
 }
 export function clearTimedTalents(c){delete c.timedTalents;}
