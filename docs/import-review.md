@@ -3271,3 +3271,15 @@ wall route, board positions/support and fall height remain external, so
 Partial. No fabricated fall damage, grounding or AoO immunity. Shared
 checks/FP/Adept/Mastery/suite/saved/legacy handling, pins/text unchanged;
 contract docs/inertia.md.
+
+## Mind Shard
+
+Mind Shard20486 uses Standard inclusive Will UTF15/20/25/30 for2/3/4/5d8
+Force damage and one CT step on hit; FP+2d8 only. No area, half miss, size
+modifier or attack natural/critical rule. Until the END of the caster's next
+turn, a hit target cannot improve its OWN Condition; other creatures may
+improve it. This is separate from HP healing and persistent conditions.
+Structured hit/miss recovery metadata and folded instructions preserve that
+exception. Generic outgoing output now labels Will alongside unchanged Reflex
+and Fortitude. Shared tiers/checks/FP/Adept/Mastery/save/legacy; NPC protection,
+CT and recovery remain external, so Partial. Sources unchanged; docs/mind-shard.md.
