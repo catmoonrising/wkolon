@@ -27,6 +27,10 @@ confirmation. Do not infer a hit merely from a nonempty tier,
 or silently spend this enhancement on a known miss. A queued plan or preview
 must neither roll nor deduct resources. Finalization uses the saved check,
 rolls damage once and survives reload without rerolling or paying twice.
+The action may capture an optional target Reflex before rolling, frozen in
+the outgoing-power snapshot. If omitted, a post-check Hit/Enhance control
+supplies confirmation. This confirmation cannot be queued or supplied before
+the check, and is retained only on the completed enhanced result.
 
 If Rend's damage reduces a target to0HP, the target is ripped into two parts;
 a living creature is automatically killed. Retain that outcome in structured
