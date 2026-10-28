@@ -23,6 +23,12 @@ tier, chosen quarry names and600rounds remaining. Reuse the existing10rounds
 per minute game-time constant and advancement entry point. An actual new
 tracked turn advances1round; the initial Start turn advances none. A minute
 spent recovering the suite advances10rounds. An eight-hour rest expires it.
+The explicit consciousness recovery check advances the declared wait before
+that check (firstMinutes or retryHours from the pinned recovery rule), whether
+the valid check succeeds or fails. An invalid/unavailable check advances none.
+The existing ten-minute Recuperate control advances100rounds through the same
+time resolver and removes only the Rage persistent cause. These elapsed waits
+also expire other timed effects; they must not depend on having active Track.
 Pure turn previews advance only their cloned state. Ending combat, beginning
 an encounter and suite recovery after natural20 do not by themselves represent
 elapsed time and must not erase the effect. The existing New day command
