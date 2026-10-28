@@ -129,3 +129,12 @@ Sentinel Strike applies its Lightsaber dice against denied-Dexterity targets by
 default. Ambiguities offers applying those dice to any Lightsaber attack; its
 Force Power damage clause remains manual.
 | Shoto Focus partner | Standard Lightsaber (linked article) | Any one-handed Lightsaber |
+
+## Cloak upkeep and Force Power Adept
+
+User approved allowing Force Power Adept on Cloak's new upkeep check by default,
+with an Ambiguities alternative restricting it to activation. Force Power
+Mastery's printed activation-only wording stays unchanged. This concerns the
+power's new per-round check; existing damage-triggered maintenance checks keep
+their shared behavior. Sources: Cloak19843, Force Power Adept18180, Force Power
+Mastery18191.
