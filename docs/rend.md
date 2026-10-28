@@ -20,8 +20,10 @@ After a successful check, a special FP adds2d6 damage. Ordinary FP check
 improvement and this enhancement remain mutually exclusive under the shared
 one-FP-per-round ledger. The current outgoing resolver displays defense
 intervals rather than owning a target. Before enabling this success-only
-enhancement, require an explicit successful-hit declaration or a validated
-target Reflex comparison. Do not infer a hit merely from a nonempty tier,
+enhancement, require an explicit successful-hit declaration after seeing the
+saved final check, or a validated target Reflex comparison. A known Reflex
+miss must reject a conflicting declaration; a pre-roll prediction is not
+confirmation. Do not infer a hit merely from a nonempty tier,
 or silently spend this enhancement on a known miss. A queued plan or preview
 must neither roll nor deduct resources. Finalization uses the saved check,
 rolls damage once and survives reload without rerolling or paying twice.
@@ -38,6 +40,9 @@ Extend the closed outgoing-power schema and shared activation/check/FP path,
 not a parallel attack engine. Keep older result/save shapes valid and protect
 historical manual Rend activations from retroactive damage rolls. Source pins,
 other outgoing-power damage and natural20 behavior must remain unchanged.
+The existing resolver defaults missing damage types to Force. Rend must retain
+an explicitly unspecified damage descriptor in structured output instead of
+inheriting that default; other powers retain their existing damage types.
 Test equality/miss, chosen natural20 versus modified20/Take10,3d6/5d6,
 enhancement eligibility and ledgers, original-check reload, recovery, and
 living0HP wording. Independent review, combined checks, actual controls,
