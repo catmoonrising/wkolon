@@ -1,6 +1,6 @@
 # Force Blind
 
-Define this contract before calculations. Use the pinned Force Blind article,
+Define this contract before calculations. Use the pinned Force Blind20420 article,
 Force Powers and ordinary FP/action rules. The power is Swift, one creature
 within12squares and Line of Sight. One UTF check meeting Reflex makes the
 target Flat-Footed, and all OTHER creatures have Concealment from that target,

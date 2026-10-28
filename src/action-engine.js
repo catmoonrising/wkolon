@@ -48,7 +48,7 @@ import {planCharge} from './charge.js';
 import {catchSecondWind,advanceRegenerativeHealing,startRegenerativeHealingTurn,endRegenerativeHealing,startRage,startChannelRage,endChannelRage,recoverCondition,recoverActions,advanceRage,recoveryState} from './recovery.js';
 import {declareDefenseStance} from './defensive-combat.js';
 import {usePower,take10Power,useAdeptPower,recoverPower,recoverSuite,turnEndRecoveryDue} from './force-powers.js';
-import {powerActivationIssue} from './power-activation.js';
+import {powerActivationIssue,powerQuickening} from './power-activation.js';
 import {rollOpportunity} from './opportunity-actions.js';
 import {planOpportunity,startNextRound,opportunityContext} from './opportunity.js';
 import {rollCleave,followThrough} from './attack-follow-up-actions.js';
@@ -80,7 +80,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(paths[id]&&c[paths[id]])o.path=structuredClone(c[paths[id]]);
  if(id==='maintain-power')o.effectId=[...(c.shieldPowerEffects||[]),...(c.resistancePowerEffects||[])].find(s=>s.untilTurn===actionState(c).turn)?.id||'';
  if(id==='jump'){o.path=jumpState(c);o.fp='ask';}
- if(id==='power'){const p=d.forcePowers.find(p=>!p.spent);o.powerId=p?.copyId||'';o.action=p?.action||'standard-action';o.rollMode='roll';o.fp='ask';o.enhance=!!selfPowerRule(pack,p?.id)&&!resistancePowerRule(pack,p?.id);}
+ if(id==='power'){const p=d.forcePowers.find(p=>!p.spent);o.powerId=p?.copyId||'';o.action=p?.action||'standard-action';o.rollMode='roll';o.fp='ask';o.enhance=!!selfPowerRule(pack,p?.id)&&!powerQuickening(pack,p?.id);}
  if(id==='recover-power')o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';
  if(pack.rules.skillActions?.some(r=>r.id===id)){o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';o.rollMode='roll';o.fp='ask';o.safe=false;}
  if(['shield','shield-recharge'].includes(id))o.uid=c.inventory.find(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield)?.uid||'';
@@ -154,11 +154,11 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   if(movementPowerRule(pack,p.id))assert(!s.ended,'Turn ended');
   if(o.destiny){assert(movementPowerRule(pack,p.id),'Power has no Destiny option');assert(q.story?.kind==='destiny'&&q.story.points>0&&d.level,'Destiny Point unavailable');view.destinyCost=1;}
   assert(o.quicken===undefined||typeof o.quicken==='boolean','Invalid quickening choice');
-  const resistance=resistancePowerRule(pack,p.id);if(o.quicken){assert(resistance,'Power has no Swift activation');assert(o.rollMode!=='adept','Only one Force Point per round');view.cost.type=resistance.quickening.action;}
-  view.forceCost=(o.rollMode==='adept'?1:0)+(o.quicken?resistance.quickening.forcePoints:0);assert(!(o.rollMode==='adept'&&o.enhance),'Only one Force Point per round');
+  const quickening=powerQuickening(pack,p.id);if(o.quicken){assert(quickening,'Power has no accelerated activation');assert(o.rollMode!=='adept','Only one Force Point per round');view.cost.type=quickening.action;}
+  view.forceCost=(o.rollMode==='adept'?1:0)+(o.quicken?quickening.forcePoints:0);assert(!(o.rollMode==='adept'&&o.enhance),'Only one Force Point per round');
   view.fpAllowed=checkForcePointAvailable(q,d,{power:p,forceCost:view.forceCost,reaction:view.cost.type==='reaction'});
   const requirement=pack.rules.actionEconomy.powerRequirements?.[p.id];if(requirement?.notFlatFooted)assert(!d.flatFooted,'Power unavailable while flat-footed');if(requirement?.aware)assert(o.aware,'Confirm awareness of the attack');
-  view.enhanceAllowed=!resistance&&!!o.enhance&&!s.forceSpent&&d.forceCurrent>0&&!view.forceCost;
+  view.enhanceAllowed=!quickening&&!!o.enhance&&!s.forceSpent&&d.forceCurrent>0&&!view.forceCost;
   if(mentalPowerRule(pack,p.id)){view.mental=mentalPowerSnapshot(d,pack,o.mental);if(view.mental.selection.mode!=='suggestion')view.enhanceAllowed=false;}else assert(o.mental===undefined,'Power does not use a mental target');
   if(displacementPowerRule(pack,p.id)){view.thrust=forceThrustSnapshot(q,d,pack,o.thrust);if(view.thrust.target.mode==='door')view.enhanceAllowed=false;}else assert(o.thrust===undefined,'Power does not use a thrust target');
   if(negatingPowerRule(pack,p.id))view.negation=negateEnergyPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost});else if(thresholdPowerRule(pack,p.id))view.threshold=thresholdPowerPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost,enhanceAsk:!!o.enhance});else assert(o.incoming===undefined,'Power does not use incoming damage');
@@ -242,9 +242,9 @@ function resolve(c,pack,id,o,v,roller,activationId){
   const copy=c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===o.powerId);copy.action=v.power.action;
   if(o.quicken){c.forcePoints=d.forceCurrent-v.forceCost;c.actionState.forceSpent=true;}
   const bonus=d.skills.find(s=>s.id==='skill:use-the-force').total;let check;
-  if(o.rollMode==='take10'){take10Power(c,d,pack,o.powerId,{action:o.quicken?'swift-action':null});check={natural:10,bonus,total:10+bonus};}
+  if(o.rollMode==='take10'){take10Power(c,d,pack,o.powerId,{action:o.quicken?powerQuickening(pack,v.power.id).action+'-action':null});check={natural:10,bonus,total:10+bonus};}
   else if(o.rollMode==='adept'){const rolls=[roller('1d20'+signed(bonus)),roller('1d20'+signed(bonus))],x=useAdeptPower(c,d,pack,o.powerId,rolls.map(r=>r.d20[0]));check={natural:x.selected,bonus,total:x.selected+bonus};r={html:rolls.map(r=>r.display+' = '+totalHtml(r)).join('; ')};}
-  else {const x=roller('1d20'+signed(bonus));usePower(c,d,pack,o.powerId,x.d20[0],{action:o.quicken?'swift-action':null});check={natural:x.d20[0],bonus,total:x.value};r={html:x.display+' = '+totalHtml(x)};}
+  else {const x=roller('1d20'+signed(bonus));usePower(c,d,pack,o.powerId,x.d20[0],{action:o.quicken?powerQuickening(pack,v.power.id).action+'-action':null});check={natural:x.d20[0],bonus,total:x.value};r={html:x.display+' = '+totalHtml(x)};}
   r={...r,text:v.name+': Use the Force '+check.total+(o.rollMode==='take10'?' (Take 10)':o.rollMode==='adept'?' (Force Power Adept)':'')+(v.forceCost?'; Force Points -1':'')+(v.selfPower?'':'; effects manual'),check,fpAllowed:v.fpAllowed,enhanceAllowed:v.enhanceAllowed&&(v.mental?mentalEnhancementAvailable(v.mental,check.total):v.negation?check.total>=v.negation.incoming.amount:!v.selfPower||!!selfPowerTier(pack,v.power.id,check.total))};
   if((o.effectDC===undefined||o.effectDC===null)&&powerEffectChoiceRule(pack,v.power.id)?.thresholds?.filter(t=>t.dc<=check.total).length>1)r.effectChoiceAllowed=true;
   const effectHeading=r.text;let effectHTML='';if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed||r.effectChoiceAllowed)){const effect=finishPowerEffectResult(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,formAllowed:o.opportunityFormAllowed,incoming:o.incoming,offensivePowerSnapshot:o.offensivePowerSnapshot,forceThrustSnapshot:o.forceThrustSnapshot,mentalPowerSnapshot:o.mentalPowerSnapshot,effectDC:o.effectDC,roller});r.text+='; '+effect.text;effectHTML=effect.html||'';}

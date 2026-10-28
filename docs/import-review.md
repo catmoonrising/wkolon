@@ -3233,3 +3233,15 @@ Shared check/FP/Adept/Mastery/recovery/saved snapshots apply; outgoing damage
 rolls once. Enemy selection, target HP/protection and positions remain
 external, so Partial. No caster movement, NPC mutation or invented size
 adjustments. Contract docs/stagger.md; source text/pins unchanged.
+
+## Force Blind
+
+Force Blind20420 is Swift UTF versus Reflex, inclusively: the target is
+Flat-Footed and OTHER creatures have Concealment from it until caster next
+turn. Eyesight-independent targets are immune; no generic Blind/Total
+Concealment or invented attack penalty. Target state/attacks remain external,
+so Partial. Its FP commits before the check, replacing Swift with Free even
+on failure. The shared quickening resolver also preserves Energy Resistance
+Swift activation, action allocation, one-FP/Adept restrictions and saved
+checks. This is not a post-check enhancement. Pins and text unchanged;
+contract docs/force-blind.md.

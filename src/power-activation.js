@@ -19,3 +19,5 @@ export function setPowerAction(c,pack,id,action){
  if(!power||!powerActions(power).includes(action))throw new Error('Power action unavailable');
  copy.action=action;
 }
+
+export const powerQuickening=(pack,id)=>pack.rules.resistancePowers.find(r=>r.powerId===id)?.quickening||pack.rules.conditionPowerEffects?.find(r=>r.powerId===id)?.quickening;

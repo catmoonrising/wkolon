@@ -13,7 +13,13 @@ export function validateConditionPowerResults(c,pack,bad){
 export function resolveConditionPower(pack,id,check,{enhanced=false,effectDC=null}={}){
  const r=conditionPowerRule(pack,id);
  if(!r||!Number.isInteger(check?.total)||Math.abs(check.total)>100000||typeof enhanced!=='boolean'||!validPowerEffectLimit(pack,id,effectDC))throw new Error('Invalid condition power result');
- const tier=conditionPowerTier(pack,id,check.total,effectDC);if(!tier)return {text:'No effect',html:'',rows:[]};
+ const tier=conditionPowerTier(pack,id,check.total,effectDC);if(enhanced&&r.quickening)throw new Error('Power has no post-check enhancement');if(!tier)return {text:'No effect',html:'',rows:[]};
+ if(r.kind==='vision-denial'){
+  const effect='Flat-Footed, other creatures have Concealment from this target',immune='Creatures that do not rely on eyesight are immune',duration='Until the start of your next turn',rows=[{maximum:check.total,flatFooted:true,concealmentFromOtherCreatures:true},{minimum:check.total+1,flatFooted:false,concealmentFromOtherCreatures:false}];
+  const text='Reflex ≤ '+check.total+': '+effect+'; '+duration+'; '+immune;
+  const html=`<table class="routine-result"><thead><tr><th>Reflex</th><th>Effect</th></tr></thead><tbody>${rows.map(row=>`<tr><td>${row.maximum===undefined?'≥ '+row.minimum:'≤ '+row.maximum}</td><td>${row.flatFooted?escape(effect):'No effect'}</td></tr>`).join('')}</tbody></table><details><summary>Duration</summary>${escape(duration)}</details><details><summary>Immunity</summary>${escape(immune)}</details>`;
+  return {text,html,rows,duration:r.duration,immunity:r.immunity};
+ }
  if(r.kind!=='speed-reduction'){
   const defense='Will',maximum=check.total,penalty=enhanced?r.enhancement.defensePenaltyOnHit||0:0;
   const effect=r.kind==='action-limit'?(tier.action?'Only 1 '+tier.action[0].toUpperCase()+tier.action.slice(1)+' Action on its next turn':'No Actions on its next turn'):'Attack -'+tier.attackPenalty;
