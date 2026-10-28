@@ -3259,3 +3259,15 @@ check; damage while maintained triggers its own saved DC15+damage UTF check,
 FP/keep/release, with common cleanup and atomic reset guards. Energy Resistance
 keeps its original saved shape, DR and Swift quickening. Enemy use and target
 context remain declared, so Partial. Sources/text unchanged; docs/resist-force.md.
+
+## Inertia
+
+Inertia20451 spends a Move action for wall movement: UTF15halfSpeed,20full,
+25full+2,30full+4, with FP+2squares and ordinary rounding. The activation's
+derived ordinary Speed is snapshotted, including existing armor/load/power
+modifiers, through saved FP/earned-tier choices. It is not a global Speed
+buff or another Move action. Falling without ground at the end is explicit;
+wall route, board positions/support and fall height remain external, so
+Partial. No fabricated fall damage, grounding or AoO immunity. Shared
+checks/FP/Adept/Mastery/suite/saved/legacy handling, pins/text unchanged;
+contract docs/inertia.md.

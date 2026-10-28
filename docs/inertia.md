@@ -1,6 +1,6 @@
 # Inertia
 
-Define this contract before calculations. Preserve pinned Inertia, Force Powers
+Define this contract before calculations. Preserve pinned Inertia20451, Force Powers
 and normal rounding. Move activation, Self. UTF15/20/25/30 permits wall movement
 up to half Speed/full Speed/full Speed+2/full Speed+4 squares, treating the wall
 as ground and ignoring normal Gravity for this movement only. Half squares

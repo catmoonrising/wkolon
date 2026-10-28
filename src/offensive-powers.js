@@ -5,7 +5,7 @@ import {evalExpr,totalHtml} from './dice.js';
 import {escapeHTML as escape} from './wiki-content.js';
 
 export const offensivePowerRule=(pack,id)=>pack.rules.offensivePowerEffects?.find(r=>r.powerId===id);
-export const historicalManualPower=(pack,id,options)=>!!(pack.rules.resistancePowers?.find(r=>r.powerId===id&&r.kind==='defense')||pack.rules.mentalPowerEffects?.find(r=>r.powerId===id)||pack.rules.conditionPowerEffects?.find(r=>r.powerId===id)||pack.rules.opportunityPowers?.find(r=>r.powerId===id)||pack.rules.displacementPowers?.find(r=>r.powerId===id)||offensivePowerRule(pack,id)||pack.rules.thresholdPowers?.find(r=>r.powerId===id))&&options.effectPowerId===undefined&&options.offensivePowerSnapshot===undefined&&options.forceThrustSnapshot===undefined&&options.mentalPowerSnapshot===undefined&&options.resistForceSnapshot===undefined;
+export const historicalManualPower=(pack,id,options)=>!!(pack.rules.resistancePowers?.find(r=>r.powerId===id&&r.kind==='defense')||pack.rules.mentalPowerEffects?.find(r=>r.powerId===id)||pack.rules.conditionPowerEffects?.find(r=>r.powerId===id)||pack.rules.opportunityPowers?.find(r=>r.powerId===id)||pack.rules.displacementPowers?.find(r=>r.powerId===id)||offensivePowerRule(pack,id)||pack.rules.thresholdPowers?.find(r=>r.powerId===id))&&options.effectPowerId===undefined&&options.offensivePowerSnapshot===undefined&&options.forceThrustSnapshot===undefined&&options.mentalPowerSnapshot===undefined&&options.resistForceSnapshot===undefined&&options.conditionPowerSnapshot===undefined;
 export function offensivePowerTier(pack,id,total,effectDC=null){
  const rule=offensivePowerRule(pack,id);
  if(!rule||!Number.isInteger(total))return null;
