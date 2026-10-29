@@ -1,6 +1,6 @@
 # Technometry
 
-Define this contract before calculations. Preserve Technometry and Force Powers
+Define this contract before calculations. Preserve Technometry20066 and Force Powers18202
 pinned articles verbatim. Standard Action, one Droid or electronic device
 touched. Inclusive UTF versus Will. A successful information use yields one
 piece of information plus one for every5points by which the check exceeds Will,
@@ -11,7 +11,7 @@ No minimum DC, damage, critical or natural20 automatic success is invented.
 Alternatively, on success against a Droid choose exactly one: jam its senses
 to permit Stealth against it even though aware, until the end of the caster's
 next turn; deny Dexterity to Reflex against the caster's next attack made
-before that deadline; or make it do nothing except flee at top speed on its
+before that deadline; or make it do nothing except flee from you at top speed on its
 next2turns. These are alternatives to information, not cumulative effects.
 They are not available against an electronic device that is not a Droid.
 
