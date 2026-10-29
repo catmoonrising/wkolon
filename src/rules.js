@@ -1,3 +1,4 @@
+import {validateRepulse} from './repulse.js';
 import {validatePowerEnhancementChoices} from './power-effect-choices.js';
 import {validateTrackingPowers,activeTrackingPowers} from './tracking-powers.js';
 import {validateCheckedMaintenance} from './checked-maintenance.js';
@@ -164,7 +165,7 @@ export function validateCharacter(c, pack) {
   validateSelfPowerEffects(c,pack,bad);
   validateMovementPowerEffects(c,pack,bad);
   validateRagePowers(c,pack,bad);
-  validatePowerEnhancementChoices(c,pack,bad);validateMentalPowers(c,pack,bad);validateConditionPowerResults(c,pack,bad);validateOpportunityPowers(c,pack,bad);validateOpportunityPowerResults(c,pack,bad);validateForceThrustResults(c,pack,bad);validateNegatingPowers(c,pack,bad);validateThresholdPowers(c,pack,bad);validateDeflection(c,pack,bad);
+  validateRepulse(c,pack,bad);validatePowerEnhancementChoices(c,pack,bad);validateMentalPowers(c,pack,bad);validateConditionPowerResults(c,pack,bad);validateOpportunityPowers(c,pack,bad);validateOpportunityPowerResults(c,pack,bad);validateForceThrustResults(c,pack,bad);validateNegatingPowers(c,pack,bad);validateThresholdPowers(c,pack,bad);validateDeflection(c,pack,bad);
   validateShieldPowers(c,pack,bad);validateResistancePowers(c,pack,bad);validateCheckedMaintenance(c,pack,bad);validateResistForceSelections(c,pack,bad);
   const maintainedIds=[...(c.shieldPowerEffects||[]),...(c.resistancePowerEffects||[])].map(s=>s.id);if(new Set(maintainedIds).size!==maintainedIds.length)bad('maintained power identities');
   validateJump(c,bad);

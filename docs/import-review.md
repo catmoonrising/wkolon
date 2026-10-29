@@ -3385,3 +3385,12 @@ captured before rolling, with conditional output when Will is unknown. Known
 misses do not offer special enhancement. Actual memories/Access Information,
 Touch, target eligibility and applying external effects remain Partial. No
 caster bonuses, target actions or electronic information are fabricated.
+
+Repulse19561 shares Force Thrust's strict opposed displacement math for all
+declared adjacent targets. One saved UTF result meets separate declared
+Strength/BAB/size/stability totals; a special FP applies-5to all and adds2d6to
+each reached collision. Per-target rolls are saved by index and reconstructed
+without RNG in folded results/history, including duplicate names and100rows.
+No Force Thrust Door/Extended range or enemies-only filter is inherited.
+Actual adjacency/list completeness, geometry/movement and applying target
+DR/SR/HP remain external, so Partial. Old manual history stays manual.

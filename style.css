@@ -405,3 +405,7 @@ footer { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1rem; font-size
 .feature-tree-node-head>.feature-pick{font-size:.8em}
 
 .secondary-options>button{align-self:flex-start}
+
+.repulse-targets { width:100%; display:grid; gap:.5em; min-width:0; }
+.repulse-target { border:1px solid var(--border); padding:.4em; min-width:0; }
+.repulse-result td { overflow-wrap:anywhere; }

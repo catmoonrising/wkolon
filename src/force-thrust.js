@@ -55,10 +55,17 @@ export function resolveForceThrust(pack,check,target,{enhanced=false,range=12,do
   const opened=check.total>=t.breakDC;
   return {opened,pushed:0,collision:false,damage:0,text:opened?'Door opened':'Door intact',html:''};
  }
- const size=r.sizeModifiers[t.size],stability=t.stable?r.stabilityBonus:0,penalty=enhanced?r.enhancement.opponentPenalty:0,opposed=t.strengthCheck+t.baseAttack+size+stability-penalty,margin=check.total-opposed,pushed=margin>0?r.baseSquares+Math.floor(margin/r.marginPerSquare):0,collision=pushed>0&&t.collisionAt!==null&&pushed>=t.collisionAt;
+ const {opposed,margin,pushed,collision}=opposedDisplacementPlan(r,check.total,t,enhanced);
  const text='Strength '+opposed+'; '+(pushed?'Push '+pushed+' squares':'Not pushed');
  if(!collision)return {opposed,margin,pushed,collision:false,damage:0,text,html:''};
  const dice=r.collision.dice+(enhanced?r.enhancement.collisionDice:0),expression=dice+'d'+r.collision.die,roll=roller(expression);
  if(!integer(roll?.value,dice,dice*r.collision.die))throw new Error('Invalid Force Thrust collision roll');
  return {opposed,margin,pushed,collision:true,damage:roll.value,expression,text:text+'; Collision '+roll.value+' ('+expression+')',html:'<details><summary>Collision</summary>'+roll.display+' = '+totalHtml(roll)+'</details>'};
+}
+
+// Opposing Strength already includes its modifier. Both powers add BAB/size
+// and one stability bonus, and require strict success before movement.
+export function opposedDisplacementPlan(rule,total,target,enhanced=false){
+ const opposed=target.strengthCheck+target.baseAttack+rule.sizeModifiers[target.size]+(target.stable?rule.stabilityBonus:0)-(enhanced?rule.enhancement.opponentPenalty:0),margin=total-opposed,pushed=margin>0?rule.baseSquares+Math.floor(margin/rule.marginPerSquare):0,collision=pushed>0&&target.collisionAt!==null&&pushed>=target.collisionAt;
+ return {opposed,margin,pushed,collision};
 }

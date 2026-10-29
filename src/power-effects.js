@@ -1,3 +1,4 @@
+import {repulsePowerRule,finishRepulse} from './repulse.js';
 import {trackingPowerRule,trackingPowerTier,finishTrackingPower} from './tracking-powers.js';
 import {mentalPowerRule,resolveMentalPower} from './mental-powers.js';
 import {conditionPowerRule,conditionPowerTier,resolveConditionPower} from './condition-powers.js';
@@ -20,6 +21,7 @@ export function finishPowerEffectResult(c,d,pack,id,powerId,check,enhanced=false
  if(trackingPowerRule(pack,powerId))return finishTrackingPower(c,pack,id,powerId,check,{enhanced,snapshot:options.trackingPowerSnapshot,effectDC:options.effectDC});
  if(mentalPowerRule(pack,powerId))return resolveMentalPower(pack,check,options.mentalPowerSnapshot,{enhanced});
  if(conditionPowerRule(pack,powerId))return resolveConditionPower(pack,powerId,check,{enhanced,effectDC:options.effectDC,snapshot:options.conditionPowerSnapshot,enhancementChoice:options.powerEnhancementChoice});
+ if(repulsePowerRule(pack,powerId))return finishRepulse(c,pack,id,check,options.repulsePowerSnapshot,{enhanced,roller:options.roller});
  if(displacementPowerRule(pack,powerId))return finishForceThrust(pack,check,options.forceThrustSnapshot,{enhanced,roller:options.roller});
  if(offensivePowerRule(pack,powerId))return resolveOffensivePower(pack,powerId,check,{enhanced,snapshot:options.offensivePowerSnapshot,effectDC:options.effectDC,hitConfirmed:options.offensiveHitConfirmed,roller:options.roller});
  return {text:finishPowerEffect(c,d,pack,id,powerId,check,enhanced,destiny,options)};
@@ -29,6 +31,7 @@ export function finishPowerEffect(c,d,pack,id,powerId,check,enhanced=false,desti
  if(mentalPowerRule(pack,powerId))return resolveMentalPower(pack,check,options.mentalPowerSnapshot,{enhanced}).text;
  if(conditionPowerRule(pack,powerId))return resolveConditionPower(pack,powerId,check,{enhanced,effectDC:options.effectDC,snapshot:options.conditionPowerSnapshot,enhancementChoice:options.powerEnhancementChoice}).text;
  if(opportunityPowerRule(pack,powerId)){const row=finishOpportunityPower(c,pack,id,powerId,check,{enhanced,formAllowed:options.formAllowed,effectDC:options.effectDC});return row?'AoO +'+opportunityPowerRule(pack,powerId).thresholds[row.tier-1].attack+' Force'+(row.formAllowed?'; +1 damage die':'')+(enhanced?'; Move 1 square without provoking':''):'No effect';}
+ if(repulsePowerRule(pack,powerId))return finishRepulse(c,pack,id,check,options.repulsePowerSnapshot,{enhanced,roller:options.roller}).text;
  if(displacementPowerRule(pack,powerId))return finishForceThrust(pack,check,options.forceThrustSnapshot,{enhanced,roller:options.roller}).text;
  if(offensivePowerRule(pack,powerId))return resolveOffensivePower(pack,powerId,check,{enhanced,snapshot:options.offensivePowerSnapshot,effectDC:options.effectDC,hitConfirmed:options.offensiveHitConfirmed,roller:options.roller}).text;
  if(thresholdPowerRule(pack,powerId)){const result=finishThresholdPower(c,d,pack,powerId,check,options.incoming,{enhanced,effectDC:options.effectDC,stepId:id});if(result.damage?.balanceCheckRequired)result.text+='; '+balanceAfterDamage(c,derive(c,pack),pack,options.roller).text;return result.text;}
