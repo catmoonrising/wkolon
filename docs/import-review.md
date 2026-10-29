@@ -3394,3 +3394,13 @@ without RNG in folded results/history, including duplicate names and100rows.
 No Force Thrust Door/Extended range or enemies-only filter is inherited.
 Actual adjacency/list completeness, geometry/movement and applying target
 DR/SR/HP remain external, so Partial. Old manual history stays manual.
+
+Thought Bomb20555 now uses inclusive Will area2d6Force damage and hit-only
+loss of one Swift Action on the target's next turn; special FP adds2d6before
+shared half-miss damage. Standard cost/check/copies/FP/Adept/Mastery/recovery
+are shared, with no caster Swift loss or NPC action mutation. Actual target
+eligibility/Will/Mind-Affecting immunity, DR/SR/HP and applying action loss remain
+external, so Partial. Pending ruling: Evasion/Cover wording refers to Reflex,
+but this power attacks Will. Until resolved those protections remain manual;
+no numeric Evasion/Cover fields/columns are claimed for this new power, and no
+previously reviewed power changes. Source conflict/ruling is retained here.
