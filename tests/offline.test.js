@@ -7,7 +7,7 @@ test('first worker claim preserves editing; an update reloads once',()=>{
  for(const initiallyControlled of [false,true]) {
   const listeners={}, sw={controller:initiallyControlled?{}:null,register:()=>Promise.resolve({addEventListener(){}}),addEventListener:(type,fn)=>listeners[type]=fn};
   let reloads=0;
-  const sandbox={navigator:{serviceWorker:sw},location:{protocol:'https:',hostname:'catmoonrising.github.io',reload:()=>reloads++},document:{addEventListener:(type,fn)=>{if(type==='DOMContentLoaded')fn();}},console};
+  const sandbox={navigator:{serviceWorker:sw},location:{protocol:'https:',hostname:'catmoonrising.github.io',reload:()=>reloads++},document:{readyState:'loading',documentElement:{dataset:{bootSettled:'true'}},addEventListener:(type,fn)=>{if(type==='DOMContentLoaded')fn();}},console};
   vm.runInNewContext(source,sandbox);
   sw.controller={};listeners.controllerchange();
   assert.equal(reloads,initiallyControlled?1:0);
