@@ -30,7 +30,7 @@ test('Droid modes are mutually exclusive and actor-specific, special FP extends 
   const x=resolve(30,{target:'droid',effect,will:30},enhanced);assert.equal(x.success,true);assert.equal(x.effect,effect);assert.equal(x.informationPieces,undefined);
   if(effect==='flee'){assert.equal(x.fleeTurns,enhanced?3:2);assert.match(x.text,/flee from you at top speed/);}else{assert.equal(x.extraRounds,enhanced?1:0);assert.match(x.text,enhanced?/one round after the end/:/Until the end/);if(effect==='defense'){assert.equal(x.attacks,1);assert.match(x.text,/your next attack/);}else assert.match(x.text,/You may make Stealth checks/);}
   assert.equal(resolve(29,{target:'droid',effect,will:30},enhanced).success,false);
-  const unknown=resolve(30,{target:'droid',effect},enhanced);assert.equal(unknown.success,null);assert.match(unknown.text,/^Will ≤ 30:/);assert.match(unknown.html,/Will/);
+  const unknown=resolve(30,{target:'droid',effect},enhanced);assert.equal(unknown.success,null);assert.match(unknown.text,/^Will ≤ 30:/);assert.match(unknown.html,/^<p>Will ≤ 30:/);assert(!unknown.html.includes('<summary>Will</summary>'));
  }
  for(const effect of ['senses','defense','flee'])assert.throws(()=>technometrySelection({target:'device',effect}));
 });
