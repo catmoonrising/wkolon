@@ -41,3 +41,7 @@ test('activation preflights capacity, snapshots ignore key order, replays and mi
 test('coarse waits expire effects, source gating preserves rows for release, and escaped output cannot create markup',()=>{
  const c=actor(),{s,r}=activate(c,35,{target:{name:'<script>Door</script>'}});assert(!r.html.includes('<script>'));assert(r.html.includes('&lt;script&gt;'));const before=structuredClone(c),d={incapacitated:false,helpless:false,skills:[{id:'skill:use-the-force',available:true}],forcePowers:[]};assert.throws(()=>p.outgoingMaintenancePlan(c,d,pack,s.id));assert.deepEqual(c,before);d.forcePowers=[{id:pid,spent:true}];assert.equal(p.outgoingMaintenancePlan(c,d,pack,s.id).row.id,s.id);p.advanceOutgoingTime(c,0);assert.deepEqual(c,before);p.advanceOutgoingTime(c,1);assert.deepEqual(c,before);p.advanceOutgoingTime(c,2);assert.equal(c.outgoingPowerEffects,undefined);valid(c);
 });
+
+test('clear/expiry preflight all pending release snapshots before changing another instance',()=>{
+ const c=actor(),a=activate(c),b=activate(c,35,{target:{name:'Panel'}}),pending=stage(c,b.s.id);pending.snapshot.enhanced=true;atomic(c,()=>p.clearOutgoingPowers(c));p.endOutgoingPowerTurn(c);p.startOutgoingPowerTurn(c);atomic(c,()=>p.endOutgoingPowerTurn(c));assert.equal(c.outgoingPowerEffects[0].id,a.s.id);
+});

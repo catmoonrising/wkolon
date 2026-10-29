@@ -34,7 +34,7 @@ const sameSnapshot=(a,b)=>object(a)&&object(b)&&Object.keys(a).sort().join()===O
 export function validateOutgoingPowerState(c,pack,bad){
  const rows=c.outgoingPowerEffects;
  if(rows!==undefined){
-  if(!c.actionState||!Array.isArray(rows)||rows.length>1000||new Set(rows.map(r=>r?.id)).size!==rows.length){bad('outgoing power effects');return;}
+  if(!c.actionState||!Array.isArray(rows)||rows.length>1000||new Set(rows.map(r=>r?.id)).size!==rows.length||rows.some(r=>[...(c.resistancePowerEffects||[]),...(c.shieldPowerEffects||[])].some(other=>other.id===r?.id))){bad('outgoing power effects');return;}
   for(const row of rows){
    const rule=outgoingPowerRule(pack,row?.powerId);
    if(!keys(row,'ended,endsRemaining,enhanced,id,maintained,maxTier,pending,powerId,target,tier')||!rule||!uuid(row.id)||!canonicalTarget(pack,row.target)||!integer(row.maxTier,1,rule.thresholds.length)||!integer(row.tier,1,row.maxTier)||typeof row.enhanced!=='boolean'||typeof row.maintained!=='boolean'||!integer(row.endsRemaining,1,2)||typeof row.ended!=='boolean'||row.ended&&row.endsRemaining!==1){bad('outgoing power effect');return;}
@@ -118,19 +118,25 @@ export function finishOutgoingUpkeep(c,pack,id,check,snapshot,{effectDC=null}={}
  else removeOutgoingPower(c,row.id,{resolving:true});
  saveResolution(step,row.id,'upkeep',result.applied?'applied':'failed',check,result.tier,snapshot.enhanced);return result;
 }
+function releaseSteps(c,id,row){
+ const steps=(c.actionState?.plan||[]).filter(s=>s.status==='waiting'&&s.action==='maintain-power'&&s.options.maintenancePowerSnapshot?.family==='outgoing'&&s.options.maintenancePowerSnapshot.effectId===id);
+ for(const step of steps){const snapshot=step.options.maintenancePowerSnapshot;if(!keys(snapshot,'effectId,enhanced,family,powerId,target,turn')||snapshot.powerId!==row.powerId||snapshot.enhanced!==row.enhanced||!sameTarget(snapshot.target,row.target)||!integer(snapshot.turn,1,1000000000)||!integer(step.result?.check?.total,-100000,100000))throw new Error('Invalid pending outgoing upkeep');}
+ return steps;
+}
 export function removeOutgoingPower(c,id,{resolving=false}={}){
  const row=c.outgoingPowerEffects?.find(r=>r.id===id);if(!row)throw new Error('Outgoing power unavailable');
- const steps=resolving?[]:(c.actionState?.plan||[]).filter(s=>s.status==='waiting'&&s.action==='maintain-power'&&s.options.maintenancePowerSnapshot?.family==='outgoing'&&s.options.maintenancePowerSnapshot.effectId===id);
- for(const step of steps){const snapshot=step.options.maintenancePowerSnapshot;if(!keys(snapshot,'effectId,enhanced,family,powerId,target,turn')||snapshot.powerId!==row.powerId||snapshot.enhanced!==row.enhanced||!sameTarget(snapshot.target,row.target)||!integer(snapshot.turn,1,1000000000)||!integer(step.result?.check?.total,-100000,100000))throw new Error('Invalid pending outgoing upkeep');}
+ const steps=resolving?[]:releaseSteps(c,id,row);
  for(const step of steps){saveResolution(step,id,'upkeep','released',step.result.check,0,step.options.maintenancePowerSnapshot.enhanced);step.status='done';step.result.fpAllowed=false;step.result.enhanceAllowed=false;delete step.result.effectChoiceAllowed;step.result.text+='; released';}
  c.outgoingPowerEffects=c.outgoingPowerEffects.filter(r=>r.id!==id);if(!c.outgoingPowerEffects.length)delete c.outgoingPowerEffects;
 }
-export function clearOutgoingPowers(c){for(const row of [...(c.outgoingPowerEffects||[])])removeOutgoingPower(c,row.id);}
+export function clearOutgoingPowers(c){const rows=[...(c.outgoingPowerEffects||[])];for(const row of rows)releaseSteps(c,row.id,row);for(const row of rows)removeOutgoingPower(c,row.id);}
 function changeTurn(c,resolver){
  if(!c.outgoingPowerEffects)return;
  if(pendingOutgoingChecks(c).length)throw new Error('Resolve outgoing concentration first');
  const next=resolver(c.outgoingPowerEffects),kept=new Set(next.map(r=>r.id));
- for(const row of [...c.outgoingPowerEffects])if(!kept.has(row.id))removeOutgoingPower(c,row.id);
+ const expired=c.outgoingPowerEffects.filter(row=>!kept.has(row.id));
+ for(const row of expired)releaseSteps(c,row.id,row);
+ for(const row of expired)removeOutgoingPower(c,row.id);
  if(next.length)c.outgoingPowerEffects=next;else delete c.outgoingPowerEffects;
 }
 export const endOutgoingPowerTurn=c=>changeTurn(c,endTurnEffects);

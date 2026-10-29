@@ -102,6 +102,8 @@ snapshot exclusively. New snapshot or result namespaces on unrelated powers
 are invalid. Old manual results without either namespace remain manual.
 
 `outgoingPowerEffects` is optional, at most 1000 rows, with unique UUID IDs.
+Outgoing IDs must also be distinct from personal resistance and shield IDs,
+so maintenance/concentration dispatch cannot select two families for one ID.
 Each row is exactly `{id, powerId, target, maxTier, tier, enhanced,
 endsRemaining, ended, maintained, pending}`. Power is Cryokinesis; target is
 canonical. maxTier is 1 to 4 and tier is 1 to maxTier. Enhanced and maintained
