@@ -87,7 +87,11 @@ lineOfSight and unattended must be true. Mechanical is a boolean meaning
 mechanical or electronic. DR is null or an integer from 0 to 100000; condition
 is null or an integer from 0 to 5. Omitted optional values become null, and
 mechanical defaults false. Omitted confirmations remain false, never implicitly
-satisfied. Raw declarations may omit defaults; saved canonical targets may not.
+satisfied. Raw queued declarations may omit defaults and be incomplete or ineligible;
+validate their field types and finite distance up to 1000000000 while planning.
+Activation enforces all eligibility checks before costs/RNG. Saved canonical
+targets require every field and full eligibility. Explicit null checkbox/name/
+distance values are invalid, rather than silently supplying defaults.
 Both DR and CT are external declarations. Unknown CT never implies Normal.
 
 Activation options use `outgoing` for the raw target and capture the closed
