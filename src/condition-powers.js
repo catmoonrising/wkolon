@@ -12,11 +12,17 @@ export function validateConditionPowerResults(c,pack,bad){
   if(step.action!=='power'||step.status==='queued'||!Number.isInteger(result?.check?.total)||result.enhanceAllowed&&!conditionPowerTier(pack,r.powerId,result.check.total,step.options.effectDC??null)||result.effectChoiceAllowed&&(r.thresholds?.filter(t=>t.dc<=result.check.total).length??0)<2)bad('condition power result');
  }
 }
-export function resolveConditionPower(pack,id,check,{enhanced=false,effectDC=null,snapshot}={}){
+export function resolveConditionPower(pack,id,check,{enhanced=false,effectDC=null,snapshot,enhancementChoice}={}){
  const r=conditionPowerRule(pack,id);
  if(!r||!Number.isInteger(check?.total)||Math.abs(check.total)>100000||typeof enhanced!=='boolean'||!validPowerEffectLimit(pack,id,effectDC))throw new Error('Invalid condition power result');
  if(r.kind==='wall-movement'&&(!validConditionSnapshot(snapshot)||snapshot.powerId!==id))throw new Error('Invalid condition power snapshot');
+ const choices=r.enhancement?.choices||[];if(enhanced&&choices.length?!choices.some(x=>x.id===enhancementChoice):enhancementChoice!==undefined)throw new Error('Choose an enhancement');
  const tier=conditionPowerTier(pack,id,check.total,effectDC);if(enhanced&&r.quickening)throw new Error('Power has no post-check enhancement');if(!tier)return {text:'No effect',html:'',rows:[]};
+ if(r.kind==='object-transport'){
+  const improvement=enhanced?r.enhancement.choices.find(x=>x.id===enhancementChoice):null,sizes=r.sizeOrder,maximumSize=sizes[Math.min(sizes.length-1,sizes.indexOf(tier.maximumSize)+(improvement?.sizeCategories||0))],size=maximumSize==='colossal-frigate'?'Colossal (Frigate)':maximumSize==='colossal-cruiser'?'Colossal (Cruiser)':maximumSize[0].toUpperCase()+maximumSize.slice(1),distance=tier.distance*(improvement?.distanceMultiplier||1);
+  const target='One held or unattended object within 6 squares and Line of Sight, or one Vehicle you occupy',contents='Everything contained within the object is transported as well',text='Transport a '+size+' or smaller object up to '+distance+' squares; '+contents;
+  return {text,html:`<table class="routine-result"><thead><tr><th>Maximum size</th><th>Distance</th></tr></thead><tbody><tr><td>${size}</td><td>${distance} squares</td></tr></tbody></table><details><summary>Target</summary>${escape(target)}</details><details><summary>Contents</summary>${escape(contents)}</details>`,maximumSize,distance,contentsTransported:r.contentsTransported,targetScope:r.targetScope,...(enhanced?{enhancementChoice}:{})};
+ }
  if(r.kind==='energy-drain'){
   const sizes=['fine','diminutive','tiny','small','medium','large','huge','gargantuan','colossal'],maximumSize=sizes[Math.min(sizes.indexOf(r.enhancement.maximumSize),sizes.indexOf(tier.maximumSize)+(enhanced?r.enhancement.sizeCategories:0))],size=maximumSize[0].toUpperCase()+maximumSize.slice(1),generator=tier.generator;
   const effect='Drain all Energy Cells powering a '+size+' or smaller weapon or object',replacement='The object cannot be used until its Energy Cells are replaced',supply=generator?'If the object is powered by a Power Generator, drain all power from that generator instead':'Power Generators require the DC 35 effect';

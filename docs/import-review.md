@@ -3366,3 +3366,13 @@ Adept/Mastery, ordinary versus special FP, suite recovery and legacy protection
 use shared paths. Actual trail visibility/age, path, terrain and finding the
 creature remain external, so Partial. Pinned sources unchanged; Force Track20424,
 Force Powers18202, Combat Sequence26725 and docs/force-track.md.
+
+Fold Space20418 now resolves its Full-Round UTF20/25/30/35/40 maximum object
+size and6/12/18/24/30-square distance through the shared saved power pipeline.
+One special FP chooses either two size categories (up to Colossal (Cruiser))
+or double distance, with separate named controls. Lesser tier governs both
+limits. Ordinary FP, Adept/Mastery, suite recovery and legacy histories retain
+shared semantics. Held/unattended-object eligibility versus occupied Vehicle,
+actual target size, Line of Sight, placement and movement of contents remain
+external, so Partial. Improved Fold Space20446 remains Manual; its FP Line of
+Sight/Destiny system-range alternatives are not supplied by the base power.
