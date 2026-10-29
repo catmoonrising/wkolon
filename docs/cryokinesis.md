@@ -71,3 +71,85 @@ concentration, source loss, legacy saves, independent instances, atomic previews
 full old-power state/results/RNG equivalence and actual controls/mobile/offline.
 Require independent contract and runtime reviews, combined regression, CI,
 Pages and exact deployed-version verification.
+
+## Exact data and saved-state contract
+
+The closed `rules.outgoingMaintainedPowers` record in mechanics/schema defines
+only Cryokinesis for now. It pins every source constant above and keeps the
+post-protection, pre-HP-halving damage amount already used by shared maintained
+powers (Attacks 27406). Existing rule records and power articles stay unchanged.
+Adding this record alone does not enable the action or advertise full automation.
+
+The canonical target is exactly `{name, distance, lineOfSight, unattended,
+mechanical, dr, condition}`. Name is trimmed, 1 to 100 characters, without
+CR/LF/NUL. Distance is finite, from 0 to the rule's 12-square range. Both
+lineOfSight and unattended must be true. Mechanical is a boolean meaning
+mechanical or electronic. DR is null or an integer from 0 to 100000; condition
+is null or an integer from 0 to 5. Omitted optional values become null, and
+mechanical defaults false. Omitted confirmations remain false, never implicitly
+satisfied. Raw declarations may omit defaults; saved canonical targets may not.
+Both DR and CT are external declarations. Unknown CT never implies Normal.
+
+Activation options use `outgoing` for the raw target and capture the closed
+`outgoingPowerSnapshot: {powerId, target}` before RNG or costs. Capacity for a
+new ongoing identity is preflighted before activation, even if it may fail.
+Queued actions may edit raw declarations; completed/waiting results use the
+snapshot exclusively. New snapshot or result namespaces on unrelated powers
+are invalid. Old manual results without either namespace remain manual.
+
+`outgoingPowerEffects` is optional, at most 1000 rows, with unique UUID IDs.
+Each row is exactly `{id, powerId, target, maxTier, tier, enhanced,
+endsRemaining, ended, maintained, pending}`. Power is Cryokinesis; target is
+canonical. maxTier is 1 to 4 and tier is 1 to maxTier. Enhanced and maintained
+are booleans. endsRemaining is 1 or 2 and ended is boolean; ended true requires
+endsRemaining 1. Use the existing shared start/end-turn resolver. A row is
+already applied to its external object, so its chosen tier is fixed. A new
+upkeep check can earn a new maxTier and chosen tier after the shared lesser-tier
+choice. The row ID is its activation step ID and is independent of whether its
+original power copy is later spent, recovered or removed. Saved validity does
+not require that copy; performing a new upkeep requires current source access.
+
+Pending is null or exactly `{damage, check}`. Damage is an integer from 1 to
+1000000000, and only a maintained row may have a pending concentration check.
+Check is null or exactly `{natural, bonus, total}` with natural 1 to 20,
+bonus/total integers from -100000 to 100000 and total = natural + bonus.
+This concentration record never triggers activation-only recovery. No new
+check may replace a saved concentration roll. A final FP bonus uses the shared
+ledger; release remains possible after source loss. Resolve or release every
+pending concentration before other actions, damage or time advancement.
+
+Upkeep options use the existing `maintenancePowerSnapshot` namespace, extended
+by a closed outgoing-family variant exactly `{family, effectId, powerId,
+enhanced, turn, target}`. Family is outgoing; effectId is the original row UUID;
+power, enhancement and canonical target must match that live instance while
+waiting. Turn is the action's saved own-turn number. Old resistance snapshots
+retain their existing exact shape. Every upkeep has its own action step UUID,
+Swift cost and UTF check; it neither spends a power copy nor buys enhancement.
+Ordinary FP and shared lesser-tier choice can remain pending before the final
+upkeep result. Preview clones the state, reserves costs and never rolls.
+
+Every finalized activation/upkeep stores a closed `outgoingPowerResolution`
+exactly `{effectId, phase, status, total, tier, enhanced}`. Phase is activation
+or upkeep. Status is applied, failed or released. Activation effectId equals
+its step ID; upkeep effectId equals the original instance ID. Total equals the
+saved final check. Applied tier is the earned/chosen 1 to 4; failed/released
+tier is 0. A failed activation is never enhanced. An upkeep failure retains
+its snapshot enhancement in the receipt. Released is upkeep-only, for an
+instance released while its decision was pending. All such receipts belong
+to done steps; waiting steps have none. Release closes the pending step,
+disables FP/enhancement choices and removes any effect-choice waiting flag.
+Historical receipts remain valid after the ongoing row disappears. Calculation
+validation will recompute applied/failed tiers from the saved final check and
+chosen DC; it will not reroll or require the expired/released target row.
+
+The shared effect-choice helper must recognize outgoing activation and upkeep,
+using the existing optional `effectDC` cap. Upkeep exposes no special-FP purchase.
+Preserve old serialized results and old family dispatch when the new namespaces
+are absent. New end-next-turn rows survive omission from New Turn's automatic
+maintenance list. End-turn idempotence, skipped End turn, manual late upkeep,
+repeated paid Swift checks and no accumulating expiry are mandatory. Coarse
+elapsed waits of two or more full rounds expire an unrenewed short effect;
+ordinary own-turn advancement uses the turn resolver once, not a second timer.
+Explicit long rest/suite recovery clears these short effects, while natural-20
+recovery does not. Removal/release never repairs or restores the external
+object's one-time CT loss.
