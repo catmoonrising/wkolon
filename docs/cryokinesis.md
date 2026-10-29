@@ -15,14 +15,23 @@ introduced. No DR below zero or extra CT movement is inferred.
 
 Maintenance is one Swift Action and a new Use the Force check each round.
 It extends the normal duration and may determine a new earned effect tier;
-it never moves the object farther down the CT. Damage while maintaining
+it never moves the object farther down the CT. Retiering from the new check
+uses the printed threshold table, an implementation reading rather than an
+additional explicit sentence in the upkeep paragraph. Damage while maintaining
 requires the shared concentration check, DC 15 plus damage taken. Preserve
 end-next-turn timing rather than inheriting the start-next-turn timing of
-resistance powers. Maintenance may renew once per new own turn, never create
-unlimited duration through repeated upkeep in the same turn.
+resistance powers. An unrenewed effect stays active through the next own turn
+and can be renewed later in that turn, even when omitted from the New Turn
+maintenance choices. Each renewal spends its own Swift Action and makes its
+own check. The source does not explicitly forbid repeating upkeep in one turn;
+do not add that restriction. Renewals set the normal end-of-next-turn deadline
+rather than accumulating another whole turn of duration per click.
 
 Use the shared check, ordinary FP bonus, activation Adept/Mastery, power copy,
-source access, action budget and natural-20 recovery pipeline. Snapshot the
+source access and action budget pipeline. Copy consumption and natural-20
+suite recovery occur on activation only. Upkeep and concentration checks do
+not consume another copy or trigger activation-only natural-20 recovery.
+Mastery remains activation-only. Snapshot the
 object declarations and earned effect before resolving the result. Permit the
 shared lower-tier choice, then lock a tier once used. Special enhancement and
 ordinary FP bonus share the one-FP ledger. A provisional failed check can be
@@ -56,7 +65,8 @@ checks can be implemented independently of that unresolved optional mode.
 
 Before publication verify all thresholds and lesser tiers, mechanical/electronic
 versus ordinary objects, one-time CT versus repeated upkeep, special/ordinary FP,
-failed-check rescue, exact end-next-turn expiry, once-per-turn renewal, damage
+failed-check rescue, exact end-next-turn expiry, late-turn upkeep and repeated
+Swift upkeep without stacked duration, activation-only copy/recovery, damage
 concentration, source loss, legacy saves, independent instances, atomic previews,
 full old-power state/results/RNG equivalence and actual controls/mobile/offline.
 Require independent contract and runtime reviews, combined regression, CI,
