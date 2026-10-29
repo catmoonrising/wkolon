@@ -1,7 +1,7 @@
 # Repulse
 
-Define this contract before calculations. Preserve pinned Repulse and Force
-Powers articles verbatim. Standard Action, all adjacent targets. Roll one UTF
+Define this contract before calculations. Preserve pinned Repulse19561 and Force
+Powers18202 articles verbatim. Standard Action, all adjacent targets. Roll one UTF
 check and compare that same final result to each target's opposing Strength
 check plus its Base Attack Bonus, size adjustment and stability. Use the shared
 Force Thrust displacement arithmetic: strict success, tie fails; push1square
@@ -20,7 +20,8 @@ not Force Thrust's Door Counseling or Extended Force Thrust range procedure.
 
 Accept a bounded list of declared adjacent targets, with optional display name,
 opposing Strength check, BAB, size, stability and optional larger-object distance.
-Freeze a closed canonical snapshot before the saved check. Keep raw queued
+Freeze a closed canonical snapshot before the saved check.
+Associate results by target index, not display name; duplicate names are legal. Keep raw queued
 targets editable before execution; later raw edits must not change finalization.
 Zero declarations is permitted, with no per-target result or invented target.
 The list limit100is a saved-data bound, not a rule limiting affected targets.
