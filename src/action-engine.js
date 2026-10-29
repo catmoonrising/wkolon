@@ -1,7 +1,7 @@
 import {trackingPowerRule,trackingPowerSnapshot} from './tracking-powers.js';
 import {checkedMaintenancePlan,finishCheckedMaintenance} from './checked-maintenance.js';
 import {mentalPowerRule,mentalPowerSnapshot,mentalEnhancementAvailable} from './mental-powers.js';
-import {conditionPowerRule,conditionPowerSnapshot} from './condition-powers.js';
+import {conditionPowerRule,conditionPowerSnapshot,conditionEnhancementAvailable} from './condition-powers.js';
 import {opportunityPowerRule,hasOpportunityForm,clearOpportunityPowers} from './opportunity-powers.js';
 import {displacementPowerRule,forceThrustSnapshot} from './force-thrust.js';
 import {thresholdPowerRule,thresholdPowerPlan} from './threshold-powers.js';
@@ -168,7 +168,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   const requirement=pack.rules.actionEconomy.powerRequirements?.[p.id];if(requirement?.notFlatFooted)assert(!d.flatFooted,'Power unavailable while flat-footed');if(requirement?.aware)assert(o.aware,'Confirm awareness of the attack');
   view.enhanceAllowed=!activationEnhancement&&!quickening&&!!o.enhance&&!s.forceSpent&&d.forceCurrent>0&&!view.forceCost;
   if(trackingPowerRule(pack,p.id))view.trackingSnapshot=trackingPowerSnapshot(pack,p.id,o.tracking);else assert(o.tracking===undefined,'Power does not select quarries');
-  view.conditionSnapshot=conditionPowerSnapshot(d,pack,p.id);
+  view.conditionSnapshot=conditionPowerSnapshot(d,pack,p.id,o.technometry);if(conditionPowerRule(pack,p.id)?.kind!=='memory-access')assert(o.technometry===undefined,'Power does not use a Technometry target');
   if(resistancePowerRule(pack,p.id)?.kind==='defense')view.resistForce=resistForceSelection(o.resistForce);else assert(o.resistForce===undefined,'Power does not select Defenses');
   if(mentalPowerRule(pack,p.id)){view.mental=mentalPowerSnapshot(d,pack,o.mental);if(view.mental.selection.mode!=='suggestion')view.enhanceAllowed=false;}else assert(o.mental===undefined,'Power does not use a mental target');
   if(displacementPowerRule(pack,p.id)){view.thrust=forceThrustSnapshot(q,d,pack,o.thrust);if(view.thrust.target.mode==='door')view.enhanceAllowed=false;}else assert(o.thrust===undefined,'Power does not use a thrust target');
@@ -267,7 +267,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   if(o.rollMode==='take10'){take10Power(c,d,pack,o.powerId,{action:o.quicken?powerQuickening(pack,v.power.id).action+'-action':null});check={natural:10,bonus,total:10+bonus};}
   else if(o.rollMode==='adept'){const rolls=[roller('1d20'+signed(bonus)),roller('1d20'+signed(bonus))],x=useAdeptPower(c,d,pack,o.powerId,rolls.map(r=>r.d20[0]));check={natural:x.selected,bonus,total:x.selected+bonus};r={html:rolls.map(r=>r.display+' = '+totalHtml(r)).join('; ')};}
   else {const x=roller('1d20'+signed(bonus));usePower(c,d,pack,o.powerId,x.d20[0],{action:o.quicken?powerQuickening(pack,v.power.id).action+'-action':null});check={natural:x.d20[0],bonus,total:x.value};r={html:x.display+' = '+totalHtml(x)};}
-  r={...r,text:v.name+': Use the Force '+check.total+(o.rollMode==='take10'?' (Take 10)':o.rollMode==='adept'?' (Force Power Adept)':'')+(v.forceCost?'; Force Points -1':'')+(v.selfPower?'':'; effects manual'),check,fpAllowed:v.fpAllowed,enhanceAllowed:v.enhanceAllowed&&(v.mental?mentalEnhancementAvailable(v.mental,check.total):v.negation?check.total>=v.negation.incoming.amount:!v.selfPower||!!selfPowerTier(pack,v.power.id,check.total))};
+  r={...r,text:v.name+': Use the Force '+check.total+(o.rollMode==='take10'?' (Take 10)':o.rollMode==='adept'?' (Force Power Adept)':'')+(v.forceCost?'; Force Points -1':'')+(v.selfPower?'':'; effects manual'),check,fpAllowed:v.fpAllowed,enhanceAllowed:v.enhanceAllowed&&(conditionPowerRule(pack,v.power.id)?conditionEnhancementAvailable(pack,v.power.id,check.total,o.conditionPowerSnapshot,o.effectDC??null):v.mental?mentalEnhancementAvailable(v.mental,check.total):v.negation?check.total>=v.negation.incoming.amount:!v.selfPower||!!selfPowerTier(pack,v.power.id,check.total))};
   if(offensivePowerRule(pack,v.power.id)?.enhancement.requiresHit&&offensivePowerHit(pack,v.power.id,check,o.offensivePowerSnapshot)===false)r.enhanceAllowed=false;
   if((o.effectDC===undefined||o.effectDC===null)&&powerEffectChoiceRule(pack,v.power.id)?.thresholds?.filter(t=>t.dc<=check.total).length>1)r.effectChoiceAllowed=true;
   const effectHeading=r.text;let effectHTML='';if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed||r.effectChoiceAllowed)){const effect=finishPowerEffectResult(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,formAllowed:o.opportunityFormAllowed,incoming:o.incoming,offensivePowerSnapshot:o.offensivePowerSnapshot,trackingPowerSnapshot:o.trackingPowerSnapshot,forceThrustSnapshot:o.forceThrustSnapshot,mentalPowerSnapshot:o.mentalPowerSnapshot,resistForceSnapshot:o.resistForceSnapshot,conditionPowerSnapshot:o.conditionPowerSnapshot,effectDC:o.effectDC,roller});r.text+='; '+effect.text;effectHTML=effect.html||'';}

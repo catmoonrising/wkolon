@@ -3376,3 +3376,12 @@ shared semantics. Held/unattended-object eligibility versus occupied Vehicle,
 actual target size, Line of Sight, placement and movement of contents remain
 external, so Partial. Improved Fold Space20446 remains Manual; its FP Line of
 Sight/Destiny system-range alternatives are not supplied by the base power.
+
+Technometry20066 resolves inclusive UTF/Will information margins or exactly one
+Droid effect (caster-only Stealth permission, denied Dexterity to caster’s next
+attack, or flee from caster). Special FP adds2information or1round, while an
+ordinary FP improves the original saved check only. Target kind/effect/Will are
+captured before rolling, with conditional output when Will is unknown. Known
+misses do not offer special enhancement. Actual memories/Access Information,
+Touch, target eligibility and applying external effects remain Partial. No
+caster bonuses, target actions or electronic information are fabricated.
