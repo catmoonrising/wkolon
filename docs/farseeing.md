@@ -1,7 +1,7 @@
 # Farseeing
 
-Define this contract before calculations. Preserve pinned Farseeing and Force
-Powers articles verbatim. Full-Round Action, one creature known or met before.
+Define this contract before calculations. Preserve pinned Farseeing18168 and Force
+Powers18202 articles verbatim. Full-Round Action, one creature known or met before.
 Inclusive UTF versus Will. A dead target has Will30. Success senses alive/dead,
 vague immediate surroundings/current activity/strong emotions. Failure gives
 no information, including alive/dead, and forbids using this power against that
@@ -39,10 +39,13 @@ Save closed failed-target rows with normalized identity, display name and
 identity until it expires. Reuse the shared explicit game-time advancement,
 including turns,1minute suite recovery, consciousness waits,10minute
 recuperation and8hour rest. Explicit New day advances24h and expires it;
+An8hour rest subtracts4800rounds rather than clearing a24hour lockout.
 End combat/New encounter/natural20 recovery/merely editing resources do not.
 Do not use wall-clock time. Failure rows are independent of owning copy and
 action history. Permit bounded manual remaining-minute correction/removal,
-as with other saved timers.1000rows is a data limit, not a RAW target limit.
+as with other saved timers.1000rows is a data limit, not a RAW target limit. Preflight recording
+capacity before RNG/costs for a new identity, so a failure decision cannot
+softlock an already-spent activation.
 
 Old manual activations never acquire retroactive information or cooldowns.
 Failure result text must not disclose the known-dead flag or imply life/death.
