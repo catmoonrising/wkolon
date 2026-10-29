@@ -1,3 +1,4 @@
+import {advanceFarseeingFailures} from './farseeing.js';
 import {advanceRoundEffects} from './effect-duration.js';
 import {advanceTrackingPowers} from './tracking-powers.js';
 export {ROUNDS_PER_MINUTE} from './effect-duration.js';
@@ -27,7 +28,7 @@ export function setTimedTalentRounds(c,pack,id,rounds){
 }
 export function advanceTimedTalents(c,rounds=1){
  if(!Number.isInteger(rounds)||rounds<0||rounds>1000000000)throw new Error('Invalid elapsed rounds');
- advanceTrackingPowers(c,rounds);
+ advanceTrackingPowers(c,rounds);advanceFarseeingFailures(c,rounds);
  if(!c.timedTalents)return;
  c.timedTalents=advanceRoundEffects(c.timedTalents,rounds);
  if(!c.timedTalents.length)delete c.timedTalents;

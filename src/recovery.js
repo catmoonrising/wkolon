@@ -118,7 +118,7 @@ export function recuperate(c){
 }
 export function newEncounter(c){assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
- assertDeflectionResolved(c);endRegenerativeHealing(c);clearTrackingPowers(c);c.deflectionAttempts=0;
+ assertDeflectionResolved(c);if(c.actionState?.plan.some(p=>p.status==='waiting'))throw new Error(pendingChoiceMessage(c));advanceTimedTalents(c,24*60*ROUNDS_PER_MINUTE);endRegenerativeHealing(c);clearTrackingPowers(c);c.deflectionAttempts=0;
  if(pack&&campaignRuleEnabled(c,'dailyForcePoints'))c.forcePoints=derive(c,pack).forceMaximum;
  clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);
  clearTurnFeatEffects(c);clearReactionTalents(c);
@@ -157,6 +157,8 @@ export function receiveHealing(c,d,pack,amount){
 export function restEightHours(c,d,pack){
  assertDeflectionResolved(c);
  if(!d.recovery.naturalHealing.available)throw new Error('Natural rest unavailable');
+ if(c.actionState?.plan.some(p=>p.status==='waiting'))throw new Error(pendingChoiceMessage(c));
+ advanceTimedTalents(c,8*60*ROUNDS_PER_MINUTE);
  endRegenerativeHealing(c);clearTrackingPowers(c);
  endUnconsciousTalents(c,pack);
  clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearEncounterTriggers(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
@@ -210,4 +212,4 @@ export function setLimbPersistent(c,id,on){
  const r=state(c),limb=r.limbs.find(l=>l.id===id);if(!limb)return;
  limb.persistent=on;setPersistent(c,'limb-loss',r.limbs.some(l=>l.persistent));
 }
-import {resetActionTurn} from './action-economy.js';
+import {resetActionTurn,pendingChoiceMessage} from './action-economy.js';

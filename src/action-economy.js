@@ -3,7 +3,7 @@ export const ACTION_TYPES=['full','standard','move','swift','free','reaction'];
 export const ACTION_NAMES={full:'Full-Round',standard:'Standard',move:'Move',swift:'Swift',free:'Free',reaction:'Reaction'};
 export const emptyActionState=()=>({version:1,active:false,phase:'normal',turn:1,spent:[],ended:false,reactions:[],forceSpent:false,recover:{count:0,lastTurn:0},plan:[],history:[]});
 export const actionState=c=>c.actionState||emptyActionState();
-export const pendingChoiceMessage=c=>c.actionState?.plan.some(s=>s.status==='waiting'&&s.result?.effectChoiceAllowed)?'Resolve the pending power choice':c.actionState?.plan.some(s=>s.status==='waiting'&&s.result?.rerollAllowed)?'Resolve the pending reroll':'Resolve the pending Force Point choice';
+export const pendingChoiceMessage=c=>c.actionState?.plan.some(s=>s.status==='waiting'&&s.result?.outcomeAllowed)?'Resolve the pending power outcome':c.actionState?.plan.some(s=>s.status==='waiting'&&s.result?.effectChoiceAllowed)?'Resolve the pending power choice':c.actionState?.plan.some(s=>s.status==='waiting'&&s.result?.rerollAllowed)?'Resolve the pending reroll':'Resolve the pending Force Point choice';
 export function checkForcePointAvailable(c,d,{power=null,forceCost=0,reaction=false}={}){
  const s=actionState(c);
  return !reaction&&!d.incapacitated&&!d.helpless&&!d.flatFooted&&!s.ended&&!s.forceSpent&&d.forceCurrent>0&&!forceCost&&(!power||!power.descriptors.includes('dark-side')&&!(power.descriptors.includes('light-side')&&c.darkSideScore>0));
@@ -27,10 +27,10 @@ export function validateActionState(c,bad){
  for(const step of [...s.plan,...s.history]){
   if(!object(step)||Object.keys(step).some(k=>!['id','action','options','status','result','turn'].includes(k))||!string(step.id,36)||!/^[a-f0-9-]{36}$/.test(step.id)||ids.has(step.id)||!string(step.action,100)||!/^[a-z][a-z0-9-]*$/.test(step.action)||!object(step.options)||!boundedJSON(step.options)||!['queued','done','waiting'].includes(step.status)||step.turn!==undefined&&!integer(step.turn,1,s.turn)){fail();return;}
   ids.add(step.id);
-  if(step.status==='queued'&&(step.result!==undefined||step.turn!==undefined)||step.status!=='queued'&&(!integer(step.turn,1,s.turn)||!object(step.result)||!string(step.result.text)||Object.keys(step.result).some(k=>!['text','check','fpAllowed','enhanceAllowed','rerollAllowed','effectChoiceAllowed'].includes(k)))){fail();return;}
+  if(step.status==='queued'&&(step.result!==undefined||step.turn!==undefined)||step.status!=='queued'&&(!integer(step.turn,1,s.turn)||!object(step.result)||!string(step.result.text)||Object.keys(step.result).some(k=>!['text','check','fpAllowed','enhanceAllowed','rerollAllowed','effectChoiceAllowed','outcomeAllowed'].includes(k)))){fail();return;}
   const check=step.result?.check;
   if(check!==undefined&&(!object(check)||Object.keys(check).sort().join()!=='bonus,natural,total'||!integer(check.natural,1,20)||!integer(check.bonus,-100000,100000)||!integer(check.total,-100000,100000))){fail();return;}
-  if(['fpAllowed','enhanceAllowed','rerollAllowed','effectChoiceAllowed'].some(k=>step.result?.[k]!==undefined&&typeof step.result[k]!=='boolean')){fail();return;}
+  if(['fpAllowed','enhanceAllowed','rerollAllowed','effectChoiceAllowed','outcomeAllowed'].some(k=>step.result?.[k]!==undefined&&typeof step.result[k]!=='boolean')){fail();return;}
  }
  if(s.history.some(step=>step.status!=='done')||s.plan.filter(step=>step.status==='waiting').length>1)fail();
 }

@@ -1,3 +1,4 @@
+import {validateFarseeing} from './farseeing.js';
 import {validateRepulse} from './repulse.js';
 import {validatePowerEnhancementChoices} from './power-effect-choices.js';
 import {validateTrackingPowers,activeTrackingPowers} from './tracking-powers.js';
@@ -161,7 +162,7 @@ export function validateCharacter(c, pack) {
   validateDefenseShifts(c,pack,bad);
   validateBonusHP(c,bad);
   validateTurnFeatEffects(c,pack,bad);
-  validateTimedTalents(c,pack,bad);validateTrackingPowers(c,pack,bad);
+  validateTimedTalents(c,pack,bad);validateTrackingPowers(c,pack,bad);validateFarseeing(c,pack,bad);
   validateSelfPowerEffects(c,pack,bad);
   validateMovementPowerEffects(c,pack,bad);
   validateRagePowers(c,pack,bad);

@@ -3404,3 +3404,18 @@ external, so Partial. Pending ruling: Evasion/Cover wording refers to Reflex,
 but this power attacks Will. Until resolved those protections remain manual;
 no numeric Evasion/Cover fields/columns are claimed for this new power, and no
 previously reviewed power changes. Source conflict/ruling is retained here.
+
+
+## Farseeing
+
+Farseeing18168 uses the shared Full-Round activation, Use the Force, Adept,
+Mastery, copy recovery and one-FP-per-round pipeline. Declared Will compares
+inclusively; known dead targets use Will 30. An unknown Will requires explicit
+GM-confirmed Success or Failure, including after an ordinary FP boost. The
+success-only special FP grants a clear-image permission within 6 squares.
+Failure gives no information and records a target-specific 24-hour timer that
+blocks all copies. Explicit game time advances it; eight-hour rest leaves
+16 hours, while New day advances 24 hours. Names, optional Will and known-dead
+status are declarations, not discovered facts. Target identity/aliases, prior
+knowledge and actual visions remain external, so Partial. Quickseeing's
+activation and expiry remain declared separately. See docs/farseeing.md.
