@@ -3066,7 +3066,7 @@ docs/designated-counted-targets.md for source pins and boundaries.
 
 Sith Reverence uses typed morale attack bonuses while its ally condition is
 declared. Quickseeing gives insight against a declared target; its activation,
-Farseeing use and expiry stay manual. Murderous Arts II preserves a fixed d6
+and expiry remain declared separately from Farseeing's result. Murderous Arts II preserves a fixed d6
 against a marked opponent while Momentum Strike adds the current melee weapon
 die after declared mount/Speeder Bike movement. Separate fixed and current dice
 combine in critical routines. All four stay Partial; see source pins and
