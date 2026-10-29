@@ -39,8 +39,11 @@ function showUpdateNote(onTake) {
   });
 }
 
+let registrationStarted = false;
+let controllerObserved = false;
 function registerOffline() {
-  if (!offlineEligible()) return;
+  if (!offlineEligible() || registrationStarted) return;
+  registrationStarted = true;
   navigator.serviceWorker.register("sw.js").then(reg => {
     /* Already waiting when we arrived: installed during an earlier visit that never took it. */
     if (reg.waiting) showUpdateNote(() => takeUpdate(reg));
@@ -54,6 +57,11 @@ function registerOffline() {
     });
   }).catch(err => console.warn("Offline support unavailable:", err));
 
+}
+
+function observeControllerChanges() {
+  if (controllerObserved) return;
+  controllerObserved = true;
   /* The new worker took over; the page is now running against a cache it did not load from, so it
      has to be reloaded exactly once. The guard is for the pathological case where a worker activates
      repeatedly - an endless reload loop is a far worse failure than no offline support. */
@@ -72,4 +80,12 @@ function takeUpdate(reg) {
   if (reg.waiting) reg.waiting.postMessage({ type: "skip-waiting" });
 }
 
-document.addEventListener("DOMContentLoaded", registerOffline);
+function beginOffline() {
+  if (!offlineEligible()) return;
+  // Another tab may activate an update while this page is still loading rules.
+  observeControllerChanges();
+  if (document.documentElement.dataset.bootSettled === "true") registerOffline();
+  else document.addEventListener("wkolon:boot-settled", registerOffline, { once: true });
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", beginOffline, { once: true });
+else beginOffline();
