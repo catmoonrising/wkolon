@@ -1,6 +1,8 @@
+import {startOutgoingPowerTurn} from './outgoing-powers.js';
+import {assertMaintenanceResolved as assertResistanceResolved} from './maintenance-checks.js';
 import {clearOpportunityPowers} from './opportunity-powers.js';
 import {clearTriggeredDefenses,startTriggerTurn} from './triggered-defenses.js';
-import {clearResistancePowers,assertResistanceResolved} from './resistance-powers.js';
+import {clearResistancePowers} from './resistance-powers.js';
 import {clearShieldPowers} from './shield-powers.js';
 import {clearSurprisePhase} from './action-economy.js';
 import {endRagePowerTurn} from './rage-powers.js';
@@ -44,7 +46,7 @@ export function startNextTurn(c){
  clearShieldPowers(c);clearResistancePowers(c);
  clearSurprisePhase(c);
  startTurnFeatEffects(c);
- startSelfPowerTurn(c);
+ startSelfPowerTurn(c);startOutgoingPowerTurn(c);
  startReactionTalentTurn(c);
  endRagePowerTurn(c);
  clearMovementPowers(c);

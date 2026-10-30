@@ -3419,3 +3419,25 @@ blocks all copies. Explicit game time advances it; eight-hour rest leaves
 status are declarations, not discovered facts. Target identity/aliases, prior
 knowledge and actual visions remain external, so Partial. Quickseeing's
 activation and expiry remain declared separately. See docs/farseeing.md.
+
+## Cryokinesis
+
+Cryokinesis 20384 uses the outgoing maintained-power family for one declared
+unattended object within 12 squares and Line of Sight. Its four UTF tiers apply
+DR penalties of 5/10/15/20. The initial mechanical/electronic CT step is separate
+from upkeep; renewing never moves the object farther or restores its old CT.
+The original special FP's +5 DR penalty persists while the same power is
+maintained. A new Swift upkeep check can choose an earned lesser tier and uses
+the shared ordinary FP ledger, without consuming a copy or triggering
+activation-only Mastery/natural-20 recovery. General upkeep Adept scope remains
+separate from the Cloak-specific ambiguity switch.
+
+The end-next-turn lifecycle permits late upkeep after other actions and retains
+an unrenewed row when automatic New Turn upkeep is omitted. Repeated Swift
+checks reset the normal deadline without accumulating duration. Damage checks
+use the common concentration dispatcher; saved checks, explicit release and
+instance-specific failure preserve unrelated effects. The dispatcher retains
+legacy-only state, result and error behavior. Object identity, actual DR/CT,
+repair and overlapping external effects remain declared/GM-applied, so Partial.
+See docs/cryokinesis.md for pinned sources, exact save contracts and the
+explicitly inferred retiering reading.

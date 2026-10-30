@@ -1,6 +1,6 @@
 import {pendingDeflection} from './deflection.js';
 import {pendingNegation} from './negating-powers.js';
-import {pendingResistanceChecks,resistancePendingMessage} from './resistance-powers.js';
+import {pendingMaintenanceChecks as pendingResistanceChecks,maintenancePendingMessage as resistancePendingMessage} from './maintenance-checks.js';
 import {resolveEquipment} from './equipment.js';
 
 export function activeLightsabers(c,pack){return c.inventory.filter(e=>e.equipped&&e.carried!==false&&e.activated!==false&&resolveEquipment(e,pack,c).group==='lightsabers');}

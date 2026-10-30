@@ -1,3 +1,4 @@
+import {clearOutgoingPowers,pendingOutgoingChecks} from './outgoing-powers.js';
 import {clearTrackingPowers} from './tracking-powers.js';
 import {advanceTimedTalents,ROUNDS_PER_MINUTE} from './timed-talents.js';
 import {clearEncounterTriggers} from './triggered-defenses.js';
@@ -116,7 +117,7 @@ export function recuperate(c){
  if(!recoveryState(c).persistent.includes('rage'))throw new Error('No Rage condition to recuperate');
  advanceTimedTalents(c,10*ROUNDS_PER_MINUTE);removePersistent(c,'rage');
 }
-export function newEncounter(c){assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
+export function newEncounter(c){if(pendingOutgoingChecks(c).length)throw new Error('Resolve outgoing concentration first');assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
  assertDeflectionResolved(c);if(c.actionState?.plan.some(p=>p.status==='waiting'))throw new Error(pendingChoiceMessage(c));advanceTimedTalents(c,24*60*ROUNDS_PER_MINUTE);endRegenerativeHealing(c);clearTrackingPowers(c);c.deflectionAttempts=0;
  if(pack&&campaignRuleEnabled(c,'dailyForcePoints'))c.forcePoints=derive(c,pack).forceMaximum;
@@ -140,7 +141,7 @@ export function setPersistent(c,cause,on){
 }
 export function setDead(c,on,pack){
  state(c).dead=on;
- if(on){endRegenerativeHealing(c);endChannelRage(c);clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);delete c.turnEndTriggers;clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
+ if(on){clearOutgoingPowers(c);endRegenerativeHealing(c);endChannelRage(c);clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);delete c.turnEndTriggers;clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
  if(pack)endUnconsciousTalents(c,pack);
 }
 export function receiveHealing(c,d,pack,amount){
@@ -174,6 +175,7 @@ export function restEightHours(c,d,pack){
  return {healed,before,after:c.currentHP??d.hp,blocked:!!r.persistent.length};
 }
 export function checkConsciousness(c,d,pack,roller=evalExpr){
+ if(pendingOutgoingChecks(c).length)throw new Error('Resolve outgoing concentration first');
  if(!d.recovery.unconscious.available)throw new Error('Consciousness check unavailable');
  const rule=pack.rules.unconsciousRecovery,mod=d.recovery.unconscious.modifier;
  const rolled=roller(`1d20${mod>=0?'+':''}${mod}`),natural=rolled.d20?.[0];
@@ -189,6 +191,7 @@ export function checkConsciousness(c,d,pack,roller=evalExpr){
  return {rolled,success,dead};
 }
 export function recordKnockout(c,type='normal',pack){
+ clearOutgoingPowers(c);
  if(pack)endUnconsciousTalents(c,pack);
  clearFollowUps(c);delete c.routineProgress;clearBracing(c);
  if(c.recovery===undefined&&type!=='stun')return;

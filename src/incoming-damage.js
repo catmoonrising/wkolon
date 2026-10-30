@@ -1,7 +1,8 @@
+import {assertMaintenanceResolved as assertResistanceResolved,requireMaintenanceDamageChecks as requireResistanceDamageChecks,clearMaintenanceCheckPowers as clearResistancePowers} from './maintenance-checks.js';
 import {assertThresholdPowerResolved} from './threshold-powers.js';
 import {assertDeflectionResolved} from './deflection.js';
 import {assertNegationResolved} from './negating-powers.js';
-import {resistancePowerDR,assertResistanceResolved,lockResistancePowers,requireResistanceDamageChecks,clearResistancePowers} from './resistance-powers.js';
+import {resistancePowerDR,lockResistancePowers} from './resistance-powers.js';
 import {activeShieldPowers,lockShieldPowers,spendShieldPower} from './shield-powers.js';
 import {activeShields} from './energy-shields.js';
 import {bonusHP} from './bonus-hit-points.js';

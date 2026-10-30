@@ -1,7 +1,9 @@
+import {outgoingPowerRule,outgoingPowerSnapshot,outgoingMaintenancePlan,endOutgoingPowerTurn} from './outgoing-powers.js';
+import {assertMaintenanceResolved as assertResistanceResolved,pendingMaintenanceChecks as pendingResistanceChecks,recordMaintenanceDamageCheck as recordResistanceDamageCheck,finishMaintenanceDamageCheck as finishResistanceDamageCheck,releaseMaintenancePower as removeResistancePower,maintenanceCheckRule} from './maintenance-checks.js';
 import {farseeingPowerRule,farseeingPowerSnapshot,farseeingOutcome} from './farseeing.js';
 import {repulsePowerRule,repulsePowerSnapshot} from './repulse.js';
 import {trackingPowerRule,trackingPowerSnapshot} from './tracking-powers.js';
-import {checkedMaintenancePlan,finishCheckedMaintenance} from './checked-maintenance.js';
+import {checkedMaintenancePlan,finishCheckedMaintenance,finishCheckedMaintenanceResult} from './checked-maintenance.js';
 import {mentalPowerRule,mentalPowerSnapshot,mentalEnhancementAvailable} from './mental-powers.js';
 import {conditionPowerRule,conditionPowerSnapshot,conditionEnhancementAvailable} from './condition-powers.js';
 import {opportunityPowerRule,hasOpportunityForm,clearOpportunityPowers} from './opportunity-powers.js';
@@ -15,8 +17,8 @@ import {applyMoveTalentEffects,clearMoveTalentEffects} from './move-talent-effec
 import {deflectionRule,deflectionPlan,deflectionRerollSources,snapshotDeflectionRerolls,rerollDeflection,finishDeflection,assertDeflectionResolved} from './deflection.js';
 import {balanceAfterDamage} from './balance.js';
 import {negatingPowerRule,negateEnergyPlan,assertNegationResolved} from './negating-powers.js';
-import {maintainedPowers,powerMaintenancePlan,renewMaintainedPower} from './maintained-powers.js';
-import {resistancePowerRule,resistForceSelection,resistancePowerLabel,assertResistanceResolved,pendingResistanceChecks,recordResistanceDamageCheck,finishResistanceDamageCheck,removeResistancePower} from './resistance-powers.js';
+import {maintainedPowers,availableMaintenancePowers,nextTurnMaintainedPowers,powerMaintenancePlan,renewMaintainedPower} from './maintained-powers.js';
+import {resistancePowerRule,resistForceSelection,resistancePowerLabel} from './resistance-powers.js';
 import {ragePowerRule,hasRageTechnique,endRagePowerTurn,clearRagePowers} from './rage-powers.js';
 import {actionPhase,surpriseActionIssue} from './surprise-round.js';
 import {jumpState,planJump,rollJump,finishJump} from './jump.js';
@@ -82,7 +84,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(['routine','routine-step'].includes(id)){o.routineId=c.routines.find(r=>r.kind!=='fullAttack')?.id||'';o.cost='full';o.confirmed=false;}
  if(['full-attack','full-attack-step'].includes(id))o.routineId=c.routines.find(r=>r.kind==='fullAttack')?.id||'';
  if(paths[id]&&c[paths[id]])o.path=structuredClone(c[paths[id]]);
- if(id==='maintain-power')o.effectId=[...(c.shieldPowerEffects||[]),...(c.resistancePowerEffects||[])].find(s=>s.untilTurn===actionState(c).turn)?.id||'';
+ if(id==='maintain-power')o.effectId=availableMaintenancePowers(c,pack)[0]?.id||'';
  if(id==='jump'){o.path=jumpState(c);o.fp='ask';}
  if(id==='power'){const p=d.forcePowers.find(p=>!p.spent);o.powerId=p?.copyId||'';o.action=p?.action||'standard-action';o.rollMode='roll';o.fp='ask';o.enhance=!!selfPowerRule(pack,p?.id)&&!powerQuickening(pack,p?.id);}
  if(id==='recover-power')o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';
@@ -123,7 +125,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'balance':case 'balance-recheck':planBalance(q,d,pack,id==='balance-recheck');break;
  case 'escape-bonds':{const p=planEscapeBonds(q,d,pack);view.cost.type=typeOf(p.duration);assert(view.cost.type,'Resolve this duration outside turn tracking');break;}
  case 'block':case 'deflect':view.deflection=deflectionPlan(q,d,pack,id,o);view.forceCost=view.deflection.forceCost;break;
- case 'maintain-power':{const p=powerMaintenancePlan(q,d,pack,o.effectId);view.maintenance=p;view.name='Maintain '+p.name;view.cost.type=p.rule.maintenance;if(p.rule.maintenanceCheck){view.upkeep=checkedMaintenancePlan(q,d,pack,p,o);view.forceCost=view.upkeep.forceCost;view.fpAllowed=view.upkeep.fpAllowed;}break;}
+ case 'maintain-power':{const p=powerMaintenancePlan(q,d,pack,o.effectId);view.maintenance=p;view.name='Maintain '+p.name;if(p.family==='outgoing'){assert(o.outgoingPowerResolution===undefined,'Resolve upkeep after the check');assert(o.effectDC===undefined||validOffensivePowerLimit(pack,p.row.powerId,o.effectDC),'Power effect unavailable');}view.cost.type=p.rule.maintenance;if(p.rule.maintenanceCheck){view.upkeep=checkedMaintenancePlan(q,d,pack,p,o);view.forceCost=view.upkeep.forceCost;view.fpAllowed=view.upkeep.fpAllowed;}break;}
  case 'jump':{const p=planJump(q,d,pack);assert(p.timeMultiplier===1,'Take 20 requires time outside tracked turns');view.jump=p;view.name=p.name;view.cost.count=p.path.moves;view.fpAllowed=!p.noCheck&&p.path.checkMode==='roll'&&p.path.check===null&&checkForcePointAvailable(q,d);break;}
  case 'move':planAcrobaticsMove(q,d,pack);break;
  case 'withdraw':planWithdraw(q,d,pack);break;
@@ -151,7 +153,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'force-bonus':assert(!s.ended,'Force Point bonus requires your turn');view.forceCost=1;break;
  case 'power':{
   const p=d.forcePowers.find(p=>p.copyId===o.powerId);assert(p,'Choose a power');assert(!o.action||p.actions?.includes(o.action)||p.action===o.action,'Power action changed');
-  assert(o.powerOutcome===undefined&&o.farseeingResolution===undefined,'Resolve the outcome after the check');
+  assert(o.outgoingPowerResolution===undefined&&o.powerOutcome===undefined&&o.farseeingResolution===undefined,'Resolve the outcome after the check');
   assert(o.repulsePowerResolution===undefined,'Repulse result is resolved after the check');
   assert(o.offensiveHitConfirmed===undefined,'Confirm a successful hit after the check');
   assert(o.powerEnhancementChoice===undefined,'Choose an enhancement after the check');
@@ -161,7 +163,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   view.activationEnhancement=activationEnhancement&&o.activationEnhancement===true;
   if(o.action)p.action=o.action;assert(!powerActivationIssue(q,d,pack,p),powerActivationIssue(q,d,pack,p));view.power=p;view.name=p.name;assert(o.effectDC===undefined||validOffensivePowerLimit(pack,p.id,o.effectDC),'Power effect unavailable');view.selfPower=selfPowerRule(pack,p.id);view.manual=!view.selfPower;view.cost.type=typeOf(p.action);assert(view.cost.type,'Power duration requires manual resolution');
   assert(['roll','take10','adept'].includes(o.rollMode||'roll'),'Invalid power check');assert(o.rollMode!=='take10'||p.take10,'Power Mastery required');assert(o.rollMode!=='adept'||p.adept,'Force Power Adept required');
-  if(view.selfPower&&!farseeingPowerRule(pack,p.id)&&!offensivePowerRule(pack,p.id)&&!negatingPowerRule(pack,p.id)&&!thresholdPowerRule(pack,p.id)&&!displacementPowerRule(pack,p.id)&&!conditionPowerRule(pack,p.id)&&!mentalPowerRule(pack,p.id))assert((q.opportunityPowerEffects?.length||0)+(q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)+(q.shieldPowerEffects?.length||0)+(q.resistancePowerEffects?.length||0)+(q.trackingPowerEffects?.length||0)<1000,'Too many active effects');
+  if(view.selfPower&&!outgoingPowerRule(pack,p.id)&&!farseeingPowerRule(pack,p.id)&&!offensivePowerRule(pack,p.id)&&!negatingPowerRule(pack,p.id)&&!thresholdPowerRule(pack,p.id)&&!displacementPowerRule(pack,p.id)&&!conditionPowerRule(pack,p.id)&&!mentalPowerRule(pack,p.id))assert((q.opportunityPowerEffects?.length||0)+(q.selfPowerEffects?.length||0)+(q.movementPowerEffects?.length||0)+(q.ragePowerEffects?.length||0)+(q.shieldPowerEffects?.length||0)+(q.resistancePowerEffects?.length||0)+(q.trackingPowerEffects?.length||0)<1000,'Too many active effects');
   assert(o.destiny===undefined||typeof o.destiny==='boolean','Invalid Destiny choice');
   if(movementPowerRule(pack,p.id))assert(!s.ended,'Turn ended');
   if(o.destiny){assert(movementPowerRule(pack,p.id),'Power has no Destiny option');assert(q.story?.kind==='destiny'&&q.story.points>0&&d.level,'Destiny Point unavailable');view.destinyCost=1;}
@@ -171,6 +173,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   view.fpAllowed=checkForcePointAvailable(q,d,{power:p,forceCost:view.forceCost,reaction:view.cost.type==='reaction'});
   const requirement=pack.rules.actionEconomy.powerRequirements?.[p.id];if(requirement?.notFlatFooted)assert(!d.flatFooted,'Power unavailable while flat-footed');if(requirement?.aware)assert(o.aware,'Confirm awareness of the attack');
   view.enhanceAllowed=!activationEnhancement&&!quickening&&!!o.enhance&&!s.forceSpent&&d.forceCurrent>0&&!view.forceCost;
+  if(outgoingPowerRule(pack,p.id))view.outgoing=outgoingPowerSnapshot(q,pack,o.outgoing);else assert(o.outgoing===undefined,'Power does not use an outgoing object');
   if(farseeingPowerRule(pack,p.id))view.farseeing=farseeingPowerSnapshot(q,pack,o.farseeing);else assert(o.farseeing===undefined,'Power does not use a Farseeing target');
   if(trackingPowerRule(pack,p.id))view.trackingSnapshot=trackingPowerSnapshot(pack,p.id,o.tracking);else assert(o.tracking===undefined,'Power does not select quarries');
   view.conditionSnapshot=conditionPowerSnapshot(d,pack,p.id,o.technometry);if(conditionPowerRule(pack,p.id)?.kind!=='memory-access')assert(o.technometry===undefined,'Power does not use a Technometry target');
@@ -215,7 +218,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   if(o.fp==='before'){fp=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);routine.steps[0].attackMod+=fp.value;c.forcePoints--;c.actionState.forceSpent=true;}
   r=rollCombatRoutine(routine,d,pack,roller);spendAttackResources(c,r);if(fp){r.text+='; Force Point +'+fp.value;r.html+='<div>Force Point: '+fp.display+' = '+totalHtml(fp)+'</div>';}
  }else if(id==='full-attack-step'||id==='routine-step'){r=rollRoutineStep(c,d,pack,o.routineId,roller);spendAttackResources(c,r);}
- else if(id==='charge'){r=rollCharge(c,d,pack,o.uid,roller);spendAttackResources(c,r);endTurnFeatEffects(c);endSelfPowerTurn(c);endReactionTalentTurn(c);endTriggerTurn(c);endRagePowerTurn(c);advanceRegenerativeHealing(c,pack);c.actionState.ended=true;}
+ else if(id==='charge'){r=rollCharge(c,d,pack,o.uid,roller);spendAttackResources(c,r);endTurnFeatEffects(c);endSelfPowerTurn(c);endOutgoingPowerTurn(c);endReactionTalentTurn(c);endTriggerTurn(c);endRagePowerTurn(c);advanceRegenerativeHealing(c,pack);c.actionState.ended=true;}
  else if(id==='running-attack'){r=rollRunningAttack(c,pack,o.uid,roller);spendAttackResources(c,r);}
  else if(id==='balance'||id==='balance-recheck')r=balance(c,d,pack,id==='balance-recheck',roller);
  else if(id==='escape-bonds')r=escapeBonds(c,d,pack,roller);
@@ -236,8 +239,9 @@ function resolve(c,pack,id,o,v,roller,activationId){
    for(const x of rolls)assert(Number.isInteger(x.d20?.[0])&&x.d20[0]>=1&&x.d20[0]<=20&&x.value===x.d20[0]+upkeep.bonus,'Invalid upkeep roll');
    const natural=upkeep.rollMode==='adept'?selectAdeptNatural(rolls.map(x=>x.d20[0])):rolls[0].d20[0],check={natural,bonus:upkeep.bonus,total:natural+upkeep.bonus};
    r={text:v.name+': Use the Force '+check.total+(upkeep.forceCost?'; Force Points -1':''),html:rolls.map(x=>x.display+' = '+totalHtml(x)).join('; '),check,fpAllowed:upkeep.fpAllowed,enhanceAllowed:false};
-   if(!(r.fpAllowed&&o.fp==='ask'))r.text+='; '+finishCheckedMaintenance(c,pack,o.maintenancePowerSnapshot,check);
-   r.html=escape(r.text)+'<div>'+r.html+'</div>';
+   if(v.maintenance.family==='outgoing'&&o.effectDC==null&&v.maintenance.rule.thresholds.filter(t=>t.dc<=check.total).length>1)r.effectChoiceAllowed=true;
+   let effectHTML='';const heading=r.text;if(!(r.fpAllowed&&o.fp==='ask'||r.effectChoiceAllowed)){const effect=finishCheckedMaintenanceResult(c,pack,o.maintenancePowerSnapshot,check,{stepId:activationId,effectDC:o.effectDC});r.text+='; '+effect.text;effectHTML=effect.html||'';}
+   r.html=escape(effectHTML?heading:r.text)+'<div>'+r.html+'</div>'+effectHTML;
   }else {renewMaintainedPower(c,o.effectId,v.maintenance.family);r={text:'Maintain '+v.maintenance.name+': '+(v.maintenance.family==='shield'?'SR '+v.maintenance.row.sr:resistancePowerLabel(v.maintenance.row,pack))};}
  }
  else if(id==='jump'){r=rollJump(v.jump,roller);o.jumpResolution={dc:v.jump.dc,cost:v.jump.cost,maximum:v.jump.maximum,noCheck:v.jump.noCheck};const finished=finishJump(c,v.jump,r.check);r.fpAllowed=v.fpAllowed;r.enhanceAllowed=false;if(!(r.fpAllowed&&o.fp==='ask')){r.text+='; '+finished.text;r.html=escape(r.text)+(r.html?'<div>'+r.html+'</div>':'');}}
@@ -277,7 +281,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
   if(v.farseeing){const outcome=farseeingOutcome(pack,v.farseeing,check.total);if(outcome===null)r.outcomeAllowed=true;else if(!outcome)r.enhanceAllowed=false;}
   if(offensivePowerRule(pack,v.power.id)?.enhancement.requiresHit&&offensivePowerHit(pack,v.power.id,check,o.offensivePowerSnapshot)===false)r.enhanceAllowed=false;
   if((o.effectDC===undefined||o.effectDC===null)&&powerEffectChoiceRule(pack,v.power.id)?.thresholds?.filter(t=>t.dc<=check.total).length>1)r.effectChoiceAllowed=true;
-  const effectHeading=r.text;let effectHTML='';if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed||r.effectChoiceAllowed||r.outcomeAllowed)){const effect=finishPowerEffectResult(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,formAllowed:o.opportunityFormAllowed,incoming:o.incoming,offensivePowerSnapshot:o.offensivePowerSnapshot,trackingPowerSnapshot:o.trackingPowerSnapshot,farseeingPowerSnapshot:o.farseeingPowerSnapshot,forceThrustSnapshot:o.forceThrustSnapshot,repulsePowerSnapshot:o.repulsePowerSnapshot,mentalPowerSnapshot:o.mentalPowerSnapshot,resistForceSnapshot:o.resistForceSnapshot,conditionPowerSnapshot:o.conditionPowerSnapshot,effectDC:o.effectDC,roller});r.text+='; '+effect.text;effectHTML=effect.html||'';}
+  const effectHeading=r.text;let effectHTML='';if(v.selfPower&&!(r.fpAllowed&&o.fp==='ask'||r.enhanceAllowed||r.effectChoiceAllowed||r.outcomeAllowed)){const effect=finishPowerEffectResult(c,d,pack,activationId,v.power.id,check,false,!!o.destiny,{focusAllowed:o.rageFocusAllowed,formAllowed:o.opportunityFormAllowed,incoming:o.incoming,offensivePowerSnapshot:o.offensivePowerSnapshot,trackingPowerSnapshot:o.trackingPowerSnapshot,farseeingPowerSnapshot:o.farseeingPowerSnapshot,outgoingPowerSnapshot:o.outgoingPowerSnapshot,forceThrustSnapshot:o.forceThrustSnapshot,repulsePowerSnapshot:o.repulsePowerSnapshot,mentalPowerSnapshot:o.mentalPowerSnapshot,resistForceSnapshot:o.resistForceSnapshot,conditionPowerSnapshot:o.conditionPowerSnapshot,effectDC:o.effectDC,roller});r.text+='; '+effect.text;effectHTML=effect.html||'';}
   r.html=escape(effectHTML?effectHeading:r.text)+(r.html?'<div>'+r.html+'</div>':'')+effectHTML;
  }else if(v.skillAction){
   invalidate(c);const x=rollSkillAction(v.skillAction,roller);r={...x,text:v.name+': '+x.text,fpAllowed:v.fpAllowed};
@@ -297,11 +301,12 @@ export function executeAction(c,pack,stepId,roller=evalExpr){
  const original=c.actionState?.plan.find(p=>p.id===stepId);assert(original?.status==='queued','Action already resolved or unavailable');assert(!c.actionState.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));
  const v=describeAction(c,pack,original.action,original.options),q=v.character;q.actionState??=emptyActionState();if(!q.actionState.active&&v.cost.type==='reaction')q.actionState.ended=true;if(!q.actionState.active&&(['full','standard','move','swift'].includes(v.cost.type)||v.selfPower&&v.cost.type==='free')&&reopenSelfPowerTurn(q))v.derived=derive(q,pack);q.actionState.active=true;let step=q.actionState.plan.find(p=>p.id===stepId);
  if(v.upkeep)step.options.maintenancePowerSnapshot=structuredClone(v.upkeep.snapshot);
+ if(v.outgoing)step.options.outgoingPowerSnapshot=structuredClone(v.outgoing);else delete step.options.outgoingPowerSnapshot;
  if(v.farseeing)step.options.farseeingPowerSnapshot=structuredClone(v.farseeing);else delete step.options.farseeingPowerSnapshot;
  if(v.trackingSnapshot)step.options.trackingPowerSnapshot=structuredClone(v.trackingSnapshot);else delete step.options.trackingPowerSnapshot;
  if(v.conditionSnapshot)step.options.conditionPowerSnapshot=structuredClone(v.conditionSnapshot);
  if(v.resistForce)step.options.resistForceSnapshot=structuredClone(v.resistForce);
- if(v.selfPower)step.options.effectPowerId=v.power.id;else delete step.options.effectPowerId;
+ if(v.selfPower)step.options.effectPowerId=v.power.id;else if(v.maintenance?.family==='outgoing')step.options.effectPowerId=v.maintenance.row.powerId;else delete step.options.effectPowerId;
  if(offensivePowerRule(pack,v.power?.id))step.options.offensivePowerSnapshot=offensivePowerSnapshot(v.derived,pack,v.power.id,step.options);else delete step.options.offensivePowerSnapshot;
  if(opportunityPowerRule(pack,v.power?.id))step.options.opportunityFormAllowed=hasOpportunityForm(v.derived.ctx,pack);else delete step.options.opportunityFormAllowed;
  if(v.mental)step.options.mentalPowerSnapshot=v.mental;else delete step.options.mentalPowerSnapshot;
@@ -315,7 +320,7 @@ export function executeAction(c,pack,stepId,roller=evalExpr){
 }
 export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
  const q=structuredClone(c),s=q.actionState;let step=s?.plan.find(p=>p.id===stepId);assert(step?.status==='waiting'&&step.result?.check&&!step.result.rerollAllowed,'No pending check');
- if(step.options.effectPowerId){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);assert(power?.id===step.options.effectPowerId,'Power unavailable');}
+ if(step.options.effectPowerId){const power=derive(q,pack).forcePowers.find(p=>step.options.maintenancePowerSnapshot?.family==='outgoing'?p.id===step.options.effectPowerId:p.copyId===step.options.powerId);assert(power?.id===step.options.effectPowerId,'Power unavailable');}
  const outcomeChoice=['success','failure','success-enhance'].includes(spend),outcomePending=step.result.outcomeAllowed===true;
  if(outcomeChoice)assert(outcomePending&&farseeingPowerRule(pack,step.options.effectPowerId),'Power does not use outcome confirmation');
  if(outcomePending){assert(outcomeChoice||spend===true||spend==='bonus','Confirm the Farseeing outcome');if(outcomeChoice)step.options.powerOutcome={success:spend!=='failure',total:step.result.check.total};}
@@ -346,9 +351,9 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
   validateCharacter(q,pack);commit(c,q);return {text:step.result.text,html:escape(step.result.text)+(extra?'<div>'+extra.display+' = '+totalHtml(extra)+'</div>':'')};
  }
  if(pack.rules.skillActions?.some(r=>r.id===step.action))step.result.text+='; '+finishSkillAction(q,derive(q,pack),pack,step.action,step.options,step.result.check);
- if(step.action==='maintain-power'&&step.options.maintenancePowerSnapshot)step.result.text+='; '+finishCheckedMaintenance(q,pack,step.options.maintenancePowerSnapshot,step.result.check);
+ let upkeepHTML='',upkeepHeading='';if(step.action==='maintain-power'&&step.options.maintenancePowerSnapshot){upkeepHeading=step.result.text;const effect=finishCheckedMaintenanceResult(q,pack,step.options.maintenancePowerSnapshot,step.result.check,{stepId:step.id,effectDC:step.options.effectDC});step.result.text+='; '+effect.text;upkeepHTML=effect.html||'';}
  if(step.action==='jump'){const snapshot=step.options.jumpResolution;assert(snapshot&&Number.isFinite(snapshot.dc)&&snapshot.dc>=0&&snapshot.dc<=2400000&&Number.isFinite(snapshot.cost)&&snapshot.cost>=0&&Number.isFinite(snapshot.maximum)&&snapshot.maximum>=snapshot.cost&&typeof snapshot.noCheck==='boolean','Invalid saved Jump');step.result.text+='; '+finishJump(q,{...snapshot,path:step.options.path},step.result.check).text;}
- const effectHeading=step.result.text;let effectHTML='';if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,formAllowed:step.options.opportunityFormAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,trackingPowerSnapshot:step.options.trackingPowerSnapshot,farseeingPowerSnapshot:step.options.farseeingPowerSnapshot,offensiveHitConfirmed:step.options.offensiveHitConfirmed,forceThrustSnapshot:step.options.forceThrustSnapshot,repulsePowerSnapshot:step.options.repulsePowerSnapshot,mentalPowerSnapshot:step.options.mentalPowerSnapshot,resistForceSnapshot:step.options.resistForceSnapshot,conditionPowerSnapshot:step.options.conditionPowerSnapshot,powerEnhancementChoice:step.options.powerEnhancementChoice,effectDC:step.options.effectDC,roller});step=q.actionState.plan.find(p=>p.id===stepId);step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}
+ const effectHeading=upkeepHTML?upkeepHeading:step.result.text;let effectHTML=upkeepHTML;if(step.action==='power'){const power=derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId);if(power&&selfPowerRule(pack,power.id)&&!historicalManualPower(pack,power.id,step.options)){const effect=finishPowerEffectResult(q,derive(q,pack),pack,step.id,power.id,step.result.check,mode==='enhance',!!step.options.destiny,{focusAllowed:step.options.rageFocusAllowed,formAllowed:step.options.opportunityFormAllowed,incoming:step.options.incoming,offensivePowerSnapshot:step.options.offensivePowerSnapshot,trackingPowerSnapshot:step.options.trackingPowerSnapshot,farseeingPowerSnapshot:step.options.farseeingPowerSnapshot,outgoingPowerSnapshot:step.options.outgoingPowerSnapshot,offensiveHitConfirmed:step.options.offensiveHitConfirmed,forceThrustSnapshot:step.options.forceThrustSnapshot,repulsePowerSnapshot:step.options.repulsePowerSnapshot,mentalPowerSnapshot:step.options.mentalPowerSnapshot,resistForceSnapshot:step.options.resistForceSnapshot,conditionPowerSnapshot:step.options.conditionPowerSnapshot,powerEnhancementChoice:step.options.powerEnhancementChoice,effectDC:step.options.effectDC,roller});step=q.actionState.plan.find(p=>p.id===stepId);step.result.text+='; '+effect.text;effectHTML=effect.html||'';}}
   step=q.actionState.plan.find(p=>p.id===stepId);delete step.result.outcomeAllowed;step.status='done';validateCharacter(q,pack);commit(c,q);return {text:step.result.text,...(extra||effectHTML?{html:escape(effectHTML?effectHeading:step.result.text)+(extra?'<div>'+extra.display+' = '+totalHtml(extra)+'</div>':'')+effectHTML}:{})};
 }
 
@@ -360,8 +365,8 @@ function nextTurnPlan(c,pack,{maintain=[],maintenanceOptions={}}={}){
  const q=structuredClone(c),previous=q.actionState;assertResistanceResolved(q);
  assert(Array.isArray(maintain)&&maintain.every(id=>typeof id==='string')&&new Set(maintain).size===maintain.length,'Invalid maintenance choices');
  assert(maintenanceOptions&&typeof maintenanceOptions==='object'&&!Array.isArray(maintenanceOptions)&&Object.entries(maintenanceOptions).every(([id,o])=>maintain.includes(id)&&o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).every(k=>['rollMode','fp'].includes(k))),'Invalid upkeep options');
- const live=maintainedPowers(q,pack);assert(maintain.every(id=>live.some(s=>s.id===id)),'Power maintenance unavailable');
- const carry=live.filter(s=>maintain.includes(s.id)).map(s=>({family:s.family,row:structuredClone((s.family==='shield'?q.shieldPowerEffects:q.resistancePowerEffects).find(r=>r.id===s.id))}));
+ const live=nextTurnMaintainedPowers(q,pack);assert(maintain.every(id=>live.some(s=>s.id===id)),'Power maintenance unavailable');
+ const carry=live.filter(s=>s.family!=='outgoing'&&maintain.includes(s.id)).map(s=>({family:s.family,row:structuredClone((s.family==='shield'?q.shieldPowerEffects:q.resistancePowerEffects).find(r=>r.id===s.id))}));
  if(actionPhase(previous)!=='normal')q.flatFooted=false;assert(!previous?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));
  if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});
  if(previous?.active)advanceTimedTalents(q);
@@ -386,7 +391,7 @@ export function beginNextTurn(c,pack,options={},roller=evalExpr){
  }
  validateCharacter(q,pack);commit(c,q);return results;
 }
-export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endReactionTalentTurn(q);endTriggerTurn(q);endRagePowerTurn(q);advanceRegenerativeHealing(q,pack);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
+export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endOutgoingPowerTurn(q);endReactionTalentTurn(q);endTriggerTurn(q);endRagePowerTurn(q);advanceRegenerativeHealing(q,pack);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
 export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));endRegenerativeHealing(c);clearOpportunityPowers(c);clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);clearReactionTalents(c);clearDefenseShifts(c);clearMoveTalentEffects(c);clearTriggeredDefenses(c);endChannelRage(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false,uncertainMovement=false;
@@ -418,7 +423,7 @@ export function previewPlan(c,pack){
    if(v.destinyCost)q.story.points-=v.destinyCost;
    if(step.action==='power'){q.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===step.options.powerId).spent=true;if(movementPowerRule(pack,v.power.id))uncertainMovement=true;}
    if(step.action==='move'&&!v.character.acrobaticsMovement?.tumble&&!v.character.acrobaticsMovement?.crossTerrain){applyMoveFeatEffects(q,v.derived,pack,v.character.acrobaticsMovement?.displacement||0);applyMoveTalentEffects(q,v.derived,pack,{squares:v.character.acrobaticsMovement?.path?.squares??1,displacement:v.character.acrobaticsMovement?.displacement||0});}
-   if(step.action==='charge'){endTurnFeatEffects(q);endSelfPowerTurn(q);endReactionTalentTurn(q);endTriggerTurn(q);endRagePowerTurn(q);advanceRegenerativeHealing(q,pack);q.actionState.ended=true;}
+   if(step.action==='charge'){endTurnFeatEffects(q);endSelfPowerTurn(q);endOutgoingPowerTurn(q);endReactionTalentTurn(q);endTriggerTurn(q);endRagePowerTurn(q);advanceRegenerativeHealing(q,pack);q.actionState.ended=true;}
    rows.push({id:step.id,name:v.name,cost:v.cost,manual:v.manual});
   }catch(e){rows.push({id:step.id,issue:e.message});stopped=true;}
  }
@@ -428,9 +433,9 @@ export function previewPlan(c,pack){
 export function rollResistanceMaintenance(c,pack,id,roller=evalExpr){
  const q=structuredClone(c),d=derive(q,pack),row=pendingResistanceChecks(q).find(s=>s.id===id),skill=d.skills.find(s=>s.id==='skill:use-the-force');
  assert(row&&!row.pending.check,'Maintenance check unavailable');
- if(d.incapacitated||d.helpless||!skill?.available){removeResistancePower(q,id);commit(c,q);return {text:pack.forcePowers.find(p=>p.id===row.powerId).name+' released'};}
+ if(d.incapacitated||d.helpless||!skill?.available||outgoingPowerRule(pack,row.powerId)&&!d.forcePowers.some(p=>p.id===row.powerId)){removeResistancePower(q,id);commit(c,q);return {text:pack.forcePowers.find(p=>p.id===row.powerId).name+' released'};}
  const r=roller('1d20'+signed(skill.total));recordResistanceDamageCheck(q,id,{natural:r.d20?.[0],bonus:skill.total,total:r.value});
- const dc=resistancePowerRule(pack,row.powerId).damageCheck.baseDC+row.pending.damage;
+ const dc=maintenanceCheckRule(pack,row.powerId).damageCheck.baseDC+row.pending.damage;
  const text=pack.forcePowers.find(p=>p.id===row.powerId).name+': Use the Force '+r.value+' (DC '+dc+')';validateCharacter(q,pack);commit(c,q);return {text,html:r.display+' = '+totalHtml(r)};
 }
 export function finishResistanceMaintenance(c,pack,id,spend=false,roller=evalExpr){
