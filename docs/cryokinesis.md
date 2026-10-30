@@ -121,7 +121,9 @@ Check is null or exactly `{natural, bonus, total}` with natural 1 to 20,
 bonus/total integers from -100000 to 100000 and total = natural + bonus.
 This concentration record never triggers activation-only recovery. No new
 check may replace a saved concentration roll. A final FP bonus uses the shared
-ledger; release remains possible after source loss. Resolve or release every
+ledger; release remains possible after source loss. If current source access is lost
+between a concentration roll and its FP decision, release that outgoing effect
+before any optional FP is rolled or spent, as on the pre-roll source check. Resolve or release every
 pending concentration before other actions, damage or time advancement.
 
 Upkeep options use the existing `maintenancePowerSnapshot` namespace, extended

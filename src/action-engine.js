@@ -1,4 +1,4 @@
-import {outgoingPowerRule,outgoingPowerSnapshot,outgoingMaintenancePlan,endOutgoingPowerTurn} from './outgoing-powers.js';
+import {outgoingPowerRule,outgoingPowerSnapshot,outgoingMaintenancePlan,endOutgoingPowerTurn,pendingOutgoingChecks} from './outgoing-powers.js';
 import {assertMaintenanceResolved as assertResistanceResolved,pendingMaintenanceChecks as pendingResistanceChecks,recordMaintenanceDamageCheck as recordResistanceDamageCheck,finishMaintenanceDamageCheck as finishResistanceDamageCheck,releaseMaintenancePower as removeResistancePower,maintenanceCheckRule} from './maintenance-checks.js';
 import {farseeingPowerRule,farseeingPowerSnapshot,farseeingOutcome} from './farseeing.js';
 import {repulsePowerRule,repulsePowerSnapshot} from './repulse.js';
@@ -319,6 +319,7 @@ export function executeAction(c,pack,stepId,roller=evalExpr){
  validateCharacter(q,pack);commit(c,q);return result;
 }
 export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
+ if(pendingOutgoingChecks(c).length)assertResistanceResolved(c);
  const q=structuredClone(c),s=q.actionState;let step=s?.plan.find(p=>p.id===stepId);assert(step?.status==='waiting'&&step.result?.check&&!step.result.rerollAllowed,'No pending check');
  if(step.options.effectPowerId){const power=derive(q,pack).forcePowers.find(p=>step.options.maintenancePowerSnapshot?.family==='outgoing'?p.id===step.options.effectPowerId:p.copyId===step.options.powerId);assert(power?.id===step.options.effectPowerId,'Power unavailable');}
  const outcomeChoice=['success','failure','success-enhance'].includes(spend),outcomePending=step.result.outcomeAllowed===true;
@@ -441,6 +442,7 @@ export function rollResistanceMaintenance(c,pack,id,roller=evalExpr){
 export function finishResistanceMaintenance(c,pack,id,spend=false,roller=evalExpr){
  assert(typeof spend==='boolean','Invalid Force Point choice');const q=structuredClone(c),d=derive(q,pack);let extra;
  assert(pendingResistanceChecks(q).some(s=>s.id===id&&s.pending.check),'Maintenance roll unavailable');
+ const pendingRow=pendingResistanceChecks(q).find(s=>s.id===id);if(outgoingPowerRule(pack,pendingRow.powerId)&&(d.incapacitated||d.helpless||!d.skills.find(s=>s.id==='skill:use-the-force')?.available||!d.forcePowers.some(p=>p.id===pendingRow.powerId))){removeResistancePower(q,id);validateCharacter(q,pack);commit(c,q);return {text:pack.forcePowers.find(p=>p.id===pendingRow.powerId).name+' released',success:false,released:true};}
  if(spend){assert(checkForcePointAvailable(q,d),'Force Point unavailable');extra=roller(`${d.forcePointDice}d${d.forcePointDie}kh1`);assert(Number.isInteger(extra.value)&&extra.value>=1&&extra.value<=d.forcePointDie,'Invalid Force Point roll');q.forcePoints=d.forceCurrent-1;q.actionState.forceSpent=true;}
  const name=pack.forcePowers.find(p=>p.id===pendingResistanceChecks(q).find(s=>s.id===id).powerId).name,result=finishResistanceDamageCheck(q,pack,id,extra?.value||0);validateCharacter(q,pack);commit(c,q);return {text:name+': '+result.total+' / '+result.dc+'; '+(result.success?'maintained':'released')+(extra?'; Force Point +'+extra.value:''),...result};
 }

@@ -68,3 +68,13 @@ test('invalid target/capacity/time declarations are atomic before RNG, source ac
  const q=cast(),seed=structuredClone(q.outgoingPowerEffects[0]);q.outgoingPowerEffects=Array.from({length:1000},()=>({...seed,id:crypto.randomUUID()}));beginNextTurn(q,pack);atomic(q,()=>takeAction(q,pack,'power',opts(q),noRoll));
  const p=cast(),id=p.outgoingPowerEffects[0].id;upkeep(p,id);applyIncomingDamage(p,api.derive(p,pack),pack,1);atomic(p,()=>advanceTimedTalents(p,10));atomic(p,()=>recoverSuite(p,api.derive(p,pack)));atomic(p,()=>restEightHours(p,api.derive(p,pack),pack));
 });
+
+
+test('pending outgoing concentration rejects FP finalization before rolling or mutating either decision',()=>{
+ const c=cast(),id=c.outgoingPowerEffects[0].id;upkeep(c,id);beginNextTurn(c,pack);takeAction(c,pack,'maintain-power',{effectId:id,fp:'ask',effectDC:20},roll());const waiting=pending(c).id;applyIncomingDamage(c,api.derive(c,pack),pack,1);let rolls=0;atomic(c,()=>finishForceChoice(c,pack,waiting,true,()=>{rolls++;return {value:2,display:'2'};}));assert.equal(rolls,0);
+});
+
+
+test('lost source after a concentration roll releases before rolling or spending an optional FP',()=>{
+ for(const spend of [false,true]){const c=cast(),id=c.outgoingPowerEffects[0].id;upkeep(c,id);applyIncomingDamage(c,api.derive(c,pack),pack,1);rollResistanceMaintenance(c,pack,id,roll());for(const l of c.levels)for(const p of l.forcePowers||[])if(p.powerId===pid){p.powerId='power:surge';delete p.action;}const fp=c.forcePoints;const r=finishResistanceMaintenance(c,pack,id,spend,noRoll);assert.equal(r.released,true);assert.equal(c.forcePoints,fp);assert.equal(c.outgoingPowerEffects,undefined);api.validateCharacter(c,pack);}
+});
