@@ -1,0 +1,8 @@
+module.exports=(pack,api)=>{
+ const finish=c=>{api.validateCharacter(c,pack);const issues=api.derive(c,pack).issues;if(issues.length)throw Error(c.name+': '+issues.join('; '));return c;};
+ const fill=(c,required)=>{c.trainedSkills=required;const need=Number(/choose (\d+) starting trained/.exec(api.derive(c,pack).issues.join(';'))?.[1]??required.length);const cls=pack.classes.find(k=>k.id===c.levels[0].classId);for(const id of cls.skills)if(c.trainedSkills.length<need&&!c.trainedSkills.includes(id)&&id!=='skill:use-the-force')c.trainedSkills=[...c.trainedSkills,id];c.trainedSkills=c.trainedSkills.slice(0,need);};
+ function hero(feats,talent,classId='class:scoundrel'){const c=api.newCharacter(pack,{classId});c.name='Encounter Defense reactions';c.species='species:human';c.abilityMethod='manual';c.abilities={str:10,dex:14,con:12,int:16,wis:10,cha:16};c.levels[0].feats=feats.map(id=>({id:'feat:'+id}));c.levels[0].talent=talent;fill(c,['skill:deception','skill:perception']);c.currentHP=api.derive(c,pack).hp;return finish(c);}
+ const both=()=>hero(['brilliant-defense','indomitable-personality'],{id:'talent:fool-s-luck'});
+ function lucky(){const c=both();c.levels.push({classId:'class:scoundrel',hpRoll:4,feats:[{id:'feat:skill-focus',choice:'skill:perception'}],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]},{classId:'class:scoundrel',hpRoll:4,feats:[{id:'feat:toughness'}],talent:{id:'talent:better-lucky-than-dead'},startingFeat:null,abilityIncreases:[],trainedSkills:[]});c.currentHP=api.derive(c,pack).hp;return finish(c);}
+ return {both,lucky};
+};

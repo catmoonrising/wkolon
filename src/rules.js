@@ -30,7 +30,7 @@ import {validateTimedTalents,activeTimedTalents} from './timed-talents.js';
 import {validateTurnFeatEffects,turnFeatAttackEffects} from './turn-feat-effects.js';
 import {validateBonusHP,toughAsDurasteelLevel} from './bonus-hit-points.js';
 import {validateTurnTalents,turnTalentEffects,turnTalentDefenseBonuses} from './turn-talents.js';
-import {validateReactionTalents,reactionTalentDR} from './reaction-talents.js';
+import {validateReactionTalents,reactionTalentDR,defenseReactionEffects} from './reaction-talents.js';
 import {validateDefenseShifts,defenseShiftEffects} from './defense-shifts.js';
 import {modifierTotal,resolveModifiers} from './modifiers.js';
 import {validateTalentActivations,encounterTalentEffects} from './talent-activations.js';
@@ -508,7 +508,7 @@ export function derive(c, pack) {
   const helpless=droidSystems.inoperative||!!c.helpless||c.condition===5||c.currentHP===0||recoveryState(c).dead;
   const balancingFlatFooted=balanceFlatFooted(c,ctx),flatFooted=!!c.flatFooted||balancingFlatFooted;
   const dexDenied=!!shieldLimits.unproficient||helpless||flatFooted&&!has('uncanny-dodge-i')||load.overloaded;
-  effects.push(...triggeredDefenseEffects(c,pack,ctx,{flatFooted,dexDenied}));
+  effects.push(...triggeredDefenseEffects(c,pack,ctx,{flatFooted,dexDenied}),...defenseReactionEffects(c,pack,ctx,mods));
   const dex = helpless?pack.rules.defensiveCombat.helplessDexterityModifier:dexDenied?Math.min(0,mods.dex):armorMaxDex!==null ? Math.min(mods.dex, armorMaxDex) : mods.dex;
   const defensiveCombat=defensiveCombatState(c,pack,ctx,dexDenied);
   const flurry=flurryState(c,pack,ctx,effectiveSize,helpless);

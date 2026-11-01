@@ -30,7 +30,7 @@ import {timedTalentPlan,applyTimedTalent,advanceTimedTalents} from './timed-tale
 import {endTurnFeatEffects,clearTurnFeatEffects,applyMoveFeatEffects} from './turn-feat-effects.js';
 import {clearBonusHP} from './bonus-hit-points.js';
 import {turnTalentPlan,applyTurnTalent,clearTurnTalents,turnTalentBenefit} from './turn-talents.js';
-import {reactionTalentRule,reactionTalentPlan,applyReactionTalent,endReactionTalentTurn,clearReactionTalents} from './reaction-talents.js';
+import {reactionTalentRule,reactionTalentPlan,applyReactionTalent,endReactionTalentTurn,clearReactionTalents,defenseReactionRule,defenseReactionPlan,applyDefenseReaction} from './reaction-talents.js';
 import {conditionalDefenseLabel} from './defensive-combat.js';
 import {defenseShiftRule,defenseShiftPlan,applyDefenseShift,clearDefenseShifts,defenseShiftText} from './defense-shifts.js';
 import {balance,planBalance} from './balance.js';
@@ -95,6 +95,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(id==='bellow'){o.extraDice=0;o.strong=false;}
  if(id===craftActionId)o.supplies=false;
  if(reactionTalentRule(pack,id))o.damaged=false;
+ if(defenseReactionRule(pack,id))o.defense=defenseReactionRule(pack,id).defenses[0];
  if(defenseShiftRule(pack,id)){o.bonus='reflex';o.penalty='will';}
  if(triggeredDefenseRule(pack,id)?.action)o.adjacent=false;
  if(id==='encounter-talent'){const t=pack.talents.find(t=>t.activation&&d.ctx.talents.some(s=>s.id===t.id)&&!d.ctx.inactiveTalents.has(t.id));o.talentId=t?.id||'';o.choice=t?.activation.choices.find(o=>!c.talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||'';}
@@ -144,6 +145,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'damage-reduction-10':view.timedTalent=timedTalentPlan(q,d,pack,id);view.forceCost=view.timedTalent.forcePoints;break;
  case 'lightsaber-defense':case 'wan-shen-defense':case 'shadow-armor':view.turnTalent=turnTalentPlan(q,d,pack,id);break;
  case 'shift-defense-i':case 'shift-defense-ii':case 'shift-defense-iii':view.defenseShift=defenseShiftPlan(q,d,pack,id,o);break;
+ case 'brilliant-defense':case 'indomitable-personality':case 'logic-upgrade-self-defense':case 'better-lucky-than-dead':view.defenseReaction=defenseReactionPlan(q,d,pack,id,o);break;
  case 'soft-to-solid':view.reactionTalent=reactionTalentPlan(q,d,pack,id,o);view.forceCost=view.reactionTalent.rule.forcePoints;break;
  case 'resilience':case 'equilibrium':case 'indomitable':view.conditionRecovery=conditionRecoveryPlan(q,d,pack,id);view.forceCost=view.conditionRecovery.rule.forcePoints;break;
  case 'bellow':assert(bellowDetails(q,d,pack,o.extraDice??0,{strong:o.strong??false})?.available,'Bellow unavailable');break;
@@ -262,6 +264,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(v.timedTalent){invalidate(c);applyTimedTalent(c,v.timedTalent);c.forcePoints-=v.forceCost;r={text:v.name+': '+v.timedTalent.durationRounds+' rounds; Force Points -'+v.forceCost};}
  else if(v.turnTalent){invalidate(c);applyTurnTalent(c,id,v.turnTalent.amount);r={text:v.name+': '+turnTalentBenefit(v.turnTalent.rule,v.turnTalent.bonus??v.turnTalent.amount)};}
  else if(v.defenseShift){invalidate(c);applyDefenseShift(c,id,v.defenseShift);r={text:v.name+': '+defenseShiftText(v.defenseShift.rule,v.defenseShift)+(v.defenseShift.persistent?'; no automatic expiry':'')};}
+ else if(v.defenseReaction){clearFollowUps(c);clearAiming(c);clearBracing(c);applyDefenseReaction(c,id,v.defenseReaction);r={text:v.name+': '+v.defenseReaction.defense};}
  else if(v.reactionTalent){clearFollowUps(c);clearAiming(c);clearBracing(c);applyReactionTalent(c,id,v.reactionTalent);c.forcePoints-=v.forceCost;r={text:v.name+': DR '+v.reactionTalent.rule.damageReduction+'; Force Points -'+v.forceCost};}
  else if(v.conditionRecovery){invalidate(c);applyConditionRecovery(c,v.conditionRecovery);c.forcePoints-=v.forceCost;r={text:v.name+': '+(c.condition===0?'Normal State':'+'+v.conditionRecovery.steps+' condition steps')+(v.conditionRecovery.rule.removePersistent?'; persistent conditions removed':'')+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
  else if(id==='bellow')r=rollBellow(c,d,pack,o.extraDice??0,o.damage??null,roller,{strong:o.strong??false});
@@ -412,6 +415,7 @@ export function previewPlan(c,pack){
    if(v.timedTalent){clearAiming(q);clearBracing(q);applyTimedTalent(q,v.timedTalent);}
    if(v.turnTalent){clearAiming(q);clearBracing(q);applyTurnTalent(q,step.action,v.turnTalent.amount);}
    if(v.defenseShift){clearAiming(q);clearBracing(q);applyDefenseShift(q,step.action,v.defenseShift);}
+   if(v.defenseReaction){clearAiming(q);clearBracing(q);applyDefenseReaction(q,step.action,v.defenseReaction);}
    if(v.reactionTalent){clearAiming(q);clearBracing(q);applyReactionTalent(q,step.action,v.reactionTalent);}
    if(v.conditionRecovery){clearAiming(q);clearBracing(q);applyConditionRecovery(q,v.conditionRecovery);}
    if(v.crafting)craftItem(q,v.crafting);

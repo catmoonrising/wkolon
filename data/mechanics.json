@@ -34992,7 +34992,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:logic-upgrade-tactician",
@@ -37897,7 +37897,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:brink-of-death",
@@ -38996,7 +38996,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:informer",
@@ -48525,7 +48525,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:dumb-luck",
@@ -68813,6 +68813,7 @@
     "bonusHitPoints": {"sourceIds":["source:wiki-hit-points"],"toughAsDurasteel":{"classId":"class:martial-arts-master","minimumLevel":2,"armorCategory":"light","ambiguityId":"ambiguity:tough-as-durasteel-amount","sourceIds":["source:wiki-martial-arts-master"]}},
     "turnTalentActions": [{"id":"lightsaber-defense","talentId":"talent:lightsaber-defense","amountPerSelection":1,"maximum":3,"weaponGroup":"lightsabers","doubleTalentId":"talent:jar-kai","doubleWeaponCount":2,"effect":{"target":"conditionalDefense","defense":"reflex","against":"aware","type":"deflection"},"sourceIds":["source:wiki-lightsaber-combat-talent-tree-lightsaber-defense","source:wiki-lightsaber-forms-talent-tree-jar-kai"]},{"id":"wan-shen-defense","talentId":"talent:wan-shen-defense","amountPerSelection":1,"maximum":3,"weaponId":"equipment:wan-shen","ambiguityId":"ambiguity:wan-shen-defense-weapon-change","effect":{"target":"conditionalDefense","defense":"reflex","against":"melee-aware","type":"deflection"},"sourceIds":["source:wiki-matukai-adept-talent-tree-wan-shen-defense","source:wiki-wan-shen","source:wiki-melee-attacks"]},{"id":"shadow-armor","talentId":"talent:shadow-armor","amountPerSelection":1,"maximum":4,"effect":{"target":"defenseBonus","defense":"reflex","type":"force"},"sourceIds":["source:wiki-disciple-of-twilight-talent-tree-shadow-armor","source:wiki-bonuses-and-penalties"]}],
     "defenseShiftActions": [{"id":"shift-defense-i","talentId":"talent:shift-defense-i","bonus":1,"penalty":-2,"type":"competence","duration":"start-next-turn","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-i","source:wiki-bonuses-and-penalties"]},{"id":"shift-defense-ii","talentId":"talent:shift-defense-ii","bonus":2,"penalty":-5,"type":"competence","duration":"start-next-turn","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-ii","source:wiki-bonuses-and-penalties"]},{"id":"shift-defense-iii","talentId":"talent:shift-defense-iii","bonus":5,"penalty":-5,"penaltyScope":"others","type":"competence","duration":"start-next-turn","ambiguityId":"ambiguity:shift-defense-iii-duration","sourceIds":["source:wiki-military-tactics-talent-tree-shift-defense-iii","source:wiki-bonuses-and-penalties"]}],
+    "encounterDefenseReactions": [{"id":"brilliant-defense","recordId":"feat:brilliant-defense","defenses":["reflex"],"ability":"int","type":"untyped","duration":"start-next-turn","sourceIds":["source:wiki-brilliant-defense","source:wiki-bonuses-and-penalties","source:wiki-combat-sequence"]},{"id":"indomitable-personality","recordId":"feat:indomitable-personality","defenses":["will"],"ability":"cha","type":"untyped","duration":"end-next-turn","sourceIds":["source:wiki-indomitable-personality","source:wiki-bonuses-and-penalties","source:wiki-combat-sequence"]},{"id":"logic-upgrade-self-defense","recordId":"feat:logic-upgrade-self-defense","defenses":["reflex","fortitude","will"],"amount":2,"type":"morale","duration":"end-next-turn","sourceIds":["source:wiki-logic-upgrade-self-defense","source:wiki-bonuses-and-penalties","source:wiki-combat-sequence"]},{"id":"better-lucky-than-dead","recordId":"talent:better-lucky-than-dead","defenses":["reflex","fortitude","will"],"amount":5,"type":"luck","duration":"start-next-turn","sourceIds":["source:wiki-fortune-talent-tree-better-lucky-than-dead","source:wiki-bonuses-and-penalties","source:wiki-combat-sequence"]}],
     "reactionTalentActions": [{"id":"soft-to-solid","talentId":"talent:soft-to-solid","trigger":"damaged-by-attack","forcePoints":1,"damageReduction":10,"duration":"end-next-turn","sourceIds":["source:wiki-matukai-adept-talent-tree-soft-to-solid","source:wiki-attacks","source:wiki-combat-sequence"]}],
     "conditionRecoveryActions": [{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]},{"id":"resilience","talentId":"talent:resilience","steps":2,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-jedi-guardian-talent-tree-resilience","source:wiki-conditions"]}],
     "skillActions": [{"id":"force-focus","talentId":"talent:force-focus","skillId":"skill:use-the-force","dc":15,"effect":"recover-power","sourceIds":["source:wiki-control-talent-tree-force-focus","source:use-the-force","source:wiki-skills"]}],
@@ -68852,7 +68853,7 @@
 {"id":"maintain-power","name":"Maintain","type":"standard","count":1},
         {"id":"jump","name":"Jump","type":"move","count":1,"ruleId":"rule:jump"},
         {"id":"damage-reduction-10","name":"Damage Reduction 10","type":"standard","count":1},
-        {"id":"lightsaber-defense","name":"Lightsaber Defense","type":"swift","count":1},{"id":"wan-shen-defense","name":"Wan-Shen Defense","type":"swift","count":1},{"id":"soft-to-solid","name":"Soft to Solid","type":"reaction","count":1},{"id":"shift-defense-i","name":"Shift Defense I","type":"swift","count":1},{"id":"shift-defense-ii","name":"Shift Defense II","type":"swift","count":1},{"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},
+        {"id":"lightsaber-defense","name":"Lightsaber Defense","type":"swift","count":1},{"id":"wan-shen-defense","name":"Wan-Shen Defense","type":"swift","count":1},{"id":"soft-to-solid","name":"Soft to Solid","type":"reaction","count":1},{"id": "brilliant-defense", "name": "Brilliant Defense", "type": "reaction", "count": 1},{"id": "indomitable-personality", "name": "Indomitable Personality", "type": "reaction", "count": 1},{"id": "logic-upgrade-self-defense", "name": "Logic Upgrade: Self Defense", "type": "reaction", "count": 1},{"id": "better-lucky-than-dead", "name": "Better Lucky than Dead", "type": "reaction", "count": 1},{"id":"shift-defense-i","name":"Shift Defense I","type":"swift","count":1},{"id":"shift-defense-ii","name":"Shift Defense II","type":"swift","count":1},{"id":"equilibrium","name":"Equilibrium","type":"swift","count":1},{"id":"indomitable","name":"Indomitable","type":"swift","count":1},{"id":"force-focus","name":"Force Focus","type":"full","count":1},
         {"id":"encounter-talent","name":"Talent","type":"standard","count":1},
         {
           "id": "attack",

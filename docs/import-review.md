@@ -3450,3 +3450,10 @@ and d8 to d12; only Skill Boon prints a d12 maximum. Reading: steps from differe
 records add up on one check, and d12 is the maximum for all of them. Bowcaster
 Marksman's competence damage has no other competence damage to stack against yet.
 See docs/force-point-dice.md.
+
+## Encounter Defense reactions
+
+Brilliant Defense, Indomitable Personality, Logic Upgrade: Self Defense and Better
+Lucky than Dead are Partial. Preternatural Senses prints no duration for its
+Defense bonus and stays Manual until ruled on. See
+docs/encounter-defense-reactions.md.
