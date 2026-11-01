@@ -2256,7 +2256,7 @@
             }
           ]
         },
-        "bonusHPGrants":{"const":[{"id":"thrive-on-chaos","talentId":"talent:thrive-on-chaos","trigger":"creature-reduced-to-zero","base":5,"level":"character","levelDivisor":2,"sourceIds":["source:wiki-opportunist-talent-tree-thrive-on-chaos"]},{"id":"shoulder-to-shoulder","talentId":"talent:shoulder-to-shoulder","trigger":"turn-start-adjacent-ally","base":0,"level":"heroic","levelDivisor":1,"sourceIds":["source:wiki-republic-commando-talent-tree-shoulder-to-shoulder"]},{"id":"bando-gora-surge","talentId":"talent:bando-gora-surge","trigger":"moved-up-condition-track","base":5,"level":"heroic","levelDivisor":1,"sourceIds":["source:wiki-bando-gora-captain-talent-tree-bando-gora-surge"]},{"id":"luck-favors-the-bold","talentId":"talent:luck-favors-the-bold","trigger":"turn-start-exposed-to-aware-enemy","base":5,"level":"heroic","levelDivisor":2,"conscious":true,"sourceIds":["source:wiki-gambling-leader-talent-tree-luck-favors-the-bold"]}]},
+        "bonusHPGrants":{"const":[{"id":"thrive-on-chaos","talentId":"talent:thrive-on-chaos","trigger":"creature-reduced-to-zero","base":5,"level":"character","levelDivisor":2,"sourceIds":["source:wiki-opportunist-talent-tree-thrive-on-chaos"]},{"id":"shoulder-to-shoulder","talentId":"talent:shoulder-to-shoulder","trigger":"turn-start-adjacent-ally","base":0,"level":"heroic","levelDivisor":1,"sourceIds":["source:wiki-republic-commando-talent-tree-shoulder-to-shoulder"]},{"id":"bando-gora-surge","talentId":"talent:bando-gora-surge","trigger":"moved-up-condition-track","base":5,"level":"heroic","levelDivisor":1,"sourceIds":["source:wiki-bando-gora-captain-talent-tree-bando-gora-surge"]},{"id":"luck-favors-the-bold","talentId":"talent:luck-favors-the-bold","trigger":"turn-start-exposed-to-aware-enemy","base":5,"level":"heroic","levelDivisor":2,"conscious":true,"sourceIds":["source:wiki-gambling-leader-talent-tree-luck-favors-the-bold"]},{"id":"vital-encouragement","talentId":"talent:vital-encouragement","trigger":"free-action","base":10,"level":"heroic","levelDivisor":2,"once":true,"sourceIds":["source:wiki-guardian-spirit-talent-tree-vital-encouragement"]}]},
         "bonusHitPoints": {
           "const": {
             "sourceIds": [
@@ -5175,6 +5175,8 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"armorAugmentation"}}},
+        {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"armorAugmentationDR"}}},
         {"type":"object","additionalProperties":false,"required":["target","amount","type","weaponGroup"],"properties":{"target":{"const":"multiattackReduction"},"amount":{"const":2},"type":{"const":"untyped"},"weaponGroup":{"const":"advanced-melee-weapons"}}},
         {"type":"object","additionalProperties":false,"required":["target","amount","type","weaponGroup"],"properties":{"target":{"const":"multiattackReduction"},"amount":{"const":2},"type":{"const":"untyped"},"weaponGroup":{"const":"exotic-weapons"}}},
         {"type":"object","additionalProperties":false,"required":["target","amount","type","weaponGroup"],"properties":{"target":{"const":"multiattackReduction"},"amount":{"const":2},"type":{"const":"untyped"},"weaponGroup":{"const":"unarmed"}}},

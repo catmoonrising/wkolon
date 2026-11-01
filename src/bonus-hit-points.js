@@ -3,6 +3,7 @@ import {ambiguityValue} from './house-rules.js';
 export const bonusHP=c=>c.bonusHP??0;
 export function validateBonusHP(c,bad){
  if(c.bonusHP!==undefined&&(!Number.isInteger(c.bonusHP)||c.bonusHP<0||c.bonusHP>100000))bad('bonus HP');
+ if(c.bonusHPGrantsUsed!==undefined&&(!Array.isArray(c.bonusHPGrantsUsed)||new Set(c.bonusHPGrantsUsed).size!==c.bonusHPGrantsUsed.length||c.bonusHPGrantsUsed.some(id=>typeof id!=='string'||id.length>64)))bad('bonus HP grants');
  if(c.bonusHPTrigger!==undefined){const t=c.bonusHPTrigger;if(!t||typeof t!=='object'||Array.isArray(t)||Object.keys(t).join()!=='classLevel'||!Number.isInteger(t.classLevel)||t.classLevel<2||t.classLevel>10)bad('bonus HP trigger');}
 }
 export function grantBonusHP(c,amount){
@@ -11,17 +12,18 @@ export function grantBonusHP(c,amount){
 }
 export function clearBonusHPTrigger(c){delete c.bonusHPTrigger;}
 // Declared-event grants; the pool replaces only when larger, so sources never stack.
-export function declaredBonusHPGrants(pack,d){
+export function declaredBonusHPGrants(pack,d,c=null){
  if(d.recovery?.dead)return [];
  const conscious=!d.incapacitated;
- return (pack.rules.bonusHPGrants||[]).filter(r=>d.ctx.talents.some(t=>t.id===r.talentId&&!d.ctx.inactiveTalents.has(t.id))&&(!r.conscious||conscious)).map(r=>({...r,name:pack.talents.find(t=>t.id===r.talentId).name,amount:r.base+Math.floor(d.level/r.levelDivisor)}));
+ return (pack.rules.bonusHPGrants||[]).filter(r=>d.ctx.talents.some(t=>t.id===r.talentId&&!d.ctx.inactiveTalents.has(t.id))&&(!r.conscious||conscious)&&!(r.once&&c?.bonusHPGrantsUsed?.includes(r.id))).map(r=>({...r,name:pack.talents.find(t=>t.id===r.talentId).name,amount:r.base+Math.floor(d.level/r.levelDivisor)}));
 }
 export function claimDeclaredBonusHP(c,d,pack,id){
- const g=declaredBonusHPGrants(pack,d).find(r=>r.id===id);
+ const g=declaredBonusHPGrants(pack,d,c).find(r=>r.id===id);
  if(!g||g.amount<1)throw new Error('Bonus HP grant unavailable');
+ if(g.once)c.bonusHPGrantsUsed=[...(c.bonusHPGrantsUsed||[]),g.id];
  return {...grantBonusHP(c,g.amount),amount:g.amount,name:g.name};
 }
-export function clearBonusHP(c){delete c.bonusHP;clearBonusHPTrigger(c);}
+export function clearBonusHP(c){delete c.bonusHP;delete c.bonusHPGrantsUsed;clearBonusHPTrigger(c);}
 export function toughAsDurasteelLevel(c,pack,ctx,armorItems=[]){
  const rule=pack.rules.bonusHitPoints.toughAsDurasteel,level=ctx.classLevels.get(rule.classId)||0;
  return level>=rule.minimumLevel&&!ctx.inactiveClasses?.has(rule.classId)&&armorItems.every(r=>r.category===rule.armorCategory)?level:0;

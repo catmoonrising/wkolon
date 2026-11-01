@@ -3466,3 +3466,9 @@ Partial. Hammerblow prints "double your Strength bonus": it adds a positive bonu
 once more, only when the attack uses Strength. Weapon Specialization (Discblade) and
 Bugbite stay Manual: the Discblade, Razor Bug and Thud Bug are `manualAttack` items
 with no attack row. See docs/passive-weapon-talents.md.
+
+## Armored Augmentation and Vital Encouragement
+
+Armored Augmentation I and II and Vital Encouragement are Partial. Whether a Guardian
+Spirit is manifested is not tracked, and Vital Encouragement's article does not require
+it. See docs/armored-augmentation.md.
