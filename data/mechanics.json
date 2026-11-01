@@ -40692,8 +40692,8 @@
       },
       "repeat": "never",
       "reminder": "",
-      "effects": [],
-      "automation": "manual"
+      "effects": [{"target": "concealmentPenalty", "concealment": ["concealment"]}],
+      "automation": "partial"
     },
     {
       "id": "talent:knack",
@@ -45841,9 +45841,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target": "unarmedStrengthAttack"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:make-do",
@@ -49210,9 +49210,9 @@
         ]
       },
       "repeat": "stack",
-      "effects": [],
+      "effects": [{"target": "multiattackReduction", "amount": 2, "type": "untyped", "weaponGroup": "exotic-weapons"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:personal-vendetta",
@@ -49441,9 +49441,9 @@
         "requirements": []
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target": "concealmentPenalty", "concealment": ["concealment", "total"], "weaponGroups": ["pistols", "rifles"], "mode": "ranged"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:damaging-disarm",
@@ -52152,7 +52152,8 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual",
+      "countsAsTalents": ["talent:armored-defense","talent:improved-armored-defense"],
+      "automation": "partial",
       "manualPrerequisites": [
         "Prerequisite: Proficient with Armor"
       ]
@@ -53776,9 +53777,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target": "lightMeleeDexDamage"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:multiattack-proficiency-advanced-melee-weapons",
@@ -53790,9 +53791,9 @@
         "requirements": []
       },
       "repeat": "stack",
-      "effects": [],
+      "effects": [{"target": "multiattackReduction", "amount": 2, "type": "untyped", "weaponGroup": "advanced-melee-weapons"}],
       "reminder": "",
-      "automation": "manual",
+      "automation": "partial",
       "additionalTrees": [
         "tree:privateer"
       ]
@@ -59153,9 +59154,9 @@
         "requirements": []
       },
       "repeat": "stack",
-      "effects": [],
+      "effects": [{"target": "multiattackReduction", "amount": 2, "type": "untyped", "weaponGroup": "unarmed"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:hardened-strike",

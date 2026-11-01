@@ -3457,3 +3457,12 @@ Brilliant Defense, Indomitable Personality, Logic Upgrade: Self Defense and Bett
 Lucky than Dead are Partial. Preternatural Senses prints no duration for its
 Defense bonus and stays Manual until ruled on. See
 docs/encounter-defense-reactions.md.
+
+## Passive weapon talents
+
+Multiattack Proficiency (Advanced Melee Weapons, Exotic Weapons), Flurry of Blows,
+Master of Elegance, Hammerblow, Keen Shot, Blind Shot and Knight Armor Mastery are
+Partial. Hammerblow prints "double your Strength bonus": it adds a positive bonus
+once more, only when the attack uses Strength. Weapon Specialization (Discblade) and
+Bugbite stay Manual: the Discblade, Razor Bug and Thud Bug are `manualAttack` items
+with no attack row. See docs/passive-weapon-talents.md.

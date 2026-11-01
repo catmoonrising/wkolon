@@ -4938,6 +4938,7 @@
           "minimum": 1,
           "maximum": 20
         },
+        "countsAsTalents": {"type":"array","items":{"type":"string"}},
         "repeatGroup": {
           "type": "string",
           "pattern": "^talent:[a-z0-9-]+$"
@@ -5174,6 +5175,13 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target","amount","type","weaponGroup"],"properties":{"target":{"const":"multiattackReduction"},"amount":{"const":2},"type":{"const":"untyped"},"weaponGroup":{"const":"advanced-melee-weapons"}}},
+        {"type":"object","additionalProperties":false,"required":["target","amount","type","weaponGroup"],"properties":{"target":{"const":"multiattackReduction"},"amount":{"const":2},"type":{"const":"untyped"},"weaponGroup":{"const":"exotic-weapons"}}},
+        {"type":"object","additionalProperties":false,"required":["target","amount","type","weaponGroup"],"properties":{"target":{"const":"multiattackReduction"},"amount":{"const":2},"type":{"const":"untyped"},"weaponGroup":{"const":"unarmed"}}},
+        {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"lightMeleeDexDamage"}}},
+        {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"unarmedStrengthAttack"}}},
+        {"type":"object","additionalProperties":false,"required":["target","concealment"],"properties":{"target":{"const":"concealmentPenalty"},"concealment":{"const":["concealment"]}}},
+        {"type":"object","additionalProperties":false,"required":["target","concealment","weaponGroups","mode"],"properties":{"target":{"const":"concealmentPenalty"},"concealment":{"const":["concealment","total"]},"weaponGroups":{"const":["pistols","rifles"]},"mode":{"const":"ranged"}}},
         {"type":"object","additionalProperties":false,"required":["target","skill","steps"],"properties":{"target":{"const":"forcePointCheckDie"},"skill":{"const":"skill:deception"},"steps":{"const":2}}},
         {"type":"object","additionalProperties":false,"required":["target","skill","steps"],"properties":{"target":{"const":"forcePointCheckDie"},"skill":{"const":"skill:survival"},"steps":{"const":2}}},
         {"type":"object","additionalProperties":false,"required":["target","skill","steps"],"properties":{"target":{"const":"forcePointCheckDie"},"skill":{"const":"skill:knowledge-life-sciences"},"steps":{"const":2}}},
