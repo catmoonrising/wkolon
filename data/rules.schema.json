@@ -5173,6 +5173,13 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target","skill","steps"],"properties":{"target":{"const":"forcePointCheckDie"},"skill":{"const":"skill:deception"},"steps":{"const":2}}},
+        {"type":"object","additionalProperties":false,"required":["target","skill","steps"],"properties":{"target":{"const":"forcePointCheckDie"},"skill":{"const":"skill:survival"},"steps":{"const":2}}},
+        {"type":"object","additionalProperties":false,"required":["target","skill","steps"],"properties":{"target":{"const":"forcePointCheckDie"},"skill":{"const":"skill:knowledge-life-sciences"},"steps":{"const":2}}},
+        {"type":"object","additionalProperties":false,"required":["target","skill","steps"],"properties":{"target":{"const":"forcePointCheckDie"},"skill":{"const":"skill:perception"},"steps":{"const":2}}},
+        {"type":"object","additionalProperties":false,"required":["target","skill","steps"],"properties":{"target":{"const":"forcePointCheckDie"},"skill":{"const":"$choice"},"steps":{"const":1}}},
+        {"type":"object","additionalProperties":false,"required":["target","weapons","steps"],"properties":{"target":{"const":"forcePointAttackDie"},"weapons":{"const":["equipment:atlatl","equipment:cesta"]},"steps":{"const":1}}},
+        {"type":"object","additionalProperties":false,"required":["target","weapons","type"],"properties":{"target":{"const":"forcePointAttackDamage"},"weapons":{"const":["equipment:bowcaster"]},"type":{"const":"competence"}}},
         {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type","circumstance"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:perception"},"application":{"const":"perception-concealed-target"},"amount":{"const":5},"type":{"const":"circumstance"},"circumstance":{"const":"hidden-eyes"}}},
         {"type":"object","additionalProperties":false,"required":["target","multiplier"],"properties":{"target":{"const":"oneHandedStrengthDamage"},"multiplier":{"const":2}}},
         {"type":"object","additionalProperties":false,"required":["target","skill","application","amount","type"],"properties":{"target":{"const":"skillApplicationBonus"},"skill":{"const":"skill:use-computer"},"application":{"const":"astrogate-starship"},"amount":{"const":5},"type":{"const":"species"}}},

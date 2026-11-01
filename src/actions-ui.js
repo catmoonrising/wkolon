@@ -270,12 +270,12 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   else if(el.dataset.recoverPower){action='recover-power';o={powerId:el.dataset.recoverPower};draft={id:action,o};owner=c.id;category='reaction';form();return true;}
   else if(el.dataset.energyActivate||el.dataset.energyRecharge){action=el.dataset.energyActivate?'shield':'shield-recharge';o={uid:el.dataset.energyActivate||el.dataset.energyRecharge};}
   else if(el.dataset.defenseStance==='total'){action='total-defense';}
-  else if(el.dataset.action==='force-point-roll'){action='force-bonus';}
+  else if(el.dataset.action==='force-point-roll'){action='force-bonus';if(el.dataset.forceSkill)o={skill:el.dataset.forceSkill};}
   if(el.hasAttribute('data-power-end-turn')||id==='other-turn'){try{endCurrentTurn(c,pack);changed();}catch(e){error(e.message);}return true;}
   if(el.hasAttribute('data-power-rest')){try{clearResistancePowers(c);endTrackedCombat(c);}catch(e){error(e.message);return true;}return false;}
   if(el.hasAttribute('data-next-turn')){try{nextTurn();}catch(e){error(e.message);}return true;}
   if(!action)return false;
-  try{const r=takeAction(c,pack,action,o);log('roll',r.text,r.html);changed();}catch(e){error(e.message);}return true;
+  try{const r=takeAction(c,pack,action,o);log('roll',r.text,r.html,!!o?.skill);changed();}catch(e){error(e.message);}return true;
  }
  document.getElementById('actions-close').addEventListener('click',()=>panel.close());
  return {render,legacy,

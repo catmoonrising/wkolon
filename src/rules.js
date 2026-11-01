@@ -1,3 +1,4 @@
+import {forcePointCheckDice,forcePointAttackRules} from './force-point-dice.js';
 import {validateOutgoingPowerState,activeOutgoingPowers} from './outgoing-powers.js';
 import {validateFarseeing} from './farseeing.js';
 import {validateRepulse} from './repulse.js';
@@ -724,7 +725,7 @@ export function derive(c, pack) {
     speed, speedBreakdown, runMultiplier, runSpeed: speed * runMultiplier,
     scentRange:species.scentRange?Math.max(species.scentRange,...effects.filter(e=>e.target==='scentRange').map(e=>e.range)):undefined,
     speeds: Object.fromEntries(Object.entries(species.speeds||{}).map(([type,n])=>[type,type==='fly'&&species.flightHeavyLoadForbidden&&load.heavy?0:move(n+(type==='swim'?total('swimSpeed'):type==='climb'?total('climbSpeed'):0))])),
-    incapacitated: droidSystems.inoperative || c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forcePointsForbidden:!!(species.forceImmune||ctx.forceRestrictions.forbidPoints), forceMaximum, forceCurrent:forceForbidden?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointDice:level<8?1:level<15?2:3,pointCost,hpGains,
+    incapacitated: droidSystems.inoperative || c.condition === 5 || c.currentHP===0 || recoveryState(c).dead, forcePointsForbidden:!!(species.forceImmune||ctx.forceRestrictions.forbidPoints), forceMaximum, forceCurrent:forceForbidden?0:c.forcePoints,forcePointDie:Math.max(6,total('forcePointDie')),forcePointCheckDice:forcePointCheckDice(effects,Math.max(6,total('forcePointDie'))),forcePointAttackRules:forcePointAttackRules(effects),forcePointDice:level<8?1:level<15?2:3,pointCost,hpGains,
     weightUnknown:carried.some(e=>droidCarryingWeight(c,pack,e,resolveEquipment(e,pack,c).weight)===null),weight,load,
     nextXP: level < 20 ? level * (level + 1) / 2 * pack.rules.resources.xpStep : null};
 }

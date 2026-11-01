@@ -327,6 +327,8 @@ export function validatePack(p) {
           const skills={failedBlockOrDeflect:'skill:use-the-force',sensors:'skill:use-computer',haggle:'skill:persuasion','jury-rig':'skill:mechanics','oppose-sense-force':'skill:use-the-force','sense-dark-side':'skill:use-the-force','improve-access':'skill:use-computer','intimidate-undisguised':'skill:persuasion','locate-individual':'skill:gather-information'};
           assert(e.when==='always'||Object.hasOwn(skills,e.when)&&skills[e.when]===e.skill,'Invalid reroll scope');continue;
         }
+        if(e.target==='forcePointCheckDie'){assert.deepEqual(Object.keys(e).sort(),['skill','steps','target']);assert(r.automation==='partial'&&(e.skill==='$choice'?r.choiceType==='skill'&&e.steps===1:e.steps===2),'Unsupported Force Point die');if(e.skill!=='$choice')requireRef('skills',e.skill);continue;}
+        if(e.target==='forcePointAttackDie'||e.target==='forcePointAttackDamage'){assert(r.automation==='partial'&&Array.isArray(e.weapons)&&e.weapons.length>0,'Unsupported Force Point attack effect');e.weapons.forEach(w=>requireRef('equipment',w));continue;}
         if(e.target==='skillRerollBest'){assert.deepEqual(Object.keys(e).sort(),['skill','target']);requireRef('skills',e.skill);continue;}
         if(e.target==='defenseAbility'){assert.deepEqual(Object.keys(e).sort(),['ability','defense','target']);assert(({reflex:['int'],fortitude:['str','cha'],will:['cha']})[e.defense]?.includes(e.ability),'Unsupported defense ability');continue;}
         if(e.target==='hazardImmunity'){assert.equal(r.id,'talent:fortified-body');assert.deepEqual(e,{target:'hazardImmunity',hazards:['poison','radiation','disease']});assert.equal(r.automation,'partial');continue;}

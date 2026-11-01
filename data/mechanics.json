@@ -36425,9 +36425,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target": "forcePointAttackDamage", "weapons": ["equipment:bowcaster"], "type": "competence"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:clawed-subspecies",
@@ -36682,9 +36682,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target": "forcePointAttackDie", "weapons": ["equipment:atlatl", "equipment:cesta"], "steps": 1}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:hunter-s-instincts",
@@ -36723,9 +36723,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target": "forcePointCheckDie", "skill": "skill:deception", "steps": 2}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:imperial-military-training",
@@ -36895,9 +36895,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target": "forcePointCheckDie", "skill": "skill:survival", "steps": 2}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:mind-of-reason",
@@ -36967,9 +36967,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target": "forcePointCheckDie", "skill": "skill:knowledge-life-sciences", "steps": 2}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:perfect-intuition",
@@ -37244,9 +37244,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target": "forcePointCheckDie", "skill": "skill:perception", "steps": 2}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:shrewd-bargainer",
@@ -58620,9 +58620,9 @@
         ]
       },
       "repeat": "choice",
-      "effects": [],
+      "effects": [{"target": "forcePointCheckDie", "skill": "$choice", "steps": 1}],
       "reminder": "",
-      "automation": "manual",
+      "automation": "partial",
       "choiceType": "skill",
       "choiceLabel": "Skill"
     },

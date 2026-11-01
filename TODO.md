@@ -215,3 +215,5 @@
 
 - [x] Thirteen skill-reroll talents, explicit application scopes, independent species/talent uses, ordered keeping/replacement and immediate-check eligibility.
 - [ ] Daily/encounter reroll resources, enemy-forced rerolls and their interactions with deferred action effects.
+
+- [x] Force Point dice for Imperceptible Liar, Master Tracker, Nature Specialist, Sharp Senses, Skill Boon and Gungan Weapon Master; Bowcaster Marksman damage.

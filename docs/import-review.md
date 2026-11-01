@@ -3441,3 +3441,12 @@ legacy-only state, result and error behavior. Object identity, actual DR/CT,
 repair and overlapping external effects remain declared/GM-applied, so Partial.
 See docs/cryokinesis.md for pinned sources, exact save contracts and the
 explicitly inferred retiering reading.
+
+## Force Point dice
+
+Imperceptible Liar, Master Tracker, Nature Specialist, Sharp Senses, Skill Boon,
+Gungan Weapon Master and Bowcaster Marksman are Partial. The Feats print d6 to d10
+and d8 to d12; only Skill Boon prints a d12 maximum. Reading: steps from different
+records add up on one check, and d12 is the maximum for all of them. Bowcaster
+Marksman's competence damage has no other competence damage to stack against yet.
+See docs/force-point-dice.md.
