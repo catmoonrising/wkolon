@@ -521,7 +521,7 @@ export function derive(c, pack) {
     const clsBonus = Math.max(0, ...[...ctx.classLevels.keys()].filter(id=>!ctx.inactiveClasses.has(id)).map(id => ix.classes.get(id).defenses[key] || 0));
     const base = key === 'reflex' ? reflexBase : level;
     const ability=defenseAbilities[key].modifier;
-    const sp = species.defenses[key] || 0;
+    const speciesSwap=ctx.feats.find(f=>f.id==='feat:inborn-resilience')?.choice?.split('-');const sp = speciesSwap?.[0]===key?0:speciesSwap?.[1]===key?2:species.defenses[key] || 0;
     const armorFortitude=Math.max(0,...armorItems.filter(r=>armorProficient(r,ctx)).map(r=>r.fortitudeBonus+armorEffect(r,'armorFortitude')));
     const equipment=key==='fortitude'?armorFortitude:key==='will'&&total('armorFortitudeToWill')?armorFortitude:0;
     const defenseEffects=[...effects.filter(e=>(e.target==='defenses'||e.target==='defenseBonus'&&e.defense===key)&&(e.when==='fightDefensively'?defensiveCombat.stance!=='none':applies(e))).map(e=>({...e,amount:e.classLevel?(ctx.inactiveClasses.has(e.classLevel)?0:ctx.classLevels.get(e.classLevel)||0):e.amount*(e.perLevel?level:1)})),...effects.filter(e=>e.target==='talismanDefense'&&talismans.has(e.talisman==='all'?'all':key))];

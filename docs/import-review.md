@@ -3472,3 +3472,9 @@ with no attack row. See docs/passive-weapon-talents.md.
 Armored Augmentation I and II and Vital Encouragement are Partial. Whether a Guardian
 Spirit is manifested is not tracked, and Vital Encouragement's article does not require
 it. See docs/armored-augmentation.md.
+
+## Inborn Resilience
+
+Inborn Resilience is Partial. The selected pair replaces two Zabrak species
+Defense bonuses, leaving the third unchanged. Reopening the build editor can
+revise the choice; it is not a combat toggle. See [inborn-resilience.md](inborn-resilience.md).

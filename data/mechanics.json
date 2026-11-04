@@ -36740,24 +36740,7 @@
       "reminder": "",
       "automation": "manual"
     },
-    {
-      "id": "feat:inborn-resilience",
-      "name": "Inborn Resilience",
-      "sourceId": "source:wiki-inborn-resilience",
-      "prerequisite": {
-        "kind": "all",
-        "requirements": [
-          {
-            "kind": "species",
-            "value": "Zabrak"
-          }
-        ]
-      },
-      "repeat": "never",
-      "effects": [],
-      "reminder": "",
-      "automation": "manual"
-    },
+    {"id": "feat:inborn-resilience", "name": "Inborn Resilience", "sourceId": "source:wiki-inborn-resilience", "prerequisite": {"kind": "all", "requirements": [{"kind": "species", "value": "Zabrak"}]}, "repeat": "never", "effects": [], "reminder": "", "automation": "partial", "choiceType": "enum", "choiceOptions": [{"id": "reflex-fortitude", "name": "Reflex +0, Fortitude +2"}, {"id": "reflex-will", "name": "Reflex +0, Will +2"}, {"id": "fortitude-reflex", "name": "Fortitude +0, Reflex +2"}, {"id": "fortitude-will", "name": "Fortitude +0, Will +2"}, {"id": "will-reflex", "name": "Will +0, Reflex +2"}, {"id": "will-fortitude", "name": "Will +0, Fortitude +2"}]},
     {
       "id": "feat:increased-resistance",
       "name": "Increased Resistance",

@@ -220,3 +220,5 @@
 - [x] Once-per-encounter Defense reactions: Brilliant Defense, Indomitable Personality, Logic Upgrade: Self Defense and Better Lucky than Dead.
 - [x] Passive weapon talents: Multiattack Proficiency (Advanced Melee, Exotic), Flurry of Blows, Master of Elegance, Hammerblow, Keen Shot, Blind Shot and Knight Armor Mastery.
 - [x] Armored Augmentation I and II Damage Threshold and DR; Vital Encouragement once-per-encounter Bonus Hit Points.
+
+- Inborn Resilience: reviewed selectable defense pair, Partial.
