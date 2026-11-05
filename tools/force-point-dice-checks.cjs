@@ -2,7 +2,7 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 module.exports=async(browser,base,root,transport)=>{
  const rules=await import('../src/rules.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))),make=require('./force-point-dice-fixtures.cjs')(pack,rules);
  const c=make.twilek('skill:persuasion'),ctx=await browser.newContext({viewport:{width:1440,height:1050}}),page=await ctx.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);
- await ctx.addInitScript(roster=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster));window.__pointRolls=0;Math.random=()=>{window.__pointRolls++;return .6;};},{schemaVersion:1,activeId:c.id,characters:[c]});
+ await ctx.addInitScript(roster=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster));window.__pointRolls=0;Math.random=()=>{if(new Error().stack.includes('/src/dice.js'))window.__pointRolls++;return .6;};},{schemaVersion:1,activeId:c.id,characters:[c]});
  const saved=()=>page.evaluate(()=>{const r=JSON.parse(localStorage.getItem('wkolon-roster-v1'));return r.characters.find(c=>c.id===r.activeId);});
  const settle=()=>page.waitForFunction(()=>document.querySelector('#save-status').textContent==='Saved');
  try{
@@ -14,7 +14,7 @@ module.exports=async(browser,base,root,transport)=>{
   await close();await page.reload();await button.waitFor();assert.equal(await button.innerText(),'Force Point d10');
   await page.locator('#module-actions [data-turn-next]').click();await settle();await button.click();await settle();await close();
   const tracked=await saved();assert.equal(tracked.forcePoints,fp-2);assert(tracked.actionState.forceSpent);assert.equal(tracked.actionState.plan.at(-1).action,'force-bonus');assert.equal(tracked.actionState.plan.at(-1).options.skill,'skill:deception');
-  const rolls=await page.evaluate(()=>window.__pointRolls);await button.click();assert.match(await page.locator('#message').innerText(),/already spent/);assert.deepEqual(await saved(),tracked);assert.equal(await page.evaluate(()=>window.__pointRolls),rolls);
+  const rolls=await page.evaluate(()=>window.__pointRolls);assert(rolls>0,'dice instrumentation saw the successful roll');await button.click();assert.match(await page.locator('#message').innerText(),/already spent/);assert.deepEqual(await saved(),tracked);assert.equal(await page.evaluate(()=>window.__pointRolls),rolls);
   if(transport){if(transport.prime)await transport.prime(page);await transport.offline();await page.reload();await button.waitFor();assert.equal(await button.innerText(),'Force Point d10');assert.deepEqual(await saved(),tracked);await transport.online();}
   await page.locator('#module-actions [data-turn-next]').click();await settle();await button.click();await settle();await close();assert.equal((await saved()).forcePoints,fp-3);
   await page.setViewportSize({width:390,height:844});assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(root,'.build/force-point-'+browser.browserType().name()+'-mobile.png')});assert.deepEqual(errors,[]);
