@@ -4,5 +4,6 @@ module.exports=(pack,api)=>{
  function hero(feats,talent,classId='class:scoundrel'){const c=api.newCharacter(pack,{classId});c.name='Encounter Defense reactions';c.species='species:human';c.abilityMethod='manual';c.abilities={str:10,dex:14,con:12,int:16,wis:10,cha:16};c.levels[0].feats=feats.map(id=>({id:'feat:'+id}));c.levels[0].talent=talent;fill(c,['skill:deception','skill:perception']);c.currentHP=api.derive(c,pack).hp;return finish(c);}
  const both=()=>hero(['brilliant-defense','indomitable-personality'],{id:'talent:fool-s-luck'});
  function lucky(){const c=both();c.levels.push({classId:'class:scoundrel',hpRoll:4,feats:[{id:'feat:skill-focus',choice:'skill:perception'}],talent:null,startingFeat:null,abilityIncreases:[],trainedSkills:[]},{classId:'class:scoundrel',hpRoll:4,feats:[{id:'feat:toughness'}],talent:{id:'talent:better-lucky-than-dead'},startingFeat:null,abilityIncreases:[],trainedSkills:[]});c.currentHP=api.derive(c,pack).hp;return finish(c);}
- return {both,lucky};
+ function droid(){const c=require('./class-defense-fixtures.cjs')(pack,api).droid();c.name='Logic Upgrade';c.levels[0].feats=[{id:'feat:logic-upgrade-self-defense'}];c.currentHP=api.derive(c,pack).hp;return finish(c);}
+ return {both,lucky,droid};
 };

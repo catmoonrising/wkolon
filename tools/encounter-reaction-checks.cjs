@@ -1,6 +1,6 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 module.exports=async(browser,base,root)=>{
- const rules=await import('../src/rules.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))),make=require('./encounter-reaction-fixtures.cjs')(pack,rules);
+ const rules=await import('../src/rules.js'),profiles=await import('../src/ability-profiles.js'),generation=await import('../src/ability-generation.js'),species=await import('../src/species-choices.js'),installation=await import('../src/droid-installation.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))),make=require('./encounter-reaction-fixtures.cjs')(pack,{...rules,...profiles,...generation,...species,...installation});
  const c=make.lucky(),start=rules.derive(c,pack).defenses,ctx=await browser.newContext({viewport:{width:1440,height:1050}}),page=await ctx.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(15000);
  await ctx.addInitScript(roster=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify(roster));},{schemaVersion:1,activeId:c.id,characters:[c]});
  const value=k=>page.locator(`[data-defense="${k}"]`).innerText().then(Number),saved=()=>page.evaluate(()=>{const r=JSON.parse(localStorage.getItem('wkolon-roster-v1'));return r.characters.find(c=>c.id===r.activeId);});

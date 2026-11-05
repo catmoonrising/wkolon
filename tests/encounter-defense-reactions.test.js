@@ -3,10 +3,14 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import make from '../tools/encounter-reaction-fixtures.cjs';
 import * as api from '../src/rules.js';
+import * as profiles from '../src/ability-profiles.js';
+import * as generation from '../src/ability-generation.js';
+import * as species from '../src/species-choices.js';
+import * as installation from '../src/droid-installation.js';
 import {takeAction,beginNextTurn,endCurrentTurn,endTrackedCombat} from '../src/action-engine.js';
-import {newEncounter} from '../src/recovery.js';
+import {newEncounter,setDead} from '../src/recovery.js';
 import {validatePack} from '../tools/validate-rules.js';
-const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),f=make(pack,api);
+const pack=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),f=make(pack,{...api,...profiles,...generation,...species,...installation});
 const noRoll=()=>{throw Error('Should not roll');};
 let triggers=0;
 const react=(c,id,o={})=>takeAction(c,pack,id,{trigger:'Attack '+(++triggers),...o},noRoll);
@@ -42,4 +46,37 @@ test('losing the record suppresses the benefit and unowned reactions are refused
 });
 test('invalid saves are rejected',()=>{
  for(const change of [c=>{c.defenseReactions=[{id:'brilliant-defense',defense:'will',until:'start-next-turn',endsRemaining:1,ended:true}];c.defenseReactionsUsed=['brilliant-defense'];},c=>{c.defenseReactions=[{id:'brilliant-defense',defense:'reflex',until:'start-next-turn',endsRemaining:1,ended:true}];},c=>{c.defenseReactionsUsed=['nope'];},c=>{c.defenseReactions=[{id:'brilliant-defense',defense:'reflex',until:'end-next-turn',endsRemaining:1,ended:true}];c.defenseReactionsUsed=['brilliant-defense'];},c=>{c.defenseReactionsUsed=['brilliant-defense','brilliant-defense'];}]){const c=f.both();change(c);assert.throws(()=>api.validateCharacter(c,pack));}
+});
+
+test('a legal custom Droid can choose each Defense and retains the bonus until its next turn ends',()=>{
+ for(const defense of ['reflex','fortitude','will']){
+  const c=f.droid(),base=api.derive(c,pack).defenses,fp=c.forcePoints;assert.deepEqual(api.derive(c,pack).issues,[]);
+  react(c,'logic-upgrade-self-defense',{defense});assert.equal(def(c,defense),base[defense]+2);assert.equal(c.forcePoints,fp);
+  for(const other of ['reflex','fortitude','will'].filter(x=>x!==defense))assert.equal(def(c,other),base[other]);
+  const restored=JSON.parse(JSON.stringify(c));api.validateCharacter(restored,pack);beginNextTurn(restored,pack);assert.equal(def(restored,defense),base[defense]+2);endCurrentTurn(restored,pack);assert.equal(def(restored,defense),base[defense]);assert.deepEqual(restored.defenseReactionsUsed,['logic-upgrade-self-defense']);
+ }
+});
+test('death clears active effects without refunding an encounter use on revival',()=>{
+ const c=f.both();beginNextTurn(c,pack);react(c,'brilliant-defense');setDead(c,true,pack);
+ assert.equal(c.defenseReactions,undefined);assert.deepEqual(c.defenseReactionsUsed,['brilliant-defense']);
+ setDead(c,false,pack);c.currentHP=1;c.condition=4;beginNextTurn(c,pack);const before=structuredClone(c);
+ assert.deepEqual(api.derive(c,pack).issues,[]);assert.throws(()=>react(c,'brilliant-defense'),/Already used/);assert.deepEqual(c,before);
+ newEncounter(c);react(c,'brilliant-defense');assert.deepEqual(c.defenseReactionsUsed,['brilliant-defense']);
+});
+test('morale and luck reactions share typed stacking with applicable existing effects',()=>{
+ for(const [make,id,type,amount] of [[f.droid,'logic-upgrade-self-defense','morale',2],[f.lucky,'better-lucky-than-dead','luck',5]]){
+  const local=structuredClone(pack),c=make();
+  // The fixture supplies an owned record; extra typed rows model competing
+  // contributions without introducing another official automation family.
+  const owned=local.talents.find(r=>r.id===c.levels[0].talent.id);owned.effects.push({target:'defenses',amount:amount+1,type});
+  const base=api.derive(c,local).defenses;beginNextTurn(c,local);takeAction(c,local,id,{defense:'will',trigger:'Attack'},noRoll);assert.equal(api.derive(c,local).defenses.will,base.will);
+ }
+});
+test('impossible expiry saves and changed defense scopes are rejected',()=>{
+ for(const row of [
+  {id:'brilliant-defense',defense:'reflex',until:'start-next-turn',endsRemaining:2,ended:true},
+  {id:'brilliant-defense',defense:'reflex',until:'start-next-turn',endsRemaining:1,ended:false},
+  {id:'indomitable-personality',defense:'will',until:'end-next-turn',endsRemaining:2,ended:true}
+ ]){const c=f.both();c.defenseReactions=[row];c.defenseReactionsUsed=[row.id];assert.throws(()=>api.validateCharacter(c,pack),/defense reactions/);}
+ for(const change of [p=>p.rules.encounterDefenseReactions[0].defenses=['will'],p=>p.rules.encounterDefenseReactions[2].defenses=['will','will','will'],p=>p.rules.encounterDefenseReactions[1].sourceIds.pop()]){const bad=structuredClone(pack);change(bad);assert.throws(()=>validatePack(bad),/Changed Defense reaction/);}
 });

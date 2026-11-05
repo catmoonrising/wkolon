@@ -8,7 +8,7 @@ function validateDefenseReactions(c,pack,bad){
  const used=c.defenseReactionsUsed,rows=c.defenseReactions;
  if(used!==undefined&&(!Array.isArray(used)||new Set(used).size!==used.length||used.some(id=>!defenseReactionRule(pack,id))))bad('defense reactions');
  if(rows===undefined)return;
- if(!Array.isArray(rows)||new Set(rows.map(r=>r?.id)).size!==rows.length||rows.some(r=>!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).sort().join()!=='defense,ended,endsRemaining,id,until'||!defenseReactionRule(pack,r.id)?.defenses.includes(r.defense)||defenseReactionRule(pack,r.id).duration!==r.until||![1,2].includes(r.endsRemaining)||typeof r.ended!=='boolean'||!used?.includes(r.id)))bad('defense reactions');
+ if(!Array.isArray(rows)||new Set(rows.map(r=>r?.id)).size!==rows.length||rows.some(r=>!r||typeof r!=='object'||Array.isArray(r)||Object.keys(r).sort().join()!=='defense,ended,endsRemaining,id,until'||!defenseReactionRule(pack,r.id)?.defenses.includes(r.defense)||defenseReactionRule(pack,r.id).duration!==r.until||![1,2].includes(r.endsRemaining)||typeof r.ended!=='boolean'||(r.until==='start-next-turn'?(r.endsRemaining!==1||!r.ended):r.endsRemaining===2&&r.ended)||!used?.includes(r.id)))bad('defense reactions');
 }
 export function validateReactionTalents(c,pack,bad){
  validateDefenseReactions(c,pack,bad);
@@ -33,7 +33,7 @@ export function reactionTalentPlan(c,d,pack,id,o){
 }
 const defenseAmount=(rule,mods)=>rule.ability?mods[rule.ability]:rule.amount;
 export const defenseReactionEffects=(c,pack,ctx,mods)=>(c.defenseReactions||[]).flatMap(s=>{const rule=defenseReactionRule(pack,s.id);return ownsRecord(ctx,rule.recordId)?[{target:'defenseBonus',defense:s.defense,amount:defenseAmount(rule,mods),type:rule.type}]:[];});
-export const activeDefenseReactions=(c,pack,ctx,mods)=>(c.defenseReactions||[]).flatMap(s=>{const rule=defenseReactionRule(pack,s.id);return ownsRecord(ctx,rule.recordId)?[{...s,rule,name:[...pack.feats,...pack.talents].find(r=>r.id===rule.recordId).name,benefit:s.defense[0].toUpperCase()+s.defense.slice(1)+' +'+defenseAmount(rule,mods)}]:[];});
+export const activeDefenseReactions=(c,pack,ctx,mods)=>(c.defenseReactions||[]).flatMap(s=>{const rule=defenseReactionRule(pack,s.id);return ownsRecord(ctx,rule.recordId)?[{...s,rule,name:[...pack.feats,...pack.talents].find(r=>r.id===rule.recordId).name,benefit:s.defense[0].toUpperCase()+s.defense.slice(1)+' '+(defenseAmount(rule,mods)>=0?'+':'')+defenseAmount(rule,mods)}]:[];});
 export function defenseReactionPlan(c,d,pack,id,o){
  const rule=defenseReactionRule(pack,id);
  if(!rule||!ownsRecord(d.ctx,rule.recordId))throw new Error('Talent unavailable');
@@ -47,4 +47,4 @@ function turnDefenseReactions(c,update){if(!c.defenseReactions)return;c.defenseR
 export function applyReactionTalent(c,id,{endsRemaining,ended}){c.reactionTalents=(c.reactionTalents||[]).filter(s=>s.id!==id);c.reactionTalents.push({id,endsRemaining,ended});}
 export function endReactionTalentTurn(c){turnDefenseReactions(c,endTurnEffects);if(!c.reactionTalents)return;c.reactionTalents=endTurnEffects(c.reactionTalents);if(!c.reactionTalents.length)delete c.reactionTalents;}
 export function startReactionTalentTurn(c){turnDefenseReactions(c,rows=>startTurnEffects(rows.filter(r=>r.until!=='start-next-turn')));if(!c.reactionTalents)return;c.reactionTalents=startTurnEffects(c.reactionTalents);if(!c.reactionTalents.length)delete c.reactionTalents;}
-export function clearReactionTalents(c){delete c.reactionTalents;delete c.defenseReactions;delete c.defenseReactionsUsed;}
+export function clearReactionTalents(c,{resetUses=true}={}){delete c.reactionTalents;delete c.defenseReactions;if(resetUses)delete c.defenseReactionsUsed;}
