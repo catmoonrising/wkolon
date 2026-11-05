@@ -1,4 +1,4 @@
-import {forcePointExpression,forcePointDieFor,forcePointAddsDamage} from './force-point-dice.js';
+import {rollForcePoint,forcePointDamageIncrease} from './force-point-dice.js';
 import {outgoingPowerRule,outgoingPowerSnapshot,outgoingMaintenancePlan,endOutgoingPowerTurn,pendingOutgoingChecks} from './outgoing-powers.js';
 import {assertMaintenanceResolved as assertResistanceResolved,pendingMaintenanceChecks as pendingResistanceChecks,recordMaintenanceDamageCheck as recordResistanceDamageCheck,finishMaintenanceDamageCheck as finishResistanceDamageCheck,releaseMaintenancePower as removeResistancePower,maintenanceCheckRule} from './maintenance-checks.js';
 import {farseeingPowerRule,farseeingPowerSnapshot,farseeingOutcome} from './farseeing.js';
@@ -216,7 +216,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  const d=v.derived;let r;
  if(id==='attack'||id==='full-attack'||id==='routine'){
   const routine=structuredClone(v.routine);let fp;
-  if(o.fp==='before'){const attack=d.attacks.find(a=>a.uid===routine.steps[0].attackId);fp=roller(forcePointExpression(d,{attack}));routine.steps[0].attackMod+=fp.value;if(forcePointAddsDamage(d,attack))routine.steps[0].damageMod+=fp.value;c.forcePoints--;c.actionState.forceSpent=true;}
+  if(o.fp==='before'){const attack=d.attacks.find(a=>a.uid===routine.steps[0].attackId);fp=rollForcePoint(d,{attack},roller);routine.steps[0].attackMod+=fp.value;routine.steps[0].damageMod+=forcePointDamageIncrease(d,attack,fp.value);c.forcePoints--;c.actionState.forceSpent=true;}
   r=rollCombatRoutine(routine,d,pack,roller);spendAttackResources(c,r);if(fp){r.text+='; Force Point +'+fp.value;r.html+='<div>Force Point: '+fp.display+' = '+totalHtml(fp)+'</div>';}
  }else if(id==='full-attack-step'||id==='routine-step'){r=rollRoutineStep(c,d,pack,o.routineId,roller);spendAttackResources(c,r);}
  else if(id==='charge'){r=rollCharge(c,d,pack,o.uid,roller);spendAttackResources(c,r);endTurnFeatEffects(c);endSelfPowerTurn(c);endOutgoingPowerTurn(c);endReactionTalentTurn(c);endTriggerTurn(c);endRagePowerTurn(c);advanceRegenerativeHealing(c,pack);c.actionState.ended=true;}
@@ -269,7 +269,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(v.triggeredDefense)setTriggeredDefense(c,pack,d.ctx,id,true,{flatFooted:d.flatFooted});
  else if(id==='total-defense')declareDefenseStance(c,d,'total');
  else if(id==='encounter-talent'){invalidate(c);applyTalentActivation(c,o.talentId,o.choice);c.forcePoints-=v.forceCost;r={text:v.name+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
- else if(id==='force-bonus'){const x=roller(forcePointExpression(d,{skill:o.skill})),name=o.skill?d.skills.find(s=>s.id===o.skill).name+': ':'';c.forcePoints--;r={text:name+'Force Point: +'+x.value,html:escape(name)+x.display+' = '+totalHtml(x)};}
+ else if(id==='force-bonus'){const x=rollForcePoint(d,{skill:o.skill},roller),name=o.skill?d.skills.find(s=>s.id===o.skill).name+': ':'';c.forcePoints--;r={text:name+'Force Point: +'+x.value,html:escape(name)+x.display+' = '+totalHtml(x)};}
  else if(id==='power'){
   if(v.negation)o.incoming=structuredClone(v.negation.incoming);
   const copy=c.levels.flatMap(l=>l.forcePowers||[]).find(p=>p.id===o.powerId);copy.action=v.power.action;
@@ -337,7 +337,7 @@ export function finishForceChoice(c,pack,stepId,spend,roller=evalExpr){
   const d=derive(q,pack);assert(!s.forceSpent&&d.forceCurrent>0,'Force Point unavailable');
   if(mode==='bonus'){
    const skillAction=step.action==='jump'||step.action==='maintain-power'&&!!step.options.maintenancePowerSnapshot||pack.rules.skillActions?.some(r=>r.id===step.action),power=skillAction?null:d.forcePowers.find(p=>p.copyId===step.options.powerId);
-   assert(step.result.fpAllowed&&(skillAction||power)&&checkForcePointAvailable(q,d,{power,reaction:step.options.action==='reaction'}),'Force Point bonus unavailable');const context={skill:step.action==='jump'?'skill:jump':pack.rules.skillActions?.find(r=>r.id===step.action)?.skillId||'skill:use-the-force'};extra=roller(forcePointExpression(d,context));assert(Number.isInteger(extra.value)&&extra.value>=1&&extra.value<=forcePointDieFor(d,context),'Invalid Force Point roll');step.result.check.total+=extra.value;step.result.text+='; Force Point +'+extra.value+' = '+step.result.check.total;
+   assert(step.result.fpAllowed&&(skillAction||power)&&checkForcePointAvailable(q,d,{power,reaction:step.options.action==='reaction'}),'Force Point bonus unavailable');const context={skill:step.action==='jump'?'skill:jump':pack.rules.skillActions?.find(r=>r.id===step.action)?.skillId||'skill:use-the-force'};extra=rollForcePoint(d,context,roller);step.result.check.total+=extra.value;step.result.text+='; Force Point +'+extra.value+' = '+step.result.check.total;
   }else {assert(step.result.enhanceAllowed,'Enhancement unavailable');step.result.text+=(confirmation?'; Hit confirmed':'')+'; Force Points -1'+(step.action==='power'&&selfPowerRule(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id)&&!historicalManualPower(pack,derive(q,pack).forcePowers.find(p=>p.copyId===step.options.powerId)?.id,step.options)?'':'; enhancement manual');}
   q.forcePoints--;s.forceSpent=true;
  }
@@ -444,7 +444,7 @@ export function finishResistanceMaintenance(c,pack,id,spend=false,roller=evalExp
  assert(typeof spend==='boolean','Invalid Force Point choice');const q=structuredClone(c),d=derive(q,pack);let extra;
  assert(pendingResistanceChecks(q).some(s=>s.id===id&&s.pending.check),'Maintenance roll unavailable');
  const pendingRow=pendingResistanceChecks(q).find(s=>s.id===id);if(outgoingPowerRule(pack,pendingRow.powerId)&&(d.incapacitated||d.helpless||!d.skills.find(s=>s.id==='skill:use-the-force')?.available||!d.forcePowers.some(p=>p.id===pendingRow.powerId))){removeResistancePower(q,id);validateCharacter(q,pack);commit(c,q);return {text:pack.forcePowers.find(p=>p.id===pendingRow.powerId).name+' released',success:false,released:true};}
- if(spend){assert(checkForcePointAvailable(q,d),'Force Point unavailable');const context={skill:'skill:use-the-force'};extra=roller(forcePointExpression(d,context));assert(Number.isInteger(extra.value)&&extra.value>=1&&extra.value<=forcePointDieFor(d,context),'Invalid Force Point roll');q.forcePoints=d.forceCurrent-1;q.actionState.forceSpent=true;}
+ if(spend){assert(checkForcePointAvailable(q,d),'Force Point unavailable');const context={skill:'skill:use-the-force'};extra=rollForcePoint(d,context,roller);q.forcePoints=d.forceCurrent-1;q.actionState.forceSpent=true;}
  const name=pack.forcePowers.find(p=>p.id===pendingResistanceChecks(q).find(s=>s.id===id).powerId).name,result=finishResistanceDamageCheck(q,pack,id,extra?.value||0);validateCharacter(q,pack);commit(c,q);return {text:name+': '+result.total+' / '+result.dc+'; '+(result.success?'maintained':'released')+(extra?'; Force Point +'+extra.value:''),...result};
 }
 

@@ -62,7 +62,8 @@ export function targetTraitBonuses(c,pack,effects,a,mods={},ctx={}){
  if(!attackRows.length&&!damageRows.length&&!diceRows.length)return null;
  const die=/d(\d+)/.exec(a.damage)?.[1];
  const flat=e=>e.amountPerCount?Math.min(e.maximum,e.amountPerCount*t[e.against]):e.ability?Math.max(e.minimum,mods[e.ability]??0):e.ionAmount&&/Ion/.test(a.damageType||'')?e.ionAmount:e.amount;
- return {attack:modifierIncrease(a.attackModifierRows||[],attackRows.map(e=>({amount:attackAmount(e),type:e.type,...(e.circumstance?{circumstance:e.circumstance}:{})}))),damage:modifierIncrease(a.damageModifierRows||[],damageRows.map(e=>({amount:flat(e),type:e.type||'untyped',...(e.circumstance?{circumstance:e.circumstance}:{})}))),dice:die?diceRows.filter(e=>!e.die).reduce((n,e)=>n+e.dice,0):0,die,fixed:diceRows.filter(e=>e.die).map(e=>'+'+e.dice+'d'+e.die).join(''),
+ const damageModifiers=damageRows.map(e=>({amount:flat(e),type:e.type||'untyped',...(e.circumstance?{circumstance:e.circumstance}:{})}));
+ return {attack:modifierIncrease(a.attackModifierRows||[],attackRows.map(e=>({amount:attackAmount(e),type:e.type,...(e.circumstance?{circumstance:e.circumstance}:{})}))),damage:modifierIncrease(a.damageModifierRows||[],damageModifiers),damageModifiers,dice:die?diceRows.filter(e=>!e.die).reduce((n,e)=>n+e.dice,0):0,die,fixed:diceRows.filter(e=>e.die).map(e=>'+'+e.dice+'d'+e.die).join(''),
   sources:[...attackRows.map(e=>source(e)+': +'+attackAmount(e)+' attack'),...damageRows.map(e=>source(e)+': +'+flat(e)+' damage'),...diceRows.map(e=>source(e)+': +'+e.dice+'d'+(e.die||die))]};
 }
 function withExtraDamage(a,terms,breakdown,attack=0){
@@ -76,7 +77,7 @@ export function applyAttackTarget(a,c,pack,ctx,species,effects=[],mods={}){
  const sentinel=sentinelStrikeDice(c,pack,ctx,effects,a);
  if(sentinel)a={...withExtraDamage(a,'+'+sentinel.dice+'d'+sentinel.die,'; Sentinel Strike: +'+sentinel.dice+'d'+sentinel.die),sentinelStrike:sentinel};
  const traits=targetTraitBonuses(c,pack,effects,a,mods,ctx);
- if(traits)a={...withExtraDamage(a,(traits.damage?'+'+traits.damage:'')+(traits.dice?'+'+traits.dice+'d'+traits.die:'')+traits.fixed,traits.sources.map(s=>'; '+s).join(''),traits.attack),targetTraits:traits};
+ if(traits)a={...withExtraDamage(a,(traits.damage?'+'+traits.damage:'')+(traits.dice?'+'+traits.dice+'d'+traits.die:'')+traits.fixed,traits.sources.map(s=>'; '+s).join(''),traits.attack),damageModifierRows:[...(a.damageModifierRows||[]),...traits.damageModifiers],targetTraits:traits};
  const target=targetModifiers(c,pack,ctx,species,a),issue=a.issue||target.issue;
  const variants=Object.fromEntries(['unAimed','unBraced'].filter(k=>a[k]).map(k=>{
   const variant={...a,...a[k]},t=targetModifiers(c,pack,ctx,species,variant);

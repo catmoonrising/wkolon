@@ -3,6 +3,11 @@
 Contract for records that change a Force Point added to one check or attack.
 Sources are the pinned Feat and Talent articles named by each record.
 
+Pinned revisions: Imperceptible Liar 20663, Master Tracker 20701, Nature
+Specialist 20714, Sharp Senses 20766, Gungan Weapon Master 20657, Bowcaster
+Marksman 16365 and Superior Skills Talent Tree (Skill Boon) 21261. Source
+articles and their hashes remain unchanged.
+
 ## Data
 
 - `{target:"forcePointCheckDie",skill,steps}`: Imperceptible Liar (Deception),
@@ -24,6 +29,11 @@ rolled, keeping the highest, is unchanged.
 
 `derive` returns `forcePointCheckDice` (skill to die) and `forcePointAttackRules`.
 `forcePointExpression(d,{skill,attack})` is the only source of the context die.
+Skill context follows that row's selected `checkSource`, once, just as the
+skill resolver does. Force Perception uses a Use the Force check, so Sharp
+Senses does not improve its die. A Skill Boon for Use the Force can improve it.
+The existing substitution permission and application limits still govern which
+check may be selected; no new substitution permissions are granted.
 
 ## Spending points
 
@@ -35,6 +45,12 @@ rolled, keeping the highest, is unchanged.
 - An attack's `fp:"before"` uses the first routine step's weapon. Bowcaster
   Marksman adds the amount as that step's `damageMod`, which only applies on a
   hit, and also to a critical's flat modifier as any step modifier does.
+  Its competence bonus joins the attack's existing applicable damage modifier
+  rows through the shared typed resolver. It does not stack with another
+  competence bonus; only the increase over that bonus is added. Declared target
+  damage rows remain part of that same set. No permanent weapon changes occur.
+  All Force Point rolls must be integers from 1 through the context die, with
+  invalid results rejected before committing resources or action history.
 
 ## Manual
 
