@@ -1,7 +1,16 @@
 # Passive weapon talents
 
 Contract for always-on weapon and armor effects. Sources are each record's pinned
-article.
+article. Pinned revisions: Keen Shot16056, Hammerblow16372, Master of
+Elegance19253, Multiattack Proficiency (Advanced Melee Weapons)19253,
+Multiattack Proficiency (Exotic Weapons)26911, Flurry of Blows20981,
+Blind Shot18231 and Knight Armor Mastery20227. Source articles and hashes
+remain unchanged.
+
+The new effects and prerequisite aliases belong only to these named records;
+validation binds their exact source-defined shapes, including weapon and
+concealment scopes. Knight Armor Mastery's aliases are exactly Armored Defense
+and Improved Armored Defense, in addition to its own identity.
 
 ## Data
 

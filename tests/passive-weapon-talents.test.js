@@ -59,3 +59,16 @@ test('Knight Armor Mastery uses the improved Reflex calculation and satisfies bo
  const c=hero(['knight-armor-mastery']),ix=api.indexPack(pack),ctx=derive(c).ctx;
  assert(ctx.talents.some(t=>t.id==='talent:knight-armor-mastery'));for(const value of ['talent:armored-defense','talent:improved-armored-defense'])assert(api.prerequisite({kind:'talent',value},ctx,ix),value);assert(!api.prerequisite({kind:'talent',value:'talent:juggernaut'},ctx,ix));
 });
+
+
+test('source-defined effect scopes and prerequisite aliases cannot be reassigned',()=>{
+ for(const [id,change] of [
+  ['keen-shot',r=>r.effects[0].concealment=['concealment','total']],
+  ['blind-shot',r=>r.effects[0].weaponGroups=['heavy-weapons']],
+  ['master-of-elegance',r=>r.effects[0].amount=4],
+  ['flurry-of-blows',r=>r.effects[0].weaponGroup='rifles'],
+  ['knight-armor-mastery',r=>r.countsAsTalents=['talent:force-perception']],
+  ['knight-armor-mastery',r=>delete r.countsAsTalents]
+ ]){const bad=structuredClone(real);change(bad.talents.find(r=>r.id==='talent:'+id));assert.throws(()=>validatePack(bad));}
+ const bad=structuredClone(real);bad.talents.find(r=>r.id==='talent:acute-senses').countsAsTalents=['talent:armored-defense'];assert.throws(()=>validatePack(bad),/Unsupported prerequisite aliases/);
+});
