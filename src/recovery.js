@@ -141,7 +141,7 @@ export function setPersistent(c,cause,on){
 }
 export function setDead(c,on,pack){
  state(c).dead=on;
- if(on){clearOutgoingPowers(c);endRegenerativeHealing(c);endChannelRage(c);clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c,{resetUses:false});delete c.turnEndTriggers;clearBonusHP(c);startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
+ if(on){clearOutgoingPowers(c);endRegenerativeHealing(c);endChannelRage(c);clearResistancePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c,{resetUses:false});delete c.turnEndTriggers;clearBonusHP(c,{resetUses:false});startNextTurn(c);c.currentHP=0;c.condition=5;state(c).rageRounds=0;state(c).stunUnconscious=false;}
  if(pack)endUnconsciousTalents(c,pack);
 }
 export function receiveHealing(c,d,pack,amount){

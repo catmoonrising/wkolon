@@ -4,8 +4,9 @@ import fs from 'node:fs';
 import * as api from '../src/rules.js';
 import {takeAction,beginNextTurn} from '../src/action-engine.js';
 import {declaredBonusHPGrants,claimDeclaredBonusHP} from '../src/bonus-hit-points.js';
-import {newEncounter} from '../src/recovery.js';
+import {newEncounter,setDead} from '../src/recovery.js';
 import {validatePack} from '../tools/validate-rules.js';
+import {applyIncomingDamage} from '../src/incoming-damage.js';
 const real=JSON.parse(fs.readFileSync(new URL('../data/core.json',import.meta.url))),pack=structuredClone(real);
 // Tree access needs a prestige entry; open the trees and test the effects.
 pack.classes.find(k=>k.id==='class:soldier').talentTrees=[...new Set(pack.talents.map(t=>t.tree))];
@@ -40,4 +41,15 @@ test('Vital Encouragement grants 10 + half Heroic Level once per encounter and r
 });
 test('invalid saves are rejected',()=>{
  for(const value of ['x',[1],['a','a']]){const c=hero(['vital-encouragement'],[],['force-sensitivity']);c.bonusHPGrantsUsed=value;assert.throws(()=>api.validateCharacter(c,pack));}
+});
+
+
+test('armor DR reaches both the normal protection display and the damage resolver',()=>{
+ const c=hero(['armored-augmentation-i','armored-augmentation-ii']);beginNextTurn(c,pack);activate(c);const d=derive(c);assert(d.timedDR>0);assert.equal(d.normalProtection.dr,d.timedDR);const hp=c.currentHP,hit=applyIncomingDamage(c,d,pack,12);assert.equal(hit.drBlocked,d.timedDR);assert.equal(c.currentHP,hp-(12-d.timedDR));
+ c.protection={sr:0,srMax:0,dr:d.timedDR+5,drBypass:''};assert.equal(derive(c).normalProtection.dr,d.timedDR+5,'strongest source, not sum');
+});
+test('revival does not refund Vital Encouragement and the save ledger rejects unknown or repeatable grants',()=>{
+ const c=hero(['vital-encouragement'],[],['force-sensitivity']);claimDeclaredBonusHP(c,derive(c),pack,'vital-encouragement');setDead(c,true,pack);assert.equal(c.bonusHP,undefined);assert.deepEqual(c.bonusHPGrantsUsed,['vital-encouragement']);setDead(c,false,pack);c.currentHP=1;c.condition=4;
+ assert.throws(()=>claimDeclaredBonusHP(c,derive(c),pack,'vital-encouragement'),/unavailable/);api.validateCharacter(JSON.parse(JSON.stringify(c)),pack);newEncounter(c);claimDeclaredBonusHP(c,derive(c),pack,'vital-encouragement');
+ for(const id of ['no-such-grant','thrive-on-chaos']){const q=structuredClone(c);q.bonusHPGrantsUsed=[id];assert.throws(()=>api.validateCharacter(q,pack),/bonus HP grants/);}
 });

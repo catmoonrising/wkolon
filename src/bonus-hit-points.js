@@ -1,9 +1,9 @@
 import {ambiguityValue} from './house-rules.js';
 
 export const bonusHP=c=>c.bonusHP??0;
-export function validateBonusHP(c,bad){
+export function validateBonusHP(c,bad,pack){
  if(c.bonusHP!==undefined&&(!Number.isInteger(c.bonusHP)||c.bonusHP<0||c.bonusHP>100000))bad('bonus HP');
- if(c.bonusHPGrantsUsed!==undefined&&(!Array.isArray(c.bonusHPGrantsUsed)||new Set(c.bonusHPGrantsUsed).size!==c.bonusHPGrantsUsed.length||c.bonusHPGrantsUsed.some(id=>typeof id!=='string'||id.length>64)))bad('bonus HP grants');
+ if(c.bonusHPGrantsUsed!==undefined&&(!Array.isArray(c.bonusHPGrantsUsed)||new Set(c.bonusHPGrantsUsed).size!==c.bonusHPGrantsUsed.length||c.bonusHPGrantsUsed.some(id=>!pack?.rules.bonusHPGrants?.some(r=>r.id===id&&r.once===true))))bad('bonus HP grants');
  if(c.bonusHPTrigger!==undefined){const t=c.bonusHPTrigger;if(!t||typeof t!=='object'||Array.isArray(t)||Object.keys(t).join()!=='classLevel'||!Number.isInteger(t.classLevel)||t.classLevel<2||t.classLevel>10)bad('bonus HP trigger');}
 }
 export function grantBonusHP(c,amount){
@@ -23,7 +23,7 @@ export function claimDeclaredBonusHP(c,d,pack,id){
  if(g.once)c.bonusHPGrantsUsed=[...(c.bonusHPGrantsUsed||[]),g.id];
  return {...grantBonusHP(c,g.amount),amount:g.amount,name:g.name};
 }
-export function clearBonusHP(c){delete c.bonusHP;delete c.bonusHPGrantsUsed;clearBonusHPTrigger(c);}
+export function clearBonusHP(c,{resetUses=true}={}){delete c.bonusHP;if(resetUses)delete c.bonusHPGrantsUsed;clearBonusHPTrigger(c);}
 export function toughAsDurasteelLevel(c,pack,ctx,armorItems=[]){
  const rule=pack.rules.bonusHitPoints.toughAsDurasteel,level=ctx.classLevels.get(rule.classId)||0;
  return level>=rule.minimumLevel&&!ctx.inactiveClasses?.has(rule.classId)&&armorItems.every(r=>r.category===rule.armorCategory)?level:0;
