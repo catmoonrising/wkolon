@@ -33,7 +33,11 @@ and Improved Armored Defense, in addition to its own identity.
   matches Unarmed Attacks.
 - Master of Elegance is optional in print. It uses the higher of the normal
   Strength damage and Dexterity, doubled when wielded two-handed, as Ataru does.
-  It applies to Light melee weapons, not Unarmed Attacks.
+  It applies to Light melee weapons, not Unarmed Attacks. Inventory permits
+  Two hands for supported melee weapons, including Light weapons, as printed
+  in Melee Attacks18359. Ordinary Light-weapon Strength remains undoubled and
+  existing Power Attack rules are unchanged. The grip remains selectable and
+  clearable if the talent is lost.
 - Hammerblow adds the Strength bonus once more to an Unarmed Attack when no weapon
   is held and the attack uses Strength. A carried, equipped weapon occupies
   the hands even if it is a deactivated Lightsaber. Only a positive bonus doubles.
