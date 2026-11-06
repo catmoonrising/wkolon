@@ -1,4 +1,5 @@
 import {ambiguityValue} from './house-rules.js';
+import {actionState} from './action-economy.js';
 
 export const bonusHP=c=>c.bonusHP??0;
 export function validateBonusHP(c,bad,pack){
@@ -15,7 +16,7 @@ export function clearBonusHPTrigger(c){delete c.bonusHPTrigger;}
 export function declaredBonusHPGrants(pack,d,c=null){
  if(d.recovery?.dead)return [];
  const conscious=!d.incapacitated;
- return (pack.rules.bonusHPGrants||[]).filter(r=>d.ctx.talents.some(t=>t.id===r.talentId&&!d.ctx.inactiveTalents.has(t.id))&&(!r.conscious||conscious)&&!(r.once&&c?.bonusHPGrantsUsed?.includes(r.id))).map(r=>({...r,name:pack.talents.find(t=>t.id===r.talentId).name,amount:r.base+Math.floor(d.level/r.levelDivisor)}));
+ return (pack.rules.bonusHPGrants||[]).filter(r=>d.ctx.talents.some(t=>t.id===r.talentId&&!d.ctx.inactiveTalents.has(t.id))&&(!r.conscious||conscious)&&(r.trigger!=='free-action'||conscious&&!d.helpless&&!d.flatFooted&&!actionState(c||{}).ended)&&!(r.once&&c?.bonusHPGrantsUsed?.includes(r.id))).map(r=>({...r,name:pack.talents.find(t=>t.id===r.talentId).name,amount:r.base+Math.floor(d.level/r.levelDivisor)}));
 }
 export function claimDeclaredBonusHP(c,d,pack,id){
  const g=declaredBonusHPGrants(pack,d,c).find(r=>r.id===id);

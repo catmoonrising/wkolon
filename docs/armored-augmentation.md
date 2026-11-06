@@ -12,8 +12,16 @@ adds the worn Armor's bonus to Reflex Defense to Damage Threshold. Armored
 Augmentation II, `{target:"armorAugmentationDR"}`, adds Damage Reduction equal to
 twice the Armor's Equipment bonus to Fortitude Defense while I is active.
 
-Both read the armor currently worn and proficient, so removing it suppresses the
-benefit without ending the activation. The DR joins the strongest-source DR
+Activation has `target: "worn-armor"`. The action's `armorUid` chooses one
+currently worn, proficient suit from the shared armor resolver. If only one
+qualifies it can be chosen automatically; multiple qualifying pieces require
+an explicit choice. No armor means activation fails before any resource is spent.
+The saved activation is `{id, choice, armorUid}`; other encounter activations
+retain `{id, choice}`. The UID binds the benefit to that exact inventory entry,
+including after save/reload. Missing, removed, unequipped or unproficient armor
+suppresses the benefit without refunding its encounter use. Re-equipping the
+same suit restores it; swapping suits does not transfer it. Armor improvements
+are resolved from that suit through the existing armor resolver. The DR joins the strongest-source DR
 resolver and does not add to other DR. The same resolved DR is used for the
 normalProtection display and actual incoming-damage protection. The activation stays active for the
 encounter, which gives the printed once per encounter.
@@ -29,10 +37,14 @@ pool without refunding a spent encounter use; revival in that encounter cannot
 claim it again. Explicit encounter/day/rest boundaries reset the used ledger.
 
 Vital Encouragement is a Free Action. Its availability, queue and execution
-must use the shared action engine, including consciousness, Flat-Footed and
-own-turn restrictions. This integration stage still needs that wiring and real
-legal-class/browser fixtures; the direct HP claim alone is not complete action
-automation.
+uses the `vital-encouragement` action (Free, count 1), backed by its existing
+source-bound grant row. Description, preview and execution use the same grant
+availability check, including consciousness, helplessness, Flat-Footed and
+own-turn restrictions. Execution claims the grant atomically with shared action
+history; preview reserves its encounter use only on the cloned plan so duplicate
+queued uses fail without changing the character. The HP button routes through
+this action even before turn tracking has started. The other four declared-event
+grants keep their existing repeatable behavior.
 
 ## Manual
 

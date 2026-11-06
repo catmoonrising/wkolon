@@ -52075,7 +52075,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "activation": {"action": "swift", "forcePoints": 1, "duration": "encounter", "choices": [{"id": "threshold", "name": "Damage Threshold", "effects": [{"target": "armorAugmentation"}]}]},
+      "activation": {"action": "swift", "forcePoints": 1, "duration": "encounter", "target": "worn-armor", "choices": [{"id": "threshold", "name": "Damage Threshold", "effects": [{"target": "armorAugmentation"}]}]},
       "automation": "partial",
       "manualPrerequisites": [
         "Prerequisite: Proficient with Armor"
@@ -68850,6 +68850,7 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
+        {"id":"vital-encouragement","name":"Vital Encouragement","type":"free","count":1,"ruleId":"rule:talent-guardian-spirit-talent-tree-vital-encouragement"},
         {"id":"craft-frag-grenade","name":"Craft Frag Grenade","type":"full","count":1,"ruleId":"rule:talent-revolutionary-talent-tree-bomb-thrower"},
         {"id":"block","name":"Block","type":"reaction","count":1,"ruleId":"rule:lightsaber-combat-talent-tree"},{"id":"deflect","name":"Deflect","type":"reaction","count":1,"ruleId":"rule:lightsaber-combat-talent-tree"},
 {"id":"maintain-power","name":"Maintain","type":"standard","count":1},

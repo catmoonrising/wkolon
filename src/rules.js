@@ -544,7 +544,7 @@ export function derive(c, pack) {
   const groupedDefenses=combineArmorDefenses([...conditionalEffects,...meleeAware],[],defenses,equipmentDefenseBonuses,defenseModifiers).filter(r=>!['aware','melee-aware'].includes(r.against)||r.amount>0);
   const conditionalDefenses=[...groupedDefenses.filter(r=>r.against!=='melee-aware'||r.total>(groupedDefenses.find(x=>x.defense===r.defense&&x.against==='aware')?.total??defenses[r.defense])),...defensiveConditionalTotals(defensiveCombat,defenses.reflex)];
   const hazardImmunities=[...new Set(effects.filter(e=>e.target==='hazardImmunity').flatMap(e=>e.hazards))];
-  const augmentedArmor=effects.some(e=>e.target==='armorAugmentation')?armorItems.filter(r=>armorProficient(r,ctx)):[];
+  const augmentedArmor=armorItems.filter(r=>armorProficient(r,ctx)&&effects.some(e=>e.target==='armorAugmentation'&&e.armorUid===r.uid));
   const augmentationThreshold=Math.max(0,...augmentedArmor.map(r=>r.armorBonus+armorEffect(r,'armorBonus')));
   const augmentationDR=effects.some(e=>e.target==='armorAugmentationDR')?2*Math.max(0,...augmentedArmor.map(r=>r.fortitudeBonus+armorEffect(r,'armorFortitude'))):0;
   const resolvedTimedDR=Math.max(timedDR,augmentationDR);

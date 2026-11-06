@@ -1,3 +1,4 @@
+import {activationArmor} from './talent-activations.js';
 import {outgoingPowerRule,activeOutgoingPowers} from './outgoing-powers.js';
 import {pendingMaintenanceChecks as pendingResistanceChecks,maintenancePendingMessage as resistancePendingMessage,releaseMaintenancePower as removeResistancePower,clearMaintenanceCheckPowers as clearResistancePowers} from './maintenance-checks.js';
 import {farseeingPowerRule,farseeingFailures,setFarseeingMinutes,removeFarseeingFailure} from './farseeing.js';
@@ -58,7 +59,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
  const panel=contextPanel(modal,()=>{draft=null;editId=null;owner=null;});
  const def=id=>pack.rules.actionEconomy.actions.find(r=>r.id===id);
  function options(id){const c=current(),o=defaultActionOptions(c,derived(),pack,id);if(id==='balance'||id==='balance-recheck')o.path=balanceState(c);if(id==='escape-bonds')o.path=escapeBondsState(c);if(id==='move')o.path=acrobaticsPath(c);if(id==='withdraw')o.path=withdrawPath(c);if(id==='charge')o.path=chargePath(c);if(id==='running-attack')o.path=runningPath(c);if(id==='opportunity')o.path=opportunityContext(c);if(['cleave','follow-through'].includes(id))o.path=followUpState(c);return o;}
- function relevant(id){if(defenseReactionRule(pack,id))return ownsDefenseReaction(pack,derived().ctx,id);if(id===craftActionId)return !!craftingRule(derived(),pack);if(triggeredDefenseRule(pack,id)?.action)return ownedTriggeredDefenses(pack,derived().ctx).some(r=>r.id===id);if(id==='maintain-power')return availableMaintenancePowers(current(),pack).length>0;const d=derived(),c=current(),skill=[...(pack.rules.skillActions||[]),...(pack.rules.conditionRecoveryActions||[]),...(pack.rules.turnTalentActions||[]),...(pack.rules.reactionTalentActions||[]),...(pack.rules.defenseShiftActions||[]),...(pack.rules.timedTalentActions||[]),...(pack.rules.deflectionActions||[])].find(r=>r.id===id);if(skill)return d.ctx.talents.some(t=>t.id===skill.talentId)&&!d.ctx.inactiveTalents.has(skill.talentId);return id==='rage'?!!d.recovery.rage:id==='channel-rage'?!!d.recovery.rage&&d.ctx.feats.some(f=>f.id==='feat:channel-rage'):id==='bellow'?pack.species.find(s=>s.id===c.species)?.bellow:id==='mighty-swing'?d.ctx.feats.some(f=>f.id==='feat:mighty-swing'):id==='brace'?d.attacks.some(a=>a.bracing?.available):id==='running-attack'?d.ctx.feats.some(f=>f.id==='feat:running-attack'):id==='cleave'?d.ctx.feats.some(f=>f.id==='feat:cleave'):id==='follow-through'?d.ctx.feats.some(f=>f.id==='feat:follow-through'):id.startsWith('shield')?c.inventory.some(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield):id==='acrobatics-prone'?d.ctx.trained.has('skill:acrobatics'):true;}
+ function relevant(id){if(id==='vital-encouragement')return derived().ctx.talents.some(t=>t.id==='talent:vital-encouragement')&&!derived().ctx.inactiveTalents.has('talent:vital-encouragement');if(defenseReactionRule(pack,id))return ownsDefenseReaction(pack,derived().ctx,id);if(id===craftActionId)return !!craftingRule(derived(),pack);if(triggeredDefenseRule(pack,id)?.action)return ownedTriggeredDefenses(pack,derived().ctx).some(r=>r.id===id);if(id==='maintain-power')return availableMaintenancePowers(current(),pack).length>0;const d=derived(),c=current(),skill=[...(pack.rules.skillActions||[]),...(pack.rules.conditionRecoveryActions||[]),...(pack.rules.turnTalentActions||[]),...(pack.rules.reactionTalentActions||[]),...(pack.rules.defenseShiftActions||[]),...(pack.rules.timedTalentActions||[]),...(pack.rules.deflectionActions||[])].find(r=>r.id===id);if(skill)return d.ctx.talents.some(t=>t.id===skill.talentId)&&!d.ctx.inactiveTalents.has(skill.talentId);return id==='rage'?!!d.recovery.rage:id==='channel-rage'?!!d.recovery.rage&&d.ctx.feats.some(f=>f.id==='feat:channel-rage'):id==='bellow'?pack.species.find(s=>s.id===c.species)?.bellow:id==='mighty-swing'?d.ctx.feats.some(f=>f.id==='feat:mighty-swing'):id==='brace'?d.attacks.some(a=>a.bracing?.available):id==='running-attack'?d.ctx.feats.some(f=>f.id==='feat:running-attack'):id==='cleave'?d.ctx.feats.some(f=>f.id==='feat:cleave'):id==='follow-through'?d.ctx.feats.some(f=>f.id==='feat:follow-through'):id.startsWith('shield')?c.inventory.some(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield):id==='acrobatics-prone'?d.ctx.trained.has('skill:acrobatics'):true;}
  function describe(id,o,budget=true){try{return describeAction(current(),pack,id,o,budget);}catch(e){return {name:def(id)?.name||id,cost:{type:def(id)?.type||'standard',count:def(id)?.count||1},...e.actionView,issue:e.message};}}
  function menu(type){
   category=type;draft=null;editId=null;owner=current().id;title.textContent=ACTION_NAMES[type];
@@ -66,7 +67,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   for(const r of pack.rules.actionEconomy.actions){
    if(!relevant(r.id))continue;
    if(r.id==='encounter-talent'){
-    for(const t of pack.talents.filter(t=>t.activation&&derived().ctx.talents.some(s=>s.id===t.id)&&!derived().ctx.inactiveTalents.has(t.id)))if(t.activation.action===type)entries.push({id:r.id,o:{...options(r.id),talentId:t.id,choice:t.activation.choices.find(o=>!current().talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||''},name:t.name,manual:false});
+    for(const t of pack.talents.filter(t=>t.activation&&derived().ctx.talents.some(s=>s.id===t.id)&&!derived().ctx.inactiveTalents.has(t.id)))if(t.activation.action===type)entries.push({id:r.id,o:{talentId:t.id,...(t.activation.target==='worn-armor'&&activationArmor(derived()).length===1?{armorUid:activationArmor(derived())[0].uid}:{}),choice:t.activation.choices.find(o=>!current().talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||''},name:t.name,manual:false});
     continue;
    }
    if(r.id==='power'){
@@ -129,6 +130,7 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   }
   if(id==='encounter-talent'){
    const t=pack.talents.find(t=>t.id===o.talentId);title.textContent=t?.name||r.name;
+   if(t?.activation.target==='worn-armor')fields+=select('armorUid','Armor',[['','Choose'],...activationArmor(derived()).map(r=>[r.uid,r.name])],o.armorUid);
    if((t?.activation.choices.length||0)!==1)fields+=select('choice','Benefit',[['','Choose'],...(t?.activation.choices||[]).map(o=>[o.id,o.name])],o.choice);
    const page=pack.rulePages.find(p=>p.sourceId===t?.sourceId)||pack.rulePages.find(p=>p.name===t?.name);if(page)fields+=`<button type="button" data-rule-page="${escape(page.id)}">ⓘ</button>`;
    fields+=`<span>${t?.activation.forcePoints||0} FP</span>`;
@@ -259,10 +261,12 @@ export function createActionsUI(pack,{current,derived,changed,log,error}){
   panel.anchor(el,event);
   const powerUid=el.dataset.usePower||el.dataset.powerAdept||el.dataset.powerTake10,knownPower=powerUid&&selfPowerRule(pack,derived().forcePowers.find(p=>p.copyId===powerUid)?.id);
   if(pendingResistanceChecks(current()).length&&el.matches('[data-combat],[data-recovery],[data-use-power],[data-power-adept],[data-power-take10],[data-recover-power],[data-next-turn]')){error(resistancePendingMessage(current()));return true;}
-  if(!current().actionState?.active&&!knownPower&&el.dataset.recovery!=='regenerative-healing'&&!(el.hasAttribute('data-next-turn')&&maintainedPowers(current(),pack).length))return false;
+  const actionBonus=el.dataset.combat==='declared-bonus-hp'&&pack.rules.bonusHPGrants.some(g=>g.id===el.dataset.grant&&g.trigger==='free-action');
+  if(!current().actionState?.active&&!knownPower&&!actionBonus&&el.dataset.recovery!=='regenerative-healing'&&!(el.hasAttribute('data-next-turn')&&maintainedPowers(current(),pack).length))return false;
   const c=current(),id=el.dataset.combat;
   const map={jump:'jump',attack:'attack',charge:'charge','running-attack':'running-attack',withdraw:'withdraw','acrobatics-move':'move',balance:'balance','balance-recheck':'balance-recheck','escape-bonds':'escape-bonds','prone-action':c.prone?'stand':'prone','acrobatics-prone':'acrobatics-prone',opportunity:'opportunity',cleave:'cleave','follow-through':'follow-through',reload:'reload'};
   let action=map[id],o=action?options(action):{};
+  if(actionBonus){action=el.dataset.grant;o={};}
   if(action==='jump'){o.path=jumpState(c);draft={id:action,o};owner=c.id;category='move';form();return true;}
   if(action){if(el.dataset.attackId)o.uid=el.dataset.attackId;if(action==='reload'||action==='balance-recheck'){draft={id:action,o};category=action==='balance-recheck'?'reaction':'move';owner=c.id;form();return true;}}
   else if(['run','step'].includes(id)){const r=c.routines.find(r=>r.id===el.closest('[data-routine]')?.dataset.routine);if(r?.kind!=='fullAttack'){action=id==='run'?'routine':'routine-step';o={...options(action),routineId:r?.id};draft={id:action,o};owner=c.id;category='full';form();return true;}action=id==='run'?'full-attack':'full-attack-step';o={routineId:r.id};}

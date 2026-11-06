@@ -28,7 +28,7 @@ import {movementPowerRule} from './movement-powers.js';
 import {endSelfPowerTurn,reopenSelfPowerTurn,consumeBattleStrike} from './self-power-effects.js';
 import {timedTalentPlan,applyTimedTalent,advanceTimedTalents} from './timed-talents.js';
 import {endTurnFeatEffects,clearTurnFeatEffects,applyMoveFeatEffects} from './turn-feat-effects.js';
-import {clearBonusHP} from './bonus-hit-points.js';
+import {clearBonusHP,declaredBonusHPGrants,claimDeclaredBonusHP} from './bonus-hit-points.js';
 import {turnTalentPlan,applyTurnTalent,clearTurnTalents,turnTalentBenefit} from './turn-talents.js';
 import {reactionTalentRule,reactionTalentPlan,applyReactionTalent,endReactionTalentTurn,clearReactionTalents,defenseReactionRule,defenseReactionPlan,applyDefenseReaction} from './reaction-talents.js';
 import {conditionalDefenseLabel} from './defensive-combat.js';
@@ -36,7 +36,7 @@ import {defenseShiftRule,defenseShiftPlan,applyDefenseShift,clearDefenseShifts,d
 import {balance,planBalance} from './balance.js';
 import {conditionRecoveryPlan,applyConditionRecovery} from './condition-recovery.js';
 import {skillActionPlan,rollSkillAction,finishSkillAction} from './skill-actions.js';
-import {talentActivation,applyTalentActivation,endEncounterTalents} from './talent-activations.js';
+import {activationArmor,talentActivation,applyTalentActivation,endEncounterTalents} from './talent-activations.js';
 import {escapeBonds,planEscapeBonds} from './escape-bonds.js';
 import {canAim} from './weapon-rules.js';
 import {derive,validateCharacter,signed} from './rules.js';
@@ -98,7 +98,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(defenseReactionRule(pack,id))o.defense=defenseReactionRule(pack,id).defenses[0];
  if(defenseShiftRule(pack,id)){o.bonus='reflex';o.penalty='will';}
  if(triggeredDefenseRule(pack,id)?.action)o.adjacent=false;
- if(id==='encounter-talent'){const t=pack.talents.find(t=>t.activation&&d.ctx.talents.some(s=>s.id===t.id)&&!d.ctx.inactiveTalents.has(t.id));o.talentId=t?.id||'';o.choice=t?.activation.choices.find(o=>!c.talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||'';}
+ if(id==='encounter-talent'){const t=pack.talents.find(t=>t.activation&&d.ctx.talents.some(s=>s.id===t.id)&&!d.ctx.inactiveTalents.has(t.id));o.talentId=t?.id||'';if(t?.activation.target==='worn-armor'&&activationArmor(d).length===1)o.armorUid=activationArmor(d)[0].uid;o.choice=t?.activation.choices.find(o=>!c.talentActivations?.some(s=>s.id===t.id&&s.choice===o.id))?.id||'';}
  if(id.startsWith('manual-'))o.note=pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name==='Other'?'':pack.rules.actionEconomy.actions.find(r=>r.id===id)?.name||'';
  return o;
 }
@@ -152,7 +152,8 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
  case 'craft-frag-grenade':view.crafting=craftingPlan(q,d,pack,id,o);break;
  case 'improved-soft-cover':view.triggeredDefense=triggeredDefenseActivation(q,d,pack,id,o);view.cost.type=view.triggeredDefense.action;break;
  case 'total-defense':break;
- case 'encounter-talent':{const t=talentActivation(q,pack,d,o.talentId,o.choice);view.name=t.talent.name+' ('+t.option.name+')';view.cost.type=t.activation.action;view.forceCost=t.activation.forcePoints;break;}
+ case 'vital-encouragement':view.bonusHPGrant=declaredBonusHPGrants(pack,d,q).find(r=>r.id===id&&r.trigger==='free-action');assert(view.bonusHPGrant,'Vital Encouragement unavailable');view.name=view.bonusHPGrant.name;break;
+ case 'encounter-talent':{const t=talentActivation(q,pack,d,o.talentId,o.choice,o.armorUid);view.talentActivation=t;view.name=t.talent.name+' ('+t.option.name+')';view.cost.type=t.activation.action;view.forceCost=t.activation.forcePoints;break;}
  case 'force-bonus':assert(!s.ended,'Force Point bonus requires your turn');assert(o.skill===undefined||d.skills.some(x=>x.id===o.skill&&x.available),'Skill unavailable');view.forceCost=1;break;
  case 'power':{
   const p=d.forcePowers.find(p=>p.copyId===o.powerId);assert(p,'Choose a power');assert(!o.action||p.actions?.includes(o.action)||p.action===o.action,'Power action changed');
@@ -271,7 +272,8 @@ function resolve(c,pack,id,o,v,roller,activationId){
  else if(v.crafting){craftItem(c,v.crafting);r={text:'Craft '+v.crafting.item.name};}
  else if(v.triggeredDefense)setTriggeredDefense(c,pack,d.ctx,id,true,{flatFooted:d.flatFooted});
  else if(id==='total-defense')declareDefenseStance(c,d,'total');
- else if(id==='encounter-talent'){invalidate(c);applyTalentActivation(c,o.talentId,o.choice);c.forcePoints-=v.forceCost;r={text:v.name+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
+ else if(v.bonusHPGrant){const g=claimDeclaredBonusHP(c,d,pack,id);r={text:v.name+': Bonus HP '+g.before+' → '+g.after};}
+ else if(id==='encounter-talent'){invalidate(c);applyTalentActivation(c,o.talentId,o.choice,v.talentActivation.armorUid);c.forcePoints-=v.forceCost;r={text:v.name+(v.forceCost?'; Force Points -'+v.forceCost:'')};}
  else if(id==='force-bonus'){const x=rollForcePoint(d,{skill:o.skill},roller),name=o.skill?d.skills.find(s=>s.id===o.skill).name+': ':'';c.forcePoints--;r={text:name+'Force Point: +'+x.value,html:escape(name)+x.display+' = '+totalHtml(x)};}
  else if(id==='power'){
   if(v.negation)o.incoming=structuredClone(v.negation.incoming);
@@ -423,7 +425,8 @@ export function previewPlan(c,pack){
    if(step.action==='total-defense')declareDefenseStance(q,v.derived,'total');
    if(step.action==='reload'){const e=q.inventory.find(e=>e.uid===step.options.uid);e.shotsRemaining=ammunitionProfile(e,pack).capacity;}
    if(step.action==='aim'){clearAiming(q);q.inventory.find(e=>e.uid===step.options.uid).aimed=true;}
-   if(step.action==='encounter-talent'){clearAiming(q);clearBracing(q);applyTalentActivation(q,step.options.talentId,step.options.choice);}
+   if(step.action==='encounter-talent'){clearAiming(q);clearBracing(q);applyTalentActivation(q,step.options.talentId,step.options.choice,v.talentActivation.armorUid);}
+   if(v.bonusHPGrant)claimDeclaredBonusHP(q,v.derived,pack,step.action);
    if(v.deflection)q.deflectionAttempts=(q.deflectionAttempts||0)+1;
    if(v.forceCost){q.forcePoints-=v.forceCost;q.actionState.forceSpent=true;}
    if(v.destinyCost)q.story.points-=v.destinyCost;

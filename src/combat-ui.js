@@ -1,3 +1,4 @@
+import {takeAction} from './action-engine.js';
 import {readDamageForm} from './damage-declarations.js';
 import {jumpState,validateJump,jump} from './jump.js';
 import {jumpIssue,jumpCostLabel} from './jump-ui.js';
@@ -194,7 +195,7 @@ export function createCombatControls(pack,{current,derived,changed,save,log,erro
    if(action==='balance'||action==='balance-recheck'){try{const result=balance(current(),derived(),pack,action==='balance-recheck');log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='acrobatics-move'){try{const result=acrobaticsMove(current(),derived(),pack);log(result.rolled?'roll':'resource',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='prone-action'||action==='acrobatics-prone'){try{const result=proneAction(current(),derived(),pack,action==='acrobatics-prone');log(result.rolled?'roll':'resource',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
-   if(action==='declared-bonus-hp'){try{const r=claimDeclaredBonusHP(current(),derived(),pack,el.dataset.grant);log('hp',`${r.name}: Bonus HP ${r.before} → ${r.after}`);changed();}catch(e){error(e.message);}return true;}
+   if(action==='declared-bonus-hp'){if(pack.rules.bonusHPGrants.some(g=>g.id===el.dataset.grant&&g.trigger==='free-action')){try{const r=takeAction(current(),pack,el.dataset.grant);log('hp',r.text);changed();}catch(e){error(e.message);}return true;}try{const r=claimDeclaredBonusHP(current(),derived(),pack,el.dataset.grant);log('hp',`${r.name}: Bonus HP ${r.before} → ${r.after}`);changed();}catch(e){error(e.message);}return true;}
    if(action==='confirm-bonus-hp'){try{const r=confirmToughAsDurasteel(current(),derived(),pack);log('hp',`Tough as Durasteel: Bonus HP ${r.before} → ${r.after}`);changed();}catch(e){error(e.message);}return true;}
    if(action==='cleave'){try{const result=rollCleave(current(),pack);spendAttackResources(current(),result);log('roll',result.text,result.html);changed();}catch(e){error(e.message);}return true;}
    if(action==='follow-through'){try{const result=followThrough(current(),derived(),pack);log('resource',result.text);changed();}catch(e){error(e.message);}return true;}
