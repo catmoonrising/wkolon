@@ -38541,9 +38541,9 @@
         ]
       },
       "repeat": "never",
-      "effects": [],
+      "effects": [{"target":"forcefulRecovery"}],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "feat:friends-in-low-places",

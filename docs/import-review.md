@@ -3478,3 +3478,7 @@ it. See docs/armored-augmentation.md.
 Inborn Resilience is Partial. The selected pair replaces two Zabrak species
 Defense bonuses, leaving the third unchanged. Reopening the build editor can
 revise the choice; it is not a combat toggle. See [inborn-resilience.md](inborn-resilience.md).
+
+## Forceful Recovery
+
+Forceful Recovery is Partial. A real Second Wind or Regenerative Healing activation returns one chosen active, expended suite copy without FP cost. Regeneration ticks do not return more copies. See [forceful-recovery.md](forceful-recovery.md).

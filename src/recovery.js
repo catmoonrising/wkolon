@@ -1,3 +1,4 @@
+import {secondWindPowerPlan,restoreSecondWindPower} from './second-wind-power.js';
 import {clearOutgoingPowers,pendingOutgoingChecks} from './outgoing-powers.js';
 import {clearTrackingPowers} from './tracking-powers.js';
 import {advanceTimedTalents,ROUNDS_PER_MINUTE} from './timed-talents.js';
@@ -51,10 +52,11 @@ export function recoveryDetails(c,pack,{species,hp,scores,mods,classFortitude,ex
  return {secondWind:{daily,remaining,regeneration,healing:Math.max(Math.floor(hp*rule.hitPointFraction),scores.con)+conHealing,action:windBonuses.freeAction?'Free Action (on your turn)':'Swift Action',conditionRecovery:r.persistent.length?0:windBonuses.condition||0,forceDice:forceRecovery?Math.min(rule.forceRecovery.maxDice,c.forcePoints):0,exhaustion,reason:windReason,available:!windReason},rage,persistent:r.persistent,recoverable:able&&c.condition>0&&!r.persistent.length,naturalHealing:{amount:level*(species.naturalHealingMultiplier||1),used:r.naturalHealingUsed,available:!species.isDroid&&!species.repairOnly&&!r.dead},unconscious:{available:!species.isDroid&&!r.dead&&(c.condition===5||current===0),retry:r.unconsciousRetry,modifier:mods.con},dead:r.dead,limbs:r.limbs};
 }
 const persistent=(c,cause)=>{const r=state(c);c.condition=Math.min(5,c.condition+1);if(!r.persistent.includes(cause))r.persistent.push(cause);};
-export function catchSecondWind(c,d,pack,roll=evalExpr,{regenerate=false}={}){
+export function catchSecondWind(c,d,pack,roll=evalExpr,{regenerate=false,forcefulPowerId}={}){
  const wind=d.recovery.secondWind;if(!wind.available)throw new Error(wind.reason);
  if(typeof regenerate!=='boolean')throw new Error('Invalid Second Wind choice');
  if(regenerate&&!wind.regeneration?.available)throw new Error('Regenerative Healing unavailable');
+ const recoveredPower=secondWindPowerPlan(c,d,forcefulPowerId);
  const forceRoll=!regenerate&&wind.forceDice?roll(`${wind.forceDice}d${pack.rules.secondWind.forceRecovery.die}`):null;
  const extra=forceRoll?.value??0;
  if(!Number.isFinite(extra)||extra<0)throw new Error('Invalid Force Recovery roll');
@@ -65,7 +67,8 @@ export function catchSecondWind(c,d,pack,roll=evalExpr,{regenerate=false}={}){
  else if(c.currentHP>=d.hp)endRegenerativeHealing(c);
  const conditionRecovery=Math.min(c.condition,wind.conditionRecovery||0);c.condition-=conditionRecovery;
  if(wind.exhaustion)persistent(c,'second-wind');
- return {healed:c.currentHP-before,conditionRecovery,forceRecovery:extra,forceRoll,exhaustion:wind.exhaustion,regenerative:regenerate};
+ restoreSecondWindPower(c,d,recoveredPower);
+ return {recoveredPower,healed:c.currentHP-before,conditionRecovery,forceRecovery:extra,forceRoll,exhaustion:wind.exhaustion,regenerative:regenerate};
 }
 export function endRegenerativeHealing(c){if(c.recovery){c.recovery.regenerationActive=false;c.recovery.regenerationEnded=false;}}
 export function syncRegenerativeHealing(c,d){

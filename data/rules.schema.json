@@ -5193,6 +5193,7 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"forcefulRecovery"}}},
         {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"armorAugmentation"}}},
         {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"armorAugmentationDR"}}},
         {"type":"object","additionalProperties":false,"required":["target","amount","type","weaponGroup"],"properties":{"target":{"const":"multiattackReduction"},"amount":{"const":2},"type":{"const":"untyped"},"weaponGroup":{"const":"advanced-melee-weapons"}}},
