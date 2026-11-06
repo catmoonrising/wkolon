@@ -22,7 +22,7 @@ export function targetModifiers(c,pack,ctx,species,a){
  if(prone>0&&helpless&&ambiguityValue(c,pack,'ambiguity:prone-helpless')==='no-stack')prone=0;
  const ownProne=melee&&c.prone?rule.prone.ownMeleePenalty:0;
  const intoMelee=ranged&&target.adjacentToAlly&&!ctx.feats.some(f=>f.id===rule.preciseShot)?rule.intoMeleePenalty:0;
- const ignored=(ctx.concealmentPenaltyRules||[]).some(r=>r.concealment.includes(concealment)&&(!r.mode||r.mode===a.mode)&&(!r.weaponGroups||r.weaponGroups.includes(a.group)));
+ const ignored=(ctx.concealmentPenaltyRules||[]).some(r=>r.concealment.includes(concealment)&&(!r.mode||r.mode===a.mode)&&(!r.weaponGroups||r.weaponGroups.includes(weaponIdentityGroup(a,ctx))));
  const conceal=ignored?0:concealment==='total'?rule.totalConcealmentPenalty:concealment==='concealment'?rule.concealmentPenalty:0;
  const cover=target.cover==='cover'?rule.coverBonus:target.cover==='improved'?rule.improvedCoverBonus:0;
  const coverBonus=a.ignoresCover&&!a.areaType?0:cover;

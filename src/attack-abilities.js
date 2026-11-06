@@ -6,7 +6,7 @@ export function validateAttackAbilities(c,bad){
  if(c.attackAbilities===undefined)return;
  const m=c.attackAbilities;if(!m||typeof m!=='object'||Array.isArray(m)||Object.keys(m).length>2000||Object.entries(m).some(([uid,a])=>!validAttackReference(uid)||uid.startsWith('natural:')&&!uid.startsWith('natural:'+c.id+':')||!choices.includes(a)))bad('attack abilities');
 }
-export function attackAbilityDetails(c,pack,ctx,w,entry,mods,{proficient,group,wielded}){
+export function attackAbilityDetails(c,pack,ctx,w,entry,mods,{proficient,group,wielded,strengthAttackBonus=0}){
  const rule=pack.rules.attackAbilities,base=rule.base[w.mode],override=c.attackAbilities?.[entry.uid]||'auto';
  const options=[{ability:base,modifier:mods[base],sources:[]}];
  const smaller=pack.rules.weaponSizeOrder.indexOf(w.size)<pack.rules.weaponSizeOrder.indexOf(ctx.size);
@@ -18,7 +18,9 @@ export function attackAbilityDetails(c,pack,ctx,w,entry,mods,{proficient,group,w
   if(!(light||w.group==='lightsabers'||focused))continue;
   const existing=options.find(o=>o.ability===row.ability);if(existing)existing.sources.push(row.id);else options.push({ability:row.ability,modifier:mods[row.ability],sources:[row.id]});
  }
- const automatic=options.reduce((best,o)=>o.modifier>best.modifier?o:best),selected=override==='auto'?automatic:options.find(o=>o.ability===override);
+ if(strengthAttackBonus)for(const o of options)if(o.ability==='str')o.adjustment=strengthAttackBonus;
+ const score=o=>o.modifier+(o.adjustment||0);
+ const automatic=options.reduce((best,o)=>score(o)>score(best)?o:best),selected=override==='auto'?automatic:options.find(o=>o.ability===override);
  return {...(selected||automatic),override,options,available:!!selected,issue:selected?'':override.toUpperCase()+' unavailable'};
 }
 export function setAttackAbility(c,attacks,uid,ability){
@@ -28,5 +30,5 @@ export function setAttackAbility(c,attacks,uid,ability){
 export function attackAbilityControl(a){
  const row=a.abilityDetails;if(row.options.length<2&&row.override==='auto')return '';
  const sign=n=>n>=0?'+'+n:String(n);
- return `<label>Ability <select data-attack-ability="${escape(a.uid)}" aria-invalid="${!row.available}" aria-label="${escape(a.name)} attack ability"><option value="auto" ${row.override==='auto'?'selected':''}>Auto</option>${row.options.map(o=>`<option value="${o.ability}" ${row.override===o.ability?'selected':''}>${o.ability.toUpperCase()} ${sign(o.modifier)}</option>`).join('')}${row.available?'':`<option value="${row.override}" selected disabled>${escape(row.override.toUpperCase())} (unavailable)</option>`}</select></label>`;
+ return `<label>Ability <select data-attack-ability="${escape(a.uid)}" aria-invalid="${!row.available}" aria-label="${escape(a.name)} attack ability"><option value="auto" ${row.override==='auto'?'selected':''}>Auto</option>${row.options.map(o=>`<option value="${o.ability}" ${row.override===o.ability?'selected':''}>${o.ability.toUpperCase()} ${sign(o.modifier+(o.adjustment||0))}</option>`).join('')}${row.available?'':`<option value="${row.override}" selected disabled>${escape(row.override.toUpperCase())} (unavailable)</option>`}</select></label>`;
 }
