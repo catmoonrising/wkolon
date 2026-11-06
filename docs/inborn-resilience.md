@@ -1,6 +1,7 @@
 # Inborn Resilience
 
-The pinned official Inborn Resilience article supplies a permanent Zabrak
+The pinned official Inborn Resilience article (revision20673, SHA256
+`dd7aa06ca502c8ad11453b710946c45aade6f9144ee1f1d99bfc00e15db69813`) supplies a permanent Zabrak
 species-bonus redistribution. It reduces one Defense's species bonus from +1
 to +0 and raises another from +1 to +2, leaving the third at +1.
 
