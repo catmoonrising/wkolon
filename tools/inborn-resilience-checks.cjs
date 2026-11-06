@@ -1,0 +1,19 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),creation=require('./creator-actions.cjs'),secondary=require('./secondary-actions.cjs');
+module.exports=async(browser,base,root,transport)=>{
+ const api=await import('../src/rules.js'),pack=JSON.parse(fs.readFileSync(path.join(root,'data/core.json'))),c=require('./inborn-resilience-fixtures.cjs')(pack,api).hero();c.levels[0].feats=[{id:'feat:toughness'}];c.currentHP=api.derive(c,pack).hp;const baseline=api.derive(c,pack).defenses;
+ const ctx=await browser.newContext({viewport:{width:1440,height:1050}}),page=await ctx.newPage(),errors=[];page.setDefaultTimeout(20000);page.on('pageerror',e=>errors.push(e.message));
+ await ctx.addInitScript(c=>{if(!localStorage.getItem('wkolon-roster-v1'))localStorage.setItem('wkolon-roster-v1',JSON.stringify({schemaVersion:1,activeId:c.id,characters:[c]}));},c);
+ const saved=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('wkolon-roster-v1')).characters[0]),settle=()=>page.waitForFunction(()=>document.querySelector('#save-status').textContent==='Saved');
+ const choice=async value=>{await secondary(page).pick('feat:inborn-resilience|'+value);await settle();assert.equal((await saved()).levels[0].feats[0].choice,value);const d=api.derive(await saved(),pack),[from,to]=value.split('-');assert.deepEqual(d.issues,[]);for(const key of ['reflex','fortitude','will'])assert.equal(d.defenses[key],baseline[key]+(key===from?-1:key===to?1:0));};
+ try{
+  await page.goto(base+'#creation');await page.locator('.level-plan').waitFor();await creation.openChoice(page,'feat');await creation.search(page,'Inborn Resilience');await page.locator('[data-tree-pick="feat:inborn-resilience|"]').click();
+  const labels=await secondary(page).labels();assert.equal(labels.length,6);assert(labels.includes('Reflex +0, Will +2'));assert.equal(await page.locator('#feature-tree-body select').count(),0);
+  for(const value of ['reflex-fortitude','reflex-will','fortitude-reflex','fortitude-will','will-reflex','will-fortitude'])await choice(value);
+  await creation.done(page);await page.reload();await page.locator('#module-defenses').waitFor();assert.equal(Number(await page.locator('[data-defense="will"]').innerText()),baseline.will-1);assert.equal(Number(await page.locator('[data-defense="fortitude"]').innerText()),baseline.fortitude+1);
+  await page.locator('#module-header a[href="#creation"]').click();await creation.openChoice(page,'feat');assert.equal(await secondary(page).selected(),'feat:inborn-resilience|will-fortitude');await choice('reflex-will');await creation.done(page);
+  await page.locator('#theme-select').selectOption({label:'Dracula Dark'});await page.setViewportSize({width:390,height:844});await page.locator('#module-header a[href="#creation"]').click();await creation.openChoice(page,'feat');assert.equal(await secondary(page).selected(),'feat:inborn-resilience|reflex-will');assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));await page.screenshot({path:path.join(root,'.build/inborn-'+browser.browserType().name()+'-mobile.png')});
+  if(transport){if(transport.prime)await transport.prime(page);await transport.offline();await page.reload();if(!await page.locator('#creator-modal').isVisible())await page.locator('#module-header a[href="#creation"]').click();await creation.openChoice(page,'feat');assert.equal(await secondary(page).selected(),'feat:inborn-resilience|reflex-will');await choice('fortitude-reflex');await transport.online();}
+  api.validateCharacter(await saved(),pack);assert.deepEqual(errors,[]);
+ }finally{if(transport)await transport.online();await ctx.close();}
+ console.log('Browser: legal Zabrak, actual feat picker/six secondary choices, defense totals, reopen/save/reload and Dracula mobile'+(transport?' / refused offline':'')+' passed');
+};
