@@ -3482,3 +3482,7 @@ revise the choice; it is not a combat toggle. See [inborn-resilience.md](inborn-
 ## Forceful Recovery
 
 Forceful Recovery is Partial. A real Second Wind or Regenerative Healing activation returns one chosen active, expended suite copy without FP cost. Regeneration ticks do not return more copies. See [forceful-recovery.md](forceful-recovery.md).
+
+## Recall Power
+
+Recall Power is Partial. FP suite recovery returns two chosen active expended copies at the existing cost and timing; a lone expended copy returns alone. Forceful Recovery and Force Focus do not invoke it. Renew Vision is still pending. See [recall-power.md](recall-power.md).

@@ -30,11 +30,21 @@ export function usePower(c,d,pack,id,natural,{action=null}={}){
  if(natural===pack.rules.forcePowerRecovery.naturalRoll){if(c.actionState?.active){const due=c.actionState.turn+(c.actionState.ended?1:0);c.forcePowerRecoveryTurn=c.forcePowerRecoveryPending?Math.min(c.forcePowerRecoveryTurn??c.actionState.turn,due):due;}else delete c.forcePowerRecoveryTurn;c.forcePowerRecoveryPending=true;}
  return power;
 }
-export function recoverPower(c,d,pack,id){
- const power=d.forcePowers.find(p=>p.copyId===id),copy=powerCopy(c,id),cost=pack.rules.forcePowerRecovery.forcePointCost;
- if(!power||!copy?.spent||d.forceCurrent<cost||d.incapacitated)throw new Error('Cannot recover power');
+export function powerRecoveryPlan(c,d,id,secondId){
+ if(secondId!==undefined&&typeof secondId!=='string')throw new Error('Choose a second spent power');
+ const available=d.forcePowers.filter(p=>p.spent&&powerCopy(c,p.copyId)?.spent),first=available.find(p=>p.copyId===id);
+ if(!first)throw new Error('Choose a spent power');
+ const others=available.filter(p=>p.copyId!==id);
+ if(!d.recallPower||!others.length){if(secondId)throw new Error('Second power unavailable');return [first];}
+ if(secondId===undefined&&others.length===1)secondId=others[0].copyId;
+ const second=others.find(p=>p.copyId===secondId);if(!second)throw new Error('Choose a second spent power');
+ return [first,second];
+}
+export function recoverPower(c,d,pack,id,secondId){
+ const powers=powerRecoveryPlan(c,d,id,secondId),cost=pack.rules.forcePowerRecovery.forcePointCost;
+ if(d.forceCurrent<cost||d.incapacitated)throw new Error('Cannot recover power');
  clearFollowUps(c);clearAiming(c);clearBracing(c);
- c.forcePoints=d.forceCurrent-cost;return restorePowerCopy(c,d,id);
+ c.forcePoints=d.forceCurrent-cost;for(const p of powers)restorePowerCopy(c,d,p.copyId);return {...powers[0],recovered:powers};
 }
 export function recoverSuite(c,d,{endTurn=false}={}){
  if(pendingOutgoingChecks(c).length)throw new Error('Resolve outgoing concentration first');

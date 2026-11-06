@@ -5193,6 +5193,7 @@
     },
     "effect": {
       "oneOf": [
+        {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"recallPower"}}},
         {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"forcefulRecovery"}}},
         {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"armorAugmentation"}}},
         {"type":"object","additionalProperties":false,"required":["target"],"properties":{"target":{"const":"armorAugmentationDR"}}},

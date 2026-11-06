@@ -55,7 +55,7 @@ import {planWithdraw} from './combat-movement.js';
 import {planCharge} from './charge.js';
 import {catchSecondWind,advanceRegenerativeHealing,startRegenerativeHealingTurn,endRegenerativeHealing,startRage,startChannelRage,endChannelRage,recoverCondition,recoverActions,advanceRage,recoveryState} from './recovery.js';
 import {declareDefenseStance} from './defensive-combat.js';
-import {usePower,take10Power,useAdeptPower,selectAdeptNatural,recoverPower,recoverSuite,turnEndRecoveryDue} from './force-powers.js';
+import {usePower,take10Power,useAdeptPower,selectAdeptNatural,powerRecoveryPlan,restorePowerCopy,recoverPower,recoverSuite,turnEndRecoveryDue} from './force-powers.js';
 import {powerActivationIssue,powerQuickening} from './power-activation.js';
 import {rollOpportunity} from './opportunity-actions.js';
 import {planOpportunity,startNextRound,opportunityContext} from './opportunity.js';
@@ -89,7 +89,7 @@ export function defaultActionOptions(c,d,pack,id){
  if(id==='maintain-power')o.effectId=availableMaintenancePowers(c,pack)[0]?.id||'';
  if(id==='jump'){o.path=jumpState(c);o.fp='ask';}
  if(id==='power'){const p=d.forcePowers.find(p=>!p.spent);o.powerId=p?.copyId||'';o.action=p?.action||'standard-action';o.rollMode='roll';o.fp='ask';o.enhance=!!selfPowerRule(pack,p?.id)&&!powerQuickening(pack,p?.id);}
- if(id==='recover-power')o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';
+ if(id==='recover-power'){o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';if(d.recallPower)o.secondPowerId=d.forcePowers.find(p=>p.spent&&p.copyId!==o.powerId)?.copyId||'';}
  if(pack.rules.skillActions?.some(r=>r.id===id)){o.powerId=d.forcePowers.find(p=>p.spent)?.copyId||'';o.rollMode='roll';o.fp='ask';o.safe=false;}
  if(['shield','shield-recharge'].includes(id))o.uid=c.inventory.find(e=>pack.equipment.find(r=>r.id===e.id)?.energyShield)?.uid||'';
  if(deflectionRule(pack,id)){o.attackRoll=0;o.aware=false;o.kind='single';o.target='self';o.hit=true;o.rerolls='failed';o.incoming={amount:0,options:{type:'normal',against:[]}};}
@@ -190,7 +190,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   if(negatingPowerRule(pack,p.id))view.negation=negateEnergyPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost});else if(thresholdPowerRule(pack,p.id))view.threshold=thresholdPowerPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost,enhanceAsk:!!o.enhance});else assert(o.incoming===undefined,'Power does not use incoming damage');
   break;
  }
- case 'recover-power':assert(d.forcePowers.some(p=>p.copyId===o.powerId&&p.spent),'Choose a spent power');view.forceCost=pack.rules.forcePowerRecovery.forcePointCost;break;
+ case 'recover-power':view.powerRecovery=powerRecoveryPlan(q,d,o.powerId,o.secondPowerId);view.forceCost=pack.rules.forcePowerRecovery.forcePointCost;break;
  case 'force-focus':view.skillAction=skillActionPlan(q,d,pack,id,o);view.fpAllowed=checkForcePointAvailable(q,d);break;
  case 'opportunity':planOpportunity(q,d,pack,o.uid);break;
  case 'cleave':{const p=planCleave(q,d,pack);assert(!d.flatFooted,'Free actions unavailable while flat-footed');if(p.move)view.cost={type:'move',count:1,also:'free'};break;}
@@ -294,7 +294,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  }else if(v.skillAction){
   invalidate(c);const x=rollSkillAction(v.skillAction,roller);r={...x,text:v.name+': '+x.text,fpAllowed:v.fpAllowed};
   if(!(r.fpAllowed&&o.fp==='ask'))r.text+='; '+finishSkillAction(c,d,pack,id,o,r.check);
- }else if(id==='recover-power'){const p=recoverPower(c,d,pack,o.powerId);r={text:p.name+' recovered; Force Points -1'};}
+ }else if(id==='recover-power'){const p=recoverPower(c,d,pack,o.powerId,o.secondPowerId);r={text:p.recovered.map(p=>p.name).join(', ')+' recovered; Force Points -1'};}
  else if(id==='opportunity'){r=rollOpportunity(c,pack,o.uid,roller);spendAttackResources(c,r);}
  else if(id==='cleave'){r=rollCleave(c,pack,roller);spendAttackResources(c,r);}
  else if(id==='follow-through')r=followThrough(c,d,pack);
@@ -428,6 +428,7 @@ export function previewPlan(c,pack){
    if(step.action==='reload'){const e=q.inventory.find(e=>e.uid===step.options.uid);e.shotsRemaining=ammunitionProfile(e,pack).capacity;}
    if(step.action==='aim'){clearAiming(q);q.inventory.find(e=>e.uid===step.options.uid).aimed=true;}
    if(step.action==='encounter-talent'){clearAiming(q);clearBracing(q);applyTalentActivation(q,step.options.talentId,step.options.choice,v.talentActivation.armorUid);}
+   if(v.powerRecovery)for(const p of v.powerRecovery)restorePowerCopy(q,v.derived,p.copyId);
    if(v.bonusHPGrant)claimDeclaredBonusHP(q,v.derived,pack,step.action);
    if(v.deflection)q.deflectionAttempts=(q.deflectionAttempts||0)+1;
    if(v.forceCost){q.forcePoints-=v.forceCost;q.actionState.forceSpent=true;}
