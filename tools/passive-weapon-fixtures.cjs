@@ -28,7 +28,7 @@ module.exports=(pack,api)=>{
   const c=soldier();c.name=elegance?'Master of Elegance':'Advanced Melee Proficiency';c.levels[5].feats=[feat('weapon-finesse'),feat('double-attack','advanced-melee-weapons')];
   extend(c,'melee-duelist',elegance?['single-weapon-flourish-i','master-of-elegance']:Array(selections).fill('multiattack-proficiency-advanced-melee-weapons'));
   if(c.levels[8])c.levels[8].feats=[feat('double-attack','simple-weapons')];if(elegance)c.levels[7].talent.manualRequirements=true;
-  c.inventory=[item('knife'),item('vibroblade'),item('vibrosword'),item('blaster-pistol',{distance:1,shotsRemaining:100})];return finish(c);
+  c.inventory=[item('knife'),item('vibroblade'),item('force-pike',{twoHanded:true}),item('blaster-pistol',{distance:1,shotsRemaining:100})];return finish(c);
  }
  function gladiator({selections=2}={}){
   const c=soldier();c.name='Exotic Proficiency';c.levels[0].feats=[feat('weapon-proficiency-advanced-melee-weapons'),feat('exotic-weapon-proficiency','equipment:amphistaff')];c.levels[2].feats=[feat('improved-damage-threshold')];

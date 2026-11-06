@@ -38,7 +38,7 @@ test('Master of Elegance uses optional Dexterity only on Light melee and doubles
  const c=f.duelist({elegance:true}),base=replace(c,'master-of-elegance','counterpunch'),d=derive(c),knife=weapon(c,'knife'),ordinary=weapon(base,'knife');
  assert(d.ctx.feats.some(x=>x.id==='feat:double-attack'&&x.choice==='advanced-melee-weapons'));assert.equal(knife.damageBonus-ordinary.damageBonus,Math.max(d.mods.str,d.mods.dex)-d.mods.str);
  const e=c.inventory.find(e=>e.id==='equipment:knife');e.twoHanded=true;assert.equal(weapon(c,'knife').damageBonus-ordinary.damageBonus,2*d.mods.dex-d.mods.str);
- assert.equal(weapon(c,'vibrosword').damageBonus,weapon(base,'vibrosword').damageBonus);assert.equal(unarmed(c).damageBonus,unarmed(base).damageBonus);
+ assert.equal(weapon(c,'force-pike').damageBonus,weapon(base,'force-pike').damageBonus);assert.equal(unarmed(c).damageBonus,unarmed(base).damageBonus);
  c.abilities.str=20;c.abilities.dex=14;e.twoHanded=false;const strong=replace(c,'master-of-elegance','counterpunch');assert.equal(weapon(c,'knife').damageBonus,weapon(strong,'knife').damageBonus);f.finish(c);
 });
 test('Hammerblow auto selects the full Strength contribution while manual Dexterity stays available',()=>{
