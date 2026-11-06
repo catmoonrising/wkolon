@@ -5078,7 +5078,9 @@
             "endsWhenUnconscious": {
               "const": true
             },
-            "unconsciousAmbiguityId": {"const":"ambiguity:battle-meditation-unconscious"},
+            "unconsciousAmbiguityId": {
+              "const": "ambiguity:battle-meditation-unconscious"
+            },
             "duration": {
               "const": "encounter"
             },
@@ -5100,7 +5102,8 @@
                       "attacks",
                       "skills",
                       "defenses",
-                      "immunity"
+                      "immunity",
+                      "threshold"
                     ]
                   },
                   "name": {
@@ -5162,12 +5165,27 @@
                               ]
                             }
                           }
+                        },
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "target"
+                          ],
+                          "properties": {
+                            "target": {
+                              "const": "armorAugmentation"
+                            }
+                          }
                         }
                       ]
                     }
                   }
                 }
               }
+            },
+            "target": {
+              "const": "worn-armor"
             }
           }
         }
@@ -5291,6 +5309,7 @@
         },
         {
           "type": "object",
+          "not": {"required":["target","weaponGroup"],"properties":{"target":{"const":"multiattackReduction"},"weaponGroup":{"enum":["advanced-melee-weapons","exotic-weapons","unarmed"]}}},
           "additionalProperties": false,
           "required": [
             "target",
