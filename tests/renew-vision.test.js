@@ -38,3 +38,11 @@ test('preview reserves encounter use and restores copies only on clone; executio
 test('the encounter ledger is closed, bounded and source-qualified',()=>{
  for(const value of [null,{},'renew-vision',[1],['unknown'],['renew-vision','renew-vision']]){const c=f.hero();c.powerRecoveriesUsed=value;assert.throws(()=>api.validateCharacter(c,pack),/power recoveries/);}
 });
+
+test('a pending Farseeing outcome blocks new encounter before any reset or use refund',()=>{
+ const c=f.hero();run(c);beginNextTurn(c,pack);takeAction(c,pack,'power',{powerId:c.levels[0].forcePowers[0].id,fp:'none',rollMode:'roll',farseeing:{name:'Known ally',will:null,dead:false}},()=>({value:20,display:'20',d20:[10]}));assert.equal(c.actionState.plan.at(-1).status,'waiting');assert.deepEqual(c.powerRecoveriesUsed,['renew-vision']);untouched(c,()=>newEncounter(c),/pending power outcome/);assert.deepEqual(c.powerRecoveriesUsed,['renew-vision']);
+});
+
+test('Renew Vision interrupts declared Aim and Bracing as another Action',()=>{
+ for(const [weapon,flag] of [['blaster-pistol','aimed'],['heavy-repeating-blaster','braced']]){const c=f.hero();c.inventory=[{uid:crypto.randomUUID(),id:'equipment:'+weapon,quantity:1,carried:true,equipped:true,twoHanded:true,attackMod:0,damageMod:0,shotsRemaining:50,[flag]:true}];api.validateCharacter(c,pack);assert.deepEqual(D(c).issues,[]);run(c);assert.equal(c.inventory[0][flag],false);}
+});

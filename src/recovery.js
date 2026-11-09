@@ -121,7 +121,7 @@ export function recuperate(c){
  if(!recoveryState(c).persistent.includes('rage'))throw new Error('No Rage condition to recuperate');
  advanceTimedTalents(c,10*ROUNDS_PER_MINUTE);removePersistent(c,'rage');
 }
-export function newEncounter(c){if(pendingOutgoingChecks(c).length)throw new Error('Resolve outgoing concentration first');assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);clearPowerRecoveries(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
+export function newEncounter(c){if(pendingOutgoingChecks(c).length)throw new Error('Resolve outgoing concentration first');assertDeflectionResolved(c);if(c.actionState?.plan.some(p=>p.status==='waiting'))throw new Error(pendingChoiceMessage(c));endRegenerativeHealing(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);clearPowerRecoveries(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
  assertDeflectionResolved(c);if(c.actionState?.plan.some(p=>p.status==='waiting'))throw new Error(pendingChoiceMessage(c));advanceTimedTalents(c,24*60*ROUNDS_PER_MINUTE);endRegenerativeHealing(c);clearTrackingPowers(c);c.deflectionAttempts=0;
  if(pack&&campaignRuleEnabled(c,'dailyForcePoints'))c.forcePoints=derive(c,pack).forceMaximum;

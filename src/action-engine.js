@@ -296,7 +296,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  }else if(v.skillAction){
   invalidate(c);const x=rollSkillAction(v.skillAction,roller);r={...x,text:v.name+': '+x.text,fpAllowed:v.fpAllowed};
   if(!(r.fpAllowed&&o.fp==='ask'))r.text+='; '+finishSkillAction(c,d,pack,id,o,r.check);
- }else if(v.powerRecoveryAction){applyPowerRecoveryAction(c,d,v.powerRecoveryAction);r={text:v.name+': '+v.powerRecoveryAction.copies.length+' Farseeing uses recovered'};
+ }else if(v.powerRecoveryAction){invalidate(c);applyPowerRecoveryAction(c,d,v.powerRecoveryAction);r={text:v.name+': '+v.powerRecoveryAction.copies.length+' Farseeing uses recovered'};
  }else if(id==='recover-power'){const p=recoverPower(c,d,pack,o.powerId,o.secondPowerId);r={text:p.recovered.map(p=>p.name).join(', ')+' recovered; Force Points -1'};}
  else if(id==='opportunity'){r=rollOpportunity(c,pack,o.uid,roller);spendAttackResources(c,r);}
  else if(id==='cleave'){r=rollCleave(c,pack,roller);spendAttackResources(c,r);}
@@ -431,7 +431,7 @@ export function previewPlan(c,pack){
    if(step.action==='reload'){const e=q.inventory.find(e=>e.uid===step.options.uid);e.shotsRemaining=ammunitionProfile(e,pack).capacity;}
    if(step.action==='aim'){clearAiming(q);q.inventory.find(e=>e.uid===step.options.uid).aimed=true;}
    if(step.action==='encounter-talent'){clearAiming(q);clearBracing(q);applyTalentActivation(q,step.options.talentId,step.options.choice,v.talentActivation.armorUid);}
-   if(v.powerRecoveryAction)applyPowerRecoveryAction(q,v.derived,v.powerRecoveryAction);
+   if(v.powerRecoveryAction){invalidate(q);applyPowerRecoveryAction(q,v.derived,v.powerRecoveryAction);}
    if(v.powerRecovery)for(const p of v.powerRecovery)restorePowerCopy(q,v.derived,p.copyId);
    if(v.bonusHPGrant)claimDeclaredBonusHP(q,v.derived,pack,step.action);
    if(v.deflection)q.deflectionAttempts=(q.deflectionAttempts||0)+1;
