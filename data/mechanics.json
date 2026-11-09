@@ -50912,7 +50912,7 @@
       "repeat": "never",
       "effects": [],
       "reminder": "",
-      "automation": "manual"
+      "automation": "partial"
     },
     {
       "id": "talent:visionary-attack",
@@ -68802,6 +68802,7 @@
     "reactionTalentActions": [{"id":"soft-to-solid","talentId":"talent:soft-to-solid","trigger":"damaged-by-attack","forcePoints":1,"damageReduction":10,"duration":"end-next-turn","sourceIds":["source:wiki-matukai-adept-talent-tree-soft-to-solid","source:wiki-attacks","source:wiki-combat-sequence"]}],
     "conditionRecoveryActions": [{"id":"equilibrium","talentId":"talent:equilibrium","steps":5,"forcePoints":1,"removePersistent":true,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-control-talent-tree-equilibrium","source:wiki-conditions","source:wiki-category-web-enhancements-equilibrium-and-persistent-conditions"]},{"id":"indomitable","talentId":"talent:indomitable","steps":5,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":1,"sourceIds":["source:wiki-commando-talent-tree-indomitable","source:wiki-conditions"]},{"id":"resilience","talentId":"talent:resilience","steps":2,"forcePoints":0,"removePersistent":false,"dailyUsesPerSelection":0,"sourceIds":["source:wiki-jedi-guardian-talent-tree-resilience","source:wiki-conditions"]}],
     "skillActions": [{"id":"force-focus","talentId":"talent:force-focus","skillId":"skill:use-the-force","dc":15,"effect":"recover-power","sourceIds":["source:wiki-control-talent-tree-force-focus","source:use-the-force","source:wiki-skills"]}],
+    "powerRecoveryActions":[{"id":"renew-vision","talentId":"talent:renew-vision","powerId":"power:farseeing","action":"swift","frequency":"encounter","sourceIds":["source:wiki-jedi-consular-talent-tree-renew-vision"]}],
     "actionEconomy": {
       "referenceId": "reference:ff8059dc6752afdd",
       "referenceRevision": 24963,
@@ -68833,6 +68834,7 @@
       "recoverActions": 3,
       "forcePointsPerRound": 1,
       "actions": [
+        {"id":"renew-vision","name":"Renew Vision","type":"swift","count":1,"ruleId":"rule:talent-jedi-consular-talent-tree-renew-vision"},
         {"id":"vital-encouragement","name":"Vital Encouragement","type":"free","count":1,"ruleId":"rule:talent-guardian-spirit-talent-tree-vital-encouragement"},
         {"id":"craft-frag-grenade","name":"Craft Frag Grenade","type":"full","count":1,"ruleId":"rule:talent-revolutionary-talent-tree-bomb-thrower"},
         {"id":"block","name":"Block","type":"reaction","count":1,"ruleId":"rule:lightsaber-combat-talent-tree"},{"id":"deflect","name":"Deflect","type":"reaction","count":1,"ruleId":"rule:lightsaber-combat-talent-tree"},

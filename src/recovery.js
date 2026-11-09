@@ -1,3 +1,4 @@
+import {clearPowerRecoveries} from './power-recovery-actions.js';
 import {secondWindPowerPlan,restoreSecondWindPower} from './second-wind-power.js';
 import {clearOutgoingPowers,pendingOutgoingChecks} from './outgoing-powers.js';
 import {clearTrackingPowers} from './tracking-powers.js';
@@ -120,13 +121,13 @@ export function recuperate(c){
  if(!recoveryState(c).persistent.includes('rage'))throw new Error('No Rage condition to recuperate');
  advanceTimedTalents(c,10*ROUNDS_PER_MINUTE);removePersistent(c,'rage');
 }
-export function newEncounter(c){if(pendingOutgoingChecks(c).length)throw new Error('Resolve outgoing concentration first');assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
+export function newEncounter(c){if(pendingOutgoingChecks(c).length)throw new Error('Resolve outgoing concentration first');assertDeflectionResolved(c);endRegenerativeHealing(c);c.deflectionAttempts=0;endChannelRage(c);clearResistancePowers(c);clearRagePowers(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearBonusHP(c);clearPowerRecoveries(c);resetActionTurn(c);endEncounterTalents(c);endShieldEncounter(c);startNextTurn(c);startNextRound(c);const r=state(c);r.secondWindEncounter=false;r.strongBellowUsed=false;}
 export function newDay(c,pack){
  assertDeflectionResolved(c);if(c.actionState?.plan.some(p=>p.status==='waiting'))throw new Error(pendingChoiceMessage(c));advanceTimedTalents(c,24*60*ROUNDS_PER_MINUTE);endRegenerativeHealing(c);clearTrackingPowers(c);c.deflectionAttempts=0;
  if(pack&&campaignRuleEnabled(c,'dailyForcePoints'))c.forcePoints=derive(c,pack).forceMaximum;
  clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);
  clearTurnFeatEffects(c);clearReactionTalents(c);
- clearBonusHP(c);
+ clearBonusHP(c);clearPowerRecoveries(c);
  resetActionTurn(c);
  endEncounterTalents(c);
  startNextTurn(c);startNextRound(c);
@@ -165,7 +166,7 @@ export function restEightHours(c,d,pack){
  advanceTimedTalents(c,8*60*ROUNDS_PER_MINUTE);
  endRegenerativeHealing(c);clearTrackingPowers(c);
  endUnconsciousTalents(c,pack);
- clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearEncounterTriggers(c);clearBonusHP(c);startNextTurn(c);startNextRound(c);
+ clearSelfPowerEffects(c);clearShieldPowers(c);clearResistancePowers(c);clearRagePowers(c);clearMovementPowers(c);clearTimedTalents(c);clearTurnFeatEffects(c);clearReactionTalents(c);clearEncounterTriggers(c);clearBonusHP(c);clearPowerRecoveries(c);startNextTurn(c);startNextRound(c);
  if(recoveryState(c).rageRounds)endRage(c);
  endChannelRage(c);
  const r=state(c),rule=pack.rules.naturalHealing;

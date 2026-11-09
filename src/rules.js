@@ -1,3 +1,4 @@
+import {validatePowerRecoveries} from './power-recovery-actions.js';
 import {forcePointCheckDice,forcePointAttackRules} from './force-point-dice.js';
 import {validateOutgoingPowerState,activeOutgoingPowers} from './outgoing-powers.js';
 import {validateFarseeing} from './farseeing.js';
@@ -107,6 +108,7 @@ export function validateCharacter(c, pack) {
   if (!ix.species.has(c.species)) bad('unknown species');
   validateOwnedVehicles(c,pack,bad);
   validateTalentActivations(c,pack,bad);
+  validatePowerRecoveries(c,pack,bad);
   validateSpeciesChoices(c,pack,bad);
   validateSpeciesCustomizations(c,pack,bad);
   if (!['standard', 'point-buy', 'manual', 'rolled'].includes(c.abilityMethod)) bad('ability method');

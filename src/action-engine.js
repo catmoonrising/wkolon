@@ -1,3 +1,4 @@
+import {powerRecoveryActionPlan,applyPowerRecoveryAction,clearPowerRecoveries} from './power-recovery-actions.js';
 import {secondWindPowers,secondWindPowerPlan,restoreSecondWindPower} from './second-wind-power.js';
 import {rollForcePoint,forcePointDamageIncrease} from './force-point-dice.js';
 import {outgoingPowerRule,outgoingPowerSnapshot,outgoingMaintenancePlan,endOutgoingPowerTurn,pendingOutgoingChecks} from './outgoing-powers.js';
@@ -190,6 +191,7 @@ export function describeAction(c,pack,id,options={},checkBudget=true){
   if(negatingPowerRule(pack,p.id))view.negation=negateEnergyPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost});else if(thresholdPowerRule(pack,p.id))view.threshold=thresholdPowerPlan(q,d,pack,p.id,o.incoming,{forceCost:view.forceCost,enhanceAsk:!!o.enhance});else assert(o.incoming===undefined,'Power does not use incoming damage');
   break;
  }
+ case 'renew-vision':view.powerRecoveryAction=powerRecoveryActionPlan(q,d,pack,id);break;
  case 'recover-power':view.powerRecovery=powerRecoveryPlan(q,d,o.powerId,o.secondPowerId);view.forceCost=pack.rules.forcePowerRecovery.forcePointCost;break;
  case 'force-focus':view.skillAction=skillActionPlan(q,d,pack,id,o);view.fpAllowed=checkForcePointAvailable(q,d);break;
  case 'opportunity':planOpportunity(q,d,pack,o.uid);break;
@@ -294,6 +296,7 @@ function resolve(c,pack,id,o,v,roller,activationId){
  }else if(v.skillAction){
   invalidate(c);const x=rollSkillAction(v.skillAction,roller);r={...x,text:v.name+': '+x.text,fpAllowed:v.fpAllowed};
   if(!(r.fpAllowed&&o.fp==='ask'))r.text+='; '+finishSkillAction(c,d,pack,id,o,r.check);
+ }else if(v.powerRecoveryAction){applyPowerRecoveryAction(c,d,v.powerRecoveryAction);r={text:v.name+': '+v.powerRecoveryAction.copies.length+' Farseeing uses recovered'};
  }else if(id==='recover-power'){const p=recoverPower(c,d,pack,o.powerId,o.secondPowerId);r={text:p.recovered.map(p=>p.name).join(', ')+' recovered; Force Points -1'};}
  else if(id==='opportunity'){r=rollOpportunity(c,pack,o.uid,roller);spendAttackResources(c,r);}
  else if(id==='cleave'){r=rollCleave(c,pack,roller);spendAttackResources(c,r);}
@@ -401,7 +404,7 @@ export function beginNextTurn(c,pack,options={},roller=evalExpr){
  validateCharacter(q,pack);commit(c,q);return results;
 }
 export function endCurrentTurn(c,pack){const q=structuredClone(c);assertResistanceResolved(q);assert(!q.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(q));if(turnEndRecoveryDue(q))recoverSuite(q,derive(q,pack),{endTurn:true});endTurnFeatEffects(q);endSelfPowerTurn(q);endOutgoingPowerTurn(q);endReactionTalentTurn(q);endTriggerTurn(q);endRagePowerTurn(q);advanceRegenerativeHealing(q,pack);if(q.actionState)q.actionState.ended=true;validateCharacter(q,pack);commit(c,q);}
-export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));endRegenerativeHealing(c);clearOpportunityPowers(c);clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);endEncounterTalents(c);clearTurnTalents(c);clearReactionTalents(c);clearDefenseShifts(c);clearMoveTalentEffects(c);clearTriggeredDefenses(c);endChannelRage(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
+export function endTrackedCombat(c){assertResistanceResolved(c);assert(!c.actionState?.plan.some(p=>p.status==='waiting'),pendingChoiceMessage(c));endRegenerativeHealing(c);clearOpportunityPowers(c);clearRagePowers(c);if(actionPhase(c.actionState)!=='normal')c.flatFooted=false;clearTurnFeatEffects(c);clearBonusHP(c);clearPowerRecoveries(c);endEncounterTalents(c);clearTurnTalents(c);clearReactionTalents(c);clearDefenseShifts(c);clearMoveTalentEffects(c);clearTriggeredDefenses(c);endChannelRage(c);if(c.actionState){archivePlan(c);c.actionState.active=false;c.actionState.phase='normal';c.actionState.spent=[];c.actionState.ended=false;c.actionState.reactions=[];c.actionState.forceSpent=false;c.actionState.recover={count:0,lastTurn:0};}}
 export function previewPlan(c,pack){
  const q=structuredClone(c),rows=[];q.actionState??=emptyActionState();let stopped=false,uncertainMovement=false;
  for(const step of q.actionState.plan){
@@ -428,6 +431,7 @@ export function previewPlan(c,pack){
    if(step.action==='reload'){const e=q.inventory.find(e=>e.uid===step.options.uid);e.shotsRemaining=ammunitionProfile(e,pack).capacity;}
    if(step.action==='aim'){clearAiming(q);q.inventory.find(e=>e.uid===step.options.uid).aimed=true;}
    if(step.action==='encounter-talent'){clearAiming(q);clearBracing(q);applyTalentActivation(q,step.options.talentId,step.options.choice,v.talentActivation.armorUid);}
+   if(v.powerRecoveryAction)applyPowerRecoveryAction(q,v.derived,v.powerRecoveryAction);
    if(v.powerRecovery)for(const p of v.powerRecovery)restorePowerCopy(q,v.derived,p.copyId);
    if(v.bonusHPGrant)claimDeclaredBonusHP(q,v.derived,pack,step.action);
    if(v.deflection)q.deflectionAttempts=(q.deflectionAttempts||0)+1;

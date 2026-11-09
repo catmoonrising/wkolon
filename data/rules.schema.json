@@ -2010,6 +2010,7 @@
             }
           }
         },
+        "powerRecoveryActions":{"const":[{"id":"renew-vision","talentId":"talent:renew-vision","powerId":"power:farseeing","action":"swift","frequency":"encounter","sourceIds":["source:wiki-jedi-consular-talent-tree-renew-vision"]}]},
         "actionEconomy": {
           "type": "object",
           "required": [

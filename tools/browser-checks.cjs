@@ -257,7 +257,7 @@ const server=http.createServer((req,res)=>{
   assert(await offlinePage.evaluate(async()=>!(await caches.keys()).includes('wkolon-old')));
   assert(await offlinePage.evaluate(async()=>(await caches.keys()).includes('pmcrwf-sentinel')));
   const cached=await offlinePage.evaluate(async()=> (await (await caches.open('wkolon-__BUILD__')).keys()).map(req=>req.url));
-  for (const asset of ['data/core.json','src/second-wind-power.js','src/action-economy.js','src/action-engine.js','src/actions-ui.js','src/rules-catalog.js','docs/import-review.md','src/math-fields.js','src/dice.js','src/ability-generation.js','src/creation-steps.js','src/combat.js','src/combat-ui.js','src/stat-block.js','src/stat-block-ui.js','src/rules-reference.js','css/themes/truesight-dark.css','layouts/flow.json']) assert(cached.some(url=>url.endsWith('/wkolon/'+asset)),asset);
+  for (const asset of ['data/core.json','src/second-wind-power.js','src/power-recovery-actions.js','src/action-economy.js','src/action-engine.js','src/actions-ui.js','src/rules-catalog.js','docs/import-review.md','src/math-fields.js','src/dice.js','src/ability-generation.js','src/creation-steps.js','src/combat.js','src/combat-ui.js','src/stat-block.js','src/stat-block-ui.js','src/rules-reference.js','css/themes/truesight-dark.css','layouts/flow.json']) assert(cached.some(url=>url.endsWith('/wkolon/'+asset)),asset);
   await offlinePage.locator('main [data-field="name"]').fill('Offline hero');
   await offlineContext.setOffline(true);await offlinePage.reload();await offlinePage.locator('#module-abilities').waitFor();
   assert.equal(await offlinePage.locator('main [data-field="name"]').inputValue(),'Offline hero');
