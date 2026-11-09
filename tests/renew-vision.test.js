@@ -44,5 +44,5 @@ test('a pending Farseeing outcome blocks new encounter before any reset or use r
 });
 
 test('Renew Vision interrupts declared Aim and Bracing as another Action',()=>{
- for(const [weapon,flag] of [['blaster-pistol','aimed'],['heavy-repeating-blaster','braced']]){const c=f.hero();c.inventory=[{uid:crypto.randomUUID(),id:'equipment:'+weapon,quantity:1,carried:true,equipped:true,twoHanded:true,attackMod:0,damageMod:0,shotsRemaining:50,[flag]:true}];api.validateCharacter(c,pack);assert.deepEqual(D(c).issues,[]);run(c);assert.equal(c.inventory[0][flag],false);}
+ for(const [weapon,flag] of [['blaster-pistol','aimed'],['heavy-repeating-blaster','braced']]){const c=f.hero();c.inventory=[{uid:crypto.randomUUID(),id:'equipment:'+weapon,quantity:1,carried:true,equipped:true,twoHanded:true,attackMod:0,damageMod:0,shotsRemaining:10,[flag]:true}];api.validateCharacter(c,pack);assert.deepEqual(D(c).issues,[]);run(c);assert.equal(c.inventory[0][flag],false);}
 });
