@@ -3485,7 +3485,7 @@ Forceful Recovery is Partial. A real Second Wind or Regenerative Healing activat
 
 ## Recall Power
 
-Recall Power is Partial. FP suite recovery returns two chosen active expended copies at the existing cost and timing; a lone expended copy returns alone. Forceful Recovery and Force Focus do not invoke it. Renew Vision is still pending. See [recall-power.md](recall-power.md).
+Recall Power is Partial. FP suite recovery returns two chosen active expended copies at the existing cost and timing; a lone expended copy returns alone. Forceful Recovery and Force Focus do not invoke it. See [recall-power.md](recall-power.md).
 
 ## Renew Vision
 

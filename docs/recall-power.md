@@ -4,8 +4,7 @@ Official Jedi Consular talent from Rebellion Era Campaign Guide, retained tree
 revision26763, SHA256
 `8467d26c7922a64c6284697d6ab72db6b796fdf4a209159bdbf7922c562b9ddb`.
 Whenever a Force Point returns a power to the suite, the character regains two
-powers instead of one. This stage covers Recall Power only; Renew Vision remains
-unimplemented in its separate original draft.
+powers instead of one. Renew Vision has a separate action and encounter limit.
 
 The acquired talent gains closed effect `{target:"recallPower"}`. The existing
 FP-based `recover-power` action and shared recovery resolver restore up to two
